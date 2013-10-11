@@ -454,6 +454,9 @@ class WPDKAObject {
 				try {
 					$object = WPDKAObject::ensure_crowd_metadata($object, true);
 					$redirection = $object->url;
+					// Add URL parameters
+					unset($_GET['guid']);
+					$redirection .= '?' . http_build_query($_GET);
 					status_header(301);
 					header("Location: $redirection");
 				} catch(\CHAOSException $e) {
