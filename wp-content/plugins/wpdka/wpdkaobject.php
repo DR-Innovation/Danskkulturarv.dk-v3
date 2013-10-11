@@ -483,7 +483,9 @@ EOTEXT;
 					$redirection = $object->url;
 					// Add URL parameters
 					unset($_GET['guid']);
-					$redirection .= '?' . http_build_query($_GET);
+					if(count($_GET) > 0) {
+						$redirection .= '?' . http_build_query($_GET);
+					}
 					status_header(301);
 					header("Location: $redirection");
 				} catch(\CHAOSException $e) {
