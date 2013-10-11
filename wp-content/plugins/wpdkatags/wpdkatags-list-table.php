@@ -17,6 +17,10 @@ class WPDKATags_List_Table extends WP_List_Table {
     const NAME_SINGULAR = 'dka-tag';
     const NAME_PLURAL = 'dka-tags';
 
+    const FACET_KEY_VALUE = 'DKA-Crowd-Tag-Value_string';
+    const FACET_KEY_STATUS = 'DKA-Crowd-Tag-Value_string';
+    const FACET_KEY_CREATED = 'DKA-Crowd-Tag-Created_date';
+
     protected $title;
     protected $states;
     
@@ -30,18 +34,18 @@ class WPDKATags_List_Table extends WP_List_Table {
             'ajax'      => false        //does this table support ajax?
         ) );
 
-        $this->title = "User Tags";
+        $this->title = __('User Tags', 'wpdkatags');
         $this->states = array(
-            'Unapproved' => array(
-                'title' => __('Unapproved'),
+            'unapproved' => array(
+                'title' => __('Unapproved','wpdkatags'),
                 'count' => 0,
             ),
-            'Flagged' => array(
-                'title' => __('Flagged'),
+            'flagged' => array(
+                'title' => __('Flagged','wpdkatags'),
                 'count' => 0,
             ),
-            'Approved' => array(
-                'title' => __('Approved'),
+            'approved' => array(
+                'title' => __('Approved','wpdkatags'),
                 'count' => 0,
             ),
         );
@@ -82,6 +86,8 @@ class WPDKATags_List_Table extends WP_List_Table {
      */
     public function get_views() {
 
+        $facets = WPChaosClient::index_search(array('DKA-Crowd-Tag-Status_string'),null);
+
         $status_links = array();
 
         $class = empty($_REQUEST['tag_status']) ? ' class="current"' : '';
@@ -89,9 +95,10 @@ class WPDKATags_List_Table extends WP_List_Table {
 
         foreach($this->states as $status_key => $status) {
             $class = '';
+            $count = (isset($facets[$status_key]) ? $facets[$status_key] : 0);
             if(isset($_REQUEST['tag_status']) && $_REQUEST['tag_status'] == $status_key)
                 $class = ' class="current"';
-            $status_links[$status_key] = '<a href="admin.php?page='.$this->screen->parent_base.'&amp;tag_status='.$status_key.'"'.$class.'>'.$status['title'].'</a>';
+            $status_links[$status_key] = '<a href="admin.php?page='.$this->screen->parent_base.'&amp;tag_status='.$status_key.'"'.$class.'>'. sprintf( '%s <span class="count">(%s)</span>', $status['title'], number_format_i18n( $count ) ) . '</a>';
         }
 
         return $status_links;
@@ -146,7 +153,6 @@ class WPDKATags_List_Table extends WP_List_Table {
      * @return string Text to be placed inside the column <td> (movie title only)
      **************************************************************************/
     protected function column_title($item){
-        
         //Build row actions
         $actions = array(
             'edit'      => '<a href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'edit', $this->_args['singular'] => $item->Value), 'admin.php').'">'.__('Edit').'</a>',
@@ -181,9 +187,8 @@ class WPDKATags_List_Table extends WP_List_Table {
     public function get_columns(){
         $columns = array(
             'cb'        => '<input type="checkbox" />', //Render a checkbox instead of text
-            'title'     => __('Title'),
-            'quantity'    => __('Quantity'),
-            'date'  => __('Date')
+            'title'     => __('Title', 'wpdkatags'),
+            'quantity'    => __('Quantity','wpdkatags'),
         );
         return $columns;
     }
@@ -205,8 +210,7 @@ class WPDKATags_List_Table extends WP_List_Table {
     public function get_sortable_columns() {
         $sortable_columns = array(
             'title'     => array('title',false),     //true means it's already sorted
-            'quantity'    => array('quantity',false),
-            'date'  => array('date',true)
+            'quantity'    => array('quantity',true),
         );
         return $sortable_columns;
     }
@@ -228,7 +232,9 @@ class WPDKATags_List_Table extends WP_List_Table {
      **************************************************************************/
     public function get_bulk_actions() {
         $actions = array(
-            'delete' => __('Delete')
+            'delete' => __('Delete', 'wpdkatags'),
+            'approve' => __('Approve', 'wpdkatags'),
+            'unapprove' => __('Unapprove', 'wpdkatags')
         );
         return $actions;
     }
@@ -244,8 +250,16 @@ class WPDKATags_List_Table extends WP_List_Table {
     protected function process_bulk_action() {
         
         //Detect when a bulk action is being triggered...
-        if($this->current_action() == 'delete') {
-            wp_die('Items deleted (or they would be if we had items to delete)!');
+        switch ($this->current_action()) {
+            case 'detele':
+                // Delete tags TODO
+                wp_die('Items deleted (or they would be if we had items to delete)!');
+            case 'approve':
+                // Approve tags TODO
+                wp_die('Items approved (or they would be if we had items to approve)!');
+            case 'unapprove':
+                // Unapprove tags TODO
+                wp_die('Items unapproved (or they would be if we had items to approve)!');
         }
         
     }
@@ -267,8 +281,23 @@ class WPDKATags_List_Table extends WP_List_Table {
      * @uses $this->set_pagination_args()
      **************************************************************************/
     public function prepare_items() {
+        // Sort user tags (unapproved, flagged, approved).
+        if (isset($_GET['tag_status'])) {
+            switch ($_GET['tag_status']) {
+                case 'unapproved':
+                    // TODO
+                    break;
+                case 'flagged':
+                    // TODO
+                    break;
+                case 'approved':
+                    // TODO
+                    break;
+            }
+        }
 
         $per_page = $this->get_items_per_page( 'edit_wpdkatags_per_page');
+        //$per_page = 5;
         
         $hidden = array();
         $this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());
@@ -291,40 +320,8 @@ class WPDKATags_List_Table extends WP_List_Table {
         // }
         // usort($data, 'usort_reorder');
         
-        
-        /***********************************************************************
-         * ---------------------------------------------------------------------
-         * vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-         * 
-         * In a real-world situation, this is where you would place your query.
-         * 
-         * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-         * ---------------------------------------------------------------------
-         **********************************************************************/
-
-        // $response = WPChaosClient::instance()->Object()->Get(
-        //     WPChaosClient::escapeSolrValue($_POST['object_guid']),   // Search query
-        //     null,   // Sort
-        //     null,   // AccessPoint given by settings.
-        //     $this->get_pagenum(), // pageIndex
-        //     $this->get_items_per_page( 'edit_wpdkatags_per_page'), // pageSize
-        //     true,   // includeMetadata
-        //     false,  // includeFiles
-        //     true    // includeObjectRelations
-        // );
-        // 
-        $facet = "DKA-Crowd-Tag-Value_string";
-
-        // $tags = WPChaosClient::index_search(array($facet));
-        // $tags = $tags[$facet];
-        //$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array('DKA-Crowd-Tags_stringmv')), "");
-        //var_dump($facetsResponse);
-
-        //$objects = WPChaosObject::parseResponse($response);
-        //
         $tags = array();
-        $facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array($facet)), null, false);
-        var_dump($facetsResponse);
+        $facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(self::FACET_KEY_VALUE)), null, false);
 
         foreach($facetsResponse->Index()->Results() as $facetResult) {
             foreach($facetResult->FacetFieldsResult as $fieldResult) {
@@ -336,7 +333,6 @@ class WPDKATags_List_Table extends WP_List_Table {
 
         $total_items = count($tags);
         $tags = array_slice($tags,(($this->get_pagenum()-1)*$per_page),$per_page);
-
         $this->items = $tags;
         
         /**

@@ -29,15 +29,25 @@ final class WPDKATags {
      */
     const TAGS_FOLDER_ID = 470;
 
+    /**
+     * States
+     */
     const TAG_STATE_APPROVED = 'Approved';
     const TAG_STATE_UNAPPROVED = 'Unapproved';
     const TAG_STATE_FLAGGED = 'Flagged';
 
+    /**
+     * Plugin dependencies
+     * @var array
+     */
     private static $plugin_dependencies = array(
         'wpchaosclient/wpchaosclient.php' => 'WordPress Chaos Client',
         'wpdka/wpdka.php' => 'WordPress DKA'
     );
 
+    /**
+     * Constructor
+     */
     public function __construct() {
         if(self::check_chaosclient()) {
             if(is_admin()) {
@@ -45,15 +55,37 @@ final class WPDKATags {
 
                 add_action('admin_menu', array(&$this,'add_menu_items'));
                 add_filter('wpchaos-config',array(&$this,'add_chaos_settings'));
+
+                // Submit tag
                 add_action('wp_ajax_wpdkatags_submit_tag', array(&$this,'ajax_submit_tag') );
                 add_action('wp_ajax_nopriv_wpdkatags_submit_tag', array(&$this,'ajax_submit_tag') );
+
+                // Change tag state
+                add_action('wp_ajax_wpdkatags_change_tag_state', array(&$this,'ajax_change_tag_stat') );
+                add_action('wp_ajax_nopriv_wpdkatags_change_tag_state', array(&$this,'ajax_change_tag_stat') );
+
             }
 
             add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags', array(&$this,'define_usertags_filter'),10,2);
             add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags_raw', array(&$this,'define_usertags_raw_filter'),10,2);
+
+            add_action('plugins_loaded',array(&$this,'load_textdomain'));
         }
     }
 
+    /**
+     * Load textdomain for i18n
+     * @return void
+     */
+    public function load_textdomain() {
+        load_plugin_textdomain(self::DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/lang/');
+    }
+
+    /**
+     * Add some setting keys to CHAOS settings
+     * @param  array    $settings
+     * @return array 
+     */
     public function add_chaos_settings($settings) {
         $new_settings = array(
             array(
@@ -78,6 +110,9 @@ final class WPDKATags {
         return array_merge($settings,$new_settings);
     }
 
+    /**
+     * Add menu to adminisration
+     */
     public function add_menu_items(){
         global $submenu;
         add_menu_page(
@@ -89,36 +124,99 @@ final class WPDKATags {
         );
     }
 
-    public function render_tags_page(){
+    /**
+     * Render page added in menu
+     * @author Joachim Jensen <jv@intox.dk>
+     * @return void
+     */
+    public function render_tags_page() {
 
 ?>
         <div class="wrap">
             <div id="icon-users" class="icon32"><br/></div>
 <?php
             $page = (isset($_GET['subpage']) ? $_GET['subpage'] : "");
+            $renderTable;
             switch($page) {
                 case 'wpdkatag-objects' :
-                    $this->render_list_table(new WPDKATagObjects_List_Table());
+                    $renderTable = new WPDKATagObjects_List_Table();
                     break;
                 default :
-                    $this->render_list_table(new WPDKATags_List_Table());
+                    $renderTable = new WPDKATags_List_Table();
             }
+
+            if (isset($_GET['action'])) {
+                switch ($_GET['action']) {
+                    case 'delete':
+                        // remove tag
+                        // redirecting to list
+                        wp_die(sprintf(__('%s removed', 'wpdkatags'), $_GET['dka-tag']));
+                    case 'edit':
+                        $this->render_edit_tag();
+                }
+            } else {
+                $this->render_list_table($renderTable);
+            }
+            
 ?>
         </div>
 <?php
     }
 
-    private function render_list_table($table) {
+    /**
+     * Render page for a given list table
+     * @param  WPDKATags_List_Table $table
+     * @return WPDKATags_List_Table
+     */
+    private function render_list_table(WPDKATags_List_Table $table) {
         $table->prepare_items();   
 ?>
     <h2><?php $table->get_title(); ?></h2>
+
     <form id="movies-filter" method="get">
         <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
         <?php $table->views(); ?>
         <?php $table->display(); ?>
     </form>
+    
 <?php
         return $table;
+    }
+
+    private function render_edit_tag() {
+?>
+        <h2><?php printf(__('Edit %s', 'wpdkatags'), $_GET['dka-tag']); ?></h2>
+
+        <form method="post">
+            <label for="tag"><?php _e('Tag', 'wpdkatags')?></label>
+            <input id="tag" name="tag" type="text" value="<?php echo $_GET['dka-tag']?>"/>
+            <input type="submit" value="<?php _e('Save', 'wpdkatags')?>" id="submit" class="button-primary" name="submit"/>
+        </form>
+    <?php
+        if (isset($_POST['submit'])) {
+            if (!empty($_POST['tag'])) {
+                // Change tag name.
+                _e('Tag was updated.', 'wpdkatags');
+            }
+        }
+    }
+
+
+    /** ************************************************************************
+     * Ajax calls
+     **************************************************************************/
+
+    /**
+     * Handle AJAX request to flag a tag from user TODO
+     * @return void
+     */
+    public function ajax_change_tag_stat() {
+        // Needs to define tag. Search for tag by ID or something?
+        $new_state = $_GET['state'];
+        if(in_array($new_state, array(self::TAG_STATE_UNAPPROVED,self::TAG_STATE_APPROVED,self::TAG_STATE_FLAGGED))) {
+            $this->_change_tag_state($tag, $new_state);
+        }
+        
     }
 
     /**
@@ -227,7 +325,6 @@ final class WPDKATags {
      * @return boolean
      */
     private function _change_tag_state(WPChaosObject $tag_object,$new_state) {
-        $return = false;
         if(in_array($new_state,array(self::TAG_STATE_UNAPPROVED,self::TAG_STATE_APPROVED,self::TAG_STATE_FLAGGED))) {
 
             try {
@@ -236,12 +333,12 @@ final class WPDKATags {
                 $metadataXML['status'] = $new_state;
 
                 $tag->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
-                $return = true;
+                return true;
             } catch(\Exception $e) {
                 error_log('CHAOS Error when changing tag state: '.$e->getMessage());
             }
         }
-        return $return;
+        return false;
     }
 
     /**
@@ -251,7 +348,6 @@ final class WPDKATags {
      * @return boolean
      */
     private function _tag_exists(WPChaosObject $object,$tag_input) {
-        $return = false;
         $tag_input = esc_html($tag_input);
         foreach($object->usertags_raw as $tag) {
             $tag = $tag->metadata(
@@ -260,11 +356,10 @@ final class WPDKATags {
                 null
             );
             if((string)$tag == $tag_input) {
-                $return = true;
-                break;
+                return true;
             }
         }
-        return $return;
+        return false;
     }
 
     /**
@@ -293,6 +388,12 @@ final class WPDKATags {
         return empty($objects) ? null : $objects[0];
     }
 
+    /**
+     * Create usertags_raw property for WPChaosObject
+     * @param  mixed            $value
+     * @param  WPChaosObject    $object
+     * @return array
+     */
     public function define_usertags_raw_filter($value, $object) {
         $relation_guids = array();
         foreach($object->ObjectRelations as $relation) {
@@ -303,11 +404,11 @@ final class WPDKATags {
             $relation_guids[] = "GUID:".$relation->{$guid_property};
         }
         $serviceResult = WPChaosClient::instance()->Object()->Get(
-            "(".implode("+OR+", $relation_guids).")+AND+ObjectTypeID:12",   // Search query
+            "(".implode("+OR+", $relation_guids).")+AND+ObjectTypeID:".self::TAG_TYPE_ID,   // Search query
             null,   // Sort
             false,   // Use session instead of AP
             0,      // pageIndex
-            10,      // pageSize
+            count($relation_guids),      // pageSize
             true,   // includeMetadata
             false,   // includeFiles
             false    // includeObjectRelations
@@ -316,6 +417,12 @@ final class WPDKATags {
         return WPChaosObject::parseResponse($serviceResult);
     }
 
+    /**
+     * Create usertags property for WPChaosObject
+     * @param  mixed            $value
+     * @param  WPChaosObject    $object
+     * @return string
+     */
     public function define_usertags_filter($value, $object) {
 
         $status = intval(get_option('wpdkatags-status'));
@@ -332,7 +439,7 @@ final class WPDKATags {
                     null
                 );
                 $link = WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag));
-                $value .= '<a class="usertag tag" href="'.$link.'" title="'.esc_attr($tag).'">'.$tag.'</a> '."\n";
+                $value .= '<a class="usertag tag" href="'.$link.'" title="'.esc_attr($tag).'">'.$tag.'</a>'."\n";
             }
             if(empty($tags)) {
                 $value .= '<span class="no-tag">'.__('No tags','wpdka').'</span>'."\n";
@@ -350,6 +457,10 @@ final class WPDKATags {
         return $value;
     }
 
+    /**
+     * Render form and js for tag submission
+     * @param  WPChaosObject    $object
+     */
     private function add_user_tag_form($object) {
         $value = '<input type="text" value="" id="usertag-add" class=""><button type="button" id="usertag-submit" class="btn">Add tag</button>';
 
@@ -402,6 +513,10 @@ EOTEXT;
         return $value;
     }
 
+    /**
+     * Load file dependencies
+     * @return void
+     */
     private function load_dependencies() {
         //WP_List_Table might not be available automatically
         if(!class_exists('WP_List_Table')){
