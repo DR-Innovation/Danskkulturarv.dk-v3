@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WPChaosSearch\n"
 "POT-Creation-Date: 2013-08-12 11:12+0100\n"
-"PO-Revision-Date: 2013-08-12 12:26+0100\n"
+"PO-Revision-Date: 2013-10-22 16:10+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -25,7 +25,7 @@ msgstr "Dansk Kulturarv"
 
 #: ../wpdka.php:111
 msgid "Page for objects with an unknown organization."
-msgstr "Side til objekter med ukendt organisation"
+msgstr "Side til objekter med ukendt institution"
 
 #: ../wpdka.php:119
 msgid "JW Player Settings"
