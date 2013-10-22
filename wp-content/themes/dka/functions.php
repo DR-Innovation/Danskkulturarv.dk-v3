@@ -58,7 +58,7 @@ function dka_scripts_styles() {
 		//'carousel',
 		'collapse',
 		'dropdown',
-		//'modal',
+		'modal',
 		//'scrollspy',
 		//'tab',
 		'tooltip', // Used by the /api page.

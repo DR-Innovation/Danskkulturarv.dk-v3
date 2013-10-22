@@ -37,6 +37,12 @@ final class WPDKATags {
     const TAG_STATE_FLAGGED = 'Flagged';
 
     /**
+     * Token prefix for frontend AJAX submissions
+     * Appended with object guid
+     */
+    const TOKEN_PREFIX = 'somestring';
+
+    /**
      * Plugin dependencies
      * @var array
      */
@@ -61,8 +67,11 @@ final class WPDKATags {
                 add_action('wp_ajax_nopriv_wpdkatags_submit_tag', array(&$this,'ajax_submit_tag') );
 
                 // Change tag state
-                add_action('wp_ajax_wpdkatags_change_tag_state', array(&$this,'ajax_change_tag_stat') );
-                add_action('wp_ajax_nopriv_wpdkatags_change_tag_state', array(&$this,'ajax_change_tag_stat') );
+                add_action('wp_ajax_wpdkatags_change_tag_state', array(&$this,'ajax_change_tag_stat_admin') );
+                add_action('wp_ajax_wpdkatags_flag_tag', array(&$this,'ajax_flag_tag') );
+                add_action('wp_ajax_nopriv_wpdkatags_flag_tag', array(&$this,'ajax_flag_tag') );
+
+                add_action('right_now_content_table_end', array(&$this,'add_usertag_counts'));
 
             }
 
@@ -210,12 +219,57 @@ final class WPDKATags {
      * Handle AJAX request to flag a tag from user TODO
      * @return void
      */
-    public function ajax_change_tag_stat() {
+    public function ajax_change_tag_stat_admin() {
         // Needs to define tag. Search for tag by ID or something?
-        $new_state = $_GET['state'];
+        
+        $new_state = $_GET['state']; 
+       
         if(in_array($new_state, array(self::TAG_STATE_UNAPPROVED,self::TAG_STATE_APPROVED,self::TAG_STATE_FLAGGED))) {
             $this->_change_tag_state($tag, $new_state);
         }
+        
+    }
+
+    /**
+     * Handle AJAX request to flag a tag from user TODO
+     * @return void
+     */
+    public function ajax_flag_tag() {
+        
+        //iff status == active
+        if(get_option('wpdkatags-status') != '2') {
+            echo "Cheating uh?";
+            throw new \RuntimeException("Cheating uh?");
+        }
+
+        if(!isset($_POST['tag_guid'])) {
+            echo "Missing tag guid";
+            throw new \RuntimeException("Missing tag guid");
+        }
+
+        if(!isset($_POST['object_guid']) || !check_ajax_referer(self::TOKEN_PREFIX.$_POST['object_guid'], 'token', false)) {
+            echo "Object GUID not valid";
+            throw new \RuntimeException("Object GUID not valid");
+        }
+
+        $tag = $this->get_object_by_guid(esc_html($_POST['tag_guid']),false);
+
+        if(!$tag) {
+            echo "Invalid tag";
+            throw new \RuntimeException("Invalid tag");
+        }
+       
+        if($this->_change_tag_state($tag, self::TAG_STATE_FLAGGED)) {
+            $response = array(
+                'Tag flagged successfully!'
+            );
+        } else {
+            echo "Tag could not be flagged";
+            throw new \RuntimeException("Tag could not be flagged");  
+        }
+
+        echo json_encode($response);
+        die();
         
     }
 
@@ -236,7 +290,7 @@ final class WPDKATags {
             throw new \RuntimeException("Invalid tag input");
         }
 
-        if(!isset($_POST['object_guid']) || !check_ajax_referer( 'somestring'.$_POST['object_guid'], 'token', false)) {
+        if(!isset($_POST['object_guid']) || !check_ajax_referer(self::TOKEN_PREFIX.$_POST['object_guid'], 'token', false)) {
             echo "GUID not valid";
             throw new \RuntimeException("GUID not valid");
         }
@@ -332,7 +386,7 @@ final class WPDKATags {
                 $metadataXML = $tag_object->get_metadata(self::METADATA_SCHEMA_GUID);
                 $metadataXML['status'] = $new_state;
 
-                $tag->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+                $tag_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
                 return true;
             } catch(\Exception $e) {
                 error_log('CHAOS Error when changing tag state: '.$e->getMessage());
@@ -433,13 +487,18 @@ final class WPDKATags {
         
             $value .= '<div class="usertags">';
             foreach($tags as $tag) {
-                $tag = $tag->metadata(
+                //Get tag XML meta
+                $tag_meta = $tag->metadata(
                     array(WPDKATags::METADATA_SCHEMA_GUID),
                     array(''),
                     null
                 );
-                $link = WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag));
-                $value .= '<a class="usertag tag" href="'.$link.'" title="'.esc_attr($tag).'">'.$tag.'</a>'."\n";
+                //We do not want flagged tags
+                if($tag_meta['status'] == self::TAG_STATE_FLAGGED) {
+                    continue;
+                }
+                $link = WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag_meta));
+                $value .= '<a class="usertag tag" href="'.$link.'" title="'.esc_attr($tag_meta).'">'.$tag_meta.'<i class="icon-remove flag-tag" id="'.$tag->GUID.'"></i></a>'."\n";
             }
             if(empty($tags)) {
                 $value .= '<span class="no-tag">'.__('No tags','wpdka').'</span>'."\n";
@@ -448,69 +507,69 @@ final class WPDKATags {
 
             //Iff status == active
             if($status == 2) {
-                $value .= $this->add_user_tag_form($object);
+                $value .= '<input type="text" value="" id="usertag-add" class=""><button type="button" id="usertag-submit" class="btn">Add tag</button>';
+                wp_enqueue_script('dka-usertags',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
+                $translation_array = array(
+                    'ajaxurl' => admin_url( 'admin-ajax.php' ),
+                    'token' => wp_create_nonce(self::TOKEN_PREFIX.$object->GUID)
+                );
+                wp_localize_script( 'dka-usertags', 'WPDKATags', $translation_array );
             }
         }
-
-        //$this->_change_tag_state($this->get_object_by_guid("d96cbd3a-766d-6d42-888d-cbcfa3592ca3",false),self::TAG_STATE_FLAGGED);
-
         return $value;
     }
 
-    /**
-     * Render form and js for tag submission
-     * @param  WPChaosObject    $object
-     */
-    private function add_user_tag_form($object) {
-        $value = '<input type="text" value="" id="usertag-add" class=""><button type="button" id="usertag-submit" class="btn">Add tag</button>';
+    function add_usertag_counts() {
 
-        $ajaxurl = admin_url( 'admin-ajax.php' );
-        $token = wp_create_nonce('somestring'.$object->GUID);
-        $value .= <<<EOTEXT
-<script type="text/javascript"><!--
-jQuery(document).ready(function($) {
-    var ajaxurl = '$ajaxurl',
-    token = '$token',
-    container = $(".usertags");
-    $("#usertag-submit").click( function(e) {
-        $(this).attr('disabled',true);
-        var button = $(this);
-        var input = $('#usertag-add');
+        $facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(WPDKATags_List_Table::FACET_KEY_STATUS)), null, false);
+        $total_count = 0;
+        $facets = array();
 
-        button.attr('disabled',true);
-        $.ajax({
-            url: ajaxurl,
-            data:{
-                action: 'wpdkatags_submit_tag',
-                tag: input.val(),
-                object_guid: $('.single-material').attr('id'),
-                token: token
-            },
-            dataType: 'JSON',
-            type: 'POST',
-            success:function(data){
-                console.log(data);
-                button.attr('disabled',false);
-                var tag = '<a href="'+data.link+'" class="tag usertag">'+data.title+'</a>';
-                var notag = container.find("span");
-                 if(notag.length > 0) {
-                     notag.remove();
+        foreach($facetsResponse->Index()->Results() as $facetResult) {
+            foreach($facetResult->FacetFieldsResult as $fieldResult) {
+                foreach($fieldResult->Facets as $facet) {
+                    $facets[$facet->Value] = $facet->Count; 
+                    $total_count += $facet->Count;
                 }
-                container.append(tag);
-                input.val("");
-            },
-            error: function(errorThrown){
-                button.attr('disabled',false);
-                console.log("error.");
-                console.log(errorThrown);
             }
-        });
-        e.preventDefault();
-    });
-});
-//--></script>
-EOTEXT;
-        return $value;
+        }
+
+        $num_posts = $total_count;
+        $num = number_format_i18n($num_posts);
+        $text = _n('User tag', 'User tags', intval($num_posts),'wpdka');
+
+        echo '<tr>';
+        echo '<td class="first b b-chaos-material">'.$num.'</td>';
+        echo '<td class="t chaos-material">'.$text.'</td>';
+        echo '</tr>';
+
+        $num_posts = isset($facets['approved']) ? $facets['approved'] : 0;
+        $num = number_format_i18n($num_posts);
+        $text = _n('Approved user tag', 'Approved user tags', intval($num_posts),'wpdka');
+
+        echo '<tr>';
+        echo '<td class="first b b-chaos-material">'.$num.'</td>';
+        echo '<td class="t chaos-material">'.$text.'</td>';
+        echo '</tr>';
+
+        $num_posts = isset($facets['unapproved']) ? $facets['unapproved'] : 0;
+        $num = number_format_i18n($num_posts);
+        $text = _n('Unapproved user tag', 'Unapproved user tags', intval($num_posts),'wpdka');
+
+        echo '<tr>';
+        echo '<td class="first b b-chaos-material">'.$num.'</td>';
+        echo '<td class="t chaos-material">'.$text.'</td>';
+        echo '</tr>';
+
+        $num_posts = isset($facets['flagged']) ? $facets['flagged'] : 0;
+        $num = number_format_i18n($num_posts);
+        $text = _n('Flagged user tag', 'Flagged user tags', intval($num_posts),'wpdka');
+
+        echo '<tr>';
+        echo '<td class="first b b-chaos-material">'.$num.'</td>';
+        echo '<td class="t chaos-material">'.$text.'</td>';
+        echo '</tr>';
+
     }
 
     /**
@@ -555,3 +614,5 @@ EOTEXT;
 }
 
 new WPDKATags();
+
+/**/

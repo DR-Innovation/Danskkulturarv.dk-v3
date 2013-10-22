@@ -35,6 +35,39 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
         return $this->_current_tag;
     }
 
+        /**
+     * Display the list of views available on this table.
+     */
+    public function get_views() {
+
+        $facets = array();
+        $query = "(".self::FACET_KEY_VALUE.":".$this->get_current_tag().")";
+        $facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(self::FACET_KEY_STATUS)), $query, false);
+
+        foreach($facetsResponse->Index()->Results() as $facetResult) {
+            foreach($facetResult->FacetFieldsResult as $fieldResult) {
+                foreach($fieldResult->Facets as $facet) {
+                    $facets[$facet->Value] = $facet->Count;
+                }
+            }
+        }
+
+        $status_links = array();
+
+        $class = empty($_REQUEST['tag_status']) ? ' class="current"' : '';
+        $status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'&amp;subpage=wpdkatag-objects&amp;dka-tag='.$this->get_current_tag().'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $this->get_pagination_arg('total_items'), 'posts' ), number_format_i18n( $this->get_pagination_arg('total_items') ) ) . '</a>';
+
+        foreach($this->states as $status_key => $status) {
+            $class = '';
+            $count = (isset($facets[$status_key]) ? $facets[$status_key] : 0);
+            if(isset($_REQUEST['tag_status']) && $_REQUEST['tag_status'] == $status_key)
+                $class = ' class="current"';
+            $status_links[$status_key] = '<a href="admin.php?page='.$this->screen->parent_base.'&amp;subpage=wpdkatag-objects&amp;dka-tag='.$this->get_current_tag().'&amp;tag_status='.$status_key.'"'.$class.'>'. sprintf( '%s <span class="count">(%s)</span>', $status['title'], number_format_i18n( $count ) ) . '</a>';
+        }
+
+        return $status_links;
+    }
+
     /**
      * Render columns.
      * Fallback if function column_{name} does not exist
@@ -211,10 +244,15 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
         //Process actions
         $this->process_bulk_action();
 
+        $query = self::FACET_KEY_VALUE.":".$this->get_current_tag()."+AND+ObjectTypeID:".WPDKATags::TAG_TYPE_ID;
+        if(isset($_GET['tag_status'])) {
+            $query .= "+AND+".self::FACET_KEY_STATUS.":".$_GET['tag_status'];
+        }
+
         //Get tag objects by name
         //A tag is NOT unique by name, as the object<->tag relation is 1:1
         $serviceResult = WPChaosClient::instance()->Object()->Get(
-            self::FACET_KEY_VALUE.":".$this->get_current_tag()."+AND+ObjectTypeID:".WPDKATags::TAG_TYPE_ID,   // Search query
+            $query,   // Search query
             null,   // Sort
             false,   // Use session instead of AP
             $this->get_pagenum()-1,      // pageIndex

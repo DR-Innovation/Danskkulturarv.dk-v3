@@ -18,7 +18,7 @@ class WPDKATags_List_Table extends WP_List_Table {
     const NAME_PLURAL = 'dka-tags';
 
     const FACET_KEY_VALUE = 'DKA-Crowd-Tag-Value_string';
-    const FACET_KEY_STATUS = 'DKA-Crowd-Tag-Value_string';
+    const FACET_KEY_STATUS = 'DKA-Crowd-Tag-Status_string';
     const FACET_KEY_CREATED = 'DKA-Crowd-Tag-Created_date';
 
     protected $title;
@@ -80,18 +80,26 @@ class WPDKATags_List_Table extends WP_List_Table {
 
     /**
      * Display the list of views available on this table.
-     *
-     * @since 3.1.0
-     * @access public
      */
     public function get_views() {
 
-        $facets = WPChaosClient::index_search(array('DKA-Crowd-Tag-Status_string'),null);
+        $total_count = 0;
+        $facets = array();
+        $facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(self::FACET_KEY_STATUS)), null, false);
+
+        foreach($facetsResponse->Index()->Results() as $facetResult) {
+            foreach($facetResult->FacetFieldsResult as $fieldResult) {
+                foreach($fieldResult->Facets as $facet) {
+                    $facets[$facet->Value] = $facet->Count;
+                    $total_count += $facet->Count;
+                }
+            }
+        }
 
         $status_links = array();
 
         $class = empty($_REQUEST['tag_status']) ? ' class="current"' : '';
-        $status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $this->get_pagination_arg('total_items'), 'posts' ), number_format_i18n( $this->get_pagination_arg('total_items') ) ) . '</a>';
+        $status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s, %s unique)</span>', 'All <span class="count">(%s, %s unique)</span>', $total_count, 'posts' ), $total_count, number_format_i18n( $this->get_pagination_arg('total_items') ) ) . '</a>';
 
         foreach($this->states as $status_key => $status) {
             $class = '';
@@ -319,14 +327,22 @@ class WPDKATags_List_Table extends WP_List_Table {
         //     return ($order==='asc') ? $result : -$result; //Send final sort direction to usort
         // }
         // usort($data, 'usort_reorder');
+        // 
+        
+        $query = null;
+        if(isset($_GET['tag_status'])) {
+            $query = "(".self::FACET_KEY_STATUS.":".$_GET['tag_status'].")";
+        }
         
         $tags = array();
-        $facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(self::FACET_KEY_VALUE)), null, false);
+        $facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(self::FACET_KEY_VALUE)), $query, false);
 
         foreach($facetsResponse->Index()->Results() as $facetResult) {
             foreach($facetResult->FacetFieldsResult as $fieldResult) {
                 foreach($fieldResult->Facets as $facet) {
-                    $tags[] = $facet;
+                    if($facet->Count > 0) {
+                       $tags[] = $facet; 
+                    }
                 }
             }
         }
