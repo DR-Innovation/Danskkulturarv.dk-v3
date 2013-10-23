@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKATags\n"
-"POT-Creation-Date: 2013-10-23 16:10+0100\n"
-"PO-Revision-Date: 2013-10-23 16:10+0100\n"
+"POT-Creation-Date: 2013-10-23 16:37+0100\n"
+"PO-Revision-Date: 2013-10-23 17:03+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -88,7 +88,7 @@ msgstr "Kvantitet"
 msgid "Edit %s"
 msgstr "Rediger"
 
-#: ../wpdkacollections.php:185 ../wpdkacollections.php:377
+#: ../wpdkacollections.php:185 ../wpdkacollections.php:318
 #, fuzzy
 msgid "Collection"
 msgid_plural "Collections"
@@ -103,12 +103,12 @@ msgstr "Gem"
 msgid "Collection was updated."
 msgstr "Samling opdateret."
 
-#: ../wpdkacollections.php:417
+#: ../wpdkacollections.php:358
 #, fuzzy
 msgid "WordPress DKA Collections"
 msgstr "WordPress DKA Tags"
 
-#: ../wpdkacollections.php:417
+#: ../wpdkacollections.php:358
 #, php-format
 msgid "needs %s to be activated."
 msgstr "kræver at %s er aktiveret."
