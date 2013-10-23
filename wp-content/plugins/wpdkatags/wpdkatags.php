@@ -304,6 +304,24 @@ final class WPDKATags {
 			throw new \RuntimeException("Invalid tag input");
 		}
 
+		// Strip HTML Tags
+		$clear = strip_tags($_POST['tag']);
+		// Clean up things like &amp;
+		$clear = html_entity_decode($clear);
+		// Strip out any url-encoded stuff
+		$clear = urldecode($clear);
+		// Replace non-AlNum characters with space
+		$clear = preg_replace('/[^A-Za-z0-9]/', ' ', $clear);
+		// Replace Multiple spaces with single space
+		$clear = preg_replace('/ +/', ' ', $clear);
+		// Trim the string of leading/trailing space
+		$tag = trim($clear);
+
+		if($tag == "") {
+			echo "Invalid tag input";
+			throw new \RuntimeException("Invalid tag input");
+		}
+
 		if(!isset($_POST['object_guid']) || !check_ajax_referer(self::TOKEN_PREFIX.$_POST['object_guid'], 'token', false)) {
 			echo "GUID not valid";
 			throw new \RuntimeException("GUID not valid");
@@ -316,16 +334,15 @@ final class WPDKATags {
 			throw new \RuntimeException("Object could not be found");
 		}
 
-		if($this->_tag_exists($object,$_POST['tag'])) {
+		if($this->_tag_exists($object,$tag)) {
 			echo "Tag already exists";
 			throw new \RuntimeException("Tag already exists");
 		}
 
-		if($this->_add_tag($_POST['object_guid'],$_POST['tag'])) {
-			$tag_input = esc_html($_POST['tag']);
+		if($this->_add_tag($_POST['object_guid'],$tag)) {
 			$response = array(
-				'title' => $tag_input,
-				'link' => WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag_input))
+				'title' => $tag,
+				'link' => WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag))
 				);
 		} else {
 			echo "Tag could not be added";
