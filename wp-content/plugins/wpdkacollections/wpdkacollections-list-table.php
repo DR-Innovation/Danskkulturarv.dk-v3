@@ -17,6 +17,7 @@ class WPDKACollections_List_Table extends WP_List_Table {
     const NAME_SINGULAR = 'dka-collection';
     const NAME_PLURAL = 'dka-collections';
 
+    // Needs to be changed to collection.
     const FACET_KEY_VALUE = 'DKA-Crowd-Collection-Value_string';
     const FACET_KEY_STATUS = 'DKA-Crowd-Collection-Status_string';
     const FACET_KEY_CREATED = 'DKA-Crowd-Collection-Created_date';
@@ -116,7 +117,7 @@ class WPDKACollections_List_Table extends WP_List_Table {
     protected function column_title($item){
         //Build row actions
         $actions = array(
-            'edit'      => '<a href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'edit', $this->_args['singular'] => $item->Value), 'admin.php').'">'.__('Edit','wpdkacollections').'</a>',
+            'edit'      => '<a class="editCollection" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'edit', $this->_args['singular'] => $item->Value), 'admin.php').'">'.__('Edit','wpdkacollections').'</a>',
             'delete'      => '<a class="submitdelete" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'delete', $this->_args['singular'] => $item->Value), 'admin.php').'">'.__('Delete','wpdkacollections').'</a>'
         );
         
@@ -149,7 +150,6 @@ class WPDKACollections_List_Table extends WP_List_Table {
         $columns = array(
             'cb'        => '<input type="checkbox" />', //Render a checkbox instead of text
             'title'     => __('Title', 'wpdkacollections'),
-            'category'  => __('Category', 'wpdkacollections'),
             'quantity'    => __('Quantity','wpdkacollections')
         );
         return $columns;
@@ -172,7 +172,6 @@ class WPDKACollections_List_Table extends WP_List_Table {
     public function get_sortable_columns() {
         $sortable_columns = array(
             'title'     => array('title',false),     //true means it's already sorted
-            'category'  => array('category', false),
             'quantity'    => array('quantity',true)
         );
         return $sortable_columns;
@@ -212,9 +211,10 @@ class WPDKACollections_List_Table extends WP_List_Table {
         
         //Detect when a bulk action is being triggered...
         switch ($this->current_action()) {
-            case 'detele':
-                // Delete collections TODO
-                wp_die('Items deleted (or they would be if we had items to delete)!');
+            case 'delete':
+                // TODO
+                WPDKACollections::remove_collection();
+                wp_die('Collections deleted (or they would be if we had collections to delete)!');
         }
         
     }
@@ -235,7 +235,7 @@ class WPDKACollections_List_Table extends WP_List_Table {
      * @uses $this->get_pagenum()
      * @uses $this->set_pagination_args()
      **************************************************************************/
-    public function prepare_items() {
+    public function prepare_items() { 
         $per_page = $this->get_items_per_page('edit_wpdkacollections_per_page');
         //$per_page = 5;
         

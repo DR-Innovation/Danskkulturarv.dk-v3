@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKATags\n"
-"POT-Creation-Date: 2013-10-08 12:16+0100\n"
-"PO-Revision-Date: 2013-10-08 12:16+0100\n"
+"POT-Creation-Date: 2013-10-23 16:10+0100\n"
+"PO-Revision-Date: 2013-10-23 16:10+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -19,92 +19,132 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../wpdkatagobjects-list-table.php:55
+#: ../wpdkacollectionobjects-list-table.php:28
+#, php-format
+msgid "Collection: %s"
+msgstr "Samling: %s"
+
+#: ../wpdkacollectionobjects-list-table.php:60
 #, php-format
 msgid "%s ago"
 msgstr "%s siden"
 
-#: ../wpdkatagobjects-list-table.php:73 ../wpdkatags-list-table.php:152
+#: ../wpdkacollectionobjects-list-table.php:78
+#: ../wpdkacollections-list-table.php:120
 msgid "Edit"
 msgstr "Rediger"
 
-#: ../wpdkatagobjects-list-table.php:74 ../wpdkatagobjects-list-table.php:143
-#: ../wpdkatags-list-table.php:153 ../wpdkatags-list-table.php:231
-msgid "Delete"
-msgstr "Slet"
+#: ../wpdkacollectionobjects-list-table.php:79
+#: ../wpdkacollectionobjects-list-table.php:146
+msgid "Remove"
+msgstr "Fjern"
 
-#: ../wpdkatagobjects-list-table.php:75
-msgid "Show"
-msgstr "Vis"
+#: ../wpdkacollectionobjects-list-table.php:80
+#, fuzzy
+msgid "Show material"
+msgstr "CHAOS materiale"
 
-#: ../wpdkatagobjects-list-table.php:106 ../wpdkatags-list-table.php:184
-msgid "Title"
-msgstr "Titel"
+#: ../wpdkacollectionobjects-list-table.php:111
+#, fuzzy
+msgid "Material Title"
+msgstr "Materiale"
 
-#: ../wpdkatagobjects-list-table.php:107
-msgid "Status"
-msgstr "Status"
-
-#: ../wpdkatagobjects-list-table.php:108 ../wpdkatags-list-table.php:186
+#: ../wpdkacollectionobjects-list-table.php:112
 msgid "Date"
 msgstr "Dato"
 
-#: ../wpdkatags-list-table.php:36
-msgid "Unapproved"
-msgstr "Ikke godkendt"
+#: ../wpdkacollections-list-table.php:37 ../wpdkacollections.php:82
+#, fuzzy
+msgid "Collections"
+msgstr "Instruktion"
 
-#: ../wpdkatags-list-table.php:40
-msgid "Flagged"
-msgstr "Flagged"
-
-#: ../wpdkatags-list-table.php:44
-msgid "Approved"
-msgstr "Godkendt"
-
-#: ../wpdkatags-list-table.php:88
-#, php-format
+#: ../wpdkacollections-list-table.php:63
+#, fuzzy, php-format
 msgctxt "posts"
-msgid "All <span class=\"count\">(%s)</span>"
-msgid_plural "All <span class=\"count\">(%s)</span>"
+msgid "All <span class=\"count\">(%s, %s unique)</span>"
+msgid_plural "All <span class=\"count\">(%s, %s unique)</span>"
 msgstr[0] "Alle <span class=\"count\">(%s)</span>"
 msgstr[1] "Alle <span class=\"count\">(%s)</span>"
 
-#: ../wpdkatags-list-table.php:185
+#: ../wpdkacollections-list-table.php:65
+msgid "Add new collection"
+msgstr "Tilføj ny samling"
+
+#: ../wpdkacollections-list-table.php:121
+#: ../wpdkacollections-list-table.php:197
+msgid "Delete"
+msgstr "Slet"
+
+#: ../wpdkacollections-list-table.php:152
+msgid "Title"
+msgstr "Titel"
+
+#: ../wpdkacollections-list-table.php:153
 msgid "Quantity"
 msgstr "Kvantitet"
 
-#: ../wpdkatags.php:62
-msgid "User Tags"
-msgstr "Brugertags"
+#: ../wpdkacollections.php:182
+#, fuzzy, php-format
+msgid "Edit %s"
+msgstr "Rediger"
 
-#: ../wpdkatags.php:67
-msgid "Sitewide Status"
-msgstr "Systemstatus"
+#: ../wpdkacollections.php:185 ../wpdkacollections.php:377
+#, fuzzy
+msgid "Collection"
+msgid_plural "Collections"
+msgstr[0] "Instruktion"
+msgstr[1] "Instruktion"
 
-#: ../wpdkatags.php:70
-msgid "Hidden"
-msgstr "Skjult"
+#: ../wpdkacollections.php:187
+msgid "Save"
+msgstr "Gem"
 
-#: ../wpdkatags.php:71
-msgid "Frozen"
-msgstr "Frosset"
+#: ../wpdkacollections.php:193
+msgid "Collection was updated."
+msgstr "Samling opdateret."
 
-#: ../wpdkatags.php:72
-msgid "Active"
-msgstr "Aktivt"
-
-#: ../wpdkatags.php:338
-msgid "No tags"
-msgstr "Ingen tags"
-
-#: ../wpdkatags.php:432
-msgid "WordPress DKA Tags"
+#: ../wpdkacollections.php:417
+#, fuzzy
+msgid "WordPress DKA Collections"
 msgstr "WordPress DKA Tags"
 
-#: ../wpdkatags.php:432
+#: ../wpdkacollections.php:417
 #, php-format
 msgid "needs %s to be activated."
 msgstr "kræver at %s er aktiveret."
+
+#~ msgid "Show"
+#~ msgstr "Vis"
+
+#~ msgid "Status"
+#~ msgstr "Status"
+
+#~ msgid "Unapproved"
+#~ msgstr "Ikke godkendt"
+
+#~ msgid "Flagged"
+#~ msgstr "Flagged"
+
+#~ msgid "Approved"
+#~ msgstr "Godkendt"
+
+#~ msgid "User Tags"
+#~ msgstr "Brugertags"
+
+#~ msgid "Sitewide Status"
+#~ msgstr "Systemstatus"
+
+#~ msgid "Hidden"
+#~ msgstr "Skjult"
+
+#~ msgid "Frozen"
+#~ msgstr "Frosset"
+
+#~ msgid "Active"
+#~ msgstr "Aktivt"
+
+#~ msgid "No tags"
+#~ msgstr "Ingen tags"
 
 #~ msgid "Dansk Kulturarv"
 #~ msgstr "Dansk Kulturarv"
@@ -117,11 +157,6 @@ msgstr "kræver at %s er aktiveret."
 
 #~ msgid "JW Player API key"
 #~ msgstr "JW Player API-nøgle"
-
-#~ msgid "CHAOS material"
-#~ msgid_plural "CHAOS materials"
-#~ msgstr[0] "CHAOS materiale"
-#~ msgstr[1] "CHAOS materialer"
 
 #~ msgid "CHAOS material view"
 #~ msgid_plural "CHAOS material views"
@@ -140,9 +175,6 @@ msgstr "kræver at %s er aktiveret."
 
 #~ msgid "Loading the player ..."
 #~ msgstr "Henter afspiller ..."
-
-#~ msgid "Material"
-#~ msgstr "Materiale"
 
 #~ msgid " without title"
 #~ msgstr " uden titel"
@@ -163,9 +195,6 @@ msgstr "kræver at %s er aktiveret."
 
 #~ msgid "Creator"
 #~ msgstr "Skaber"
-
-#~ msgid "Direction"
-#~ msgstr "Instruktion"
 
 #~ msgid "Directors"
 #~ msgstr "Instruktører"
@@ -206,10 +235,6 @@ msgstr "kræver at %s er aktiveret."
 
 #~ msgid "%s about %s"
 #~ msgstr "%s om %s"
-
-#, fuzzy
-#~ msgid "Ingen tags"
-#~ msgstr "Alle Tags"
 
 #~ msgid "Page for search results"
 #~ msgstr "Side til søgeresultater"

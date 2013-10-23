@@ -15,6 +15,16 @@ final class WPDKACollections {
     const METADATA_SCHEMA_GUID = '00000000-0000-0000-0000-000065c30000';
 
     /**
+     * ID = X is ""
+     */
+    const COLLECTIONS_TYPE_ID = 12; // CHANGE
+
+    /**
+     * ID = X is ""
+     */
+    const COLLECTIONS_FOLDER_ID = 470; // CHANGE
+
+    /**
      * Token prefix for frontend AJAX submissions
      * Appended with object guid
      */
@@ -39,10 +49,12 @@ final class WPDKACollections {
                 add_action('admin_menu', array(&$this, 'loadJsCss'));
                 add_action('admin_menu', array(&$this,'add_menu_items'));
                 add_filter('wpchaos-config',array(&$this,'add_chaos_settings'));
+
+                // Add collection
+                add_action('wp_ajax_wpdkacollections_add_collection', array(&$this,'ajax_add_collection') );
+                add_action('wp_ajax_nopriv_wpdkacollections_add_collection', array(&$this,'ajax_add_collection') );
             }
 
-            add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', array(&$this,'define_collections_filter'),10,2);
-            add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections_raw', array(&$this,'define_collections_raw_filter'),10,2);
             add_action('plugins_loaded',array(&$this,'load_textdomain'));
         }
     }
@@ -61,22 +73,49 @@ final class WPDKACollections {
      * @return array 
      */
     public function add_chaos_settings($settings) {
-        $new_settings = array(
-            array(
-                /*Sections*/
-                'name'      => 'wpdkacollections',
-                'title'     => __('Collections',self::DOMAIN),
-                'fields'    => array()
-                )
-            );
-        return array_merge($settings,$new_settings);
+        // $new_settings = array(
+        //     array(
+        //         /*Sections*/
+        //         'name'      => 'wpdkacollections',
+        //         'title'     => __('Collections',self::DOMAIN),
+        //         'fields'    => array()
+        //         )
+        //     );
+        // return array_merge($settings,$new_settings);
+        
+        return $settings;
     }
 
     public function loadJsCss() {
         wp_enqueue_script('bootstrapjs',plugins_url( 'js/bootstrap.min.js' , __FILE__ ),array('jquery'),'1.0',true);
         wp_enqueue_script('dka-collections',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery', 'bootstrapjs'),'1.0',true);
-        wp_enqueue_style( 'bootstrapcss', plugins_url( 'css/bootstrap.min.css' , __FILE__ ),true);
+        $translation_array = array(
+            'ajaxurl' => admin_url( 'admin-ajax.php' ),
+            'token' => wp_create_nonce(self::TOKEN_PREFIX)
+        );
+        wp_localize_script( 'dka-collections', 'WPDKACollections', $translation_array );
+        wp_enqueue_style('bootstrapcss', plugins_url( 'css/bootstrap.min.css' , __FILE__ ),true);
     }
+
+    /** ************************************************************************
+     * Ajax calls
+     **************************************************************************/
+    public function ajax_add_collection() {
+        if (!isset($_POST['collectiontitle'])) {
+            echo "Missing title";
+            throw new \RuntimeException("Missing title");
+        }
+
+        if (!$this->_add_collection($_POST['collectiontitle'], $_POST['collectionDescription'], $_POST['collectionRights'], $_POST['collectionCategory'])) {
+            echo "Collection could not be added";
+            throw new \RuntimeException("Collection could not be added to CHAOS");
+        }
+    }
+
+    public function ajax_add_material_to_collection() {
+
+    }
+
 
     /**
      * Add menu to adminisration
@@ -88,7 +127,7 @@ final class WPDKACollections {
             'Collections',
             'activate_plugins',
             'wpdkacollections',
-            array(&$this,'render_tags_page')
+            array(&$this,'render_collections_page')
         );
     }
 
@@ -97,7 +136,7 @@ final class WPDKACollections {
      * @author Joachim Jensen <jv@intox.dk>
      * @return void
      */
-    public function render_tags_page() {
+    public function render_collections_page() {
 
 ?>
         <div class="wrap">
@@ -112,14 +151,7 @@ final class WPDKACollections {
                 default :
                     $renderTable = new WPDKACollections_List_Table();
             }
-
-            if (isset($_GET['action'])) {
-                switch ($_GET['action']) {
-                    default: break;
-                }
-            } else {
-                $this->render_list_table($renderTable);
-            }
+            $this->render_list_table($renderTable);
             
 ?>
         </div>
@@ -128,14 +160,13 @@ final class WPDKACollections {
 
     /**
      * Render page for a given list table
-     * @param  WPDKATags_List_Table $table
-     * @return WPDKATags_List_Table
+     * @param  WPDKACollections_List_Table $table
+     * @return WPDKACollections_List_Table
      */
     private function render_list_table(WPDKACollections_List_Table $table) {
         $table->prepare_items();
 ?>
     <h2><?php $table->get_title(); ?></h2>
-
     <form id="movies-filter" method="get">
         <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
         <?php $table->views(); ?>
@@ -146,49 +177,77 @@ final class WPDKACollections {
         return $table;
     }
 
-    private function render_edit_tag() {
+    private function render_edit_collection() {
 ?>
         <h2><?php printf(__('Edit %s', self::DOMAIN), $_GET['dka-collection']); ?></h2>
 
         <form method="post">
-            <label for="tag"><?php _e('Collection', self::DOMAIN)?></label>
-            <input id="tag" name="tag" type="text" value="<?php echo $_GET['dka-collection']?>"/>
+            <label for="collection"><?php _e('Collection', self::DOMAIN)?></label>
+            <input id="collection" name="collection" type="text" value="<?php echo $_GET['dka-collection']?>"/>
             <input type="submit" value="<?php _e('Save', self::DOMAIN)?>" id="submit" class="button-primary" name="submit"/>
         </form>
     <?php
         if (isset($_POST['submit'])) {
             if (!empty($_POST['collection'])) {
-                // Change tag name.
+                // Change collection name.
                 _e('Collection was updated.', self::DOMAIN);
             }
         }
     }
 
+    public function remove_collection() {
+
+    }
+
+    public function rename_collection() {
+
+    }
+
     /**
      * Adds a new collection object to CHAOS
-     * @param  string    $object_guid
-     * @param  string    $tag_input
+     * @param  string    $title
+     * @param  string    $description (optional)
+     * @param  string    $rights      (optional)
+     * @param  string    $category    (optional)
      * @return boolean
      */
-    private function _add_collection($object_guid, $tag_input) {
+    private function _add_collection($title, $description = '', $rights = '', $category = '') {
+        try {
+            $serviceResult = WPChaosClient::instance()->Object()->Create(self::COLLECTIONS_TYPE_ID,self::COLLECTIONS_FOLDER_ID);
+            // $serviceResult = WPChaosClient::instance()->Object()->Get(
+            //             "GUID:d96cbd3a-766d-6d42-888d-cbcfa3592ca3",   // Search query
+            //             null,   // Sort
+            //             false,   // Use session instead of AP.
+            //             0,      // pageIndex
+            //             1,      // pageSize
+            //             true,   // includeMetadata
+            //             false,   // includeFiles
+            //             false    // includeObjectRelations
+            // ); //debug purpose. using created guid
 
-        // TODO
+            $collections = WPChaosObject::parseResponse($serviceResult);
+            $collection = $collections[0];
+
+            //Create XML and set it to collection
+            $metadataXML = new SimpleXMLElement("<?xml version='1.0' encoding='UTF-8' standalone='yes'?><dkact:Collection xmlns:dkact='http://www.danskkulturarv.dk/DKA-Collection.xsd'></dkact:Collection>");
+
+            $metadataXML[0] = esc_html($title);
+            //date seems 2 hours behind gmt1 and daylight saving time. using gmt0?
+            $metadataXML->addChild('title', $title);
+            $metadataXML->addChild('description', $description);
+            $metadataXML->addChild('rights', $rights);
+            $metadataXML->addChild('category', $category);
+            
+            $collection->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+
+        } catch(\Exception $e) {
+            error_log('CHAOS Error when adding collection: '.$e->getMessage());
+            return false;
+        }
         return true;
     }
 
     private function _add_materials_to_collection() {
-        
-        // TODO
-        return true;
-    }
-
-    /**
-     * Check if given tag exists as relation to object
-     * @param  WPChaosObject $object
-     * @param  string        $tag_input
-     * @return boolean
-     */
-    private function _collection_exists(WPChaosObject $object,$tag_input) {
         
         // TODO
         return true;
@@ -221,83 +280,11 @@ final class WPDKACollections {
     }
 
     /**
-     * Create collections_raw property for WPChaosObject
-     * @param  mixed            $value
-     * @param  WPChaosObject    $object
-     * @return array
-     */
-    public function define_collections_raw_filter($value, $object) {
-        // $relation_guids = array();
-        // foreach($object->ObjectRelations as $relation) {
-        //     $guid_property = "Object1GUID";
-        //     if($object->GUID == $relation->{$guid_property}) {
-        //         $guid_property = "Object2GUID";
-        //     }
-        //     $relation_guids[] = "GUID:".$relation->{$guid_property};
-        // }
-        // $serviceResult = WPChaosClient::instance()->Object()->Get(
-        //     "(".implode("+OR+", $relation_guids).")+AND+ObjectTypeID:".self::TAG_TYPE_ID,   // Search query
-        //     null,   // Sort
-        //     false,   // Use session instead of AP
-        //     0,      // pageIndex
-        //     count($relation_guids),      // pageSize
-        //     true,   // includeMetadata
-        //     false,   // includeFiles
-        //     false    // includeObjectRelations
-        // );
-
-        // return WPChaosObject::parseResponse($serviceResult);
-        return false;
-    }
-
-    /**
      * Create collections property for WPChaosObject
      * @param  mixed            $value
      * @param  WPChaosObject    $object
      * @return string
      */
-    public function define_collections_filter($value, $object) {
-
-        // $status = intval(get_option('wpdkatags-status'));
-
-        // //iff status == active or frozen
-        // if($status > 0) {
-        //     $tags = $object->usertags_raw;
-        
-        //     $value .= '<div class="usertags">';
-        //     foreach($tags as $tag) {
-        //         //Get tag XML meta
-        //         $tag_meta = $tag->metadata(
-        //             array(WPDKATags::METADATA_SCHEMA_GUID),
-        //             array(''),
-        //             null
-        //         );
-        //         //We do not want flagged tags
-        //         if($tag_meta['status'] == self::TAG_STATE_FLAGGED) {
-        //             continue;
-        //         }
-        //         $link = WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag_meta));
-        //         $value .= '<a class="usertag tag" href="'.$link.'" title="'.esc_attr($tag_meta).'">'.$tag_meta.'<i class="icon-remove flag-tag" id="'.$tag->GUID.'"></i></a>'."\n";
-        //     }
-        //     if(empty($tags)) {
-        //         $value .= '<span class="no-tag">'.__('No tags','wpdka').'</span>'."\n";
-        //     }
-        //     $value .= '</div>';
-
-        //     //Iff status == active
-        //     if($status == 2) {
-        //         $value .= '<input type="text" value="" id="usertag-add" class=""><button type="button" id="usertag-submit" class="btn">Add tag</button>';
-        //         wp_enqueue_script('dka-usertags',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
-        //         $translation_array = array(
-        //             'ajaxurl' => admin_url( 'admin-ajax.php' ),
-        //             'token' => wp_create_nonce(self::TOKEN_PREFIX.$object->GUID)
-        //         );
-        //         wp_localize_script( 'dka-usertags', 'WPDKATags', $translation_array );
-        //     }
-        // }
-        // return $value;
-        return false;
-    }
 
     function add_collection_counts() {
 

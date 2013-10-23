@@ -54,7 +54,7 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
     protected function column_default($item, $column_name) {
         switch($column_name) {
             case 'date':
-                $time = strtotime($this->_tags_metadata[$item->GUID]['created']);
+                $time = strtotime($this->_collections_metadata[$item->GUID]['created']);
                 $time_diff = time() - $time;
                 if ($time_diff > 0 && $time_diff < WEEK_IN_SECONDS )
                     $time = sprintf( __( '%s ago' ), human_time_diff( $time ) );
@@ -77,13 +77,13 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
         $actions = array(
             'edit' => '<a href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'edit', $this->_args['singular'] => $item->GUID), 'admin.php').'">'.__('Edit','wpdkacollections').'</a>',
             'remove' => '<a class="submitdelete" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'remove', $this->_args['singular'] => $item->GUID), 'admin.php').'">'.__('Remove','wpdkacollections').'</a>',
-            'show' => '<a href="'.$this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID]->url.'" target="_blank">'.__('Show material').'</a>'
+            'show' => '<a href="'.$this->_collections_related_item[$item->ObjectRelations[0]->Object1GUID]->url.'" target="_blank">'.__('Show material').'</a>'
         );
 
         //Return the title contents
         return sprintf('<strong><a href="%1$s">%2$s</a></strong>%3$s',
             "#",
-            $this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID]->title,
+            $this->_collections_related_item[$item->ObjectRelations[0]->Object1GUID]->title,
             $this->row_actions($actions)
         );
     }
