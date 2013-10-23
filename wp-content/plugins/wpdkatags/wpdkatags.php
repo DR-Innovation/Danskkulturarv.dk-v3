@@ -74,7 +74,7 @@ final class WPDKATags {
 				add_action('wp_ajax_nopriv_wpdkatags_submit_tag', array(&$this,'ajax_submit_tag') );
 
 				// Change tag state
-				add_action('wp_ajax_wpdkatags_change_tag_state', array(&$this,'ajax_change_tag_stat_admin') );
+				//add_action('wp_ajax_wpdkatags_change_tag_state', array(&$this,'ajax_change_tag_stat_admin') );
 				add_action('wp_ajax_wpdkatags_flag_tag', array(&$this,'ajax_flag_tag') );
 				add_action('wp_ajax_nopriv_wpdkatags_flag_tag', array(&$this,'ajax_flag_tag') );
 
@@ -165,18 +165,18 @@ final class WPDKATags {
 				$renderTable = new WPDKATags_List_Table();
 			}
 
-			if (isset($_GET['action'])) {
-				switch ($_GET['action']) {
-					case 'delete':
-						// remove tag
-						// redirecting to list
-					wp_die(sprintf(__('%s removed', 'wpdkatags'), $_GET['dka-tag']));
-					case 'edit':
-					$this->render_edit_tag();
-				}
-			} else {
+			// if (isset($_GET['action'])) {
+			// 	switch ($_GET['action']) {
+			// 		case 'delete':
+			// 			// remove tag
+			// 			// redirecting to list
+			// 		wp_die(sprintf(__('%s removed', 'wpdkatags'), $_GET['dka-tag']));
+			// 		case 'edit':
+			// 		$this->render_edit_tag();
+			// 	}
+			// } else {
 				$this->render_list_table($renderTable);
-			}
+			// }
 			
 			?>
 		</div>
@@ -195,6 +195,9 @@ final class WPDKATags {
 
 		<form id="movies-filter" method="get">
 			<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
+			<?php if(isset($_REQUEST['subpage'])) : ?>
+			<input type="hidden" name="subpage" value="<?php echo $_REQUEST['subpage']; ?>" />
+			<?php endif; ?>
 			<?php $table->views(); ?>
 			<?php $table->display(); ?>
 		</form>
@@ -236,7 +239,7 @@ final class WPDKATags {
 		$new_state = $_GET['state']; 
 		
 		if(in_array($new_state, array(self::TAG_STATE_UNAPPROVED,self::TAG_STATE_APPROVED,self::TAG_STATE_FLAGGED))) {
-			$this->_change_tag_state($tag, $new_state);
+			self::change_tag_state($tag, $new_state);
 		}
 		
 	}
@@ -263,14 +266,14 @@ final class WPDKATags {
 			throw new \RuntimeException("Object GUID not valid");
 		}
 
-		$tag = $this->get_object_by_guid(esc_html($_POST['tag_guid']),false);
+		$tag = self::get_object_by_guid(esc_html($_POST['tag_guid']),false);
 
 		if(!$tag) {
 			echo "Invalid tag";
 			throw new \RuntimeException("Invalid tag");
 		}
 		
-		if($this->_change_tag_state($tag, self::TAG_STATE_FLAGGED)) {
+		if(self::change_tag_state($tag, self::TAG_STATE_FLAGGED)) {
 			$response = array(
 				'Tag flagged successfully!'
 				);
@@ -306,7 +309,7 @@ final class WPDKATags {
 			throw new \RuntimeException("GUID not valid");
 		}
 
-		$object = $this->get_object_by_guid($_POST['object_guid']);
+		$object = self::get_object_by_guid($_POST['object_guid']);
 		
 		if($object == null) {
 			echo "Object could not be found";
@@ -389,7 +392,7 @@ final class WPDKATags {
 	 * @param  string        $new_state
 	 * @return boolean
 	 */
-	private function _change_tag_state(WPChaosObject $tag_object,$new_state) {
+	public static function change_tag_state(WPChaosObject $tag_object,$new_state) {
 		if(in_array($new_state,array(self::TAG_STATE_UNAPPROVED,self::TAG_STATE_APPROVED,self::TAG_STATE_FLAGGED))) {
 
 			try {
@@ -433,7 +436,7 @@ final class WPDKATags {
 	 * @param  string|boolean    $accesspoint
 	 * @return WPChaosObject
 	 */
-	private function get_object_by_guid($guid,$accesspoint = null) {
+	public static function get_object_by_guid($guid,$accesspoint = null) {
 		$objects = array();
 		try {
 			$response = WPChaosClient::instance()->Object()->Get(
