@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dkact="http://www.danskkulturarv.dk/DKA-Collection.xsd" attributeFormDefault="unqualified" elementFormDefault="qualified">
-    <xs:element name="Collection">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="Title" type="xs:string" />
-                <xs:element name="Description" type="xs:string" />
-                <xs:element name="Rights" type="xs:string" />
-                <xs:element name="Category" type="xs:string" />
-                <xs:element name="Playlist">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="Object" type="xs:unsignedInt" minOccurs="0" maxOccurs="unbounded"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-</xs:schema>
+<schema targetNamespace="http://www.danskkulturarv.dk/DKA-Collection.xsd" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:dkac="http://www.danskkulturarv.dk/DKA-Collection.xsd" attributeFormDefault="unqualified" elementFormDefault="qualified">
+    <element name="Collection">
+        <complexType>
+            <sequence>
+                <element name="Title" type="string" />
+                <element name="Description" type="string" />
+                <element name="Rights" type="string" />
+                <element name="Category" type="string" />
+                <element name="Playlist">
+                    <complexType>
+                        <sequence>
+                            <element name="Object" type="unsignedInt" minOccurs="0" maxOccurs="unbounded"/>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+</schema>
