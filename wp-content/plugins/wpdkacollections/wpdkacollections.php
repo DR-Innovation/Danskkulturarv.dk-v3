@@ -15,14 +15,14 @@ final class WPDKACollections {
     const METADATA_SCHEMA_GUID = '00000000-0000-0000-0000-000065c30000';
 
     /**
-     * ID = X is ""
+     * ID = 10 is ""
      */
-    const COLLECTIONS_TYPE_ID = 12; // CHANGE
+    const COLLECTIONS_TYPE_ID = 10;
 
     /**
      * ID = X is ""
      */
-    const COLLECTIONS_FOLDER_ID = 470; // CHANGE
+    const COLLECTIONS_FOLDER_ID = 468; // CHANGE
 
     /**
      * Token prefix for frontend AJAX submissions
@@ -95,14 +95,12 @@ final class WPDKACollections {
     }
 
     public function loadJsCss() {
-        wp_enqueue_script('bootstrapjs',plugins_url( 'js/bootstrap.min.js' , __FILE__ ),array('jquery'),'1.0',true);
         wp_enqueue_script('dka-collections',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery', 'bootstrapjs'),'1.0',true);
         $translation_array = array(
             'ajaxurl' => admin_url( 'admin-ajax.php' ),
             'token' => wp_create_nonce(self::TOKEN_PREFIX)
         );
         wp_localize_script( 'dka-collections', 'WPDKACollections', $translation_array );
-        wp_enqueue_style('bootstrapcss', plugins_url( 'css/bootstrap.min.css' , __FILE__ ),true);
     }
 
     /** ************************************************************************
@@ -119,7 +117,7 @@ final class WPDKACollections {
             throw new \RuntimeException("No title");
         }
 
-        if (!$this->_add_collection($_POST['collectiontitle'], $_POST['collectionDescription'], $_POST['collectionRights'], $_POST['collectionCategory'])) {
+        if (!$this->_add_collection($_POST['collectionTitle'], $_POST['collectionDescription'], $_POST['collectionRights'], $_POST['collectionCategory'])) {
             echo "Collection could not be added";
             throw new \RuntimeException("Collection could not be added to CHAOS");
         }
@@ -180,6 +178,10 @@ final class WPDKACollections {
 
         echo 1;
         die();
+    }
+
+    public function material_get_collections($material_guid) {
+        return array();
     }
 
 
@@ -270,39 +272,42 @@ final class WPDKACollections {
      * @return boolean
      */
     private function _add_collection($title, $description = '', $rights = '', $category = '') {
-        // try {
-        //     $serviceResult = WPChaosClient::instance()->Object()->Create(self::COLLECTIONS_TYPE_ID,self::COLLECTIONS_FOLDER_ID);
-        //     // $serviceResult = WPChaosClient::instance()->Object()->Get(
-        //     //             "GUID:d96cbd3a-766d-6d42-888d-cbcfa3592ca3",   // Search query
-        //     //             null,   // Sort
-        //     //             false,   // Use session instead of AP.
-        //     //             0,      // pageIndex
-        //     //             1,      // pageSize
-        //     //             true,   // includeMetadata
-        //     //             false,   // includeFiles
-        //     //             false    // includeObjectRelations
-        //     // ); //debug purpose. using created guid
 
-        //     $collections = WPChaosObject::parseResponse($serviceResult);
-        //     $collection = $collections[0];
-
-        //     //Create XML and set it to collection
-             $metadataXML = new SimpleXMLElement("<?xml version='1.0' encoding='UTF-8' standalone='yes'?><dkact:Collection xmlns:dkact='http://www.danskkulturarv.dk/DKA-Collection.xsd'></dkact:Collection>");
-
-        //     $metadataXML[0] = esc_html($title);
-        //     //date seems 2 hours behind gmt1 and daylight saving time. using gmt0?
-        //     $metadataXML->addChild('title', $title);
-        //     $metadataXML->addChild('description', $description);
-        //     $metadataXML->addChild('rights', $rights);
-        //     $metadataXML->addChild('category', $category);
-            
-        //     $collection->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
-
-        // } catch(\Exception $e) {
-        //     error_log('CHAOS Error when adding collection: '.$e->getMessage());
+        // $serviceResult = WPChaosClient::instance()->Object()->Get(
+        //                 "GUID:ad8682b9-1fc0-6045-acad-347f16a41d12",   // Search query
+        //                 null,   // Sort
+        //                 false,   // Use session instead of AP.
+        //                 0,      // pageIndex
+        //                 1,      // pageSize
+        //                 true,   // includeMetadata
+        //                 false,   // includeFiles
+        //                 false    // includeObjectRelations
+        //     ); //debug purpose. using created guid
+        //     var_dump($serviceResult);
         //     return false;
-        // }
-        return false;
+        try {
+            $serviceResult = WPChaosClient::instance()->Object()->Create(self::COLLECTIONS_TYPE_ID,self::COLLECTIONS_FOLDER_ID);
+
+            $collections = WPChaosObject::parseResponse($serviceResult);
+            $collection = $collections[0];
+
+            //Create XML and set it to collection
+            $metadataXML = new SimpleXMLElement("<?xml version='1.0' encoding='UTF-8' standalone='yes'?><dkac:Collection xmlns:dkac='http://www.danskkulturarv.dk/DKA-Collection.xsd'></dkac:Collection>");
+
+            //$metadataXML[0] = esc_html($title);
+            //date seems 2 hours behind gmt1 and daylight saving time. using gmt0?
+            $metadataXML->addChild('Title', $title);
+            $metadataXML->addChild('Description', $description);
+            $metadataXML->addChild('Rights', $rights);
+            $metadataXML->addChild('Category', $category);
+            $metadataXML->addChild('Playlist');
+            
+            $collection->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+        } catch(\Exception $e) {
+            error_log('CHAOS Error when adding collection: '.$e->getMessage());
+            return false;
+        }
+        return true;
     }
 
     /**

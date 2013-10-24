@@ -3841,6 +3841,17 @@ a.list-group-item.active > .badge,
 .show {
   display: block !important;
 }
+
+.collections-container {
+  max-height: 250px;
+  overflow: scroll;
+}
+
+#collection-image {
+  max-height: 75px;
+  max-width: 75px;
+}
+
 .invisible {
   visibility: hidden;
 }

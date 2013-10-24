@@ -18,9 +18,9 @@ class WPDKACollections_List_Table extends WP_List_Table {
     const NAME_PLURAL = 'dka-collections';
 
     // Needs to be changed to collection.
-    const FACET_KEY_VALUE = 'DKA-Crowd-Collection-Value_string';
-    const FACET_KEY_STATUS = 'DKA-Crowd-Collection-Status_string';
-    const FACET_KEY_CREATED = 'DKA-Crowd-Collection-Created_date';
+    const FACET_KEY_VALUE = 'DKA-Collection-Value_string';
+    const FACET_KEY_STATUS = 'DKA-Collection-Status_string';
+    const FACET_KEY_CREATED = 'DKA-Collection-Created_date';
 
     protected $title;
     
@@ -63,6 +63,8 @@ class WPDKACollections_List_Table extends WP_List_Table {
         $status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'" class="current">' . sprintf( _nx( 'All <span class="count">(%s, %s unique)</span>', 'All <span class="count">(%s, %s unique)</span>', $total_count, 'posts' ), $total_count, number_format_i18n( $this->get_pagination_arg('total_items') ) ) . '</a>';
         
         $status_links['add'] = '<a href="admin.php?page='.$this->screen->parent_base.'&amp;subpage=wpdkacollection-objects" class="addCollection">' . __('Add new collection','wpdkacollections') . '</a>';
+        wp_enqueue_script('bootstrapjs',plugins_url( 'js/bootstrap.min.js' , __FILE__ ),array('jquery'),'1.0',true);
+        wp_enqueue_style('bootstrapcss', plugins_url( 'css/bootstrap.min.css' , __FILE__ ),true);
         return $status_links;
     }
     
