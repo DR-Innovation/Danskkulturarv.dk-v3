@@ -117,7 +117,7 @@ class WPDKACollections_List_Table extends WP_List_Table {
     protected function column_title($item){
         //Build row actions
         $actions = array(
-            'edit'      => '<a class="editCollection" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'edit', $this->_args['singular'] => $item->Value), 'admin.php').'">'.__('Edit','wpdkacollections').'</a>',
+            'edit'      => '<a class="editCollection" id="<?php echo \'GUID_for_current_collection\'; ?>" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'edit', $this->_args['singular'] => $item->Value), 'admin.php').'">'.__('Edit','wpdkacollections').'</a>',
             'delete'      => '<a class="submitdelete" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'delete', $this->_args['singular'] => $item->Value), 'admin.php').'">'.__('Delete','wpdkacollections').'</a>'
         );
         
