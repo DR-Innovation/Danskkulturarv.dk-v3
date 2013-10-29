@@ -44,7 +44,7 @@
 					success:function(data){
 						console.log(data);
 						button.attr('disabled',false);
-						var tag = '<a href="'+data.link+'" class="tag usertag">'+data.title+'</a>';
+						var tag = '<a class="usertag tag" href="'+data.link+'">'+data.title+'<i class="icon-remove flag-tag" id="'+data.guid+'"></i></a>'
 						var notag = container.find("span");
 						 if(notag.length > 0) {
 							 notag.remove();
@@ -88,7 +88,7 @@
 			});
 			var current_tag;
 
-			$('.usertag').on('click','.flag-tag', function(e) {
+			$('.usertags').on('click','.flag-tag', function(e) {
 				e.preventDefault();
 				current_tag = $(this);
 				confirmModal.find('.modal-body').text('Ønsker du virkelig at flagge dette tag? '+current_tag.parent().text());

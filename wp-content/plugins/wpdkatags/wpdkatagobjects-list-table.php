@@ -12,7 +12,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	/**
 	 * Constructor
 	 */
-	public function __construct(){
+	public function __construct($args = array()){
 		global $status, $page;
 				
 		//Set parent defaults
@@ -21,6 +21,8 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 			'plural'    => self::NAME_PLURAL,
 			'ajax'      => false        //does this table support ajax?
 		) );
+
+		var_dump(self::NAME_SINGULAR);
 
 		$this->_current_tag = $_GET[parent::NAME_SINGULAR];
 
@@ -76,18 +78,26 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	 * @return string
 	 */
 	protected function column_default($item, $column_name) {
-		$selects = array(WPDKATags::TAG_STATE_UNAPPROVED, WPDKATags::TAG_STATE_FLAGGED, WPDKATags::TAG_STATE_APPROVED);
+		//$selects = array(WPDKATags::TAG_STATE_UNAPPROVED, WPDKATags::TAG_STATE_FLAGGED, WPDKATags::TAG_STATE_APPROVED);
 		switch($column_name) {
+			case 'material_title':
+				$material = $this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID];
+				return '<a href="'.$material->url.'" target="_blank">'.$material->title.'</a>';
 			case 'status':
-				$status = '<select id="' . $item->GUID . '" onchange="changeTagStatus(\'' . $item->GUID . '\');">'; // AJAX to change tag status.
-				$status .= '<option value="' . $this->_tags_metadata[$item->GUID]['status'] . '">' . $this->_tags_metadata[$item->GUID]['status'] . '</option>';
 
-				foreach ($selects as $s) {
-					if ($s == $this->_tags_metadata[$item->GUID]['status'])
-						continue;
-					$status .= '<option value="' . $s . '">' . $s . '</option>';
+				$status = $this->_tags_metadata[$item->GUID]['status'];
+
+				switch($status) {
+					case 'Approved':
+						$status = '<span style="color:green">'.$status.'</span>';
+						break;
+					case 'Flagged':
+						$status = '<span style="color:red">'.$status.'</span>';
+						break;
+					default:
+
 				}
-				$status .= '</select>';
+
 				return $status;
 			case 'date':
 				$time = strtotime($this->_tags_metadata[$item->GUID]['created']);
@@ -110,13 +120,10 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	protected function column_title($item) {
 
 		$actions = array();
-		$current_page = "admin.php?".http_build_query(array('page' => $_REQUEST['page'], 'subpage' => $_REQUEST['subpage']));
+		$current_page = "admin.php?".http_build_query(array('page' => $_REQUEST['page'], 'subpage' => $_REQUEST['subpage'], parent::NAME_SINGULAR => $_REQUEST[parent::NAME_SINGULAR] /*, 'noheader' => true*/));
 
-		$actions['edit'] = '<a href="'.add_query_arg(array('action' => 'edit', $this->_args['singular'] => $item->GUID), $current_page).'">'.__('Edit').'</a>';
+		$actions['rename'] = '<a class="wpdkatags-rename" href="#" id="'.$item->GUID.'">'.__('Rename','wpdkatags').'</a>';
 
-		//if( == WPDKATags::TAG_STATE_APPROVED)
-		//
-		
 		foreach($this->states as $state_k => $state) {
 			if($this->_tags_metadata[$item->GUID]['status'] != ucfirst($state_k)) {
 				$url = wp_nonce_url(add_query_arg(array('action' => $state_k, $this->_args['singular'] => $item->GUID), $current_page),$state_k.'_'.$item->GUID);
@@ -126,12 +133,9 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 
 		$actions['delete'] = '<a class="submitdelete" href="'.add_query_arg(array('action' => 'delete', $this->_args['singular'] => $item->GUID), $current_page).'">'.__('Delete').'</a>';
 
-		$actions['show'] = '<a href="'.$this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID]->url.'" target="_blank">'.__('Show material').'</a>';
-
 		//Return the title contents
-		return sprintf('<strong><a href="%1$s">%2$s</a></strong>%3$s',
-			"#",
-			$this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID]->title,
+		return sprintf('<strong>%1$s</strong>%2$s',
+			$this->_tags_metadata[$item->GUID],
 			$this->row_actions($actions)
 		);
 	}
@@ -156,8 +160,9 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	public function get_columns(){
 		$columns = array(
 			'cb'        => '<input type="checkbox" />',
-			'title'     => __('Material Title','wpdkatags'),
+			'title'     => __('Title','wpdkatags'),
 			'status'    => __('Status', 'wpdkatags'),
+			'material_title' => __('Material Title','wpdkatags'),
 			'date'      => __('Date', 'wpdkatags')
 		);
 		return $columns;
@@ -169,7 +174,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	 */
 	public function get_sortable_columns() {
 		$sortable_columns = array(
-			'title'     => array('title',false), //true means it's already sorted
+			'material_title'     => array('title',false), //true means it's already sorted
 			'status'    => array('status',false),
 			'date'      => array('date',true)
 		);
@@ -208,40 +213,59 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	 * 
 	 * @see $this->prepare_items()
 	 **************************************************************************/
-	protected function process_bulk_action() {
+	public function process_bulk_action() {
+
+		var_dump($this->current_action());
 
 		if($this->current_action() !== false) {
-			//nonce check here
-			$tags = $_REQUEST[$this->_args['singular']];
-			if(!is_array($tags)) {
-				$tags = array($tags);
-			}
 
-			switch ($this->current_action()) {
-				case 'flagged':
-					foreach($tags as $tag) {
-						$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
-						WPDKATags::change_tag_state($tag_object,WPDKATags::TAG_STATE_FLAGGED);
-					}
-					echo 'success';
-					break;
-				case 'approved':
-					foreach($tags as $tag) {
-						$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
-						WPDKATags::change_tag_state($tag_object,WPDKATags::TAG_STATE_APPROVED);
-					}
-					echo 'success';
-					break;
-				case 'unapproved':
-					foreach($tags as $tag) {
-						$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
-						WPDKATags::change_tag_state($tag_object,WPDKATags::TAG_STATE_UNAPPROVED);
-					}
-					echo 'success';
-					break;
-			}
+			if(isset($_REQUEST[$this->_args['singular']])) {
+				//nonce check here
+				$tags = $_REQUEST[$this->_args['singular']];
+				if(!is_array($tags)) {
+					$tags = array($tags);
+				}
+
+				switch ($this->current_action()) {
+					case 'flagged':
+						foreach($tags as $tag) {
+							$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
+							WPDKATags::change_tag_state($tag_object,WPDKATags::TAG_STATE_FLAGGED);
+						}
+						echo 'success';
+						break;
+					case 'approved':
+						foreach($tags as $tag) {
+							$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
+							WPDKATags::change_tag_state($tag_object,WPDKATags::TAG_STATE_APPROVED);
+						}
+						echo 'success';
+						break;
+					case 'unapproved':
+						foreach($tags as $tag) {
+							$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
+							WPDKATags::change_tag_state($tag_object,WPDKATags::TAG_STATE_UNAPPROVED);
+						}
+						echo 'success';
+						break;
+					case 'rename':
+						foreach($tags as $tag) {
+							$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
+							WPDKATags::change_tag_value($tag_object,'test');
+						}
+
+						break;
+				}
+			}	
 
 		}
+		
+		// if(isset($_REQUEST['_wp_http_referer'])) {
+		// 	add_action('init', function() {
+		// 		wp_safe_redirect($_REQUEST['_wp_http_referer']);
+		// 	});
+			
+		// }
 
 	}
 
@@ -326,20 +350,60 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		) );
 
 		// AJAX call for change tag status TODO
-		$ajaxurl = admin_url( 'admin-ajax.php' );
-		echo <<<EOTEXT
-<script type="text/javascript"><!--
-	function changeTagStatus(tag) {
-		var ajaxurl = '$ajaxurl';
-		var token = 'somestring' + tag;
-		var element = document.getElementById(tag);
-		var status = element.options[element.selectedIndex].value;
+		//$ajaxurl = admin_url( 'admin-ajax.php' );
+		//
+		?>
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		var current_parent,
+		temp_content,
+		guid;
+		$('.column-title').on('click', '.wpdkatags-rename', function(e) {
+			e.preventDefault();
 
-		// AJAX call needed TODO
+			if(current_parent && temp_content) {
+				current_parent.html(temp_content);
+			}
 
-	}
-//--></script>
-EOTEXT;
+			current_parent = $(this).parents('td');
+			temp_content = current_parent.html();
+			guid = $(this).attr('id');
+
+			var title = current_parent.find('strong').text();
+
+			current_parent.html('<input type="text" value="'+title+'"><input class="btn wpdkatags-rename-submit" type="button" value="Rename">');
+
+		});
+
+		$('.column-title').on('click', '.wpdkatags-rename-submit', function(e) {
+			e.preventDefault();
+			console.log(guid);	
+
+			// $.ajax({
+				// 	url: ajaxurl,
+				// 	data:{
+				// 		action: link.attr('id'),
+				// 		tag_guid: current_tag.attr('id'),
+				// 		object_guid: $('.single-material').attr('id'),
+				// 		token: WPDKATags.token
+				// 	},
+				// 	dataType: 'JSON',
+				// 	type: 'POST',
+				// 	success:function(data){
+				// 		console.log(data);
+				// 		confirmModal.modal('hide');
+				// 	},
+				// 	error: function(errorThrown){
+				// 		confirmModal.modal('hide');
+				// 		console.log("error.");
+				// 		console.log(errorThrown);
+				// 	}
+				// });
+		});
+
+	});
+</script>
+		<?php
 	}
 	
 }

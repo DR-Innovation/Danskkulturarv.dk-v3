@@ -3841,17 +3841,6 @@ a.list-group-item.active > .badge,
 .show {
   display: block !important;
 }
-
-.collections-container {
-  max-height: 250px;
-  overflow: scroll;
-}
-
-#collection-image {
-  max-height: 75px;
-  max-width: 75px;
-}
-
 .invisible {
   visibility: hidden;
 }
@@ -4275,6 +4264,7 @@ a.dropdown-toggle:active {
   padding: 10px 0 0 10px;
 }
 #advanced-search-container .btn.filter-btn {
+  position: relative;
   height: 20px;
   margin: 5px 0;
   text-align: left;
@@ -4299,9 +4289,9 @@ a.dropdown-toggle:active {
   text-shadow: none;
 }
 #advanced-search-container .btn.filter-btn i.icon-remove-sign {
+  position: absolute;
   visibility: hidden;
-  margin-right: -4px;
-  float: right;
+  right: 0;
 }
 #advanced-search-container .btn.filter-btn.active {
   color: #ffffff;
@@ -4312,9 +4302,9 @@ a.dropdown-toggle:active {
   visibility: visible;
 }
 #advanced-search-container .btn.filter-btn.filter-btn-all i.icon-ok {
+  position: absolute;
   visibility: hidden;
-  margin-right: -4px;
-  float: right;
+  right: 0;
 }
 #advanced-search-container .btn.filter-btn.filter-btn-all.active i.icon-ok {
   visibility: visible;
@@ -4637,6 +4627,7 @@ article.container .single-material {
   text-decoration: none;
 }
 .nav.info a.tag {
+  position: relative;
   margin-right: 3px;
   padding: 4px 10px;
   background: #eeeded;
@@ -4646,27 +4637,30 @@ article.container .single-material {
   word-wrap: break-word;
   color: #222222;
   margin-bottom: 6px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.nav.info a.usertag {
+  padding: 4px 24px 4px 10px;
 }
 .nav.info a.tag:hover {
   background: #2f94fd;
   color: #ffffff;
-  cursor: pointer;
 }
-
-i.flag-tag {
-  visibility: hidden;
-  color: black;
-}
-
-a.tag:hover > i.flag-tag {
+.nav.info a.tag:hover > i.flag-tag {
   visibility: visible;
-  color: black;
 }
-
-.nav.info a.no-tag {
+.nav.info .no-tag {
   padding: 0;
   background: none;
   color: #646464;
+}
+i.flag-tag {
+  top: 4px;
+  position: absolute;
+  right: 10px;
+  visibility: hidden;
+  color: #ffffff;
 }
 .type-page {
   padding: 20px 20px 20px 20px;
@@ -5002,21 +4996,6 @@ html[xmlns] .slides {
     right: 0;
   }
 }
-@media only screen and (min-width: 481px) {
-  /*
-  Custom styles for tiny screen / phone (481 and up)
-  
-  This stylesheet is loaded for larger devices. It's set to 
-  481px because at 480px it would load on a landscaped iPhone.
-  This isn't ideal because then you would be loading all those
-  extra styles on that same mobile connection. 
-  
-  A word of warning. This size COULD be a larger mobile device,
-  so you still want to keep it pretty light and simply expand
-  upon your base.less styles.
-  
-  -------------------------------------------------- */
-}
 @media only screen and (min-width: 768px) {
   /*
   Custom styles for small screen / tablet (768 and up)
@@ -5136,13 +5115,4 @@ html[xmlns] .slides {
     font-size: 64px;
     line-height: 72px;
   }
-}
-@media only screen and (min-width: 1200px) {
-  /*
-  Custom styles for large screen / wide desktop (1200 and up)
-  
-  You can add some advanced styles here if you like. This kicks in
-  on larger screens.
-  
-  -------------------------------------------------- */
 }

@@ -135,13 +135,19 @@ final class WPDKATags {
 	 */
 	public function add_menu_items(){
 		global $submenu;
-		add_menu_page(
+		$page = add_menu_page(
 			'WP DKA Tags',
 			'User Tags',
 			'activate_plugins',
 			'wpdkatags',
 			array(&$this,'render_tags_page')
 			);
+		add_action( 'load-' . $page , array(&$this,'load_tags_page'));
+	}
+
+	public function load_tags_page() {
+		//manipulate requests and redirect here...
+		var_dump("where is this printed");
 	}
 
 	/**
@@ -151,10 +157,10 @@ final class WPDKATags {
 	 */
 	public function render_tags_page() {
 
-		?>
-		<div class="wrap">
-			<div id="icon-users" class="icon32"><br/></div>
-			<?php
+		// $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] :(isset($_REQUEST['action2']) ? $_REQUEST['action'] : false));
+
+		// $this->process_bulk_action($action);
+
 			$page = (isset($_GET['subpage']) ? $_GET['subpage'] : "");
 			$renderTable;
 			switch($page) {
@@ -165,18 +171,16 @@ final class WPDKATags {
 				$renderTable = new WPDKATags_List_Table();
 			}
 
-			// if (isset($_GET['action'])) {
-			// 	switch ($_GET['action']) {
-			// 		case 'delete':
-			// 			// remove tag
-			// 			// redirecting to list
-			// 		wp_die(sprintf(__('%s removed', 'wpdkatags'), $_GET['dka-tag']));
-			// 		case 'edit':
-			// 		$this->render_edit_tag();
-			// 	}
-			// } else {
-				$this->render_list_table($renderTable);
-			// }
+			//$renderTable->process_bulk_action();
+
+			?>
+
+			<div class="wrap">
+			<div id="icon-users" class="icon32"><br/></div>
+
+			<?php
+
+			$this->render_list_table($renderTable);
 			
 			?>
 		</div>
@@ -197,6 +201,9 @@ final class WPDKATags {
 			<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
 			<?php if(isset($_REQUEST['subpage'])) : ?>
 			<input type="hidden" name="subpage" value="<?php echo $_REQUEST['subpage']; ?>" />
+			<?php endif; ?>
+			<?php if(isset($_REQUEST['dka-tag'])) : ?>
+			<input type="hidden" name="dka-tag" value="<?php echo $_REQUEST['dka-tag']; ?>" />
 			<?php endif; ?>
 			<?php $table->views(); ?>
 			<?php $table->display(); ?>
@@ -223,7 +230,6 @@ final class WPDKATags {
 			}
 		}
 	}
-
 
 	/** ************************************************************************
 	 * Ajax calls
@@ -311,7 +317,7 @@ final class WPDKATags {
 		// Strip out any url-encoded stuff
 		$clear = urldecode($clear);
 		// Replace non-AlNum characters with space
-		$clear = preg_replace('/[^A-Za-z0-9]/', ' ', $clear);
+		//$clear = preg_replace('/[^A-Za-z0-9]/', ' ', $clear);
 		// Replace Multiple spaces with single space
 		$clear = preg_replace('/ +/', ' ', $clear);
 		// Trim the string of leading/trailing space
@@ -339,9 +345,12 @@ final class WPDKATags {
 			throw new \RuntimeException("Tag already exists");
 		}
 
-		if($this->_add_tag($_POST['object_guid'],$tag)) {
+		$tag_object = $this->_add_tag($_POST['object_guid'],$tag);
+
+		if($tag_object) {
 			$response = array(
 				'title' => $tag,
+				'guid' => $tag_object->GUID,
 				'link' => WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag))
 				);
 		} else {
@@ -396,6 +405,8 @@ final class WPDKATags {
 			//Set relation between object and tag
 			WPChaosClient::instance()->ObjectRelation()->Create(esc_html($object_guid),$tag->GUID,self::TAG_RELATION_ID);
 
+			return $tag;
+
 		} catch(\Exception $e) {
 			error_log('CHAOS Error when adding tag: '.$e->getMessage());
 			return false;
@@ -423,6 +434,28 @@ final class WPDKATags {
 				error_log('CHAOS Error when changing tag state: '.$e->getMessage());
 			}
 		}
+		return false;
+	}
+
+	/**
+	 * Change state on a given tag object
+	 * @param  WPChaosObject $tag_object
+	 * @param  string        $new_state
+	 * @return boolean
+	 */
+	public static function change_tag_value(WPChaosObject $tag_object,$new_value) {
+		
+		try {
+
+			$metadataXML = $tag_object->get_metadata(self::METADATA_SCHEMA_GUID);
+			$metadataXML[0] = $new_value;
+
+			$tag_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+			return true;
+		} catch(\Exception $e) {
+			error_log('CHAOS Error when changing tag value: '.$e->getMessage());
+		}
+
 		return false;
 	}
 
@@ -546,7 +579,12 @@ final class WPDKATags {
 
 			//Iff status == active
 			if($status == 2) {
-				$value .= '<input type="text" value="" id="usertag-add" class=""><button type="button" id="usertag-submit" class="btn">Add tag</button>';
+
+				$value .= '<div class="input-group">';
+				$value .= '<input type="text" class="form-control" id="usertag-add" value="">';
+				$value .= '<span class="input-group-btn"><button class="btn btn-default" type="button" id="usertag-submit">Add tag</button></span>';
+				$value .= '</div>';
+
 				wp_enqueue_script('dka-usertags',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
 				$translation_array = array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
@@ -646,13 +684,15 @@ final class WPDKATags {
 					try {
 						$relation_guids = array();
 
+						$page_index = (WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_PAGE) ?: 0);
+
 						//Get user tags based on substrings
 						$response = WPChaosClient::instance()->Object()->Get(
 							$tag_query,   // Search query
 							null,   // Sort
 							false, //tags use sessionid
-							0,      // pageIndex
-							100,      // pageSize
+							$page_index,      // pageIndex
+							get_option("wpchaos-searchsize",20),      // pageSize
 							false,   // includeMetadata
 							false,   // includeFiles
 							true    // includeObjectRelations

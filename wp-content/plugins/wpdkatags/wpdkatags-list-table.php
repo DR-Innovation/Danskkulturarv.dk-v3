@@ -20,15 +20,17 @@ class WPDKATags_List_Table extends WP_List_Table {
 	protected $title;
 	protected $states;
 	
-	public function __construct(){
+	public function __construct($args = array()){
 		global $status, $page;
-				
-		//Set parent defaults
-		parent::__construct( array(
+
+		$args = wp_parse_args( $args, array(
 			'singular'  => self::NAME_SINGULAR,
 			'plural'    => self::NAME_PLURAL,
 			'ajax'      => false        //does this table support ajax?
 		) );
+				
+		//Set parent defaults
+		parent::__construct( $args );
 
 		$this->title = __('User Tags', 'wpdkatags');
 		$this->states = array(
