@@ -331,10 +331,10 @@ function dka_social_share($args = array()) {
 	));
 	extract($args, EXTR_SKIP);
 
-	echo '<a class="social-share" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer.php?u='.$link.'" title="'.sprintf(__('Share on %s','dka'),'Facebook').'"><i class="icon-facebook-sign"></i></a>'."\n";
-	echo '<a class="social-share" target="_blank" rel="nofollow" href="https://twitter.com/home?status='.$link.'+%23kulturarv" title="'.sprintf(__('Share on %s','dka'),'Twitter').'"><i class="icon-twitter"></i></a>'."\n";
-	echo '<a class="social-share" target="_blank" rel="nofollow" href="https://plus.google.com/share?url='.$link.'" title="'.sprintf(__('Share on %s','dka'),'Google Plus').'"><i class="icon-google-plus-sign"></i></a>'."\n";
-	echo '<a target="_blank" rel="nofollow" href="mailto:?subject='.rawurlencode(get_bloginfo('title')).'&amp;body='.$link.'" title="'.__('Send as e-mail','dka').'"><i class="icon-envelope"></i></a>'."\n";
+	echo '<a class="social-share icon-facebook-sign" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer.php?u='.$link.'" title="'.sprintf(__('Share on %s','dka'),'Facebook').'"><i class=""></i></a>'."\n";
+	echo '<a class="social-share icon-twitter" target="_blank" rel="nofollow" href="https://twitter.com/home?status='.$link.'+%23kulturarv" title="'.sprintf(__('Share on %s','dka'),'Twitter').'"></a>'."\n";
+	echo '<a class="social-share icon-google-plus-sign" target="_blank" rel="nofollow" href="https://plus.google.com/share?url='.$link.'" title="'.sprintf(__('Share on %s','dka'),'Google Plus').'"></a>'."\n";
+	echo '<a class="icon-envelope" target="_blank" rel="nofollow" href="mailto:?subject='.rawurlencode(get_bloginfo('title')).'&amp;body='.$link.'" title="'.__('Send as e-mail','dka').'"></a>'."\n";
 
 }
 

@@ -69,12 +69,14 @@ final class WPDKATags {
 				add_action('admin_menu', array(&$this,'add_menu_items'));
 				add_filter('wpchaos-config',array(&$this,'add_chaos_settings'));
 
+				// Rename tag
+				add_action('wp_ajax_wpdkatags_rename_tag', array(&$this,'ajax_admin_rename_tag') );
+
 				// Submit tag
 				add_action('wp_ajax_wpdkatags_submit_tag', array(&$this,'ajax_submit_tag') );
 				add_action('wp_ajax_nopriv_wpdkatags_submit_tag', array(&$this,'ajax_submit_tag') );
 
-				// Change tag state
-				//add_action('wp_ajax_wpdkatags_change_tag_state', array(&$this,'ajax_change_tag_stat_admin') );
+				// Flag tag
 				add_action('wp_ajax_wpdkatags_flag_tag', array(&$this,'ajax_flag_tag') );
 				add_action('wp_ajax_nopriv_wpdkatags_flag_tag', array(&$this,'ajax_flag_tag') );
 
@@ -146,8 +148,89 @@ final class WPDKATags {
 	}
 
 	public function load_tags_page() {
-		//manipulate requests and redirect here...
-		var_dump("where is this printed");
+
+		$action = (isset($_REQUEST['action']) ? $_REQUEST['action'] :(isset($_REQUEST['action2']) ? $_REQUEST['action'] : false));
+
+		if($action && $action != -1 && isset($_REQUEST[WPDKATagObjects_List_Table::NAME_SINGULAR])) {
+			//nonce check here
+			
+			$tags = $_REQUEST[WPDKATagObjects_List_Table::NAME_SINGULAR];
+			if(!is_array($tags)) {
+				$tags = array($tags);
+			}
+
+			$current_page = remove_query_arg(array('_wpnonce','action','action2',WPDKATagObjects_List_Table::NAME_SINGULAR,'_wp_http_referer','dka-tag-new'));
+			$count = 0;
+
+			//TODO: instead of lazy loading objects, load em all at once
+			switch($action) {
+					case 'flagged':
+						foreach($tags as $tag) {
+							$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
+							if(WPDKATags::change_tag_state($tag_object,WPDKATags::TAG_STATE_FLAGGED)) {
+								$count++;
+							}
+						}
+						$current_page = add_query_arg('flagged',count($tags),$current_page);
+						break;
+					case 'approved':
+						foreach($tags as $tag) {
+							$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
+							if(WPDKATags::change_tag_state($tag_object,WPDKATags::TAG_STATE_APPROVED)) {
+								$count++;
+							}
+						}
+						$current_page = add_query_arg('approved',count($tags),$current_page);
+						break;
+					case 'unapproved':
+						foreach($tags as $tag) {
+							$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
+							if(WPDKATags::change_tag_state($tag_object,WPDKATags::TAG_STATE_UNAPPROVED)) {
+								$count++;
+							}
+						}
+						
+						break;
+					case 'rename':
+						if(isset($_REQUEST['dka-tag-new'])) {
+							$new_tag = $this->_escape_tag_value($_REQUEST['dka-tag-new']);
+							if($new_tag) {
+								foreach($tags as $tag) {
+									$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
+									if(WPDKATags::change_tag_value($tag_object,$new_tag)) {
+										$count++;
+									}
+								}
+							}
+						}
+						break;
+			}
+			$current_page = add_query_arg($action,$count,$current_page);
+
+			wp_safe_redirect($current_page);
+
+		} else if(isset($_REQUEST['flagged'])) {
+			$count = intval($_REQUEST['flagged']);
+			add_action( 'admin_notices', function() use ($count) {
+				echo '<div class="updated"><p>'.sprintf(_n('%d tag flagged','%d tags flagged', $count,'wpdkatags'),$count).'</p></div>';
+			} );
+		} else if(isset($_REQUEST['approved'])) {
+			$count = intval($_REQUEST['approved']);
+			add_action( 'admin_notices', function() use ($count) {
+				echo '<div class="updated"><p>'.sprintf(_n('%d tag approved','%d tags approved', $count,'wpdkatags'),$count).'</p></div>';
+			} );
+		} else if(isset($_REQUEST['unapproved'])) {
+			$count = intval($_REQUEST['unapproved']);
+			add_action( 'admin_notices', function() use ($count) {
+				echo '<div class="updated"><p>'.sprintf(_n('%d tag unapproved','%d tags unapproved', $count,'wpdkatags'),$count).'</p></div>';
+			} );
+		} else if(isset($_REQUEST['rename'])) {
+			$count = intval($_REQUEST['rename']);
+			add_action( 'admin_notices', function() use ($count) {
+				echo '<div class="updated"><p>'.sprintf(_n('%d tag renamed','%d tags renamed', $count,'wpdkatags'),$count).'</p></div>';
+			} );
+		}
+
 	}
 
 	/**
@@ -156,10 +239,6 @@ final class WPDKATags {
 	 * @return void
 	 */
 	public function render_tags_page() {
-
-		// $action = (isset($_REQUEST['action']) ? $_REQUEST['action'] :(isset($_REQUEST['action2']) ? $_REQUEST['action'] : false));
-
-		// $this->process_bulk_action($action);
 
 			$page = (isset($_GET['subpage']) ? $_GET['subpage'] : "");
 			$renderTable;
@@ -171,12 +250,10 @@ final class WPDKATags {
 				$renderTable = new WPDKATags_List_Table();
 			}
 
-			//$renderTable->process_bulk_action();
-
 			?>
 
 			<div class="wrap">
-			<div id="icon-users" class="icon32"><br/></div>
+			<div id="icon-edit" class="icon32 icon32-posts-post"><br /></div>
 
 			<?php
 
@@ -213,41 +290,53 @@ final class WPDKATags {
 		return $table;
 	}
 
-	private function render_edit_tag() {
-		?>
-		<h2><?php printf(__('Edit %s', 'wpdkatags'), $_GET['dka-tag']); ?></h2>
-
-		<form method="post">
-			<label for="tag"><?php _e('Tag', 'wpdkatags')?></label>
-			<input id="tag" name="tag" type="text" value="<?php echo $_GET['dka-tag']?>"/>
-			<input type="submit" value="<?php _e('Save', 'wpdkatags')?>" id="submit" class="button-primary" name="submit"/>
-		</form>
-		<?php
-		if (isset($_POST['submit'])) {
-			if (!empty($_POST['tag'])) {
-				// Change tag name.
-				_e('Tag was updated.', 'wpdkatags');
-			}
-		}
-	}
-
 	/** ************************************************************************
 	 * Ajax calls
 	 **************************************************************************/
 
-	/**
-	 * Handle AJAX request to flag a tag from user TODO
-	 * @return void
-	 */
-	public function ajax_change_tag_stat_admin() {
-		// Needs to define tag. Search for tag by ID or something?
-		
-		$new_state = $_GET['state']; 
-		
-		if(in_array($new_state, array(self::TAG_STATE_UNAPPROVED,self::TAG_STATE_APPROVED,self::TAG_STATE_FLAGGED))) {
-			self::change_tag_state($tag, $new_state);
+	public function ajax_admin_rename_tag() {
+
+		if(!isset($_POST['tag_guid'])) {
+			echo "Missing tag guid";
+			throw new \RuntimeException("Missing tag guid");
 		}
-		
+
+		if(!isset($_POST['tag'])) {
+			echo "Invalid tag input";
+			throw new \RuntimeException("Invalid tag input");
+		}
+
+		if(!check_ajax_referer('bulk-'.WPDKATagObjects_List_Table::NAME_PLURAL, 'nonce', false)) {
+			echo "Nonce not valid";
+			throw new \RuntimeException("Nonce not valid");
+		}
+
+		$tag_string = $this->_escape_tag_value($_POST['tag']);
+
+		if($tag_string == "") {
+			echo "Invalid tag input";
+			throw new \RuntimeException("Invalid tag input");
+		}
+
+		$tag = self::get_object_by_guid(esc_html($_POST['tag_guid']),false);
+
+		if(!$tag) {
+			echo "Invalid tag";
+			throw new \RuntimeException("Invalid tag");
+		}
+
+		if(self::change_tag_value($tag, $tag_string)) {
+			$response = array(
+				'tag' => $tag_string
+				);
+		} else {
+			echo "Tag could not be renamed";
+			throw new \RuntimeException("Tag could not be flagged");  
+		}
+
+		echo json_encode($response);
+		die();
+
 	}
 
 	/**
@@ -310,18 +399,7 @@ final class WPDKATags {
 			throw new \RuntimeException("Invalid tag input");
 		}
 
-		// Strip HTML Tags
-		$clear = strip_tags($_POST['tag']);
-		// Clean up things like &amp;
-		$clear = html_entity_decode($clear);
-		// Strip out any url-encoded stuff
-		$clear = urldecode($clear);
-		// Replace non-AlNum characters with space
-		//$clear = preg_replace('/[^A-Za-z0-9]/', ' ', $clear);
-		// Replace Multiple spaces with single space
-		$clear = preg_replace('/ +/', ' ', $clear);
-		// Trim the string of leading/trailing space
-		$tag = trim($clear);
+		$tag = $this->_escape_tag_value($_POST['tag']);
 
 		if($tag == "") {
 			echo "Invalid tag input";
@@ -366,6 +444,23 @@ final class WPDKATags {
 		
 		echo json_encode($response);
 		die();
+	}
+
+	private function _escape_tag_value($string) {
+		// Strip HTML Tags
+		$string = strip_tags($string);
+		// Clean up things like &amp;
+		$string = html_entity_decode($string);
+		// Strip out any url-encoded stuff
+		$string = urldecode($string);
+		// Replace non-AlNum characters with space
+		//$string = preg_replace('/[^A-Za-z0-9]/', ' ', $string);
+		// Replace Multiple spaces with single space
+		$string = preg_replace('/ +/', ' ', $string);
+		// Trim the string of leading/trailing space
+		$string = trim($string);
+
+		return $string;
 	}
 
 	/**
@@ -426,10 +521,17 @@ final class WPDKATags {
 			try {
 
 				$metadataXML = $tag_object->get_metadata(self::METADATA_SCHEMA_GUID);
-				$metadataXML['status'] = $new_state;
+				
+				if($metadataXML['status'] != $new_state) {
+					
+					$metadataXML['status'] = $new_state;
+					$tag_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+					return true;
 
-				$tag_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
-				return true;
+				}
+
+				return false;
+				
 			} catch(\Exception $e) {
 				error_log('CHAOS Error when changing tag state: '.$e->getMessage());
 			}
@@ -448,10 +550,14 @@ final class WPDKATags {
 		try {
 
 			$metadataXML = $tag_object->get_metadata(self::METADATA_SCHEMA_GUID);
-			$metadataXML[0] = $new_value;
-
-			$tag_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
-			return true;
+			if($metadataXML[0] != $new_value) {
+				$metadataXML[0] = $new_value;
+				$tag_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+				return true;
+			}
+			
+			
+			return false;
 		} catch(\Exception $e) {
 			error_log('CHAOS Error when changing tag value: '.$e->getMessage());
 		}
@@ -515,17 +621,20 @@ final class WPDKATags {
 	public function define_usertags_raw_filter($value,WPChaosObject $object) {
 		$relation_guids = array();
 		foreach($object->ObjectRelations as $relation) {
-			$guid_property = "Object1GUID";
+			$guid_property = "Object2GUID"; //tag is always saved here.
+			//Because we know which relation is tag, we can safely
+			//skip the relations where GUID == Object2GUID
 			if($object->GUID == $relation->{$guid_property}) {
-				$guid_property = "Object2GUID";
+				continue;
 			}
-			$relation_guids[] = "GUID:".$relation->{$guid_property};
+			$relation_guids[] = $relation->{$guid_property};
 		}
 		$tags = array();
 		if(!empty($relation_guids)) {
 			try {
+				//+AND+(!".self::FACET_KEY_STATUS.":".self::TAG_STATE_FLAGGED.")
 				$serviceResult = WPChaosClient::instance()->Object()->Get(
-					"(".implode("+OR+", $relation_guids).")+AND+ObjectTypeID:".self::TAG_TYPE_ID,   // Search query
+					"(GUID:(".implode("+OR+", $relation_guids).")+AND+(ObjectTypeID:".self::TAG_TYPE_ID."))",   // Search query
 					null,   // Sort
 					false,   // Use session instead of AP
 					0,      // pageIndex
@@ -570,7 +679,8 @@ final class WPDKATags {
 					continue;
 				}
 				$link = WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag_meta));
-				$value .= '<a class="usertag tag" href="'.$link.'" title="'.esc_attr($tag_meta).'">'.$tag_meta.'<i class="icon-remove flag-tag" id="'.$tag->GUID.'"></i></a>'."\n";
+				$flag = ($tag_meta['status'] == self::TAG_STATE_UNAPPROVED ? '<i class="icon-remove flag-tag" id="'.$tag->GUID.'"></i>' : '');
+				$value .= '<a class="usertag tag" href="'.$link.'" title="'.esc_attr($tag_meta).'">'.$tag_meta.$flag.'</a>'."\n";
 			}
 			if(empty($tags)) {
 				$value .= '<span class="no-tag">'.__('No tags','wpdka').'</span>'."\n";

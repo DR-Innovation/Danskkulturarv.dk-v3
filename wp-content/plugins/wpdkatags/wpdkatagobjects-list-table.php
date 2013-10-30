@@ -22,11 +22,11 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 			'ajax'      => false        //does this table support ajax?
 		) );
 
-		var_dump(self::NAME_SINGULAR);
+		$this->_current_tag = esc_html($_GET[parent::NAME_SINGULAR]);
 
-		$this->_current_tag = $_GET[parent::NAME_SINGULAR];
+		$this->title = '<a href="'.add_query_arg('page','wpdkatags','admin.php').'">'.__('User Tags', 'wpdkatags').'</a> &raquo; '.$this->get_current_tag();
 
-		$this->title = sprintf(__('User Tag: %s', 'wpdkatags'), $this->get_current_tag());
+		wp_enqueue_script('dka-usertags-admin',plugins_url( 'js/admin_functions.js' , __FILE__ ),array('jquery'),'1.0',true);
 	}
 
 	/**
@@ -43,7 +43,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	public function get_views() {
 
 		$facets = array();
-		$query = "(".WPDKATags::FACET_KEY_VALUE.":".$this->get_current_tag().")";
+		$query = "(".WPDKATags::FACET_KEY_VALUE.":(".WPChaosClient::escapeSolrValue($this->get_current_tag())."))";
 		$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(WPDKATags::FACET_KEY_STATUS)), $query, false);
 
 		foreach($facetsResponse->Index()->Results() as $facetResult) {
@@ -78,7 +78,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	 * @return string
 	 */
 	protected function column_default($item, $column_name) {
-		//$selects = array(WPDKATags::TAG_STATE_UNAPPROVED, WPDKATags::TAG_STATE_FLAGGED, WPDKATags::TAG_STATE_APPROVED);
+
 		switch($column_name) {
 			case 'material_title':
 				$material = $this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID];
@@ -94,8 +94,8 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 					case 'Flagged':
 						$status = '<span style="color:red">'.$status.'</span>';
 						break;
-					default:
-
+					case 'Unapproved':
+						$status = '<span style="color:orange">'.$status.'</span>';
 				}
 
 				return $status;
@@ -174,9 +174,8 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	 */
 	public function get_sortable_columns() {
 		$sortable_columns = array(
-			'material_title'     => array('title',false), //true means it's already sorted
-			'status'    => array('status',false),
-			'date'      => array('date',true)
+			'status'    => array(WPDKATags::FACET_KEY_STATUS,false),
+			'date'      => array(WPDKATags::FACET_KEY_CREATED,true) //true means it's already sorted
 		);
 		return $sortable_columns;
 	}
@@ -198,75 +197,13 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	 **************************************************************************/
 	public function get_bulk_actions() {
 		$actions = array(
-			'delete' => __('Delete', 'wpdkatags'),
-			'approve' => __('Approve', 'wpdkatags'),
-			'unapprove' => __('Unapprove', 'wpdkatags')
+			'rename' => __('Rename','wpdkatags'),		
+			'approved' => __('Approve', 'wpdkatags'),
+			'unapproved' => __('Unapprove', 'wpdkatags'),
+			'flagged' => __('Flag', 'wpdkatags'),
+			'delete' => __('Delete', 'wpdkatags')
 		);
 		return $actions;
-	}
-	
-	
-	/** ************************************************************************
-	 * Optional. You can handle your bulk actions anywhere or anyhow you prefer.
-	 * For this example package, we will handle it in the class to keep things
-	 * clean and organized.
-	 * 
-	 * @see $this->prepare_items()
-	 **************************************************************************/
-	public function process_bulk_action() {
-
-		var_dump($this->current_action());
-
-		if($this->current_action() !== false) {
-
-			if(isset($_REQUEST[$this->_args['singular']])) {
-				//nonce check here
-				$tags = $_REQUEST[$this->_args['singular']];
-				if(!is_array($tags)) {
-					$tags = array($tags);
-				}
-
-				switch ($this->current_action()) {
-					case 'flagged':
-						foreach($tags as $tag) {
-							$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
-							WPDKATags::change_tag_state($tag_object,WPDKATags::TAG_STATE_FLAGGED);
-						}
-						echo 'success';
-						break;
-					case 'approved':
-						foreach($tags as $tag) {
-							$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
-							WPDKATags::change_tag_state($tag_object,WPDKATags::TAG_STATE_APPROVED);
-						}
-						echo 'success';
-						break;
-					case 'unapproved':
-						foreach($tags as $tag) {
-							$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
-							WPDKATags::change_tag_state($tag_object,WPDKATags::TAG_STATE_UNAPPROVED);
-						}
-						echo 'success';
-						break;
-					case 'rename':
-						foreach($tags as $tag) {
-							$tag_object = WPDKATags::get_object_by_guid(esc_html($tag),false);
-							WPDKATags::change_tag_value($tag_object,'test');
-						}
-
-						break;
-				}
-			}	
-
-		}
-		
-		// if(isset($_REQUEST['_wp_http_referer'])) {
-		// 	add_action('init', function() {
-		// 		wp_safe_redirect($_REQUEST['_wp_http_referer']);
-		// 	});
-			
-		// }
-
 	}
 
 	/**
@@ -281,20 +218,25 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		//Set column headers
 		$hidden = array();
 		$this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());
-		
-		//Process actions
-		$this->process_bulk_action();
 
-		$query = WPDKATags::FACET_KEY_VALUE.":".$this->get_current_tag()."+AND+ObjectTypeID:".WPDKATags::TAG_TYPE_ID;
+		//Get tags by name
+		$query = "(".WPDKATags::FACET_KEY_VALUE.":(".WPChaosClient::escapeSolrValue($this->get_current_tag())."))+AND+ObjectTypeID:".WPDKATags::TAG_TYPE_ID;
 		if(isset($_GET['tag_status'])) {
 			$query .= "+AND+".WPDKATags::FACET_KEY_STATUS.":".$_GET['tag_status'];
+		}
+
+		$sort = null;
+		if(isset($_REQUEST['orderby']) && isset($_REQUEST['order'])) {
+			$orderby = (in_array($_REQUEST['orderby'],array(WPDKATags::FACET_KEY_STATUS,WPDKATags::FACET_KEY_CREATED)) ? $_REQUEST['orderby'] : WPDKATags::FACET_KEY_CREATED);
+			$order = (in_array($_REQUEST['order'],array('asc','desc')) ? $_REQUEST['order'] : 'asc');
+			$sort = $orderby."+".$order;
 		}
 
 		//Get tag objects by name
 		//A tag is NOT unique by name, as the object<->tag relation is 1:1
 		$serviceResult = WPChaosClient::instance()->Object()->Get(
 			$query,   // Search query
-			null,   // Sort
+			$sort,   // Sort
 			false,   // Use session instead of AP
 			$this->get_pagenum()-1,      // pageIndex
 			$per_page,      // pageSize
@@ -306,36 +248,38 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		//Instantiate tags from serviceResult
 		$tags = WPChaosObject::parseResponse($serviceResult);
 
-		//Loop through tags to get and cache metadata and get relations
-		$relation_guids = array();
-		foreach($tags as $object) {
-			$this->_tags_metadata[$object->GUID] = $object->metadata(
-				array(WPDKATags::METADATA_SCHEMA_GUID),
-				array(''),
-				null
-			);
-			foreach($object->ObjectRelations as $relation) {
-				$relation_guids[] = "GUID:".$relation->Object1GUID;
-				$relation_guids_map[$relation->Object1GUID] = $object->GUID;
+		if(!empty($tags)) {
+			//Loop through tags to get and cache metadata and get relations
+			$relation_guids = array();
+			foreach($tags as $object) {
+				$this->_tags_metadata[$object->GUID] = $object->metadata(
+					array(WPDKATags::METADATA_SCHEMA_GUID),
+					array(''),
+					null
+				);
+				foreach($object->ObjectRelations as $relation) {
+					$relation_guids[] = "GUID:".$relation->Object1GUID;
+					$relation_guids_map[$relation->Object1GUID] = $object->GUID;
+				}
 			}
-		}
 
-		//Get the related objects to the tags.
-		//The quantity we get here should at most be the quantity we got in $serviceResult
-		$serviceResult2 = WPChaosClient::instance()->Object()->Get(
-			"(".implode("+OR+", $relation_guids).")",   // Search query
-			null,   // Sort
-			null,   // AP injected
-			0,      // pageIndex
-			$per_page,      // pageSize
-			true,   // includeMetadata
-			false,   // includeFiles
-			false    // includeObjectRelations
-		);
+			//Get the related objects to the tags.
+			//The quantity we get here should at most be the quantity we got in $serviceResult
+			$serviceResult2 = WPChaosClient::instance()->Object()->Get(
+				"(".implode("+OR+", $relation_guids).")",   // Search query
+				null,   // Sort
+				null,   // AP injected
+				0,      // pageIndex
+				$per_page,      // pageSize
+				true,   // includeMetadata
+				false,   // includeFiles
+				false    // includeObjectRelations
+			);
 
-		//Loop through objects to make them available for later use
-		foreach($serviceResult2->MCM()->Results() as $object) {
-			$this->_tags_related_item[$object->GUID] = new WPChaosObject($object);
+			//Loop through objects to make them available for later use
+			foreach($serviceResult2->MCM()->Results() as $object) {
+				$this->_tags_related_item[$object->GUID] = new WPChaosObject($object);
+			}			
 		}
 		
 		//Set items
@@ -349,61 +293,6 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 			'total_pages' => ceil($serviceResult->MCM()->TotalCount()/$per_page)
 		) );
 
-		// AJAX call for change tag status TODO
-		//$ajaxurl = admin_url( 'admin-ajax.php' );
-		//
-		?>
-<script type="text/javascript">
-	jQuery(document).ready(function($){
-		var current_parent,
-		temp_content,
-		guid;
-		$('.column-title').on('click', '.wpdkatags-rename', function(e) {
-			e.preventDefault();
-
-			if(current_parent && temp_content) {
-				current_parent.html(temp_content);
-			}
-
-			current_parent = $(this).parents('td');
-			temp_content = current_parent.html();
-			guid = $(this).attr('id');
-
-			var title = current_parent.find('strong').text();
-
-			current_parent.html('<input type="text" value="'+title+'"><input class="btn wpdkatags-rename-submit" type="button" value="Rename">');
-
-		});
-
-		$('.column-title').on('click', '.wpdkatags-rename-submit', function(e) {
-			e.preventDefault();
-			console.log(guid);	
-
-			// $.ajax({
-				// 	url: ajaxurl,
-				// 	data:{
-				// 		action: link.attr('id'),
-				// 		tag_guid: current_tag.attr('id'),
-				// 		object_guid: $('.single-material').attr('id'),
-				// 		token: WPDKATags.token
-				// 	},
-				// 	dataType: 'JSON',
-				// 	type: 'POST',
-				// 	success:function(data){
-				// 		console.log(data);
-				// 		confirmModal.modal('hide');
-				// 	},
-				// 	error: function(errorThrown){
-				// 		confirmModal.modal('hide');
-				// 		console.log("error.");
-				// 		console.log(errorThrown);
-				// 	}
-				// });
-		});
-
-	});
-</script>
-		<?php
 	}
 	
 }
