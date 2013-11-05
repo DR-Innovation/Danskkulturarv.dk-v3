@@ -71,12 +71,12 @@
 				'<div class="modal-dialog">'+
 					'<div class="modal-content">'+
 						'<div class="modal-header">'+
-							'<h4 class="modal-title">Bekræftelse</h4>'+
+							'<h4 class="modal-title">'+WPDKATags.confirmTitle+'</h4>'+
 						'</div>'+
 						'<div class="modal-body"></div>'+
 						'<div class="modal-footer">'+
-							'<button id="usertag-flag-confirm" type="button" class="btn btn-primary">Fortsæt</button>'+
-							'<button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>'+
+							'<button id="usertag-flag-confirm" type="button" class="btn btn-primary">'+WPDKATags.yes+'</button>'+
+							'<button type="button" class="btn btn-default" data-dismiss="modal">'+WPDKATags.no+'</button>'+
 						'</div>'+
 					'</div>'+
 				'</div>'+
@@ -91,7 +91,7 @@
 			$('.usertags').on('click','.flag-tag', function(e) {
 				e.preventDefault();
 				current_tag = $(this);
-				confirmModal.find('.modal-body').text('Ønsker du virkelig at flagge dette tag? '+current_tag.parent().text());
+				confirmModal.find('.modal-body').html(WPDKATags.confirmBody+' <div><strong>'+current_tag.parent().text()+'</strong></div>');
 				confirmModal.find('button').attr('disabled',false);
 				confirmModal.modal('show');
 			});

@@ -1,0 +1,12 @@
+
+.wpdkatags-flagged {
+	color:red;
+}
+
+.wpdkatags-approved {
+	color:green;
+}
+
+.wpdkatags-unapproved {
+	color:orange;
+}

@@ -24,9 +24,16 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 
 		$this->_current_tag = esc_html($_GET[parent::NAME_SINGULAR]);
 
-		$this->title = '<a href="'.add_query_arg('page','wpdkatags','admin.php').'">'.__('User Tags', 'wpdkatags').'</a> &raquo; '.$this->get_current_tag();
+		$this->title = '<a href="'.add_query_arg('page',WPDKATags::DOMAIN,'admin.php').'">'.__('DKA User Tags', WPDKATags::DOMAIN).'</a> &raquo; '.$this->get_current_tag();
 
 		wp_enqueue_script('dka-usertags-admin',plugins_url( 'js/admin_functions.js' , __FILE__ ),array('jquery'),'1.0',true);
+		$translation_array = array(
+			'confirmDelete' => __('Are you sure you want to delete this tag?',WPDKATags::DOMAIN),
+			'cancel' => __('Cancel'),
+			'rename' => __('Rename',WPDKATags::DOMAIN),
+			'renameBulk' => __('Rename selected tags',WPDKATags::DOMAIN)
+		);
+		wp_localize_script('dka-usertags-admin', 'WPDKATagObjects', $translation_array );
 	}
 
 	/**
@@ -43,7 +50,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	public function get_views() {
 
 		$facets = array();
-		$query = "(".WPDKATags::FACET_KEY_VALUE.":(".WPChaosClient::escapeSolrValue($this->get_current_tag())."))";
+		$query = "(".WPDKATags::FACET_KEY_VALUE.":(".WPChaosClient::escapeSolrValue($this->get_current_tag()).")) AND (FolderID:".WPDKATags::TAGS_FOLDER_ID.")";
 		$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(WPDKATags::FACET_KEY_STATUS)), $query, false);
 
 		foreach($facetsResponse->Index()->Results() as $facetResult) {
@@ -81,24 +88,18 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 
 		switch($column_name) {
 			case 'material_title':
-				$material = $this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID];
-				return '<a href="'.$material->url.'" target="_blank">'.$material->title.'</a>';
+				if(isset($this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID])) {
+					$material = $this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID];
+					return '<a href="'.$material->url.'" target="_blank">'.$material->title.'</a>';	
+				}
+				return __('Material not found',WPDKATags::DOMAIN);
 			case 'status':
 
 				$status = $this->_tags_metadata[$item->GUID]['status'];
+				$status = strtolower($status);
+				$title = $this->states[$status]['title'];
+				return '<span class="wpdkatags-status wpdkatags-'.$status.'">'.$title.'</span>';
 
-				switch($status) {
-					case 'Approved':
-						$status = '<span style="color:green">'.$status.'</span>';
-						break;
-					case 'Flagged':
-						$status = '<span style="color:red">'.$status.'</span>';
-						break;
-					case 'Unapproved':
-						$status = '<span style="color:orange">'.$status.'</span>';
-				}
-
-				return $status;
 			case 'date':
 				$time = strtotime($this->_tags_metadata[$item->GUID]['created']);
 				$time_diff = time() - $time;
@@ -122,7 +123,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		$actions = array();
 		$current_page = "admin.php?".http_build_query(array('page' => $_REQUEST['page'], 'subpage' => $_REQUEST['subpage'], parent::NAME_SINGULAR => $_REQUEST[parent::NAME_SINGULAR] /*, 'noheader' => true*/));
 
-		$actions['rename'] = '<a class="wpdkatags-rename" href="#" id="'.$item->GUID.'">'.__('Rename','wpdkatags').'</a>';
+		$actions['rename'] = '<a class="wpdkatags-rename" href="#" id="'.$item->GUID.'">'.__('Rename',WPDKATags::DOMAIN).'</a>';
 
 		foreach($this->states as $state_k => $state) {
 			if($this->_tags_metadata[$item->GUID]['status'] != ucfirst($state_k)) {
@@ -160,10 +161,10 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	public function get_columns(){
 		$columns = array(
 			'cb'        => '<input type="checkbox" />',
-			'title'     => __('Title','wpdkatags'),
-			'status'    => __('Status', 'wpdkatags'),
-			'material_title' => __('Material Title','wpdkatags'),
-			'date'      => __('Date', 'wpdkatags')
+			'title'     => __('Title',WPDKATags::DOMAIN),
+			'status'    => __('Status', WPDKATags::DOMAIN),
+			'material_title' => __('Material Title',WPDKATags::DOMAIN),
+			'date'      => __('Date', WPDKATags::DOMAIN)
 		);
 		return $columns;
 	}
@@ -197,11 +198,11 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	 **************************************************************************/
 	public function get_bulk_actions() {
 		$actions = array(
-			'rename' => __('Rename','wpdkatags'),		
-			'approved' => __('Approve', 'wpdkatags'),
-			'unapproved' => __('Unapprove', 'wpdkatags'),
-			'flagged' => __('Flag', 'wpdkatags'),
-			'delete' => __('Delete', 'wpdkatags')
+			'rename' => __('Rename',WPDKATags::DOMAIN),		
+			'approved' => __('Approve', WPDKATags::DOMAIN),
+			'unapproved' => __('Unapprove', WPDKATags::DOMAIN),
+			'flagged' => __('Flag', WPDKATags::DOMAIN),
+			'delete' => __('Delete', WPDKATags::DOMAIN)
 		);
 		return $actions;
 	}
@@ -220,7 +221,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		$this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());
 
 		//Get tags by name
-		$query = "(".WPDKATags::FACET_KEY_VALUE.":(".WPChaosClient::escapeSolrValue($this->get_current_tag())."))+AND+ObjectTypeID:".WPDKATags::TAG_TYPE_ID;
+		$query = "(".WPDKATags::FACET_KEY_VALUE.":(".WPChaosClient::escapeSolrValue($this->get_current_tag()).")) AND (ObjectTypeID:".WPDKATags::TAG_TYPE_ID.") AND (FolderID:".WPDKATags::TAGS_FOLDER_ID.")";
 		if(isset($_GET['tag_status'])) {
 			$query .= "+AND+".WPDKATags::FACET_KEY_STATUS.":".$_GET['tag_status'];
 		}
@@ -258,7 +259,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 					null
 				);
 				foreach($object->ObjectRelations as $relation) {
-					$relation_guids[] = "GUID:".$relation->Object1GUID;
+					$relation_guids[$relation->Object1GUID] = "GUID:".$relation->Object1GUID;
 					$relation_guids_map[$relation->Object1GUID] = $object->GUID;
 				}
 			}

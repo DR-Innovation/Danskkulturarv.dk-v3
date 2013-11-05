@@ -30,6 +30,11 @@ final class WPDKATags {
 	const TAGS_FOLDER_ID = 470;
 
 	/**
+	 * ID = 467 is "DKA/DKA/delete"
+	 */
+	const TAGS_FOLDER_DELETE_ID = 467;
+
+	/**
 	 * States
 	 */
 	const TAG_STATE_APPROVED = 'Approved';
@@ -80,7 +85,7 @@ final class WPDKATags {
 				add_action('wp_ajax_wpdkatags_flag_tag', array(&$this,'ajax_flag_tag') );
 				add_action('wp_ajax_nopriv_wpdkatags_flag_tag', array(&$this,'ajax_flag_tag') );
 
-				add_action('right_now_content_table_end', array(&$this,'add_usertag_counts'));
+				add_action('right_now_discussion_table_end', array(&$this,'add_usertag_counts'));
 
 			} else {
 
@@ -138,16 +143,20 @@ final class WPDKATags {
 	public function add_menu_items(){
 		global $submenu;
 		$page = add_menu_page(
-			'WP DKA Tags',
-			'User Tags',
+			__('DKA User Tags',self::DOMAIN),
+			__('User Tags',self::DOMAIN),
 			'activate_plugins',
 			'wpdkatags',
-			array(&$this,'render_tags_page')
-			);
+			array(&$this,'render_tags_page'),
+			"div",
+			26
+		);
 		add_action( 'load-' . $page , array(&$this,'load_tags_page'));
 	}
 
 	public function load_tags_page() {
+
+		wp_enqueue_style('wpdkatags-style',plugins_url('css/style.css', __FILE__ ));
 
 		$action = (isset($_REQUEST['action']) ? $_REQUEST['action'] :(isset($_REQUEST['action2']) ? $_REQUEST['action'] : false));
 
@@ -204,33 +213,38 @@ final class WPDKATags {
 							}
 						}
 						break;
+					case 'delete':
+						//When we delete, we actually move the tag to a specific folder.
+						//Consider it a trash can
+						foreach($tags as $tag) {
+							$serviceResult = WPChaosClient::instance()->Link()->Update($tag, self::TAGS_FOLDER_ID, self::TAGS_FOLDER_DELETE_ID);
+							$count++;
+						}
+						break;
 			}
 			$current_page = add_query_arg($action,$count,$current_page);
 
 			wp_safe_redirect($current_page);
 
 		} else if(isset($_REQUEST['flagged'])) {
-			$count = intval($_REQUEST['flagged']);
-			add_action( 'admin_notices', function() use ($count) {
-				echo '<div class="updated"><p>'.sprintf(_n('%d tag flagged','%d tags flagged', $count,'wpdkatags'),$count).'</p></div>';
-			} );
+			$this->_add_admin_notice('flagged',__('flagged',self::DOMAIN));
 		} else if(isset($_REQUEST['approved'])) {
-			$count = intval($_REQUEST['approved']);
-			add_action( 'admin_notices', function() use ($count) {
-				echo '<div class="updated"><p>'.sprintf(_n('%d tag approved','%d tags approved', $count,'wpdkatags'),$count).'</p></div>';
-			} );
+			$this->_add_admin_notice('approved',__('approved',self::DOMAIN));
 		} else if(isset($_REQUEST['unapproved'])) {
-			$count = intval($_REQUEST['unapproved']);
-			add_action( 'admin_notices', function() use ($count) {
-				echo '<div class="updated"><p>'.sprintf(_n('%d tag unapproved','%d tags unapproved', $count,'wpdkatags'),$count).'</p></div>';
-			} );
+			$this->_add_admin_notice('unapproved',__('unapproved',self::DOMAIN));
 		} else if(isset($_REQUEST['rename'])) {
-			$count = intval($_REQUEST['rename']);
-			add_action( 'admin_notices', function() use ($count) {
-				echo '<div class="updated"><p>'.sprintf(_n('%d tag renamed','%d tags renamed', $count,'wpdkatags'),$count).'</p></div>';
-			} );
+			$this->_add_admin_notice('rename',__('renamed',self::DOMAIN));
+		} else if(isset($_REQUEST['delete'])) {
+			$this->_add_admin_notice('delete',__('deleted',self::DOMAIN));
 		}
 
+	}
+
+	private function _add_admin_notice($key, $verb) {
+		$count = intval($_REQUEST[$key]);
+		add_action( 'admin_notices', function() use ($count,$verb) {
+			echo '<div class="updated"><p>'.sprintf(_n('%d tag %s successfully!','%d tags %s successfully!', $count,WPDKATags::DOMAIN),$count,$verb).'</p></div>';
+		} );
 	}
 
 	/**
@@ -297,31 +311,31 @@ final class WPDKATags {
 	public function ajax_admin_rename_tag() {
 
 		if(!isset($_POST['tag_guid'])) {
-			echo "Missing tag guid";
+			_e('Missing tag guid.',self::DOMAIN);
 			throw new \RuntimeException("Missing tag guid");
 		}
 
 		if(!isset($_POST['tag'])) {
-			echo "Invalid tag input";
+			_e('The tag input is invalid.',self::DOMAIN);
 			throw new \RuntimeException("Invalid tag input");
 		}
 
 		if(!check_ajax_referer('bulk-'.WPDKATagObjects_List_Table::NAME_PLURAL, 'nonce', false)) {
-			echo "Nonce not valid";
+			_e('Unauthorized request.',self::DOMAIN);
 			throw new \RuntimeException("Nonce not valid");
 		}
 
 		$tag_string = $this->_escape_tag_value($_POST['tag']);
 
 		if($tag_string == "") {
-			echo "Invalid tag input";
+			_e('The tag input is invalid.',self::DOMAIN);
 			throw new \RuntimeException("Invalid tag input");
 		}
 
 		$tag = self::get_object_by_guid(esc_html($_POST['tag_guid']),false);
 
 		if(!$tag) {
-			echo "Invalid tag";
+			_e('Tag could not be found in CHAOS.',self::DOMAIN);
 			throw new \RuntimeException("Invalid tag");
 		}
 
@@ -330,8 +344,8 @@ final class WPDKATags {
 				'tag' => $tag_string
 				);
 		} else {
-			echo "Tag could not be renamed";
-			throw new \RuntimeException("Tag could not be flagged");  
+			_e('Tag could not be renamed.',self::DOMAIN);
+			throw new \RuntimeException("Tag could not be renamed");  
 		}
 
 		echo json_encode($response);
@@ -347,33 +361,33 @@ final class WPDKATags {
 		
 		//iff status == active
 		if(get_option('wpdkatags-status') != '2') {
-			echo "Cheating uh?";
+			_e('Unauthorized request.',self::DOMAIN);
 			throw new \RuntimeException("Cheating uh?");
 		}
 
 		if(!isset($_POST['tag_guid'])) {
-			echo "Missing tag guid";
+			_e('Tag GUID is invalid.',self::DOMAIN);
 			throw new \RuntimeException("Missing tag guid");
 		}
 
 		if(!isset($_POST['object_guid']) || !check_ajax_referer(self::TOKEN_PREFIX.$_POST['object_guid'], 'token', false)) {
-			echo "Object GUID not valid";
+			_e('Unauthorized request.',self::DOMAIN);
 			throw new \RuntimeException("Object GUID not valid");
 		}
 
 		$tag = self::get_object_by_guid(esc_html($_POST['tag_guid']),false);
 
 		if(!$tag) {
-			echo "Invalid tag";
+			_e('Tag could not be found in CHAOS.',self::DOMAIN);
 			throw new \RuntimeException("Invalid tag");
 		}
 		
 		if(self::change_tag_state($tag, self::TAG_STATE_FLAGGED)) {
 			$response = array(
-				'Tag flagged successfully!'
-				);
+				__('Tag was flagged successfully!',self::DOMAIN)
+			);
 		} else {
-			echo "Tag could not be flagged";
+			_e('Tag could not be flagged.',self::DOMAIN);
 			throw new \RuntimeException("Tag could not be flagged");  
 		}
 
@@ -390,36 +404,36 @@ final class WPDKATags {
 
 		//iff status == active
 		if(get_option('wpdkatags-status') != '2') {
-			echo "Cheating uh?";
+			_e('Unauthorized request.',self::DOMAIN);
 			throw new \RuntimeException("Cheating uh?");
 		}
 
 		if(!isset($_POST['tag'])) {
-			echo "Invalid tag input";
+			_e('The tag input is invalid.',self::DOMAIN);
 			throw new \RuntimeException("Invalid tag input");
 		}
 
 		$tag = $this->_escape_tag_value($_POST['tag']);
 
 		if($tag == "") {
-			echo "Invalid tag input";
+			_e('The tag input is invalid.',self::DOMAIN);
 			throw new \RuntimeException("Invalid tag input");
 		}
 
 		if(!isset($_POST['object_guid']) || !check_ajax_referer(self::TOKEN_PREFIX.$_POST['object_guid'], 'token', false)) {
-			echo "GUID not valid";
+			_e('Unauthorized request.',self::DOMAIN);
 			throw new \RuntimeException("GUID not valid");
 		}
 
 		$object = self::get_object_by_guid($_POST['object_guid']);
 		
 		if($object == null) {
-			echo "Object could not be found";
+			_e('Tag could not be found in CHAOS.',self::DOMAIN);
 			throw new \RuntimeException("Object could not be found");
 		}
 
 		if($this->_tag_exists($object,$tag)) {
-			echo "Tag already exists";
+			_e('A tag with such name already exists.',self::DOMAIN);
 			throw new \RuntimeException("Tag already exists");
 		}
 
@@ -432,7 +446,7 @@ final class WPDKATags {
 				'link' => WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag))
 				);
 		} else {
-			echo "Tag could not be added";
+			_e('Tag could not be added.',self::DOMAIN);
 			throw new \RuntimeException("Tag could not be added to CHAOS");
 		}
 		
@@ -633,16 +647,28 @@ final class WPDKATags {
 		if(!empty($relation_guids)) {
 			try {
 				//+AND+(!".self::FACET_KEY_STATUS.":".self::TAG_STATE_FLAGGED.")
-				$serviceResult = WPChaosClient::instance()->Object()->Get(
-					"(GUID:(".implode("+OR+", $relation_guids).")+AND+(ObjectTypeID:".self::TAG_TYPE_ID."))",   // Search query
-					null,   // Sort
-					false,   // Use session instead of AP
-					0,      // pageIndex
-					count($relation_guids),      // pageSize
-					true,   // includeMetadata
-					false,   // includeFiles
-					false    // includeObjectRelations
-				);
+				// $serviceResult = WPChaosClient::instance()->Object()->Get(
+				// 	"(GUID:(".implode(" OR ", $relation_guids).") AND (ObjectTypeID:".self::TAG_TYPE_ID."))",   // Search query
+				// 	null,   // Sort
+				// 	false,   // Use session instead of AP
+				// 	0,      // pageIndex
+				// 	count($relation_guids),      // pageSize
+				// 	true,   // includeMetadata
+				// 	false,   // includeFiles
+				// 	false    // includeObjectRelations
+				// );
+				
+				//Query will quickly become too long for GET. Using POST instead to handle more data
+				$serviceResult = WPChaosClient::instance()->CallService("Object/Get", CHAOS\Portal\Client\IServiceCaller::POST, array(
+					"query" => "(GUID:(".implode(" OR ", $relation_guids).") AND (ObjectTypeID:".self::TAG_TYPE_ID.") AND (FolderID:".self::TAGS_FOLDER_ID."))",
+					"sort" => null,
+					"accessPointGUID" => false,
+					"includeMetadata" => true,
+					"includeFiles" => false,
+					"includeObjectRelations" => false,
+					"includeAccessPoints" => false,
+					"pageIndex" => 0,
+					"pageSize" => count($relation_guids)));
 				$tags = WPChaosObject::parseResponse($serviceResult);
 			} catch(\CHAOSException $e) {
 				error_log('CHAOS Error when getting user tags for object: '.$e->getMessage());
@@ -683,7 +709,7 @@ final class WPDKATags {
 				$value .= '<a class="usertag tag" href="'.$link.'" title="'.esc_attr($tag_meta).'">'.$tag_meta.$flag.'</a>'."\n";
 			}
 			if(empty($tags)) {
-				$value .= '<span class="no-tag">'.__('No tags','wpdka').'</span>'."\n";
+				$value .= '<span class="no-tag">'.__('No user tags',self::DOMAIN).'</span>'."\n";
 			}
 			$value .= '</div>';
 
@@ -692,11 +718,15 @@ final class WPDKATags {
 
 				$value .= '<div class="input-group">';
 				$value .= '<input type="text" class="form-control" id="usertag-add" value="">';
-				$value .= '<span class="input-group-btn"><button class="btn btn-default" type="button" id="usertag-submit">Add tag</button></span>';
+				$value .= '<span class="input-group-btn"><button class="btn btn-default" type="button" id="usertag-submit">'.__('Add tag',self::DOMAIN).'</button></span>';
 				$value .= '</div>';
 
 				wp_enqueue_script('dka-usertags',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
 				$translation_array = array(
+					'confirmTitle' => __('Confirm flagging',self::DOMAIN),
+					'confirmBody' => __('Are you sure you want to flag this tag?',self::DOMAIN),
+					'yes' => __('Yes'),
+					'no' => __('No'),
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
 					'token' => wp_create_nonce(self::TOKEN_PREFIX.$object->GUID)
 					);
@@ -708,7 +738,7 @@ final class WPDKATags {
 
 	public function add_usertag_counts() {
 
-		$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(self::FACET_KEY_STATUS)), null, false);
+		$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(self::FACET_KEY_STATUS)), "(FolderID:".self::TAGS_FOLDER_ID.")", false);
 		$total_count = 0;
 		$facets = array();
 
@@ -723,7 +753,7 @@ final class WPDKATags {
 
 		$num_posts = $total_count;
 		$num = number_format_i18n($num_posts);
-		$text = _n('User tag', 'User tags', intval($num_posts),'wpdka');
+		$text = _n('User tag', 'User tags', intval($num_posts),self::DOMAIN);
 
 		echo '<tr>';
 		echo '<td class="first b b-chaos-material">'.$num.'</td>';
@@ -732,7 +762,7 @@ final class WPDKATags {
 
 		$num_posts = isset($facets['approved']) ? $facets['approved'] : 0;
 		$num = number_format_i18n($num_posts);
-		$text = _n('Approved user tag', 'Approved user tags', intval($num_posts),'wpdka');
+		$text = _n('Approved user tag', 'Approved user tags', intval($num_posts),self::DOMAIN);
 
 		echo '<tr>';
 		echo '<td class="first b b-chaos-material">'.$num.'</td>';
@@ -741,7 +771,7 @@ final class WPDKATags {
 
 		$num_posts = isset($facets['unapproved']) ? $facets['unapproved'] : 0;
 		$num = number_format_i18n($num_posts);
-		$text = _n('Unapproved user tag', 'Unapproved user tags', intval($num_posts),'wpdka');
+		$text = _n('Unapproved user tag', 'Unapproved user tags', intval($num_posts),self::DOMAIN);
 
 		echo '<tr>';
 		echo '<td class="first b b-chaos-material">'.$num.'</td>';
@@ -750,7 +780,7 @@ final class WPDKATags {
 
 		$num_posts = isset($facets['flagged']) ? $facets['flagged'] : 0;
 		$num = number_format_i18n($num_posts);
-		$text = _n('Flagged user tag', 'Flagged user tags', intval($num_posts),'wpdka');
+		$text = _n('Flagged user tag', 'Flagged user tags', intval($num_posts),self::DOMAIN);
 
 		echo '<tr>';
 		echo '<td class="first b b-chaos-material">'.$num.'</td>';
@@ -783,14 +813,14 @@ final class WPDKATags {
 
 				//Prepare relevant strings for query (avoid empty ones)
 				foreach($freetext as $tag) {
-					if($tag != "") {
-						$tags[] = sprintf("%s:%s*",self::FACET_KEY_VALUE,$tag);
+					if($tag != "" && !isset($tags[$tag])) {
+						$tags[$tag] = sprintf("%s:%s*",self::FACET_KEY_VALUE,$tag);
 					}
 					
 				}
 
 				if(!empty($tags)) {
-					$tag_query = '((' . implode("+OR+", $tags) . ')+AND+ObjectTypeID:'.self::TAG_TYPE_ID.')';
+					$tag_query = '((' . implode(" OR ", $tags) . ') AND (ObjectTypeID:'.self::TAG_TYPE_ID.') AND (FolderID:'.self::TAGS_FOLDER_ID.'))';
 					try {
 						$relation_guids = array();
 

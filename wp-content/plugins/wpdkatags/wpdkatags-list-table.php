@@ -32,22 +32,22 @@ class WPDKATags_List_Table extends WP_List_Table {
 		//Set parent defaults
 		parent::__construct( $args );
 
-		$this->title = __('User Tags', 'wpdkatags');
+		$this->title = __('DKA User Tags',WPDKATags::DOMAIN);
 		$this->states = array(
 			'unapproved' => array(
-				'title' => __('Unapproved','wpdkatags'),
+				'title' => __('Unapproved',WPDKATags::DOMAIN),
 				'count' => 0,
-				'action' => __('Unapprove','wpdkatags')
+				'action' => __('Unapprove',WPDKATags::DOMAIN)
 			),
 			'flagged' => array(
-				'title' => __('Flagged','wpdkatags'),
+				'title' => __('Flagged',WPDKATags::DOMAIN),
 				'count' => 0,
-				'action' => __('Flag','wpdkatags')
+				'action' => __('Flag',WPDKATags::DOMAIN)
 			),
 			'approved' => array(
-				'title' => __('Approved','wpdkatags'),
+				'title' => __('Approved',WPDKATags::DOMAIN),
 				'count' => 0,
-				'action' => __('Approve','wpdkatags')
+				'action' => __('Approve',WPDKATags::DOMAIN)
 			),
 		);
 	}
@@ -86,7 +86,7 @@ class WPDKATags_List_Table extends WP_List_Table {
 
 		$total_count = 0;
 		$facets = array();
-		$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(WPDKATags::FACET_KEY_STATUS)), null, false);
+		$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(WPDKATags::FACET_KEY_STATUS)), "(FolderID:".WPDKATags::TAGS_FOLDER_ID.")", false);
 
 		foreach($facetsResponse->Index()->Results() as $facetResult) {
 			foreach($facetResult->FacetFieldsResult as $fieldResult) {
@@ -100,7 +100,8 @@ class WPDKATags_List_Table extends WP_List_Table {
 		$status_links = array();
 
 		$class = empty($_REQUEST['tag_status']) ? ' class="current"' : '';
-		$status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s, %s unique)</span>', 'All <span class="count">(%s, %s unique)</span>', $total_count, 'posts' ), $total_count, number_format_i18n( $this->get_pagination_arg('total_items') ) ) . '</a>';
+		$status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_count, 'posts' ), number_format_i18n($total_count) ) . '</a>';
+		// $status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s, %s unique)</span>', 'All <span class="count">(%s, %s unique)</span>', $total_count, 'posts' ), $total_count, number_format_i18n( $this->get_pagination_arg('total_items') ) ) . '</a>';
 
 		foreach($this->states as $status_key => $status) {
 			$class = '';
@@ -154,8 +155,8 @@ class WPDKATags_List_Table extends WP_List_Table {
 	public function get_columns(){
 		$columns = array(
 			//'cb'        => '<input type="checkbox" />', //Render a checkbox instead of text
-			'title'     => __('Title', 'wpdkatags'),
-			'quantity'    => __('Quantity','wpdkatags'),
+			'title'     => __('Title', WPDKATags::DOMAIN),
+			'quantity'    => __('Quantity',WPDKATags::DOMAIN),
 		);
 		return $columns;
 	}
@@ -181,9 +182,9 @@ class WPDKATags_List_Table extends WP_List_Table {
 		$this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());
 		
 		//Append status query if present
-		$query = null;
+		$query = "(FolderID:".WPDKATags::TAGS_FOLDER_ID.")";
 		if(isset($_GET['tag_status'])) {
-			$query = "(".WPDKATags::FACET_KEY_STATUS.":".$_GET['tag_status'].")";
+			$query = " AND (".WPDKATags::FACET_KEY_STATUS.":".$_GET['tag_status'].")";
 		}
 		
 		//Get tags from index
