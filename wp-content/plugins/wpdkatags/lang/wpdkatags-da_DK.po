@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKATags\n"
-"POT-Creation-Date: 2013-11-05 13:32+0100\n"
-"PO-Revision-Date: 2013-11-05 13:32+0100\n"
+"POT-Creation-Date: 2013-11-05 13:59+0100\n"
+"PO-Revision-Date: 2013-11-05 14:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -191,63 +191,67 @@ msgstr "Tagget kunne ikke anmeldes."
 msgid "A tag with such name already exists."
 msgstr "Et tag med det angivne navn findes allerede."
 
-#: ../wpdkatags.php:449
+#: ../wpdkatags.php:447
+msgid "Tag added successfully!"
+msgstr "Tagget blev tilføjet. Tak for dit bidrag!"
+
+#: ../wpdkatags.php:450
 msgid "Tag could not be added."
 msgstr "Tagget kunne ikke tilføjes."
 
-#: ../wpdkatags.php:712
+#: ../wpdkatags.php:713
 msgid "No user tags"
 msgstr "Ingen brugertags tilføjet. Du kan være den første!"
 
-#: ../wpdkatags.php:721
+#: ../wpdkatags.php:722
 msgid "Add tag"
 msgstr "Tilføj tag"
 
-#: ../wpdkatags.php:726
+#: ../wpdkatags.php:727
 msgid "Confirm flagging"
 msgstr "Bekræft anmeldelse"
 
-#: ../wpdkatags.php:727
+#: ../wpdkatags.php:728
 msgid "Are you sure you want to flag this tag?"
 msgstr "Er du sikker på, at du vil anmelde dette tag?"
 
-#: ../wpdkatags.php:728
+#: ../wpdkatags.php:729
 msgid "Yes"
 msgstr "Ja"
 
-#: ../wpdkatags.php:729
+#: ../wpdkatags.php:730
 msgid "No"
 msgstr "Nej"
 
-#: ../wpdkatags.php:756
+#: ../wpdkatags.php:757
 msgid "User tag"
 msgid_plural "User tags"
 msgstr[0] "Brugertag"
 msgstr[1] "Brugertags"
 
-#: ../wpdkatags.php:765
+#: ../wpdkatags.php:766
 msgid "Approved user tag"
 msgid_plural "Approved user tags"
 msgstr[0] "Godkendt brugertag"
 msgstr[1] "Godkendte brugertags"
 
-#: ../wpdkatags.php:774
+#: ../wpdkatags.php:775
 msgid "Unapproved user tag"
 msgid_plural "Unapproved user tags"
 msgstr[0] "Ikke-godkendt brugertag"
 msgstr[1] "Ikke-godkendte brugertags"
 
-#: ../wpdkatags.php:783
+#: ../wpdkatags.php:784
 msgid "Flagged user tag"
 msgid_plural "Flagged user tags"
 msgstr[0] "Anmeldt brugertag"
 msgstr[1] "Anmeldte brugertags"
 
-#: ../wpdkatags.php:896
+#: ../wpdkatags.php:897
 msgid "WordPress DKA Tags"
 msgstr "WordPress DKA Tags"
 
-#: ../wpdkatags.php:896
+#: ../wpdkatags.php:897
 #, php-format
 msgid "needs %s to be activated."
 msgstr "kræver at %s er aktiveret."

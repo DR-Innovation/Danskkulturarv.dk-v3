@@ -443,7 +443,8 @@ final class WPDKATags {
 			$response = array(
 				'title' => $tag,
 				'guid' => $tag_object->GUID,
-				'link' => WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag))
+				'link' => WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag)),
+				'success' => __('Tag added successfully!',self::DOMAIN)
 				);
 		} else {
 			_e('Tag could not be added.',self::DOMAIN);

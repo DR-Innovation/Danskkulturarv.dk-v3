@@ -25,9 +25,12 @@
 			var container = $(".usertags");
 			$("#usertag-submit").click( function(e) {
 				e.preventDefault();
-
-				$(this).attr('disabled',true);
+	
 				var button = $(this);
+
+				$(container).find('.alert').remove();
+
+				button.attr('disabled',true);
 				var input = $('#usertag-add');
 
 				button.attr('disabled',true);
@@ -42,20 +45,21 @@
 					dataType: 'JSON',
 					type: 'POST',
 					success:function(data){
-						console.log(data);
 						button.attr('disabled',false);
+
 						var tag = '<a class="usertag tag" href="'+data.link+'">'+data.title+'<i class="icon-remove flag-tag" id="'+data.guid+'"></i></a>'
 						var notag = container.find("span");
 						 if(notag.length > 0) {
 							 notag.remove();
 						}
 						container.append(tag);
+						container.append('<div class="alert alert-success">'+data.success+'</div>');
 						input.val("");
 					},
 					error: function(errorThrown){
 						button.attr('disabled',false);
-						console.log("error.");
-						console.log(errorThrown);
+
+						container.append('<div class="alert alert-danger">'+errorThrown.responseText+'</div>');
 					}
 				});
 			});
@@ -81,10 +85,25 @@
 					'</div>'+
 				'</div>'+
 			'</div>');
+			var alertModal = $('<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+				'<div class="modal-dialog">'+
+					'<div class="modal-content">'+
+						'<div class="modal-header">'+
+							'<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+							'<h4 class="modal-title">'+WPDKATags.confirmTitle+'</h4>'+
+						'</div>'+
+						'<div class="modal-body"></div>'+
+					'</div>'+
+				'</div>'+
+			'</div>'); 
 			confirmModal.modal({
 				keyboard:false,
 				show:false,
 				backdrop:'static'
+			});
+			alertModal.modal({
+				keyboard:true,
+				show:false,
 			});
 			var current_tag;
 
@@ -98,28 +117,46 @@
 
 			confirmModal.on('click','#usertag-flag-confirm', function(e) {
 				e.preventDefault();
-				confirmModal.find('button').attr('disabled',true);
 
-				$.ajax({
-					url: WPDKATags.ajaxurl,
-					data:{
-						action: 'wpdkatags_flag_tag',
-						tag_guid: current_tag.attr('id'),
-						object_guid: $('.single-material').attr('id'),
-						token: WPDKATags.token
-					},
-					dataType: 'JSON',
-					type: 'POST',
-					success:function(data){
-						console.log(data);
-						confirmModal.modal('hide');
-					},
-					error: function(errorThrown){
-						confirmModal.modal('hide');
-						console.log("error.");
-						console.log(errorThrown);
-					}
-				});
+				if(current_tag != null) {
+					confirmModal.find('button').attr('disabled',true);
+
+					$.ajax({
+						url: WPDKATags.ajaxurl,
+						data:{
+							action: 'wpdkatags_flag_tag',
+							tag_guid: current_tag.attr('id'),
+							object_guid: $('.single-material').attr('id'),
+							token: WPDKATags.token
+						},
+						dataType: 'JSON',
+						type: 'POST',
+						success:function(data){		
+							confirmModal.modal('hide');
+							alertModal.find('.modal-body').html('<div class="alert alert-success">'+data+'</div>');
+							alertModal.modal('show');
+
+							current_tag.parent().remove();
+							current_tag = null;
+
+							setTimeout(function() {
+								alertModal.modal('hide');
+							}, 3000);
+						},
+						error: function(errorThrown){
+							confirmModal.modal('hide');
+							
+							alertModal.find('.modal-body').html('<div class="alert alert-danger">'+errorThrown.responseText+'</div>');
+							alertModal.modal('show');
+
+							current_tag = null;
+
+							setTimeout(function() {
+								alertModal.modal('hide');
+							}, 3000);
+						}
+					});					
+				}
 
 			});
 
