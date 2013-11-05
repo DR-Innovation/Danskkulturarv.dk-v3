@@ -49,7 +49,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		return $this->_current_tag;
 	}
 
-		/**
+	/**
 	 * Display the list of views available on this table.
 	 */
 	public function get_views() {
@@ -57,11 +57,13 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		$facets = array();
 		$query = "(".WPDKATags::FACET_KEY_VALUE.":(".WPChaosClient::escapeSolrValue($this->get_current_tag()).")) AND (FolderID:".WPDKATags::TAGS_FOLDER_ID.")";
 		$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(WPDKATags::FACET_KEY_STATUS)), $query, false);
+		$total_items = 0;
 
 		foreach($facetsResponse->Index()->Results() as $facetResult) {
 			foreach($facetResult->FacetFieldsResult as $fieldResult) {
 				foreach($fieldResult->Facets as $facet) {
 					$facets[$facet->Value] = $facet->Count;
+					$total_items += $facet->Count;
 				}
 			}
 		}
@@ -69,7 +71,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		$status_links = array();
 
 		$class = empty($_REQUEST['tag_status']) ? ' class="current"' : '';
-		$status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'&amp;subpage=wpdkatag-objects&amp;dka-tag='.$this->get_current_tag().'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $this->get_pagination_arg('total_items'), 'posts' ), number_format_i18n( $this->get_pagination_arg('total_items') ) ) . '</a>';
+		$status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'&amp;subpage=wpdkatag-objects&amp;dka-tag='.$this->get_current_tag().'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_items, 'posts' ), number_format_i18n( $total_items ) ) . '</a>';
 
 		foreach($this->states as $status_key => $status) {
 			$class = '';
@@ -181,26 +183,15 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	public function get_sortable_columns() {
 		$sortable_columns = array(
 			'status'    => array(WPDKATags::FACET_KEY_STATUS,false),
-			'date'      => array(WPDKATags::FACET_KEY_CREATED,true) //true means it's already sorted
+			'date'      => array(WPDKATags::FACET_KEY_CREATED,false)
 		);
 		return $sortable_columns;
 	}
-	
-	
-	/** ************************************************************************
-	 * Optional. If you need to include bulk actions in your list table, this is
-	 * the place to define them. Bulk actions are an associative array in the format
-	 * 'slug'=>'Visible Title'
-	 * 
-	 * If this method returns an empty value, no bulk action will be rendered. If
-	 * you specify any bulk actions, the bulk actions box will be rendered with
-	 * the table automatically on display().
-	 * 
-	 * Also note that list tables are not automatically wrapped in <form> elements,
-	 * so you will need to create those manually in order for bulk actions to function.
-	 * 
-	 * @return array An associative array containing all the bulk actions: 'slugs'=>'Visible Titles'
-	 **************************************************************************/
+
+	/**
+	 * Get list of bulk actions
+	 * @return array
+	 */
 	public function get_bulk_actions() {
 		$actions = array(
 			'rename' => __('Rename',WPDKATags::DOMAIN),		
@@ -228,10 +219,10 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		//Get tags by name
 		$query = "(".WPDKATags::FACET_KEY_VALUE.":(".WPChaosClient::escapeSolrValue($this->get_current_tag()).")) AND (ObjectTypeID:".WPDKATags::TAG_TYPE_ID.") AND (FolderID:".WPDKATags::TAGS_FOLDER_ID.")";
 		if(isset($_GET['tag_status'])) {
-			$query .= "+AND+".WPDKATags::FACET_KEY_STATUS.":".$_GET['tag_status'];
+			$query .= " AND (".WPDKATags::FACET_KEY_STATUS.":".$_GET['tag_status'].")";
 		}
 
-		$sort = null;
+		$sort = WPDKATags::FACET_KEY_CREATED.'+desc';
 		if(isset($_REQUEST['orderby']) && isset($_REQUEST['order'])) {
 			$orderby = (in_array($_REQUEST['orderby'],array(WPDKATags::FACET_KEY_STATUS,WPDKATags::FACET_KEY_CREATED)) ? $_REQUEST['orderby'] : WPDKATags::FACET_KEY_CREATED);
 			$order = (in_array($_REQUEST['order'],array('asc','desc')) ? $_REQUEST['order'] : 'asc');

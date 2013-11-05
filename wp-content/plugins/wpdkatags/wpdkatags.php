@@ -145,7 +145,7 @@ final class WPDKATags {
 		$page = add_menu_page(
 			__('DKA User Tags',self::DOMAIN),
 			__('User Tags',self::DOMAIN),
-			'activate_plugins',
+			'moderate_comments',
 			'wpdkatags',
 			array(&$this,'render_tags_page'),
 			"div",
@@ -360,7 +360,7 @@ final class WPDKATags {
 	public function ajax_flag_tag() {
 		
 		//iff status == active
-		if(get_option('wpdkatags-status') != '2') {
+		if(get_option('wpdkatags-status',0) != '2') {
 			_e('Unauthorized request.',self::DOMAIN);
 			throw new \RuntimeException("Cheating uh?");
 		}
@@ -403,7 +403,7 @@ final class WPDKATags {
 	public function ajax_submit_tag() {
 
 		//iff status == active
-		if(get_option('wpdkatags-status') != '2') {
+		if(get_option('wpdkatags-status',0) != '2') {
 			_e('Unauthorized request.',self::DOMAIN);
 			throw new \RuntimeException("Cheating uh?");
 		}
@@ -741,7 +741,11 @@ final class WPDKATags {
 
 		$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(self::FACET_KEY_STATUS)), "(FolderID:".self::TAGS_FOLDER_ID.")", false);
 		$total_count = 0;
-		$facets = array();
+		$facets = array(
+			'approved' => 0,
+			'unapproved' => 0,
+			'flagged' => 0
+		);
 
 		foreach($facetsResponse->Index()->Results() as $facetResult) {
 			foreach($facetResult->FacetFieldsResult as $fieldResult) {
@@ -752,41 +756,26 @@ final class WPDKATags {
 			}
 		}
 
-		$num_posts = $total_count;
-		$num = number_format_i18n($num_posts);
-		$text = _n('User tag', 'User tags', intval($num_posts),self::DOMAIN);
+		function dashboard_entry($text,$num,$status = null) {
+			
+			$admin_url = 'admin.php?page=wpdkatags';
+			$num = number_format_i18n($num);
 
-		echo '<tr>';
-		echo '<td class="first b b-chaos-material">'.$num.'</td>';
-		echo '<td class="t chaos-material">'.$text.'</td>';
-		echo '</tr>';
+			if($status) {
+				$admin_url .= "&amp;tag_status=".$status;
+			}
 
-		$num_posts = isset($facets['approved']) ? $facets['approved'] : 0;
-		$num = number_format_i18n($num_posts);
-		$text = _n('Approved user tag', 'Approved user tags', intval($num_posts),self::DOMAIN);
+			echo '<tr>';
+			echo '<td class="b b-chaos-material"><a href="'.$admin_url.'">'.$num.'</a></td>';
+			echo '<td class="t chaos-material"><a href="'.$admin_url.'">'.$text.'</a></td>';
+			echo '</tr>';
 
-		echo '<tr>';
-		echo '<td class="first b b-chaos-material">'.$num.'</td>';
-		echo '<td class="t chaos-material">'.$text.'</td>';
-		echo '</tr>';
+		}
 
-		$num_posts = isset($facets['unapproved']) ? $facets['unapproved'] : 0;
-		$num = number_format_i18n($num_posts);
-		$text = _n('Unapproved user tag', 'Unapproved user tags', intval($num_posts),self::DOMAIN);
-
-		echo '<tr>';
-		echo '<td class="first b b-chaos-material">'.$num.'</td>';
-		echo '<td class="t chaos-material">'.$text.'</td>';
-		echo '</tr>';
-
-		$num_posts = isset($facets['flagged']) ? $facets['flagged'] : 0;
-		$num = number_format_i18n($num_posts);
-		$text = _n('Flagged user tag', 'Flagged user tags', intval($num_posts),self::DOMAIN);
-
-		echo '<tr>';
-		echo '<td class="first b b-chaos-material">'.$num.'</td>';
-		echo '<td class="t chaos-material">'.$text.'</td>';
-		echo '</tr>';
+		dashboard_entry(_n('User tag', 'User tags', $total_count,self::DOMAIN),$total_count,null);
+		dashboard_entry(_n('Approved user tag', 'Approved user tags', $facets['approved'],self::DOMAIN),$facets['approved'],'approved');
+		dashboard_entry(_n('Unapproved user tag', 'Unapproved user tags', $facets['unapproved'],self::DOMAIN),$facets['unapproved'],'unapproved');
+		dashboard_entry(_n('Flagged user tag', 'Flagged user tags', $facets['flagged'],self::DOMAIN),$facets['flagged'],'flagged');
 
 	}
 
