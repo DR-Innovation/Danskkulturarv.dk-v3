@@ -815,13 +815,13 @@ final class WPDKATags {
 				//Prepare relevant strings for query (avoid empty ones)
 				foreach($freetext as $tag) {
 					if($tag != "" && !isset($tags[$tag])) {
-						$tags[$tag] = sprintf("%s:%s*",self::FACET_KEY_VALUE,$tag);
+						$tags[$tag] = $tag."*";
 					}
 					
 				}
 
 				if(!empty($tags)) {
-					$tag_query = '((' . implode(" OR ", $tags) . ') AND (ObjectTypeID:'.self::TAG_TYPE_ID.') AND (FolderID:'.self::TAGS_FOLDER_ID.'))';
+					$tag_query = '('.self::FACET_KEY_VALUE.':(' . implode(" OR ", $tags) . ')) AND (ObjectTypeID:'.self::TAG_TYPE_ID.') AND (FolderID:'.self::TAGS_FOLDER_ID.')';
 					try {
 						$relation_guids = array();
 
@@ -843,13 +843,13 @@ final class WPDKATags {
 						//Get related object to each string. Avoid dupes
 						foreach($objects as $object) {
 							foreach($object->ObjectRelations as $relation) {
-								$relation_guids[$relation->Object1GUID] = "GUID:".$relation->Object1GUID;
+								$relation_guids[$relation->Object1GUID] = $relation->Object1GUID;
 							}
 						}
 						
 						//Append found object guids to search query
 						if(!empty($relation_guids)) {
-							$query[] = "(".implode("+OR+", $relation_guids).")";
+							$query[] = "(GUID:(".implode(" OR ", $relation_guids)."))";
 						}
 
 					} catch(\CHAOSException $e) {

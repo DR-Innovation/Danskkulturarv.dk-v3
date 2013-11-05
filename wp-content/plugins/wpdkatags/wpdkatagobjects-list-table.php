@@ -22,7 +22,12 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 			'ajax'      => false        //does this table support ajax?
 		) );
 
-		$this->_current_tag = esc_html($_GET[parent::NAME_SINGULAR]);
+		if(isset($_GET[parent::NAME_SINGULAR])) {
+			$this->_current_tag = esc_html($_GET[parent::NAME_SINGULAR]);
+		} else {
+			$this->_current_tag = " ";
+		}
+		
 
 		$this->title = '<a href="'.add_query_arg('page',WPDKATags::DOMAIN,'admin.php').'">'.__('DKA User Tags', WPDKATags::DOMAIN).'</a> &raquo; '.$this->get_current_tag();
 
