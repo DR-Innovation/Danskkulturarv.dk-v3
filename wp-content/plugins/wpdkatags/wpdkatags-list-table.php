@@ -184,7 +184,7 @@ class WPDKATags_List_Table extends WP_List_Table {
 		//Append status query if present
 		$query = "(FolderID:".WPDKATags::TAGS_FOLDER_ID.")";
 		if(isset($_GET['tag_status'])) {
-			$query = " AND (".WPDKATags::FACET_KEY_STATUS.":".$_GET['tag_status'].")";
+			$query .= " AND (".WPDKATags::FACET_KEY_STATUS.":".$_GET['tag_status'].")";
 		}
 		
 		//Get tags from index

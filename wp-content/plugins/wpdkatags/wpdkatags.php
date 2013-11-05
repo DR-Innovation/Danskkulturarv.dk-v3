@@ -594,7 +594,7 @@ final class WPDKATags {
 				array(''),
 				null
 				);
-			if((string)$tag == $tag_input) {
+			if(strtolower($tag[0]) == strtolower($tag_input)) {
 				return true;
 			}
 		}
@@ -687,7 +687,7 @@ final class WPDKATags {
 	 */
 	public function define_usertags_filter($value, $object) {
 
-		$status = intval(get_option('wpdkatags-status'));
+		$status = intval(get_option('wpdkatags-status',0));
 
 		//iff status == active or frozen
 		if($status > 0) {
@@ -815,13 +815,14 @@ final class WPDKATags {
 				//Prepare relevant strings for query (avoid empty ones)
 				foreach($freetext as $tag) {
 					if($tag != "" && !isset($tags[$tag])) {
-						$tags[$tag] = $tag."*";
+						$tags[$tag] = WPChaosClient::escapeSolrValue($tag)."*";
 					}
 					
 				}
 
 				if(!empty($tags)) {
-					$tag_query = '('.self::FACET_KEY_VALUE.':(' . implode(" OR ", $tags) . ')) AND (ObjectTypeID:'.self::TAG_TYPE_ID.') AND (FolderID:'.self::TAGS_FOLDER_ID.')';
+					//Get tags by typeid, folderid and status not flagged
+					$tag_query = '('.self::FACET_KEY_VALUE.':(' . implode(" OR ", $tags) . ')) AND (ObjectTypeID:'.self::TAG_TYPE_ID.') AND (FolderID:'.self::TAGS_FOLDER_ID.') AND !('.self::FACET_KEY_STATUS.':'.self::TAG_STATE_FLAGGED.')';
 					try {
 						$relation_guids = array();
 
