@@ -121,13 +121,9 @@ class WPDKASearch {
 				$query = array();
 			}
 				
-			$objectTypeConstraints = array();
-			foreach(WPDKAObject::$OBJECT_TYPE_IDS as $id) {
-				$objectTypeConstraints[] = "ObjectTypeID:$id";
-			}
-			$query[] = '(' . implode("+OR+", $objectTypeConstraints) . ')';
+			$query[] = '(ObjectTypeID:(' . implode(" OR ", WPDKAObject::$OBJECT_TYPE_IDS) . '))';
 				
-			return implode("+AND+", $query);
+			return implode(" AND ", $query);
 		}, 9, 2);
 		
 		// Free text search.
@@ -151,10 +147,10 @@ class WPDKASearch {
 						$searches[] = sprintf("(m%s_%s_all:(%s))", $schemaGUID, $language, $freetext);
 					}
 				}
-				$query[] = '(' . implode("+OR+", $searches) . ')';
+				$query[] = '(' . implode(" OR ", $searches) . ')';
 			}
 				
-			return implode("+AND+", $query);
+			return implode(" AND ", $query);
 		}, 10, 2);
 		
 		// File format types
@@ -166,20 +162,20 @@ class WPDKASearch {
 			}
 				
 			if(array_key_exists(WPDKASearch::QUERY_KEY_TYPE, $query_vars)) {
-				// For each known metadata schema, loop and add freetext search on this.
+				// Loop through requested types and append valid ones to query
 				$types = $query_vars[WPDKASearch::QUERY_KEY_TYPE];
 				$searches = array();
 				foreach($types as $type) {
 					if(isset(WPDKAObject::$format_types[$type])) {
-						$searches[] = "(FormatTypeName:".WPDKAObject::$format_types[$type]['chaos-value'].")";
+						$searches[] = WPDKAObject::$format_types[$type]['chaos-value'];
 					}
 				}
 				if(count($searches) > 0) {
-					$query[] = '(' . implode("+OR+", $searches) . ')';
+					$query[] = '(FormatTypeName:(' . implode(" OR ", $searches) . '))';
 				}
 			}
 				
-			return implode("+AND+", $query);
+			return implode(" AND ", $query);
 		}, 11, 2);
 		
 		// Organizations
@@ -198,15 +194,15 @@ class WPDKASearch {
 				foreach($organizationSlugs as $organizationSlug) {
 					foreach($organizations as $title => $organization) {
 						if($organization['slug'] == $organizationSlug) {
-							$searches[] = "(DKA-Organization:\"$title\")";
+							$searches[] = "\"$title\"";
 						}
 					}
 				}
 				if(count($searches) > 0) {
-					$query[] = '(' . implode("+OR+", $searches) . ')';
+					$query[] = '(DKA-Organization:(' . implode(" OR ", $searches) . '))';
 				}
 			}
-			return implode("+AND+", $query);
+			return implode(" AND ", $query);
 		}, 12, 2);
 	}
 

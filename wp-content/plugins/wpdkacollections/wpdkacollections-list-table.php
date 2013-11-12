@@ -261,7 +261,20 @@ class WPDKACollections_List_Table extends WP_List_Table {
         //     return ($order==='asc') ? $result : -$result; //Send final sort direction to usort
         // }
         // usort($data, 'usort_reorder');
-        // 
+        //
+        //
+        $response = WPChaosClient::instance()->Object()->Get(
+				'(FolderID:'.WPDKACollections::COLLECTIONS_FOLDER_ID.')',   // Search query
+				null,   // Sort
+				false, 
+				0,      // pageIndex
+				$per_page,      // pageSize
+				true,   // includeMetadata
+				true,   // includeFiles
+				true    // includeObjectRelations
+			);
+        $obj = WPChaosObject::parseResponse($response);
+        var_dump($obj[5]->Metadatas);
         
         $query = null;
         

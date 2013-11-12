@@ -49,7 +49,7 @@ endforeach; ?>
 		</div>
 		<div class="col-12 col-sm-4 pagination-div">
 			<ul class="pagination pagination-large pull-right">
-			  <?php echo $pagination = WPChaosSearch::paginate('echo=0&before=&after='); ?>
+			  <?php echo $pagination = WPChaosSearch::paginate('echo=0&before=&after=&count=5'); ?>
 			</ul>
 		</div>
 	</div>
@@ -75,8 +75,12 @@ foreach(WPChaosSearch::get_search_results()->MCM()->Results() as $object) :
 <?php endif; ?>
 				<hr>
 				<div class="media-type-container">
-					<i title="<?php echo WPChaosClient::get_object()->type_title; ?>" class="<?php echo WPChaosClient::get_object()->type_class; ?>"></i><i class="icon-eye-open"> <?php echo WPChaosClient::get_object()->views; ?></i>
+					<i title="<?php echo WPChaosClient::get_object()->type_title; ?>" class="<?php echo WPChaosClient::get_object()->type_class; ?>"></i>
+					<i class="icon-eye-open"> <?php echo WPChaosClient::get_object()->views; ?></i>
 				</div>
+									<?php if(current_user_can('edit_posts')) : ?>
+					<span style="display:inline-block!important;" class="add-to-collection">+COLLECTION</span>
+<?php endif; ?>
 			</a>
 		</li>
  <?php endforeach; WPChaosClient::reset_object(); ?>

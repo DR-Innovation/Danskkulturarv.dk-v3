@@ -305,7 +305,11 @@ HTML;
 	
 }
 
-add_action('wp_head','dka_gemius_tracking',98);
+//Only track in production
+if(!WP_DEBUG) {
+	add_action('wp_head','dka_gemius_tracking',98);
+}
+
 add_action('wp_head','dka_wp_head',99);
 
 function dka_custom_excerpt($new_length = 30) {

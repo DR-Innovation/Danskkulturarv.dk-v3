@@ -6,7 +6,8 @@
                 <element name="Title" type="string" />
                 <element name="Description" type="string" />
                 <element name="Rights" type="string" />
-                <element name="Category" type="string" />
+                <element name="Type" type="string" />
+                <element name="User" type="string" minOccurs="0" />
                 <element name="Playlist">
                     <complexType>
                         <sequence>
