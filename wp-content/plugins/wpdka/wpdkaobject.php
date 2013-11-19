@@ -162,24 +162,20 @@ class WPDKAObject {
 
 		//object->title
 		add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'title', function($value, \WPCHAOSObject $object) {
-			return $value . $object->metadata(
-				array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
-				array('/dka2:DKA/dka2:Title/text()', '/DKA/Title/text()')
-			);
-		}, 10, 2);
-
-		add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'title', function($value, \WPCHAOSObject $object) {
-			// If we have no title at all.
+			$value .= $object->metadata(
+					array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
+					array('/dka2:DKA/dka2:Title/text()', '/DKA/Title/text()')
+				);
+				// If we have no title at all.
 			if($value == "") {
 				$typeTitle = $object->type_title;
 				// if($typeTitle == WPDKAObject::TYPE_UNKNOWN) {
 				// 	$typeTitle = __('Material','wpdka');
 				// }
-				return $typeTitle . __(' without title','wpdka');
-			} else {
-				return $value;
+				$value = $typeTitle . __(' without title','wpdka');
 			}
-		}, 20, 2);
+			return $value;
+		}, 10, 2);
 
 		//object->tags_array
 		add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'tags_raw', function($value, \WPCHAOSObject $object) {
@@ -267,10 +263,11 @@ class WPDKAObject {
 
 		//object->description
 		add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'description', function($value, \WPCHAOSObject $object) {
-			return $value . $object->metadata(
-					array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
-					array('/dka2:DKA/dka2:Description', '/DKA/Description/text()')
+			$value .= $object->metadata(
+				array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
+				array('/dka2:DKA/dka2:Description', '/DKA/Description/text()')
 			);
+			return $value;
 		}, 10, 2);
 
 		//object->published
@@ -295,15 +292,17 @@ class WPDKAObject {
 
 		//object->rights
 		add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'rights', function($value, $object) {
-			return $value . $object->metadata(
-					array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
-					array('/dka2:DKA/dka2:RightsDescription/text()', '/DKA/RightsDescription/text()')
+			$value .= $object->metadata(
+				array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
+				array('/dka2:DKA/dka2:RightsDescription/text()', '/DKA/RightsDescription/text()')
 			);
+			return $value;
 		}, 10, 2);
 
 		//object->type
 		add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'type', function($value, \WPCHAOSObject $object) {
-			return $value . WPDKAObject::determine_type($object);
+			$value .= WPDKAObject::determine_type($object);
+			return $value;
 		}, 10, 2);
 
 		add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'type_class', function($value, \WPCHAOSObject $object) {

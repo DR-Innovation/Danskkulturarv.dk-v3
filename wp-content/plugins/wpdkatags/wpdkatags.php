@@ -161,7 +161,9 @@ final class WPDKATags {
 		$action = (isset($_REQUEST['action']) ? $_REQUEST['action'] :(isset($_REQUEST['action2']) ? $_REQUEST['action'] : false));
 
 		if($action && $action != -1 && isset($_REQUEST[WPDKATagObjects_List_Table::NAME_SINGULAR])) {
-			//nonce check here
+			
+			//TODO: nonce check here
+			//TODO: perms check here
 			
 			$tags = $_REQUEST[WPDKATagObjects_List_Table::NAME_SINGULAR];
 			if(!is_array($tags)) {

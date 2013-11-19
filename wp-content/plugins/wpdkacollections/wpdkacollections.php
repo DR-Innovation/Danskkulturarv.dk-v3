@@ -20,7 +20,7 @@ final class WPDKACollections {
 	const COLLECTIONS_TYPE_ID = 10;
 
 	/**
-	 * ID = X is ""
+	 * ID = 468 is DKA/DKA/Samlinger
 	 */
 	const COLLECTIONS_FOLDER_ID = 468; // CHANGE
 
@@ -33,6 +33,11 @@ final class WPDKACollections {
 	const TYPE_THEME = 'Theme';
 	const TYPE_EXHIBITION = 'Exhibition';
 	const TYPE_SERIES = 'Series';
+
+	const STATUS_PUBLISH = 'Publish';
+	const STATUS_DRAFT = 'Draft';
+
+	const OBJECT_FILTER_PREFIX = 'wpchaos-object-collection-';
 
 	/**
 	 * Plugin dependencies
@@ -73,12 +78,65 @@ final class WPDKACollections {
 
 			}
 
+			$this->define_attribute_filters();
+
 			add_action('wp_head', array(&$this, 'loadJsCss'));
 
 			//add_action( 'admin_bar_menu', array(&$this,'make_parent_node'), 999 );
 
 			add_action('plugins_loaded',array(&$this,'load_textdomain'));
 		}
+	}
+
+	public function define_attribute_filters() {
+		// Registering namespaces.
+		\CHAOS\Portal\Client\Data\Object::registerXMLNamespace('dkac', 'http://www.danskkulturarv.dk/DKA-Collection.xsd');
+
+		//object->title
+		add_filter(self::OBJECT_FILTER_PREFIX.'title', function($value, \WPCHAOSObject $object) {
+			$value .= $object->metadata(
+				array(WPDKACollections::METADATA_SCHEMA_GUID),
+				array('/Collection/Title/text()')
+			);
+			return $value;
+		}, 10, 2);
+
+		//object->description
+		add_filter(self::OBJECT_FILTER_PREFIX.'description', function($value, \WPCHAOSObject $object) {
+			$value .= $object->metadata(
+				array(WPDKACollections::METADATA_SCHEMA_GUID),
+				array('/Collection/Description/text()')
+			);
+			return $value;
+		}, 10, 2);
+
+		//object->rights
+		add_filter(self::OBJECT_FILTER_PREFIX.'rights', function($value, \WPCHAOSObject $object) {
+			$value .= $object->metadata(
+				array(WPDKACollections::METADATA_SCHEMA_GUID),
+				array('/Collection/Rights/text()')
+			);
+			return $value;
+		}, 10, 2);
+
+		//object->type
+		add_filter(self::OBJECT_FILTER_PREFIX.'type', function($value, \WPCHAOSObject $object) {
+			$value .= $object->metadata(
+				array(WPDKACollections::METADATA_SCHEMA_GUID),
+				array('/Collection/Type/text()')
+			);
+			return $value;
+		}, 10, 2);
+
+		//object->playlist
+		add_filter(self::OBJECT_FILTER_PREFIX.'playlist', function($value, \WPCHAOSObject $object) {
+			$value .= $object->metadata(
+				array(WPDKACollections::METADATA_SCHEMA_GUID),
+				array('/Collection/Playlist/text()')
+			);
+			return $value;
+		}, 10, 2);
+
 	}
 
 	/**
@@ -339,24 +397,27 @@ final class WPDKACollections {
 	 * @param  string    $title
 	 * @param  string    $description (optional)
 	 * @param  string    $rights      (optional)
-	 * @param  string    $category    (optional)
+	 * @param  string    $type    (optional)
 	 * @return boolean
 	 */
 	private function _add_collection($title, $description = '', $rights = '', $type = self::TYPE_SERIES) {
 
-		$serviceResult = WPChaosClient::instance()->Object()->Get(
-		                "GUID:ad8682b9-1fc0-6045-acad-347f16a41d12",   // Search query
-		                null,   // Sort
-		                false,   // Use session instead of AP.
-		                0,      // pageIndex
-		                1,      // pageSize
-		                true,   // includeMetadata
-		                false,   // includeFiles
-		                false    // includeObjectRelations
-		    ); //debug purpose. using created guid
-		$collections = WPChaosObject::parseResponse($serviceResult);
-			$collection = $collections[0];
-		    return $collection;
+		if(!in_array($type,self::TYPE_SERIES,self::TYPE_EXHIBITION,self::TYPE_THEME))
+			return false;
+
+		// $serviceResult = WPChaosClient::instance()->Object()->Get(
+		//                 "GUID:ad8682b9-1fc0-6045-acad-347f16a41d12",   // Search query
+		//                 null,   // Sort
+		//                 false,   // Use session instead of AP.
+		//                 0,      // pageIndex
+		//                 1,      // pageSize
+		//                 true,   // includeMetadata
+		//                 false,   // includeFiles
+		//                 false    // includeObjectRelations
+		//     ); //debug purpose. using created guid
+		// $collections = WPChaosObject::parseResponse($serviceResult);
+		// 	$collection = $collections[0];
+		//     return $collection;
 		try {
 			$serviceResult = WPChaosClient::instance()->Object()->Create(self::COLLECTIONS_TYPE_ID,self::COLLECTIONS_FOLDER_ID);
 
@@ -370,9 +431,12 @@ final class WPDKACollections {
 			$metadataXML->addChild('Description', $description);
 			$metadataXML->addChild('Rights', $rights);
 			$metadataXML->addChild('Type', $type);
+			$metadataXML->addChild('Status', self::STATUS_DRAFT);
 			$metadataXML->addChild('Playlist');
 			
 			$collection->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+
+			return $collection;
 		} catch(\Exception $e) {
 			error_log('CHAOS Error when adding collection: '.$e->getMessage());
 			return false;
