@@ -6,11 +6,42 @@
                 <element name="Title" type="string" />
                 <element name="Description" type="string" />
                 <element name="Rights" type="string" />
-                <element name="Category" type="string" />
+              <element name="Type">
+                <annotation>
+                  <documentation>
+                    There are three types.
+                    A series is self explanatory.
+                    A theme is a set of materials in a given context (e.g. materials from a specific author)
+                    An exhibit allows text "between" materials.
+                  </documentation>
+                </annotation>
+                <simpleType>
+                  <restriction base="string">
+                    <enumeration value="Theme"></enumeration>
+                    <enumeration value="Exhibition"></enumeration>
+                    <enumeration value="Series"></enumeration>
+                  </restriction>
+                </simpleType>
+              </element>
+              <element name="Status">
+                <annotation>
+                  <documentation>
+                    The status determines whether the collection should be published or is still a draft,
+                    i.e. being edited.
+                  </documentation>
+                </annotation>
+                <simpleType>
+                  <restriction base="string">
+                    <enumeration value="Publish"></enumeration>
+                    <enumeration value="Draft"></enumeration>
+                  </restriction>
+                </simpleType>
+              </element>
+                <element name="User" type="string" minOccurs="0" />
                 <element name="Playlist">
                     <complexType>
                         <sequence>
-                            <element name="Object" type="unsignedInt" minOccurs="0" maxOccurs="unbounded"/>
+                            <element name="Object" type="string" minOccurs="0" maxOccurs="unbounded"/>
                         </sequence>
                     </complexType>
                 </element>
