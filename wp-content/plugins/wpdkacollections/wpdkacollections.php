@@ -25,6 +25,11 @@ final class WPDKACollections {
 	const COLLECTIONS_FOLDER_ID = 468; // CHANGE
 
 	/**
+	 * ID = 467 is "DKA/DKA/delete"
+	 */
+	const COLLECTIONS_FOLDER_DELETE_ID = 467;
+
+	/**
 	 * Token prefix for frontend AJAX submissions
 	 * Appended with object guid
 	 */
@@ -53,9 +58,11 @@ final class WPDKACollections {
 	 */
 	public function __construct() {
 		if(self::check_chaosclient()) {
+
+			$this->load_dependencies();
+
 			if(is_admin()) {
-				$this->load_dependencies();
-				
+	
 				add_action('admin_menu', array(&$this,'add_menu_items'));
 				//add_filter('wpchaos-config',array(&$this,'add_chaos_settings'));
 				//
@@ -75,10 +82,10 @@ final class WPDKACollections {
 				add_action('wp_ajax_wpdkacollections_edit_collection', array(&$this,'ajax_edit_collection') );
 				add_action('wp_ajax_nopriv_wpdkacollections_edit_collection', array(&$this,'ajax_edit_collection') );
 
+				//$this->_add_collection("Title test", 'Description Test', 'Right test',  self::TYPE_SERIES);
+
 
 			}
-
-			$this->define_attribute_filters();
 
 			add_action('wp_head', array(&$this, 'loadJsCss'));
 
@@ -86,57 +93,6 @@ final class WPDKACollections {
 
 			add_action('plugins_loaded',array(&$this,'load_textdomain'));
 		}
-	}
-
-	public function define_attribute_filters() {
-		// Registering namespaces.
-		\CHAOS\Portal\Client\Data\Object::registerXMLNamespace('dkac', 'http://www.danskkulturarv.dk/DKA-Collection.xsd');
-
-		//object->title
-		add_filter(self::OBJECT_FILTER_PREFIX.'title', function($value, \WPCHAOSObject $object) {
-			$value .= $object->metadata(
-				array(WPDKACollections::METADATA_SCHEMA_GUID),
-				array('/Collection/Title/text()')
-			);
-			return $value;
-		}, 10, 2);
-
-		//object->description
-		add_filter(self::OBJECT_FILTER_PREFIX.'description', function($value, \WPCHAOSObject $object) {
-			$value .= $object->metadata(
-				array(WPDKACollections::METADATA_SCHEMA_GUID),
-				array('/Collection/Description/text()')
-			);
-			return $value;
-		}, 10, 2);
-
-		//object->rights
-		add_filter(self::OBJECT_FILTER_PREFIX.'rights', function($value, \WPCHAOSObject $object) {
-			$value .= $object->metadata(
-				array(WPDKACollections::METADATA_SCHEMA_GUID),
-				array('/Collection/Rights/text()')
-			);
-			return $value;
-		}, 10, 2);
-
-		//object->type
-		add_filter(self::OBJECT_FILTER_PREFIX.'type', function($value, \WPCHAOSObject $object) {
-			$value .= $object->metadata(
-				array(WPDKACollections::METADATA_SCHEMA_GUID),
-				array('/Collection/Type/text()')
-			);
-			return $value;
-		}, 10, 2);
-
-		//object->playlist
-		add_filter(self::OBJECT_FILTER_PREFIX.'playlist', function($value, \WPCHAOSObject $object) {
-			$value .= $object->metadata(
-				array(WPDKACollections::METADATA_SCHEMA_GUID),
-				array('/Collection/Playlist/text()')
-			);
-			return $value;
-		}, 10, 2);
-
 	}
 
 	/**
@@ -147,7 +103,52 @@ final class WPDKACollections {
 		load_plugin_textdomain(self::DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/lang/');
 	}
 
-	
+	public function load_collections_page() {
+
+		function add_admin_notice($key, $verb) {
+			$count = intval($_REQUEST[$key]);
+			add_action( 'admin_notices', function() use ($count,$verb) {
+				echo '<div class="updated"><p>'.sprintf(_n('%d collection %s successfully!','%d collections %s successfully!', $count,WPDKACollections::DOMAIN),$count,$verb).'</p></div>';
+			} );
+		}
+
+		//wp_enqueue_style('wpdkatags-style',plugins_url('css/style.css', __FILE__ ));
+
+		$action = (isset($_REQUEST['action']) && $_REQUEST['action'] != -1 ? $_REQUEST['action'] : (isset($_REQUEST['action2']) && $_REQUEST['action2'] != -1 ? $_REQUEST['action2'] : false));
+
+		if($action && isset($_REQUEST[WPDKACollections_List_Table::NAME_SINGULAR])) {
+			
+			//TODO: nonce check here
+			//TODO: perms check here
+			
+			$collections = $_REQUEST[WPDKACollections_List_Table::NAME_SINGULAR];
+			if(!is_array($collections)) {
+				$collections = array($collections);
+			}
+
+			$current_page = remove_query_arg(array('_wpnonce','action','action2',WPDKACollections_List_Table::NAME_SINGULAR,'_wp_http_referer'));
+			$count = 0;
+
+			//TODO: instead of lazy loading objects, load em all at once
+			switch($action) {
+					case 'delete':
+						//When we delete, we actually move the tag to a specific folder.
+						//Consider it a trash can
+						foreach($collections as $collection) {
+							$serviceResult = WPChaosClient::instance()->Link()->Update($collection, self::COLLECTIONS_FOLDER_ID, self::COLLECTIONS_FOLDER_DELETE_ID);
+							$count++;
+						}
+						break;
+			}
+			$current_page = add_query_arg($action,$count,$current_page);
+
+			wp_safe_redirect($current_page);
+
+		} if(isset($_REQUEST['delete'])) {
+			add_admin_notice('delete',__('deleted',self::DOMAIN));
+		}
+
+	}
 
 	public function make_parent_node( $wp_admin_bar ) {
 		$args = array(
@@ -318,14 +319,14 @@ final class WPDKACollections {
 	 * Add menu to adminisration
 	 */
 	public function add_menu_items() {
-		global $submenu;
-		add_menu_page(
+		$page = add_menu_page(
 			'WP DKA Collections',
 			'Collections',
 			'activate_plugins',
 			'wpdkacollections',
 			array(&$this,'render_collections_page')
 		);
+		add_action( 'load-' . $page , array(&$this,'load_collections_page'));
 	}
 
 	/**
@@ -335,24 +336,28 @@ final class WPDKACollections {
 	 */
 	public function render_collections_page() {
 
-?>
-		<div class="wrap">
-			<div id="icon-users" class="icon32"><br/></div>
-<?php
 			$page = (isset($_GET['subpage']) ? $_GET['subpage'] : "");
 			$renderTable;
 			switch($page) {
 				case 'wpdkacollection-objects' :
-					$renderTable = new WPDKACollectionObjects_List_Table();
-					break;
+				$renderTable = new WPDKACollectionObjects_List_Table();
+				break;
 				default :
-					$renderTable = new WPDKACollections_List_Table();
+				$renderTable = new WPDKACollections_List_Table();
 			}
+
+			?>
+
+			<div class="wrap">
+			<div id="icon-edit" class="icon32 icon32-posts-post"><br /></div>
+
+			<?php
+
 			$this->render_list_table($renderTable);
 			
-?>
+			?>
 		</div>
-<?php
+		<?php
 	}
 
 	/**
@@ -361,16 +366,23 @@ final class WPDKACollections {
 	 * @return WPDKACollections_List_Table
 	 */
 	private function render_list_table(WPDKACollections_List_Table $table) {
-		$table->prepare_items();
-?>
-	<h2><?php $table->get_title(); ?></h2>
-	<form id="movies-filter" method="get">
-		<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
-		<?php $table->views(); ?>
-		<?php $table->display(); ?>
-	</form>
-	
-<?php
+		$table->prepare_items();   
+		?>
+		<h2><?php $table->get_title(); ?></h2>
+
+		<form id="movies-filter" method="get">
+			<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
+			<?php if(isset($_REQUEST['subpage'])) : ?>
+			<input type="hidden" name="subpage" value="<?php echo $_REQUEST['subpage']; ?>" />
+			<?php endif; ?>
+			<?php if(isset($_REQUEST['dka-collection'])) : ?>
+			<input type="hidden" name="dka-collection" value="<?php echo $_REQUEST['dka-collection']; ?>" />
+			<?php endif; ?>
+			<?php $table->views(); ?>
+			<?php $table->display(); ?>
+		</form>
+		
+		<?php
 		return $table;
 	}
 
@@ -402,7 +414,7 @@ final class WPDKACollections {
 	 */
 	private function _add_collection($title, $description = '', $rights = '', $type = self::TYPE_SERIES) {
 
-		if(!in_array($type,self::TYPE_SERIES,self::TYPE_EXHIBITION,self::TYPE_THEME))
+		if(!in_array($type,array(self::TYPE_SERIES,self::TYPE_EXHIBITION,self::TYPE_THEME)))
 			return false;
 
 		// $serviceResult = WPChaosClient::instance()->Object()->Get(
@@ -589,14 +601,16 @@ final class WPDKACollections {
 	 * @return void
 	 */
 	private function load_dependencies() {
-		//WP_List_Table might not be available automatically
-		if(!class_exists('WP_List_Table')){
-			require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+		if(is_admin()) {
+			//WP_List_Table might not be available automatically
+			if(!class_exists('WP_List_Table')){
+				require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+			}
+			require_once("wpdkacollections-list-table.php");
+			require_once("wpdkacollectionobjects-list-table.php");			
 		}
-		require_once("wpdkacollections-list-table.php");
-		require_once("wpdkacollectionobjects-list-table.php");
+		require("wpchaosobject-filters.php");
 	}
-
 
 	/**
 	 * Check if dependent plugins are active

@@ -158,9 +158,9 @@ final class WPDKATags {
 
 		wp_enqueue_style('wpdkatags-style',plugins_url('css/style.css', __FILE__ ));
 
-		$action = (isset($_REQUEST['action']) ? $_REQUEST['action'] :(isset($_REQUEST['action2']) ? $_REQUEST['action'] : false));
+		$action = (isset($_REQUEST['action']) && $_REQUEST['action'] != -1 ? $_REQUEST['action'] : (isset($_REQUEST['action2']) && $_REQUEST['action2'] != -1 ? $_REQUEST['action2'] : false));
 
-		if($action && $action != -1 && isset($_REQUEST[WPDKATagObjects_List_Table::NAME_SINGULAR])) {
+		if($action && isset($_REQUEST[WPDKATagObjects_List_Table::NAME_SINGULAR])) {
 			
 			//TODO: nonce check here
 			//TODO: perms check here
@@ -182,7 +182,6 @@ final class WPDKATags {
 								$count++;
 							}
 						}
-						$current_page = add_query_arg('flagged',count($tags),$current_page);
 						break;
 					case 'approved':
 						foreach($tags as $tag) {
@@ -191,7 +190,6 @@ final class WPDKATags {
 								$count++;
 							}
 						}
-						$current_page = add_query_arg('approved',count($tags),$current_page);
 						break;
 					case 'unapproved':
 						foreach($tags as $tag) {
@@ -200,7 +198,6 @@ final class WPDKATags {
 								$count++;
 							}
 						}
-						
 						break;
 					case 'rename':
 						if(isset($_REQUEST['dka-tag-new'])) {
@@ -484,23 +481,12 @@ final class WPDKATags {
 	 * Adds a new tag object to CHAOS and relates it to material object
 	 * @param  string    $object_guid
 	 * @param  string    $tag_input
-	 * @return boolean
+	 * @return WPChaosObject|boolean
 	 */
 	private function _add_tag($object_guid, $tag_input) {
 
 		try {
 			$serviceResult = WPChaosClient::instance()->Object()->Create(self::TAG_TYPE_ID,self::TAGS_FOLDER_ID);
-			// $serviceResult = WPChaosClient::instance()->Object()->Get(
-			//             "GUID:d96cbd3a-766d-6d42-888d-cbcfa3592ca3",   // Search query
-			//             null,   // Sort
-			//             false,   // Use session instead of AP.
-			//             0,      // pageIndex
-			//             1,      // pageSize
-			//             true,   // includeMetadata
-			//             false,   // includeFiles
-			//             false    // includeObjectRelations
-			// ); //debug purpose. using created guid
-
 			$tags = WPChaosObject::parseResponse($serviceResult);
 			$tag = $tags[0];
 
@@ -523,7 +509,6 @@ final class WPDKATags {
 			error_log('CHAOS Error when adding tag: '.$e->getMessage());
 			return false;
 		}
-		return true;
 	}
 
 	/**

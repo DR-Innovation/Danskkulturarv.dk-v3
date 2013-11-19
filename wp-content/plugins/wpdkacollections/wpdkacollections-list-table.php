@@ -50,9 +50,9 @@ class WPDKACollections_List_Table extends WP_List_Table {
 		$status_links = array();
 		$status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'" class="current">' . sprintf( _nx( 'All <span class="count">(%s, %s unique)</span>', 'All <span class="count">(%s, %s unique)</span>', $total_count, 'posts' ), $total_count, number_format_i18n( $this->get_pagination_arg('total_items') ) ) . '</a>';
 		
-		$status_links['add'] = '<a href="admin.php?page='.$this->screen->parent_base.'&amp;subpage=wpdkacollection-objects" class="addCollection">' . __('Add new collection','wpdkacollections') . '</a>';
-		wp_enqueue_script('bootstrapjs',plugins_url( 'js/bootstrap.min.js' , __FILE__ ),array('jquery'),'1.0',true);
-		wp_enqueue_style('bootstrapcss', plugins_url( 'css/bootstrap.min.css' , __FILE__ ),true);
+		//$status_links['add'] = '<a href="admin.php?page='.$this->screen->parent_base.'&amp;subpage=wpdkacollection-objects" class="addCollection">' . __('Add new collection','wpdkacollections') . '</a>';
+		//wp_enqueue_script('bootstrapjs',plugins_url( 'js/bootstrap.min.js' , __FILE__ ),array('jquery'),'1.0',true);
+		//wp_enqueue_style('bootstrapcss', plugins_url( 'css/bootstrap.min.css' , __FILE__ ),true);
 		return $status_links;
 	}
 	
@@ -76,7 +76,13 @@ class WPDKACollections_List_Table extends WP_List_Table {
 	 */
 	protected function column_title($item){
 
+		$current_page = "admin.php?".http_build_query(array('page' => $_REQUEST['page'], $this->_args['singular'] => $item->GUID));
+
 		$actions = array();
+
+		$actions['quickedit'] = '<a class="wpdkacollections-quickedit" href="#">'.__('Quick Edit').'</a>';
+		
+		$actions['delete'] = '<a class="submitdelete" href="'.add_query_arg(array('action' => 'delete'), $current_page).'">'.__('Delete').'</a>';
 		
 		//Return the title contents
 		return sprintf('<strong><a href="%1$s">%2$s</a></strong>%3$s',
@@ -119,6 +125,7 @@ class WPDKACollections_List_Table extends WP_List_Table {
 			'description' => __('Description', WPDKACollections::DOMAIN),
 			'rights' => __('Rights', WPDKACollections::DOMAIN),
 			'type' => __('Type', WPDKACollections::DOMAIN),
+			'status' => __('Status', WPDKACollections::DOMAIN),
 			'playlist' => __('Materials', WPDKACollections::DOMAIN)
 		);
 		return $columns;
@@ -154,7 +161,7 @@ class WPDKACollections_List_Table extends WP_List_Table {
 	 */
 	public function prepare_items() { 
 		$per_page = $this->get_items_per_page('edit_wpdkacollections_per_page');
-		//$per_page = 5;
+		//$per_page = 60;
 		
 		$hidden = array();
 		$this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());
@@ -163,7 +170,7 @@ class WPDKACollections_List_Table extends WP_List_Table {
 				'(FolderID:'.WPDKACollections::COLLECTIONS_FOLDER_ID.')',   // Search query
 				null,   // Sort
 				false, 
-				0,      // pageIndex
+				$this->get_pagenum()-1,      // pageIndex
 				$per_page,      // pageSize
 				true,   // includeMetadata
 				false,   // includeFiles

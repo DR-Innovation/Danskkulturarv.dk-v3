@@ -448,8 +448,10 @@ class WPDKAObject {
 	public function define_single_object_page() {
 		// Ensure the DKA Crowd metadata schema is present, and redirect to the slug URL if needed.
 		add_action(WPChaosClient::GET_OBJECT_PAGE_BEFORE_TEMPLATE_ACTION, function(\WPChaosObject $object) {
+
 			// If a guid was used to retreive the object, this might not have the crowd metadata connected to it.
-			if(array_key_exists('guid', $_GET)) {
+			// Only for DKA objects
+			if(array_key_exists('guid', $_GET) && in_array($object->ObjectTypeID,array(WPDKAObject::$OBJECT_TYPE_IDS))) {
 				try {
 					$object = WPDKAObject::ensure_crowd_metadata($object, true);
 					$redirection = $object->url;

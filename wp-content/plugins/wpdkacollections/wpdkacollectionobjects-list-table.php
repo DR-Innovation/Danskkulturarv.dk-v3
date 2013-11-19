@@ -5,8 +5,6 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
     const NAME_SINGULAR = 'dka-collection-object';
     const NAME_PLURAL = 'dka-collection-objects';
 
-    protected $_collections_related_item = array();
-    protected $_collections_metadata = array();
     protected $_current_collection;
 
     /**
@@ -21,9 +19,6 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
             'plural'    => self::NAME_PLURAL,
             'ajax'      => false        //does this table support ajax?
         ) );
-
-        if (isset($_GET[self::NAME_SINGULAR]))
-            $this->_current_collection = $_GET[self::NAME_SINGULAR];
 
         $this->title = sprintf(__('Collection: %s', 'wpdkacollections'), $this->get_current_collection());
     }
@@ -52,18 +47,7 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
      * @return string
      */
     protected function column_default($item, $column_name) {
-        switch($column_name) {
-            case 'date':
-                $time = strtotime($this->_collections_metadata[$item->GUID]['created']);
-                $time_diff = time() - $time;
-                if ($time_diff > 0 && $time_diff < WEEK_IN_SECONDS )
-                    $time = sprintf( __( '%s ago' ), human_time_diff( $time ) );
-                else
-                    $time = date_i18n(get_option('date_format'),$time);
-                return $time;
-            default:
-                return print_r($item,true); //Show the whole array for troubleshooting purposes
-        }
+        return $item->$column_name;
     }
 
     /**
@@ -74,16 +58,17 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
     protected function column_title($item) {
         
         //Build row actions
-        $actions = array(
-            'edit' => '<a href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'edit', $this->_args['singular'] => $item->GUID), 'admin.php').'">'.__('Edit','wpdkacollections').'</a>',
-            'remove' => '<a class="submitdelete" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'remove', $this->_args['singular'] => $item->GUID), 'admin.php').'">'.__('Remove','wpdkacollections').'</a>',
-            'show' => '<a href="'.$this->_collections_related_item[$item->ObjectRelations[0]->Object1GUID]->url.'" target="_blank">'.__('Show material').'</a>'
-        );
+        // $actions = array(
+        //     'edit' => '<a href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'edit', $this->_args['singular'] => $item->GUID), 'admin.php').'">'.__('Edit','wpdkacollections').'</a>',
+        //     'remove' => '<a class="submitdelete" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'remove', $this->_args['singular'] => $item->GUID), 'admin.php').'">'.__('Remove','wpdkacollections').'</a>',
+        //     'show' => '<a href="'.$this->_collections_related_item[$item->ObjectRelations[0]->Object1GUID]->url.'" target="_blank">'.__('Show material').'</a>'
+        // );
+        $actions = array();
 
         //Return the title contents
         return sprintf('<strong><a href="%1$s">%2$s</a></strong>%3$s',
-            "#",
-            $this->_collections_related_item[$item->ObjectRelations[0]->Object1GUID]->title,
+            $item->url,
+            $item->title,
             $this->row_actions($actions)
         );
     }
@@ -108,8 +93,8 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
     public function get_columns() {
         $columns = array(
             'cb'        => '<input type="checkbox" />',
-            'title'     => __('Material Title','wpdkacollections'),
-            'date'      => __('Date', 'wpdkacollections')
+            'title'     => __('Title'),
+            'organization'      => __('Organization', 'wpdkacollections')
         );
         return $columns;
     }
@@ -127,44 +112,15 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
     }
     
     
-    /** ************************************************************************
-     * Optional. If you need to include bulk actions in your list table, this is
-     * the place to define them. Bulk actions are an associative array in the format
-     * 'slug'=>'Visible Title'
-     * 
-     * If this method returns an empty value, no bulk action will be rendered. If
-     * you specify any bulk actions, the bulk actions box will be rendered with
-     * the table automatically on display().
-     * 
-     * Also note that list tables are not automatically wrapped in <form> elements,
-     * so you will need to create those manually in order for bulk actions to function.
-     * 
-     * @return array An associative array containing all the bulk actions: 'slugs'=>'Visible Titles'
-     **************************************************************************/
+	/**
+	 * Get list of bulk actions
+	 * @return array
+	 */
     public function get_bulk_actions() {
         $actions = array(
             'remove' => __('Remove', 'wpdkacollections')
         );
         return $actions;
-    }
-    
-    
-    /** ************************************************************************
-     * Optional. You can handle your bulk actions anywhere or anyhow you prefer.
-     * For this example package, we will handle it in the class to keep things
-     * clean and organized.
-     * 
-     * @see $this->prepare_items()
-     **************************************************************************/
-    protected function process_bulk_action() {
-        
-        //Detect when a bulk action is being triggered...
-        switch ($this->current_action()) {
-            case 'remove':
-                // Delete tags TODO
-                wp_die('Items removed from collection (or they would be if we had items to remove)!');
-        }
-        
     }
 
     /**
@@ -173,82 +129,63 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
      */
     public function prepare_items() {
 
-        // New collection
-        if (!isset($this->_current_collection)) {
-            // TODO load 
-            return;
-        }
-
         $per_page = $this->get_items_per_page( 'edit_wpdkacollections_per_page');
 
         //Set column headers
         $hidden = array();
-        $this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());
-        
-        //Process actions
-        $this->process_bulk_action();
+        $this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());      
 
-        // $query = self::FACET_KEY_VALUE.":".$this->get_current_collection();"+AND+ObjectTypeID:".WPDKACollections::TAG_TYPE_ID;
+        $query = "GUID:".$_GET[parent::NAME_SINGULAR];
 
-        $query = '';
-
-        //Get tag objects by name
-        //A tag is NOT unique by name, as the object<->tag relation is 1:1
+        //Get collection object
         $serviceResult = WPChaosClient::instance()->Object()->Get(
             $query,   // Search query
             null,   // Sort
             false,   // Use session instead of AP
-            $this->get_pagenum()-1,      // pageIndex
-            $per_page,      // pageSize
+            0,      // pageIndex
+            1,      // pageSize
             true,   // includeMetadata
             false,   // includeFiles
             true    // includeObjectRelations
         );
 
-        //Instantiate collections from serviceResult
-        $collections = WPChaosObject::parseResponse($serviceResult);
+        //Instantiate collection
+        $collection = WPChaosObject::parseResponse($serviceResult,WPDKACollections::OBJECT_FILTER_PREFIX);
+        $this->_current_collection = $collection[0];
 
-        //Loop through collections to get and cache metadata and get relations
+        $this->title = '<a href="'.add_query_arg('page',WPDKACollections::DOMAIN,'admin.php').'">'.__('DKA Collections', WPDKACollections::DOMAIN).'</a> &raquo; '.$this->_current_collection->title;
+
+        //Get relations
         $relation_guids = array();
-        foreach($collections as $object) {
-            $this->_tags_metadata[$object->GUID] = $object->metadata(
-                array(WPDKACollections::METADATA_SCHEMA_GUID),
-                array(''),
-                null
-            );
-            foreach($object->ObjectRelations as $relation) {
-                $relation_guids[] = "GUID:".$relation->Object1GUID;
-                $relation_guids_map[$relation->Object1GUID] = $object->GUID;
-            }
+        foreach($this->_current_collection->ObjectRelations as $relation) {
+        	if($this->_current_collection->GUID != $relation->Object1GUID) {
+        		$relation_guids[] = $relation->Object1GUID;
+        	} else {
+        		$relation_guids[] = $relation->Object2GUID;
+        	}
         }
 
-        //Get the related objects to the collections.
-        //The quantity we get here should at most be the quantity we got in $serviceResult
+        //Get the related objects to the collection.
         $serviceResult2 = WPChaosClient::instance()->Object()->Get(
-            "(".implode("+OR+", $relation_guids).")",   // Search query
+            "(GUID:(".implode(" OR ", $relation_guids)."))",   // Search query
             null,   // Sort
             null,   // AP injected
             0,      // pageIndex
-            $per_page,      // pageSize
+            count($relation_guids), // pageSize
             true,   // includeMetadata
             false,   // includeFiles
             false    // includeObjectRelations
         );
-
-        //Loop through objects to make them available for later use
-        foreach($serviceResult2->MCM()->Results() as $object) {
-            $this->_collections_related_item[$object->GUID] = new WPChaosObject($object);
-        }
         
         //Set items
-        $this->items = $collections;
+        $this->items = WPChaosObject::parseResponse($serviceResult2);
         
         //Set pagination
         //$serviceResult->MCM()->TotalPages() cannot be trusted here!
         $this->set_pagination_args( array(
-            'total_items' => $serviceResult->MCM()->TotalCount(),
+            'total_items' => $serviceResult2->MCM()->TotalCount(),
             'per_page'    => $per_page,
-            'total_pages' => ceil($serviceResult->MCM()->TotalCount()/$per_page)
+            'total_pages' => ceil($serviceResult2->MCM()->TotalCount()/$per_page)
         ) );
     }
     
