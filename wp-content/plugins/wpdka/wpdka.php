@@ -492,6 +492,7 @@ class WPDKA {
 		require_once('wpdkasearch.php');
 		require_once('wpdkasitemap.php');
 		require_once('widgets/player.php');
+		require("shortcodes.php");
 	}
 
 }
