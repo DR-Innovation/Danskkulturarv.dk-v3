@@ -154,6 +154,12 @@ class WPDKACollections_List_Table extends WP_List_Table {
 		);
 		return $actions;
 	}
+
+	function extra_tablenav( $which ) {
+		if ( $which == "top" ){
+			echo '<input href="" type="submit" id="add-collection" class="button-secondary" value="' . __('Add collection', 'wpdkacollections') . '" />';
+		}
+	}
 	
 	/**
 	 * Prepare table with columns, data, pagination etc.
@@ -178,7 +184,6 @@ class WPDKACollections_List_Table extends WP_List_Table {
 			);
 
 		$this->items = WPChaosObject::parseResponse($response,WPDKACollections::OBJECT_FILTER_PREFIX);
-		
 		$this->set_pagination_args( array(
 			'total_items' => $response->MCM()->TotalCount(),
 			'per_page'    => $per_page,

@@ -123,6 +123,12 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
         return $actions;
     }
 
+    function extra_tablenav( $which ) {
+        if ( $which == "top" ){
+            echo '<input href="" type="submit" class="button-secondary" id="edit-collection" value="' . __('Edit collection', 'wpdkacollections') . '" />';
+        }
+    }
+
     /**
      * Prepare table with columns, data, pagination etc.
      * @return void
@@ -135,23 +141,15 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
         $hidden = array();
         $this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());      
 
-        $query = "GUID:".$_GET[parent::NAME_SINGULAR];
+        $this->_current_collection = WPDKACollections::get_current_collection();
 
-        //Get collection object
-        $serviceResult = WPChaosClient::instance()->Object()->Get(
-            $query,   // Search query
-            null,   // Sort
-            false,   // Use session instead of AP
-            0,      // pageIndex
-            1,      // pageSize
-            true,   // includeMetadata
-            false,   // includeFiles
-            true    // includeObjectRelations
+        $current_collection_array = array(
+            'inputName' => $this->_current_collection->title,
+            'inputDescription' => $this->_current_collection->description,
+            'inputRights' => $this->_current_collection->rights,
+            'inputCategories' => $this->_current_collection->categories
         );
-
-        //Instantiate collection
-        $collection = WPChaosObject::parseResponse($serviceResult,WPDKACollections::OBJECT_FILTER_PREFIX);
-        $this->_current_collection = $collection[0];
+        wp_localize_script( 'dka-collections', 'WPDKACollections', $current_collection_array );
 
         $this->title = '<a href="'.add_query_arg('page',WPDKACollections::DOMAIN,'admin.php').'">'.__('DKA Collections', WPDKACollections::DOMAIN).'</a> &raquo; '.$this->_current_collection->title;
 
@@ -179,7 +177,6 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
         
         //Set items
         $this->items = WPChaosObject::parseResponse($serviceResult2);
-        
         //Set pagination
         //$serviceResult->MCM()->TotalPages() cannot be trusted here!
         $this->set_pagination_args( array(

@@ -53,6 +53,8 @@ final class WPDKACollections {
 		'wpdka/wpdka.php' => 'WordPress DKA'
 	);
 
+	protected $cur_collection_guid;
+
 	/**
 	 * Constructor
 	 */
@@ -66,9 +68,13 @@ final class WPDKACollections {
 				add_action('admin_menu', array(&$this,'add_menu_items'));
 				//add_filter('wpchaos-config',array(&$this,'add_chaos_settings'));
 				//
-				// Add collection
+				// Get collections
 				add_action('wp_ajax_wpdkacollections_get_collections', array(&$this,'ajax_get_collections') );
 				add_action('wp_ajax_nopriv_wpdkacollections_get_collections', array(&$this,'ajax_get_collections') );
+
+				// Get specific collection
+				add_action('wp_ajax_wpdkacollections_get_collection', array(&$this,'ajax_get_collection') );
+				add_action('wp_ajax_nopriv_wpdkacollections_get_collection', array(&$this,'ajax_get_collection') );
 
 				// Add collection
 				add_action('wp_ajax_wpdkacollections_add_collection', array(&$this,'ajax_add_collection') );
@@ -86,6 +92,9 @@ final class WPDKACollections {
 
 
 			}
+
+			add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', array(&$this,'define_collections_filter'),10,2);
+			add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections_raw', array(&$this,'define_collections_raw_filter'),10,2);
 
 			add_action('wp_head', array(&$this, 'loadJsCss'));
 
@@ -181,12 +190,23 @@ final class WPDKACollections {
 
 	public function loadJsCss() {
 		if(current_user_can('edit_posts')) {
-		wp_enqueue_script('dka-collections',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
-		$translation_array = array(
-			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-			'token' => wp_create_nonce(self::TOKEN_PREFIX)
-		);
-		wp_localize_script( 'dka-collections', 'WPDKACollections', $translation_array );
+			wp_enqueue_script('dka-collections',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
+			wp_enqueue_style('dka-collections-style',plugins_url( 'css/style.css' , __FILE__ ));
+			$translation_array = array(
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'token' => wp_create_nonce(self::TOKEN_PREFIX)
+			);
+			$cur_collection = self::get_current_collection();
+			$translation_array_edit = array();
+			if (!empty($cur_collection)) {
+				$translation_array_edit = array(
+					'inputName' => $cur_collection->title,
+		            'inputDescription' => $cur_collection->description,
+		            'inputRights' => $cur_collection->rights,
+		            'inputCategories' => $cur_collection->categories
+				);
+			}
+			wp_localize_script( 'dka-collections', 'WPDKACollections', array_merge($translation_array, $translation_array_edit) );
 		}
 	}
 
@@ -224,6 +244,16 @@ final class WPDKACollections {
 		}
 
 		echo json_encode($response);
+		die();
+	}
+
+	public function ajax_get_collection() {
+		try {
+			$result = self::get_collection_by_guid($_POST['guid']);
+			echo $this->list_collection_objects($result);
+		} catch(\Exception $e) {
+
+		}
 		die();
 	}
 
@@ -314,6 +344,59 @@ final class WPDKACollections {
 		return array();
 	}
 
+	/**
+	*	Get current collection
+	*
+	*/
+	public static function get_current_collection() {
+		if (!class_exists(WPDKACollections_List_Table) || !isset($_GET[WPDKACollections_List_Table::NAME_SINGULAR])) {
+			return false;
+		}
+
+		$query = "GUID:".$_GET[WPDKACollections_List_Table::NAME_SINGULAR];
+
+        //Get collection object
+        $serviceResult = WPChaosClient::instance()->Object()->Get(
+            $query,   // Search query
+            null,   // Sort
+            false,   // Use session instead of AP
+            0,      // pageIndex
+            1,      // pageSize
+            true,   // includeMetadata
+            false,   // includeFiles
+            true    // includeObjectRelations
+        );
+
+        //Instantiate collection
+        $collection = WPChaosObject::parseResponse($serviceResult,WPDKACollections::OBJECT_FILTER_PREFIX);
+        return $collection[0];
+	}
+
+	/**
+	*	Get a specific collection
+	*	@param $guid collection guid
+	*
+	*/
+	public static function get_collection_by_guid($guid) {
+		$query = "GUID:".$guid;
+
+        //Get collection object
+        $serviceResult = WPChaosClient::instance()->Object()->Get(
+            $query,   // Search query
+            null,   // Sort
+            false,   // Use session instead of AP
+            0,      // pageIndex
+            1,      // pageSize
+            true,   // includeMetadata
+            false,   // includeFiles
+            true    // includeObjectRelations
+        );
+
+        //Instantiate collection
+        $collection = WPChaosObject::parseResponse($serviceResult,WPDKACollections::OBJECT_FILTER_PREFIX);
+        return $collection[0];
+	}
+
 
 	/**
 	 * Add menu to adminisration
@@ -360,16 +443,107 @@ final class WPDKACollections {
 		<?php
 	}
 
+	private function list_collection_objects($collection_object) {
+		$count = 1;
+		$value = '';
+		foreach ($collection_object->objects as $object) {
+			if ($this->cur_collection_guid == $object->GUID) {
+				$thumbnail = (WPChaosClient::get_object()->thumbnail ? ' style="background-image: url(\''.WPChaosClient::get_object()->thumbnail.'\')!important;"' : ''); // Should get current object thumbnail.
+		 		$value .= 	'<li id="current_collection" class="list-group-item media' . $style . '" value="' . $object->guid . '">
+		 				<a class="fill-collection" href="'. $object->url . '"></a>
+		 				<h4 class="list-group-item-heading"><span class="collectionCount">' . $count++ . '</span> ' . $object->title . '</h4>
+			 				<div class="pull-left">
+			 					<div id="collection_image" class="thumb format"'. $thumbnail . '">
+					   			</div>
+			 				</div>
+			 				<div class="media-body">
+  							' . $object->description . '
+						  	</div>
+						</li>';
+				continue;
+			}
+			$value .= 	'<li class="list-group-item media' . $style . '" value="' . $object->guid . '">
+		 				<a class="fill-collection" href="'. $object->url . '"></a>
+		 				<h4 class="list-group-item-heading"><span class="collectionCount">' . $count++ . '</span> ' . $object->title . '</h4>
+						</li>';
+		}
+		return $value;
+	}
+
+	public function define_collections_raw_filter($value, WPChaosObject $object) {
+		$collections = array();
+
+		// $collections = $this->material_get_collections($object->GUID);
+		// foreach ($collections as $collection) {
+
+		// }
+
+		// Testing design
+		for ($i = 0; $i < 3; $i++) {
+			$object = new stdClass();
+			$object->title = 'Test ' . $i;
+			$object->guid = $i;
+			$new_objects = array();
+			for ($j = 1; $j < 20; $j++) {
+				$new_object = new stdClass();
+				$new_object->title = 'Object ' . $i . $j;
+				$new_object->GUID = $i . $j;
+				$new_object->description = "Description...";
+				$new_objects[] = $new_object;
+			}
+			$object->objects = $new_objects;
+			$collections[] = $object;
+		}
+
+		return $collections;
+	}
+
+	public function define_collections_filter($value, $object) {
+		// View collections
+		$collections = $object->collections_raw;
+
+		$this->cur_collection_guid = 12;//$object->GUID;
+
+		if (count($collections) == 0) { return; }
+
+		$cur_collection = $collections[0];
+
+		if (count($collections) == 1) {
+			$value .= '<h4>' . $cur_collection->title . '</h4>';
+		}
+		else {
+			$value .= '<div class="btn-group listCollections">
+					  <div class="dropdown-toggle" data-toggle="dropdown" value="' . $cur_collection->GUID . '">
+						  <h4>' . sprintf('Part of the theme %s', '<strong><span>' . $cur_collection->title . '<span></strong>') . '</h4>
+						  <div class="pull-right"><span class="caret"></span></div>
+					  </div>
+					  <ul class="dropdown-menu" role="menu">';
+			foreach ($collections as $collection) {
+				$value .= '<li value="' . $collection->GUID . '"><a href="">' . $collection->title . '</a></li>';
+			}
+
+	  		$value .= '</ul></div>';
+		}
+		$value .= '<hr><div class="collections media">';
+		$value .= '<ul class="media-list">';
+		$value .= $this->list_collection_objects($cur_collection);
+		$value .= '</ul>
+				</div>';
+		return $value;
+	}
+
 	/**
 	 * Render page for a given list table
 	 * @param  WPDKACollections_List_Table $table
 	 * @return WPDKACollections_List_Table
 	 */
 	private function render_list_table(WPDKACollections_List_Table $table) {
-		$table->prepare_items();   
+		$table->prepare_items();  
+		wp_enqueue_script('bootstrapjs',plugins_url( 'js/bootstrap.min.js' , __FILE__ ),array('jquery'),'1.0',true); 
+		wp_enqueue_style('bootstrapcss',plugins_url( 'css/bootstrap.min.css' , __FILE__ ));
+		$this->loadJsCss();
 		?>
 		<h2><?php $table->get_title(); ?></h2>
-
 		<form id="movies-filter" method="get">
 			<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
 			<?php if(isset($_REQUEST['subpage'])) : ?>
@@ -387,6 +561,7 @@ final class WPDKACollections {
 	}
 
 	private function render_edit_collection() {
+
 ?>
 		<h2><?php printf(__('Edit %s', self::DOMAIN), $_GET['dka-collection']); ?></h2>
 
@@ -453,7 +628,6 @@ final class WPDKACollections {
 			error_log('CHAOS Error when adding collection: '.$e->getMessage());
 			return false;
 		}
-		return true;
 	}
 
 	/**

@@ -1,5 +1,4 @@
 (function($) {
-
 	/**
 	 * Main class for custom functions
 	 * @type {Object}
@@ -53,7 +52,6 @@
 		},
 
 		addInsertObjectToRelationListener: function() {
-
 			this.modalAddObject = $('<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
 				'<div class="modal-dialog">'+
 					'<div class="modal-content">'+
@@ -181,7 +179,13 @@
 				backdrop:'static'
 			});
 
+			$('#add-collection').click(function(e) {
+				e.preventDefault();
+				createCollectionModal.modal('show');
+			});
+
 			this.modalAddObject.on('click', '#add-collection', function(e) {
+				console.log('clicked');
 				e.preventDefault();
 				createCollectionModal.modal('show');
 				
@@ -264,7 +268,7 @@
 								'<div class="form-group">'+
 									'<label for="inputCategory" class="col-lg-2 control-label">Kategori</label>'+
 									'<div class="col-lg-10">'+
-										'<input type="text" class="form-control" id="inputCategory" placeholder="Samlingens kategori." value="' + WPDKACollections.categories + '">'+
+										'<input type="text" class="form-control" id="inputCategory" placeholder="Samlingens kategori." value="' + WPDKACollections.inputCategories + '">'+
 									'</div>'+
 								'</div>'+
 						'</div>'+
@@ -283,7 +287,7 @@
 			});
 
 			// Open edit-modal
-			$('.editCollection').on('click', function(e) {
+			$('#edit-collection').on('click', function(e) {
 				e.preventDefault();
 				$('.modal-title').text('test');
 				editCollectionModal.modal('show');
@@ -305,7 +309,7 @@
 					type: 'POST',
 					success:function(data) {
 						console.log(data);
-						createCollectionModal.modal('hide');
+						editCollectionModal.modal('hide');
 						location.reload();
 					},
 					error: function(errorThrown) {
@@ -355,6 +359,42 @@
 	};
 
 	//Initiate class on page load
-	$(document).ready(function(){ wpdkacollections.init(); });
+	$(document).ready(function(){ 
+		wpdkacollections.init(); 
+
+		// Makes sure to focus current object.
+		if (!document.location.hash){
+		    document.location.hash = 'current_collection';
+		}
+	});
+
+	// When changing collection in collection dropdown list.
+	$(".listCollections li").click(function(){
+		$(".listCollections h4 span").text($(this).text());
+		$(".listCollections .dropdown-toggle").val($(this).val());
+		$(".collections .media-list").html('');
+		$.ajax({
+			url: WPDKACollections.ajaxurl,
+			data:{
+				action: 'wpdkacollections_get_collection',
+				object_guid: $(this).val(),
+				token: WPDKACollections.token
+			},
+			dataType: 'text',
+			type: 'POST',
+			success:function(data) {
+				console.log(data);
+				if (!document.location.hash){
+				    document.location.hash = 'current_collection';
+				}
+				$(".collections .media-list").html(data);
+			},
+			error: function(errorThrown) {
+				alert(errorThrown.responseText);
+				console.log(errorThrown);
+			}
+		});
+
+   });
 
 })(jQuery);
