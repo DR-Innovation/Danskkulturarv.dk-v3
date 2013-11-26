@@ -363,9 +363,9 @@
 		wpdkacollections.init(); 
 
 		// Makes sure to focus current object.
-		if (!document.location.hash){
-		    document.location.hash = 'current_collection';
-		}
+		// if (!document.location.hash){
+		//     document.location.hash = 'current_collection';
+		// }
 	});
 
 	// When changing collection in collection dropdown list.
