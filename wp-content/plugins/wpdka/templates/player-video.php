@@ -34,7 +34,7 @@ $options = array(
 		"image" => $object->thumbnail,
 		"mediaid" => $object->GUID,
 		"sources" => $playlist_sources,
-		"title" => $object->title
+		"title" => htmlspecialchars_decode($object->title)
 	)),
 	"sharing" => array(
 		"link" => $sharing_link

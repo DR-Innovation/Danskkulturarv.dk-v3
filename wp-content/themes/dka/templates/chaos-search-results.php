@@ -78,7 +78,7 @@ foreach(WPChaosSearch::get_search_results()->MCM()->Results() as $object) :
 					<i title="<?php echo WPChaosClient::get_object()->type_title; ?>" class="<?php echo WPChaosClient::get_object()->type_class; ?>"></i>
 					<i class="icon-eye-open"> <?php echo WPChaosClient::get_object()->views; ?></i>
 				</div>
-									<?php if(current_user_can('edit_posts')) : ?>
+									<?php if(class_exists('WPDKACollections') && current_user_can('edit_posts')) : ?>
 					<span style="display:inline-block!important;" class="add-to-collection">+COLLECTION</span>
 <?php endif; ?>
 			</a>

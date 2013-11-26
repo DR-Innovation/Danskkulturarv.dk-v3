@@ -38,7 +38,7 @@
 		</div>
 <?php endif; ?>
 
-<?php if (current_user_can('edit_posts')): ?>
+<?php if (class_exists('WPDKACollections') && current_user_can('edit_posts')): ?>
 <?php $collections = WPDKACollections::material_get_collections(WPChaosClient::get_object()->GUID);
 if (empty($collections)) : ?>
 		<div class="collection-container">

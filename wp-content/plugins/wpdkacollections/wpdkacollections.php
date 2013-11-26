@@ -189,7 +189,7 @@ final class WPDKACollections {
 	}
 
 	public function loadJsCss() {
-		if(current_user_can('edit_posts')) {
+		if(!is_admin() && current_user_can('edit_posts')) {
 			wp_enqueue_script('dka-collections',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
 			wp_enqueue_style('dka-collections-style',plugins_url( 'css/style.css' , __FILE__ ));
 			$translation_array = array(
@@ -539,9 +539,9 @@ final class WPDKACollections {
 	 */
 	private function render_list_table(WPDKACollections_List_Table $table) {
 		$table->prepare_items();  
-		wp_enqueue_script('bootstrapjs',plugins_url( 'js/bootstrap.min.js' , __FILE__ ),array('jquery'),'1.0',true); 
-		wp_enqueue_style('bootstrapcss',plugins_url( 'css/bootstrap.min.css' , __FILE__ ));
-		$this->loadJsCss();
+		//wp_enqueue_script('bootstrapjs',plugins_url( 'js/bootstrap.min.js' , __FILE__ ),array('jquery'),'1.0',true); 
+		//wp_enqueue_style('bootstrapcss',plugins_url( 'css/bootstrap.min.css' , __FILE__ ));
+		//$this->loadJsCss();
 		?>
 		<h2><?php $table->get_title(); ?></h2>
 		<form id="movies-filter" method="get">

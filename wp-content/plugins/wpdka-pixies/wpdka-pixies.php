@@ -52,6 +52,7 @@ class WPDKAPixies {
 	public function print_pixie() {
 		$image_url = $this->get_pixie_url();
 		$link_url = site_url('jul');
+		$link_title = '';
 		echo "<a href='$link_url' class='dka-pixie' title='$link_title'><img src='$image_url'></a>";
 	}
 
