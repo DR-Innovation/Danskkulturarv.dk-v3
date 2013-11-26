@@ -50,7 +50,7 @@ $content = '<div class="'.$class.'">'.$content.'</div>';
 						</ul>
 						<script type="text/javascript">
 						jQuery(document).ready(function($) {
-							$('.available').bind('touchstart touchend', function(e) {
+							$('.available').bind('touchstart', function(e) {
 								e.preventDefault();
 								$(this).toggleClass('christmas-touched');
 							});
