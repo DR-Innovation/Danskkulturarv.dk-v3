@@ -56,7 +56,8 @@
 	-webkit-backface-visibility: hidden;
 }
 
-.christmas-calendar .available:hover .door {
+.christmas-calendar .available:hover .door,
+.christmas-calendar .available.christmas-touched .door {
 	transform: rotateY(-80deg);
 	-moz-transform: rotateY(-80deg);
 	-webkit-transform: rotateY(-80deg);

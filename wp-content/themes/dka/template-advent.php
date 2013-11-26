@@ -48,6 +48,14 @@ $content = '<div class="'.$class.'">'.$content.'</div>';
 							</li>
 <?php 	endwhile; wp_reset_postdata(); ?>
 						</ul>
+						<script type="text/javascript">
+						jQuery(document).ready(function($) {
+							$('.available').bind('touchstart touchend', function(e) {
+								e.preventDefault();
+								$(this).toggleClass('christmas-touched');
+							});
+						});
+						</script>
 					</div>
 <?php endif; ?>
 
