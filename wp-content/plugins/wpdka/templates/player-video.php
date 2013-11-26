@@ -4,16 +4,6 @@
  * @version 1.0
  */
 
-function generate_file_label($file) {
-	$quality_matches = array();
-	if(preg_match('/[\d]+k/i', $file->URL, $quality_matches)) {
-		$quality = ' ('. strtoupper($quality_matches[0]) .')';
-	} else {
-		$quality = '';
-	}
-	return $file->Token . $quality;
-}
-
 $object = WPChaosClient::get_object();
 
 $playlist_sources = array();
@@ -21,7 +11,7 @@ foreach($object->Files as $file) {
 	if($file->FormatType == "Video") {
 		$playlist_sources[] = array(
 			"file" => $file->URL,
-			"label" => generate_file_label($file)
+			"label" => WPDKA::generate_file_label($file)
 		);
 	}
 }
@@ -49,8 +39,8 @@ $options = array(
 	"sharing" => array(
 		"link" => $sharing_link
 	),
-	"autostart" => true,
+	"autostart" => (isset($jwplayer_autostart) ? $jwplayer_autostart : true),
 	"ga" => array()
 );
 
-WPDKA::print_jwplayer($options);
+WPDKA::print_jwplayer($options, 'jwplayer-'.uniqid());

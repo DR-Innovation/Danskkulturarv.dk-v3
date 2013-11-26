@@ -312,6 +312,11 @@ if(!WP_DEBUG) {
 
 add_action('wp_head','dka_wp_head',99);
 
+//JWPlayer key
+add_action('wp_head',function() {
+	echo '<script type="text/javascript">jwplayer.key="'. get_option('wpdka-jwplayer-api-key') .'";</script>';
+});
+
 function dka_custom_excerpt($new_length = 30) {
   add_filter('excerpt_length', create_function('$new_length',"return $new_length;"), 999);
   $output = get_the_excerpt();
@@ -341,40 +346,5 @@ function dka_social_share($args = array()) {
 	echo '<a class="icon-envelope" target="_blank" rel="nofollow" href="mailto:?subject='.rawurlencode(get_bloginfo('title')).'&amp;body='.$link.'" title="'.__('Send as e-mail','dka').'"></a>'."\n";
 
 }
-
-/*function dka_sanitize_title($title, $raw_title, $context) {
-	$replacements = array(
-		'æ' => 'cab9d5d0-f843-11e2-b778-0800200c9a66',
-		'Æ' => 'cab9d5d1-f843-11e2-b778-0800200c9a66',
-		'Ø' => 'cab9d5d2-f843-11e2-b778-0800200c9a66',
-		'ø' => 'cab9d5d3-f843-11e2-b778-0800200c9a66',
-		'Å' => 'cab9d5d4-f843-11e2-b778-0800200c9a66',
-		'å' => 'cab9d5d5-f843-11e2-b778-0800200c9a66'
-	);
-
-    if ( 'save' == $context ) {
-    	$title = $raw_title;
-    	$title = str_replace(array_keys($replacements), $replacements, $title);
-    	$title = remove_accents($title);
-    	$title = str_replace($replacements, array_keys($replacements), $title);
-    }
-    return $title;
-}
-add_filter('sanitize_title', 'dka_sanitize_title', 10, 3);
-
-function dka_redirect($location, $status) {
-	$replacements = array(
-		'æ' => '%C3%86',
-		'Æ' => '%C3%A6',
-		'Ø' => '%C3%98',
-		'ø' => '%C3%B8',
-		'Å' => '%C3%85',
-		'å' => '%C3%A5'
-	);
-	$location = str_replace(array_keys($replacements), $replacements, $location);
-	return $location;
-}
-
-add_filter('wp_redirect','dka_redirect',10,2);*/
 
 //eol

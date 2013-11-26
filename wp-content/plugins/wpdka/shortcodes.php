@@ -12,6 +12,7 @@
 add_shortcode( 'chaos-player', function($atts, $content = null) {
 	extract(shortcode_atts( array(
 			'id' => '',
+			'autoplay' => false
 	), $atts ));
 
 	if($id) {
@@ -25,23 +26,33 @@ add_shortcode( 'chaos-player', function($atts, $content = null) {
 		return "Shortcode chaos-player needs an id!";
 	}
 
-	$serviceResult = WPChaosClient::instance()->Object()->Get(
-		"(".$query.")",   // Search query
-		null,   // Sort
-		null,   
-		0,      // pageIndex
-		1,      // pageSize
-		true,   // includeMetadata
-		true,   // includeFiles
-		false    // includeObjectRelations
-	);
-	$object = WPChaosObject::parseResponse($serviceResult);
-	//Set global obj to use templates
-	WPChaosClient::set_object($object[0]);
+	try {
+		$serviceResult = WPChaosClient::instance()->Object()->Get(
+			"(".$query.")",   // Search query
+			null,   // Sort
+			null,   
+			0,      // pageIndex
+			1,      // pageSize
+			true,   // includeMetadata
+			true,   // includeFiles
+			true    // includeObjectRelations
+		);
+	} catch(\Exception $e) {
+		return "Error in CHAOS.";
+	}
+
+	if($serviceResult->MCM()->Count() > 0) {
+		$object = WPChaosObject::parseResponse($serviceResult);
+		//Set global obj to use templates
+		WPChaosClient::set_object($object[0]);		
+	} else {
+		return "Could not find any object with ID ".$id;
+	}
 
 	$type = WPChaosClient::get_object()->type;
 	
 	//Look in theme dir and include if found
+	$jwplayer_autostart = $autoplay;
 	ob_start();
 	if(locate_template('chaos-player-'.$type, true) == "") {
 		include(dirname(__FILE__)."/templates/player-".$type.".php");

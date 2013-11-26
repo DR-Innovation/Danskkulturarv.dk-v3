@@ -349,7 +349,7 @@ final class WPDKACollections {
 	*
 	*/
 	public static function get_current_collection() {
-		if (!class_exists(WPDKACollections_List_Table) || !isset($_GET[WPDKACollections_List_Table::NAME_SINGULAR])) {
+		if (!class_exists('WPDKACollections_List_Table') || !isset($_GET[WPDKACollections_List_Table::NAME_SINGULAR])) {
 			return false;
 		}
 

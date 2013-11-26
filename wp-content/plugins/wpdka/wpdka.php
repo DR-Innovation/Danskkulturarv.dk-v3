@@ -449,13 +449,21 @@ class WPDKA {
 	public static function print_jwplayer($options, $player_id = 'main-jwplayer') {
 		echo '<div id="'.$player_id.'"><p style="text-align:center;">'.__('Loading the player ...','wpdka').'</p></div>';
 		echo '<script type="text/javascript">';
-		echo 'jwplayer.key="'. get_option('wpdka-jwplayer-api-key') .'";';
-		echo '$("#main-jwplayer").each(function() {';
-		echo '	jwplayer(this).setup(';
+		//echo 'jwplayer.key="'. get_option('wpdka-jwplayer-api-key') .'";';
+		echo '	jwplayer("'.$player_id.'").setup(';
 		echo json_encode($options);
 		echo '	);';
-		echo '});';
 		echo '</script>';
+	}
+
+	public static function generate_file_label($file) {
+		$quality_matches = array();
+		if(preg_match('/[\d]+k/i', $file->URL, $quality_matches)) {
+			$quality = ' ('. strtoupper($quality_matches[0]) .')';
+		} else {
+			$quality = '';
+		}
+		return $file->Token . $quality;
 	}
 	
 	/**
