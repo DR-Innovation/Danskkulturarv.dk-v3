@@ -681,7 +681,7 @@ final class WPDKATags {
 			$tags = $object->usertags_raw;
 			
 			$value .= '<div class="usertags">';
-			foreach($tags as $tag) {
+			foreach($tags as $key => $tag) {
 				//Get tag XML meta
 				$tag_meta = $tag->metadata(
 					array(WPDKATags::METADATA_SCHEMA_GUID),
@@ -690,6 +690,7 @@ final class WPDKATags {
 					);
 				//We do not want flagged tags
 				if($tag_meta['status'] == self::TAG_STATE_FLAGGED) {
+					unset($tags[$key]);
 					continue;
 				}
 				$link = WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag_meta));
@@ -697,7 +698,7 @@ final class WPDKATags {
 				$value .= '<a class="usertag tag" href="'.$link.'" title="'.esc_attr($tag_meta).'">'.$tag_meta.$flag.'</a>'."\n";
 			}
 			if(empty($tags)) {
-				$value .= '<span class="no-tag">'.__('No user tags',self::DOMAIN).'</span>'."\n";
+				$value .= '<div class="alert alert-info">'.__('No user tags',self::DOMAIN).'</div>'."\n";
 			}
 			$value .= '</div>';
 

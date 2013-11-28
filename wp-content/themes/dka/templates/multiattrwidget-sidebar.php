@@ -5,9 +5,6 @@
  */
 
 ?>
-		<?php
-			$collections = WPDKACollections::material_get_collections(WPChaosClient::get_object()->GUID);
-		?>
 		<div>
 			<i class="icon-eye-open"></i> <?php _e('Views','dka'); ?> <strong class="pull-right"><?php echo WPChaosClient::get_object()->views; ?></strong>
 		</div>

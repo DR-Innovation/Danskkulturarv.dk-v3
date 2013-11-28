@@ -48,7 +48,7 @@
 						button.attr('disabled',false);
 
 						var tag = '<a class="usertag tag" href="'+data.link+'">'+data.title+'<i class="icon-remove flag-tag" id="'+data.guid+'"></i></a>'
-						var notag = container.find("span");
+						var notag = container.find(".alert");
 						 if(notag.length > 0) {
 							 notag.remove();
 						}
