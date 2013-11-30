@@ -84,7 +84,7 @@ add_shortcode( 'date-constraint', function($atts, $content = null) {
 	if(($constraint = $from || $to || $at)) {
 		//If specific date
 		if($at) {
-			$constraint = $constraint && abs(time() - strtotime($at)) <= 86400;
+			$constraint = $constraint && date('Ymd') == date('Ymd', strtotime($at));
 		}
 		//If from date
 		if($from) {
