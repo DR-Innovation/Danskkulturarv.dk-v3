@@ -36,12 +36,14 @@ if($children->have_posts()) : ?>
 <?php 	while($children->have_posts()) : $children->the_post(); ?>
 <?php
 $class = 'door-frame';
-$content = '<div class="door">'.get_the_title().'</div>';
 if(get_post_status() == 'publish') {
 	$class .= ' available';
-	$content .= '<a class="door-inside" href="'.get_permalink().'">Klik</a>';
+	$content = '<!--[if gte IE 9]--><div class="door">'.get_the_title().'</div><!-- [endif] -->';
+	$content .= '<div class="door-inside">Klik</div>';
+} else {
+	$content = '<div class="door">'.get_the_title().'</div>';
 }
-$content = '<div class="'.$class.'">'.$content.'</div>';
+$content = '<a class="'.$class.'" href="'.get_permalink().'">'.$content.'</a>';
  ?>
 							<li class="door-container">
 								<?php echo $content; ?>

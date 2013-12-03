@@ -18,14 +18,15 @@
 }
 
 .christmas-calendar .door-frame {
-	border:#cbcbcb 1px solid;
+	display: block;
+	border: #cbcbcb 1px solid;
 	font-size: 32px;
-	background:#cc0000;
-	height:200px;
-	position:relative;
-	perspective:2000px;
-    -moz-perspective:2000px;
-    -webkit-perspective:2000px;
+	background: #cc0000;
+	height: 200px;
+	position: relative;
+	perspective: 2000px;
+	-moz-perspective: 2000px;
+	-webkit-perspective: 2000px;
 }
 
 .christmas-calendar .door {
@@ -54,6 +55,7 @@
 	backface-visibility: hidden;
 	-moz-backface-visibility: hidden;
 	-webkit-backface-visibility: hidden;
+	cursor: pointer;
 }
 
 .christmas-calendar .available:hover .door,
