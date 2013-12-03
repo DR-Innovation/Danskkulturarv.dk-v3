@@ -11,7 +11,7 @@
 
 <!-- sticky footer -->
 <footer>
-	<!--[if lt IE 9]><a class="btn btn-warning" id="old-browser-btn" href="/understøttelse">Du benytter en ældre browser: Klik her for mere information.</a><![endif]-->
+	<!--[if lt IE 9]><a class="btn btn-warning" id="old-browser-btn" href="<?php echo esc_url( home_url( '/understottelse' ) ); ?>">Du benytter en ældre browser: Klik her for mere information.</a><![endif]-->
 	<div class="container text-center">
 		<div class="bloginfo-footer"><?php bloginfo( 'name' ); ?> <span>- <?php bloginfo( 'description' ); ?></span></div>
 		
