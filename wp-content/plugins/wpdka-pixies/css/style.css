@@ -1,6 +1,6 @@
 .dka-pixie {
 	position: fixed;
-	left: -150px;
+	left: -120px;
 	bottom: -200px;
 	transform: rotate(-10deg) scale(0.5);
 	-ms-transform: rotate(-10deg) scale(0.5);
@@ -20,7 +20,7 @@
 
 @media (max-width: 767px) {
 	.dka-pixie {
-		left: -160px;
+		left: -130px;
 		bottom: -200px;
 		transform: rotate(-10deg) scale(0.33);
 		-ms-transform: rotate(-10deg) scale(0.33);
