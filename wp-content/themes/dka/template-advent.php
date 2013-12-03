@@ -40,10 +40,11 @@ if(get_post_status() == 'publish') {
 	$class .= ' available';
 	$content = '<!--[if (gte IE 9)|!(IE)]><!--><div class="door">'.get_the_title().'</div><!--<![endif]-->';
 	$content .= '<div class="door-inside">Klik</div>';
+	$content = '<a class="'.$class.'" href="'.get_permalink().'">'.$content.'</a>';
 } else {
 	$content = '<div class="door">'.get_the_title().'</div>';
+	$content = '<div class="'.$class.'">'.$content.'</div>';
 }
-$content = '<a class="'.$class.'" href="'.get_permalink().'">'.$content.'</a>';
  ?>
 							<li class="door-container">
 								<?php echo $content; ?>
