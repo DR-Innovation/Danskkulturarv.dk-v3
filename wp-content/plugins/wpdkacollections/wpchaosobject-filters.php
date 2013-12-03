@@ -3,11 +3,13 @@
 // Registering namespaces.
 \CHAOS\Portal\Client\Data\Object::registerXMLNamespace('dkac', 'http://www.danskkulturarv.dk/DKA-Collection.xsd');
 
-//object->title
+//Uses fallback to old scheme
+
+//collection->title
 add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'title', function($value, \WPCHAOSObject $object) {
 	$value .= $object->metadata(
-		array(WPDKACollections::METADATA_SCHEMA_GUID),
-		array('/Collection/Title/text()')
+		array(WPDKACollections::METADATA_SCHEMA_GUID, WPDKACollections::METADATA_SCHEMA_GUID),
+		array('/dkac:Collection/dkac:Title/text()','/Collection/Title/text()')
 	);
 	if($value == "") {
 		$value = __('No title',WPDKACollections::DOMAIN);
@@ -15,49 +17,72 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'title', function($value, \WPC
 	return $value;
 }, 10, 2);
 
-//object->description
+//collection->description
 add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'description', function($value, \WPCHAOSObject $object) {
 	$value .= $object->metadata(
-		array(WPDKACollections::METADATA_SCHEMA_GUID),
-		array('/Collection/Description/text()')
+		array(WPDKACollections::METADATA_SCHEMA_GUID, WPDKACollections::METADATA_SCHEMA_GUID),
+		array('/dkac:Collection/dkac:Description/text()','/Collection/Description/text()',)
 	);
 	return $value;
 }, 10, 2);
 
-//object->rights
+//collection->rights
 add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'rights', function($value, \WPCHAOSObject $object) {
 	$value .= $object->metadata(
 		array(WPDKACollections::METADATA_SCHEMA_GUID),
-		array('/Collection/Rights/text()')
+		array('/dkac:Collection/dkac:Rights/text()')
 	);
 	return $value;
 }, 10, 2);
 
-//object->type
+//collection->type
 add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'type', function($value, \WPCHAOSObject $object) {
 	$value .= $object->metadata(
 		array(WPDKACollections::METADATA_SCHEMA_GUID),
-		array('/Collection/Type/text()')
+		array('/dkac:Collection/dkac:Type/text()')
 	);
 	return $value;
 }, 10, 2);
 
-//object->playlist
-add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'playlist', function($value, \WPCHAOSObject $object) {
-	$value .= $object->metadata(
+//collection->playlist
+add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'playlist_raw', function($value, \WPCHAOSObject $object) {
+	$value = $object->metadata(
 		array(WPDKACollections::METADATA_SCHEMA_GUID),
-		array('/Collection/Playlist/text()')
+		array('/dkac:Collection/dkac:Playlist/dkac:Object'),
+		null
 	);
-	return $value;
+	return $value?:array();
 }, 10, 2);
 
-//object->status
+//collection->status
 add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'status', function($value, \WPCHAOSObject $object) {
 	$value .= $object->metadata(
 		array(WPDKACollections::METADATA_SCHEMA_GUID),
-		array('/Collection/Status/text()')
+		array('/dkac:Collection/dkac:Status/text()')
 	);
+	if($value == 'Draft') {
+		$value = __('Draft',WPDKACollections::DOMAIN);
+	} else if($value == 'Publish') {
+		$value = __('Published',WPDKACollections::DOMAIN);
+	}
 	return $value;
+}, 10, 2);
+
+//object->collections
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', function($value, \WPCHAOSObject $object) {
+
+	$collections = WPDKACollections::get_material_collections($object);
+
+	$return = '<div class="panel-group"><div class="panel panel-default">';
+	foreach($collections as $collection) {
+		$return .= '<h4><a data-toggle="collapse" data-target="#collection-'.$collection->GUID.'">'.$collection->title.'</a></h4>';
+		$return .= '<div id="collection-'.$collection->GUID.'" class="collapse in">';
+		$return .= 'Hello';
+		$return .= '</div>';
+	}
+	$return .= '</div></div>';
+
+	return $return;
 }, 10, 2);
 
 //

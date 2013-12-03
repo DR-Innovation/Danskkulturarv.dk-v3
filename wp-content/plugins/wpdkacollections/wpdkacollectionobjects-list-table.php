@@ -2,25 +2,80 @@
 
 class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 
-    const NAME_SINGULAR = 'dka-collection-object';
-    const NAME_PLURAL = 'dka-collection-objects';
+    const NAME_SINGULAR = 'dka-material';
+    const NAME_PLURAL = 'dka-materials';
 
     protected $_current_collection;
 
     /**
      * Constructor
      */
-    public function __construct(){
-        global $status, $page;
+    public function __construct($args = array()){
                 
-        //Set parent defaults
-        parent::__construct( array(
-            'singular'  => self::NAME_SINGULAR,
-            'plural'    => self::NAME_PLURAL,
-            'ajax'      => false        //does this table support ajax?
-        ) );
+        $args = wp_parse_args( $args, array(
+			'singular'  => self::NAME_SINGULAR,
+			'plural'    => self::NAME_PLURAL,
+			'ajax'      => false        //does this table support ajax?
+		) );
+				
+		//Set parent defaults
+		parent::__construct( $args );
 
-        $this->title = sprintf(__('Collection: %s', 'wpdkacollections'), $this->get_current_collection());
+        wp_enqueue_script('jquery-ui-sortable');
+        add_action('admin_footer', function() {
+        	?>
+        	<script type="text/javascript">
+        		jQuery(document).ready(function($) {
+					// Return a helper with preserved width of cells
+					var fixHelper = function(e, ui) {
+						ui.children().each(function() {
+							$(this).width($(this).width());
+						});
+						return ui;
+					};
+
+					$(".dka-materials tbody").sortable({
+						helper: fixHelper,
+						forcePlaceholderSize: true
+					}).disableSelection();
+
+					var wpdkaSortGuids = [];
+
+					$('#wpdkacollections-sort').click(function(e) {
+						e.preventDefault();
+						wpdkaSortGuids = [];
+						$('.dka-collections tbody input:checkbox').each( function() {
+							 wpdkaSortGuids.push($(this).val());
+						});
+
+						var button = $(this);
+						button.attr('disabled',true);
+
+						$.ajax({
+							url: ajaxurl,
+							data:{
+								action: 'wpdkacollections_sortable',
+								guids: wpdkaSortGuids,
+								collection_guid: $('input[name="dka-collection"]').val(),
+								nonce: $("#_wpnonce").val()
+							},
+							dataType: 'JSON',
+							type: 'POST',
+							success:function(data){
+								console.log(data);
+								button.attr('disabled',false);
+								
+							},
+							error: function(errorThrown){
+								button.attr('disabled',false);
+							}
+						});
+					});
+					
+				});
+        	</script>
+        	<?php
+        });
     }
 
     /**
@@ -58,12 +113,9 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
     protected function column_title($item) {
         
         //Build row actions
-        // $actions = array(
-        //     'edit' => '<a href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'edit', $this->_args['singular'] => $item->GUID), 'admin.php').'">'.__('Edit','wpdkacollections').'</a>',
-        //     'remove' => '<a class="submitdelete" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'remove', $this->_args['singular'] => $item->GUID), 'admin.php').'">'.__('Remove','wpdkacollections').'</a>',
-        //     'show' => '<a href="'.$this->_collections_related_item[$item->ObjectRelations[0]->Object1GUID]->url.'" target="_blank">'.__('Show material').'</a>'
-        // );
-        $actions = array();
+        $actions = array(
+            'remove' => '<a class="submitdelete" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'subpage'=> 'wpdkacollection-objects', 'action' => 'remove', $this->_args['singular'] => $this->_current_collection->GUID, 'dka-material' => $item->GUID),  'admin.php').'">'.__('Remove','wpdkacollections').'</a>'
+        );
 
         //Return the title contents
         return sprintf('<strong><a href="%1$s">%2$s</a></strong>%3$s',
@@ -123,19 +175,20 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
         return $actions;
     }
 
-    function extra_tablenav( $which ) {
-        if ( $which == "top" ){
-            echo '<input href="" type="submit" class="button-secondary" id="edit-collection" value="' . __('Edit collection', 'wpdkacollections') . '" />';
-        }
-    }
-
+	function extra_tablenav( $which ) {
+		if ( $which == "top" ){
+			echo '<div class="alignleft actions"><input type="button" id="wpdkacollections-sort" class="button-primary button" value="' . __('Save new sorting', 'wpdkacollections') . '" /></div>';
+		}
+	}
+	
     /**
      * Prepare table with columns, data, pagination etc.
      * @return void
      */
     public function prepare_items() {
 
-        $per_page = $this->get_items_per_page( 'edit_wpdkacollections_per_page');
+        //$per_page = $this->get_items_per_page( 'edit_wpdkacollections_per_page');
+        $per_page = 1000;
 
         //Set column headers
         $hidden = array();
@@ -143,25 +196,9 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 
         $this->_current_collection = WPDKACollections::get_current_collection();
 
-        $current_collection_array = array(
-            'inputName' => $this->_current_collection->title,
-            'inputDescription' => $this->_current_collection->description,
-            'inputRights' => $this->_current_collection->rights,
-            'inputCategories' => $this->_current_collection->categories
-        );
-        wp_localize_script( 'dka-collections', 'WPDKACollections', $current_collection_array );
-
         $this->title = '<a href="'.add_query_arg('page',WPDKACollections::DOMAIN,'admin.php').'">'.__('DKA Collections', WPDKACollections::DOMAIN).'</a> &raquo; '.$this->_current_collection->title;
 
-        //Get relations
-        $relation_guids = array();
-        foreach($this->_current_collection->ObjectRelations as $relation) {
-        	if($this->_current_collection->GUID != $relation->Object1GUID) {
-        		$relation_guids[] = $relation->Object1GUID;
-        	} else {
-        		$relation_guids[] = $relation->Object2GUID;
-        	}
-        }
+      	$relation_guids = $this->_current_collection->playlist_raw;
 
         //Get the related objects to the collection.
         $serviceResult2 = WPChaosClient::instance()->Object()->Get(
@@ -174,9 +211,16 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
             false,   // includeFiles
             false    // includeObjectRelations
         );
-        
-        //Set items
-        $this->items = WPChaosObject::parseResponse($serviceResult2);
+        $result3 = array();
+        foreach($serviceResult2->MCM()->Results() as $result) {
+        	$result3[$result->GUID] = new WPChaosObject($result);
+        }
+
+        //Set items in proper order
+        foreach($relation_guids as $guid) {
+        	$this->items[] = $result3[(string)$guid];
+        }
+
         //Set pagination
         //$serviceResult->MCM()->TotalPages() cannot be trusted here!
         $this->set_pagination_args( array(

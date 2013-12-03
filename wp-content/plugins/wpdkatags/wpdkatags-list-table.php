@@ -21,7 +21,6 @@ class WPDKATags_List_Table extends WP_List_Table {
 	protected $states;
 	
 	public function __construct($args = array()){
-		global $status, $page;
 
 		$args = wp_parse_args( $args, array(
 			'singular'  => self::NAME_SINGULAR,
@@ -101,7 +100,6 @@ class WPDKATags_List_Table extends WP_List_Table {
 
 		$class = empty($_REQUEST['tag_status']) ? ' class="current"' : '';
 		$status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_count, 'posts' ), number_format_i18n($total_count) ) . '</a>';
-		// $status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s, %s unique)</span>', 'All <span class="count">(%s, %s unique)</span>', $total_count, 'posts' ), $total_count, number_format_i18n( $this->get_pagination_arg('total_items') ) ) . '</a>';
 
 		foreach($this->states as $status_key => $status) {
 			$class = '';

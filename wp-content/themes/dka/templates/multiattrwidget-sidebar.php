@@ -36,30 +36,8 @@
 <?php endif; ?>
 
 <?php if (class_exists('WPDKACollections') && current_user_can('edit_posts')): ?>
-<?php $collections = WPDKACollections::material_get_collections(WPChaosClient::get_object()->GUID);
-if (empty($collections)) : ?>
 		<div class="collection-container">
-			<h4>Indgår i Tema <strong>Test</strong></h4>
-			<div class="collections-container">
-				<ol class="list-group" style="margin: none; border: 3px;">
-					<?php for ($i = 0; $i < 10; $i++): ?> Testing
- 							<?php $thumbnail = (WPChaosClient::get_object()->thumbnail ? ' style="background-image: url(\''.WPChaosClient::get_object()->thumbnail.'\')!important;"' : ''); ?>
- 							<li class="list-group-item">
- 								<h4 class="list-group-item-heading">List group item heading</h4>
- 								<div class="media">
- 									<a class="pull-left" href="#">
- 								   		<div id="collection_image" style="max-height: 75px; max-width: 75px;" class="thumb format">
- 								   		</div>
- 								 	</a>
- 								  	<div class="media-body">
-  										Media body bla bla bla...
- 								  	</div>
- 								</div>
- 							</li>
- 						<?php endfor; ?>
- 					</ol>
-				</div>
- 			</div>		
- 		<?php endif; ?>
- <hr>
+			<hr>
+			<?php echo WPChaosClient::get_object()->collections; ?>
+		</div>
  <?php endif; ?>

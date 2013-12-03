@@ -22,7 +22,12 @@ final class WPDKACollections {
 	/**
 	 * ID = 468 is DKA/DKA/Samlinger
 	 */
-	const COLLECTIONS_FOLDER_ID = 468; // CHANGE
+	const COLLECTIONS_FOLDER_ID = 468;
+
+	/**
+	 * ID = 16 is "Part of"
+	 */
+	const COLLECTIONS_RELATION_ID = 16;
 
 	/**
 	 * ID = 467 is "DKA/DKA/delete"
@@ -44,6 +49,10 @@ final class WPDKACollections {
 
 	const OBJECT_FILTER_PREFIX = 'wpchaos-object-collection-';
 
+	const FACET_KEY_TITLE = 'DKA-Collection-Title_string';
+	const FACET_KEY_STATUS = 'DKA-Collection-Status_string';
+	const FACET_KEY_TYPE = 'DKA-Collection-Type_string';
+
 	/**
 	 * Plugin dependencies
 	 * @var array
@@ -54,6 +63,8 @@ final class WPDKACollections {
 	);
 
 	protected $cur_collection_guid;
+
+	public static $collection_relations = array();
 
 	/**
 	 * Constructor
@@ -66,35 +77,38 @@ final class WPDKACollections {
 			if(is_admin()) {
 	
 				add_action('admin_menu', array(&$this,'add_menu_items'));
-				//add_filter('wpchaos-config',array(&$this,'add_chaos_settings'));
-				//
+				
 				// Get collections
 				add_action('wp_ajax_wpdkacollections_get_collections', array(&$this,'ajax_get_collections') );
 				add_action('wp_ajax_nopriv_wpdkacollections_get_collections', array(&$this,'ajax_get_collections') );
 
 				// Get specific collection
-				add_action('wp_ajax_wpdkacollections_get_collection', array(&$this,'ajax_get_collection') );
-				add_action('wp_ajax_nopriv_wpdkacollections_get_collection', array(&$this,'ajax_get_collection') );
+				//add_action('wp_ajax_wpdkacollections_get_collection', array(&$this,'ajax_get_collection') );
+				//add_action('wp_ajax_nopriv_wpdkacollections_get_collection', array(&$this,'ajax_get_collection') );
 
 				// Add collection
 				add_action('wp_ajax_wpdkacollections_add_collection', array(&$this,'ajax_add_collection') );
 				add_action('wp_ajax_nopriv_wpdkacollections_add_collection', array(&$this,'ajax_add_collection') );
 
-				// Delete collection
-				add_action('wp_ajax_wpdkacollections_delete_collection', array(&$this,'ajax_delete_collection') );
-				add_action('wp_ajax_nopriv_wpdkacollections_delete_collection', array(&$this,'ajax_delete_collection') );
+				// Add object to collection
+				add_action('wp_ajax_wpdkacollections_add_relation', array(&$this,'ajax_add_relation') );
+				add_action('wp_ajax_nopriv_wpdkacollections_add_relation', array(&$this,'ajax_add_relation') );
 
 				// Edit collection
 				add_action('wp_ajax_wpdkacollections_edit_collection', array(&$this,'ajax_edit_collection') );
 				add_action('wp_ajax_nopriv_wpdkacollections_edit_collection', array(&$this,'ajax_edit_collection') );
 
-				//$this->_add_collection("Title test", 'Description Test', 'Right test',  self::TYPE_SERIES);
-
+				// Sort collection objects
+				add_action('wp_ajax_wpdkacollections_sortable', array(&$this,'ajax_sort_collection_objects') );
+				add_action('wp_ajax_nopriv_wpdkacollections_sortable', array(&$this,'ajax_sort_collection_objects') );
 
 			}
 
-			add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', array(&$this,'define_collections_filter'),10,2);
-			add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections_raw', array(&$this,'define_collections_raw_filter'),10,2);
+			add_filter('wpchaos-solr-query',array(&$this,'add_collection_search_to_query'),30,2);
+			add_filter(WPChaosSearch::FILTER_PREPARE_RESULTS,array(&$this,'prepare_search_results'));
+
+			//add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', array(&$this,'define_collections_filter'),10,2);
+			//add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections_raw', array(&$this,'define_collections_raw_filter'),10,2);
 
 			add_action('wp_head', array(&$this, 'loadJsCss'));
 
@@ -121,6 +135,13 @@ final class WPDKACollections {
 			} );
 		}
 
+		function add_admin_notice_object($key, $verb) {
+			$count = intval($_REQUEST[$key]);
+			add_action( 'admin_notices', function() use ($count,$verb) {
+				echo '<div class="updated"><p>'.sprintf(_n('%d object %s successfully!','%d objects %s successfully!', $count,WPDKACollections::DOMAIN),$count,$verb).'</p></div>';
+			} );
+		}
+
 		//wp_enqueue_style('wpdkatags-style',plugins_url('css/style.css', __FILE__ ));
 
 		$action = (isset($_REQUEST['action']) && $_REQUEST['action'] != -1 ? $_REQUEST['action'] : (isset($_REQUEST['action2']) && $_REQUEST['action2'] != -1 ? $_REQUEST['action2'] : false));
@@ -135,7 +156,7 @@ final class WPDKACollections {
 				$collections = array($collections);
 			}
 
-			$current_page = remove_query_arg(array('_wpnonce','action','action2',WPDKACollections_List_Table::NAME_SINGULAR,'_wp_http_referer'));
+			$current_page = remove_query_arg(array('_wpnonce','action','action2',WPDKACollections_List_Table::NAME_SINGULAR,'_wp_http_referer','dka-material'));
 			$count = 0;
 
 			//TODO: instead of lazy loading objects, load em all at once
@@ -144,9 +165,25 @@ final class WPDKACollections {
 						//When we delete, we actually move the tag to a specific folder.
 						//Consider it a trash can
 						foreach($collections as $collection) {
+							
+							$collection_obj = $this->get_collection_by_guid($collection);
+							$this->_remove_materials_from_collection($collection_obj);
 							$serviceResult = WPChaosClient::instance()->Link()->Update($collection, self::COLLECTIONS_FOLDER_ID, self::COLLECTIONS_FOLDER_DELETE_ID);
 							$count++;
 						}
+						break;
+					case 'remove':
+						$materials = $_REQUEST['dka-material'];
+						if(!is_array($materials)) {
+							$materials = array($materials);
+						}
+						$collection_obj = $this->get_collection_by_guid($collections[0]);
+						if($collection_obj) {
+							if($this->_remove_materials_from_collection($collection_obj,$materials)) {
+								$count = count($materials);
+							}							
+						}
+						$current_page = add_query_arg(WPDKACollections_List_Table::NAME_SINGULAR,$collections[0],$current_page);
 						break;
 			}
 			$current_page = add_query_arg($action,$count,$current_page);
@@ -155,6 +192,8 @@ final class WPDKACollections {
 
 		} if(isset($_REQUEST['delete'])) {
 			add_admin_notice('delete',__('deleted',self::DOMAIN));
+		} elseif(isset($_REQUEST['remove'])) {
+			add_admin_notice_object('remove',__('removed',self::DOMAIN));
 		}
 
 	}
@@ -169,45 +208,48 @@ final class WPDKACollections {
 		$wp_admin_bar->add_node( $args );
 	}
 
-	/**
-	 * Add some setting keys to CHAOS settings
-	 * @param  array    $settings
-	 * @return array 
-	 */
-	public function add_chaos_settings($settings) {
-		// $new_settings = array(
-		//     array(
-		//         /*Sections*/
-		//         'name'      => 'wpdkacollections',
-		//         'title'     => __('Collections',self::DOMAIN),
-		//         'fields'    => array()
-		//         )
-		//     );
-		// return array_merge($settings,$new_settings);
-		
-		return $settings;
-	}
-
 	public function loadJsCss() {
 		if(!is_admin() && current_user_can('edit_posts')) {
 			wp_enqueue_script('dka-collections',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
 			wp_enqueue_style('dka-collections-style',plugins_url( 'css/style.css' , __FILE__ ));
 			$translation_array = array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
-				'token' => wp_create_nonce(self::TOKEN_PREFIX)
+				'token' => wp_create_nonce(self::TOKEN_PREFIX),
+				'types' => array(self::TYPE_THEME, self::TYPE_EXHIBITION, self::TYPE_SERIES)
 			);
 			$cur_collection = self::get_current_collection();
 			$translation_array_edit = array();
-			if (!empty($cur_collection)) {
-				$translation_array_edit = array(
-					'inputName' => $cur_collection->title,
-		            'inputDescription' => $cur_collection->description,
-		            'inputRights' => $cur_collection->rights,
-		            'inputCategories' => $cur_collection->categories
-				);
-			}
 			wp_localize_script( 'dka-collections', 'WPDKACollections', array_merge($translation_array, $translation_array_edit) );
 		}
+	}
+
+	public static function get_material_collections($object) {
+		try {
+			//Get relations
+			$relation_guids = array();
+			foreach($object->ObjectRelations as $relation) {
+				if($object->GUID != $relation->Object1GUID) {
+					$relation_guids[] = $relation->Object1GUID;
+				} else {
+					$relation_guids[] = $relation->Object2GUID;
+				}
+			}
+			$serviceResult = WPChaosClient::instance()->Object()->Get(
+				'(GUID:('.implode(' OR ',$relation_guids).')) AND (ObjectTypeID:'.WPDKACollections::COLLECTIONS_TYPE_ID.')',   // Search query
+				null,   // Sort
+				null, 
+				0,      // pageIndex
+				50,      // pageSize
+				true,   // includeMetadata
+				false,   // includeFiles
+				false    // includeObjectRelations
+			);
+			return WPChaosObject::parseResponse($serviceResult,self::OBJECT_FILTER_PREFIX);
+			
+		} catch(\Exception $e) {
+
+		}
+		return array();		
 	}
 
 	/** ************************************************************************
@@ -220,21 +262,17 @@ final class WPDKACollections {
 			$serviceResult = WPChaosClient::instance()->Object()->Get(
 				'(FolderID:'.WPDKACollections::COLLECTIONS_FOLDER_ID.')',   // Search query
 				null,   // Sort
-				false, 
+				null, 
 				0,      // pageIndex
 				100,      // pageSize
 				true,   // includeMetadata
 				false,   // includeFiles
 				false    // includeObjectRelations
 			);
-			$collections = WPChaosObject::parseResponse($serviceResult);
+			$collections = WPChaosObject::parseResponse($serviceResult,WPDKACollections::OBJECT_FILTER_PREFIX);
 			foreach($collections as $collection) {
-				$title = $collection->metadata(
-					array(self::METADATA_SCHEMA_GUID),
-					array('/dkac:DKA-Collection/dkac:Title/text()')
-				);
 				$response[] = array(
-					'title' => $title,
+					'title' => $collection->title,
 					'guid' => $collection->GUID
 				);
 
@@ -257,20 +295,16 @@ final class WPDKACollections {
 		die();
 	}
 
+
 	public function ajax_add_collection() {
-		if (!isset($_POST['collectionTitle'])) {
+		if (!isset($_POST['collectionTitle']) || strlen(trim($_POST['collectionTitle'])) < 1) {
 			echo "Missing title";
 			throw new \RuntimeException("Missing title");
 		}
 
-		if (strlen(trim($_POST['collectionTitle'])) < 1) {
-			echo "No title";
-			throw new \RuntimeException("No title");
-		}
-
 		$title = esc_html($_POST['collectionTitle']);
 
-		$collection = $this->_add_collection($title, $_POST['collectionDescription'], $_POST['collectionRights'], $_POST['collectionCategory']);
+		$collection = $this->_add_collection($title, $_POST['collectionDescription'], $_POST['collectionRights'], $_POST['collectionType']);
 
 		if (!$collection) {
 			echo "Collection could not be added";
@@ -286,30 +320,32 @@ final class WPDKACollections {
 		die();
 	}
 
-	public function ajax_delete_collection() {
-		if (!isset($_POST['object_guid'])) {
-			echo "Missing guid";
-			throw new \RuntimeException("Missing guid for collection");
+	public function ajax_add_relation() {
+		if (!isset($_POST['collection_guid']) || !isset($_POST['object_guid'])) {
+			echo "Missing ids";
+			throw new \RuntimeException("Missing ids");
 		}
 
-		$collection = $this->get_object_by_guid(esc_html($_POST['object_guid']),false);
+		$collection = $this->get_object_by_guid(esc_html($_POST['collection_guid']),false);
 
 		if (empty($collection)) {
 			echo "Couldn't find collection with that GUID";
 			throw new \RuntimeException("Couldn't find collection");
 		}
 
-		if (!$this->_remove_materials_from_collection($collection)) {
-			echo "Couldn't remove materials from collection";
-			throw new \RuntimeException("Couldn't remove materials from collection");
+		$relation = $this->_add_material_to_collection($collection,$_POST['object_guid']);
+
+		if (!$relation) {
+			echo "Lol could not be added";
+			throw new \RuntimeException("Collection could not be added to CHAOS");
+		} else {
+			// $response = array(
+			// 	'title' => $title,
+			// 	'guid' => $collection->GUID
+			// );
 		}
 
-		if (!$this->_delete_collection($collection)) {
-			echo "Couldn't delete collection";
-			throw new \RuntimeException("Couldn't delete collection");
-		}
-
-		echo 1;
+		//echo json_encode($response);
 		die();
 	}
 
@@ -319,9 +355,14 @@ final class WPDKACollections {
 			throw new \RuntimeException("Missing guid for collection");
 		}
 
-		if (strlen($_POST['collectionTitle']) < 1) {
+		if (!isset($_POST['title']) || strlen($_POST['title']) < 1) {
 			echo "No title";
 			throw new \RuntimeException("No title");
+		}
+
+		if(!isset($_POST['description']) || !isset($_POST['rights']) || !isset($_POST['type']) || !isset($_POST['status'])) {
+			echo "Missing information";
+			throw new \RuntimeException("Missing information");
 		}
 
 		$collection = $this->get_object_by_guid(esc_html($_POST['object_guid']),false);
@@ -331,17 +372,56 @@ final class WPDKACollections {
 			throw new \RuntimeException("Couldn't find collection");
 		}
 
-		if (!$this->_edit_collection($collection, $_POST['collectionTitle'], $_POST['collectionDescription'], $_POST['collectionRights'], $_POST['collectionCategory'])) {
+		$title = esc_html($_POST['title']);
+		$description = esc_html($_POST['description']);
+		$rights = esc_html($_POST['rights']);
+		$type = esc_html($_POST['type']);
+		$status = esc_html($_POST['status']);
+
+		if($this->_edit_collection($collection, $title, $description, $rights, $type, $status)) {
+			$response = array(
+				'title' => $title,
+				'description' => $description,
+				'rights' => $rights,
+				'type' => $type,
+				'status' => $status
+			);
+		} else {
 			echo "Couldn't change collection";
 			throw new \RuntimeException("Couldn't change collection");
 		}
 
-		echo 1;
+		echo json_encode($response);
 		die();
 	}
 
-	public function material_get_collections($material_guid) {
-		return array();
+	public function ajax_sort_collection_objects() {
+		if (!isset($_POST['collection_guid'])) {
+			echo "Missing guid";
+			throw new \RuntimeException("Missing guid for collection");
+		}
+
+		if (!isset($_POST['guids']) || !is_array($_POST['guids']) || count($_POST['guids']) < 2) {
+			echo "Not enough data";
+			throw new \RuntimeException("No title");
+		}
+
+		$collection = $this->get_object_by_guid(esc_html($_POST['collection_guid']),false);
+
+		if (empty($collection)) {
+			echo "Couldn't find collection with that GUID";
+			throw new \RuntimeException("Couldn't find collection");
+		}
+
+		if($this->_sort_collection_objects($collection, $_POST['guids'])) {
+			$response = array();
+		} else {
+			echo "Couldn't change collection";
+			throw new \RuntimeException("Couldn't change collection");
+		}
+
+		echo json_encode($response);
+		die();
 	}
 
 	/**
@@ -355,21 +435,21 @@ final class WPDKACollections {
 
 		$query = "GUID:".$_GET[WPDKACollections_List_Table::NAME_SINGULAR];
 
-        //Get collection object
-        $serviceResult = WPChaosClient::instance()->Object()->Get(
-            $query,   // Search query
-            null,   // Sort
-            false,   // Use session instead of AP
-            0,      // pageIndex
-            1,      // pageSize
-            true,   // includeMetadata
-            false,   // includeFiles
-            true    // includeObjectRelations
-        );
+		//Get collection object
+		$serviceResult = WPChaosClient::instance()->Object()->Get(
+			$query,   // Search query
+			null,   // Sort
+			null,   // Use AP
+			0,      // pageIndex
+			1,      // pageSize
+			true,   // includeMetadata
+			false,   // includeFiles
+			true    // includeObjectRelations
+		);
 
-        //Instantiate collection
-        $collection = WPChaosObject::parseResponse($serviceResult,WPDKACollections::OBJECT_FILTER_PREFIX);
-        return $collection[0];
+		//Instantiate collection
+		$collection = WPChaosObject::parseResponse($serviceResult,WPDKACollections::OBJECT_FILTER_PREFIX);
+		return $collection[0];
 	}
 
 	/**
@@ -380,21 +460,21 @@ final class WPDKACollections {
 	public static function get_collection_by_guid($guid) {
 		$query = "GUID:".$guid;
 
-        //Get collection object
-        $serviceResult = WPChaosClient::instance()->Object()->Get(
-            $query,   // Search query
-            null,   // Sort
-            false,   // Use session instead of AP
-            0,      // pageIndex
-            1,      // pageSize
-            true,   // includeMetadata
-            false,   // includeFiles
-            true    // includeObjectRelations
-        );
+		//Get collection object
+		$serviceResult = WPChaosClient::instance()->Object()->Get(
+			$query,   // Search query
+			null,   // Sort
+			null,   // Use  AP
+			0,      // pageIndex
+			1,      // pageSize
+			true,   // includeMetadata
+			false,   // includeFiles
+			true    // includeObjectRelations
+		);
 
-        //Instantiate collection
-        $collection = WPChaosObject::parseResponse($serviceResult,WPDKACollections::OBJECT_FILTER_PREFIX);
-        return $collection[0];
+		//Instantiate collection
+		$collection = WPChaosObject::parseResponse($serviceResult,WPDKACollections::OBJECT_FILTER_PREFIX);
+		return $collection[0];
 	}
 
 
@@ -433,13 +513,8 @@ final class WPDKACollections {
 
 			<div class="wrap">
 			<div id="icon-edit" class="icon32 icon32-posts-post"><br /></div>
-
-			<?php
-
-			$this->render_list_table($renderTable);
-			
-			?>
-		</div>
+			<?php $this->render_list_table($renderTable); ?>
+			</div>
 		<?php
 	}
 
@@ -449,53 +524,25 @@ final class WPDKACollections {
 		foreach ($collection_object->objects as $object) {
 			if ($this->cur_collection_guid == $object->GUID) {
 				$thumbnail = (WPChaosClient::get_object()->thumbnail ? ' style="background-image: url(\''.WPChaosClient::get_object()->thumbnail.'\')!important;"' : ''); // Should get current object thumbnail.
-		 		$value .= 	'<li id="current_collection" class="list-group-item media' . $style . '" value="' . $object->guid . '">
-		 				<a class="fill-collection" href="'. $object->url . '"></a>
-		 				<h4 class="list-group-item-heading"><span class="collectionCount">' . $count++ . '</span> ' . $object->title . '</h4>
-			 				<div class="pull-left">
-			 					<div id="collection_image" class="thumb format"'. $thumbnail . '">
-					   			</div>
-			 				</div>
-			 				<div class="media-body">
-  							' . $object->description . '
-						  	</div>
+				$value .= 	'<li id="current_collection" class="list-group-item media' . $style . '" value="' . $object->guid . '">
+						<a class="fill-collection" href="'. $object->url . '"></a>
+						<h4 class="list-group-item-heading"><span class="collectionCount">' . $count++ . '</span> ' . $object->title . '</h4>
+							<div class="pull-left">
+								<div id="collection_image" class="thumb format"'. $thumbnail . '">
+								</div>
+							</div>
+							<div class="media-body">
+							' . $object->description . '
+							</div>
 						</li>';
 				continue;
 			}
 			$value .= 	'<li class="list-group-item media' . $style . '" value="' . $object->guid . '">
-		 				<a class="fill-collection" href="'. $object->url . '"></a>
-		 				<h4 class="list-group-item-heading"><span class="collectionCount">' . $count++ . '</span> ' . $object->title . '</h4>
+						<a class="fill-collection" href="'. $object->url . '"></a>
+						<h4 class="list-group-item-heading"><span class="collectionCount">' . $count++ . '</span> ' . $object->title . '</h4>
 						</li>';
 		}
 		return $value;
-	}
-
-	public function define_collections_raw_filter($value, WPChaosObject $object) {
-		$collections = array();
-
-		// $collections = $this->material_get_collections($object->GUID);
-		// foreach ($collections as $collection) {
-
-		// }
-
-		// Testing design
-		for ($i = 0; $i < 3; $i++) {
-			$object = new stdClass();
-			$object->title = 'Test ' . $i;
-			$object->guid = $i;
-			$new_objects = array();
-			for ($j = 1; $j < 20; $j++) {
-				$new_object = new stdClass();
-				$new_object->title = 'Object ' . $i . $j;
-				$new_object->GUID = $i . $j;
-				$new_object->description = "Description...";
-				$new_objects[] = $new_object;
-			}
-			$object->objects = $new_objects;
-			$collections[] = $object;
-		}
-
-		return $collections;
 	}
 
 	public function define_collections_filter($value, $object) {
@@ -522,7 +569,7 @@ final class WPDKACollections {
 				$value .= '<li value="' . $collection->GUID . '"><a href="">' . $collection->title . '</a></li>';
 			}
 
-	  		$value .= '</ul></div>';
+			$value .= '</ul></div>';
 		}
 		$value .= '<hr><div class="collections media">';
 		$value .= '<ul class="media-list">';
@@ -538,10 +585,18 @@ final class WPDKACollections {
 	 * @return WPDKACollections_List_Table
 	 */
 	private function render_list_table(WPDKACollections_List_Table $table) {
+		wp_enqueue_script('dka-collections-admin',plugins_url( 'js/admin_functions.js' , __FILE__ ),array('jquery'),'1.0',true);
+		
+		$args = array(
+			'confirmDelete' => 'Are you sure?',
+			'update' => 'Update',
+			'cancel' => 'Cancel',
+			'types' => array(self::TYPE_THEME => 'Tema',self::TYPE_EXHIBITION => 'Udstilling',self::TYPE_SERIES => 'Serie'),
+			'states' => array(self::STATUS_DRAFT => 'Draft',self::STATUS_PUBLISH => 'Publish')
+			);
+		wp_localize_script('dka-collections-admin', 'WPDKACollections', $args);
+
 		$table->prepare_items();  
-		//wp_enqueue_script('bootstrapjs',plugins_url( 'js/bootstrap.min.js' , __FILE__ ),array('jquery'),'1.0',true); 
-		//wp_enqueue_style('bootstrapcss',plugins_url( 'css/bootstrap.min.css' , __FILE__ ));
-		//$this->loadJsCss();
 		?>
 		<h2><?php $table->get_title(); ?></h2>
 		<form id="movies-filter" method="get">
@@ -560,25 +615,6 @@ final class WPDKACollections {
 		return $table;
 	}
 
-	private function render_edit_collection() {
-
-?>
-		<h2><?php printf(__('Edit %s', self::DOMAIN), $_GET['dka-collection']); ?></h2>
-
-		<form method="post">
-			<label for="collection"><?php _e('Collection', self::DOMAIN)?></label>
-			<input id="collection" name="collection" type="text" value="<?php echo $_GET['dka-collection']?>"/>
-			<input type="submit" value="<?php _e('Save', self::DOMAIN)?>" id="submit" class="button-primary" name="submit"/>
-		</form>
-	<?php
-		if (isset($_POST['submit'])) {
-			if (!empty($_POST['collection'])) {
-				// Change collection name.
-				_e('Collection was updated.', self::DOMAIN);
-			}
-		}
-	}
-
 	/**
 	 * Adds a new collection object to CHAOS
 	 * @param  string    $title
@@ -592,19 +628,6 @@ final class WPDKACollections {
 		if(!in_array($type,array(self::TYPE_SERIES,self::TYPE_EXHIBITION,self::TYPE_THEME)))
 			return false;
 
-		// $serviceResult = WPChaosClient::instance()->Object()->Get(
-		//                 "GUID:ad8682b9-1fc0-6045-acad-347f16a41d12",   // Search query
-		//                 null,   // Sort
-		//                 false,   // Use session instead of AP.
-		//                 0,      // pageIndex
-		//                 1,      // pageSize
-		//                 true,   // includeMetadata
-		//                 false,   // includeFiles
-		//                 false    // includeObjectRelations
-		//     ); //debug purpose. using created guid
-		// $collections = WPChaosObject::parseResponse($serviceResult);
-		// 	$collection = $collections[0];
-		//     return $collection;
 		try {
 			$serviceResult = WPChaosClient::instance()->Object()->Create(self::COLLECTIONS_TYPE_ID,self::COLLECTIONS_FOLDER_ID);
 
@@ -623,22 +646,15 @@ final class WPDKACollections {
 			
 			$collection->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
 
+			$yday = new DateTime();
+			$yday->sub(new DateInterval('P1D'));
+			WPChaosClient::instance()->Object()->SetPublishSettings($collection->GUID, null,$yday);
+
 			return $collection;
 		} catch(\Exception $e) {
 			error_log('CHAOS Error when adding collection: '.$e->getMessage());
 			return false;
 		}
-	}
-
-	/**
-	 * Delete collection
-	 * @param  string           $object_guid
-	 * @return boolean              success
-	 */
-	private function _delete_collection($collection_object) {
-		// TODO
-		// Check for no materials in collection.
-		return false;
 	}
 
 	/**
@@ -650,34 +666,71 @@ final class WPDKACollections {
 	 * @param  string $type    
 	 * @return boolean          success
 	 */
-	private function _edit_collection($collection_object, $new_title, $new_description, $new_rights, $new_category) {
-		// try {
-		//     $metadataXML = $collection_object->get_metadata(self::METADATA_SCHEMA_GUID);
+	private function _edit_collection($collection, $new_title, $new_description, $new_rights, $new_type, $new_status) {
+		
+		if(!in_array($new_type,array(self::TYPE_SERIES,self::TYPE_EXHIBITION,self::TYPE_THEME)))
+			return false;
 
-		//     // Getting elements from collection
-		//     $title = $metadataXML->getElementsByTagName('title')->item(0);
-		//     $description = $metadataXML->getElementsByTagName('title')->item(0);
-		//     $rights = $metadataXML->getElementsByTagName('title')->item(0);
-		//     $category = $metadataXML->getElementsByTagName('title')->item(0);
+		if(!in_array($new_status,array(self::STATUS_PUBLISH,self::STATUS_DRAFT)))
+			return false;
 
-		//     // Replacing the elements with new information.
-		//     $title->nodeValue = $new_title;
-		//     $description->nodeValue = $new_description;
-		//     $rights->nodeValue = $new_rights;
-		//     $category->nodeValue = $new_category;
+		if($new_status == self::STATUS_PUBLISH && count($collection->ObjectRelations) == 0)
+			return false;
 
-		//     $metadataXML->replaceChild($title, $title);
-		//     $metadataXML->replaceChild($description, $description);
-		//     $metadataXML->replaceChild($rights, $rights);
-		//     $metadataXML->replaceChild($category, $category);
+		try {
+
+			$metadataXML = $collection->get_metadata(self::METADATA_SCHEMA_GUID);
+			$title = $metadataXML->xpath('/dkac:Collection');
+			if(count($title) !== 1) {
+				throw new \RuntimeException("Malformed XML");
+			}
+			$title[0]->Title = $new_title;
+			$title[0]->Description = $new_description;
+			$title[0]->Rights = $new_rights;
+			$title[0]->Status = $new_status;
+			$title[0]->Type = $new_type;
+			
+			$collection->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+
+			return $collection;
+		} catch(\Exception $e) {
 
 
-		//     $collection_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
-		//     return true;
-		// } catch(\Exception $e) {
-		//     error_log('CHAOS Error when changing collection state: '.$e->getMessage());
-		// }
-		return false;
+			error_log('CHAOS Error when editing collection: '.$e->getMessage());
+			return false;
+		}
+	}
+
+	private function _sort_collection_objects($collection, $guids) {
+
+		try {
+
+			$metadataXML = $collection->get_metadata(self::METADATA_SCHEMA_GUID);
+			$item = $metadataXML->xpath('/dkac:Collection');
+
+			if(count($item) !== 1) {
+				throw new \RuntimeException("Malformed XML");
+			}
+
+			$item[0]->Playlist = '';
+
+			$item = $metadataXML->xpath('/dkac:Collection/dkac:Playlist');
+
+			if(count($item) !== 1) {
+				throw new \RuntimeException("Malformed XML");
+			}
+
+			foreach($guids as $guid) {
+				$item[0]->addChild('Object',$guid);
+			}
+			
+			$collection->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+
+			return $collection;
+		} catch(\Exception $e) {
+			error_log('CHAOS Error when sorting collection objects: '.$e->getMessage());
+			return false;
+		}
 	}
 
 	/**
@@ -685,8 +738,42 @@ final class WPDKACollections {
 	 * @param  string $object_guid
 	 * @return boolean           success
 	 */
-	private function _remove_materials_from_collection($collection_object) {
-		// TODO
+	private function _remove_materials_from_collection($collection_object,$material_guids = array()) {
+		try {
+			$metadataXML = $collection_object->get_metadata(self::METADATA_SCHEMA_GUID);
+
+			if(empty($material_guids)) {
+				foreach($collection_object->ObjectRelations as $relation) {
+					if($collection_object->GUID != $relation->Object1GUID) {
+						$material_guids[] = $relation->Object1GUID;
+					} else {
+						$material_guids[] = $relation->Object2GUID;
+					}
+				}
+			}
+
+			foreach($material_guids as $material_guid) {
+				$item = $metadataXML->xpath('/dkac:Collection/dkac:Playlist/dkac:Object/text()[.="'.$material_guid.'"]');
+
+				if(count($item) < 1) {
+					throw new \RuntimeException("Malformed XML");
+				}
+
+				//Remove element
+				$dom = dom_import_simplexml($item[0]);
+				$dom->parentNode->removeChild($dom);	
+
+				//Remove relation between object and tag
+				WPChaosClient::instance()->ObjectRelation()->Delete($material_guid,$collection_object->GUID,self::COLLECTIONS_RELATION_ID);
+			}
+
+			// Update playlist.
+			$collection_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+
+			return true;
+		} catch(\Exception $e) {
+			error_log('CHAOS Error when removing object from collection: '.$e->getMessage());
+		}
 		return false;
 	}
 
@@ -695,17 +782,27 @@ final class WPDKACollections {
 	 * @param string $object_guid
 	 * @return  boolean           success
 	 */
-	private function _add_material_to_collection($collection_object, $material_object) {
-		// try {
-		//     $metadataXML = $collection_object->get_metadata(self::METADATA_SCHEMA_GUID);
+	private function _add_material_to_collection($collection_object, $material_guid) {
+		try {
+			$metadataXML = $collection_object->get_metadata(self::METADATA_SCHEMA_GUID);
 
-		//     // Add playlist.          
+			$item = $metadataXML->xpath('/dkac:Collection/dkac:Playlist');
 
-		//     $collection_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
-		//     return true;
-		// } catch(\Exception $e) {
-		//     error_log('CHAOS Error when changing collection state: '.$e->getMessage());
-		// }
+			if(count($item) !== 1) {
+				throw new \RuntimeException("Malformed XML");
+			}
+
+			$item[0]->addChild('Object',$material_guid);
+
+			// Add object to playlist.
+			$collection_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+
+			//Set relation between object and tag
+			WPChaosClient::instance()->ObjectRelation()->Create($material_guid,$collection_object->GUID,self::COLLECTIONS_RELATION_ID);
+			return true;
+		} catch(\Exception $e) {
+			error_log('CHAOS Error when changing collection state: '.$e->getMessage());
+		}
 		return false;
 	}
 
@@ -768,6 +865,64 @@ final class WPDKACollections {
 		echo '<td class="t chaos-material">'.$text.'</td>';
 		echo '</tr>';
 
+	}
+
+	public function add_collection_search_to_query($query, $query_vars) {
+		//We use an OR, so encapsulate everything prior
+		if($query) {
+			$query = array("(".$query.")");
+		} else {
+			$query = array();
+		}
+
+		//For each substring in search, look for matching tags
+		if(array_key_exists(WPChaosSearch::QUERY_KEY_FREETEXT, $query_vars)) {
+			$freetext = $query_vars[WPChaosSearch::QUERY_KEY_FREETEXT];
+			//$freetext = preg_replace('/\s+/', ' ', $query_vars[WPChaosSearch::QUERY_KEY_FREETEXT]);
+			if($freetext) {
+
+				//Get tags by typeid, folderid and status not flagged
+				$query[] = '(m'.self::METADATA_SCHEMA_GUID.'_da_all:(' . $freetext . ') AND (ObjectTypeID:'.self::COLLECTIONS_TYPE_ID.') AND (FolderID:'.self::COLLECTIONS_FOLDER_ID.') AND ('.self::FACET_KEY_STATUS.':'.self::STATUS_PUBLISH.'))';
+
+			}
+		}
+		
+		return implode(" OR ", $query);        
+	}
+
+	public function prepare_search_results($search_results) {
+		$collection_relations = array();
+
+		foreach($search_results->MCM()->Results() as $collection) {
+			if($collection->ObjectTypeID == self::COLLECTIONS_TYPE_ID && count($collection->ObjectRelations) > 0) {
+				$collection = new WPChaosObject($collection,self::OBJECT_FILTER_PREFIX);
+				$collection_relations[(string)$collection->playlist_raw[0]] = $collection->GUID;
+			}
+		}
+
+		if(count($collection_relations) > 0) {
+			self::$collection_relations = array();
+			try {
+				$response = WPChaosClient::instance()->Object()->Get(
+					'(GUID:('.implode(' OR ',array_keys($collection_relations)).'))',   // Search query
+					null,   // Sort
+					null, 
+					0,      // pageIndex
+					1,      // pageSize
+					true,   // includeMetadata
+					true,   // includeFiles
+					true    // includeObjectRelations
+				);
+				foreach($response->MCM()->Results() as $material) {
+					$collection_guid = $collection_relations[$material->GUID];
+					self::$collection_relations[$collection_guid] = $material;
+				}
+			} catch(\CHAOSException $e) {
+				error_log('CHAOS error when getting collection relations: '.$e->getMessage());
+			}
+		}
+
+		return $search_results;
 	}
 
 	/**
