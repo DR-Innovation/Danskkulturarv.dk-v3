@@ -38,7 +38,7 @@ if($children->have_posts()) : ?>
 $class = 'door-frame';
 if(get_post_status() == 'publish') {
 	$class .= ' available';
-	$content = '<!--[if gte IE 9]--><div class="door">'.get_the_title().'</div><!-- [endif] -->';
+	$content = '<!--[if (gte IE 9)|!(IE)]><!--><div class="door">'.get_the_title().'</div><!--<![endif]-->';
 	$content .= '<div class="door-inside">Klik</div>';
 } else {
 	$content = '<div class="door">'.get_the_title().'</div>';
