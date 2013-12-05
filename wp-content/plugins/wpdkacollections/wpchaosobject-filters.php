@@ -62,52 +62,29 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'playlist', function($value, \
 		null
 	);
 
-	$query = "GUID:".$value[0];
+    //Get the related objects to the current collection.
+    $serviceResult2 = WPChaosClient::instance()->Object()->Get(
+        "(GUID:(".implode(" OR ", $value)."))",   // Search query
+        null,   // Sort
+        null,   // AP injected
+        0,      // pageIndex
+        count($value), // pageSize
+        true,   // includeMetadata
+        false,   // includeFiles
+        false    // includeObjectRelations
+    );
 
-		//Get collection object
-		$serviceResult = WPChaosClient::instance()->Object()->Get(
-			$query,   // Search query
-			null,   // Sort
-			null,   // Use AP
-			0,      // pageIndex
-			1,      // pageSize
-			true,   // includeMetadata
-			false,   // includeFiles
-			true    // includeObjectRelations
-		);
+    $result3 = array();
+    foreach($serviceResult2->MCM()->Results() as $result) {
+    	$result3[$result->GUID] = new WPChaosObject($result);
+    }
 
-		//Instantiate collection
-		$collection = WPChaosObject::parseResponse($serviceResult,WPDKACollections::OBJECT_FILTER_PREFIX);
-		$cur_collection = $collection[0];
-		/*
-		$relation_guids = $cur_collection->playlist_raw;
-		var_dump($relation_guids);
-        //Get the related objects to the collection.
-        $serviceResult2 = WPChaosClient::instance()->Object()->Get(
-            "(GUID:(".implode(" OR ", $relation_guids)."))",   // Search query
-            null,   // Sort
-            null,   // AP injected
-            0,      // pageIndex
-            count($relation_guids), // pageSize
-            true,   // includeMetadata
-            false,   // includeFiles
-            false    // includeObjectRelations
-        );
+    //Set items in proper order
+    foreach($value as $guid) {
+    	$items[] = $result3[(string)$guid];
+    }
 
-        $result3 = array();
-        foreach($serviceResult2->MCM()->Results() as $result) {
-        	$result3[$result->GUID] = new WPChaosObject($result);
-        }
-
-        //Set items in proper order
-        foreach($relation_guids as $guid) {
-        	$items[] = $result3[(string)$guid];
-        }
-
-        return $items;
-        */
-       
-       return array();
+    return $items;
 }, 10, 2);
 
 //collection->status
@@ -133,15 +110,25 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', function($value, \
 		$return .= '<h4><a data-toggle="collapse" data-target="#collection-'.$collection->GUID.'">'.$collection->title.'</a></h4>';
 		$return .= '<div id="collection-'.$collection->GUID.'" class="collapse">';
 		$return .= '<ul class="media-list">';
+		$count = 0;
 		foreach ($collection->playlist as $material) {
+			$count++;
 			$thumbnail = ($material->thumbnail ? ' style="background-image: url(\'' . $material->thumbnail . '\')!important;"' : '');
-			$return .= '<li class="media' . ($object->GUID == $material->GUID ? ' active' : '') . '">';
-			$return .= '<div class="pull-left">';
-			$return .= '<div class="media-object" id="collection_object"' . $thumbnail . '></div>';
-			$return .= '</div><div class="media-body">';
-			$return .= '<h4 class="media-heading">' . $material->title . '</h4>';
-			$return .= $material->description;
-			$return .= '</div>';
+			$return .= '<li class="media">';
+			//$return .= '<a class="fill-div" href="#"></a>';
+			// Have to focus this element in the collection. 
+			if ($material->GUID == $object->GUID) {
+				$return .= '<div class="pull-left">';
+				$return .= '</div><div class="media-body">';
+				$return .= '<h4 class="media-heading"><span class="collectionCount">' . $count . '.</span> ' . $material->title . '</h4>';
+				$return .= '<div class="media-object thumb format-' . $material->type . '" id="collection_object"' . $thumbnail . '></div>';
+				$return .= $material->description; // Should be excerpt.
+				$return .= '</div>';
+			} else {
+				$return .= '<div class="media-body">';
+				$return .= '<h4 class="media-heading"><span class="collectionCount">' . $count . '.</span> ' . $material->title . '</h4>';
+				$return .= '</div>';
+			}
 			$return .= '</li>';
 		}
 		$return .= '</ul>';
