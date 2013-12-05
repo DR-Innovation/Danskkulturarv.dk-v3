@@ -198,6 +198,7 @@ final class WPDKACollections {
 
 	}
 
+
 	public function make_parent_node( $wp_admin_bar ) {
 		$args = array(
 			'id'     => 'new-dka-collection',     // id of the existing child node (New > Post)
@@ -208,6 +209,9 @@ final class WPDKACollections {
 		$wp_admin_bar->add_node( $args );
 	}
 
+	/**
+	 * Load necessary CSS and JS to visualize collections on the site.
+	 */
 	public function loadJsCss() {
 		if(!is_admin() && current_user_can('edit_posts')) {
 			wp_enqueue_script('dka-collections',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
@@ -223,6 +227,11 @@ final class WPDKACollections {
 		}
 	}
 
+	/**
+	 * Get collections for a specific material.
+	 * @param  WPCHAOSObject $object
+	 * @return array of collection objects
+	 */
 	public static function get_material_collections($object) {
 		try {
 			//Get relations
@@ -256,6 +265,10 @@ final class WPDKACollections {
 	 * Ajax calls
 	 **************************************************************************/
 
+	/**
+	 * Get collections with ajax
+	 * @return array of collection objects
+	 */
 	public function ajax_get_collections() {
 		$response = array();
 		try {
@@ -285,6 +298,10 @@ final class WPDKACollections {
 		die();
 	}
 
+	/**
+	 * Get collection by guid with ajax
+	 * @return collection object
+	 */
 	public function ajax_get_collection() {
 		try {
 			$result = self::get_collection_by_guid($_POST['guid']);
@@ -295,7 +312,10 @@ final class WPDKACollections {
 		die();
 	}
 
-
+	/**
+	 * Add new collection with ajax
+	 * @return status string
+	 */
 	public function ajax_add_collection() {
 		if (!isset($_POST['collectionTitle']) || strlen(trim($_POST['collectionTitle'])) < 1) {
 			echo "Missing title";
@@ -320,6 +340,10 @@ final class WPDKACollections {
 		die();
 	}
 
+	/**
+	 * Add relations to collection
+	 * @return status string
+	 */
 	public function ajax_add_relation() {
 		if (!isset($_POST['collection_guid']) || !isset($_POST['object_guid'])) {
 			echo "Missing ids";
@@ -349,6 +373,10 @@ final class WPDKACollections {
 		die();
 	}
 
+	/**
+	 * Edit collection with ajax
+	 * @return json object
+	 */
 	public function ajax_edit_collection() {
 		if (!isset($_POST['object_guid'])) {
 			echo "Missing guid";
@@ -395,6 +423,10 @@ final class WPDKACollections {
 		die();
 	}
 
+	/**
+	 * Get sorted collection objects with ajax
+	 * @return json object
+	 */
 	public function ajax_sort_collection_objects() {
 		if (!isset($_POST['collection_guid'])) {
 			echo "Missing guid";
@@ -840,7 +872,6 @@ final class WPDKACollections {
 	 * @param  WPChaosObject    $object
 	 * @return string
 	 */
-
 	function add_collection_counts() {
 
 		$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(WPDKACollections_List_Table::FACET_KEY_STATUS)), null, false);

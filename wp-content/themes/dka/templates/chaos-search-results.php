@@ -75,7 +75,7 @@ $views = array(
 			$class = '';
 			if($collection_obj) {
 				$url .= '#'.$collection_obj->GUID;
-				$caption = count($collection_obj->ObjectRelations).' materialer';
+				$caption = count($collection_obj->ObjectRelations) . ' ' . _n( 'material', 'materials', count($collection_obj->ObjectRelations), 'dka' );
 				$title = $collection_obj->title;
 				$organization = "Samling";
 				$views = null;

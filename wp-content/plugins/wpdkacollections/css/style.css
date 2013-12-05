@@ -1,91 +1,48 @@
-.listCollections {
-	display: inline;
-	width: 100%;
-	margin: 0;
-}
-
-.listCollections h4 {
-	font-weight: 200;
-	display: inline;
-	width: 100%;
-}
-
-.listCollections .dropdown-menu li {
-	padding: 5px;
-}
-
-.listCollections .dropdown-toggle {
-	width: 100%;
-}
-
-.listCollections li a {
-	color: #000 !important;
-}
-
-.listCollections li:hover {
-	background-color: #eeeded;
+/* ****
+* Visualize collection items on objects.
+**** */
+.panel-group h4 {
 	cursor: pointer;
 }
 
-.listCollections .caret {
-	color: #000;
+.media-list {
+	border-radius: 2px;
 }
 
-.listCollections  .dropdown-toggle {
-	cursor: pointer;
+.media {
+	padding: 0px;
+	border-radius: 2px;
 }
 
-.collections {
-	max-height: 300px;
-	overflow-x: hidden;
-	overflow-y: scroll;
-	margin: 0;
+.media li {
+	width: 100%;
 }
 
-.collections h4 {
-	font-weight: 200;
-}
-
-.collections .media {
+.panel {
 	padding: 5px;
 }
 
-.collections #collection_image {
-	height: 64px;
+.media:hover {
+	background-color: rgba(0,0,0, 0.05);
+}
+
+.media.active {
+	color: #fff;
+	background-color: rgb(57, 122, 255);
+}
+
+#collection_object {
 	width: 64px;
+	height: 64px;
 	background-size: cover;
+	background-repeat: no-repeat;
 }
 
-.button-secondary {
-	width: 100px;
-}
-
-.collections .fill-collection {
-	position: absolute;
+.media-body {
 	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	border-radius: 3px;
-}
-
-.collections .media-list li:hover .fill-collection {
-	background-color: rgba(93, 109, 109, 0.1);
-}
-
-.collectionCount {
-	width: 20px;
-	display: inline-block;
-}
-
-.collections .media-list li {
-	border: none;
-	border-bottom: 1px solid #eee;
+	margin-left: 70px;
+	display: inline;
 	margin: 0;
-}
-
-.collection-result {
-
 }
 
 /* Stacks creted by the use of generated content */

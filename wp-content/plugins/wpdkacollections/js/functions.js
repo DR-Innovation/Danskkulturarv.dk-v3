@@ -383,10 +383,10 @@
 	$(document).ready(function(){ 
 		wpdkacollections.init(); 
 
-		// Makes sure to focus current object.
-		// if (!document.location.hash){
-		//     document.location.hash = 'current_collection';
-		// }
+		// Makes sure to open current collection.
+		if (document.location.hash){
+			$("#collection-" + document.location.hash.split('#')[1]).collapse('show');
+		}
 	});
 
 	// When changing collection in collection dropdown list.
