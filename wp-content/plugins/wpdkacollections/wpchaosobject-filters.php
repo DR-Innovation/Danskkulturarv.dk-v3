@@ -105,21 +105,20 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'status', function($value, \WP
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', function($value, \WPCHAOSObject $object) {
 
 	$collections = WPDKACollections::get_material_collections($object);
-	$return = '<div class="panel-group"><div class="panel panel-default">';
+	$return = '<div class="panel-group" id="collectionDiv"><div class="panel panel-default">';
 	foreach($collections as $collection) {
 		$return .= '<h4><a data-toggle="collapse" data-target="#collection-'.$collection->GUID.'">'.$collection->title.'</a></h4>';
 		$return .= '<div id="collection-'.$collection->GUID.'" class="collapse">';
-		$return .= '<ul class="media-list">';
+		$return .= '<ul class="media-list"><hr>';
 		$count = 0;
 		foreach ($collection->playlist as $material) {
 			$count++;
 			$thumbnail = ($material->thumbnail ? ' style="background-image: url(\'' . $material->thumbnail . '\')!important;"' : '');
-			$return .= '<li class="media">';
+			$return .= '<li class="media" onClick="location.href=\'' . $material->url . '#' . $collection->GUID . '\'">';
 			//$return .= '<a class="fill-div" href="#"></a>';
 			// Have to focus this element in the collection. 
 			if ($material->GUID == $object->GUID) {
-				$return .= '<div class="pull-left">';
-				$return .= '</div><div class="media-body">';
+				$return .= '<div class="media-body">';
 				$return .= '<h4 class="media-heading"><span class="collectionCount">' . $count . '.</span> ' . $material->title . '</h4>';
 				$return .= '<div class="media-object thumb format-' . $material->type . '" id="collection_object"' . $thumbnail . '></div>';
 				$return .= $material->description; // Should be excerpt.
@@ -129,7 +128,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', function($value, \
 				$return .= '<h4 class="media-heading"><span class="collectionCount">' . $count . '.</span> ' . $material->title . '</h4>';
 				$return .= '</div>';
 			}
-			$return .= '</li>';
+			$return .= '</li><hr>';
 		}
 		$return .= '</ul>';
 		$return .= '</div>';
