@@ -44,7 +44,6 @@
 				},
 				error: function(errorThrown) {
 					alert(errorThrown.responseText);
-					console.log("error.");
 				}
 			});
 		},
@@ -126,18 +125,14 @@
 							collection_guid: $('#collection_id').val(),
 							token: WPDKACollections.token
 						},
-						dataType: 'TEXT',
+						dataType: 'JSON',
 						type: 'POST',
 						success:function(data) {
-							console.log(data);
 							wpdkacollections.modalAddObject.modal('hide');
 							buttons.attr('disabled',false);
 
 						},
 						error: function(errorThrown) {
-							alert(errorThrown.responseText);
-							console.log("error.");
-							console.log(errorThrown);
 							buttons.attr('disabled',false);
 						}
 					});
@@ -232,7 +227,6 @@
 						dataType: 'JSON',
 						type: 'POST',
 						success:function(data) {
-							console.log(data);
 							var option = '<option value="'+data.guid+'" selected="selected">'+data.title+'</option>';
 							wpdkacollections.modalAddObject.find('select').append(option);
 							createCollectionModal.modal('hide');
@@ -241,9 +235,6 @@
 							input.val('');
 						},
 						error: function(errorThrown) {
-							alert(errorThrown.responseText);
-							console.log("error.");
-							console.log(errorThrown);
 							buttons.attr('disabled',false);
 						}
 					});
@@ -278,15 +269,12 @@
 					dataType: 'text',
 					type: 'POST',
 					success:function(data) {
-						console.log(data);
 						if (!document.location.hash){
 						    document.location.hash = 'current_collection';
 						}
 						$(".collections .media-list").html(data);
 					},
 					error: function(errorThrown) {
-						alert(errorThrown.responseText);
-						console.log(errorThrown);
 					}
 				});
 
