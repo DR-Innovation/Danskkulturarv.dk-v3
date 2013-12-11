@@ -93,8 +93,17 @@
 }
 
 .add-to-collection {
-	color: #000;
+	position: absolute;
+	top: 10px;
+	left: 25px;
+	border-radius: 100% !important;
+	opacity: 0.5;
 }
+
+.add-to-collection:hover {
+	opacity: 1;
+}
+
 
 /* Stacks creted by the use of generated content */
 /* For thumbnail view */
