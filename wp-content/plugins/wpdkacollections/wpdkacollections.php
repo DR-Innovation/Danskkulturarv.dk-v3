@@ -255,7 +255,7 @@ final class WPDKACollections {
 				}
 			}
 			$serviceResult = WPChaosClient::instance()->Object()->Get(
-				'(GUID:('.implode(' OR ',$relation_guids).')) AND (ObjectTypeID:'.WPDKACollections::COLLECTIONS_TYPE_ID.')',   // Search query
+				'(GUID:('.implode(' OR ',$relation_guids).')) AND (ObjectTypeID:'.WPDKACollections::COLLECTIONS_TYPE_ID.') AND ('.WPDKACollections::FACET_KEY_STATUS.':'.WPDKACollections::STATUS_PUBLISH.')',   // Search query
 				null,   // Sort
 				null, 
 				0,      // pageIndex

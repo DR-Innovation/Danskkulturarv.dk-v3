@@ -30,8 +30,6 @@
 					dataType: 'JSON',
 					type: 'POST',
 					success:function(data){
-						button.attr('disabled',false);
-
 						container.html('<div class="alert alert-info">'+data+'</div>');
 						setTimeout(function() {
 							location.reload(true);

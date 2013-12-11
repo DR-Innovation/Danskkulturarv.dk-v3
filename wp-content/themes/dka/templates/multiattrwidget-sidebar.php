@@ -33,7 +33,7 @@
 			<h4>
 				<?php _e('User Tags','wpdkatags'); ?>
 <?php if(current_user_can(WPDKATags::CAPABILITY)) : ?>
-				(<a href="#" id="object-taggable" data-dka-taggable="<?php echo !WPChaosClient::get_object()->taggable; ?>"><?php WPChaosClient::get_object()->taggable ? _e('Disable','dka') : _e('Enable','dka'); ?></a>)
+				<button style="padding:2px 5px;" class="btn btn-sm btn-default" id="object-taggable" data-dka-taggable="<?php echo !WPChaosClient::get_object()->taggable; ?>"><?php WPChaosClient::get_object()->taggable ? _e('Disable','dka') : _e('Enable','dka'); ?></button>
 <?php endif; ?>
 			</h4>
 			<?php echo WPChaosClient::get_object()->usertags; ?>

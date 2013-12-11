@@ -111,9 +111,8 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', function($value, \
 	$collections = $object->collections_raw;
 	$return = '<div class="panel-group" id="collectionDiv"><div class="panel panel-default">';
 	foreach($collections as $collection) {
-		if ($collection->status == 'Kladde')
-			continue;
-		$return .= '<h4><a data-toggle="collapse" data-target="#collection-'.$collection->GUID.'"><i class="icon-archive"></i> '.$collection->title.'</a></h4>';
+
+		$return .= '<h4 data-toggle="collapse" data-target="#collection-'.$collection->GUID.'"><i class="icon-archive"></i> '.$collection->title.'</h4>';
 		$return .= '<div id="collection-'.$collection->GUID.'" class="collapse">';
 		$return .= '<ul class="media-list"><hr>';
 		$count = 0;
