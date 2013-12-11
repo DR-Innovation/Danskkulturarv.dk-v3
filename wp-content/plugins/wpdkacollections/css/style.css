@@ -70,6 +70,17 @@
    -webkit-box-shadow: inset 0 0 0 1px #fff;
 }
 
+#collectionDiv .media a {
+	display: block;
+	width: 100%;
+	text-decoration: none;
+	color: #000;
+}
+
+#collectionDiv .media a:hover {
+	text-decoration: none;
+}
+
 #collectionDiv .media h4 {
 	font-size: 16px;
 	font-weight: 400;
