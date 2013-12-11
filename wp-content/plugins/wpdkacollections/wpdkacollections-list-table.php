@@ -8,6 +8,9 @@ class WPDKACollections_List_Table extends WP_List_Table {
 	protected $title;
 	protected $states;
 	
+	/**
+	 * Constructor
+	 */
 	public function __construct($args = array()){
 				
         $args = wp_parse_args( $args, array(
@@ -57,7 +60,9 @@ class WPDKACollections_List_Table extends WP_List_Table {
 		}
 
 		$status_links = array();
-		$status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'" class="current">' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_count, 'posts' ), number_format_i18n($total_count) ) . '</a>';
+
+		$class = empty($_REQUEST['tag_status']) ? ' class="current"' : '';
+		$status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_count, 'posts' ), number_format_i18n($total_count) ) . '</a>';
 		
 		foreach($this->states as $status_key => $status) {
 			$class = '';
@@ -67,8 +72,6 @@ class WPDKACollections_List_Table extends WP_List_Table {
 			$status_links[$status_key] = '<a href="admin.php?page='.$this->screen->parent_base.'&amp;tag_status='.$status_key.'"'.$class.'>'. sprintf( '%s <span class="count">(%s)</span>', $status['title'], number_format_i18n( $count ) ) . '</a>';
 		}
 
-		//wp_enqueue_script('bootstrapjs',plugins_url( 'js/bootstrap.min.js' , __FILE__ ),array('jquery'),'1.0',true);
-		//wp_enqueue_style('bootstrapcss', plugins_url( 'css/bootstrap.min.css' , __FILE__ ),true);
 		return $status_links;
 	}
 	
@@ -171,10 +174,7 @@ class WPDKACollections_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
-	function extra_tablenav( $which ) {
-		// if ( $which == "top" ){
-		// 	echo '<input href="" type="submit" id="add-collection" class="button-secondary" value="' . __('Add collection', WPDKACollections::DOMAIN) . '" />';
-		// }
+	public function extra_tablenav( $which ) {
 	}
 	
 	/**

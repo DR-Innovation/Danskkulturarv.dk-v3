@@ -21,6 +21,8 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 		//Set parent defaults
 		parent::__construct( $args );
 
+		$this->title = '<a href="'.add_query_arg('page',WPDKACollections::DOMAIN,'admin.php').'">'.__('DKA Collections', WPDKACollections::DOMAIN).'</a>';
+
 		wp_enqueue_script('jquery-ui-sortable');
 		add_action('admin_footer', function() {
 			?>
@@ -169,7 +171,12 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 		return $actions;
 	}
 
-	function extra_tablenav( $which ) {
+	/**
+	 * Add sort button to table
+	 * @param  string    $which
+	 * @return void
+	 */
+	public function extra_tablenav( $which ) {
 		if ( $which == "top" ){
 			echo '<div class="alignleft actions"><input type="button" id="wpdkacollections-sort" class="button-primary button" value="' . __('Save new sorting', WPDKACollections::DOMAIN) . '" /></div>';
 		}
@@ -186,13 +193,19 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 
 		//Set column headers
 		$hidden = array();
-		$this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());      
+		$this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());
 
-		$this->_current_collection = WPDKACollections::get_current_collection();
+		if(isset($_GET[parent::NAME_SINGULAR])) {
+			$current_collection = esc_html($_GET[parent::NAME_SINGULAR]);
+		} else {
+			$current_collection = " ";
+		}
+
+		$this->_current_collection = WPDKACollections::get_collection_by_guid($current_collection);
 
 		if($this->_current_collection) {
 
-			$this->title = '<a href="'.add_query_arg('page',WPDKACollections::DOMAIN,'admin.php').'">'.__('DKA Collections', WPDKACollections::DOMAIN).'</a> &raquo; '.$this->_current_collection->title;
+			$this->title .= ' &raquo; '.$this->_current_collection->title;
 
 			$relation_guids = $this->_current_collection->playlist_raw;
 
@@ -207,6 +220,7 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 				false,   // includeFiles
 				false    // includeObjectRelations
 			);
+
 			$result3 = array();
 			foreach($serviceResult2->MCM()->Results() as $result) {
 				$result3[$result->GUID] = new WPChaosObject($result);
