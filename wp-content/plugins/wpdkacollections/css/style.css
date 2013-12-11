@@ -92,10 +92,18 @@
 	display: inline-block;
 }
 
-.add-to-collection {
+.thumbnails .add-to-collection {
 	position: absolute;
 	top: 10px;
 	left: 25px;
+	border-radius: 100% !important;
+	opacity: 0.5;
+}
+
+.listview .add-to-collection {
+	position: absolute;
+	top: 15px;
+	right: 25px;
 	border-radius: 100% !important;
 	opacity: 0.5;
 }
