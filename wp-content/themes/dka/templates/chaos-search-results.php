@@ -103,7 +103,7 @@ $views = array(
 					<?php endif; ?>
 				</div>
 				<?php if(class_exists('WPDKACollections') && current_user_can('edit_posts') && !$collection_obj) : ?>
-				<span style="display:inline-block!important;" class="add-to-collection">+COLLECTION</span>
+				<span style="display:inline-block!important;" class="add-to-collection"><i class="icon-plus"></i></span>
 			<?php endif; ?>
 		</a>
 	</li>

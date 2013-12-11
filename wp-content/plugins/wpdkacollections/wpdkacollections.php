@@ -560,33 +560,6 @@ final class WPDKACollections {
 		<?php
 	}
 
-	private function list_collection_objects($collection_object) {
-		$count = 1;
-		$value = '';
-		foreach ($collection_object->objects as $object) {
-			if ($this->cur_collection_guid == $object->GUID) {
-				$thumbnail = (WPChaosClient::get_object()->thumbnail ? ' style="background-image: url(\''.WPChaosClient::get_object()->thumbnail.'\')!important;"' : ''); // Should get current object thumbnail.
-				$value .= 	'<li id="current_collection" class="list-group-item media' . $style . '" value="' . $object->guid . '">
-						<a class="fill-collection" href="'. $object->url . '"></a>
-						<h4 class="list-group-item-heading"><span class="collectionCount">' . $count++ . '</span> ' . $object->title . '</h4>
-							<div class="pull-left">
-								<div id="collection_image" class="thumb format"'. $thumbnail . '">
-								</div>
-							</div>
-							<div class="media-body">
-							' . $object->description . '
-							</div>
-						</li>';
-				continue;
-			}
-			$value .= 	'<li class="list-group-item media' . $style . '" value="' . $object->guid . '">
-						<a class="fill-collection" href="'. $object->url . '"></a>
-						<h4 class="list-group-item-heading"><span class="collectionCount">' . $count++ . '</span> ' . $object->title . '</h4>
-						</li>';
-		}
-		return $value;
-	}
-
 	/**
 	 * Render page for a given list table
 	 * @param  WPDKACollections_List_Table $table
