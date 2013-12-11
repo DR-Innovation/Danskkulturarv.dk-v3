@@ -120,7 +120,8 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', function($value, \
 			if ($material->GUID == $object->GUID) {
 				$return .= '<div class="media-body">';
 				$return .= '<h4 class="media-heading"><span class="collectionCount">' . $count . '.</span> ' . $material->title . '</h4>';
-				$return .= '<div class="media-object thumb format-' . $material->type . '" id="collection_object"' . $thumbnail . '></div>';
+				if (!empty($thumbnail))
+					$return .= '<div class="media-object thumb format-' . $material->type . '" id="collection_object"' . $thumbnail . '></div>';
 				$return .= $material->description; // Should be excerpt.
 				$return .= '</div>';
 			} else {
