@@ -12,7 +12,6 @@
 		 */
 		init: function() {
 
-			//this.addBulkListener();
 			this.addQuickEditListener();
 			this.addDeleteConfirm();
 
@@ -26,50 +25,8 @@
 			});
 		},
 
-		addBulkListener: function() {
-			var editID = "wpdkatags-quickedit";
-			var editElem;
-			$('#doaction,#doaction2').click( function(e) {
-				var selected = $('[name="action"]').find(':selected');
-				if(selected.val() == "-1") {
-					e.preventDefault();
-
-				//When renaming in bulk, add text input to table
-				//On submit, this input and checked tags will be handled (non-AJAX)
-				} else if(selected.val() == 'rename') {
-					e.preventDefault();
-
-					var checked = $('.check-column').find('input:checked');
-					if(!editElem && checked.length > 0) {
-						editElem = '<tr id="'+editID+'"><td colspan="5"><input name="dka-tag-new" type="text" value=""><input type="submit" name="" id="doaction3" class="button button-primary action" value="'+WPDKATagObjects.renameBulk+'" /> <input type="button" class="button wpdkatags-quickedit-cancel" value="'+WPDKATagObjects.cancel+'" /></td></tr>';
-						$('.dka-tag-objects tbody').prepend(editElem);
-					} else if(checked.length == 0) {
-						$('#'+editID).remove();
-						editElem = null;
-					}
-
-				//Show confirm dialog on delete
-				} else if(selected.val() == 'delete') {
-					if(confirm(WPDKATagObjects.confirmDelete) == false) {
-						e.preventDefault();
-					}
-				}
-				
-			});
-
-			//Reset bulkElem on change and cancel
-			$('[name="action"]').change( function(e) {
-				$('#'+editID).remove();
-				editElem = null;
-			});
-			$('.dka-tag-objects tbody').on('click', '.wpdkatags-quickedit-cancel', function(e) {
-				$('#'+editID).remove();
-				editElem = null;
-			});			
-		},
-
 		/**
-		 * Listen to rename tag actions
+		 * Listen to quickedit action
 		 */
 		addQuickEditListener: function() { 
 			var current_parent,
@@ -159,7 +116,7 @@
 
 				if(current_parent && temp_content && guid) {
 
-					$('.error').remove();
+					$('.error',current_parent).remove();
 
 					var buttons = $('.column-title input');
 					buttons.attr('disabled',true);
@@ -196,7 +153,7 @@
 						error: function(errorThrown){
 							buttons.attr('disabled',false);
 							spinner.hide();
-							current_parent.append('<div class="error">'+errorThrown.responseText+'</div>')
+							$('.title',current_parent).append('<div class="error">'+errorThrown.responseText+'</div>')
 						}
 					});
 				}

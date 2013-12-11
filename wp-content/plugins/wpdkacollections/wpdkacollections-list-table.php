@@ -19,7 +19,7 @@ class WPDKACollections_List_Table extends WP_List_Table {
 		//Set parent defaults
 		parent::__construct( $args );
 
-		$this->title = __('Collections', 'wpdkacollections');
+		$this->title = __('DKA Collections', WPDKACollections::DOMAIN);
 		$this->states = array(
 			'publish' => array(
 				'title' => __('Published',WPDKACollections::DOMAIN),
@@ -96,15 +96,7 @@ class WPDKACollections_List_Table extends WP_List_Table {
 
 		$actions = array();
 
-		$actions['quickedit'] = '<a class="wpdkacollections-quickedit" href="#" id="'.$item->GUID.'">'.__('Quick Edit').'</a>';
-
-		// foreach($this->states as $state_k => $state) {
-		// 	if($item->status != $state['title']) {
-		// 		$url = wp_nonce_url(add_query_arg(array('action' => $state_k, $this->_args['singular'] => $item->GUID), $current_page),$state_k.'_'.$item->GUID);
-		// 		$actions[$state_k] = '<a href="'.$url.'">'.$state['action'].'</a>';	
-		// 	}
-		// }
-		
+		$actions['quickedit'] = '<a class="wpdkacollections-quickedit" href="#" id="'.$item->GUID.'">'.__('Quick Edit').'</a>';		
 		$actions['delete'] = '<a class="submitdelete" href="'.add_query_arg(array('action' => 'delete'), $current_page).'">'.__('Delete').'</a>';
 		
 		//Return the title contents
@@ -174,14 +166,14 @@ class WPDKACollections_List_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 		$actions = array(
-			'delete' => __('Delete', 'wpdkacollections')
+			'delete' => __('Delete', WPDKACollections::DOMAIN)
 		);
 		return $actions;
 	}
 
 	function extra_tablenav( $which ) {
 		// if ( $which == "top" ){
-		// 	echo '<input href="" type="submit" id="add-collection" class="button-secondary" value="' . __('Add collection', 'wpdkacollections') . '" />';
+		// 	echo '<input href="" type="submit" id="add-collection" class="button-secondary" value="' . __('Add collection', WPDKACollections::DOMAIN) . '" />';
 		// }
 	}
 	

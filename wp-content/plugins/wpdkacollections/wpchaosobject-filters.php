@@ -41,6 +41,8 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'type', function($value, \WPCH
 		array(WPDKACollections::METADATA_SCHEMA_GUID),
 		array('/dkac:Collection/dkac:Type/text()')
 	);
+	if(isset(WPDKACollections::$types[$value]))
+		$value = WPDKACollections::$types[$value];
 	return $value;
 }, 10, 2);
 
@@ -93,11 +95,9 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'status', function($value, \WP
 		array(WPDKACollections::METADATA_SCHEMA_GUID),
 		array('/dkac:Collection/dkac:Status/text()')
 	);
-	if($value == 'Draft') {
-		$value = __('Draft',WPDKACollections::DOMAIN);
-	} else if($value == 'Publish') {
-		$value = __('Published',WPDKACollections::DOMAIN);
-	}
+	if(isset(WPDKACollections::$states[$value]))
+		$value = WPDKACollections::$states[$value];
+
 	return $value;
 }, 10, 2);
 
