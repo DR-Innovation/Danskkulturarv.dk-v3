@@ -872,10 +872,12 @@ final class WPDKACollections {
 	public function prepare_search_results($search_results) {
 		$collection_relations = array();
 
+		//Get collection objects and map first object from playlist
 		foreach($search_results->MCM()->Results() as $collection) {
 			if($collection->ObjectTypeID == self::COLLECTIONS_TYPE_ID && count($collection->ObjectRelations) > 0) {
 				$collection = new WPChaosObject($collection,self::OBJECT_FILTER_PREFIX);
-				$collection_relations[(string)$collection->playlist_raw[0]] = $collection->GUID;
+				//An object might occur first in several collections
+				$collection_relations[$collection->GUID] = (string)$collection->playlist_raw[0];
 			}
 		}
 
@@ -883,18 +885,20 @@ final class WPDKACollections {
 			self::$collection_relations = array();
 			try {
 				$response = WPChaosClient::instance()->Object()->Get(
-					'(GUID:('.implode(' OR ',array_keys($collection_relations)).'))',   // Search query
+					'(GUID:('.implode(' OR ',$collection_relations).'))',   // Search query
 					null,   // Sort
 					null, 
 					0,      // pageIndex
-					1,      // pageSize
+					count($collection_relations),      // pageSize
 					true,   // includeMetadata
 					true,   // includeFiles
 					true    // includeObjectRelations
 				);
+				//Flip to get O(1) lookup
+				$collection_relations = array_flip($collection_relations);
 				foreach($response->MCM()->Results() as $material) {
 					$collection_guid = $collection_relations[$material->GUID];
-					self::$collection_relations[$collection_guid] = $material;
+					self::$collection_relations[$collection_guid] = $material;				
 				}
 			} catch(\CHAOSException $e) {
 				error_log('CHAOS error when getting collection relations: '.$e->getMessage());
