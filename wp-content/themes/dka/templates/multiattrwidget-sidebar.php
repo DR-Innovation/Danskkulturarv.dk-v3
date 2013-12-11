@@ -27,15 +27,20 @@
 			<h4><?php _e('Tags','dka'); ?></h4>
 			<?php echo WPChaosClient::get_object()->tags; ?>
 		</div>
-<?php if(intval(get_option('wpdkatags-status',0)) > 0) : //iff status is active or frozen ?>
+<?php if(class_exists('WPDKATags') && intval(get_option('wpdkatags-status',0)) > 0) : //iff status is active or frozen ?>
 		<div>
 			<hr>
-			<h4><?php _e('User Tags','wpdkatags'); ?></h4>
+			<h4>
+				<?php _e('User Tags','wpdkatags'); ?>
+<?php if(current_user_can(WPDKATags::CAPABILITY)) : ?>
+				(<a href="#" id="object-taggable" data-dka-taggable="<?php echo !WPChaosClient::get_object()->taggable; ?>"><?php WPChaosClient::get_object()->taggable ? _e('Disable','dka') : _e('Enable','dka'); ?></a>)
+<?php endif; ?>
+			</h4>
 			<?php echo WPChaosClient::get_object()->usertags; ?>
 		</div>
 <?php endif; ?>
 
-<?php if (class_exists('WPDKACollections') && current_user_can('edit_posts')): ?>
+<?php if (class_exists('WPDKACollections') && current_user_can('edit_posts') && count(WPChaosClient::get_object()->collections_raw) > 0): ?>
 		<div class="collection-container">
 			<hr>
 			<?php echo WPChaosClient::get_object()->collections; ?>

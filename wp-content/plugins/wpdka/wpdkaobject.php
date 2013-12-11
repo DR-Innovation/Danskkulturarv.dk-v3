@@ -635,7 +635,9 @@ class WPDKAObject {
 		$metadataXML->addChild('AccumulatedRate', '0');
 		$slug = WPDKAObject::generateSlug($object, $forceNewSlug);
 		$metadataXML->addChild('Slug', $slug);
-		// $metadataXML->addChild('Tags'); // Deprecated
+		
+		//Taggable by default
+		$metadataXML->addChild('Taggable', 'true'); 
 		
 		$successfulValidation = $object->set_metadata(WPChaosClient::instance(), WPDKAObject::DKA_CROWD_SCHEMA_GUID, $metadataXML, WPDKAObject::METADATA_LANGUAGE, $revisionID);
 		

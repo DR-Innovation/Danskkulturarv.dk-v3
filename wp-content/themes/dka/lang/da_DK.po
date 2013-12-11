@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dansk Kulturarv\n"
-"POT-Creation-Date: 2013-12-10 22:41+0100\n"
-"PO-Revision-Date: 2013-12-10 22:41+0100\n"
+"POT-Creation-Date: 2013-12-11 13:48+0100\n"
+"PO-Revision-Date: 2013-12-11 13:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
@@ -184,9 +184,23 @@ msgstr "Læs mere hos %s"
 msgid "Tags"
 msgstr "Tags"
 
-#: ../templates/multiattrwidget-sidebar.php:33
+#: ../templates/multiattrwidget-sidebar.php:34
 msgid "User Tags"
 msgstr "Brugertags"
+
+#: ../templates/multiattrwidget-sidebar.php:36
+msgid "Disable"
+msgstr "Frys"
+
+#: ../templates/multiattrwidget-sidebar.php:36
+msgid "Enable"
+msgstr "Optø"
+
+#~ msgid "Close"
+#~ msgstr "Luk"
+
+#~ msgid "Open"
+#~ msgstr "Åbn"
 
 #~ msgid "About %s"
 #~ msgstr "Om %s"

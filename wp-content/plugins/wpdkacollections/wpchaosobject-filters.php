@@ -97,10 +97,18 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'status', function($value, \WP
 	return $value;
 }, 10, 2);
 
+//object->collections_raw
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections_raw', function($value, \WPCHAOSObject $object) {
+
+	$return = WPDKACollections::get_material_collections($object);
+
+	return $return;
+}, 10, 2);
+
 //object->collections
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', function($value, \WPCHAOSObject $object) {
 
-	$collections = WPDKACollections::get_material_collections($object);
+	$collections = $object->collections_raw;
 	$return = '<div class="panel-group" id="collectionDiv"><div class="panel panel-default">';
 	foreach($collections as $collection) {
 		if ($collection->status == 'Kladde')
