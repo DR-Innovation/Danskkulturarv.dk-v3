@@ -3,13 +3,11 @@
 // Registering namespaces.
 \CHAOS\Portal\Client\Data\Object::registerXMLNamespace('dkac', 'http://www.danskkulturarv.dk/DKA-Collection.xsd');
 
-//Uses fallback to old scheme
-
 //collection->title
 add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'title', function($value, \WPCHAOSObject $object) {
 	$value .= $object->metadata(
-		array(WPDKACollections::METADATA_SCHEMA_GUID, WPDKACollections::METADATA_SCHEMA_GUID),
-		array('/dkac:Collection/dkac:Title/text()','/Collection/Title/text()')
+		array(WPDKACollections::METADATA_SCHEMA_GUID),
+		array('/dkac:Collection/dkac:Title/text()')
 	);
 	if($value == "") {
 		$value = __('No title',WPDKACollections::DOMAIN);
@@ -20,8 +18,8 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'title', function($value, \WPC
 //collection->description
 add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'description', function($value, \WPCHAOSObject $object) {
 	$value .= $object->metadata(
-		array(WPDKACollections::METADATA_SCHEMA_GUID, WPDKACollections::METADATA_SCHEMA_GUID),
-		array('/dkac:Collection/dkac:Description/text()','/Collection/Description/text()',)
+		array(WPDKACollections::METADATA_SCHEMA_GUID),
+		array('/dkac:Collection/dkac:Description/text()',)
 	);
 	return $value;
 }, 10, 2);

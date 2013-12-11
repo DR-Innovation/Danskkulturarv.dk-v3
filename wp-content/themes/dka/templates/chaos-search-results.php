@@ -60,8 +60,11 @@ $views = array(
 		foreach(WPChaosSearch::get_search_results()->MCM()->Results() as $object) :
 			$collection_obj = null;
 			if(class_exists('WPDKACollections') && $object->ObjectTypeID == WPDKACollections::COLLECTIONS_TYPE_ID) :
-				//WPChaosClient::set_object(new WPChaosObject($object,WPDKACollections::OBJECT_FILTER_PREFIX));
 				$collection_obj = new WPChaosObject($object,WPDKACollections::OBJECT_FILTER_PREFIX);
+				//Safety. Should never happen
+				if(!isset(WPDKACollections::$collection_relations[$object->GUID])) {
+					continue;
+				}
 				$object = WPDKACollections::$collection_relations[$object->GUID];
 
 			endif;
@@ -92,7 +95,7 @@ $views = array(
 				</div>
 				<h2 class="title"><strong><?php echo $title; ?></strong></h2>
 				<p class="organization"><strong class="strong orange organization"><?php echo $organization; ?></strong>
-					<?php if(WPChaosClient::get_object()->published && !$collection_obj) : ?></p>
+					<?php if(WPChaosClient::get_object()->published && $collection_obj == null) : ?></p>
 					<p class="date"><i class="icon-calendar"></i> <?php echo WPChaosClient::get_object()->published; ?></p>
 				<?php endif; ?>
 				<hr>

@@ -660,12 +660,12 @@ final class WPDKACollections {
 	 * @param  string           $new_status
 	 * @return boolean
 	 */
-	private function _edit_collection($collection, $new_title, $new_description, $new_rights, $new_type, $new_status) {
+	private function _edit_collection($collection, $new_title = null, $new_description = null, $new_rights = null, $new_type = null, $new_status = null) {
 		
-		if(!in_array($new_type,array(self::TYPE_SERIES,self::TYPE_EXHIBITION,self::TYPE_THEME)))
+		if($new_type != null && !in_array($new_type,array(self::TYPE_SERIES,self::TYPE_EXHIBITION,self::TYPE_THEME)))
 			return false;
 
-		if(!in_array($new_status,array(self::STATUS_PUBLISH,self::STATUS_DRAFT)))
+		if($new_status != null && !in_array($new_status,array(self::STATUS_PUBLISH,self::STATUS_DRAFT)))
 			return false;
 
 		if($new_status == self::STATUS_PUBLISH && count($collection->ObjectRelations) == 0)
@@ -678,11 +678,22 @@ final class WPDKACollections {
 			if(count($title) !== 1) {
 				throw new \RuntimeException("Malformed XML");
 			}
-			$title[0]->Title = $new_title;
-			$title[0]->Description = $new_description;
-			$title[0]->Rights = $new_rights;
-			$title[0]->Status = $new_status;
-			$title[0]->Type = $new_type;
+
+			if($new_title) {
+				$title[0]->Title = $new_title;
+			} 
+			if($new_description) {
+				$title[0]->Description = $new_description;
+			}
+			if($new_rights) {
+				$title[0]->Rights = $new_rights;
+			}
+			if($new_status) {
+				$title[0]->Status = $new_status;
+			}
+			if($new_type) {
+				$title[0]->Type = $new_type;
+			}
 			
 			$collection->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
 
@@ -768,6 +779,12 @@ final class WPDKACollections {
 
 				//Remove relation between object and collection
 				WPChaosClient::instance()->ObjectRelation()->Delete($material_guid,$collection_object->GUID,self::COLLECTIONS_RELATION_ID);
+			}
+
+			//Set to draft if last object is removed
+			$item = $metadataXML->xpath('/dkac:Collection/dkac:Playlist/dkac:Object');
+			if(count($item) == 0) {
+				$this->_edit_collection($collection_object,null,null,null,null,self::STATUS_DRAFT);
 			}
 
 			// Update playlist.
@@ -874,8 +891,10 @@ final class WPDKACollections {
 
 		//Get collection objects and map first object from playlist
 		foreach($search_results->MCM()->Results() as $collection) {
-			if($collection->ObjectTypeID == self::COLLECTIONS_TYPE_ID && count($collection->ObjectRelations) > 0) {
+			if($collection->ObjectTypeID == self::COLLECTIONS_TYPE_ID) {
 				$collection = new WPChaosObject($collection,self::OBJECT_FILTER_PREFIX);
+				if(count($collection->playlist_raw) == 0)
+					continue;
 				//An object might occur first in several collections
 				$collection_relations[$collection->GUID] = (string)$collection->playlist_raw[0];
 			}

@@ -38,7 +38,8 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 
 					$(".dka-materials tbody").sortable({
 						helper: fixHelper,
-						forcePlaceholderSize: true
+						forcePlaceholderSize: true,
+						axis: "y"
 					}).disableSelection();
 
 					var wpdkaSortGuids = [];
@@ -46,7 +47,7 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 					$('#wpdkacollections-sort').click(function(e) {
 						e.preventDefault();
 						wpdkaSortGuids = [];
-						$('.dka-collections tbody input:checkbox').each( function() {
+						$('.dka-materials tbody input:checkbox').each( function() {
 							 wpdkaSortGuids.push($(this).val());
 						});
 
@@ -203,41 +204,51 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 
 		$this->_current_collection = WPDKACollections::get_collection_by_guid($current_collection);
 
+		//If current collection exists
 		if($this->_current_collection) {
+			$pagesize = count($this->_current_collection->playlist_raw);
 
-			$this->title .= ' &raquo; '.$this->_current_collection->title;
+			//If there are some materials in collection
+			if($pagesize > 0) {
+				
+				$this->title .= ' &raquo; '.$this->_current_collection->title;
 
-			$relation_guids = $this->_current_collection->playlist_raw;
+				//Get the related objects to the collection.
+				$serviceResult2 = WPChaosClient::instance()->Object()->Get(
+					"(GUID:(".implode(" OR ", $this->_current_collection->playlist_raw)."))",   // Search query
+					null,   // Sort
+					null,   // AP injected
+					0,      // pageIndex
+					$pagesize, // pageSize
+					true,   // includeMetadata
+					false,   // includeFiles
+					false    // includeObjectRelations
+				);
 
-			//Get the related objects to the collection.
-			$serviceResult2 = WPChaosClient::instance()->Object()->Get(
-				"(GUID:(".implode(" OR ", $relation_guids)."))",   // Search query
-				null,   // Sort
-				null,   // AP injected
-				0,      // pageIndex
-				count($relation_guids), // pageSize
-				true,   // includeMetadata
-				false,   // includeFiles
-				false    // includeObjectRelations
-			);
+				//If the materials from collection playlist exist in CHAOS
+				if($serviceResult2->MCM()->Count() > 0) {
+					$result3 = array();
+					foreach($serviceResult2->MCM()->Results() as $result) {
+						$result3[$result->GUID] = new WPChaosObject($result);
+					}
 
-			$result3 = array();
-			foreach($serviceResult2->MCM()->Results() as $result) {
-				$result3[$result->GUID] = new WPChaosObject($result);
+					//Set items in proper order
+					foreach($this->_current_collection->playlist_raw as $guid) {
+						$this->items[] = $result3[(string)$guid];
+					}
+
+					//Set pagination
+					//$serviceResult->MCM()->TotalPages() cannot be trusted here!
+					$this->set_pagination_args( array(
+						'total_items' => $serviceResult2->MCM()->TotalCount(),
+						'per_page'    => $per_page,
+						'total_pages' => ceil($serviceResult2->MCM()->TotalCount()/$per_page)
+					) );				
+				}
 			}
 
-			//Set items in proper order
-			foreach($relation_guids as $guid) {
-				$this->items[] = $result3[(string)$guid];
-			}
-
-			//Set pagination
-			//$serviceResult->MCM()->TotalPages() cannot be trusted here!
-			$this->set_pagination_args( array(
-				'total_items' => $serviceResult2->MCM()->TotalCount(),
-				'per_page'    => $per_page,
-				'total_pages' => ceil($serviceResult2->MCM()->TotalCount()/$per_page)
-			) );			
+			
+			
 		}
 
 	}
