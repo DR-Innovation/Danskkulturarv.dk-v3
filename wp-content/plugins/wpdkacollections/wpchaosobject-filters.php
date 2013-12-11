@@ -119,7 +119,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', function($value, \
 		// Loops over every material in collection
 		foreach ($collection->playlist as $material) {
 			$count++;
-			$return .= '<li class="media" onClick="location.href=\'' . $material->url . '#' . $collection->GUID . '\'">';
+			$return .= '<li class="media"><a href="' . $material->url . '#' . $collection->GUID . '">';
 			// Have to focus this element in the collection. 
 			if ($material->GUID == $object->GUID) {
 				$pos = -1;
@@ -140,7 +140,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', function($value, \
 				$return .= '<h4 class="media-heading"><span class="collectionCount">' . $count . '.</span> ' . $material->title . '</h4>';
 				$return .= '</div>';
 			}
-			$return .= '</li><hr>';
+			$return .= '</a></li>';
 		}
 		$return .= '</ul>';
 		$return .= '</div>';
