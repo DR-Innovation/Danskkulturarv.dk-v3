@@ -29,6 +29,9 @@
 			return result;
 		},
 
+		/**
+		 * Get collections
+		 */
 		getCollections: function() {
 			$.ajax({
 				url: WPDKACollections.ajaxurl,
@@ -57,6 +60,9 @@
 			return result;
 		},
 
+		/**
+		 * Add material to collection
+		 */
 		addInsertObjectToRelationListener: function() {
 			this.modalAddObject = $('<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
 				'<div class="modal-dialog">'+
@@ -95,6 +101,9 @@
 				show:false
 			});
 
+			/**
+			 * Opens modal to add selected material to a collection
+			 */
 			$('.search-object').on('click', '.add-to-collection', function(e) {
 				e.preventDefault();
 
@@ -110,6 +119,9 @@
 				wpdkacollections.modalAddObject.modal('show');
 			});
 
+			/**
+			 * Create relation between collection and material
+			 */
 			wpdkacollections.modalAddObject.on('click', '#collection-relation-create', function(e) {
 				e.preventDefault();
 
@@ -138,6 +150,10 @@
 					});
 				
 			});
+
+			/**
+			 * User cancels the request. To clear input fields.
+			 */
 			wpdkacollections.modalAddObject.on('click','#collection-relation-cancel', function(e) {
 				e.preventDefault();
 				var input = wpdkacollections.modalAddObject.find('input,textarea');
@@ -241,6 +257,10 @@
 				}
 
 			});
+			
+			/**
+			 * User cancels the request. To clear input fields.
+			 */
 			createCollectionModal.on('click','#collection-cancel', function(e) {
 				e.preventDefault();
 				var input = createCollectionModal.find('input,textarea');
@@ -253,34 +273,7 @@
 			if (document.location.hash){
 				$("#collection-" + document.location.hash.split('#')[1]).collapse('show');
 			}
-
-			// When changing collection in collection dropdown list.
-			$(".listCollections li").click(function(){
-				$(".listCollections h4 span").text($(this).text());
-				$(".listCollections .dropdown-toggle").val($(this).val());
-				$(".collections .media-list").html('');
-				$.ajax({
-					url: WPDKACollections.ajaxurl,
-					data:{
-						action: 'wpdkacollections_get_collection',
-						object_guid: $(this).val(),
-						token: WPDKACollections.token
-					},
-					dataType: 'text',
-					type: 'POST',
-					success:function(data) {
-						if (!document.location.hash){
-						    document.location.hash = 'current_collection';
-						}
-						$(".collections .media-list").html(data);
-					},
-					error: function(errorThrown) {
-					}
-				});
-
-		   });			
-		} 
-
+		}
 	};
 
 	//Initiate class on page load
