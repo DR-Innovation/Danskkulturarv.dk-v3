@@ -33,7 +33,9 @@
 						button.attr('disabled',false);
 
 						container.html('<div class="alert alert-info">'+data+'</div>');
-						
+						setTimeout(function() {
+							location.reload(true);
+						},3000);
 					},
 					error: function(errorThrown){
 						button.attr('disabled',false);

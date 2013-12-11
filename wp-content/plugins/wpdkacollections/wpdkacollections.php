@@ -53,6 +53,8 @@ final class WPDKACollections {
 	const FACET_KEY_STATUS = 'DKA-Collection-Status_string';
 	const FACET_KEY_TYPE = 'DKA-Collection-Type_string';
 
+	const CAPABILITY = 'moderate_comments';
+
 	/**
 	 * Plugin dependencies
 	 * @var array
@@ -150,9 +152,12 @@ final class WPDKACollections {
 		$action = (isset($_REQUEST['action']) && $_REQUEST['action'] != -1 ? $_REQUEST['action'] : (isset($_REQUEST['action2']) && $_REQUEST['action2'] != -1 ? $_REQUEST['action2'] : false));
 
 		if($action && isset($_REQUEST[WPDKACollections_List_Table::NAME_SINGULAR])) {
-			
+
+			if(!current_user_can(self::CAPABILITY)) {
+				wp_die("Unauthorized request");
+			}
+
 			//TODO: nonce check here
-			//TODO: perms check here
 			
 			$collections = $_REQUEST[WPDKACollections_List_Table::NAME_SINGULAR];
 			if(!is_array($collections)) {
@@ -323,6 +328,12 @@ final class WPDKACollections {
 	 * @return status string
 	 */
 	public function ajax_add_collection() {
+
+		if(!current_user_can(self::CAPABILITY) || !check_ajax_referer(self::TOKEN_PREFIX, 'token', false)) {
+			echo __("Unauthorized request",self::DOMAIN);
+			throw new \RuntimeException("Unauthorized request");
+		}
+
 		if (!isset($_POST['collectionTitle']) || strlen(trim($_POST['collectionTitle'])) < 1) {
 			echo __("Missing title",self::DOMAIN);
 			throw new \RuntimeException("Missing title");
@@ -356,6 +367,11 @@ final class WPDKACollections {
 			throw new \RuntimeException("Missing ids");
 		}
 
+		if(!current_user_can(self::CAPABILITY) || !check_ajax_referer(self::TOKEN_PREFIX, 'token', false)) {
+			echo __("Unauthorized request",self::DOMAIN);
+			throw new \RuntimeException("Unauthorized request");
+		}
+
 		$collection = $this->get_object_by_guid(esc_html($_POST['collection_guid']),false);
 
 		if (empty($collection)) {
@@ -368,11 +384,6 @@ final class WPDKACollections {
 		if (!$relation) {
 			echo "Lol could not be added";
 			throw new \RuntimeException("Collection could not be added to CHAOS");
-		} else {
-			// $response = array(
-			// 	'title' => $title,
-			// 	'guid' => $collection->GUID
-			// );
 		}
 
 		//echo json_encode($response);
@@ -380,7 +391,7 @@ final class WPDKACollections {
 	}
 
 	/**
-	 * Edit collection with ajax
+	 * Edit collection with ajax from administration
 	 * @return json object
 	 */
 	public function ajax_edit_collection() {
@@ -397,6 +408,11 @@ final class WPDKACollections {
 		if(!isset($_POST['description']) || !isset($_POST['rights']) || !isset($_POST['type']) || !isset($_POST['status'])) {
 			echo "Missing information";
 			throw new \RuntimeException("Missing information");
+		}
+
+		if(!current_user_can(self::CAPABILITY)) {
+			echo __("Unauthorized request",self::DOMAIN);
+			throw new \RuntimeException("Unauthorized request");
 		}
 
 		$collection = $this->get_collection_by_guid(esc_html($_POST['object_guid']),false);
@@ -444,6 +460,11 @@ final class WPDKACollections {
 		if (!isset($_POST['guids']) || !is_array($_POST['guids']) || count($_POST['guids']) < 2) {
 			echo "Not enough data";
 			throw new \RuntimeException("No title");
+		}
+
+		if(!current_user_can(self::CAPABILITY)) {
+			echo __("Unauthorized request",self::DOMAIN);
+			throw new \RuntimeException("Unauthorized request");
 		}
 
 		$collection = $this->get_object_by_guid(esc_html($_POST['collection_guid']),false);
@@ -525,8 +546,8 @@ final class WPDKACollections {
 		$page = add_menu_page(
 			__('DKA Collections',self::DOMAIN),
 			__('Collections',self::DOMAIN),
-			'activate_plugins',
-			'wpdkacollections',
+			self::CAPABILITY,
+			self::DOMAIN,
 			array(&$this,'render_collections_page'),
 			'div',
 			27

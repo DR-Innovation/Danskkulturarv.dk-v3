@@ -16,8 +16,7 @@
 
 			this.addInsertObjectToRelationListener();
 			this.addCreateCollectionListener();
-			this.addEditCollectionListener();
-			//console.log(WPDKACollections.types);
+			this.addCollectionDropdownListener();
 
 		},
 
@@ -257,164 +256,48 @@
 				input.val('');
 			});
 		},
-		addEditCollectionListener: function() {
-			var editCollectionModal = $('<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
-				'<div class="modal-dialog">'+
-					'<div class="modal-content">'+
-						'<div class="modal-header">'+
-							'<h4 class="modal-title">Ændring af samling</h4>'+
-						'</div>'+
-						'<div class="modal-body">'+
-							'<form class="form-horizontal" role="form">'+
-								'<div class="form-group">'+
-									'<label for="inputName" class="col-lg-2 control-label">Navn*</label>'+
-									'<div class="col-lg-10">'+
-										'<input type="text" class="form-control" id="inputName" placeholder="Navn på samling." value="' + WPDKACollections.inputName + '" required>'+
-									'</div>'+
-								'</div><hr>'+
-								'<div class="form-group">'+
-									'<label for="textDescription" class="col-lg-2 control-label">Beskrivelse</label>'+
-									'<div class="col-lg-10">'+
-										'<textarea class="form-control" rows="3" id="textDescription" placeholder="Beskrivelse af samling." value="' + WPDKACollections.inputDescription + '"></textarea>'+
-									'</div>'+
-								'</div><hr>'+
-								'<div class="form-group">'+
-									'<label for="inputRights" class="col-lg-2 control-label">Rettigheder</label>'+
-									'<div class="col-lg-10">'+
-										'<input type="text" class="form-control" rows="3" id="inputRights" placeholder="Rettigheder for samlingen." value="' + WPDKACollections.inputRights + '"></textarea>'+
-									'</div>'+
-								'</div><hr>'+
-								// How should categories be presented? Dropdown e.g.
-								'<div class="form-group">'+
-									'<label for="inputCategory" class="col-lg-2 control-label">Kategori</label>'+
-									'<div class="col-lg-10">'+
-										'<input type="text" class="form-control" id="inputCategory" placeholder="Samlingens kategori." value="' + WPDKACollections.inputCategories + '">'+
-									'</div>'+
-								'</div>'+
-						'</div>'+
-						'<div class="modal-footer">'+
-							'<button id="collection-remove" type="button" class="btn btn-danger pull-left">Slet</button>'+
-							'<button id="collection-save" type="button" class="btn btn-primary">Gem</button>'+
-							'<button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>'+
-						'</div>'+
-					'</div>'+
-				'</div>'+
-			'</div>');
-			editCollectionModal.modal({
-				keyboard:false,
-				show:false,
-				backdrop:'static'
-			});
 
-			// Open edit-modal
-			$('#edit-collection').on('click', function(e) {
-				e.preventDefault();
-				$('.modal-title').text('test');
-				editCollectionModal.modal('show');
-			});
+		addCollectionDropdownListener: function() {
+			// Makes sure to open current collection.
+			if (document.location.hash){
+				$("#collection-" + document.location.hash.split('#')[1]).collapse('show');
+			}
 
-			// Remove collection from modal
-			editCollectionModal.on('click', '#collection-remove', function(e) {
-				e.preventDefault();
-				editCollectionModal.find('button').attr('disabled',true);
-
+			// When changing collection in collection dropdown list.
+			$(".listCollections li").click(function(){
+				$(".listCollections h4 span").text($(this).text());
+				$(".listCollections .dropdown-toggle").val($(this).val());
+				$(".collections .media-list").html('');
 				$.ajax({
 					url: WPDKACollections.ajaxurl,
 					data:{
-						action: 'wpdkacollections_delete_collection',
-						object_guid: $('.editCollection').attr('id'),
+						action: 'wpdkacollections_get_collection',
+						object_guid: $(this).val(),
 						token: WPDKACollections.token
 					},
-					dataType: 'JSON',
+					dataType: 'text',
 					type: 'POST',
 					success:function(data) {
 						console.log(data);
-						editCollectionModal.modal('hide');
-						location.reload();
+						if (!document.location.hash){
+						    document.location.hash = 'current_collection';
+						}
+						$(".collections .media-list").html(data);
 					},
 					error: function(errorThrown) {
 						alert(errorThrown.responseText);
-						console.log("error.");
 						console.log(errorThrown);
-						editCollectionModal.find('button').attr('disabled',false);
 					}
 				});
-			});
 
-			// Save changes to collection form modal
-			editCollectionModal.on('click', '#collection-save', function(e) {
-				e.preventDefault();
+		   });			
+		} 
 
-				if ($('#inputName').val().length > 0) {
-					editCollectionModal.find('button').attr('disabled',true);
-
-					$.ajax({
-						url: WPDKACollections.ajaxurl,
-						data:{
-							action: 'wpdkacollections_edit_collection',
-							object_guid: $('.editCollection').attr('id'),
-							collectionTitle: $('#inputName').val(),
-							collectionDescription: $('#textDescription').text(),
-							collectionRights: $('#inputRights').val(),
-							collectionCategory: $('#inputCategory').val(),
-							token: WPDKACollections.token
-						},
-						dataType: 'JSON',
-						type: 'POST',
-						success:function(data) {
-							console.log(data);
-							createCollectionModal.modal('hide');
-							location.reload();
-						},
-						error: function(errorThrown) {
-							alert(errorThrown.responseText);
-							console.log("error.");
-							console.log(errorThrown);
-							editCollectionModal.find('button').attr('disabled',false);
-						}
-					});
-				}
-			});
-		}
 	};
 
 	//Initiate class on page load
 	$(document).ready(function(){ 
 		wpdkacollections.init(); 
-
-		// Makes sure to open current collection.
-		if (document.location.hash){
-			$("#collection-" + document.location.hash.split('#')[1]).collapse('show');
-		}
 	});
-
-	// When changing collection in collection dropdown list.
-	$(".listCollections li").click(function(){
-		$(".listCollections h4 span").text($(this).text());
-		$(".listCollections .dropdown-toggle").val($(this).val());
-		$(".collections .media-list").html('');
-		$.ajax({
-			url: WPDKACollections.ajaxurl,
-			data:{
-				action: 'wpdkacollections_get_collection',
-				object_guid: $(this).val(),
-				token: WPDKACollections.token
-			},
-			dataType: 'text',
-			type: 'POST',
-			success:function(data) {
-				console.log(data);
-				if (!document.location.hash){
-				    document.location.hash = 'current_collection';
-				}
-				$(".collections .media-list").html(data);
-			},
-			error: function(errorThrown) {
-				alert(errorThrown.responseText);
-				console.log(errorThrown);
-			}
-		});
-
-   });
 
 })(jQuery);
