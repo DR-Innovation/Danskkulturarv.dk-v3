@@ -120,7 +120,7 @@ final class WPDKACollections {
 		load_plugin_textdomain(self::DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/lang/');
 		self::$types = array(
 			self::TYPE_THEME => __('Theme',self::DOMAIN),
-			self::TYPE_EXHIBITION => __('Exhibition',self::DOMAIN),
+			//self::TYPE_EXHIBITION => __('Exhibition',self::DOMAIN),
 			self::TYPE_SERIES => __('Series',self::DOMAIN)
 		);
 		self::$states = array(
@@ -212,7 +212,19 @@ final class WPDKACollections {
 				$translation_array = array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
 					'token' => wp_create_nonce(self::TOKEN_PREFIX),
-					'types' => array(self::TYPE_THEME, self::TYPE_EXHIBITION, self::TYPE_SERIES)
+					'types' => self::$types,
+					'collection' => __('Collection',self::DOMAIN),
+					'material' => __('Material',self::DOMAIN),
+					'addMaterial' => __('Add',self::DOMAIN),
+					'createCollection' => __('Create',self::DOMAIN),
+					'newCollection' => _x('Add New','page'),
+					'cancel' => __('Cancel'),
+					'addMaterialHeader' => __('Add material to collection',self::DOMAIN),
+					'createCollectionHeader' => __('Create collection',self::DOMAIN),
+					'rights' => __('Rights',self::DOMAIN),
+					'type' => __('Type',self::DOMAIN),
+					'name' => __('Title'),
+					'description' => __('Description',self::DOMAIN)
 				);
 				wp_localize_script( 'dka-collections', 'WPDKACollections', $translation_array );				
 			//}

@@ -25,7 +25,7 @@
 			var result = '';
 			for(var t in WPDKACollections.types) {
 				var type = WPDKACollections.types[t];
-				result += '<option value="'+type+'">'+type+'</option>';
+				result += '<option value="'+t+'">'+type+'</option>';
 			}
 			return result;
 		},
@@ -64,30 +64,30 @@
 				'<div class="modal-dialog">'+
 					'<div class="modal-content">'+
 						'<div class="modal-header">'+
-							'<h4 class="modal-title">Add object to collection</h4>'+
+							'<h4 class="modal-title">'+WPDKACollections.addMaterialHeader+'</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
 							'<div class="form-horizontal">'+
 								'<div class="form-group">'+
-									'<label for="textDescription" class="col-lg-2 control-label">Objekt</label>'+
+									'<label for="textDescription" class="col-lg-2 control-label">'+WPDKACollections.material+'</label>'+
 									'<div class="col-lg-10">'+
 										'<input type="hidden" id="collection_relation_id" val=""><span id="collection_relation_title"></span>'+
 									'</div>'+
 								'</div>'+
 								'<div class="form-group">'+
-									'<label for="textDescription" class="col-lg-2 control-label">Samling</label>'+
+									'<label for="textDescription" class="col-lg-2 control-label">'+WPDKACollections.collection+'</label>'+
 									'<div class="col-lg-10 input-group">'+
 										'<select name="collection-select" id="collection_id" class="collection-select form-control">'+
-										'<option val="0">Henter samlinger...</option>'+
+										'<option val="0">Loading...</option>'+
 										'</select>'+
 										'<span class="input-group-btn">'+
-											'<button class="btn btn-default" id="add-collection" type="button">Ny?</button>'+
+											'<button class="btn btn-default" id="add-collection" type="button">'+WPDKACollections.newCollection+'</button>'+
 										'</span>'+
 									'</div>'+
 								'</div>'+
 							'</div>'+
 						'</div>'+
-						'<div class="modal-footer"><button id="collection-relation-create" type="button" class="btn btn-primary">Add</button> <button id="collection-relation-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button></div>'+
+						'<div class="modal-footer"><button id="collection-relation-create" type="button" class="btn btn-primary">'+WPDKACollections.addMaterial+'</button> <button id="collection-relation-cancel" type="button" class="btn btn-default" data-dismiss="modal">'+WPDKACollections.cancel+'</button></div>'+
 						'</div>'+
 					'</div>'+
 				'</div>');
@@ -162,31 +162,30 @@
 				'<div class="modal-dialog">'+
 					'<div class="modal-content">'+
 						'<div class="modal-header">'+
-							'<h4 class="modal-title">Oprettelse af samling</h4>'+
+							'<h4 class="modal-title">'+WPDKACollections.createCollectionHeader+'</h4>'+
 						'</div>'+
 						'<div class="modal-body">'+
 							'<form class="form-horizontal" role="form">'+
 								'<div class="form-group">'+
-									'<label for="inputName" class="col-lg-2 control-label">Navn*</label>'+
+									'<label for="inputName" class="col-lg-2 control-label">'+WPDKACollections.name+'</label>'+
 									'<div class="col-lg-10">'+
-										'<input type="text" class="form-control" id="inputName" placeholder="Navn på samling." required>'+
+										'<input type="text" class="form-control" id="inputName" required>'+
 									'</div>'+
 								'</div><hr>'+
 								'<div class="form-group">'+
-									'<label for="textDescription" class="col-lg-2 control-label">Beskrivelse</label>'+
+									'<label for="textDescription" class="col-lg-2 control-label">'+WPDKACollections.description+'</label>'+
 									'<div class="col-lg-10">'+
-										'<textarea class="form-control" rows="3" id="collection_description" placeholder="Beskrivelse af samling."></textarea>'+
+										'<textarea class="form-control" rows="3" id="collection_description"></textarea>'+
 									'</div>'+
 								'</div><hr>'+
 								'<div class="form-group">'+
-									'<label for="inputRights" class="col-lg-2 control-label">Rettigheder</label>'+
+									'<label for="inputRights" class="col-lg-2 control-label">'+WPDKACollections.rights+'</label>'+
 									'<div class="col-lg-10">'+
-										'<input type="text" class="form-control" rows="3" id="inputRights" placeholder="Rettigheder for samlingen."></textarea>'+
+										'<input type="text" class="form-control" rows="3" id="inputRights"></textarea>'+
 									'</div>'+
 								'</div><hr>'+
-								// How should categories be presented? Dropdown e.g.
 								'<div class="form-group">'+
-									'<label for="inputCategory" class="col-lg-2 control-label">Type</label>'+
+									'<label for="inputCategory" class="col-lg-2 control-label">'+WPDKACollections.type+'</label>'+
 									'<div class="col-lg-10">'+
 										'<select name="type" id="inputType" class="collection-type form-control">'+
 										wpdkacollections.parseTypesToSelect()+
@@ -195,8 +194,8 @@
 								'</div>'+
 						'</div>'+
 						'<div class="modal-footer">'+
-							'<button id="collection-create" type="button" class="btn btn-primary">Opret</button>'+
-							'<button id="collection-cancel" type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>'+
+							'<button id="collection-create" type="button" class="btn btn-primary">'+WPDKACollections.createCollection+'</button>'+
+							'<button id="collection-cancel" type="button" class="btn btn-default" data-dismiss="modal">'+WPDKACollections.cancel+'</button>'+
 						'</div>'+
 					'</div>'+
 				'</div>'+

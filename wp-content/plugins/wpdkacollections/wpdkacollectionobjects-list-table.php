@@ -112,7 +112,7 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 		
 		//Build row actions
 		$actions = array(
-			'remove' => '<a class="submitdelete" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'subpage'=> 'wpdkacollection-objects', 'action' => 'remove', $this->_args['singular'] => $this->_current_collection->GUID, 'dka-material' => $item->GUID),  'admin.php').'">'.__('Remove',WPDKACollections::DOMAIN).'</a>'
+			'remove' => '<a class="submitdelete" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'subpage'=> 'wpdkacollection-objects', 'action' => 'remove', 'dka-collection' => $this->_current_collection->GUID, 'dka-material' => $item->GUID),  'admin.php').'">'.__('Remove',WPDKACollections::DOMAIN).'</a>'
 		);
 
 		//Return the title contents
@@ -190,38 +190,42 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 
 		$this->_current_collection = WPDKACollections::get_current_collection();
 
-		$this->title = '<a href="'.add_query_arg('page',WPDKACollections::DOMAIN,'admin.php').'">'.__('DKA Collections', WPDKACollections::DOMAIN).'</a> &raquo; '.$this->_current_collection->title;
+		if($this->_current_collection) {
 
-		$relation_guids = $this->_current_collection->playlist_raw;
+			$this->title = '<a href="'.add_query_arg('page',WPDKACollections::DOMAIN,'admin.php').'">'.__('DKA Collections', WPDKACollections::DOMAIN).'</a> &raquo; '.$this->_current_collection->title;
 
-		//Get the related objects to the collection.
-		$serviceResult2 = WPChaosClient::instance()->Object()->Get(
-			"(GUID:(".implode(" OR ", $relation_guids)."))",   // Search query
-			null,   // Sort
-			null,   // AP injected
-			0,      // pageIndex
-			count($relation_guids), // pageSize
-			true,   // includeMetadata
-			false,   // includeFiles
-			false    // includeObjectRelations
-		);
-		$result3 = array();
-		foreach($serviceResult2->MCM()->Results() as $result) {
-			$result3[$result->GUID] = new WPChaosObject($result);
+			$relation_guids = $this->_current_collection->playlist_raw;
+
+			//Get the related objects to the collection.
+			$serviceResult2 = WPChaosClient::instance()->Object()->Get(
+				"(GUID:(".implode(" OR ", $relation_guids)."))",   // Search query
+				null,   // Sort
+				null,   // AP injected
+				0,      // pageIndex
+				count($relation_guids), // pageSize
+				true,   // includeMetadata
+				false,   // includeFiles
+				false    // includeObjectRelations
+			);
+			$result3 = array();
+			foreach($serviceResult2->MCM()->Results() as $result) {
+				$result3[$result->GUID] = new WPChaosObject($result);
+			}
+
+			//Set items in proper order
+			foreach($relation_guids as $guid) {
+				$this->items[] = $result3[(string)$guid];
+			}
+
+			//Set pagination
+			//$serviceResult->MCM()->TotalPages() cannot be trusted here!
+			$this->set_pagination_args( array(
+				'total_items' => $serviceResult2->MCM()->TotalCount(),
+				'per_page'    => $per_page,
+				'total_pages' => ceil($serviceResult2->MCM()->TotalCount()/$per_page)
+			) );			
 		}
 
-		//Set items in proper order
-		foreach($relation_guids as $guid) {
-			$this->items[] = $result3[(string)$guid];
-		}
-
-		//Set pagination
-		//$serviceResult->MCM()->TotalPages() cannot be trusted here!
-		$this->set_pagination_args( array(
-			'total_items' => $serviceResult2->MCM()->TotalCount(),
-			'per_page'    => $per_page,
-			'total_pages' => ceil($serviceResult2->MCM()->TotalCount()/$per_page)
-		) );
 	}
 	
 }
