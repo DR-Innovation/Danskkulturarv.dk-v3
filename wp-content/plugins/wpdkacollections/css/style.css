@@ -105,16 +105,16 @@
 
 .thumbnails .add-to-collection {
 	position: absolute;
-	top: 10px;
-	left: 25px;
+	top: 5px;
+	right: 20px;
 	border-radius: 100% !important;
 	opacity: 0.5;
 }
 
 .listview .add-to-collection {
 	position: absolute;
-	top: 15px;
-	right: 25px;
+	top: 10px;
+	right: 20px;
 	border-radius: 100% !important;
 	opacity: 0.5;
 }
