@@ -123,6 +123,12 @@ final class WPDKACollections {
 			add_filter('wpchaos-solr-query',array(&$this,'add_collection_search_to_query'),30,2);
 			add_filter(WPChaosSearch::FILTER_PREPARE_RESULTS,array(&$this,'prepare_search_results'));
 
+			wp_enqueue_style('dka-collections-style-bootstrap',plugins_url( 'css/bootstrap.min.css' , __FILE__ ));
+			wp_enqueue_style('dka-collections-style',plugins_url( 'css/style.css' , __FILE__ ));
+
+			add_shortcode( 'collection_slider', array( &$this, 'collection_slider_shortcode' ) );
+			add_shortcode( 'general_information', array( &$this, 'general_information_shortcode' ) );
+
 			add_action('wp_enqueue_scripts', array(&$this, 'loadJsCss'));
 
 			add_action('plugins_loaded',array(&$this,'load_textdomain'));
@@ -231,7 +237,7 @@ final class WPDKACollections {
 	public function loadJsCss() {
 		if(!is_admin() && current_user_can('edit_posts')) {
 			//if(current_user_can('edit_posts')) {
-			
+				wp_enqueue_script('dka-collections-carousel',plugins_url( 'js/carousel.js' , __FILE__ ),array('jquery'),'3.0.0',true);
 				wp_enqueue_script('dka-collections',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
 				$translation_array = array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
@@ -592,6 +598,7 @@ final class WPDKACollections {
 		$table->prepare_items();  
 		?>
 		<h2><?php $table->get_title(); ?></h2>
+		<p class="alignright"><?php echo $table->guid; ?></p>
 		<form id="movies-filter" method="get">
 			<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
 			<?php if(isset($_REQUEST['subpage'])) : ?>
@@ -925,6 +932,142 @@ final class WPDKACollections {
 		}
 
 		return $search_results;
+	}
+
+	/**
+	 * Shortcode for collection slider
+	 */
+	public function collection_slider_shortcode($atts, $content) {
+		$collections = explode(',', $content);
+		$thumbnails = array();
+		$count = 0;
+		echo '<div id="frontpage_carousel" class="carousel slide" data-ride="carousel">
+    	<div class="carousel-inner">';
+		foreach ($collections as $c) {
+			$c = trim($c);
+			$collection = WPDKACollections::get_collection_by_guid($c);
+			$firstObject = WPChaosClient::instance()->Object()->Get(
+				"(GUID:(".implode(" OR ", $collection->playlist_raw)."))",   // Search query
+				null,   // Sort
+				null,   // AP injected
+				0,      // pageIndex
+				10, // pageSize
+				true,   // includeMetadata
+				true,   // includeFiles
+				false    // includeObjectRelations
+			);
+
+			//If the materials from collection playlist exist in CHAOS
+			if($firstObject->MCM()->Count() > 0) {
+				foreach($firstObject->MCM()->Results() as $result) {
+					$firstObject = new WPChaosObject($result);
+					if ($firstObject->thumbnail != null) {
+						WPChaosClient::set_object($firstObject);
+						break;
+					}
+				}
+			}
+			WPChaosClient::set_object($firstObject);
+			$thumbnail = WPChaosClient::get_object()->thumbnail;
+			$url = $firstObject->url . '#' . $c;
+			$description = $collection->description;
+			$title = $collection->title;
+
+			$thumbnails[] = $thumbnail;
+			echo '<div class="item' . (($count == 0) ? ' active' : '') . '">
+        		<img src="' . $thumbnail . '" alt="' . $title . '">
+        		<a href="' . $url . '">
+    			<div class="carousel-caption">
+      				<h3>' . $title . '</h3>
+      				<p>' . $description . '</p>
+    			</div>
+    			</a>
+      		</div>';
+			$count++;
+		}
+		WPChaosClient::reset_object();
+		echo '</div>
+		<ul class="carousel-indicators">';
+		$count = 0;
+		foreach ($thumbnails as $thumb) {
+			echo '<li data-target="#frontpage_carousel" data-slide-to="' . $count . '"'. (($count == 0) ? ' class="active" ' : '') . 'style="background-image: url(\'' . $thumb . '\');"></li>';
+    		$count++;
+		}
+		echo '</ul>
+		</div>';
+	}
+
+	public function general_information_shortcode($atts) {
+		echo '<div class="info_right">
+		<h3>Velkommen til danskkulturarv.dk</h3>';
+		foreach (WPDKAObject::$format_types as $format_type => $args) {
+			if($format_type == WPDKAObject::TYPE_IMAGE_AUDIO || $format_type == WPDKAObject::TYPE_UNKNOWN) continue;
+			echo '<a class="media_info" href="' . WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => (WPDKASearch::QUERY_KEY_TYPE . '-' . $format_type))) . '">
+			<i class="' . $args['class'] . '"></i>
+			<p>' . number_format_i18n($this->get_facet_count(WPDKASearch::QUERY_KEY_TYPE, $args['chaos-value'])) . ' ' . $args['title'] . '</p>
+			</a>';
+		}
+    	echo '<h2>Find masser af spændende indhold</h2>';
+    	$tags = $this->get_random_tags_from_results_raw(array('number_of_tags' => 21));
+    	foreach ($tags as $tag) {
+    		echo '<a class="media_info" href="' . $tag['href'] . '">
+    			<p>' . $tag['title'] . '</p>
+    			</a>';
+    	}
+  		echo '</div>';
+	}
+
+	private function get_facet_count($field, $values) {
+		if(is_string($values)) {
+			$values = array($values);
+		}
+		global $facets;
+		$sum = 0;
+		if(array_key_exists($field, $facets)) {
+			foreach($values as $value) {
+				if(array_key_exists($value, $facets[$field])) {
+					$sum += intval($facets[$field][$value]);
+				}
+			}
+		}
+		return $sum;
+	}
+
+	private function get_random_tags_from_results_raw($args = null) {
+		$args = wp_parse_args($args, array(
+			'query' => '',
+			'number_of_tags' => 10,
+			'pageindex' => 0,
+			'pagesize' => get_option("wpchaos-searchsize"),
+			'sort' => 'visninger',
+			'accesspoint' => null
+		));
+		extract($args, EXTR_SKIP);	
+
+		WPChaosSearch::generate_searchresults($args);
+		$tags = array();
+		foreach(WPChaosSearch::get_search_results()->MCM()->Results() as $object) {
+			WPChaosClient::set_object($object);
+			$tags = array_merge($tags,WPChaosClient::get_object()->tags_raw);
+
+		}
+		WPChaosClient::reset_object();
+
+		//$tags = array_map('strval',$tags);
+		$tags = array_unique($tags);
+
+		$sep = '';
+		$result = array();
+		while($number_of_tags > 0 && $tags) {
+
+			$tag = array_splice($tags, rand(0,count($tags)-1), 1);
+			$tag = $tag[0];
+
+			$link = WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag, WPChaosSearch::QUERY_KEY_SORT => $sort));
+			$result[] = array('href' => $link, 'title' => esc_attr($tag), 'tag' => $tag);
+			$number_of_tags--;
+		}
+		return $result;
 	}
 
 	/**
