@@ -128,6 +128,8 @@ final class WPDKACollections {
 
 			add_shortcode( 'collection_slider', array( &$this, 'collection_slider_shortcode' ) );
 			add_shortcode( 'general_information', array( &$this, 'general_information_shortcode' ) );
+			add_shortcode( 'float_right', array( &$this, 'float_right_shortcode' ) );
+			add_shortcode( 'usertags', array( &$this, 'usertags_shortcode' ) );
 
 			add_action('wp_enqueue_scripts', array(&$this, 'loadJsCss'));
 
@@ -997,9 +999,15 @@ final class WPDKACollections {
 		</div>';
 	}
 
-	public function general_information_shortcode($atts) {
-		echo '<div class="info_right">
-		<h3>Velkommen til danskkulturarv.dk</h3>';
+	public function float_right_shortcode($atts, $content) {
+		echo '<div class="info_right">';
+		echo do_shortcode( $content );
+		echo '</div>';
+	}
+
+	public function general_information_shortcode($atts, $content) {
+		echo $content .
+		'<div class="general_info">';
 		foreach (WPDKAObject::$format_types as $format_type => $args) {
 			if($format_type == WPDKAObject::TYPE_IMAGE_AUDIO || $format_type == WPDKAObject::TYPE_UNKNOWN) continue;
 			echo '<a class="media_info" href="' . WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => (WPDKASearch::QUERY_KEY_TYPE . '-' . $format_type))) . '">
@@ -1007,14 +1015,22 @@ final class WPDKACollections {
 			<p>' . number_format_i18n($this->get_facet_count(WPDKASearch::QUERY_KEY_TYPE, $args['chaos-value'])) . ' ' . $args['title'] . '</p>
 			</a>';
 		}
-    	echo '<h2>Find masser af spændende indhold</h2>';
-    	$tags = $this->get_random_tags_from_results_raw(array('number_of_tags' => 21));
+    	echo '</div>';
+	}
+
+	public function usertags_shortcode($atts, $content) {
+		extract(shortcode_atts( array(
+				'number_of_tags' => 21,
+		), $atts ));
+		echo $content .
+		'<div class="general_info">';
+    	$tags = $this->get_random_tags_from_results_raw(array('number_of_tags' => $number_of_tags));
     	foreach ($tags as $tag) {
     		echo '<a class="media_info" href="' . $tag['href'] . '">
     			<p>' . $tag['title'] . '</p>
     			</a>';
     	}
-  		echo '</div>';
+    	echo '</div>';
 	}
 
 	private function get_facet_count($field, $values) {
