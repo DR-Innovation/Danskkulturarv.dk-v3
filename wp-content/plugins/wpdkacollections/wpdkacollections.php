@@ -123,9 +123,6 @@ final class WPDKACollections {
 			add_filter('wpchaos-solr-query',array(&$this,'add_collection_search_to_query'),30,2);
 			add_filter(WPChaosSearch::FILTER_PREPARE_RESULTS,array(&$this,'prepare_search_results'));
 
-			wp_enqueue_style('dka-collections-style-bootstrap',plugins_url( 'css/bootstrap.min.css' , __FILE__ ));
-			wp_enqueue_style('dka-collections-style',plugins_url( 'css/style.css' , __FILE__ ));
-
 			add_shortcode( 'collection_slider', array( &$this, 'collection_slider_shortcode' ) );
 			add_shortcode( 'general_information', array( &$this, 'general_information_shortcode' ) );
 			add_shortcode( 'float_right', array( &$this, 'float_right_shortcode' ) );
@@ -237,9 +234,11 @@ final class WPDKACollections {
 	 * Load necessary CSS and JS to visualize collections on the site.
 	 */
 	public function loadJsCss() {
+		wp_enqueue_style('dka-collections-style',plugins_url( 'css/style.css' , __FILE__ ));
+		wp_enqueue_script('dka-collections-carousel',plugins_url( 'js/carousel.js' , __FILE__ ),array('jquery'),'3.0.0',true);
+
 		if(!is_admin() && current_user_can('edit_posts')) {
 			//if(current_user_can('edit_posts')) {
-				wp_enqueue_script('dka-collections-carousel',plugins_url( 'js/carousel.js' , __FILE__ ),array('jquery'),'3.0.0',true);
 				wp_enqueue_script('dka-collections',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
 				$translation_array = array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
@@ -943,8 +942,8 @@ final class WPDKACollections {
 		$collections = explode(',', $content);
 		$thumbnails = array();
 		$count = 0;
-		echo '<div id="frontpage_carousel" class="carousel slide" data-ride="carousel">
-    	<div class="carousel-inner">';
+		$ret = '<div id="frontpage_carousel" class="carousel slide" data-ride="carousel">';
+    	$ret .= '<div class="carousel-inner">';
 		foreach ($collections as $c) {
 			$c = trim($c);
 			$collection = WPDKACollections::get_collection_by_guid($c);
@@ -976,61 +975,65 @@ final class WPDKACollections {
 			$title = $collection->title;
 
 			$thumbnails[] = $thumbnail;
-			echo '<div class="item' . (($count == 0) ? ' active' : '') . '">
-        		<img src="' . $thumbnail . '" alt="' . $title . '">
-        		<a href="' . $url . '">
-    			<div class="carousel-caption">
-      				<h3>' . $title . '</h3>
-      				<p>' . $description . '</p>
-    			</div>
-    			</a>
-      		</div>';
+			$ret .= '<div class="item' . (($count == 0) ? ' active' : '') . '">';
+        	$ret .= '<img src="' . $thumbnail . '" alt="' . $title . '">';
+        	$ret .= '<a href="' . $url . '">';
+    		$ret .= '<div class="carousel-caption">';
+      		$ret .= '<h3>' . $title . '</h3>';
+      		$ret .= '<p>' . $description . '</p>';
+    		$ret .= '</div>';
+    		$ret .= '</a>';
+      		$ret .= '</div>';
 			$count++;
 		}
 		WPChaosClient::reset_object();
-		echo '</div>
-		<ul class="carousel-indicators">';
+		$ret .= '</div><ul class="carousel-indicators">';
 		$count = 0;
 		foreach ($thumbnails as $thumb) {
-			echo '<li data-target="#frontpage_carousel" data-slide-to="' . $count . '"'. (($count == 0) ? ' class="active" ' : '') . 'style="background-image: url(\'' . $thumb . '\');"></li>';
+			$ret .= '<li data-target="#frontpage_carousel" data-slide-to="' . $count . '"'. (($count == 0) ? ' class="active" ' : '') . 'style="background-image: url(\'' . $thumb . '\');"></li>';
     		$count++;
 		}
-		echo '</ul>
-		</div>';
+		$ret .= '</ul></div>';
+
+		return $ret;
 	}
 
 	public function float_right_shortcode($atts, $content) {
-		echo '<div class="info_right">';
-		echo do_shortcode( $content );
-		echo '</div>';
+		return '<div class="info_right">' . do_shortcode( $content ) . '</div>';
 	}
 
 	public function general_information_shortcode($atts, $content) {
-		echo $content .
-		'<div class="general_info">';
+		$ret = $content . '<div class="general_info">';
 		foreach (WPDKAObject::$format_types as $format_type => $args) {
-			if($format_type == WPDKAObject::TYPE_IMAGE_AUDIO || $format_type == WPDKAObject::TYPE_UNKNOWN) continue;
-			echo '<a class="media_info" href="' . WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => (WPDKASearch::QUERY_KEY_TYPE . '-' . $format_type))) . '">
-			<i class="' . $args['class'] . '"></i>
-			<p>' . number_format_i18n($this->get_facet_count(WPDKASearch::QUERY_KEY_TYPE, $args['chaos-value'])) . ' ' . $args['title'] . '</p>
-			</a>';
+			if($format_type == WPDKAObject::TYPE_IMAGE_AUDIO || $format_type == WPDKAObject::TYPE_UNKNOWN) {
+				continue;
+			}
+			
+			$ret .= '<a class="media_info" href="' . WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => (WPDKASearch::QUERY_KEY_TYPE . '-' . $format_type))) . '">';
+			$ret .= '<i class="' . $args['class'] . '"></i>';
+			$ret .= '<p>' . number_format_i18n($this->get_facet_count(WPDKASearch::QUERY_KEY_TYPE, $args['chaos-value'])) . ' ' . $args['title'] . '</p>';
+			$ret .= '</a>';
 		}
-    	echo '</div>';
+    	$ret .= '</div>';
+
+    	return $ret;
 	}
 
 	public function usertags_shortcode($atts, $content) {
 		extract(shortcode_atts( array(
 				'number_of_tags' => 21,
 		), $atts ));
-		echo $content .
-		'<div class="general_info">';
+		$ret = $content;
+		$ret .= '<div class="general_info">';
     	$tags = $this->get_random_tags_from_results_raw(array('number_of_tags' => $number_of_tags));
     	foreach ($tags as $tag) {
-    		echo '<a class="media_info" href="' . $tag['href'] . '">
-    			<p>' . $tag['title'] . '</p>
-    			</a>';
+    		$ret .= '<a class="media_info" href="' . $tag['href'] . '">';
+    		$ret .= '<p>' . $tag['title'] . '</p>';
+    		$ret .= '</a>';
     	}
-    	echo '</div>';
+    	$ret .= '</div>';
+
+    	return $ret;
 	}
 
 	private function get_facet_count($field, $values) {
