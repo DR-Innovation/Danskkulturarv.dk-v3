@@ -511,6 +511,9 @@ class WPDKAObject {
 
 			global $wp_query;
 
+			var_dump($wp_query);
+			var_dump($wp_query->query);
+
 			//<institution>/<slug>(/<embed>)
 			preg_match('|^([^/]+)/([^/]+)(?:/(embed)?)?$|', $wp_query->query['pagename'], $matches);
 			
