@@ -510,12 +510,21 @@ class WPDKAObject {
 			}
 
 			global $wp_query;
-			if($wp_query->is_404() || $wp_query->is_attachment()) {
-				// The slug will register as a post name or post attachement name.
-				$slug = $wp_query->query_vars['name'];
-				if($slug) {
-					$query[] = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':"'. $wp_query->query_vars['name'] .'"';
-				}
+
+			//<institution>/<slug>(/<embed>)
+			preg_match('|^([^/]+)/([^/]+)(?:/(embed)?)?$|', $wp_query->query['pagename'], $matches);
+			
+			//$matches[2] is slug. Continue only if no WordPress page is set
+			if($wp_query->is_404() && $matches[2]) {
+				$query[] = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':"'. $matches[2] .'"';
+
+				//Get relevant template
+				add_filter('chaos-object-template', function($template) use ($matches) {
+					if($matches[3]) {
+						$template = 'chaos-object-embed';
+					}
+					return $template;
+				});
 			}
 			
 			return implode("+OR+", $query);

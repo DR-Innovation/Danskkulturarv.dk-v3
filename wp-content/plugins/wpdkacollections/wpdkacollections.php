@@ -120,6 +120,8 @@ final class WPDKACollections {
 
 			}
 
+			add_filter('widgets_init',array(&$this,'register_widgets'));
+
 			add_filter('wpchaos-solr-query',array(&$this,'add_collection_search_to_query'),30,2);
 			add_filter(WPChaosSearch::FILTER_PREPARE_RESULTS,array(&$this,'prepare_search_results'));
 
@@ -235,7 +237,7 @@ final class WPDKACollections {
 	 */
 	public function loadJsCss() {
 		wp_enqueue_style('dka-collections-style',plugins_url( 'css/style.css' , __FILE__ ));
-		wp_enqueue_script('dka-collections-carousel',plugins_url( 'js/carousel.js' , __FILE__ ),array('jquery'),'3.0.0',true);
+		//wp_enqueue_script('dka-collections-carousel',plugins_url( 'js/carousel.js' , __FILE__ ),array('jquery'),'3.0.0',true);
 
 		if(!is_admin() && current_user_can('edit_posts')) {
 			//if(current_user_can('edit_posts')) {
@@ -599,7 +601,7 @@ final class WPDKACollections {
 		$table->prepare_items();  
 		?>
 		<h2><?php $table->get_title(); ?></h2>
-		<p class="alignright"><?php echo $table->guid; ?></p>
+		<p class="alignright"><?php //echo $table->guid; ?></p>
 		<form id="movies-filter" method="get">
 			<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
 			<?php if(isset($_REQUEST['subpage'])) : ?>
@@ -890,7 +892,6 @@ final class WPDKACollections {
 	/**
 	 * When searching for a collection, get first object in playlist
 	 * and show this
-	 * Avoids lazy loading with self::$collection_relations
 	 * @param  [type]    $search_results
 	 * @return [type]
 	 */
@@ -908,31 +909,45 @@ final class WPDKACollections {
 			}
 		}
 
-		if(count($collection_relations) > 0) {
-			self::$collection_relations = array();
+		self::map_collections_to_material($collection_relations,self::$collection_relations);
+
+		return $search_results;
+	}
+
+	/**
+	 * Get material objects and map them to their collection
+	 * Prevents lazy loading
+	 * $material_guids: array($collection_guid => $material_guid)
+	 * 
+	 * @author Joachim Jensen <jv@intox.dk>
+	 * @param  array    $material_guids
+	 * @param  array    $map
+	 * @return void
+	 */
+	public static function map_collections_to_material($material_guids,&$map) {
+		if(count($material_guids) > 0) {
+			$map = array();
 			try {
 				$response = WPChaosClient::instance()->Object()->Get(
-					'(GUID:('.implode(' OR ',$collection_relations).'))',   // Search query
+					'(GUID:('.implode(' OR ',$material_guids).'))',   // Search query
 					null,   // Sort
 					null, 
 					0,      // pageIndex
-					count($collection_relations),      // pageSize
+					count($material_guids),      // pageSize
 					true,   // includeMetadata
 					true,   // includeFiles
 					true    // includeObjectRelations
 				);
 				//Flip to get O(1) lookup
-				$collection_relations = array_flip($collection_relations);
+				$material_guids = array_flip($material_guids);
 				foreach($response->MCM()->Results() as $material) {
-					$collection_guid = $collection_relations[$material->GUID];
-					self::$collection_relations[$collection_guid] = $material;				
+					$collection_guid = $material_guids[$material->GUID];
+					$map[$collection_guid] = new WPChaosObject($material);				
 				}
 			} catch(\CHAOSException $e) {
 				error_log('CHAOS error when getting collection relations: '.$e->getMessage());
 			}
 		}
-
-		return $search_results;
 	}
 
 	/**
@@ -1103,6 +1118,15 @@ final class WPDKACollections {
 			require_once("wpdkacollectionobjects-list-table.php");			
 		}
 		require("wpchaosobject-filters.php");
+		require_once('widgets/featured.php');
+	}
+
+	/**
+	 * Register widgets in WordPress
+	 * @return  void
+	 */
+	public function register_widgets() {
+		register_widget( 'WPDKACollectionFeaturedWidget' );
 	}
 
 	/**
