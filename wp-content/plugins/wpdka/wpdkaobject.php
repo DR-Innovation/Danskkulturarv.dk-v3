@@ -519,9 +519,13 @@ class WPDKAObject {
 				$subject = "";
 			}
 
+			var_dump($wp_query->query);
+
 			if($subject) {
 				//<institution>/<slug>(/<embed>)
 				preg_match('|^([^/]+)/([^/]+)(?:/(embed)?)?$|', $subject, $matches);
+
+				var_dump($matches);
 				
 				//$matches[2] is slug
 				if(isset($matches[2])) {
