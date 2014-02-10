@@ -511,24 +511,33 @@ class WPDKAObject {
 
 			global $wp_query;
 
-			var_dump($wp_query);
-			var_dump($wp_query->query);
-
-			//<institution>/<slug>(/<embed>)
-			preg_match('|^([^/]+)/([^/]+)(?:/(embed)?)?$|', $wp_query->query['pagename'], $matches);
-			
-			//$matches[2] is slug. Continue only if no WordPress page is set
-			if($wp_query->is_404() && $matches[2]) {
-				$query[] = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':"'. $matches[2] .'"';
-
-				//Get relevant template
-				add_filter('chaos-object-template', function($template) use ($matches) {
-					if($matches[3]) {
-						$template = 'chaos-object-embed';
-					}
-					return $template;
-				});
+			if(isset($wp_query->query['attachment'])) {
+				$subject = $wp_query->query['attachment'];
+			} else if(isset($wp_query->query['pagename'])) {
+				$subject = $wp_query->query['pagename'];
+			} else {
+				$subject = "";
 			}
+
+			if($subject) {
+				//<institution>/<slug>(/<embed>)
+				preg_match('|^([^/]+)/([^/]+)(?:/(embed)?)?$|', $subject, $matches);
+				
+				//$matches[2] is slug. Continue only if no WordPress page is set
+				if($wp_query->is_404() && isset($matches[2])) {
+					$query[] = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':"'. $matches[2] .'"';
+
+					//Get relevant template
+					add_filter('chaos-object-template', function($template) use ($matches) {
+						if($matches[3]) {
+							$template = 'chaos-object-embed';
+						}
+						return $template;
+					});
+				}				
+			}
+
+
 			
 			return implode("+OR+", $query);
 		});
