@@ -523,8 +523,8 @@ class WPDKAObject {
 				//<institution>/<slug>(/<embed>)
 				preg_match('|^([^/]+)/([^/]+)(?:/(embed)?)?$|', $subject, $matches);
 				
-				//$matches[2] is slug. Continue only if no WordPress page is set
-				if($wp_query->is_404() && isset($matches[2])) {
+				//$matches[2] is slug
+				if(isset($matches[2])) {
 					$query[] = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':"'. $matches[2] .'"';
 
 					//Get relevant template
