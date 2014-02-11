@@ -81,11 +81,13 @@
 		 * @return {void} 
 		 */
 		addFlexSliders: function() {
-			$('.flexslider').flexslider({
-				animation: "slide",
-				touch: true,
-				smoothHeight: true
-			});
+			if(typeof flexslider == 'function') {
+				$('.flexslider').flexslider({
+					animation: "slide",
+					touch: true,
+					smoothHeight: true
+				});				
+			}
 		},
 
 		/**

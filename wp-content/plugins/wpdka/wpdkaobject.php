@@ -509,23 +509,13 @@ class WPDKAObject {
 				$query = array();
 			}
 
-			global $wp_query;
+			//WordPress pages get priority
+			if(is_404()) {
+				$http = strstr(get_home_url(),'://',true) ?: 'http';
 
-			if(isset($wp_query->query['attachment'])) {
-				$subject = $wp_query->query['attachment'];
-			} else if(isset($wp_query->query['pagename'])) {
-				$subject = $wp_query->query['pagename'];
-			} else {
-				$subject = "";
-			}
-
-			var_dump($wp_query->query);
-
-			if($subject) {
-				//<institution>/<slug>(/<embed>)
-				preg_match('|^([^/]+)/([^/]+)(?:/(embed)?)?$|', $subject, $matches);
-
-				var_dump($matches);
+				//<blog url>/<institution>/<slug>(/<embed>)
+				//We need to use blog url as suffix, because it might not be root and therefore a part of request_uri
+				preg_match('|^'.get_home_url().'/([^/]+)/([^/]+)(?:/(embed)?)?$|', $http.'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $matches);
 				
 				//$matches[2] is slug
 				if(isset($matches[2])) {
@@ -533,16 +523,16 @@ class WPDKAObject {
 
 					//Get relevant template
 					add_filter('chaos-object-template', function($template) use ($matches) {
-						if($matches[3]) {
+						if(isset($matches[3])) {
 							$template = 'chaos-object-embed';
 						}
 						return $template;
 					});
 				}				
 			}
-
-
 			
+				
+		
 			return implode("+OR+", $query);
 		});
 	}
