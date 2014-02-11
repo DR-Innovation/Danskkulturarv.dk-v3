@@ -515,7 +515,7 @@ class WPDKAObject {
 
 				//<blog url>/<institution>/<slug>(/<embed>)
 				//We need to use blog url as suffix, because it might not be root and therefore a part of request_uri
-				preg_match('|^'.get_home_url().'/([^/]+)/([^/]+)(?:/(embed)?)?$|', $http.'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $matches);
+				preg_match('|^'.get_home_url().'/([^/]+)/([^/]+)(?:/(embed)?)?(/\?.*)?$|', $http.'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $matches);
 				
 				//$matches[2] is slug
 				if(isset($matches[2])) {
@@ -523,7 +523,7 @@ class WPDKAObject {
 
 					//Get relevant template
 					add_filter('chaos-object-template', function($template) use ($matches) {
-						if(isset($matches[3])) {
+						if(isset($matches[3]) && $matches[3] == 'embed') {
 							$template = 'chaos-object-embed';
 						}
 						return $template;
