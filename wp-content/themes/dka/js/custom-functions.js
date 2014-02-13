@@ -81,7 +81,7 @@
 		 * @return {void} 
 		 */
 		addFlexSliders: function() {
-			if(typeof flexslider == 'function') {
+			if($().flexslider) {
 				$('.flexslider').flexslider({
 					animation: "slide",
 					touch: true,
@@ -122,27 +122,6 @@
 				return false;
 			});
 		},
-
-		/**
-		 * Add MediaElement.js support on video and audio
-		 * @return {void}
-		 */
-		/*
-		addMediaElement: function() {
-			$("video, audio").each(function() {
-				var options = {
-					iPadUseNativeControls: true,
-					iPhoneUseNativeControls: true, 
-				    AndroidUseNativeControls: true,
-				};
-				var streamer = $("source[data-streamer]", this).data('streamer');
-				if(streamer) {
-					options["flashStreamer"] = streamer;
-				}
-				$(this).mediaelementplayer(options);
-			});
-		}
-		*/
 
 	}
 
