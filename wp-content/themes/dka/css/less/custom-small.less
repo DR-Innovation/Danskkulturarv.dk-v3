@@ -58,10 +58,6 @@ and other resources.
 
 }
 
-li.menu-item a:hover {
-  background-color: @blue !important;
-}
-
 .navbar-responsive-collapse {
 
     li.menu-item {
@@ -73,11 +69,18 @@ li.menu-item a:hover {
       margin-left: 0;
       width: auto;
       padding: 10px;
+      border-top-right-radius: @border-radius-small;
 
-      li a {
+	  li {
+	  	margin:0!important;
+	  	padding:0 !important;
+
+	  a {
         background-color: inherit !important;
         width: 100% !important;
+        border-radius: 0!important;
       }
+  }
 
       li.dropdown-header {
         margin-left: 10px;

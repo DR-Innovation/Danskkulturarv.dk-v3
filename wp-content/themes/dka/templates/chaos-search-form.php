@@ -25,18 +25,18 @@ function get_facet_count($field, $values) {
 $advanced_search_expanded = ((!empty($types) || !empty($organizations)) ? " in" : "");
 ?>
 <form method="GET" action="<?php echo $page; ?>" class="col-12">
-	<div class="col-lg-8 col-10">
+	<div class="col-lg-9 col-10">
 		<div class="input-group">
-			<input type="hidden" name="<?php echo WPChaosSearch::QUERY_KEY_VIEW; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_VIEW, 'esc_attr'); ?>">
-			<input type="hidden" name="<?php echo WPChaosSearch::QUERY_KEY_SORT; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_SORT, 'esc_attr'); ?>">
 			<input class="form-control" id="appendedInputButton" type="text" name="<?php echo WPChaosSearch::QUERY_KEY_FREETEXT; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" placeholder="<?php echo $freetext_placeholder; ?>" />
 			<span class="input-group-btn">
-				<button type="submit" class="btn btn-search btn-large" id="searchsubmit"><?php _ex('Search','verb','dka'); ?></button>
+				<button type="submit" class="btn btn-primary btn-search btn-large" id="searchsubmit"><?php _ex('Search','verb','dka'); ?></button>
 			</span>
+		</div>
+		<input type="hidden" name="<?php echo WPChaosSearch::QUERY_KEY_VIEW; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_VIEW, 'esc_attr'); ?>">
+		<input type="hidden" name="<?php echo WPChaosSearch::QUERY_KEY_SORT; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_SORT, 'esc_attr'); ?>">
 	</div>
-	</div>
-	<div class="col-lg-4 col-2 btn-advanced-search-container">
-		<button class="btn btn-large btn-block btn-advanced-search collapsed blue dropdown-toggle" type="button" data-toggle="collapse" data-target="#advanced-search-container">
+	<div class="col-lg-3 col-2 btn-advanced-search-container">
+		<button class="btn btn-default btn-large btn-advanced-search collapsed blue dropdown-toggle" type="button" data-toggle="collapse" data-target="#advanced-search-container">
 			<span class="visible-lg"><i class="icon-cog"></i> <?php _e('Refine search','dka'); ?> <i class="icon-caret-down"></i></span>
 			<span class="hidden-lg"><i class="icon-cog"></i> <i class="icon-caret-down"></i></span>
 		</button>

@@ -28,7 +28,7 @@ $views = array(
 	<article class="container search-results">
 		<div class="row search-results-top">
 			<div class="col-4 col-sm-4">
-				<p><?php printf(__('<span class="hidden-sm">The search for %s gave&nbsp;</span><span>%s results</span>','wpchaossearch'),'<strong class="blue">'.WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html').'</strong>',WPChaosSearch::get_search_results()->MCM()->TotalCount()); ?></p>
+				<p><?php echo $result_count = sprintf(__('<span class="hidden-sm">The search for %s gave&nbsp;</span><span>%s results</span>','wpchaossearch'),'<strong class="blue">'.WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html').'</strong>', number_format_i18n(WPChaosSearch::get_search_results()->MCM()->TotalCount())); ?></p>
 			</div>
 			<div class="col-4 col-sm-2">	
 				<div class="dropdown sortby-dropdown pull-right">
@@ -105,7 +105,7 @@ $views = array(
 					<i class="icon-eye-open"> <?php echo $views; ?></i>
 					<?php endif; ?>
 				</div>
-				<?php if(class_exists('WPDKACollections') && current_user_can('edit_posts') && !$collection_obj) : ?>
+				<?php if(class_exists('WPDKACollections') && current_user_can(WPDKACollections::CAPABILITY) && !$collection_obj) : ?>
 				<button type="button" class="add-to-collection btn btn-primary"><span class="icon-plus"></span></button>
 			<?php endif; ?>
 		</a>
@@ -115,7 +115,7 @@ $views = array(
 
 <div class="row search-results-top">
 	<div class="col-sm-6 hidden-sm">
-		<p><?php printf(__('<span class="hidden-sm">The search for %s gave&nbsp;</span><span>%s results</span>','wpchaossearch'),'<strong class="blue">'.WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html').'</strong>',WPChaosSearch::get_search_results()->MCM()->TotalCount()); ?></p>
+		<p><?php echo $result_count; ?></p>
 	</div>
 	<div class="col-12 col-sm-6">
 		<ul class="pagination pagination-large pull-right">

@@ -93,13 +93,13 @@
 // Buttons
 // -------------------------
 
-@btn-default-color:              #fff;
-@btn-default-bg:                 #474949;
-@btn-default-border:             @btn-default-bg;
+@btn-default-color:              #2F94FD;
+@btn-default-bg:                 #fdfdfd;
+@btn-default-border:             #bebebe;
 
-@btn-primary-color:              @btn-default-color;
-@btn-primary-bg:                 @brand-primary;
-@btn-primary-border:             @btn-primary-bg;
+@btn-primary-color:              #fff;
+@btn-primary-bg:                 #2F94FD;
+@btn-primary-border:             #0080f0;
 
 @btn-success-color:              @btn-default-color;
 @btn-success-bg:                 @brand-success;
@@ -123,10 +123,10 @@
 // Forms
 // -------------------------
 
-@input-bg:                       #fff;
+@input-bg:                       @btn-default-bg;
 @input-bg-disabled:              @gray-lighter;
 
-@input-border:                   #ccc;
+@input-border:                   @btn-default-border;
 @input-border-radius:            @border-radius-base;
 
 @input-color-placeholder:        @gray-light;
@@ -209,12 +209,12 @@
 //
 // Reset inverted navbar basics
 @navbar-inverse-color:                      @gray-light;
-@navbar-inverse-bg:                         #222;
+@navbar-inverse-bg:                         @gray;
 
 // Inverted navbar links
-@navbar-inverse-link-color:                 @gray-light;
+@navbar-inverse-link-color:                 #fff;
 @navbar-inverse-link-hover-color:           #fff;
-@navbar-inverse-link-hover-bg:              transparent;
+@navbar-inverse-link-hover-bg:              @gray-light;
 @navbar-inverse-link-active-color:          @navbar-inverse-link-hover-color;
 @navbar-inverse-link-active-bg:             darken(@navbar-inverse-bg, 10%);
 @navbar-inverse-link-disabled-color:        #444;

@@ -61,6 +61,8 @@ class WPDKA {
 				add_filter('wpchaos-config', array(&$this, 'settings'));
 
 			}
+
+			add_filter('widgets_init',array(&$this,'register_widgets'));
 			
 			// Social stuff
 			add_action('wp_ajax_' . self::SOCIAL_COUNTS_AJAX, array(&$this, 'ajax_social_counts'));
@@ -465,6 +467,14 @@ class WPDKA {
 		}
 		return $file->Token . $quality;
 	}
+
+	/**
+	 * Register widgets in WordPress
+	 * @return  void
+	 */
+	public function register_widgets() {
+		register_widget( 'WPDKAObjectPlayerWidget' );
+	}
 	
 	/**
 	 * Check if dependent plugins are active
@@ -501,6 +511,7 @@ class WPDKA {
 		require_once('wpdkasitemap.php');
 		require_once('widgets/player.php');
 		require("shortcodes.php");
+		require("wpchaosobject-filters.php");
 	}
 
 }
