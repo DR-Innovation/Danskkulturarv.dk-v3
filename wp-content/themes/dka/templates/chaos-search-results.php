@@ -92,24 +92,24 @@ $views = array(
 						<?php  if($caption):?>
 						<div class="caption"><?php echo $caption ?></div>
 					<?php endif;?>
-				</div>
-				<h2 class="title"><strong><?php echo $title; ?></strong></h2>
-				<p class="organization"><strong class="strong orange organization"><?php echo $organization; ?></strong>
-					<?php if(WPChaosClient::get_object()->published && $collection_obj == null) : ?></p>
-					<p class="date"><i class="icon-calendar"></i> <?php echo WPChaosClient::get_object()->published; ?></p>
-				<?php endif; ?>
-				<hr>
-				<div class="media-type-container">
-					<i title="<?php echo WPChaosClient::get_object()->type_title; ?>" class="<?php echo WPChaosClient::get_object()->type_class; ?>"></i>
-					<?php if($views) : ?>
-					<i class="icon-eye-open"> <?php echo $views; ?></i>
+					<?php if(class_exists('WPDKACollections') && current_user_can(WPDKACollections::CAPABILITY) && !$collection_obj) : ?>
+						<button type="button" class="add-to-collection btn"><span class="icon-plus"></span></button>
 					<?php endif; ?>
-				</div>
-				<?php if(class_exists('WPDKACollections') && current_user_can(WPDKACollections::CAPABILITY) && !$collection_obj) : ?>
-				<button type="button" class="add-to-collection btn btn-primary"><span class="icon-plus"></span></button>
-			<?php endif; ?>
-		</a>
-	</li>
+					</div>
+					<h2 class="title"><strong><?php echo $title; ?></strong></h2>
+					<p class="organization"><strong class="strong orange organization"><?php echo $organization; ?></strong>
+						<?php if(WPChaosClient::get_object()->published && $collection_obj == null) : ?></p>
+						<p class="date"><i class="icon-calendar"></i> <?php echo WPChaosClient::get_object()->published; ?></p>
+					<?php endif; ?>
+					<hr>
+					<div class="media-type-container">
+						<i title="<?php echo WPChaosClient::get_object()->type_title; ?>" class="<?php echo WPChaosClient::get_object()->type_class; ?>"></i>
+						<?php if($views) : ?>
+						<i class="icon-eye-open"> <?php echo $views; ?></i>
+						<?php endif; ?>
+					</div>
+				</a>
+			</li>
 <?php endforeach; WPChaosClient::reset_object(); ?>
 </ul>
 

@@ -107,24 +107,25 @@
 	display: inline-block;
 }
 
-.thumbnails .add-to-collection {
+.add-to-collection {
 	position: absolute;
-	top: 5px;
-	right: 20px;
-	border-radius: 100% !important;
+	width: 100%;
 	opacity: 0.5;
+	border-radius: 0 !important;
+	-webkit-transition: all .1s;
+	-moz-transition: all .1s;
+	-o-transition: all .1s;
+	transition: all .1s;
+	background-color: #555555;
+}
+.thumb {
+	overflow: hidden;
 }
 
-.listview .add-to-collection {
-	position: absolute;
-	top: 10px;
-	right: 20px;
-	border-radius: 100% !important;
-	opacity: 0.5;
-}
-
-.add-to-collection:hover {
+.thumbnail:hover .add-to-collection {
 	opacity: 1;
+	color: #fff;
+	top: 0;
 }
 
 
