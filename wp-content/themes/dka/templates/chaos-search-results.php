@@ -25,34 +25,34 @@ $views = array(
 	);
 
 	?>
-	<article class="container search-results">
+	<article class="search-results">
 		<div class="row search-results-top">
-			<div class="col-4 col-sm-4">
+			<div class="col-md-4">
 				<p><?php echo $result_count = sprintf(__('<span class="hidden-sm">The search for %s gave&nbsp;</span><span>%s results</span>','wpchaossearch'),'<strong class="blue">'.WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html').'</strong>', number_format_i18n(WPChaosSearch::get_search_results()->MCM()->TotalCount())); ?></p>
 			</div>
-			<div class="col-4 col-sm-2">	
-				<div class="dropdown sortby-dropdown pull-right">
-					<a class="sortby-link" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#"><?php _e('Sort by:','dka'); ?> <strong class="blue"><?php echo $current_sort; ?></strong>&nbsp;<i class="icon-caret-down"></i></a>
-					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-						<?php foreach(WPDKASearch::$sorts as $sort) : ?>
+			<div class="col-md-4">
+				<div class="btn-group">
+				 	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><?php _e('Sort by:','dka'); ?> <strong class="blue"><?php echo $current_sort; ?></strong>
+				 		<i class="icon-caret-down"></i>
+				 	</button>
+				 	<ul class="dropdown-menu">
+					<?php foreach(WPDKASearch::$sorts as $sort) : ?>
 						<li><a tabindex="-1" href="<?php echo WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_SORT => $sort['link'], WPChaosSearch::QUERY_KEY_PAGE => null)); ?>" title="<?php echo $sort['title']; ?>"><?php echo $sort['title']; ?></a></li>
 					<?php endforeach; ?>
+				 	</ul>
+				</div>
+				<div class="search-result-listing btn-group">
+					<?php foreach($views as $view) :
+					echo '<a type="button" class="btn btn-default'.($view['view'] == $current_view ? ' active' : '').'" href="'.WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_VIEW => $view['link'])).'" title="'.$view['title'].'"><i class="'.$view['class'].'"></i></a>';
+					endforeach; ?>
+				</div>
+			</div>
+			<div class="col-md-4 pagination-div">
+				<ul class="pagination pagination-lg pull-right">
+					<?php echo $pagination = WPChaosSearch::paginate('echo=0&before=&after=&count=5'); ?>
 				</ul>
 			</div>
 		</div>
-		<div class="col-4 col-sm-2">
-			<div class="search-result-listing btn-group">
-				<?php foreach($views as $view) :
-				echo '<a type="button" class="btn btn-default'.($view['view'] == $current_view ? ' active' : '').'" href="'.WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_VIEW => $view['link'])).'" title="'.$view['title'].'"><i class="'.$view['class'].'"></i></a>';
-				endforeach; ?>
-			</div>
-		</div>
-		<div class="col-12 col-sm-4 pagination-div">
-			<ul class="pagination pagination-large pull-right">
-				<?php echo $pagination = WPChaosSearch::paginate('echo=0&before=&after=&count=5'); ?>
-			</ul>
-		</div>
-	</div>
 	<ul class="row <?php echo $current_view; ?>">
 
 		<?php
@@ -118,7 +118,7 @@ $views = array(
 		<p><?php echo $result_count; ?></p>
 	</div>
 	<div class="col-12 col-sm-6">
-		<ul class="pagination pagination-large pull-right">
+		<ul class="pagination pagination-lg pull-right">
 			<?php echo $pagination; ?>
 		</ul>
 	</div>
