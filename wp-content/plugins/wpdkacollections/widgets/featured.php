@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WP DKA Object
+ * @package WP DKA Collections
  * @version 1.0
  */
 
@@ -8,15 +8,9 @@
  * WordPress Widget that makes it possible to style
  * and display one data attribute from a CHAOs object
  */
-class WPDKACollectionFeaturedWidget extends WP_Widget {
+class WPDKACollectionFeaturedWidget extends WPChaosWidget {
 
-	/**
-	 * Fields in widget. Defines keys for values
-	 * @var array
-	 */
-	private $fields;
-
-	private $collection_materials;
+	protected $collection_materials;
 
 	/**
 	 * Constructor
@@ -41,7 +35,7 @@ class WPDKACollectionFeaturedWidget extends WP_Widget {
 
 	}
 
-	private function get_collections() {
+	protected function get_collections() {
 		$query = '(FolderID:'.WPDKACollections::COLLECTIONS_FOLDER_ID.') AND ('.WPDKACollections::FACET_KEY_STATUS.':'.WPDKACollections::STATUS_PUBLISH .')';
 
 		$response = WPChaosClient::instance()->Object()->Get(
@@ -65,7 +59,7 @@ class WPDKACollectionFeaturedWidget extends WP_Widget {
 
 	}
 
-	private function get_collection_objects($collections) {
+	protected function get_collection_objects($collections) {
 		$response = WPChaosClient::instance()->Object()->Get(
 			"(GUID: ".implode(" ", $collections).")",   // Search query
 			null,   // Sort
@@ -100,7 +94,7 @@ class WPDKACollectionFeaturedWidget extends WP_Widget {
 	 * @return void 
 	 */
 	public function widget( $args, $instance ) {
-		if(isset($instance['collections'])) {
+		if(isset($instance['collections']) && $instance['collections']) {
 			echo $args['before_widget'];
 
 			echo '<div id="frontpage_carousel" class="carousel slide" data-ride="carousel">';
@@ -136,71 +130,6 @@ class WPDKACollectionFeaturedWidget extends WP_Widget {
 			echo $args['after_widget'];			
 		}
 
-	}
-
-	/**
-	 * GUI for widget form in the administration
-	 * 
-	 * @param  array $instance Widget values from database
-	 * @return void           
-	 */
-	public function form( $instance ) {
-
-		//Print each field based on its type
-		foreach($this->fields as $field) {
-			$value = isset( $instance[ $field['name'] ]) ? $instance[ $field['name'] ] : $field['val'];
-			$name = $this->get_field_name( $field['name'] );
-			$title = $field['title'];
-			$id = $this->get_field_id( $field['name'] );
-
-			//Populate list with callback
-			if(isset($field['list']) && !empty($field['list']) && $field['list'][0] == $this) {
-				$field['list'] = call_user_func($field['list']);
-			}
-
-			echo '<p>';
-			echo '<label for="'.$name.'">'.$title.'</label>';
-			switch($field['type']) {
-				case 'textarea':
-					echo '<textarea class="widefat" name="'.$name.'" >'.$value.'</textarea>';
-					break;
-				case 'select':
-					echo '<select class="widefat" name="'.$name.'">';
-					foreach((array)$field['list'] as $opt_key => $opt_value) {
-						echo '<option value="'.$opt_key.'" '.selected( $value, $opt_key, false).'>'.$opt_value.'</option>';
-					}
-					echo '</select>';
-					break;
-				case 'checkbox':
-					foreach((array)$field['list'] as $opt_key => $opt_value) {
-						echo '<input type="checkbox" name="'.$name.'[]" value="'.$opt_key.'" '.checked( in_array($opt_key,$value), true, false).'> '.$opt_value.'';
-					}
-					break;
-				case 'text':
-				default:
-					echo '<input class="widefat" id="'.$id.'" name="'.$name.'" type="text" value="'.esc_attr( $value ).'" />';
-			}
-			echo '</p>';
-
-		}
-	}
-
-	/**
-	 * Callback for whenever the widget values should be saved
-	 * 
-	 * @param  array $new_instance New values from the form
-	 * @param  array $old_instance Previously saved values
-	 * @return array               Values to be saved
-	 */
-	public function update( $new_instance, $old_instance ) {
-
-		$instance = array();
-		
-		foreach($this->fields as $field) {
-			$instance[$field['name']] = ( ! empty( $new_instance[$field['name']] ) ) ? $new_instance[$field['name']]  : $field['val'];
-		}
-		
-		return $instance;
 	}
 
 }

@@ -247,4 +247,10 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'caption', function($value, $obje
 	}
 }, 10, 2);
 
+//object->embed
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'embed', function($value, $object) {
+	
+	return '<iframe src="'.$object->url.'embed" frameborder="0" allowfullscreen></iframe>';
+}, 10, 2);
+
 //

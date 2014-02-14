@@ -55,7 +55,7 @@ final class WPDKACollections {
 	/**
 	 * Filter prefix for collection objects
 	 */
-	const OBJECT_FILTER_PREFIX = 'wpchaos-object-collection-';
+	const OBJECT_FILTER_PREFIX = 'wpchaos-2-object-collection-';
 
 	/**
 	 * Collection indexes

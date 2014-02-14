@@ -13,14 +13,24 @@
 			<hr>
 			<i class="icon-external-link"></i> <a target="_blank" href="<?php echo WPChaosClient::get_object()->externalurl; ?>" title="<?php printf(__('Read more at %s','dka'),WPChaosClient::get_object()->organization); ?>"><?php printf(__('Read more at %s','dka'),WPChaosClient::get_object()->organization); ?></a>
 		</div>
-<?php endif; ?>		
+<?php endif; ?>	
+<?php if(WPChaosClient::get_object()->rights) : ?>	
 		<div class="rights-container">
 			<hr>
 			<?php echo WPChaosClient::get_object()->rights; ?>
 		</div>
+<?php endif; ?>
 		<hr>
 		<div class="social">
 			<?php dka_social_share(array("link"=>WPChaosClient::get_object()->url)); ?>
+		</div>
+		<div>
+			<hr>
+			<h4><?php _e('Embed material','wpdka'); ?></h4>
+			<?php if(($page = get_page_by_title('embed',OBJECT,'page'))) : ?>
+			<?php echo get_permalink($page); ?>
+			<?php endif; ?>
+			<textarea class="form-control" rows="3" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea>
 		</div>
 		<div>
 			<hr>
