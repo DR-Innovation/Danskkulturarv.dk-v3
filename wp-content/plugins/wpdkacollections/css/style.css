@@ -118,6 +118,9 @@
 	transition: all .1s;
 	background-color: #555555;
 }
+.add-to-collection span {
+	color: #fff !important;
+}
 .thumb {
 	overflow: hidden;
 }

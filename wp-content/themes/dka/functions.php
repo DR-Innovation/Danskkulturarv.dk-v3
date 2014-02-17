@@ -11,7 +11,7 @@ add_filter( 'pre_site_transient_update_core', function($a) { return null; } );
 //wp_clear_scheduled_hook( 'wp_version_check' );
 //
 add_filter('post_class', function($classes) {
-	$classes[] = 'row';
+	$classes[] = 'col-xs-12';
 	return $classes;
 });
 
