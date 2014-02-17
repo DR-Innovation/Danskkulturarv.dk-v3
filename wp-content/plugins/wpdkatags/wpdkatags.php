@@ -156,7 +156,7 @@ final class WPDKATags {
 			self::DOMAIN,
 			array(&$this,'render_tags_page'),
 			"div",
-			26
+			29.01
 		);
 		add_action( 'load-' . $page , array(&$this,'load_tags_page'));
 	}

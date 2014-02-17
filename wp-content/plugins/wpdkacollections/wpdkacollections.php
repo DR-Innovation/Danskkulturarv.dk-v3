@@ -550,7 +550,7 @@ final class WPDKACollections {
 			self::DOMAIN,
 			array(&$this,'render_collections_page'),
 			'div',
-			27
+			28.01
 		);
 		add_action( 'load-' . $page , array(&$this,'load_collections_page'));
 	}
@@ -1118,6 +1118,7 @@ final class WPDKACollections {
 			require_once("wpdkacollectionobjects-list-table.php");			
 		}
 		require("wpchaosobject-filters.php");
+		require("custom-post-types.php");
 		require_once('widgets/featured.php');
 	}
 
