@@ -29,6 +29,9 @@ add_action( 'wp_enqueue_scripts', function() {
 
 	wp_dequeue_script( 'respond-js' );
 	wp_dequeue_script( 'html5shiv' );
+	wp_dequeue_script( 'dka-collections' );
+	do_action('dequeue_all_styles');
+	wp_enqueue_style( 'dka-embed-style' );
 } );
 
 ?>

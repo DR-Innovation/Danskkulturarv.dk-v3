@@ -39,12 +39,20 @@ function dka_setup() {
 }
 add_action( 'after_setup_theme', 'dka_setup' );
 
+function dka_dequeue_all_styles() {
+	wp_dequeue_style('dka-style');
+	wp_dequeue_style('dka-collections-style');
+}
+add_action('dequeue_all_styles', 'dka_dequeue_all_styles');
+
 function dka_scripts_styles() {
 
 	wp_register_style( 'font-awesome', '//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css' );
 	wp_register_style( 'dka-style', get_template_directory_uri() . '/css/styles.css', array('font-awesome') );
 
 	wp_enqueue_style( 'dka-style' );
+
+	wp_register_style( 'dka-embed-style', get_template_directory_uri() . '/css/embed-style.css');
 	
 	//Use Google CDN instead
 	wp_deregister_script('jquery');

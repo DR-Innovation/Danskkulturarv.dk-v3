@@ -5892,8 +5892,11 @@ footer .copyright a {
 }
 /* Hide the slides before the JS is loaded. Avoids image jumping */
 .flexslider .slides img {
-  width: 100%;
+  max-width: 100%; 
+  max-height: 100%;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .flex-pauseplay span {
   text-transform: capitalize;
