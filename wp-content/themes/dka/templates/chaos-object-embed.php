@@ -53,8 +53,21 @@ add_action( 'wp_enqueue_scripts', function() {
 	<?php wp_head(); ?>
 </head>
 <body>
-<?php the_widget('WPDKAObjectPlayerWidget'); ?>
-<?php wp_footer(); ?>
+<?php
+
+echo WPDKA::get_object_player();
+
+
+//the_widget('WPDKAObjectPlayerWidget');
+//echo do_shortcode('[chaos-player autostart="0"]')
+
+if(WPChaosClient::get_object()->rights) :
+echo '<p>'.WPChaosClient::get_object()->rights.'</p>';
+endif;
+
+echo '<p><a href="'.WPChaosClient::get_object()->url.'" target="_blank" rel="bookmark">Læs mere hos '.get_bloginfo('name').'</a></p>';
+
+ wp_footer(); ?>
 </body>
 </html>
 

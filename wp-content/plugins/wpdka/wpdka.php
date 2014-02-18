@@ -468,6 +468,30 @@ class WPDKA {
 		return $file->Token . $quality;
 	}
 
+	public static function get_object_player(WPChaosObject $object = null, $autoplay = false) {
+		$return = "";
+
+		if($object == null && WPChaosClient::get_object()) {
+			$object = WPChaosClient::get_object();
+		} 
+
+		if($object) {
+				
+			$type = $object->type;
+			
+			$jwplayer_autostart = $autoplay;
+			
+			//Look in theme dir and include if found
+			ob_start();
+			if(locate_template('chaos-player-'.$type, true) == "") {
+				include(dirname(__FILE__)."/templates/player-".$type.".php");
+			}
+			$return = ob_get_contents();
+			ob_end_clean();			
+		}
+		return $return;
+	}
+
 	/**
 	 * Register widgets in WordPress
 	 * @return  void
