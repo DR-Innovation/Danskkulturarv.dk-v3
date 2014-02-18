@@ -48,7 +48,7 @@ function wpdkacollections_register_exhibition_type() {
 		'has_archive'        => false,
 		'hierarchical'       => false,
 		'menu_position'      => 20,
-		'supports'           => array( 'title', 'editor', 'author' )
+		'supports'           => array( 'title', 'editor', 'author', 'revisions', 'excerpt' )
 	));
 }
 add_action( 'init', 'wpdkacollections_register_exhibition_type' );

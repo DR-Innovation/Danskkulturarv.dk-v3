@@ -24,6 +24,7 @@
 		<div class="social">
 			<?php dka_social_share(array("link"=>WPChaosClient::get_object()->url)); ?>
 		</div>
+<?php if(WPChaosClient::get_object()->is_embeddable) : ?>
 		<div>
 			<hr>
 			<h4><?php _e('Embed material','wpdka'); ?></h4>
@@ -32,6 +33,7 @@
 			<?php endif; ?>
 			<textarea class="form-control" rows="3" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea>
 		</div>
+<?php endif; ?>
 		<div>
 			<hr>
 			<h4><?php _e('Tags','dka'); ?></h4>

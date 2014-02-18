@@ -6,6 +6,8 @@
 ?>
 <?php
 
+if(WPChaosClient::get_object()->is_embeddable) :
+
 //Remove scripts not needed
 add_action( 'wp_enqueue_scripts', function() {
 
@@ -49,3 +51,10 @@ add_action( 'wp_enqueue_scripts', function() {
 <?php wp_footer(); ?>
 </body>
 </html>
+
+<?php else :
+
+status_header(404);
+exit();
+
+endif; ?>
