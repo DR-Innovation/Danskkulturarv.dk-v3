@@ -9,10 +9,22 @@ require('wp-bootstrap-navwalker/wp_bootstrap_navwalker.php');
 //Diasable Core Updates
 add_filter( 'pre_site_transient_update_core', function($a) { return null; } );
 //wp_clear_scheduled_hook( 'wp_version_check' );
-//
+
+
+/**
+ * Make post class compatible with Bootstrap
+ */
 add_filter('post_class', function($classes) {
 	$classes[] = 'col-xs-12';
 	return $classes;
+});
+
+/**
+ * Paragraphs in editor
+ */
+add_filter('tiny_mce_before_init', function($arr) {
+	$arr['theme_advanced_blockformats'] = 'p,h2,h3,h4,h5,h6,address,pre';
+	return $arr;
 });
 
 function dka_setup() {
@@ -143,7 +155,7 @@ function dka_widgets_init() {
 	//unregister_widget('WP_Widget_Search');
 	//unregister_widget('WP_Widget_Text');
 	unregister_widget('WP_Widget_Categories');
-	//unregister_widget('WP_Widget_Recent_Posts');
+	unregister_widget('WP_Widget_Recent_Posts');
 	unregister_widget('WP_Widget_Recent_Comments');
 	unregister_widget('WP_Widget_RSS');
 	unregister_widget('WP_Widget_Tag_Cloud');
