@@ -5544,10 +5544,6 @@ ul.row.listview .thumb {
   border-bottom: 1px solid #eeeded;
   margin-bottom: 20px;
 }
-.search-results-top,
-.search-results-top span {
-  line-height: 15px;
-}
 .search-results-top:nth-child(3) {
   border-top: 1px solid #eeeded;
 }
@@ -5568,21 +5564,23 @@ ul.row.listview .thumb {
 .thumbnails div {
   margin-bottom: 20px;
 }
-.pagination {
-  margin: 0;
+.search-results-top > div {
+  height: 40px;
+  line-height: 40px;
 }
-.search-results-top p {
-  margin-top: 14px;
-  line-height: 20px;
+.search-result-listing {
+  text-align: center;
+}
+.search-result-listing .dropdown-menu {
+  text-align: left;
+}
+.search-result-listing a {
+  font-size: 14px;
 }
 .search-result-listing a.active {
   background-color: #2f94fd;
   color: #ffffff;
   border-color: #0080f0;
-}
-.sortby-dropdown {
-  padding-top: 14px;
-  float: left;
 }
 a.sortby-link:hover,
 a.sortby-link:active {
@@ -5604,6 +5602,7 @@ a.sortby-link:active {
   text-decoration: none !important;
 }
 .pagination {
+  margin: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
@@ -5611,13 +5610,6 @@ a.sortby-link:active {
   -moz-box-shadow: none;
   box-shadow: none;
   height: 100%;
-}
-.wp-caption {
-	max-width: 100%;
-}
-.entry-content img {
-	max-width: 100%;
-	height: auto;
 }
 .pagination-div {
   border-top: 1px solid #eeeded;
@@ -5713,9 +5705,6 @@ a.sortby-link:active {
 }
 .nav.info a.usertag {
   padding: 4px 24px 4px 10px;
-}
-iframe {
-	max-width: 100%;
 }
 .nav.info a.tag:hover {
   background: #2f94fd;
@@ -5867,6 +5856,16 @@ footer .copyright a {
   margin-top: 6px;
   color: #aaaaaa;
 }
+.wp-caption {
+  max-width: 100%;
+}
+.entry-content img {
+  max-width: 100%;
+  height: auto;
+}
+iframe {
+  max-width: 100%;
+}
 /*
  * jQuery FlexSlider v2.0
  * http://www.woothemes.com/flexslider/
@@ -5902,7 +5901,7 @@ footer .copyright a {
 }
 /* Hide the slides before the JS is loaded. Avoids image jumping */
 .flexslider .slides img {
-  max-width: 100%; 
+  max-width: 100%;
   max-height: 100%;
   display: block;
   margin-left: auto;
@@ -6139,11 +6138,6 @@ html[xmlns] .slides {
     color: #ffffff !important;
     padding: 4px 10px !important;
     background-color: #646464 !important;
-  }
-  .search-result-listing a {
-    font-size: 14px;
-    padding: 5px 10px;
-    margin-top: 7px;
   }
   .pagination-div {
     border-top: none;

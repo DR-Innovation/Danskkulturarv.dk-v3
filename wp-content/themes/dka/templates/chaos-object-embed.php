@@ -75,7 +75,13 @@ echo '<div class="title pull-right"><a href="'.WPChaosClient::get_object()->url.
 
 <?php else :
 
-status_header(404);
+status_header(404); ?>
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<?php
+echo '<head></head><body>';
+echo '<a href="'.WPChaosClient::get_object()->url.'" target="_blank" rel="bookmark">Dette materiale fra '.get_bloginfo('name').' kan ikke indlejres.</a>';
+echo '</body></html>';
 exit();
 
 endif; ?>

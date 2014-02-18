@@ -23,14 +23,13 @@ $views = array(
 		'link' => null
 		),
 	);
-
 	?>
 	<article class="search-results">
 		<div class="row search-results-top">
-			<div class="col-md-4">
-				<p><?php echo $result_count = sprintf(__('<span class="hidden-sm">The search for %s gave&nbsp;</span><span>%s results</span>','wpchaossearch'),'<strong class="blue">'.WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html').'</strong>', number_format_i18n(WPChaosSearch::get_search_results()->MCM()->TotalCount())); ?></p>
+			<div class="col-md-4 col-sm-6 col-xs-12">
+				<?php echo $result_count = sprintf(__('<span class="hidden-xs hidden-sm">The search for %s gave&nbsp;</span><span>%s results</span>','wpchaossearch'),'<strong class="blue">'.WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html').'</strong>', number_format_i18n(WPChaosSearch::get_search_results()->MCM()->TotalCount())); ?>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-4 col-sm-6 col-xs-12 search-result-listing">
 				<div class="btn-group">
 				 	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><?php _e('Sort by:','dka'); ?> <strong class="blue"><?php echo $current_sort; ?></strong>
 				 		<i class="icon-caret-down"></i>
@@ -41,13 +40,13 @@ $views = array(
 					<?php endforeach; ?>
 				 	</ul>
 				</div>
-				<div class="search-result-listing btn-group">
+				<div class="btn-group">
 					<?php foreach($views as $view) :
 					echo '<a type="button" class="btn btn-default'.($view['view'] == $current_view ? ' active' : '').'" href="'.WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_VIEW => $view['link'])).'" title="'.$view['title'].'"><i class="'.$view['class'].'"></i></a>';
 					endforeach; ?>
 				</div>
 			</div>
-			<div class="col-md-4 pagination-div">
+			<div class="col-md-4 col-sm-12 col-xs-12 pagination-div">
 				<ul class="pagination pagination-lg pull-right">
 					<?php echo $pagination = WPChaosSearch::paginate('echo=0&before=&after=&count=5'); ?>
 				</ul>
@@ -114,10 +113,10 @@ $views = array(
 </ul>
 
 <div class="row search-results-top">
-	<div class="col-sm-6 hidden-sm">
-		<p><?php echo $result_count; ?></p>
+	<div class="col-sm-6 hidden-xs">
+		<?php echo $result_count; ?>
 	</div>
-	<div class="col-12 col-sm-6">
+	<div class="col-sm-6 col-xs-12">
 		<ul class="pagination pagination-lg pull-right">
 			<?php echo $pagination; ?>
 		</ul>
