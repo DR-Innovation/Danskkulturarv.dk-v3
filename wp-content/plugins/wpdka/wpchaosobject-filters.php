@@ -258,7 +258,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'is_embeddable', function($value,
 //object->embed
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'embed', function($value, $object) {
 	
-	return '<iframe src="'.$object->url.'embed" frameborder="0" allowfullscreen></iframe>';
+	return '<iframe src="'.$object->url.'embed" frameborder="0" allowfullscreen width="480" height="360"></iframe>';
 }, 10, 2);
 
 //
