@@ -27,8 +27,8 @@
 		<div>
 			<hr>
 			<h4><?php _e('Embed material','wpdka'); ?></h4>
-			<?php if(($page = get_page_by_title('embed',OBJECT,'page'))) : ?>
-			<?php echo get_permalink($page); ?>
+			<?php if(($page = get_page_by_path('embed',OBJECT,'page'))) : ?>
+			<a href="<?php echo get_permalink($page); ?>">Læs om indlejring</a>
 			<?php endif; ?>
 			<textarea class="form-control" rows="3" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea>
 		</div>

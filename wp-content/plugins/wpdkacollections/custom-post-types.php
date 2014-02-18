@@ -26,6 +26,7 @@ function wpdkacollections_register_exhibition_type() {
 		'public'             => true,
 		'publicly_queryable' => true,
 		'show_ui'            => true,
+		'show_in_menu'       => true,
 		'show_in_nav_menus'  => false,
 		'query_var'          => true,
 		'rewrite'            => array( 'slug' => $rewrite_slug ),
