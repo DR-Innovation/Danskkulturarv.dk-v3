@@ -5612,6 +5612,13 @@ a.sortby-link:active {
   box-shadow: none;
   height: 100%;
 }
+.wp-caption {
+	max-width: 100%;
+}
+.entry-content img {
+	max-width: 100%;
+	height: auto;
+}
 .pagination-div {
   border-top: 1px solid #eeeded;
   margin-top: 10px;
@@ -5706,6 +5713,9 @@ a.sortby-link:active {
 }
 .nav.info a.usertag {
   padding: 4px 24px 4px 10px;
+}
+iframe {
+	max-width: 100%;
 }
 .nav.info a.tag:hover {
   background: #2f94fd;

@@ -1,5 +1,5 @@
-body {
-  margin: 0;
+html, body {
+  margin: 0 !important;
 }
 /*
  * jQuery FlexSlider v2.0

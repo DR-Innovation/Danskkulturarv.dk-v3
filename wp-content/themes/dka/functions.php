@@ -51,6 +51,7 @@ function dka_setup() {
 }
 add_action( 'after_setup_theme', 'dka_setup' );
 
+// Dequeue all styles loaded in DKA.
 function dka_dequeue_all_styles() {
 	wp_dequeue_style('dka-style');
 	wp_dequeue_style('dka-collections-style');
