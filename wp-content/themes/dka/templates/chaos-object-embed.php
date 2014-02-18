@@ -53,8 +53,9 @@ add_action( 'wp_enqueue_scripts', function() {
 	<?php wp_head(); ?>
 </head>
 <body>
-<?php echo WPDKA::get_object_player(); ?>
-
+<div class="player">
+	<?php echo WPDKA::get_object_player(); ?>
+</div>
 <div class="nav">
 
 <?php

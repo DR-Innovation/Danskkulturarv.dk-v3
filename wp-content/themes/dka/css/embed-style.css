@@ -72,6 +72,23 @@ img {
 	text-align:right;
 }
 
+/* Secure responsive slider vertical and horizontal */
+.player {
+	max-height: 100%;
+	max-width: 100%;
+	position: absolute;
+	top: 0;
+	bottom: 40px;
+	left: 0;
+	right: 0;
+	height: auto;
+	width: auto;
+}
+.flex-control-nav {
+	position: absolute;
+	z-index: 1;
+}
+
 /*
  * jQuery FlexSlider v2.0
  * http://www.woothemes.com/flexslider/
