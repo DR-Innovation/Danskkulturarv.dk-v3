@@ -25,12 +25,15 @@ class WPDKAObject {
 	public static $FREETEXT_SCHEMA_GUIDS = array(self::DKA_SCHEMA_GUID, self::DKA2_SCHEMA_GUID);
 	public static $FREETEXT_LANGUAGE = array(self::METADATA_LANGUAGE);
 	
+	// TODO: Consider moving this back into the harvester.
 	public static $DERIVED_FILES = array(
-		'|^(?P<streamer>rtmp://vod-bonanza\.gss\.dr\.dk/bonanza)/mp4:bonanza/(?P<filename>.+\.mp4)$|i' => 'http://om.gss.dr.dk/MediaCache/_definst_/mp4:content/bonanza/{$matches["filename"]}/Playlist.m3u8'
+		'|^(?P<streamer>rtmp://vod-bonanza\.gss\.dr\.dk/bonanza)/mp4:bonanza/(?P<filename>.+\.mp4)$|i' => 'http://om.gss.dr.dk/MediaCache/_definst_/mp4:content/bonanza/{$matches["filename"]}/Playlist.m3u8',
+		'|^(?P<streamer>rtmp://vod-kulturarv\.dr\.dk/bonanza)/mp4:bonanza/(?P<filename>.+\.mp4)$|i' => 'http://om.gss.dr.dk/MediaCache/_definst_/mp4:content/bonanza/{$matches["filename"]}/Playlist.m3u8'
 	);
 	
 	public static $KNOWN_STREAMERS = array(
 		'rtmp://vod-bonanza.gss.dr.dk/bonanza/',
+		'rtmp://vod-kulturarv.dr.dk/bonanza/',
 		'http://om.gss.dr.dk/MediaCache/_definst_/'
 	);
 
