@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dansk Kulturarv\n"
-"POT-Creation-Date: 2013-08-12 09:58+0100\n"
-"PO-Revision-Date: 2013-10-22 16:09+0100\n"
+"POT-Creation-Date: 2013-12-11 13:48+0100\n"
+"PO-Revision-Date: 2013-12-11 13:48+0100\n"
 "Last-Translator: \n"
-"Language-Team: \n"
+"Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,6 +16,7 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Textdomain-Support: yes\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
@@ -31,46 +32,48 @@ msgstr ""
 "Siden, du leder efter, eksisterer ikke. Kontroller venligst, at den "
 "indtastede adresse er korrekt."
 
-#: ../footer.php:24
+#: ../footer.php:25
 #, php-format
 msgid "%s on Facebook"
 msgstr "%s på Facebook"
 
-#: ../footer.php:24
+#: ../footer.php:25
 #, php-format
 msgid "%s on Twitter"
 msgstr "%s på Twitter"
 
 #: ../front-page.php:13 ../page.php:16 ../single.php:16
+#: ../template-advent.php:22
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Læs resten <span class=\"meta-nav\">&rarr;</span>"
 
 #: ../front-page.php:14 ../page.php:17 ../single.php:17
+#: ../template-advent.php:23
 msgid "Pages:"
 msgstr "Sider:"
 
-#: ../functions.php:117 ../single.php:27
+#: ../functions.php:124 ../single.php:27
 msgid "Post navigation"
 msgstr "Indlægsnavigation"
 
-#: ../functions.php:118
+#: ../functions.php:125
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr "<span class=\"meta-nav\">&larr;</span> Ældre indlæg"
 
-#: ../functions.php:119
+#: ../functions.php:126
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Nyere indlæg <span class=\"meta-nav\">&rarr;</span>"
 
-#: ../functions.php:134 ../functions.php:137
+#: ../functions.php:141 ../functions.php:144
 msgid ", "
 msgstr ", "
 
-#: ../functions.php:148
+#: ../functions.php:155
 #, php-format
 msgid "View all posts by %s"
 msgstr "Vis alle indlæg af %s"
 
-#: ../functions.php:154
+#: ../functions.php:161
 #, php-format
 msgid ""
 "This entry was posted in %1$s and tagged %2$s on %3$s<span class=\"by-author"
@@ -79,7 +82,7 @@ msgstr ""
 "Dette indlæg blev udgivet i %1$s og tagget %2$s den %3$s<span class=\"by-"
 "author\"> af %4$s</span>."
 
-#: ../functions.php:156
+#: ../functions.php:163
 #, php-format
 msgid ""
 "This entry was posted in %1$s on %3$s<span class=\"by-author\"> by %4$s</"
@@ -88,27 +91,27 @@ msgstr ""
 "Dette indlæg blev udgivet i %1$s den %3$s<span class=\"by-author\"> af %4$s</"
 "span>."
 
-#: ../functions.php:158
+#: ../functions.php:165
 #, php-format
 msgid "This entry was posted on %3$s<span class=\"by-author\"> by %4$s</span>."
 msgstr ""
 "Dette indlæg blev udgivet den %3$s<span class=\"by-author\"> af %4$s</span>."
 
-#: ../functions.php:192
+#: ../functions.php:199
 #, php-format
 msgid "Page %s"
 msgstr "Side %s"
 
-#: ../functions.php:330 ../functions.php:331 ../functions.php:332
+#: ../functions.php:346 ../functions.php:347 ../functions.php:348
 #, php-format
 msgid "Share on %s"
 msgstr "Del på %s"
 
-#: ../functions.php:333
+#: ../functions.php:349
 msgid "Send as e-mail"
 msgstr "Send som e-mail"
 
-#: ../index.php:17 ../page.php:12 ../single.php:12
+#: ../index.php:17 ../page.php:12 ../single.php:12 ../template-advent.php:18
 #, php-format
 msgid "Permalink to %s"
 msgstr "Permalink til %s"
@@ -123,20 +126,20 @@ msgctxt "Next post link"
 msgid "&rarr;"
 msgstr "&rarr;"
 
-#: ../templates/chaos-search-form.php:28
+#: ../templates/chaos-search-form.php:34
 msgctxt "verb"
 msgid "Search"
 msgstr "Søg"
 
-#: ../templates/chaos-search-form.php:34
+#: ../templates/chaos-search-form.php:40
 msgid "Refine search"
 msgstr "Præciser søgning"
 
-#: ../templates/chaos-search-form.php:41
+#: ../templates/chaos-search-form.php:47
 msgid "All Formats"
 msgstr "Alle Typer"
 
-#: ../templates/chaos-search-form.php:53
+#: ../templates/chaos-search-form.php:58
 msgid "All Organizations"
 msgstr "Alle Institutioner"
 
@@ -149,7 +152,7 @@ msgid "View as Gallery"
 msgstr "Vis som galleri"
 
 #: ../templates/chaos-search-results.php:31
-#: ../templates/chaos-search-results.php:87
+#: ../templates/chaos-search-results.php:115
 #, php-format
 msgid ""
 "<span class=\"hidden-sm\">The search for %s gave&nbsp;</span><span>%s "
@@ -162,18 +165,42 @@ msgstr ""
 msgid "Sort by:"
 msgstr "Sorter:"
 
-#: ../templates/multiattrwidget-sidebar.php:8
+#: ../templates/chaos-search-results.php:78
+msgid "material"
+msgid_plural "materials"
+msgstr[0] "materiale"
+msgstr[1] "materialer"
+
+#: ../templates/multiattrwidget-sidebar.php:9
 msgid "Views"
 msgstr "Visninger"
 
-#: ../templates/multiattrwidget-sidebar.php:10
+#: ../templates/multiattrwidget-sidebar.php:14
 #, php-format
 msgid "Read more at %s"
 msgstr "Læs mere hos %s"
 
-#: ../templates/multiattrwidget-sidebar.php:18
+#: ../templates/multiattrwidget-sidebar.php:27
 msgid "Tags"
 msgstr "Tags"
+
+#: ../templates/multiattrwidget-sidebar.php:34
+msgid "User Tags"
+msgstr "Brugertags"
+
+#: ../templates/multiattrwidget-sidebar.php:36
+msgid "Disable"
+msgstr "Frys"
+
+#: ../templates/multiattrwidget-sidebar.php:36
+msgid "Enable"
+msgstr "Optø"
+
+#~ msgid "Close"
+#~ msgstr "Luk"
+
+#~ msgid "Open"
+#~ msgstr "Åbn"
 
 #~ msgid "About %s"
 #~ msgstr "Om %s"

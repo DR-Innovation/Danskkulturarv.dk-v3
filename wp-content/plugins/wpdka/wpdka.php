@@ -61,6 +61,8 @@ class WPDKA {
 				add_filter('wpchaos-config', array(&$this, 'settings'));
 
 			}
+
+			add_filter('widgets_init',array(&$this,'register_widgets'));
 			
 			// Social stuff
 			add_action('wp_ajax_' . self::SOCIAL_COUNTS_AJAX, array(&$this, 'ajax_social_counts'));
@@ -465,6 +467,38 @@ class WPDKA {
 		}
 		return $file->Token . $quality;
 	}
+
+	public static function get_object_player(WPChaosObject $object = null, $autoplay = false) {
+		$return = "";
+
+		if($object == null && WPChaosClient::get_object()) {
+			$object = WPChaosClient::get_object();
+		} 
+
+		if($object) {
+				
+			$type = $object->type;
+			
+			$jwplayer_autostart = $autoplay;
+			
+			//Look in theme dir and include if found
+			ob_start();
+			if(locate_template('chaos-player-'.$type, true) == "") {
+				include(dirname(__FILE__)."/templates/player-".$type.".php");
+			}
+			$return = ob_get_contents();
+			ob_end_clean();			
+		}
+		return $return;
+	}
+
+	/**
+	 * Register widgets in WordPress
+	 * @return  void
+	 */
+	public function register_widgets() {
+		register_widget( 'WPDKAObjectPlayerWidget' );
+	}
 	
 	/**
 	 * Check if dependent plugins are active
@@ -501,6 +535,7 @@ class WPDKA {
 		require_once('wpdkasitemap.php');
 		require_once('widgets/player.php');
 		require("shortcodes.php");
+		require("wpchaosobject-filters.php");
 	}
 
 }

@@ -55,6 +55,11 @@ final class WPDKATags {
 	const TOKEN_PREFIX = 'somestring';
 
 	/**
+	 * Capability requirement to manage tags
+	 */
+	const CAPABILITY = 'moderate_comments';
+
+	/**
 	 * Plugin dependencies
 	 * @var array
 	 */
@@ -68,8 +73,9 @@ final class WPDKATags {
 	 */
 	public function __construct() {
 		if(self::check_chaosclient()) {
+
+			$this->load_dependencies();
 			if(is_admin()) {
-				$this->load_dependencies();
 
 				add_action('admin_menu', array(&$this,'add_menu_items'));
 				add_filter('wpchaos-config',array(&$this,'add_chaos_settings'));
@@ -85,6 +91,10 @@ final class WPDKATags {
 				add_action('wp_ajax_wpdkatags_flag_tag', array(&$this,'ajax_flag_tag') );
 				add_action('wp_ajax_nopriv_wpdkatags_flag_tag', array(&$this,'ajax_flag_tag') );
 
+				// Set taggable status
+				add_action('wp_ajax_wpdkatags_taggable', array(&$this,'ajax_taggable') );
+				add_action('wp_ajax_nopriv_wpdkatags_taggable', array(&$this,'ajax_taggable') );
+
 				add_action('right_now_discussion_table_end', array(&$this,'add_usertag_counts'));
 
 			} else {
@@ -92,9 +102,6 @@ final class WPDKATags {
 				add_filter('wpchaos-solr-query',array(&$this,'add_tag_search_to_query'),20,2);
 
 			}
-
-			add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags', array(&$this,'define_usertags_filter'),10,2);
-			add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags_raw', array(&$this,'define_usertags_raw_filter'),10,2);
 
 			add_action('plugins_loaded',array(&$this,'load_textdomain'));
 		}
@@ -145,11 +152,11 @@ final class WPDKATags {
 		$page = add_menu_page(
 			__('DKA User Tags',self::DOMAIN),
 			__('User Tags',self::DOMAIN),
-			'moderate_comments',
-			'wpdkatags',
+			self::CAPABILITY,
+			self::DOMAIN,
 			array(&$this,'render_tags_page'),
 			"div",
-			26
+			29.01
 		);
 		add_action( 'load-' . $page , array(&$this,'load_tags_page'));
 	}
@@ -161,9 +168,12 @@ final class WPDKATags {
 		$action = (isset($_REQUEST['action']) && $_REQUEST['action'] != -1 ? $_REQUEST['action'] : (isset($_REQUEST['action2']) && $_REQUEST['action2'] != -1 ? $_REQUEST['action2'] : false));
 
 		if($action && isset($_REQUEST[WPDKATagObjects_List_Table::NAME_SINGULAR])) {
-			
+
+			if(!current_user_can(self::CAPABILITY)) {
+				wp_die("Unauthorized request");
+			}
+
 			//TODO: nonce check here
-			//TODO: perms check here
 			
 			$tags = $_REQUEST[WPDKATagObjects_List_Table::NAME_SINGULAR];
 			if(!is_array($tags)) {
@@ -216,7 +226,7 @@ final class WPDKATags {
 						//When we delete, we actually move the tag to a specific folder.
 						//Consider it a trash can
 						foreach($tags as $tag) {
-							$serviceResult = WPChaosClient::instance()->Link()->Update($tag, self::TAGS_FOLDER_ID, self::TAGS_FOLDER_DELETE_ID);
+							WPChaosClient::instance()->Link()->Update($tag, self::TAGS_FOLDER_ID, self::TAGS_FOLDER_DELETE_ID);
 							$count++;
 						}
 						break;
@@ -319,7 +329,7 @@ final class WPDKATags {
 			throw new \RuntimeException("Invalid tag input");
 		}
 
-		if(!check_ajax_referer('bulk-'.WPDKATagObjects_List_Table::NAME_PLURAL, 'nonce', false)) {
+		if(!check_ajax_referer('bulk-'.WPDKATagObjects_List_Table::NAME_PLURAL, 'nonce', false) || !current_user_can(WPDKATags::CAPABILITY)) {
 			_e('Unauthorized request.',self::DOMAIN);
 			throw new \RuntimeException("Nonce not valid");
 		}
@@ -396,6 +406,46 @@ final class WPDKATags {
 	}
 
 	/**
+	 * Handle AJAX request to toggle taggable state of object metadata
+	 * @return void
+	 */
+	public function ajax_taggable() {
+		
+		//iff status == active
+		if(get_option('wpdkatags-status',0) != '2' || !current_user_can(WPDKATags::CAPABILITY)) {
+			_e('Unauthorized request.',self::DOMAIN);
+			throw new \RuntimeException("Cheating uh?");
+		}
+
+		if(!isset($_POST['object_guid']) || !check_ajax_referer(self::TOKEN_PREFIX.$_POST['object_guid'], 'token', false)) {
+			_e('Unauthorized request.',self::DOMAIN);
+			throw new \RuntimeException("Object GUID not valid");
+		}
+
+		$object = self::get_object_by_guid($_POST['object_guid']);
+		
+		if($object == null) {
+			_e('Object could not be found in CHAOS.',self::DOMAIN);
+			throw new \RuntimeException("Object could not be found");
+		}
+
+		$taggable = isset($_POST['taggable']) ? (bool)$_POST['taggable'] : 0;
+		
+		if($this->_change_object_taggable($object, $taggable)) {
+			$response = array(
+				sprintf(__('Object now %s for user tags',self::DOMAIN),($taggable ? __('open',self::DOMAIN) : __('closed',self::DOMAIN)))
+			);
+		} else {
+			_e('Could not toggle taggable state of object.',self::DOMAIN);
+			throw new \RuntimeException("Something went wrong toggling taggable state");  
+		}
+
+		echo json_encode($response);
+		die();
+		
+	}
+
+	/**
 	 * Handle AJAX request and response of (frontend) tag submission
 	 * @return void
 	 */
@@ -426,8 +476,8 @@ final class WPDKATags {
 
 		$object = self::get_object_by_guid($_POST['object_guid']);
 		
-		if($object == null) {
-			_e('Tag could not be found in CHAOS.',self::DOMAIN);
+		if($object == null || !$object->taggable) {
+			_e('Tag could not be added.',self::DOMAIN);
 			throw new \RuntimeException("Object could not be found");
 		}
 
@@ -449,12 +499,6 @@ final class WPDKATags {
 			_e('Tag could not be added.',self::DOMAIN);
 			throw new \RuntimeException("Tag could not be added to CHAOS");
 		}
-		
-		// $tag_input = esc_html($_POST['tag']);
-		// $response = array(
-		//     'title' => $tag_input,
-		//     'link' => WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag_input))
-		// );
 		
 		echo json_encode($response);
 		die();
@@ -509,6 +553,33 @@ final class WPDKATags {
 			error_log('CHAOS Error when adding tag: '.$e->getMessage());
 			return false;
 		}
+	}
+
+	/**
+	 * Change taggable state of object
+	 * @author Joachim Jensen <jv@intox.dk>
+	 * @param  WPChaosObject $object
+	 * @param  boolean       $taggable
+	 * @return boolean
+	 */
+	private function _change_object_taggable(WPChaosObject $object,$taggable) {
+
+		try {
+
+			$metadataXML = $object->get_metadata(WPDKAObject::DKA_CROWD_SCHEMA_GUID);
+
+			$node = $metadataXML->xpath('/dkac:DKACrowd');
+			$node[0]->Taggable = ($taggable ? 'true' : 'false');
+
+			$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA_CROWD_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+		
+			return true;
+				
+			} catch(\Exception $e) {
+				error_log('CHAOS Error when changing tag state: '.$e->getMessage());
+			}
+		
+		return false;
 	}
 
 	/**
@@ -612,117 +683,6 @@ final class WPDKATags {
 			error_log('CHAOS Error when getting object by guid: '.$e->getMessage());
 		}
 		return empty($objects) ? null : $objects[0];
-	}
-
-	/**
-	 * Create usertags_raw property for WPChaosObject
-	 * @param  mixed            $value
-	 * @param  WPChaosObject    $object
-	 * @return array
-	 */
-	public function define_usertags_raw_filter($value,WPChaosObject $object) {
-		$relation_guids = array();
-		foreach($object->ObjectRelations as $relation) {
-			$guid_property = "Object2GUID"; //tag is always saved here.
-			//Because we know which relation is tag, we can safely
-			//skip the relations where GUID == Object2GUID
-			if($object->GUID == $relation->{$guid_property}) {
-				continue;
-			}
-			$relation_guids[] = $relation->{$guid_property};
-		}
-		$tags = array();
-		if(!empty($relation_guids)) {
-			try {
-				//+AND+(!".self::FACET_KEY_STATUS.":".self::TAG_STATE_FLAGGED.")
-				// $serviceResult = WPChaosClient::instance()->Object()->Get(
-				// 	"(GUID:(".implode(" OR ", $relation_guids).") AND (ObjectTypeID:".self::TAG_TYPE_ID."))",   // Search query
-				// 	null,   // Sort
-				// 	false,   // Use session instead of AP
-				// 	0,      // pageIndex
-				// 	count($relation_guids),      // pageSize
-				// 	true,   // includeMetadata
-				// 	false,   // includeFiles
-				// 	false    // includeObjectRelations
-				// );
-				
-				//Query will quickly become too long for GET. Using POST instead to handle more data
-				$serviceResult = WPChaosClient::instance()->CallService("Object/Get", CHAOS\Portal\Client\IServiceCaller::POST, array(
-					"query" => "(GUID:(".implode(" OR ", $relation_guids).") AND (ObjectTypeID:".self::TAG_TYPE_ID.") AND (FolderID:".self::TAGS_FOLDER_ID."))",
-					"sort" => null,
-					"accessPointGUID" => false,
-					"includeMetadata" => true,
-					"includeFiles" => false,
-					"includeObjectRelations" => false,
-					"includeAccessPoints" => false,
-					"pageIndex" => 0,
-					"pageSize" => count($relation_guids)));
-				$tags = WPChaosObject::parseResponse($serviceResult);
-			} catch(\CHAOSException $e) {
-				error_log('CHAOS Error when getting user tags for object: '.$e->getMessage());
-			}			
-		}
-
-		return $tags;
-	}
-
-	/**
-	 * Create usertags property for WPChaosObject
-	 * @param  mixed            $value
-	 * @param  WPChaosObject    $object
-	 * @return string
-	 */
-	public function define_usertags_filter($value, $object) {
-
-		$status = intval(get_option('wpdkatags-status',0));
-
-		//iff status == active or frozen
-		if($status > 0) {
-			$tags = $object->usertags_raw;
-			
-			$value .= '<div class="usertags">';
-			foreach($tags as $key => $tag) {
-				//Get tag XML meta
-				$tag_meta = $tag->metadata(
-					array(WPDKATags::METADATA_SCHEMA_GUID),
-					array(''),
-					null
-					);
-				//We do not want flagged tags
-				if($tag_meta['status'] == self::TAG_STATE_FLAGGED) {
-					unset($tags[$key]);
-					continue;
-				}
-				$link = WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag_meta));
-				$flag = ($tag_meta['status'] == self::TAG_STATE_UNAPPROVED ? '<i class="icon-remove flag-tag" id="'.$tag->GUID.'"></i>' : '');
-				$value .= '<a class="usertag tag" href="'.$link.'" title="'.esc_attr($tag_meta).'">'.$tag_meta.$flag.'</a>'."\n";
-			}
-			if(empty($tags)) {
-				$value .= '<div class="alert alert-info">'.__('No user tags',self::DOMAIN).'</div>'."\n";
-			}
-			$value .= '</div>';
-
-			//Iff status == active
-			if($status == 2) {
-
-				$value .= '<div class="input-group">';
-				$value .= '<input type="text" class="form-control" id="usertag-add" value="">';
-				$value .= '<span class="input-group-btn"><button class="btn btn-default" type="button" id="usertag-submit">'.__('Add tag',self::DOMAIN).'</button></span>';
-				$value .= '</div>';
-
-				wp_enqueue_script('dka-usertags',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
-				$translation_array = array(
-					'confirmTitle' => __('Confirm flagging',self::DOMAIN),
-					'confirmBody' => __('Are you sure you want to flag this tag?',self::DOMAIN),
-					'yes' => __('Yes'),
-					'no' => __('No'),
-					'ajaxurl' => admin_url( 'admin-ajax.php' ),
-					'token' => wp_create_nonce(self::TOKEN_PREFIX.$object->GUID)
-					);
-				wp_localize_script( 'dka-usertags', 'WPDKATags', $translation_array );
-			}
-		}
-		return $value;
 	}
 
 	public function add_usertag_counts() {
@@ -846,12 +806,16 @@ final class WPDKATags {
 	 * @return void
 	 */
 	private function load_dependencies() {
-		//WP_List_Table might not be available automatically
-		if(!class_exists('WP_List_Table')){
-			require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+		if(is_admin()) {
+			//WP_List_Table might not be available automatically
+			if(!class_exists('WP_List_Table')){
+				require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+			}
+			require_once("wpdkatags-list-table.php");
+			require_once("wpdkatagobjects-list-table.php");			
 		}
-		require_once("wpdkatags-list-table.php");
-		require_once("wpdkatagobjects-list-table.php");
+		require_once("wpchaosobject-filters.php");
+
 	}
 
 

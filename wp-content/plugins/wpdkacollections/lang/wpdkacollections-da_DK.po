@@ -1,123 +1,230 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WPDKATags\n"
-"POT-Creation-Date: 2013-10-23 16:37+0100\n"
-"PO-Revision-Date: 2013-10-23 17:03+0100\n"
+"Project-Id-Version: WPDKACollections\n"
+"POT-Creation-Date: 2013-12-11 11:23+0100\n"
+"PO-Revision-Date: 2013-12-11 11:24+0100\n"
 "Last-Translator: \n"
-"Language-Team: \n"
+"Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-Basepath: .\n"
 "X-Textdomain-Support: yes\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../wpdkacollectionobjects-list-table.php:28
-#, php-format
-msgid "Collection: %s"
-msgstr "Samling: %s"
+#: ../wpchaosobject-filters.php:15
+msgid "No title"
+msgstr "Ingen titel"
 
-#: ../wpdkacollectionobjects-list-table.php:60
-#, php-format
-msgid "%s ago"
-msgstr "%s siden"
-
-#: ../wpdkacollectionobjects-list-table.php:78
-#: ../wpdkacollections-list-table.php:120
-msgid "Edit"
-msgstr "Rediger"
-
-#: ../wpdkacollectionobjects-list-table.php:79
-#: ../wpdkacollectionobjects-list-table.php:146
+#: ../wpdkacollectionobjects-list-table.php:115
+#: ../wpdkacollectionobjects-list-table.php:167
 msgid "Remove"
 msgstr "Fjern"
 
-#: ../wpdkacollectionobjects-list-table.php:80
-#, fuzzy
-msgid "Show material"
-msgstr "CHAOS materiale"
-
-#: ../wpdkacollectionobjects-list-table.php:111
-#, fuzzy
-msgid "Material Title"
-msgstr "Materiale"
-
-#: ../wpdkacollectionobjects-list-table.php:112
-msgid "Date"
-msgstr "Dato"
-
-#: ../wpdkacollections-list-table.php:37 ../wpdkacollections.php:82
-#, fuzzy
-msgid "Collections"
-msgstr "Instruktion"
-
-#: ../wpdkacollections-list-table.php:63
-#, fuzzy, php-format
-msgctxt "posts"
-msgid "All <span class=\"count\">(%s, %s unique)</span>"
-msgid_plural "All <span class=\"count\">(%s, %s unique)</span>"
-msgstr[0] "Alle <span class=\"count\">(%s)</span>"
-msgstr[1] "Alle <span class=\"count\">(%s)</span>"
-
-#: ../wpdkacollections-list-table.php:65
-msgid "Add new collection"
-msgstr "Tilføj ny samling"
-
-#: ../wpdkacollections-list-table.php:121
-#: ../wpdkacollections-list-table.php:197
-msgid "Delete"
-msgstr "Slet"
-
-#: ../wpdkacollections-list-table.php:152
+#: ../wpdkacollectionobjects-list-table.php:146
+#: ../wpdkacollections-list-table.php:139 ../wpdkacollections.php:226
 msgid "Title"
 msgstr "Titel"
 
-#: ../wpdkacollections-list-table.php:153
-msgid "Quantity"
-msgstr "Kvantitet"
+#: ../wpdkacollectionobjects-list-table.php:147
+msgid "Organization"
+msgstr "Organisation"
 
-#: ../wpdkacollections.php:182
-#, fuzzy, php-format
-msgid "Edit %s"
-msgstr "Rediger"
+#: ../wpdkacollectionobjects-list-table.php:174
+msgid "Save new sorting"
+msgstr "Gem ny sortering"
 
-#: ../wpdkacollections.php:185 ../wpdkacollections.php:318
-#, fuzzy
+#: ../wpdkacollectionobjects-list-table.php:193
+#: ../wpdkacollections-list-table.php:22 ../wpdkacollections.php:526
+msgid "DKA Collections"
+msgstr "DKA Samlinger"
+
+#: ../wpdkacollections-list-table.php:25 ../wpdkacollections.php:127
+msgid "Published"
+msgstr "Udgivet"
+
+#: ../wpdkacollections-list-table.php:27
+msgid "Publish"
+msgstr "Udgiv"
+
+#: ../wpdkacollections-list-table.php:30 ../wpdkacollections-list-table.php:32
+#: ../wpdkacollections.php:128
+msgid "Draft"
+msgstr "Kladde"
+
+#: ../wpdkacollections-list-table.php:60
+#, php-format
+msgctxt "posts"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] "Alle <span class=\"count\">(%s)</span>"
+msgstr[1] "Alle <span class=\"count\">(%s)</span>"
+
+#: ../wpdkacollections-list-table.php:99
+msgid "Quick Edit"
+msgstr "Lynrediger"
+
+#: ../wpdkacollections-list-table.php:100
+#: ../wpdkacollections-list-table.php:169
+msgid "Delete"
+msgstr "Slet"
+
+#: ../wpdkacollections-list-table.php:140 ../wpdkacollections.php:227
+msgid "Description"
+msgstr "Beskrivelse"
+
+#: ../wpdkacollections-list-table.php:141 ../wpdkacollections.php:224
+msgid "Rights"
+msgstr "Rettigheder"
+
+#: ../wpdkacollections-list-table.php:142 ../wpdkacollections.php:225
+msgid "Type"
+msgstr "Type"
+
+#: ../wpdkacollections-list-table.php:143
+msgid "Status"
+msgstr "Status"
+
+#: ../wpdkacollections-list-table.php:144
+msgid "Materials"
+msgstr "Materialer"
+
+#: ../wpdkacollections.php:122
+msgid "Theme"
+msgstr "Tema"
+
+#: ../wpdkacollections.php:124
+msgid "Series"
+msgstr "Serie"
+
+#: ../wpdkacollections.php:137
+#, php-format
+msgid "%d collection %s successfully!"
+msgid_plural "%d collections %s successfully!"
+msgstr[0] "%d samling %s!"
+msgstr[1] "%d samlinger %s!"
+
+#: ../wpdkacollections.php:144
+#, php-format
+msgid "%d object %s successfully!"
+msgid_plural "%d objects %s successfully!"
+msgstr[0] "%d materiale %s!"
+msgstr[1] "%d materialer %s!"
+
+#: ../wpdkacollections.php:197
+msgid "deleted"
+msgstr "slettet"
+
+#: ../wpdkacollections.php:199
+msgid "removed"
+msgstr "fjernet"
+
+#: ../wpdkacollections.php:216
 msgid "Collection"
-msgid_plural "Collections"
-msgstr[0] "Instruktion"
-msgstr[1] "Instruktion"
+msgstr "Samling"
 
-#: ../wpdkacollections.php:187
-msgid "Save"
-msgstr "Gem"
+#: ../wpdkacollections.php:217
+msgid "Material"
+msgstr "Materiale"
 
-#: ../wpdkacollections.php:193
-msgid "Collection was updated."
-msgstr "Samling opdateret."
+#: ../wpdkacollections.php:218
+msgid "Add"
+msgstr "Tilføj"
 
-#: ../wpdkacollections.php:358
-#, fuzzy
+#: ../wpdkacollections.php:219
+msgid "Create"
+msgstr "Opret"
+
+#: ../wpdkacollections.php:220
+msgctxt "page"
+msgid "Add New"
+msgstr "Tilføj ny"
+
+#: ../wpdkacollections.php:221 ../wpdkacollections.php:601
+msgid "Cancel"
+msgstr "Cancel"
+
+#: ../wpdkacollections.php:222
+msgid "Add material to collection"
+msgstr "Tilføj materiale til samling"
+
+#: ../wpdkacollections.php:223
+msgid "Create collection"
+msgstr "Opret samling"
+
+#: ../wpdkacollections.php:327
+msgid "Missing title"
+msgstr "Ingen titel"
+
+#: ../wpdkacollections.php:336
+msgid "Collection could not be added"
+msgstr "Samling kunne ikke tilføjes"
+
+#: ../wpdkacollections.php:527
+msgid "Collections"
+msgstr "Samlinger"
+
+#: ../wpdkacollections.php:599
+msgid "Are you sure you want to delete this item permanently?"
+msgstr ""
+"Du er ved at slette dette element permanent.\n"
+"  'Annuller' for at stoppe, 'OK' for at slette."
+
+#: ../wpdkacollections.php:600
+msgid "Update"
+msgstr "Opdater"
+
+#: ../wpdkacollections.php:937
 msgid "WordPress DKA Collections"
-msgstr "WordPress DKA Tags"
+msgstr "WordPress DKA Samlinger"
 
-#: ../wpdkacollections.php:358
+#: ../wpdkacollections.php:937
 #, php-format
 msgid "needs %s to be activated."
 msgstr "kræver at %s er aktiveret."
 
+#~ msgid "Exhibition"
+#~ msgstr "Udstilling"
+
+#~ msgid "Unknown type"
+#~ msgstr "Ukendt type"
+
+#~ msgid "Collection: %s"
+#~ msgstr "Samling: %s"
+
+#~ msgid "%s ago"
+#~ msgstr "%s siden"
+
+#~ msgid "Edit"
+#~ msgstr "Rediger"
+
+#, fuzzy
+#~ msgid "Show material"
+#~ msgstr "CHAOS materiale"
+
+#~ msgid "Date"
+#~ msgstr "Dato"
+
+#~ msgid "Quantity"
+#~ msgstr "Kvantitet"
+
+#, fuzzy
+#~ msgid "Edit %s"
+#~ msgstr "Rediger"
+
+#~ msgid "Save"
+#~ msgstr "Gem"
+
 #~ msgid "Show"
 #~ msgstr "Vis"
-
-#~ msgid "Status"
-#~ msgstr "Status"
 
 #~ msgid "Unapproved"
 #~ msgstr "Ikke godkendt"
@@ -176,9 +283,6 @@ msgstr "kræver at %s er aktiveret."
 #~ msgid "Loading the player ..."
 #~ msgstr "Henter afspiller ..."
 
-#~ msgid " without title"
-#~ msgstr " uden titel"
-
 #~ msgid "Year "
 #~ msgstr "Året "
 
@@ -192,9 +296,6 @@ msgstr "kræver at %s er aktiveret."
 
 #~ msgid "Cinematography"
 #~ msgstr "Kinematografi"
-
-#~ msgid "Creator"
-#~ msgstr "Skaber"
 
 #~ msgid "Directors"
 #~ msgstr "Instruktører"
@@ -360,9 +461,6 @@ msgstr "kræver at %s er aktiveret."
 
 #~ msgid "All Formats"
 #~ msgstr "Alle Typer"
-
-#~ msgid "All Organizations"
-#~ msgstr "Alle Organisationer"
 
 #~ msgid "Views"
 #~ msgstr "Visninger"

@@ -1,17 +1,5 @@
 <?php
-/************************** CREATE A PACKAGE CLASS *****************************
- *******************************************************************************
- * Create a new list table package that extends the core WP_List_Table class.
- * WP_List_Table contains most of the framework for generating the table, but we
- * need to define and override some methods so that our data can be displayed
- * exactly the way we need it to be.
- * 
- * To display this example on a page, you will first need to instantiate the class,
- * then call $yourInstance->prepare_items() to handle any data manipulation, then
- * finally call $yourInstance->display() to render the table to the page.
- * 
- * Our theme for this list table is going to be movies.
- */
+
 class WPDKATags_List_Table extends WP_List_Table {
 
 	const NAME_SINGULAR = 'dka-tag';
@@ -21,7 +9,6 @@ class WPDKATags_List_Table extends WP_List_Table {
 	protected $states;
 	
 	public function __construct($args = array()){
-		global $status, $page;
 
 		$args = wp_parse_args( $args, array(
 			'singular'  => self::NAME_SINGULAR,
@@ -101,7 +88,6 @@ class WPDKATags_List_Table extends WP_List_Table {
 
 		$class = empty($_REQUEST['tag_status']) ? ' class="current"' : '';
 		$status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_count, 'posts' ), number_format_i18n($total_count) ) . '</a>';
-		// $status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s, %s unique)</span>', 'All <span class="count">(%s, %s unique)</span>', $total_count, 'posts' ), $total_count, number_format_i18n( $this->get_pagination_arg('total_items') ) ) . '</a>';
 
 		foreach($this->states as $status_key => $status) {
 			$class = '';

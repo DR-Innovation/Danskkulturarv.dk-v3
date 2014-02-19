@@ -5,24 +5,36 @@ class WPDKACollections_List_Table extends WP_List_Table {
 	const NAME_SINGULAR = 'dka-collection';
 	const NAME_PLURAL = 'dka-collections';
 
-	// Needs to be changed to collection.
-	const FACET_KEY_VALUE = 'DKA-Collection-Value_string';
-	const FACET_KEY_STATUS = 'DKA-Collection-Status_string';
-	const FACET_KEY_CREATED = 'DKA-Collection-Created_date';
-
 	protected $title;
+	protected $states;
 	
-	public function __construct(){
-		global $status, $page;
+	/**
+	 * Constructor
+	 */
+	public function __construct($args = array()){
 				
-		//Set parent defaults
-		parent::__construct( array(
+        $args = wp_parse_args( $args, array(
 			'singular'  => self::NAME_SINGULAR,
 			'plural'    => self::NAME_PLURAL,
 			'ajax'      => false        //does this table support ajax?
 		) );
+				
+		//Set parent defaults
+		parent::__construct( $args );
 
-		$this->title = __('Collections', 'wpdkacollections');
+		$this->title = __('DKA Collections', WPDKACollections::DOMAIN);
+		$this->states = array(
+			'publish' => array(
+				'title' => __('Published',WPDKACollections::DOMAIN),
+				'count' => 0,
+				'action' => __('Publish',WPDKACollections::DOMAIN)
+			),
+			'draft' => array(
+				'title' => __('Draft',WPDKACollections::DOMAIN),
+				'count' => 0,
+				'action' => __('Draft',WPDKACollections::DOMAIN)
+			)
+		);
 	}
 
 	public function get_title() {
@@ -36,7 +48,7 @@ class WPDKACollections_List_Table extends WP_List_Table {
 
 		$total_count = 0;
 		$facets = array();
-		$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(self::FACET_KEY_STATUS)), null, false);
+		$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(WPDKACollections::FACET_KEY_STATUS)), "(FolderID:".WPDKACollections::COLLECTIONS_FOLDER_ID.")", false);
 
 		foreach($facetsResponse->Index()->Results() as $facetResult) {
 			foreach($facetResult->FacetFieldsResult as $fieldResult) {
@@ -48,11 +60,18 @@ class WPDKACollections_List_Table extends WP_List_Table {
 		}
 
 		$status_links = array();
-		$status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'" class="current">' . sprintf( _nx( 'All <span class="count">(%s, %s unique)</span>', 'All <span class="count">(%s, %s unique)</span>', $total_count, 'posts' ), $total_count, number_format_i18n( $this->get_pagination_arg('total_items') ) ) . '</a>';
+
+		$class = empty($_REQUEST['tag_status']) ? ' class="current"' : '';
+		$status_links['all'] = '<a href="admin.php?page='.$this->screen->parent_base.'"'.$class.'>' . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_count, 'posts' ), number_format_i18n($total_count) ) . '</a>';
 		
-		//$status_links['add'] = '<a href="admin.php?page='.$this->screen->parent_base.'&amp;subpage=wpdkacollection-objects" class="addCollection">' . __('Add new collection','wpdkacollections') . '</a>';
-		//wp_enqueue_script('bootstrapjs',plugins_url( 'js/bootstrap.min.js' , __FILE__ ),array('jquery'),'1.0',true);
-		//wp_enqueue_style('bootstrapcss', plugins_url( 'css/bootstrap.min.css' , __FILE__ ),true);
+		foreach($this->states as $status_key => $status) {
+			$class = '';
+			$count = (isset($facets[$status_key]) ? $facets[$status_key] : 0);
+			if(isset($_REQUEST['tag_status']) && $_REQUEST['tag_status'] == $status_key)
+				$class = ' class="current"';
+			$status_links[$status_key] = '<a href="admin.php?page='.$this->screen->parent_base.'&amp;tag_status='.$status_key.'"'.$class.'>'. sprintf( '%s <span class="count">(%s)</span>', $status['title'], number_format_i18n( $count ) ) . '</a>';
+		}
+
 		return $status_links;
 	}
 	
@@ -80,8 +99,7 @@ class WPDKACollections_List_Table extends WP_List_Table {
 
 		$actions = array();
 
-		$actions['quickedit'] = '<a class="wpdkacollections-quickedit" href="#">'.__('Quick Edit').'</a>';
-		
+		$actions['quickedit'] = '<a class="wpdkacollections-quickedit" href="#" id="'.$item->GUID.'">'.__('Quick Edit').'</a>';		
 		$actions['delete'] = '<a class="submitdelete" href="'.add_query_arg(array('action' => 'delete'), $current_page).'">'.__('Delete').'</a>';
 		
 		//Return the title contents
@@ -137,8 +155,9 @@ class WPDKACollections_List_Table extends WP_List_Table {
      */
 	public function get_sortable_columns() {
 		$sortable_columns = array(
-			'title'     => array('title',false),     //true means it's already sorted
-			'quantity'    => array('quantity',true)
+			'title'    => array(WPDKACollections::FACET_KEY_TITLE,false),
+			'type'      => array(WPDKACollections::FACET_KEY_TYPE,false),
+			'status'      => array(WPDKACollections::FACET_KEY_STATUS,false)
 		);
 		return $sortable_columns;
 	}
@@ -150,15 +169,12 @@ class WPDKACollections_List_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 		$actions = array(
-			'delete' => __('Delete', 'wpdkacollections')
+			'delete' => __('Delete', WPDKACollections::DOMAIN)
 		);
 		return $actions;
 	}
 
-	function extra_tablenav( $which ) {
-		if ( $which == "top" ){
-			echo '<input href="" type="submit" id="add-collection" class="button-secondary" value="' . __('Add collection', 'wpdkacollections') . '" />';
-		}
+	public function extra_tablenav( $which ) {
 	}
 	
 	/**
@@ -172,10 +188,24 @@ class WPDKACollections_List_Table extends WP_List_Table {
 		$hidden = array();
 		$this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());
 
+		//Append status query if present
+		$query = '(FolderID:'.WPDKACollections::COLLECTIONS_FOLDER_ID.')';
+		if(isset($_GET['tag_status'])) {
+			$query .= " AND (".WPDKACollections::FACET_KEY_STATUS.":".$_GET['tag_status'].")";
+		}
+
+		//Sort query
+		$sort = WPDKACollections::FACET_KEY_TITLE.'+asc';
+		if(isset($_REQUEST['orderby']) && isset($_REQUEST['order'])) {
+			$orderby = (in_array($_REQUEST['orderby'],array(WPDKACollections::FACET_KEY_TITLE,WPDKACollections::FACET_KEY_TYPE,WPDKACollections::FACET_KEY_STATUS)) ? $_REQUEST['orderby'] : WPDKACollections::FACET_KEY_TITLE);
+			$order = (in_array($_REQUEST['order'],array('asc','desc')) ? $_REQUEST['order'] : 'asc');
+			$sort = $orderby."+".$order;
+		}
+
 		$response = WPChaosClient::instance()->Object()->Get(
-				'(FolderID:'.WPDKACollections::COLLECTIONS_FOLDER_ID.')',   // Search query
-				null,   // Sort
-				false, 
+				$query,   // Search query
+				$sort,   // Sort
+				null, 
 				$this->get_pagenum()-1,      // pageIndex
 				$per_page,      // pageSize
 				true,   // includeMetadata

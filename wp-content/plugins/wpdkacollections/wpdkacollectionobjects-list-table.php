@@ -2,188 +2,255 @@
 
 class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 
-    const NAME_SINGULAR = 'dka-collection-object';
-    const NAME_PLURAL = 'dka-collection-objects';
+	const NAME_SINGULAR = 'dka-material';
+	const NAME_PLURAL = 'dka-materials';
 
-    protected $_current_collection;
+	protected $_current_collection;
 
-    /**
-     * Constructor
-     */
-    public function __construct(){
-        global $status, $page;
-                
-        //Set parent defaults
-        parent::__construct( array(
-            'singular'  => self::NAME_SINGULAR,
-            'plural'    => self::NAME_PLURAL,
-            'ajax'      => false        //does this table support ajax?
-        ) );
+	/**
+	 * Constructor
+	 */
+	public function __construct($args = array()){
+				
+		$args = wp_parse_args( $args, array(
+			'singular'  => self::NAME_SINGULAR,
+			'plural'    => self::NAME_PLURAL,
+			'ajax'      => false        //does this table support ajax?
+		) );
+				
+		//Set parent defaults
+		parent::__construct( $args );
 
-        $this->title = sprintf(__('Collection: %s', 'wpdkacollections'), $this->get_current_collection());
-    }
+		$this->title = '<a href="'.add_query_arg('page',WPDKACollections::DOMAIN,'admin.php').'">'.__('DKA Collections', WPDKACollections::DOMAIN).'</a>';
 
-    /**
-     * Get current collection (if there are any)
-     * @return string
-     */
-    protected function get_current_collection() {
-        return $this->_current_collection;
-    }
+		wp_enqueue_script('jquery-ui-sortable');
+		add_action('admin_footer', function() {
+			?>
+			<script type="text/javascript">
+				jQuery(document).ready(function($) {
+					// Return a helper with preserved width of cells
+					var fixHelper = function(e, ui) {
+						ui.children().each(function() {
+							$(this).width($(this).width());
+						});
+						return ui;
+					};
 
-        /**
-     * Display the list of views available on this table.
-     */
-    public function get_views() {
+					$(".dka-materials tbody").sortable({
+						helper: fixHelper,
+						forcePlaceholderSize: true,
+						axis: "y"
+					}).disableSelection();
 
-        
-    }
+					var wpdkaSortGuids = [];
 
-    /**
-     * Render columns.
-     * Fallback if function column_{name} does not exist
-     * @param  WPChaosObject    $item
-     * @param  string           $column_name
-     * @return string
-     */
-    protected function column_default($item, $column_name) {
-        return $item->$column_name;
-    }
+					$('#wpdkacollections-sort').click(function(e) {
+						e.preventDefault();
+						wpdkaSortGuids = [];
+						$('.dka-materials tbody input:checkbox').each( function() {
+							 wpdkaSortGuids.push($(this).val());
+						});
 
-    /**
-     * Render title column
-     * @param  WPChaosObject    $item
-     * @return string
-     */
-    protected function column_title($item) {
-        
-        //Build row actions
-        // $actions = array(
-        //     'edit' => '<a href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'edit', $this->_args['singular'] => $item->GUID), 'admin.php').'">'.__('Edit','wpdkacollections').'</a>',
-        //     'remove' => '<a class="submitdelete" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'action' => 'remove', $this->_args['singular'] => $item->GUID), 'admin.php').'">'.__('Remove','wpdkacollections').'</a>',
-        //     'show' => '<a href="'.$this->_collections_related_item[$item->ObjectRelations[0]->Object1GUID]->url.'" target="_blank">'.__('Show material').'</a>'
-        // );
-        $actions = array();
+						var button = $(this);
+						button.attr('disabled',true);
 
-        //Return the title contents
-        return sprintf('<strong><a href="%1$s">%2$s</a></strong>%3$s',
-            $item->url,
-            $item->title,
-            $this->row_actions($actions)
-        );
-    }
+						$.ajax({
+							url: ajaxurl,
+							data:{
+								action: 'wpdkacollections_sortable',
+								guids: wpdkaSortGuids,
+								collection_guid: $('input[name="dka-collection"]').val(),
+								nonce: $("#_wpnonce").val()
+							},
+							dataType: 'JSON',
+							type: 'POST',
+							success:function(data){
+								console.log(data);
+								button.attr('disabled',false);
+								
+							},
+							error: function(errorThrown){
+								button.attr('disabled',false);
+							}
+						});
+					});
+					
+				});
+			</script>
+			<?php
+		});
+	}
 
-    /**
-     * Render checkbox column
-     * @param  WPChaosObject    $item
-     * @return string
-     */
-    protected function column_cb($item) {
-        return sprintf(
-            '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-            /*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("movie")
-            /*$2%s*/ $item->GUID                //The value of the checkbox should be the record's id
-        );
-    }
+	/**
+	 * Get current collection (if there are any)
+	 * @return string
+	 */
+	protected function get_current_collection() {
+		return $this->_current_collection;
+	}
 
-    /**
-     * Get list of registered columns
-     * @return array
-     */
-    public function get_columns() {
-        $columns = array(
-            'cb'        => '<input type="checkbox" />',
-            'title'     => __('Title'),
-            'organization'      => __('Organization', 'wpdkacollections')
-        );
-        return $columns;
-    }
+	/**
+	 * Display the list of views available on this table.
+	 */
+	public function get_views() {
+	}
 
-    /**
-     * Get list of registered sortable columns
-     * @return array
-     */
-    public function get_sortable_columns() {
-        $sortable_columns = array(
-            'title'     => array('title',false), //true means it's already sorted
-            'date'      => array('date',true)
-        );
-        return $sortable_columns;
-    }
-    
-    
+	/**
+	 * Render columns.
+	 * Fallback if function column_{name} does not exist
+	 * @param  WPChaosObject    $item
+	 * @param  string           $column_name
+	 * @return string
+	 */
+	protected function column_default($item, $column_name) {
+		return $item->$column_name;
+	}
+
+	/**
+	 * Render title column
+	 * @param  WPChaosObject    $item
+	 * @return string
+	 */
+	protected function column_title($item) {
+		
+		//Build row actions
+		$actions = array(
+			'remove' => '<a class="submitdelete" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'subpage'=> 'wpdkacollection-objects', 'action' => 'remove', 'dka-collection' => $this->_current_collection->GUID, 'dka-material' => $item->GUID),  'admin.php').'">'.__('Remove',WPDKACollections::DOMAIN).'</a>'
+		);
+
+		//Return the title contents
+		return sprintf('<strong><a href="%1$s">%2$s</a></strong>%3$s',
+			$item->url,
+			$item->title,
+			$this->row_actions($actions)
+		);
+	}
+
+	/**
+	 * Render checkbox column
+	 * @param  WPChaosObject    $item
+	 * @return string
+	 */
+	protected function column_cb($item) {
+		return sprintf(
+			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
+			/*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("movie")
+			/*$2%s*/ $item->GUID                //The value of the checkbox should be the record's id
+		);
+	}
+
+	/**
+	 * Get list of registered columns
+	 * @return array
+	 */
+	public function get_columns() {
+		$columns = array(
+			'cb'        => '<input type="checkbox" />',
+			'title'     => __('Title'),
+			'organization'      => __('Organization', WPDKACollections::DOMAIN)
+		);
+		return $columns;
+	}
+
+	/**
+	 * Get list of registered sortable columns
+	 * @return array
+	 */
+	public function get_sortable_columns() {
+		return array();
+	}
+	
+	
 	/**
 	 * Get list of bulk actions
 	 * @return array
 	 */
-    public function get_bulk_actions() {
-        $actions = array(
-            'remove' => __('Remove', 'wpdkacollections')
-        );
-        return $actions;
-    }
+	public function get_bulk_actions() {
+		$actions = array(
+			'remove' => __('Remove', WPDKACollections::DOMAIN)
+		);
+		return $actions;
+	}
 
-    function extra_tablenav( $which ) {
-        if ( $which == "top" ){
-            echo '<input href="" type="submit" class="button-secondary" id="edit-collection" value="' . __('Edit collection', 'wpdkacollections') . '" />';
-        }
-    }
+	/**
+	 * Add sort button to table
+	 * @param  string    $which
+	 * @return void
+	 */
+	public function extra_tablenav( $which ) {
+		if ( $which == "top" ){
+			echo '<div class="alignleft actions"><input type="button" id="wpdkacollections-sort" class="button-primary button" value="' . __('Save new sorting', WPDKACollections::DOMAIN) . '" /></div>';
+		}
+	}
+	
+	/**
+	 * Prepare table with columns, data, pagination etc.
+	 * @return void
+	 */
+	public function prepare_items() {
 
-    /**
-     * Prepare table with columns, data, pagination etc.
-     * @return void
-     */
-    public function prepare_items() {
+		//$per_page = $this->get_items_per_page( 'edit_wpdkacollections_per_page');
+		$per_page = 1000;
 
-        $per_page = $this->get_items_per_page( 'edit_wpdkacollections_per_page');
+		//Set column headers
+		$hidden = array();
+		$this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());
 
-        //Set column headers
-        $hidden = array();
-        $this->_column_headers = array($this->get_columns(), $hidden, $this->get_sortable_columns());      
+		if(isset($_GET[parent::NAME_SINGULAR])) {
+			$current_collection = esc_html($_GET[parent::NAME_SINGULAR]);
+		} else {
+			$current_collection = " ";
+		}
 
-        $this->_current_collection = WPDKACollections::get_current_collection();
+		$this->_current_collection = WPDKACollections::get_collection_by_guid($current_collection);
 
-        $current_collection_array = array(
-            'inputName' => $this->_current_collection->title,
-            'inputDescription' => $this->_current_collection->description,
-            'inputRights' => $this->_current_collection->rights,
-            'inputCategories' => $this->_current_collection->categories
-        );
-        wp_localize_script( 'dka-collections', 'WPDKACollections', $current_collection_array );
+		//If current collection exists
+		if($this->_current_collection) {
+			$pagesize = count($this->_current_collection->playlist_raw);
 
-        $this->title = '<a href="'.add_query_arg('page',WPDKACollections::DOMAIN,'admin.php').'">'.__('DKA Collections', WPDKACollections::DOMAIN).'</a> &raquo; '.$this->_current_collection->title;
+			//If there are some materials in collection
+			if($pagesize > 0) {
+				
+				$this->title .= ' &raquo; '.$this->_current_collection->title;
+				$this->guid = $current_collection;
+				//Get the related objects to the collection.
+				$serviceResult2 = WPChaosClient::instance()->Object()->Get(
+					"(GUID:(".implode(" OR ", $this->_current_collection->playlist_raw)."))",   // Search query
+					null,   // Sort
+					null,   // AP injected
+					0,      // pageIndex
+					$pagesize, // pageSize
+					true,   // includeMetadata
+					false,   // includeFiles
+					false    // includeObjectRelations
+				);
 
-        //Get relations
-        $relation_guids = array();
-        foreach($this->_current_collection->ObjectRelations as $relation) {
-        	if($this->_current_collection->GUID != $relation->Object1GUID) {
-        		$relation_guids[] = $relation->Object1GUID;
-        	} else {
-        		$relation_guids[] = $relation->Object2GUID;
-        	}
-        }
+				//If the materials from collection playlist exist in CHAOS
+				if($serviceResult2->MCM()->Count() > 0) {
+					$result3 = array();
+					foreach($serviceResult2->MCM()->Results() as $result) {
+						$result3[$result->GUID] = new WPChaosObject($result);
+					}
 
-        //Get the related objects to the collection.
-        $serviceResult2 = WPChaosClient::instance()->Object()->Get(
-            "(GUID:(".implode(" OR ", $relation_guids)."))",   // Search query
-            null,   // Sort
-            null,   // AP injected
-            0,      // pageIndex
-            count($relation_guids), // pageSize
-            true,   // includeMetadata
-            false,   // includeFiles
-            false    // includeObjectRelations
-        );
-        
-        //Set items
-        $this->items = WPChaosObject::parseResponse($serviceResult2);
-        //Set pagination
-        //$serviceResult->MCM()->TotalPages() cannot be trusted here!
-        $this->set_pagination_args( array(
-            'total_items' => $serviceResult2->MCM()->TotalCount(),
-            'per_page'    => $per_page,
-            'total_pages' => ceil($serviceResult2->MCM()->TotalCount()/$per_page)
-        ) );
-    }
-    
+					//Set items in proper order
+					foreach($this->_current_collection->playlist_raw as $guid) {
+						$this->items[] = $result3[(string)$guid];
+					}
+
+					//Set pagination
+					//$serviceResult->MCM()->TotalPages() cannot be trusted here!
+					$this->set_pagination_args( array(
+						'total_items' => $serviceResult2->MCM()->TotalCount(),
+						'per_page'    => $per_page,
+						'total_pages' => ceil($serviceResult2->MCM()->TotalCount()/$per_page)
+					) );				
+				}
+			}
+
+			
+			
+		}
+
+	}
+	
 }
