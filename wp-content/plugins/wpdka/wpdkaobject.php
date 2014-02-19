@@ -451,12 +451,13 @@ class WPDKAObject {
 	public function define_single_object_page() {
 		// Ensure the DKA Crowd metadata schema is present, and redirect to the slug URL if needed.
 		add_action(WPChaosClient::GET_OBJECT_PAGE_BEFORE_TEMPLATE_ACTION, function(\WPChaosObject $object) {
-
 			// If a guid was used to retreive the object, this might not have the crowd metadata connected to it.
 			// Only for DKA objects
-			if(array_key_exists('guid', $_GET) && in_array($object->ObjectTypeID,array(WPDKAObject::$OBJECT_TYPE_IDS))) {
+			if(array_key_exists('guid', $_GET) && in_array($object->ObjectTypeID, WPDKAObject::$OBJECT_TYPE_IDS)) {
 				try {
+					// Don't wait for it to become available with a nice URL, just show the darn thing.
 					$object = WPDKAObject::ensure_crowd_metadata($object, true);
+					// Prepend the GUID, just in case the metadata is not ready.
 					$redirection = $object->url;
 					// Add URL parameters
 					unset($_GET['guid']);
@@ -589,7 +590,8 @@ class WPDKAObject {
 		$forceReset = WP_DEBUG && array_key_exists('reset-crowd-metadata', $_GET) && current_user_can('edit_posts');
 		
 		if($forceReset || !$object->has_metadata(WPDKAObject::DKA_CROWD_SCHEMA_GUID)) {
-			$slug = self::reset_crowd_metadata($object, true)->slug;
+			$object = self::reset_crowd_metadata($object, true);
+			$slug = $object->slug;
 		} else {
 			// If the metadata is present, we can extract the slug from there.
 			$slug = $object->slug;
@@ -833,6 +835,7 @@ class WPDKAObject {
 		// TODO: Use this instead, when DKA-Slug is added to the index.
 		// $response = WPChaosClient::instance()->Object()->Get("DKA-Slug:'$slug'");
 		$query = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':"' . $slug . '"';
+		// die($query);
 		$response = WPChaosClient::instance()->Object()->Get($query, null, null, 0, 1, true);
 		if(!$response->WasSuccess()) {
 			throw new \RuntimeException("Couldn't get object from slug: ".$response->Error()->Message());
