@@ -163,7 +163,11 @@ class WPDKAObject {
 				$role = strtolower(strval($creator['Role']));
 				$role = (isset($role_i18n[$role]) ? $role_i18n[$role] : ucfirst($creator['Role']));
 				$value .= "<dt>".$role."</dt>\n";
-				$value .= "<dd>".$creator['Name']."</dd>\n";
+				if(strval($creator) == "") {
+					$value .= "<dd>".$creator['Name']."</dd>\n";
+				} else {
+					$value .= "<dd>".strval($creator)."</dd>\n";
+				}
 			}
 			$value .= "</dl>\n";
 		} else {
