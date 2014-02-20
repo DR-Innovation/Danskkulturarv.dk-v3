@@ -84,7 +84,7 @@ $views = array(
 				$class = ' collection-result';
 			}
 			?>
-			<li class="search-object col-12 col-sm-6 col-lg-3<?php echo $class ?>">
+			<li class="search-object col-xs-12 col-sm-6 col-lg-3<?php echo $class ?>">
 				<a class="thumbnail" href="<?php echo $url; ?>" id="<?php echo WPChaosClient::get_object()->GUID; ?>">
 
 					<div class="thumb format-<?php echo WPChaosClient::get_object()->type; ?>"<?php echo $thumbnail; ?>>

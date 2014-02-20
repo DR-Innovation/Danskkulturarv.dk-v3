@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dansk Kulturarv\n"
-"POT-Creation-Date: 2014-02-20 14:46+0100\n"
-"PO-Revision-Date: 2014-02-20 14:46+0100\n"
+"POT-Creation-Date: 2014-02-20 16:57+0100\n"
+"PO-Revision-Date: 2014-02-20 16:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
@@ -131,15 +131,15 @@ msgctxt "verb"
 msgid "Search"
 msgstr "Søg"
 
-#: ../templates/chaos-search-form.php:40
-msgid "Refine search"
-msgstr "Præciser søgning"
+#: ../templates/chaos-search-form.php:56
+msgid "Options"
+msgstr "Indstillinger"
 
-#: ../templates/chaos-search-form.php:47
+#: ../templates/chaos-search-form.php:63
 msgid "All Formats"
 msgstr "Alle Typer"
 
-#: ../templates/chaos-search-form.php:58
+#: ../templates/chaos-search-form.php:73
 msgid "All Organizations"
 msgstr "Alle Institutioner"
 
@@ -194,6 +194,9 @@ msgstr "Frys"
 #: ../templates/multiattrwidget-sidebar.php:48
 msgid "Enable"
 msgstr "Optø"
+
+#~ msgid "Refine search"
+#~ msgstr "Præciser søgning"
 
 #~ msgid ""
 #~ "<span class=\"hidden-sm\">The search for %s gave&nbsp;</span><span>%s "

@@ -82,7 +82,7 @@ function dka_scripts_styles() {
 	$bootstrap_scripts = array(
 		'transition', //modal
 		//'alert',
-		//'button',
+		'button',
 		//'carousel',
 		'collapse', //search
 		'dropdown', //menu

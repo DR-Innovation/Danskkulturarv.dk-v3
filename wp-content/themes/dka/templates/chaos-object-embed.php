@@ -13,17 +13,17 @@ add_action( 'wp_enqueue_scripts', function() {
 
 	$bootstrap_scripts = array(
 		'transition', //modal
-		//'alert',
-		//'button',
-		//'carousel',
+		'alert',
+		'button',
+		'carousel',
 		'collapse', //search
 		'dropdown', //menu
 		'modal', //used by collection and tags
-		//'scrollspy',
-		//'tab',
+		'scrollspy',
+		'tab',
 		'tooltip', // Used by the /api page.
 		'popover', // Used by the /api page.
-		//'affix'
+		'affix'
 	);
 	foreach($bootstrap_scripts as $bootscript) {
 		wp_dequeue_script( $bootscript );
