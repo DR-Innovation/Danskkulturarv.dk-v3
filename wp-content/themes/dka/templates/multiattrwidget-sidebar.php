@@ -27,7 +27,7 @@
 <?php if(WPChaosClient::get_object()->is_embeddable) : ?>
 		<div>
 			<hr>
-			<h4><?php _e('Embed material','wpdka'); ?></h4>
+			<h4><?php _e('Embed material','dka'); ?></h4>
 			<?php if(($page = get_page_by_path('embed',OBJECT,'page'))) : ?>
 			<a href="<?php echo get_permalink($page); ?>">Læs om indlejring</a>
 			<?php endif; ?>
