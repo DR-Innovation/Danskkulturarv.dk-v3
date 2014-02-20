@@ -26,12 +26,12 @@ $views = array(
 	?>
 	<article class="search-results">
 		<div class="row search-results-top">
-			<div class="col-md-4 col-sm-6 col-xs-12">
-				<?php echo $result_count = sprintf(__('<span class="hidden-xs hidden-sm">The search for %s gave&nbsp;</span><span>%s results</span>','wpchaossearch'),'<strong class="blue">'.WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html').'</strong>', number_format_i18n(WPChaosSearch::get_search_results()->MCM()->TotalCount())); ?>
+			<div class="col-md-4 col-sm-12 col-xs-12 search-count">
+				<?php echo $result_count = sprintf(__('The search gave %s results for %s','dka'),number_format_i18n(WPChaosSearch::get_search_results()->MCM()->TotalCount()),'<strong class="blue">'.WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html').'</strong>'); ?>
 			</div>
 			<div class="col-md-4 col-sm-6 col-xs-12 search-result-listing">
 				<div class="btn-group">
-				 	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><?php _e('Sort by:','dka'); ?> <strong class="blue"><?php echo $current_sort; ?></strong>
+				 	<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"><?php _e('Sort by:','dka'); ?> <strong class="blue"><?php echo $current_sort; ?></strong>
 				 		<i class="icon-caret-down"></i>
 				 	</button>
 				 	<ul class="dropdown-menu">
@@ -42,12 +42,12 @@ $views = array(
 				</div>
 				<div class="btn-group">
 					<?php foreach($views as $view) :
-					echo '<a type="button" class="btn btn-default'.($view['view'] == $current_view ? ' active' : '').'" href="'.WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_VIEW => $view['link'])).'" title="'.$view['title'].'"><i class="'.$view['class'].'"></i></a>';
+					echo '<a type="button" class="btn btn-default btn-sm'.($view['view'] == $current_view ? ' active' : '').'" href="'.WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_VIEW => $view['link'])).'" title="'.$view['title'].'"><i class="'.$view['class'].'"></i></a>';
 					endforeach; ?>
 				</div>
 			</div>
-			<div class="col-md-4 col-sm-12 col-xs-12 pagination-div">
-				<ul class="pagination pagination-lg pull-right">
+			<div class="col-md-4 col-sm-6 col-xs-12 pagination-div">
+				<ul class="pagination">
 					<?php echo $pagination = WPChaosSearch::paginate('echo=0&before=&after=&count=5'); ?>
 				</ul>
 			</div>
@@ -112,12 +112,12 @@ $views = array(
 <?php endforeach; WPChaosClient::reset_object(); ?>
 </ul>
 
-<div class="row search-results-top">
-	<div class="col-sm-6 hidden-xs">
+<div class="row search-results-top search-results-bottom">
+	<div class="col-sm-6 hidden-xs search-count">
 		<?php echo $result_count; ?>
 	</div>
-	<div class="col-sm-6 col-xs-12">
-		<ul class="pagination pagination-lg pull-right">
+	<div class="col-sm-6 col-xs-12 pagination-div">
+		<ul class="pagination">
 			<?php echo $pagination; ?>
 		</ul>
 	</div>

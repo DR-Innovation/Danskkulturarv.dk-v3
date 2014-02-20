@@ -13,7 +13,7 @@
 @gray-light:             lighten(#000, 60%);   // #999
 @gray-lighter:           lighten(#000, 93.5%); // #eee
 
-@brand-primary:         #428bca;
+@brand-primary:         #2F94FD;
 @brand-success:         #5cb85c;
 @brand-info:            #5bc0de;
 @brand-warning:         #f0ad4e;
@@ -45,7 +45,7 @@
 @font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
 @font-family-base:        @font-family-sans-serif;
 
-@font-size-base:          14px;
+@font-size-base:          13px;
 @font-size-large:         ceil((@font-size-base * 1.25)); // ~18px
 @font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
 
@@ -137,13 +137,13 @@
 
 @btn-font-weight:                bold;
 
-@btn-default-color:              #2F94FD;
+@btn-default-color:              @brand-primary;
 @btn-default-bg:                 #fdfdfd;
 @btn-default-border:             #bebebe;
 
 @btn-primary-color:              #fff;
-@btn-primary-bg:                 #2F94FD;
-@btn-primary-border:             #0080f0;
+@btn-primary-bg:                 @brand-primary;
+@btn-primary-border:             darken(@btn-primary-bg, 15%);
 
 @btn-success-color:              #fff;
 @btn-success-bg:                 @brand-success;
@@ -421,19 +421,19 @@
 
 @pagination-color:                     @link-color;
 @pagination-bg:                        #fff;
-@pagination-border:                    #ddd;
+@pagination-border:                    @gray-lighter;
 
 @pagination-hover-color:               @link-hover-color;
 @pagination-hover-bg:                  @gray-lighter;
-@pagination-hover-border:              #ddd;
+@pagination-hover-border:              @gray-lighter;
 
 @pagination-active-color:              @gray-light;
 @pagination-active-bg:                 #f5f5f5;
-@pagination-active-border:             @brand-primary;
+@pagination-active-border:             @gray-lighter;
 
 @pagination-disabled-color:            @gray-light;
 @pagination-disabled-bg:               #fff;
-@pagination-disabled-border:           #ddd;
+@pagination-disabled-border:           @gray-lighter;
 
 
 //== Pager
