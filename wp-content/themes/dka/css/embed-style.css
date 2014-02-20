@@ -87,6 +87,7 @@ img {
 .flex-control-nav {
 	position: absolute;
 	z-index: 1;
+	margin-top: 5px !important;
 }
 .player > div {
 	height: 100% !important;
@@ -117,7 +118,8 @@ img {
 .flexslider {margin: 0; padding: 0;}
 .flexslider .flex-viewport {height: 100% !important;}
 .flexslider .slides > li {display: none; -webkit-backface-visibility: hidden;} /* Hide the slides before the JS is loaded. Avoids image jumping */
-.flexslider .slides img {max-width: 100%; max-height: 100%; display: block; margin-left: auto; margin-right: auto;}
+.flexslider .slides img {max-width: 100%; max-height: 100%; display: block; position: absolute;}
+.flexslider .flex-viewport .slides img {position: static; margin-left: auto; margin-right: auto;}
 .flex-pauseplay span {text-transform: capitalize;}
 
 /* Clearfix for the .slides element */
