@@ -88,6 +88,9 @@ img {
 	position: absolute;
 	z-index: 1;
 }
+.player > div {
+	height: 100% !important;
+}
 
 /*
  * jQuery FlexSlider v2.0
