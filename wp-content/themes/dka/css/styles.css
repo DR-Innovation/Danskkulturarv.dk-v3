@@ -269,7 +269,7 @@ body {
   font-size: 13px;
   line-height: 1.428571429;
   color: #333333;
-  background-color: #f6f6f6;
+  background-color: #ffffff;
 }
 input,
 button,
@@ -5749,7 +5749,6 @@ div.contributors dd {
 /* Wrapper for page content to push down footer */
 #wrap {
   height: auto;
-  background-color: #fff;
   /* Negative indent footer by it's height */
 
   margin: 0 auto -136px;
