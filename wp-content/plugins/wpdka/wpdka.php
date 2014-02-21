@@ -451,11 +451,11 @@ class WPDKA {
 	public static function print_jwplayer($options, $player_id = 'main-jwplayer') {
 		echo '<div id="'.$player_id.'"><p style="text-align:center;">'.__('Loading the player ...','wpdka').'</p></div>';
 		echo '<script type="text/javascript">';
-		echo 'window.onload = function() {';
+		echo 'jQuery(document).ready(function() {';
 		echo '	jwplayer("'.$player_id.'").setup(';
 		echo json_encode($options);
 		echo '	);';
-		echo '}';
+		echo '});';
 		echo '</script>';
 	}
 

@@ -72,7 +72,7 @@ function dka_scripts_styles() {
 
 	wp_register_script( 'html5shiv', get_template_directory_uri() . '/js/html5shiv.js', array(), ' 1.0', true );
 	wp_register_script( 'respond-js', get_template_directory_uri() . '/js/respond.min.js', array(), ' 1.0', true );
-	wp_register_script( 'jwplayer', get_template_directory_uri() . '/lib/jwplayer/jwplayer.js', false, '1', true );
+	wp_register_script( 'jwplayer', get_template_directory_uri() . '/lib/jwplayer/jwplayer.js', array('jquery'), '1', true );
 	wp_register_script( 'flexslider', get_template_directory_uri() . '/js/jquery.flexslider-min.js', array('jquery'), '2.1', true );
 
 	wp_enqueue_script('html5shiv' );
@@ -103,15 +103,10 @@ function dka_scripts_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'dka_scripts_styles' );
 
-//JWPlayer key
 add_action('wp_head',function() {	
-	//if(WPChaosClient::get_object() && in_array(WPChaosClient::get_object()->type,array('video','lyd','billede-lyd'))) {
-		echo '<script type="text/javascript">jwplayer.key="'. get_option('wpdka-jwplayer-api-key') .'";</script>';
-	//}
 	if(is_user_logged_in()) {
 		echo '<style>.navbar-fixed-top {margin-top:32px;}</style>'; 
 	}
-	
 });
 
 function dka_widgets_init() {
