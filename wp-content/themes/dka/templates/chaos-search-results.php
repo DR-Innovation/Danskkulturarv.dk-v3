@@ -73,7 +73,7 @@ $views = array(
 			$caption = WPChaosClient::get_object()->caption;
 			$title = WPChaosClient::get_object()->title;
 			$organization = WPChaosClient::get_object()->organization;
-			$views = WPChaosClient::get_object()->views;
+			$views = number_format_i18n(WPChaosClient::get_object()->views);
 			$class = '';
 			if($collection_obj) {
 				$url .= '#'.$collection_obj->GUID;
@@ -96,8 +96,8 @@ $views = array(
 					<?php endif; ?>
 					</div>
 					<h2 class="title"><strong><?php echo $title; ?></strong></h2>
-					<p class="organization"><strong class="strong orange organization"><?php echo $organization; ?></strong>
-						<?php if(WPChaosClient::get_object()->published && $collection_obj == null) : ?></p>
+					<p class="organization orange"><strong><?php echo $organization; ?></strong></p>
+					<?php if(WPChaosClient::get_object()->published && $collection_obj == null) : ?>
 						<p class="date"><i class="icon-calendar"></i> <?php echo WPChaosClient::get_object()->published; ?></p>
 					<?php endif; ?>
 					<hr>

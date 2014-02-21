@@ -125,6 +125,10 @@ add_action('wp_head',function() {
 	if(WPChaosClient::get_object() && in_array(WPChaosClient::get_object()->type,array('video','lyd','billede-lyd'))) {
 		echo '<script type="text/javascript">jwplayer.key="'. get_option('wpdka-jwplayer-api-key') .'";</script>';
 	}
+	if(is_user_logged_in()) {
+		echo '<style>.navbar-fixed-top {margin-top:32px;}</style>'; 
+	}
+	
 });
 
 function dka_widgets_init() {
@@ -389,10 +393,10 @@ function dka_social_share($args = array()) {
 	));
 	extract($args, EXTR_SKIP);
 
-	echo '<a class="social-share icon-facebook-sign" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer.php?u='.$link.'" title="'.sprintf(__('Share on %s','dka'),'Facebook').'"><i class=""></i></a>'."\n";
+	echo '<a class="social-share icon-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer.php?u='.$link.'" title="'.sprintf(__('Share on %s','dka'),'Facebook').'"><i class=""></i></a>'."\n";
 	echo '<a class="social-share icon-twitter" target="_blank" rel="nofollow" href="https://twitter.com/home?status='.$link.'+%23kulturarv" title="'.sprintf(__('Share on %s','dka'),'Twitter').'"></a>'."\n";
-	echo '<a class="social-share icon-google-plus-sign" target="_blank" rel="nofollow" href="https://plus.google.com/share?url='.$link.'" title="'.sprintf(__('Share on %s','dka'),'Google Plus').'"></a>'."\n";
-	echo '<a class="icon-envelope" target="_blank" rel="nofollow" href="mailto:?subject='.rawurlencode(get_bloginfo('title')).'&amp;body='.$link.'" title="'.__('Send as e-mail','dka').'"></a>'."\n";
+	echo '<a class="social-share icon-google-plus" target="_blank" rel="nofollow" href="https://plus.google.com/share?url='.$link.'" title="'.sprintf(__('Share on %s','dka'),'Google Plus').'"></a>'."\n";
+	echo '<a class="social-share icon-envelope" target="_blank" rel="nofollow" href="mailto:?subject='.rawurlencode(get_bloginfo('title')).'&amp;body='.$link.'" title="'.__('Send as e-mail','dka').'"></a>'."\n";
 
 }
 

@@ -43,8 +43,8 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
 
 ?>
 			<label class="btn btn-default btn-lg<?php echo ($active ? 
-			' active' : ''); ?>" title="<?php echo $args['title']; ?>" for="<?php echo WPDKASearch::QUERY_KEY_TYPE .'-'. $format_type; ?>">
-				<input type="checkbox" name="<?php echo WPDKASearch::QUERY_KEY_TYPE; ?>[]" value="<?php echo $format_type; ?>" id="<?php echo WPDKASearch::QUERY_KEY_TYPE .'-'. $format_type; ?>" <?php checked($active); ?>>
+			' active' : ''); ?>" title="<?php echo $args['title']; ?>">
+				<input type="checkbox" name="<?php echo WPDKASearch::QUERY_KEY_TYPE; ?>[]" value="<?php echo $format_type; ?>" <?php checked($active); ?>>
 				<i class="<?php echo $args['class']; ?>"></i>
 			</label>
 <?php endforeach; ?>

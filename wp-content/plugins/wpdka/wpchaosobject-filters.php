@@ -166,10 +166,15 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'type_title', function($value, \W
 //object->thumbnail
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'thumbnail', function($value, \WPCHAOSObject $object) {
 	foreach($object->Files as $file) {
-				// FormatID = 10 is thumbnail format. This is what we want here
+		// FormatID = 10 is thumbnail format. This is what we want here
 		if($file->FormatID == 10) {
 			return $value . htmlspecialchars($file->URL);
 		}
+	}
+
+	//Fallback to theme images
+	if($object->type != WPDKAObject::TYPE_UNKNOWN) {
+		return get_stylesheet_directory_uri().'/img/format-'.$object->type.'.png';
 	}
 			// Try another image - any image will do.
 			// TODO: Consider using a serverside cache and downscaling service.
@@ -181,9 +186,9 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'thumbnail', function($value, \WP
 				}
 			}
 			*/
-			// Fallback to nothing
-			return null;
-		}, 10, 2);
+	// Fallback to nothing
+	return null;
+}, 10, 2);
 
 //object->slug
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'slug', function($value, \WPCHAOSObject $object) {
