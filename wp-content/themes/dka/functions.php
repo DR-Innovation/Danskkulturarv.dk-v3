@@ -72,13 +72,11 @@ function dka_scripts_styles() {
 
 	wp_register_script( 'html5shiv', get_template_directory_uri() . '/js/html5shiv.js', array(), ' 1.0', true );
 	wp_register_script( 'respond-js', get_template_directory_uri() . '/js/respond.min.js', array(), ' 1.0', true );
-	wp_register_script( 'jwplayer', get_template_directory_uri() . '/lib/jwplayer/jwplayer.js', false, '1', false );
+	wp_register_script( 'jwplayer', get_template_directory_uri() . '/lib/jwplayer/jwplayer.js', false, '1', true );
 	wp_register_script( 'flexslider', get_template_directory_uri() . '/js/jquery.flexslider-min.js', array('jquery'), '2.1', true );
 
 	wp_enqueue_script('html5shiv' );
 	wp_enqueue_script('respond-js' );
-	//jwplayer needs to be in <head> and can therefore not be lazy loaded to footer
-	wp_enqueue_script( 'jwplayer' );
 
 	$bootstrap_scripts = array(
 		'transition', //modal
@@ -98,20 +96,6 @@ function dka_scripts_styles() {
 		wp_register_script( $bootscript, get_template_directory_uri() . '/js/bootstrap/'.$bootscript.'.js', array('jquery'), '3.0.0', true );
 		wp_enqueue_script( $bootscript );
 	}
-
-	// if(WPChaosClient::get_object()) {
-	// 	switch(WPChaosClient::get_object()->type) {
-	// 		case 'video':
-	// 		case 'lyd':
-	// 			//wp_enqueue_script( 'jwplayer' );
-	// 			break;
-	// 		case 'billede':
-	// 			break;
-	// 		case 'billede-lyd':
-	// 			//wp_enqueue_script( 'jwplayer' );
-	// 			break;
-	// 	}
-	// }
 
 	wp_enqueue_script( 'custom-functions', get_template_directory_uri() . '/js/custom-functions.js', array('jquery'), '1', true );
 	wp_localize_script( 'custom-functions', 'dka', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
