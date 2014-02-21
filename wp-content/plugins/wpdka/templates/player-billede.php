@@ -4,7 +4,15 @@
  * @version 1.0
  */
 ?>
-<?php //Loop through each file and skip those whose format is not image ?>
+<?php
+
+//Must be called within wp_head or wp_footer
+//to work with Player Widget
+add_action( 'wp_footer', function() {
+	wp_enqueue_script( 'flexslider' );
+});
+
+//Loop through each file and skip those whose format is not image ?>
 <div class="flexslider">
 	<ul class="slides">
 <?php foreach(WPChaosClient::get_object()->Files as $file) :

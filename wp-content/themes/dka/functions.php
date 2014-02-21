@@ -62,10 +62,9 @@ function dka_scripts_styles() {
 
 	wp_register_style( 'font-awesome', '//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css' );
 	wp_register_style( 'dka-style', get_template_directory_uri() . '/css/styles.css', array('font-awesome') );
+	wp_register_style( 'dka-embed-style', get_template_directory_uri() . '/css/embed-style.css');
 
 	wp_enqueue_style( 'dka-style' );
-
-	wp_register_style( 'dka-embed-style', get_template_directory_uri() . '/css/embed-style.css');
 	
 	//Use Google CDN instead
 	wp_deregister_script('jquery');
@@ -78,6 +77,8 @@ function dka_scripts_styles() {
 
 	wp_enqueue_script('html5shiv' );
 	wp_enqueue_script('respond-js' );
+	//jwplayer needs to be in <head> and can therefore not be lazy loaded to footer
+	wp_enqueue_script( 'jwplayer' );
 
 	$bootstrap_scripts = array(
 		'transition', //modal
@@ -98,21 +99,19 @@ function dka_scripts_styles() {
 		wp_enqueue_script( $bootscript );
 	}
 
-	if(WPChaosClient::get_object()) {
-		switch(WPChaosClient::get_object()->type) {
-			case 'video':
-			case 'lyd':
-				wp_enqueue_script( 'jwplayer' );
-				break;
-			case 'billede':
-				wp_enqueue_script( 'flexslider' );
-				break;
-			case 'billede-lyd':
-				wp_enqueue_script( 'jwplayer' );
-				wp_enqueue_script( 'flexslider' );
-				break;
-		}
-	}
+	// if(WPChaosClient::get_object()) {
+	// 	switch(WPChaosClient::get_object()->type) {
+	// 		case 'video':
+	// 		case 'lyd':
+	// 			//wp_enqueue_script( 'jwplayer' );
+	// 			break;
+	// 		case 'billede':
+	// 			break;
+	// 		case 'billede-lyd':
+	// 			//wp_enqueue_script( 'jwplayer' );
+	// 			break;
+	// 	}
+	// }
 
 	wp_enqueue_script( 'custom-functions', get_template_directory_uri() . '/js/custom-functions.js', array('jquery'), '1', true );
 	wp_localize_script( 'custom-functions', 'dka', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
@@ -122,9 +121,9 @@ add_action( 'wp_enqueue_scripts', 'dka_scripts_styles' );
 
 //JWPlayer key
 add_action('wp_head',function() {	
-	if(WPChaosClient::get_object() && in_array(WPChaosClient::get_object()->type,array('video','lyd','billede-lyd'))) {
+	//if(WPChaosClient::get_object() && in_array(WPChaosClient::get_object()->type,array('video','lyd','billede-lyd'))) {
 		echo '<script type="text/javascript">jwplayer.key="'. get_option('wpdka-jwplayer-api-key') .'";</script>';
-	}
+	//}
 	if(is_user_logged_in()) {
 		echo '<style>.navbar-fixed-top {margin-top:32px;}</style>'; 
 	}
