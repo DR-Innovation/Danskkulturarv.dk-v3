@@ -53,8 +53,8 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
 	</div>
 	<div class="col-sm-2 col-xs-3 btn-advanced-search-container">
 		<button class="btn btn-default btn-lg btn-advanced-search collapsed dropdown-toggle btn-block" type="button" data-toggle="collapse" data-target="#advanced-search-container">
-			<span class="visible-lg visible-md"><i class="icon-cog"></i> <?php _e('Options','dka'); ?></span>
-			<span class="hidden-lg hidden-md"><i class="icon-cog"></i></span>
+			<span class="visible-lg visible-md"><?php _e('Options','dka'); ?> <i class="icon-caret-down"></i></span>
+			<span class="hidden-lg hidden-md"><i class="icon-caret-down"></i></span>
 		</button>
 	</div>
 	<div id="advanced-search-container" class="col-xs-12 collapse<?php echo $advanced_search_expanded; ?>">
