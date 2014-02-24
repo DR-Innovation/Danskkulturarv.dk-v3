@@ -102,7 +102,7 @@ class WPDKAObjectPlayerWidget extends WPChaosWidget {
 			echo $args['before_widget'];
 			echo WPDKA::get_object_player(WPChaosClient::get_object(),$autoplay,$alt);
 			if($link) {
-				echo '<a href="'.WPChaosClient::get_object()->url.'">'.__('Read more').'</a>';
+				echo '<a href="'.WPChaosClient::get_object()->url.'">'.__('Read more','wpdka').'</a>';
 			}
 			echo $args['after_widget'];
 

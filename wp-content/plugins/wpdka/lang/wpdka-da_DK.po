@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPChaosSearch\n"
-"POT-Creation-Date: 2013-08-12 11:12+0100\n"
-"PO-Revision-Date: 2013-10-22 16:10+0100\n"
+"POT-Creation-Date: 2014-02-24 15:37+0100\n"
+"PO-Revision-Date: 2014-02-24 15:37+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -19,151 +19,170 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../wpdka.php:107
-msgid "Dansk Kulturarv"
-msgstr "Dansk Kulturarv"
-
-#: ../wpdka.php:111
-msgid "Page for objects with an unknown organization."
-msgstr "Side til objekter med ukendt institution"
-
-#: ../wpdka.php:119
-msgid "JW Player Settings"
-msgstr "JW Player indstillinger"
-
-#: ../wpdka.php:124
-msgid "JW Player API key"
-msgstr "JW Player API-nøgle"
-
-#: ../wpdka.php:404
-msgid "CHAOS material"
-msgid_plural "CHAOS materials"
-msgstr[0] "CHAOS materiale"
-msgstr[1] "CHAOS materialer"
-
-#: ../wpdka.php:415
-msgid "CHAOS material view"
-msgid_plural "CHAOS material views"
-msgstr[0] "CHAOS materialevisning"
-msgstr[1] "CHAOS materialevisninger"
-
-#: ../wpdka.php:424
-msgid "CHAOS material like"
-msgid_plural "CHAOS material likes"
-msgstr[0] "CHAOS materiale-like"
-msgstr[1] "CHAOS materiale-likes"
-
-#: ../wpdka.php:433
-msgid "CHAOS material share"
-msgid_plural "CHAOS material shares"
-msgstr[0] "CHAOS materialedeling"
-msgstr[1] "CHAOS materialedelinger"
-
-#: ../wpdka.php:450
-msgid "Loading the player ..."
-msgstr "Henter afspiller ..."
-
-#: ../wpdka.php:478
-msgid "WordPress DKA"
-msgstr "WordPress DKA"
-
-#: ../wpdka.php:478
-#, php-format
-msgid "needs %s to be activated."
-msgstr "kræver at %s er aktiveret."
-
-#: ../wpdkaobject.php:165
-msgid "Material"
-msgstr "Materiale"
-
-#: ../wpdkaobject.php:167
+#: ../wpchaosobject-filters.php:21
 msgid " without title"
 msgstr " uden titel"
 
-#: ../wpdkaobject.php:197
+#: ../wpchaosobject-filters.php:51
 msgid "No tags"
 msgstr "Ingen tags"
 
-#: ../wpdkaobject.php:276
+#: ../wpchaosobject-filters.php:130
 msgid "Year "
 msgstr "Året "
 
-#: ../wpdkaobject.php:381
+#: ../wpchaosobject-filters.php:249
 #, php-format
 msgid "%s image"
 msgid_plural "%s images"
 msgstr[0] "%s billede"
 msgstr[1] "%s billeder"
 
-#: ../wpdkaobject.php:399
+#: ../wpdka.php:109
+msgid "Dansk Kulturarv"
+msgstr "Dansk Kulturarv"
+
+#: ../wpdka.php:113
+msgid "Page for objects with an unknown organization."
+msgstr "Side til objekter med ukendt institution"
+
+#: ../wpdka.php:121
+msgid "JW Player Settings"
+msgstr "JW Player indstillinger"
+
+#: ../wpdka.php:126
+msgid "JW Player API key"
+msgstr "JW Player API-nøgle"
+
+#: ../wpdka.php:406
+msgid "CHAOS material"
+msgid_plural "CHAOS materials"
+msgstr[0] "CHAOS materiale"
+msgstr[1] "CHAOS materialer"
+
+#: ../wpdka.php:417
+msgid "CHAOS material view"
+msgid_plural "CHAOS material views"
+msgstr[0] "CHAOS materialevisning"
+msgstr[1] "CHAOS materialevisninger"
+
+#: ../wpdka.php:426
+msgid "CHAOS material like"
+msgid_plural "CHAOS material likes"
+msgstr[0] "CHAOS materiale-like"
+msgstr[1] "CHAOS materiale-likes"
+
+#: ../wpdka.php:435
+msgid "CHAOS material share"
+msgid_plural "CHAOS material shares"
+msgstr[0] "CHAOS materialedeling"
+msgstr[1] "CHAOS materialedelinger"
+
+#: ../wpdka.php:452
+msgid "Loading the player ..."
+msgstr "Henter afspiller ..."
+
+#: ../wpdka.php:521
+msgid "WordPress DKA"
+msgstr "WordPress DKA"
+
+#: ../wpdka.php:521
+#, php-format
+msgid "needs %s to be activated."
+msgstr "kræver at %s er aktiveret."
+
+#: ../wpdkaobject.php:151
 msgid "Actors"
 msgstr "Skuespillere"
 
-#: ../wpdkaobject.php:400
+#: ../wpdkaobject.php:152
 msgid "Cinematography"
 msgstr "Kinematografi"
 
-#: ../wpdkaobject.php:401
+#: ../wpdkaobject.php:153
 msgid "Creator"
 msgstr "Skaber"
 
-#: ../wpdkaobject.php:402
+#: ../wpdkaobject.php:154
 msgid "Direction"
 msgstr "Instruktion"
 
-#: ../wpdkaobject.php:403
+#: ../wpdkaobject.php:155
 msgid "Directors"
 msgstr "Instruktører"
 
-#: ../wpdkaobject.php:404
+#: ../wpdkaobject.php:156
 msgid "Production"
 msgstr "Produktion"
 
-#: ../wpdkaobject.php:405
+#: ../wpdkaobject.php:157
 msgid "Script"
 msgstr "Manuskript"
 
-#: ../wpdkaobject.php:418
+#: ../wpdkaobject.php:174
 msgid "Not provided"
 msgstr "Ikke opgivet"
 
-#: ../wpdkasearch.php:79
+#: ../wpdkasearch.php:82
 #, php-format
 msgid " The material is from %s."
 msgstr " Det fremsøgte materiale er fra %s."
 
-#: ../wpdkasearch.php:79 ../wpdkasearch.php:94
+#: ../wpdkasearch.php:82 ../wpdkasearch.php:97
 msgid "and"
 msgstr "og"
 
-#: ../wpdkasearch.php:94
+#: ../wpdkasearch.php:97
 #, php-format
 msgid " The format is %s."
 msgstr " Formatet er %s."
 
-#: ../wpdkasearch.php:102
+#: ../wpdkasearch.php:105
 #, php-format
 msgid "%s contains %s materials about %s."
 msgstr "%s indeholder %s materialer om %s."
 
-#: ../templates/player-billede.php:12
+#: ../templates/player-billede.php:21
 #, php-format
 msgid "Image %s for %s"
 msgstr "Billede %s til %s"
 
 #: ../templates/player-lyd-mediaelement.backup.php:34
-#: ../templates/player-lyd.php:41 ../templates/player-video.php:41
+#: ../templates/player-lyd.php:50 ../templates/player-video.php:40
 #, php-format
 msgid "About %s"
 msgstr "Om %s"
 
-#: ../widgets/player.php:28
+#: ../widgets/player.php:20
 msgid "DKA Object Player"
 msgstr "DKA Objektafspiller"
 
-#: ../widgets/player.php:29
+#: ../widgets/player.php:21
 msgid "Display a player according to the material format"
 msgstr "Vis en afspiller i henhold til materialeformatet"
+
+#: ../widgets/player.php:26
+msgid "Slug/GUID"
+msgstr "Slug/GUID"
+
+#: ../widgets/player.php:32
+msgid "Title/Alternate text"
+msgstr "Titel/alternativ tekst"
+
+#: ../widgets/player.php:38
+msgid "Autoplay"
+msgstr "Auto-afspil"
+
+#: ../widgets/player.php:44
+msgid "Show link"
+msgstr "Vis link"
+
+#: ../widgets/player.php:105
+msgid "Read more"
+msgstr "Læs mere"
+
+#~ msgid "Material"
+#~ msgstr "Materiale"
 
 #~ msgid "Permalinks must be enabled for CHAOS search to work properly"
 #~ msgstr ""
@@ -309,9 +328,6 @@ msgstr "Vis en afspiller i henhold til materialeformatet"
 
 #~ msgid "Views"
 #~ msgstr "Visninger"
-
-#~ msgid "Read more at %s"
-#~ msgstr "Læs mere hos %s"
 
 #~ msgid "Tags"
 #~ msgstr "Tags"
