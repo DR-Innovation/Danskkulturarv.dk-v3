@@ -27,7 +27,7 @@ class WPDKACollectionFeaturedWidget extends WPChaosWidget {
 			array(
 				'title' => __('Collections',WPDKACollections::DOMAIN),
 				'name' => 'collections',
-				'type' => 'checkbox',
+				'type' => 'checkbox-multi',
 				'list' => array($this,'get_collections'),
 				'val' => '',
 			),
