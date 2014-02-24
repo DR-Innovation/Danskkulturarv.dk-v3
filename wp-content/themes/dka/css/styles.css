@@ -269,7 +269,7 @@ body {
   font-size: 13px;
   line-height: 1.428571429;
   color: #333333;
-  background-color: #f6f6f6;
+  background-color: #ffffff;
 }
 input,
 button,
@@ -312,7 +312,7 @@ img {
 .img-thumbnail {
   padding: 4px;
   line-height: 1.428571429;
-  background-color: #f6f6f6;
+  background-color: #ffffff;
   border: 1px solid #dddddd;
   border-radius: 4px;
   -webkit-transition: all 0.2s ease-in-out;
@@ -1428,7 +1428,7 @@ th {
   border-top: 2px solid #dddddd;
 }
 .table .table {
-  background-color: #f6f6f6;
+  background-color: #ffffff;
 }
 .table-condensed > thead > tr > th,
 .table-condensed > tbody > tr > th,
@@ -1651,6 +1651,7 @@ input[type="checkbox"] {
   margin: 4px 0 0;
   margin-top: 1px \9;
   /* IE8-9 */
+
   line-height: normal;
 }
 input[type="file"] {
@@ -2883,7 +2884,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #555555;
-  background-color: #f6f6f6;
+  background-color: #ffffff;
   border: 1px solid #dddddd;
   border-bottom-color: transparent;
   cursor: default;
@@ -2929,7 +2930,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .nav-tabs.nav-justified > .active > a,
   .nav-tabs.nav-justified > .active > a:hover,
   .nav-tabs.nav-justified > .active > a:focus {
-    border-bottom-color: #f6f6f6;
+    border-bottom-color: #ffffff;
   }
 }
 .nav-pills > li {
@@ -2997,7 +2998,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .nav-tabs-justified > .active > a,
   .nav-tabs-justified > .active > a:hover,
   .nav-tabs-justified > .active > a:focus {
-    border-bottom-color: #f6f6f6;
+    border-bottom-color: #ffffff;
   }
 }
 .tab-content > .tab-pane {
@@ -3685,7 +3686,7 @@ a.list-group-item.active > .badge,
   padding: 4px;
   margin-bottom: 18px;
   line-height: 1.428571429;
-  background-color: #f6f6f6;
+  background-color: #ffffff;
   border: 1px solid #dddddd;
   border-radius: 4px;
   -webkit-transition: all 0.2s ease-in-out;
@@ -4511,6 +4512,9 @@ button.close {
   background-position: 0% 0%;
   background-repeat: repeat;
 }
+html {
+  background: #f6f6f6;
+}
 .body-container {
   padding-top: 70px;
   border-width: 0 1px;
@@ -5082,6 +5086,7 @@ div.contributors dd {
   height: auto !important;
   height: 100%;
   /* Negative indent footer by it's height */
+
   margin: 0 auto -136px;
 }
 /* Set the fixed height of the footer here */
@@ -5185,8 +5190,7 @@ iframe {
   list-style: none;
 }
 /* FlexSlider Necessary Styles
-*********************************/
-.flexslider {
+*********************************/.flexslider {
   margin: 0;
   padding: 0;
 }
@@ -5369,77 +5373,65 @@ html[xmlns] .slides {
 }
 @media only screen and (min-width: 481px) {
   /*
-Custom styles for tiny screen / phone (481 and up)
-
-This stylesheet is loaded for larger devices. It's set to 
-481px because at 480px it would load on a landscaped iPhone.
-This isn't ideal because then you would be loading all those
-extra styles on that same mobile connection. 
-
-A word of warning. This size COULD be a larger mobile device,
-so you still want to keep it pretty light and simply expand
-upon your base.less styles.
-
--------------------------------------------------- */
+  Custom styles for tiny screen / phone (481 and up)
+  
+  This stylesheet is loaded for larger devices. It's set to 
+  481px because at 480px it would load on a landscaped iPhone.
+  This isn't ideal because then you would be loading all those
+  extra styles on that same mobile connection. 
+  
+  A word of warning. This size COULD be a larger mobile device,
+  so you still want to keep it pretty light and simply expand
+  upon your base.less styles.
+  
+  -------------------------------------------------- */
   .col-xs-1i {
     width: 8.333333333333332% !important;
-    float: left;
   }
   .col-xs-2i {
     width: 16.666666666666664% !important;
-    float: left;
   }
   .col-xs-3i {
     width: 24.999999999999996% !important;
-    float: left;
   }
   .col-xs-4i {
     width: 33.33333333333333% !important;
-    float: left;
   }
   .col-xs-5i {
     width: 41.66666666666666% !important;
-    float: left;
   }
   .col-xs-6i {
     width: 49.99999999999999% !important;
-    float: left;
   }
   .col-xs-7i {
     width: 58.33333333333333% !important;
-    float: left;
   }
   .col-xs-8i {
     width: 66.66666666666666% !important;
-    float: left;
   }
   .col-xs-9i {
     width: 74.99999999999999% !important;
-    float: left;
   }
   .col-xs-10i {
     width: 83.33333333333331% !important;
-    float: left;
   }
   .col-xs-11i {
     width: 91.66666666666666% !important;
-    float: left;
   }
   .col-xs-12i {
     width: 99.99999999999999% !important;
-    float: left;
   }
 }
 @media only screen and (min-width: 768px) {
   /*
-Custom styles for small screen / tablet (768 and up)
-
-Here's where you can start getting into the good stuff.
-This size will work on iPads, other tablets, and desktops.
-So you can start working with more styles, background images,
-and other resources.
-
--------------------------------------------------- */
+  Custom styles for small screen / tablet (768 and up)
+  
+  Here's where you can start getting into the good stuff.
+  This size will work on iPads, other tablets, and desktops.
+  So you can start working with more styles, background images,
+  and other resources.
+  
+  -------------------------------------------------- */
   .container .search .row {
     padding: 0 10px 0 20px;
   }
@@ -5528,61 +5520,49 @@ and other resources.
   }
   .col-sm-1i {
     width: 8.333333333333332% !important;
-    float: left;
   }
   .col-sm-2i {
     width: 16.666666666666664% !important;
-    float: left;
   }
   .col-sm-3i {
     width: 24.999999999999996% !important;
-    float: left;
   }
   .col-sm-4i {
     width: 33.33333333333333% !important;
-    float: left;
   }
   .col-sm-5i {
     width: 41.66666666666666% !important;
-    float: left;
   }
   .col-sm-6i {
     width: 49.99999999999999% !important;
-    float: left;
   }
   .col-sm-7i {
     width: 58.33333333333333% !important;
-    float: left;
   }
   .col-sm-8i {
     width: 66.66666666666666% !important;
-    float: left;
   }
   .col-sm-9i {
     width: 74.99999999999999% !important;
-    float: left;
   }
   .col-sm-10i {
     width: 83.33333333333331% !important;
-    float: left;
   }
   .col-sm-11i {
     width: 91.66666666666666% !important;
-    float: left;
   }
   .col-sm-12i {
     width: 99.99999999999999% !important;
-    float: left;
   }
 }
 @media only screen and (min-width: 992px) {
   /*
-Custom styles for medium screen / desktop (992 and up)
-
-This is the desktop size. It's larger than an iPad so it will only
-be seen on the Desktop. 
-
--------------------------------------------------- */
+  Custom styles for medium screen / desktop (992 and up)
+  
+  This is the desktop size. It's larger than an iPad so it will only
+  be seen on the Desktop. 
+  
+  -------------------------------------------------- */
   .front-page-content {
     font-size: 52px;
     line-height: 58px;
@@ -5593,107 +5573,83 @@ be seen on the Desktop.
   }
   .col-md-1i {
     width: 8.333333333333334% !important;
-    float: left !important;
   }
   .col-md-2i {
     width: 16.666666666666668% !important;
-    float: left !important;
   }
   .col-md-3i {
     width: 25% !important;
-    float: left !important;
   }
   .col-md-4i {
     width: 33.333333333333336% !important;
-    float: left !important;
   }
   .col-md-5i {
     width: 41.66666666666667% !important;
-    float: left !important;
   }
   .col-md-6i {
     width: 50% !important;
-    float: left !important;
   }
   .col-md-7i {
     width: 58.333333333333336% !important;
-    float: left !important;
   }
   .col-md-8i {
     width: 66.66666666666667% !important;
-    float: left !important;
   }
   .col-md-9i {
     width: 75% !important;
-    float: left !important;
   }
   .col-md-10i {
     width: 83.33333333333334% !important;
-    float: left !important;
   }
   .col-md-11i {
     width: 91.66666666666667% !important;
-    float: left !important;
   }
   .col-md-12i {
     width: 100% !important;
-    float: left !important;
   }
 }
 @media only screen and (min-width: 1200px) {
   /*
-Custom styles for large screen / wide desktop (1200 and up)
-
-You can add some advanced styles here if you like. This kicks in
-on larger screens.
-
--------------------------------------------------- */
+  Custom styles for large screen / wide desktop (1200 and up)
+  
+  You can add some advanced styles here if you like. This kicks in
+  on larger screens.
+  
+  -------------------------------------------------- */
   .col-lg-1i {
     width: 8.333333333333332% !important;
-    float: left;
   }
   .col-lg-2i {
     width: 16.666666666666664% !important;
-    float: left;
   }
   .col-lg-3i {
     width: 24.999999999999996% !important;
-    float: left;
   }
   .col-lg-4i {
     width: 33.33333333333333% !important;
-    float: left;
   }
   .col-lg-5i {
     width: 41.66666666666666% !important;
-    float: left;
   }
   .col-lg-6i {
     width: 49.99999999999999% !important;
-    float: left;
   }
   .col-lg-7i {
     width: 58.33333333333333% !important;
-    float: left;
   }
   .col-lg-8i {
     width: 66.66666666666666% !important;
-    float: left;
   }
   .col-lg-9i {
     width: 74.99999999999999% !important;
-    float: left;
   }
   .col-lg-10i {
     width: 83.33333333333331% !important;
-    float: left;
   }
   .col-lg-11i {
     width: 91.66666666666666% !important;
-    float: left;
   }
   .col-lg-12i {
     width: 99.99999999999999% !important;
-    float: left;
   }
 }
