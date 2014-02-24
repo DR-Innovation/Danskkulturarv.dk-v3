@@ -104,7 +104,12 @@ img {
 	height: auto;
 	width: auto;
 }
-
+.flexslider .slides {
+	height: 100%;
+}
+.flex-active-slide {
+	height: auto !important;
+}
 /*
  * jQuery FlexSlider v2.0
  * http://www.woothemes.com/flexslider/
@@ -129,8 +134,8 @@ img {
 *********************************/ 
 .flexslider {margin: 0; padding: 0;}
 .flexslider .flex-viewport {height: 100% !important;}
-.flexslider .slides > li {display: none; -webkit-backface-visibility: hidden;} /* Hide the slides before the JS is loaded. Avoids image jumping */
-.flexslider .slides img {max-width: 100%; max-height: 100%; display: block; position: absolute;}
+.flexslider .slides > li {display: none; -webkit-backface-visibility: hidden; height: 100%;} /* Hide the slides before the JS is loaded. Avoids image jumping */
+.flexslider .slides img {max-width: 100%; max-height: 100%; display: block;}
 .flexslider .flex-viewport .slides img {position: static; margin-left: auto; margin-right: auto;}
 .flex-pauseplay span {text-transform: capitalize;}
 
