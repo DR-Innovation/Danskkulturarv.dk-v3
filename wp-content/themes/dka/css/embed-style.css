@@ -78,7 +78,7 @@ img {
 	max-width: 100%;
 	position: absolute;
 	top: 0;
-	bottom: 40px;
+	bottom: 50px;
 	left: 0;
 	right: 0;
 	height: auto;
@@ -91,6 +91,18 @@ img {
 }
 .player > div {
 	height: 100% !important;
+}
+
+.flex-active-slide img {
+	max-height: 100%;
+	max-width: 100%;
+	position: absolute !important;
+	top: 0;
+	bottom: 40px;
+	left: 0;
+	right: 0;
+	height: auto;
+	width: auto;
 }
 
 /*
