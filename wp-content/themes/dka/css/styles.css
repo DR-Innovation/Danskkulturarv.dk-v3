@@ -269,7 +269,7 @@ body {
   font-size: 13px;
   line-height: 1.428571429;
   color: #333333;
-  background-color: #ffffff;
+  background-color: #f6f6f6;
 }
 input,
 button,
@@ -312,7 +312,7 @@ img {
 .img-thumbnail {
   padding: 4px;
   line-height: 1.428571429;
-  background-color: #ffffff;
+  background-color: #f6f6f6;
   border: 1px solid #dddddd;
   border-radius: 4px;
   -webkit-transition: all 0.2s ease-in-out;
@@ -1428,7 +1428,7 @@ th {
   border-top: 2px solid #dddddd;
 }
 .table .table {
-  background-color: #ffffff;
+  background-color: #f6f6f6;
 }
 .table-condensed > thead > tr > th,
 .table-condensed > tbody > tr > th,
@@ -2884,7 +2884,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #555555;
-  background-color: #ffffff;
+  background-color: #f6f6f6;
   border: 1px solid #dddddd;
   border-bottom-color: transparent;
   cursor: default;
@@ -2930,7 +2930,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .nav-tabs.nav-justified > .active > a,
   .nav-tabs.nav-justified > .active > a:hover,
   .nav-tabs.nav-justified > .active > a:focus {
-    border-bottom-color: #ffffff;
+    border-bottom-color: #f6f6f6;
   }
 }
 .nav-pills > li {
@@ -2998,7 +2998,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .nav-tabs-justified > .active > a,
   .nav-tabs-justified > .active > a:hover,
   .nav-tabs-justified > .active > a:focus {
-    border-bottom-color: #ffffff;
+    border-bottom-color: #f6f6f6;
   }
 }
 .tab-content > .tab-pane {
@@ -3686,7 +3686,7 @@ a.list-group-item.active > .badge,
   padding: 4px;
   margin-bottom: 18px;
   line-height: 1.428571429;
-  background-color: #ffffff;
+  background-color: #f6f6f6;
   border: 1px solid #dddddd;
   border-radius: 4px;
   -webkit-transition: all 0.2s ease-in-out;
@@ -4512,10 +4512,6 @@ button.close {
   background-position: 0% 0%;
   background-repeat: repeat;
 }
-html,
-body {
-  height: 100%;
-}
 .body-container {
   padding-top: 70px;
   border-width: 0 1px;
@@ -4942,6 +4938,7 @@ ul.row.listview .thumb {
   margin-bottom: 20px;
 }
 .nav.info .social-share {
+  display: inline-block;
   color: #fff;
   text-align: center;
   width: 35px;
