@@ -70,14 +70,14 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
 		</div>
 
 		<div class="col-xs-12 col-sm-12 filter-container filter-organizations">
-			<label class="btn filter-btn filter-btn-all"><?php _e('All Organizations','dka'); ?><i class="icon-ok"></i></label>
+			<label class="btn filter-btn filter-btn-all col-sm-12"><?php _e('All Organizations','dka'); ?><i class="icon-ok"></i></label>
 <?php
 $current_organization_id = 0;
 foreach(WPDKASearch::get_organizations_merged() as $id => $organization) :
 	$count = get_facet_count(WPDKASearch::QUERY_KEY_ORGANIZATION, $organization['chaos_titles']);
 
 ?>
-			<label for="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" class="btn filter-btn filter-btn-single">
+			<label for="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" class="btn filter-btn filter-btn-single col-md-6i col-sm-6i col-lg-4i col-xs-12">
 				<input type="checkbox" class="chaos-filter" style="display: none;" name="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION; ?>[]" value="<?php echo $organization['slug']; ?>" id="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" <?php checked(in_array($organization['slug'],(array)$organizations)); ?>>
 				<?php echo $organization['title']; ?> (<?php echo $count ?>)<i class="icon-remove-sign"></i>
 			</label> 
