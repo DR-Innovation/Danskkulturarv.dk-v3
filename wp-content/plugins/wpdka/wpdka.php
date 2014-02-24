@@ -469,7 +469,7 @@ class WPDKA {
 		return $file->Token . $quality;
 	}
 
-	public static function get_object_player(WPChaosObject $object = null, $autoplay = false) {
+	public static function get_object_player(WPChaosObject $object = null, $autoplay = false, $title = '') {
 		$return = "";
 
 		if($object == null && WPChaosClient::get_object()) {

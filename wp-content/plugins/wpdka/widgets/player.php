@@ -29,6 +29,12 @@ class WPDKAObjectPlayerWidget extends WPChaosWidget {
 				'val' => '',
 			),
 			array(
+				'title' => __('Title/Alternate text','wpdka'),
+				'name' => 'alt',
+				'type' => 'text',
+				'val' => '',
+			),
+			array(
 				'title' => __('Autoplay','wpdka'),
 				'name' => 'autoplay',
 				'type' => 'checkbox',
@@ -88,9 +94,14 @@ class WPDKAObjectPlayerWidget extends WPChaosWidget {
 		}
 
 		if(WPChaosClient::get_object()) {
+
+			$autoplay = (isset($instance['autoplay']) ? $instance['autoplay'] : true);
+			$alt = (isset($instance['alt']) ? $instance['alt'] : '');
+			$link = (isset($instance['link']) ? $instance['link'] : false);
+
 			echo $args['before_widget'];
-			echo WPDKA::get_object_player(WPChaosClient::get_object(),$instance['autoplay']);
-			if($instance['link']) {
+			echo WPDKA::get_object_player(WPChaosClient::get_object(),$autoplay,$alt);
+			if($link) {
 				echo '<a href="'.WPChaosClient::get_object()->url.'">'.__('Read more').'</a>';
 			}
 			echo $args['after_widget'];
