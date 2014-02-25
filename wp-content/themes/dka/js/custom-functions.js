@@ -54,7 +54,11 @@
 				$('input[name="'+$checkbox.attr('name')+'"][value="'+$checkbox.val()+'"]').not($checkbox).each( function(e) {
 					//No need to update active class because we force submit
 					//change event will lead to infinite recursion
-					$(this).attr('checked', $checkbox.is(':checked'));
+					//Only sync on uncheck because else we would get dupe params in GET
+					if(!$checkbox.is(':checked')) {
+						$(this).attr('checked', false);
+					}
+					
 				});
 
 				dka_api.forceSubmitForm();
