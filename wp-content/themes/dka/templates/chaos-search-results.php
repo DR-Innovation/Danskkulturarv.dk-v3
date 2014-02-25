@@ -73,7 +73,7 @@ $views = array(
 			$caption = WPChaosClient::get_object()->caption;
 			$title = WPChaosClient::get_object()->title;
 			$organization = WPChaosClient::get_object()->organization;
-			$views = number_format_i18n(WPChaosClient::get_object()->views);
+			$views = number_format_i18n((double)WPChaosClient::get_object()->views);
 			$class = '';
 			if($collection_obj) {
 				$url .= '#'.$collection_obj->GUID;
