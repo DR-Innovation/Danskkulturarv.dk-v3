@@ -1651,6 +1651,7 @@ input[type="checkbox"] {
   margin: 4px 0 0;
   margin-top: 1px \9;
   /* IE8-9 */
+
   line-height: normal;
 }
 input[type="file"] {
@@ -4692,6 +4693,7 @@ fieldset[disabled] .container .search .btn-advanced-search.collapsed.active {
 }
 #advanced-search-container {
   margin-bottom: -20px;
+  padding: 0;
 }
 #advanced-search-container .filter-media-type {
   border-bottom: 1px solid #eeeeee;
@@ -4700,6 +4702,7 @@ fieldset[disabled] .container .search .btn-advanced-search.collapsed.active {
   padding: 10px 0;
 }
 #advanced-search-container .btn.filter-btn {
+  font-weight: normal;
   position: relative;
   height: 20px;
   margin: 5px 0;
@@ -4708,14 +4711,14 @@ fieldset[disabled] .container .search .btn-advanced-search.collapsed.active {
   width: 100%;
   color: #000;
   border: none;
-  padding: 0 8px;
+  padding: 0 5px 0 10px;
   font-size: 12px;
   border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  font-weight: 400;
   line-height: 20px;
   background-color: #eeeeee;
+}
+#advanced-search-container .btn.filter-btn .chaos-filter {
+  display: none;
 }
 #advanced-search-container .btn.filter-btn i {
   width: 16px;
@@ -4725,9 +4728,9 @@ fieldset[disabled] .container .search .btn-advanced-search.collapsed.active {
   text-shadow: none;
 }
 #advanced-search-container .btn.filter-btn i.icon-remove-sign {
-  position: absolute;
-  visibility: hidden;
-  right: 0;
+  margin: 0;
+  float: right;
+  display: none;
 }
 #advanced-search-container .btn.filter-btn.active {
   color: #fff;
@@ -4735,18 +4738,18 @@ fieldset[disabled] .container .search .btn-advanced-search.collapsed.active {
   text-shadow: none;
 }
 #advanced-search-container .btn.filter-btn.active i.icon-remove-sign {
-  visibility: visible;
+  display: inline-block;
 }
-#advanced-search-container .btn.filter-btn.filter-btn-all {
+#advanced-search-container .btn.filter-btn-all {
   margin-bottom: 10px;
 }
-#advanced-search-container .btn.filter-btn.filter-btn-all i.icon-ok {
-  position: absolute;
-  visibility: hidden;
-  right: 0;
+#advanced-search-container .btn.filter-btn-all i.icon-ok {
+  margin: 0;
+  float: right;
+  display: none;
 }
-#advanced-search-container .btn.filter-btn.filter-btn-all.active i.icon-ok {
-  visibility: visible;
+#advanced-search-container .btn.filter-btn-all.active i.icon-ok {
+  display: inline-block;
 }
 .listview .search-object {
   height: auto;
@@ -5085,6 +5088,7 @@ div.contributors dd {
   height: auto !important;
   height: 100%;
   /* Negative indent footer by it's height */
+
   margin: 0 auto -136px;
 }
 /* Set the fixed height of the footer here */
@@ -5188,8 +5192,7 @@ iframe {
   list-style: none;
 }
 /* FlexSlider Necessary Styles
-*********************************/
-.flexslider {
+*********************************/.flexslider {
   margin: 0;
   padding: 0;
 }
@@ -5372,14 +5375,14 @@ html[xmlns] .slides {
 }
 @media only screen and (min-width: 768px) {
   /*
-Custom styles for small screen / tablet (768 and up)
-
-Here's where you can start getting into the good stuff.
-This size will work on iPads, other tablets, and desktops.
-So you can start working with more styles, background images,
-and other resources.
-
--------------------------------------------------- */
+  Custom styles for small screen / tablet (768 and up)
+  
+  Here's where you can start getting into the good stuff.
+  This size will work on iPads, other tablets, and desktops.
+  So you can start working with more styles, background images,
+  and other resources.
+  
+  -------------------------------------------------- */
   .container .search .row {
     padding: 0 10px 0 20px;
   }
@@ -5469,12 +5472,12 @@ and other resources.
 }
 @media only screen and (min-width: 992px) {
   /*
-Custom styles for medium screen / desktop (992 and up)
-
-This is the desktop size. It's larger than an iPad so it will only
-be seen on the Desktop. 
-
--------------------------------------------------- */
+  Custom styles for medium screen / desktop (992 and up)
+  
+  This is the desktop size. It's larger than an iPad so it will only
+  be seen on the Desktop. 
+  
+  -------------------------------------------------- */
   .front-page-content {
     font-size: 52px;
     line-height: 58px;
