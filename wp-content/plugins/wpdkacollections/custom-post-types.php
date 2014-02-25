@@ -7,7 +7,7 @@
 function wpdkacollections_register_exhibition_type() {
 
 	$post_type = 'udstilling';
-	$rewrite_slug = 'samling/'.$post_type;
+	$rewrite_slug = $post_type;
 
 	register_post_type( $post_type, array(
 		'labels'             => array(
