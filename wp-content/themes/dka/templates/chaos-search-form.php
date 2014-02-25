@@ -44,7 +44,7 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
 ?>
 			<label class="btn btn-default btn-lg<?php echo ($active ? 
 			' active' : ''); ?>" title="<?php echo $args['title']; ?>">
-				<input type="checkbox" name="<?php echo WPDKASearch::QUERY_KEY_TYPE; ?>[]" value="<?php echo $format_type; ?>" <?php checked($active); ?>>
+				<input type="checkbox" name="<?php echo WPDKASearch::QUERY_KEY_TYPE; ?>['<?php echo $format_type; ?>']" value="<?php echo $format_type; ?>" <?php checked($active); ?>>
 				<i class="<?php echo $args['class']; ?>"></i>
 			</label>
 <?php endforeach; ?>
@@ -67,7 +67,7 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
 <?php foreach(WPDKAObject::$format_types as $format_type => $args) : if($format_type == WPDKAObject::TYPE_IMAGE_AUDIO || $format_type == WPDKAObject::TYPE_UNKNOWN) continue; ?>
 			<div class="col-xs-12">
 				<label title="<?php echo $args['title']; ?>" for="<?php echo WPDKASearch::QUERY_KEY_TYPE .'-'. $format_type; ?>" class="btn filter-btn filter-btn-single">
-					<input type="checkbox" class="chaos-filter" name="<?php echo WPDKASearch::QUERY_KEY_TYPE; ?>[]" value="<?php echo $format_type; ?>" id="<?php echo WPDKASearch::QUERY_KEY_TYPE .'-'. $format_type; ?>" <?php checked(in_array($format_type,(array)$types)); ?>>
+					<input type="checkbox" class="chaos-filter" name="<?php echo WPDKASearch::QUERY_KEY_TYPE; ?>['<?php echo $format_type; ?>']" value="<?php echo $format_type; ?>" id="<?php echo WPDKASearch::QUERY_KEY_TYPE .'-'. $format_type; ?>" <?php checked(in_array($format_type,(array)$types)); ?>>
 					<i class="icon-remove-sign"></i><i class="<?php echo $args['class']; ?>"></i><?php echo $args['title']; ?> (<?php echo get_facet_count(WPDKASearch::QUERY_KEY_TYPE, $args['chaos-value']) ?>)
 				</label>
 			</div>
