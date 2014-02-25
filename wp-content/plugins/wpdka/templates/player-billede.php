@@ -18,7 +18,7 @@ add_action( 'wp_footer', function() {
 <?php foreach(WPChaosClient::get_object()->Files as $file) :
 	if($file->FormatType != 'Image' || $file->FormatCategory != 'Image Source') continue;
 	if(!isset($title) || empty($title)) {
-		$title = sprintf(esc_attr__('Image %s for %s'),$file->Filename,WPChaosClient::get_object()->title);
+		$title = sprintf(esc_attr__('Image %s for %s','wpdka'),$file->Filename,WPChaosClient::get_object()->title);
 	}
 	
 ?>
