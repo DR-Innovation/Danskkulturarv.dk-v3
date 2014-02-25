@@ -266,4 +266,51 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'embed', function($value, $object
 	return '<iframe src="'.$object->url.'embed" frameborder="0" allowfullscreen width="480" height="360"></iframe>';
 }, 10, 2);
 
+//object->og_tags
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'og_tags', function($value, $object) {
+
+	$metadatas = array();
+
+	$description = WPDKAObject::word_limit($object->description);
+
+	$metadatas['description'] = array(
+		'name' => 'description',
+		'content' => $description
+	);
+	$metadatas['og:title'] = array(
+		'property' => 'og:title',
+		'content' => $object->title
+	);
+	$metadatas['og:description'] = array(
+		'property' => 'og:description',
+		'content' => $description
+	);
+	$metadatas['og:type'] = array(
+		'property' => 'og:type',
+		'content' => WPDKAObject::$format_types[$object->type]['chaos-value']
+	);
+	$metadatas['og:url'] = array(
+		'property' => 'og:url',
+		'content' => $object->url
+	);
+	$metadatas['og:image'] = array(
+		'property' => 'og:image',
+		'content' => $object->thumbnail
+	);
+
+	// if($object->type == WPDKAObject::TYPE_VIDEO) {
+	// 	$metadatas['og:video'] = array(
+	// 		'property' => 'og:image',
+	// 		'content' => $object->thumbnail
+	// 	);
+	// } elseif($object->type == WPDKAObject::TYPE_AUDIO) {
+	// 	$metadatas['og:audio'] = array(
+	// 		'property' => 'og:image',
+	// 		'content' => $object->thumbnail
+	// 	);
+	// }
+
+	return $metadatas;
+}, 10, 2);
+
 //

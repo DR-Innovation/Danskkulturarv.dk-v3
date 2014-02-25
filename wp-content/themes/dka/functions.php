@@ -280,33 +280,7 @@ function dka_wp_head() {
 	}
 
 	if(WPChaosClient::get_object()) {
-
-		$description = dka_word_limit(strip_tags(WPChaosClient::get_object()->description));
-
-		$metadatas['description'] = array(
-			'name' => 'description',
-			'content' => $description
-		);
-		$metadatas['og:title'] = array(
-			'property' => 'og:title',
-			'content' => WPChaosClient::get_object()->title
-		);
-		$metadatas['og:description'] = array(
-			'property' => 'og:description',
-			'content' => $description
-		);
-		$metadatas['og:type'] = array(
-			'property' => 'og:type',
-			'content' => WPChaosClient::get_object()->type
-		);
-		$metadatas['og:url'] = array(
-			'property' => 'og:url',
-			'content' => WPChaosClient::get_object()->url
-		);
-		$metadatas['og:image'] = array(
-			'property' => 'og:image',
-			'content' => WPChaosClient::get_object()->thumbnail
-		);
+		$metadatas = array_merge($metadatas,WPChaosClient::get_object()->og_tags);
 	}
 
 	$metadatas = apply_filters('wpchaos-head-meta',$metadatas);

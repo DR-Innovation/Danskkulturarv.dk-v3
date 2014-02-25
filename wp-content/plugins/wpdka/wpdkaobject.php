@@ -106,6 +106,21 @@ class WPDKAObject {
 	);
 
 	/**
+	 * Limit length of string
+	 * @author Joachim Jensen <jv@intox.dk>
+	 * @param  string    $string
+	 * @param  integer   $length
+	 * @param  string    $ellipsis
+	 * @return string
+	 */
+	public static function word_limit($string, $length = 30, $ellipsis = " [...]") {
+		$words = explode(' ', $string);
+		if (count($words) > $length)
+			$string = implode(' ', array_slice($words, 0, $length)) . $ellipsis;
+		return $string;
+	}
+
+	/**
 	 * Determine type of a CHAOS object based
 	 * on the included file formats
 	 * @param  WPChaosObject $object 
