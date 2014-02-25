@@ -31,12 +31,14 @@
 		 */
 		addCheckboxListener: function() {
 
+			var submitTimer;
+
 			//Update label classes according to check state
 			$('.search').on('change', 'input.chaos-filter', function(e) {
 				var $checkbox = $(this);
 				var $label = $checkbox.parent();
 
-				$label.toggleClass("active", $checkbox.is(":checked"));
+				$label.toggleClass("active", $checkbox.prop("checked"));
 
 				//Update filter-btn-all
 				dka_api.updateToggleAllState($label.closest('.filter-container'));
@@ -50,19 +52,26 @@
 				
 				var $checkbox = $(this);
 
-				//Synchronize checkboxes of same name and value
-				$('input[name="'+$checkbox.attr('name')+'"][value="'+$checkbox.val()+'"]').not($checkbox).each( function(e) {
-					//No need to update active class because we force submit
-					//change event will lead to infinite recursion
-					//Only sync on uncheck because else we would get dupe params in GET
-					if(!$checkbox.is(':checked')) {
-						$(this).attr('checked', false);
-					}
-					
-				});
+				//Only sync on uncheck because else we would get dupe params in GET
+				if(!$checkbox.prop('checked')) {
+					//Synchronize checkboxes of same name and value
+					$('input[name="'+$checkbox.attr('name')+'"][value="'+$checkbox.val()+'"]:checked').not($checkbox).each( function(e) {
+						//No need to update active class because we force submit
+						//change event will lead to infinite recursion
+						$(this).prop('checked', false);
+					});
+				}
 
-				dka_api.forceSubmitForm();
-			});
+				//Use timer to let user click more than once
+				//and events to complete
+				if( submitTimer )
+					clearTimeout(submitTimer);
+
+				submitTimer = setTimeout(function(){
+					dka_api.forceSubmitForm();
+				}, 400);
+
+			})
 
 		},
 
@@ -85,7 +94,7 @@
 			// Show all buttons
 			$('.search').on('click', '.filter-btn-all', function(e) {
 				// Change the state and fire the change event.
-				$("input.chaos-filter", $(this).parent()).attr("checked", false)
+				$("input.chaos-filter", $(this).closest('.filter-container')).prop("checked", false)
 				.change();
 			});
 		},
