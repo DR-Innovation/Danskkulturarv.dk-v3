@@ -39,7 +39,7 @@ $views = array(
 						<li><a tabindex="-1" href="<?php echo WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_SORT => $sort['link'], WPChaosSearch::QUERY_KEY_PAGE => null)); ?>" title="<?php echo $sort['title']; ?>"><?php echo $sort['title']; ?></a></li>
 					<?php endforeach; ?>
 				 	</ul>
-				</div>
+				</div>&nbsp;
 				<div class="btn-group">
 					<?php foreach($views as $view) :
 					echo '<a type="button" class="btn btn-default btn-sm'.($view['view'] == $current_view ? ' active' : '').'" href="'.WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_VIEW => $view['link'])).'" title="'.$view['title'].'"><i class="'.$view['class'].'"></i></a>';

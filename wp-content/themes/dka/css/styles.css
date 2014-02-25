@@ -4721,6 +4721,7 @@ fieldset[disabled] .container .search .btn-advanced-search.collapsed.active {
   display: none;
 }
 #advanced-search-container .btn.filter-btn i {
+  line-height: inherit;
   width: 16px;
   font-size: 14px;
   text-align: center;
@@ -4884,7 +4885,7 @@ ul.row.listview .thumb {
 }
 .search-results-top .search-result-listing a {
   font-size: 14px;
-  padding: 4px 10px;
+  padding: 3px 10px 4px;
 }
 .search-results-top .search-count {
   overflow: hidden;
