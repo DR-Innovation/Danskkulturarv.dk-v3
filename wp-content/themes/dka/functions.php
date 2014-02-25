@@ -15,9 +15,16 @@ add_filter( 'pre_site_transient_update_core', function($a) { return null; } );
  * Make post class compatible with Bootstrap
  */
 add_filter('post_class', function($classes) {
-	$classes[] = 'col-xs-12';
+	if(is_active_sidebar('sidebar-1')) {
+		$classes[] = 'col-lg-9';
+	} else {
+		$classes[] = 'col-xs-12';
+	}
+	
 	return $classes;
 });
+
+add_filter( 'use_default_gallery_style', '__return_false' );
 
 /**
  * Paragraphs in editor
@@ -61,7 +68,8 @@ add_action('dequeue_all_styles', 'dka_dequeue_all_styles');
 function dka_scripts_styles() {
 
 	wp_register_style( 'font-awesome', '//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css' );
-	wp_register_style( 'dka-style', get_template_directory_uri() . '/css/styles.css', array('font-awesome') );
+	wp_register_style('asap', 'http://fonts.googleapis.com/css?family=Asap:400,700,400italic');
+	wp_register_style( 'dka-style', get_template_directory_uri() . '/css/styles.css', array('font-awesome','asap') );
 	wp_register_style( 'dka-embed-style', get_template_directory_uri() . '/css/embed-style.css');
 
 	wp_enqueue_style( 'dka-style' );
