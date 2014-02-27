@@ -52,18 +52,18 @@
 @import "../custom.less";
 @import "../flexslider.less";
 
-// @media only screen and (min-width: 481px) {
- 	// @import "../custom-tiny.less";
-// }
+@media only screen and (max-width: @screen-sm-max) {
+ 	@import "../custom-tiny.less";
+}
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: @screen-sm-min) {
 	@import "../custom-small.less";
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: @screen-md-min) {
 	@import "../custom-medium.less";
 }
 
-// @media only screen and (min-width: 1200px) {
+// @media only screen and (min-width: @screen-lg-min) {
  	// @import "../custom-large.less";
 // }

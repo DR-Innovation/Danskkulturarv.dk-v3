@@ -256,8 +256,8 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'caption', function($value, $obje
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'is_embeddable', function($value, $object) {
 	//TODO: some materials might not be embeddable
 	//add node to schema
-	//default is DR material can be embedded
-	return ($object->organization == "DR") || WP_DEBUG;
+	//default is false
+	return WP_DEBUG;
 }, 10, 2);
 
 //object->embed

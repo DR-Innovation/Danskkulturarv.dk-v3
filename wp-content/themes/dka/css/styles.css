@@ -5004,6 +5004,7 @@ ul.row.listview .thumb {
   margin-bottom: 6px;
   text-decoration: none;
   cursor: pointer;
+  display: inline-block;
 }
 .nav.info a.tag:hover {
   background: #2f94fd;
@@ -5158,6 +5159,10 @@ footer .copyright a {
   margin-top: 6px;
   color: #999999;
 }
+.colorbox {
+  background-color: #e8e9e6;
+  padding: 1px 10px 5px 10px;
+}
 .wp-caption {
   max-width: 100%;
 }
@@ -5167,6 +5172,9 @@ footer .copyright a {
 }
 iframe {
   max-width: 100%;
+}
+footer {
+  margin-top: 75px;
 }
 /*
  * jQuery FlexSlider v2.0
@@ -5302,8 +5310,9 @@ html[xmlns] .slides {
 /* Control Nav */
 .flex-control-nav {
   width: 100%;
-  margin-top: 8px;
   text-align: center;
+  bottom: 10px;
+  position: absolute;
 }
 .flex-control-nav li {
   margin: 0 6px;
@@ -5330,16 +5339,11 @@ html[xmlns] .slides {
   background: rgba(0, 0, 0, 0.7);
 }
 .flex-control-paging li a.flex-active {
-  background: #000;
-  background: rgba(0, 0, 0, 0.9);
+  box-shadow: none;
+  background: #fff;
+  background: rgba(255, 255, 255, 0.9);
   cursor: default;
-}
-@media only screen and (max-width: 480px) {
-  .flex-control-paging,
-  .flex-next,
-  .flex-prev {
-    display: none !important;
-  }
+  border: 1px solid #999999;
 }
 .flex-control-thumbs {
   margin: 5px 0 0;
@@ -5364,6 +5368,13 @@ html[xmlns] .slides {
   opacity: 1;
   cursor: default;
 }
+@media only screen and (max-width: 480px) {
+  .flex-control-paging,
+  .flex-next,
+  .flex-prev {
+    display: none !important;
+  }
+}
 @media screen and (max-width: 860px) {
   .flex-direction-nav .flex-prev {
     opacity: 1;
@@ -5372,6 +5383,36 @@ html[xmlns] .slides {
   .flex-direction-nav .flex-next {
     opacity: 1;
     right: 0;
+  }
+}
+@media only screen and (max-width: 991px) {
+  /*
+  Custom styles for tiny screen / phone (481 and up)
+  
+  This stylesheet is loaded for larger devices. It's set to 
+  481px because at 480px it would load on a landscaped iPhone.
+  This isn't ideal because then you would be loading all those
+  extra styles on that same mobile connection. 
+  
+  A word of warning. This size COULD be a larger mobile device,
+  so you still want to keep it pretty light and simply expand
+  upon your base.less styles.
+  
+  -------------------------------------------------- */
+  .panel-grid-cell {
+    width: 100% !important;
+    padding-bottom: 10px !important;
+  }
+  .panel-row-style-2col_res {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .panel-row-style-2col_res .panel-grid-cell {
+    width: 50% !important;
+    padding: 0 7px 15px 7px !important;
+  }
+  .panel-grid-cell:last-child {
+    padding-bottom: 0 !important;
   }
 }
 @media only screen and (min-width: 768px) {

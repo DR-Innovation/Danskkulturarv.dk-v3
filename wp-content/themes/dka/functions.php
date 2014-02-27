@@ -15,7 +15,7 @@ add_filter( 'pre_site_transient_update_core', function($a) { return null; } );
  * Make post class compatible with Bootstrap
  */
 add_filter('post_class', function($classes) {
-	if(is_active_sidebar('sidebar-1')) {
+	if(is_singular(array('post','page')) && is_active_sidebar('sidebar-1')) {
 		$classes[] = 'col-lg-9';
 	} else {
 		$classes[] = 'col-xs-12';
@@ -24,15 +24,170 @@ add_filter('post_class', function($classes) {
 	return $classes;
 });
 
-add_filter( 'use_default_gallery_style', '__return_false' );
+/**
+ * Gallery shortcode overwrite for flexslider
+ * Uses code from WordPress Core
+ * @author Joachim Jensen <jv@intox.dk>
+ * @param  string          $output
+ * @param  array|string    $attr
+ * @see    wp-includes/media.php - gallery_shortcode()
+ * @return string
+ */
+function dka_gallery_markup($output, $attr) {
+
+	//Only continue on type flexslider
+	if(!(isset($attr['type']) && $attr['type'] == 'flexslider'))
+		return $output;
+
+	$post = get_post();
+
+	if ( ! empty( $attr['ids'] ) ) {
+		// 'ids' is explicitly ordered, unless you specify otherwise.
+		if ( empty( $attr['orderby'] ) )
+			$attr['orderby'] = 'post__in';
+		$attr['include'] = $attr['ids'];
+	}
+
+	// We're trusting author input, so let's at least make sure it looks like a valid orderby statement
+	if ( isset( $attr['orderby'] ) ) {
+		$attr['orderby'] = sanitize_sql_orderby( $attr['orderby'] );
+		if ( !$attr['orderby'] )
+			unset( $attr['orderby'] );
+	}
+
+	extract(shortcode_atts(array(
+		'order'      => 'ASC',
+		'orderby'    => 'menu_order ID',
+		'id'         => $post ? $post->ID : 0,
+		'itemtag'    => 'li',
+		'icontag'    => 'div',
+		'captiontag' => 'div',
+		'columns'    => 0,
+		'size'       => 'full',
+		'include'    => '',
+		'exclude'    => '',
+		'link'       => ''
+	), $attr, 'gallery'));
+
+	$id = intval($id);
+	if ( 'RAND' == $order )
+		$orderby = 'none';
+
+	if ( !empty($include) ) {
+		$_attachments = get_posts( array('include' => $include, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+
+		$attachments = array();
+		foreach ( $_attachments as $key => $val ) {
+			$attachments[$val->ID] = $_attachments[$key];
+		}
+	} elseif ( !empty($exclude) ) {
+		$attachments = get_children( array('post_parent' => $id, 'exclude' => $exclude, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+	} else {
+		$attachments = get_children( array('post_parent' => $id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby) );
+	}
+
+	if ( empty($attachments) )
+		return '';
+
+	if ( is_feed() ) {
+		$output = "\n";
+		foreach ( $attachments as $att_id => $attachment )
+			$output .= wp_get_attachment_link($att_id, $size, true) . "\n";
+		return $output;
+	}
+
+	$itemtag = tag_escape($itemtag);
+	$captiontag = tag_escape($captiontag);
+	$icontag = tag_escape($icontag);
+	$valid_tags = wp_kses_allowed_html( 'post' );
+	if ( ! isset( $valid_tags[ $itemtag ] ) )
+		$itemtag = 'dl';
+	if ( ! isset( $valid_tags[ $captiontag ] ) )
+		$captiontag = 'dd';
+	if ( ! isset( $valid_tags[ $icontag ] ) )
+		$icontag = 'dt';
+
+	$columns = intval($columns);
+
+	$size_class = sanitize_html_class( $size );
+	$gallery_div = "<div class='flexslider gallery galleryid-{$id} gallery-size-{$size_class}'><ul class='slides'>";
+	$output = $gallery_div;
+	$i = 0;
+	foreach ( $attachments as $id => $attachment ) {
+		if ( ! empty( $link ) && 'file' === $link )
+			$image_output = wp_get_attachment_link( $id, $size, false, false );
+		elseif ( ! empty( $link ) && 'none' === $link )
+			$image_output = wp_get_attachment_image( $id, $size, false );
+		else
+			$image_output = wp_get_attachment_link( $id, $size, true, false );
+
+		$image_meta  = wp_get_attachment_metadata( $id );
+
+		$orientation = '';
+		if ( isset( $image_meta['height'], $image_meta['width'] ) )
+			$orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
+
+		$output .= "<{$itemtag} class='gallery-item'>";
+		$output .= $image_output;
+		// $output .= "
+		// 	<{$icontag} class='gallery-icon {$orientation}'>
+		// 		$image_output
+		// 	</{$icontag}>";
+		// if ( $captiontag && trim($attachment->post_excerpt) ) {
+		// 	$output .= "
+		// 		<{$captiontag} class='wp-caption-text gallery-caption'>
+		// 		" . wptexturize($attachment->post_excerpt) . "
+		// 		</{$captiontag}>";
+		// }
+		$output .= "</{$itemtag}>";
+	}
+
+	$output .= "</ul></div>\n";
+
+	add_action( 'wp_footer', function() {
+		wp_enqueue_script( 'flexslider' );
+	});
+
+	return $output;
+}
+
+add_filter( 'post_gallery', 'dka_gallery_markup', 11, 2 );
+
+/**
+ * Add responsive with 2 columns pr. row for page builder
+ */
+function col2_style_page_builder($styles) {
+	$styles['2col_res'] = __('2 columns responsive', 'dka');
+	return $styles;
+}
+add_filter('siteorigin_panels_row_styles', 'col2_style_page_builder');
 
 /**
  * Paragraphs in editor
  */
 add_filter('tiny_mce_before_init', function($arr) {
 	$arr['theme_advanced_blockformats'] = 'p,h2,h3,h4,h5,h6,address,pre';
+	$style_formats = array(  
+		array(  
+			'title' => 'Kasse',  
+			'block' => 'div',  
+			'classes' => 'colorbox',  
+			'wrapper' => true  
+		)  
+	);  
+	$arr['style_formats'] = json_encode( $style_formats );  
 	return $arr;
 });
+
+/** 
+ * Add "Styles" drop-down 
+ */  
+add_filter( 'mce_buttons_2', 'tuts_mce_editor_buttons' );  
+function tuts_mce_editor_buttons( $buttons ) {  
+	array_unshift( $buttons, 'styleselect' );  
+	return $buttons;  
+}  
+
 
 function dka_setup() {
 
