@@ -117,7 +117,7 @@
 				$('.flexslider').flexslider({
 					animation: "slide",
 					touch: true,
-					smoothHeight: true
+					smoothHeight: false
 				});
 			}
 		},

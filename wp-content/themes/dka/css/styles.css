@@ -1651,6 +1651,7 @@ input[type="checkbox"] {
   margin: 4px 0 0;
   margin-top: 1px \9;
   /* IE8-9 */
+
   line-height: normal;
 }
 input[type="file"] {
@@ -5088,6 +5089,7 @@ div.contributors dd {
   height: auto !important;
   height: 100%;
   /* Negative indent footer by it's height */
+
   margin: 0 auto -136px;
 }
 /* Set the fixed height of the footer here */
@@ -5198,8 +5200,7 @@ footer {
   list-style: none;
 }
 /* FlexSlider Necessary Styles
-*********************************/
-.flexslider {
+*********************************/.flexslider {
   margin: 0;
   padding: 0;
 }
@@ -5308,8 +5309,9 @@ html[xmlns] .slides {
 /* Control Nav */
 .flex-control-nav {
   width: 100%;
-  margin-top: 8px;
   text-align: center;
+  bottom: 10px;
+  position: absolute;
 }
 .flex-control-nav li {
   margin: 0 6px;
@@ -5336,16 +5338,11 @@ html[xmlns] .slides {
   background: rgba(0, 0, 0, 0.7);
 }
 .flex-control-paging li a.flex-active {
-  background: #000;
-  background: rgba(0, 0, 0, 0.9);
+  box-shadow: none;
+  background: #fff;
+  background: rgba(255, 255, 255, 0.9);
   cursor: default;
-}
-@media only screen and (max-width: 480px) {
-  .flex-control-paging,
-  .flex-next,
-  .flex-prev {
-    display: none !important;
-  }
+  border: 1px solid #999999;
 }
 .flex-control-thumbs {
   margin: 5px 0 0;
@@ -5370,6 +5367,13 @@ html[xmlns] .slides {
   opacity: 1;
   cursor: default;
 }
+@media only screen and (max-width: 480px) {
+  .flex-control-paging,
+  .flex-next,
+  .flex-prev {
+    display: none !important;
+  }
+}
 @media screen and (max-width: 860px) {
   .flex-direction-nav .flex-prev {
     opacity: 1;
@@ -5382,18 +5386,18 @@ html[xmlns] .slides {
 }
 @media only screen and (max-width: 991px) {
   /*
-Custom styles for tiny screen / phone (481 and up)
-
-This stylesheet is loaded for larger devices. It's set to 
-481px because at 480px it would load on a landscaped iPhone.
-This isn't ideal because then you would be loading all those
-extra styles on that same mobile connection. 
-
-A word of warning. This size COULD be a larger mobile device,
-so you still want to keep it pretty light and simply expand
-upon your base.less styles.
-
--------------------------------------------------- */
+  Custom styles for tiny screen / phone (481 and up)
+  
+  This stylesheet is loaded for larger devices. It's set to 
+  481px because at 480px it would load on a landscaped iPhone.
+  This isn't ideal because then you would be loading all those
+  extra styles on that same mobile connection. 
+  
+  A word of warning. This size COULD be a larger mobile device,
+  so you still want to keep it pretty light and simply expand
+  upon your base.less styles.
+  
+  -------------------------------------------------- */
   .panel-grid-cell {
     width: 100% !important;
     padding-bottom: 10px !important;
@@ -5412,14 +5416,14 @@ upon your base.less styles.
 }
 @media only screen and (min-width: 768px) {
   /*
-Custom styles for small screen / tablet (768 and up)
-
-Here's where you can start getting into the good stuff.
-This size will work on iPads, other tablets, and desktops.
-So you can start working with more styles, background images,
-and other resources.
-
--------------------------------------------------- */
+  Custom styles for small screen / tablet (768 and up)
+  
+  Here's where you can start getting into the good stuff.
+  This size will work on iPads, other tablets, and desktops.
+  So you can start working with more styles, background images,
+  and other resources.
+  
+  -------------------------------------------------- */
   .container .search .row {
     padding: 0 10px 0 20px;
   }
@@ -5509,12 +5513,12 @@ and other resources.
 }
 @media only screen and (min-width: 992px) {
   /*
-Custom styles for medium screen / desktop (992 and up)
-
-This is the desktop size. It's larger than an iPad so it will only
-be seen on the Desktop. 
-
--------------------------------------------------- */
+  Custom styles for medium screen / desktop (992 and up)
+  
+  This is the desktop size. It's larger than an iPad so it will only
+  be seen on the Desktop. 
+  
+  -------------------------------------------------- */
   .front-page-content {
     font-size: 52px;
     line-height: 58px;
