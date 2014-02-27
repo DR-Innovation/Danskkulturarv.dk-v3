@@ -157,8 +157,8 @@ add_filter( 'post_gallery', 'dka_gallery_markup', 11, 2 );
  * Add responsive with 2 columns pr. row for page builder
  */
 function col2_style_page_builder($styles) {
-    $styles['2col_res'] = __('2 columns responsive', 'dka');
-    return $styles;
+	$styles['2col_res'] = __('2 columns responsive', 'dka');
+	return $styles;
 }
 add_filter('siteorigin_panels_row_styles', 'col2_style_page_builder');
 
@@ -167,8 +167,27 @@ add_filter('siteorigin_panels_row_styles', 'col2_style_page_builder');
  */
 add_filter('tiny_mce_before_init', function($arr) {
 	$arr['theme_advanced_blockformats'] = 'p,h2,h3,h4,h5,h6,address,pre';
+	$style_formats = array(  
+		array(  
+			'title' => 'Kasse',  
+			'block' => 'div',  
+			'classes' => 'colorbox',  
+			'wrapper' => true  
+		)  
+	);  
+	$arr['style_formats'] = json_encode( $style_formats );  
 	return $arr;
 });
+
+/** 
+ * Add "Styles" drop-down 
+ */  
+add_filter( 'mce_buttons_2', 'tuts_mce_editor_buttons' );  
+function tuts_mce_editor_buttons( $buttons ) {  
+	array_unshift( $buttons, 'styleselect' );  
+	return $buttons;  
+}  
+
 
 function dka_setup() {
 
