@@ -27,6 +27,15 @@ add_filter('post_class', function($classes) {
 add_filter( 'use_default_gallery_style', '__return_false' );
 
 /**
+ * Add responsive with 2 columns pr. row for page builder
+ */
+function col2_style_page_builder($styles) {
+    $styles['2col_res'] = __('2 columns responsive', 'dka');
+    return $styles;
+}
+add_filter('siteorigin_panels_row_styles', 'col2_style_page_builder');
+
+/**
  * Paragraphs in editor
  */
 add_filter('tiny_mce_before_init', function($arr) {
