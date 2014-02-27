@@ -5156,6 +5156,10 @@ footer .copyright a {
   margin-top: 6px;
   color: #999999;
 }
+.colorbox {
+  background-color: #e8e9e6;
+  padding: 1px 10px 5px 10px;
+}
 .wp-caption {
   max-width: 100%;
 }
