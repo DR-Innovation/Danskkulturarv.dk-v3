@@ -15,7 +15,7 @@ add_filter( 'pre_site_transient_update_core', function($a) { return null; } );
  * Make post class compatible with Bootstrap
  */
 add_filter('post_class', function($classes) {
-	if(is_active_sidebar('sidebar-1')) {
+	if((is_single() || is_page()) && is_active_sidebar('sidebar-1')) {
 		$classes[] = 'col-lg-9';
 	} else {
 		$classes[] = 'col-xs-12';
