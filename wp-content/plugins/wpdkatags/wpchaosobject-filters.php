@@ -92,7 +92,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags', function ($value, \WP
 
 				$value .= '<div class="input-group">';
 				$value .= '<input type="text" class="form-control" id="usertag-add" value="">';
-				$value .= '<span class="input-group-btn"><button class="btn btn-default" type="button" id="usertag-submit">'.__('Add tag',WPDKATags::DOMAIN).'</button></span>';
+				$value .= '<span class="input-group-btn"><button class="btn btn-primary" type="button" id="usertag-submit">'.__('Add tag',WPDKATags::DOMAIN).'</button></span>';
 				$value .= '</div>';
 
 				wp_enqueue_script('dka-usertags',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);

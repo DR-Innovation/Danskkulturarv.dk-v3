@@ -6,15 +6,15 @@
 get_header(); ?>
 
 <?php while ( have_posts() ) : the_post(); ?>
-			
-				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+				<div class="row">
+					<article id="post-front" class="col-xs-12">
 
-					<div class="entry-content">
-						<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'dka' ) ); ?>
-						<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'dka' ), 'after' => '</div>' ) ); ?>
-					</div><!-- .entry-content -->
+						<div class="entry-content">
+							<?php the_content(); ?>
+						</div>
 
-				</article><!-- #post -->
+					</article><!-- #post -->
+				</div>
 
 <?php endwhile; // end of the loop. ?>
 

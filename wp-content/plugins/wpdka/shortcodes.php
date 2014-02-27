@@ -49,19 +49,9 @@ add_shortcode( 'chaos-player', function($atts, $content = null) {
 		return "Could not find any object with ID ".$id;
 	}
 
-	$type = WPChaosClient::get_object()->type;
-	
-	//Look in theme dir and include if found
-	$jwplayer_autostart = $autoplay;
-	ob_start();
-	if(locate_template('chaos-player-'.$type, true) == "") {
-		include(dirname(__FILE__)."/templates/player-".$type.".php");
-	}
-
-	$return = ob_get_contents();
+	$return = WPDKA::get_object_player(WPChaosClient::get_object(),$autoplay);
 
 	WPChaosClient::reset_object();
-	ob_end_clean();
 
 	return $return;
 

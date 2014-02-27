@@ -5,8 +5,10 @@
  */
 ?>
 
-	<?php if ( is_active_sidebar( 'sidebar-1' ) ) : ?>
-		<div id="secondary" class="widget-area" role="complementary">
-			<?php dynamic_sidebar( 'sidebar-1' ); ?>
-		</div><!-- #secondary -->
-	<?php endif; ?>
+		<div class="col-lg-3 widget-area"  id="secondary" role="complementary">
+			<?php if(is_active_sidebar('sidebar-1')) : ?>
+				<ul class="nav info">
+					<?php dynamic_sidebar( 'sidebar-1' ); ?>
+				</ul>
+			<?php endif;?>
+		</div>

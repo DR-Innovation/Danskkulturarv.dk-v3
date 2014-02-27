@@ -8,11 +8,11 @@
 	 * Main class for custom functions
 	 * @type {Object}
 	 */
-	var api = {
+	var dka_api = {
 
 		/**
 		 * Initiator
-		 * @return {void} 
+		 * @return {void}
 		 */
 		init: function() {
 
@@ -20,57 +20,88 @@
 			this.addToggleAllListener();
 			this.addFlexSliders();
 			this.socialSharePopup();
-			//this.addMediaElement();
 
 		},
 
 		/**
-		 * Update labels according to their checkbox state
+		 * Update search filter labels according to their checkbox state
 		 * Tell ToggleAll button
 		 * Force form submit on every change
-		 * @return {void} 
+		 * @return {void}
 		 */
-		addCheckboxListener: function() { 
-			$("input.chaos-filter").change(function() {
-				var checkbox = $(this);
-				var label = checkbox.parent();
+		addCheckboxListener: function() {
 
-				label.toggleClass("active",checkbox.is(":checked"));
+			var submitTimer;
 
-				api.updateToggleAllState(label.parent());
-				//api.forceSubmitForm();
-			}).change(); //Fire on load to get current states
-			$("input.chaos-filter").change(function() {
-				api.forceSubmitForm();
+			//Update label classes according to check state
+			$('.search').on('change', 'input.chaos-filter', function(e) {
+				var $checkbox = $(this);
+				var $label = $checkbox.parent();
+
+				$label.toggleClass("active", $checkbox.prop("checked"));
+
+				//Update filter-btn-all
+				dka_api.updateToggleAllState($label.closest('.filter-container'));
 			});
+
+			//Fire on load to get current states
+			$('input.chaos-filter').change();
+
+			//Force update on change and sync similar inputs
+			$('.search').on('change', 'input.chaos-filter, .btn-group-media-type input', function(e) {
+				
+				var $checkbox = $(this);
+
+				//Only sync on uncheck because else we would get dupe params in GET
+				if(!$checkbox.prop('checked')) {
+					//Synchronize checkboxes of same name and value
+					$('input[name="'+$checkbox.attr('name')+'"][value="'+$checkbox.val()+'"]:checked').not($checkbox).each( function(e) {
+						//No need to update active class because we force submit
+						//change event will lead to infinite recursion
+						$(this).prop('checked', false);
+					});
+				}
+
+				//Use timer to let user click more than once
+				//and events to complete
+				if( submitTimer )
+					clearTimeout(submitTimer);
+
+				submitTimer = setTimeout(function(){
+					dka_api.forceSubmitForm();
+				}, 400);
+
+			})
+
 		},
-		
+
 		/**
-		 * Update ToggleAll according to the number of checkboxes checked
-		 * @param  {[type]} $container 
-		 * @return {void}            
+		 * Update ToggleAll according to the number of search filters checked
+		 * @param  {jQuery Object} $container
+		 * @return {void}
 		 */
 		updateToggleAllState: function($container) {
-			var checkedBoxes = $("input[type=checkbox]:checked", $container);
-			var allButton = $(".filter-btn.filter-btn-all", $container);
+			var $checkedBoxes = $("input.chaos-filter:checkbox:checked", $container);
+			var $allButton = $(".filter-btn-all", $container);
 
-			allButton.toggleClass("active",checkedBoxes.length == 0);
+			$allButton.toggleClass("active", $checkedBoxes.length == 0);
 		},
 		/**
-		 * Reset checkboxes on ToggleAll
+		 * Reset search filters on ToggleAll
 		 * @return {void}
 		 */
 		addToggleAllListener: function() {
 			// Show all buttons
-			$(".filter-btn.filter-btn-all").click(function() {
+			$('.search').on('click', '.filter-btn-all', function(e) {
 				// Change the state and fire the change event.
-				$("input[type=checkbox]", $(this).parent()).attr("checked", false).change();
+				$("input.chaos-filter", $(this).closest('.filter-container')).prop("checked", false)
+				.change();
 			});
 		},
 
 		/**
 		 * Force click on form submit
-		 * @return {void} 
+		 * @return {void}
 		 */
 		forceSubmitForm: function() {
 			$("#searchsubmit").click();
@@ -78,19 +109,23 @@
 
 		/**
 		 * Adding FlexSlider functionality
-		 * @return {void} 
+		 * Binds to .flexslider
+		 * @return {void}
 		 */
 		addFlexSliders: function() {
-			$('.flexslider').flexslider({
-				animation: "slide",
-				touch: true,
-				smoothHeight: true
-			});
+			if ($().flexslider) {
+				$('.flexslider').flexslider({
+					animation: "slide",
+					touch: true,
+					smoothHeight: true
+				});
+			}
 		},
 
 		/**
 		 * Open window in popup instead of new
-		 * @return {void} 
+		 * Get social counts
+		 * @return {void}
 		 */
 		socialSharePopup: function() {
 			var objectGUID = $(".single-material[id]").each(function() {
@@ -99,52 +134,34 @@
 					action: "wpdka_social_counts",
 					object_guid: $this.attr('id')
 				}, function(response) {
-					$(".social-share[href*=facebook]", $this).attr('title', $(".social-share[href*=facebook]", $this).attr('title') + " ("+response.facebook_total_count+")");
-					$(".social-share[href*=twitter]", $this).attr('title', $(".social-share[href*=twitter]", $this).attr('title') + " ("+response.twitter_total_count+")");
-					$(".social-share[href*=google]", $this).attr('title', $(".social-share[href*=google]", $this).attr('title') + " ("+response.google_plus_total_count+")");
+					$(".social-share[href*=facebook]", $this).attr('title', $(".social-share[href*=facebook]", $this).attr('title') + " (" + response.facebook_total_count + ")");
+					$(".social-share[href*=twitter]", $this).attr('title', $(".social-share[href*=twitter]", $this).attr('title') + " (" + response.twitter_total_count + ")");
+					$(".social-share[href*=google]", $this).attr('title', $(".social-share[href*=google]", $this).attr('title') + " (" + response.google_plus_total_count + ")");
 				}, 'json');
 			});
 
-			$(".social-share").click( function(e) {
+			$(".social-share").click(function(e) {
+
+				e.preventDefault();
+
 				var width = 600;
 				var height = 400;
-				var left = (screen.width/2)-(width/2);
-				var top = (screen.height/2)-(height/2);
+				var left = (screen.width / 2) - (width / 2);
+				var top = (screen.height / 2) - (height / 2);
 				window.open(
 					$(this).attr('href'),
 					'',
-					'menubar=no, toolbar=no, resizable=yes, scrollbars=yes, height='+height+', width='+width+', top='+top+', left='+left+''
+					'menubar=no, toolbar=no, resizable=yes, scrollbars=yes, height=' + height + ', width=' + width + ', top=' + top + ', left=' + left + ''
 				);
 
-				e.preventDefault();
-				return false;
 			});
 		},
-
-		/**
-		 * Add MediaElement.js support on video and audio
-		 * @return {void}
-		 */
-		/*
-		addMediaElement: function() {
-			$("video, audio").each(function() {
-				var options = {
-					iPadUseNativeControls: true,
-					iPhoneUseNativeControls: true, 
-				    AndroidUseNativeControls: true,
-				};
-				var streamer = $("source[data-streamer]", this).data('streamer');
-				if(streamer) {
-					options["flashStreamer"] = streamer;
-				}
-				$(this).mediaelementplayer(options);
-			});
-		}
-		*/
 
 	}
 
 	//Initiate class on page load
-	$(document).ready(function(){ api.init(); });
+	$(document).ready(function() {
+		dka_api.init();
+	});
 
 })(jQuery);

@@ -8,11 +8,7 @@ and other resources.
 
 -------------------------------------------------- */
 
-.container.search {
-  padding: 90px 20px 20px 0;
-}
-
-.container.search .row {
+.container .search .row {
   padding: 0 10px 0 20px;
 }
 
@@ -58,10 +54,6 @@ and other resources.
 
 }
 
-li.menu-item a:hover {
-  background-color: @blue !important;
-}
-
 .navbar-responsive-collapse {
 
     li.menu-item {
@@ -73,11 +65,18 @@ li.menu-item a:hover {
       margin-left: 0;
       width: auto;
       padding: 10px;
+      border-top-left-radius: @border-radius-small;
 
-      li a {
+	  li {
+	  	margin:0!important;
+	  	padding:0 !important;
+
+	  a {
         background-color: inherit !important;
         width: 100% !important;
+        border-radius: 0!important;
       }
+  }
 
       li.dropdown-header {
         margin-left: 10px;
@@ -90,22 +89,15 @@ li.menu-item a:hover {
     }
 
     a.dropdown-menu-item {
-      color: @white !important;
+      color: #fff !important;
       padding: 4px 10px !important;
-      background-color: @grayLight !important;
+      background-color: @gray-semi-light !important;
     }
 
 }
 
-.search-result-listing a {
-  font-size: 14px;
-  padding: 5px 10px;
-  margin-top: 7px;
-}
-
-.pagination-div {
-  border-top: none;
-  margin-top: 0;
+.pagination {
+	float:right;
 }
 
 //front page
@@ -138,6 +130,6 @@ footer {
 
   .copyright, .copyright a {
     margin-top: 18px;
-    color: @grayLightest;
+    color: @gray-light;
   }
 }

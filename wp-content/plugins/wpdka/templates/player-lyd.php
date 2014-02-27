@@ -4,6 +4,15 @@
  * @version 1.0
  */
 
+//Must be called within wp_head or wp_footer
+//to work with Player Widget
+add_action( 'wp_footer', function() {
+	wp_enqueue_script( 'jwplayer' );
+});
+add_action( 'wp_footer', function() {
+	echo '<script type="text/javascript">jwplayer.key="'. get_option('wpdka-jwplayer-api-key') .'";</script>';
+}, 99);
+
 function generate_file_label($file) {
 	$quality_matches = array();
 	if(preg_match('/[\d]+k/i', $file->URL, $quality_matches)) {

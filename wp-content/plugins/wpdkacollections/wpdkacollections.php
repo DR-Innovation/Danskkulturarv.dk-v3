@@ -55,7 +55,7 @@ final class WPDKACollections {
 	/**
 	 * Filter prefix for collection objects
 	 */
-	const OBJECT_FILTER_PREFIX = 'wpchaos-object-collection-';
+	const OBJECT_FILTER_PREFIX = 'wpchaos-2-object-collection-';
 
 	/**
 	 * Collection indexes
@@ -120,8 +120,15 @@ final class WPDKACollections {
 
 			}
 
+			add_filter('widgets_init',array(&$this,'register_widgets'));
+
 			add_filter('wpchaos-solr-query',array(&$this,'add_collection_search_to_query'),30,2);
 			add_filter(WPChaosSearch::FILTER_PREPARE_RESULTS,array(&$this,'prepare_search_results'));
+
+			add_shortcode( 'collection_slider', array( &$this, 'collection_slider_shortcode' ) );
+			add_shortcode( 'general_information', array( &$this, 'general_information_shortcode' ) );
+			add_shortcode( 'float_right', array( &$this, 'float_right_shortcode' ) );
+			add_shortcode( 'usertags', array( &$this, 'usertags_shortcode' ) );
 
 			add_action('wp_enqueue_scripts', array(&$this, 'loadJsCss'));
 
@@ -229,9 +236,11 @@ final class WPDKACollections {
 	 * Load necessary CSS and JS to visualize collections on the site.
 	 */
 	public function loadJsCss() {
+		wp_enqueue_style('dka-collections-style',plugins_url( 'css/style.css' , __FILE__ ));
+		//wp_enqueue_script('dka-collections-carousel',plugins_url( 'js/carousel.js' , __FILE__ ),array('jquery'),'3.0.0',true);
+
 		if(!is_admin() && current_user_can('edit_posts')) {
 			//if(current_user_can('edit_posts')) {
-			
 				wp_enqueue_script('dka-collections',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'),'1.0',true);
 				$translation_array = array(
 					'ajaxurl' => admin_url( 'admin-ajax.php' ),
@@ -541,7 +550,7 @@ final class WPDKACollections {
 			self::DOMAIN,
 			array(&$this,'render_collections_page'),
 			'div',
-			27
+			28.01
 		);
 		add_action( 'load-' . $page , array(&$this,'load_collections_page'));
 	}
@@ -592,6 +601,7 @@ final class WPDKACollections {
 		$table->prepare_items();  
 		?>
 		<h2><?php $table->get_title(); ?></h2>
+		<p class="alignright"><?php //echo $table->guid; ?></p>
 		<form id="movies-filter" method="get">
 			<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
 			<?php if(isset($_REQUEST['subpage'])) : ?>
@@ -882,7 +892,6 @@ final class WPDKACollections {
 	/**
 	 * When searching for a collection, get first object in playlist
 	 * and show this
-	 * Avoids lazy loading with self::$collection_relations
 	 * @param  [type]    $search_results
 	 * @return [type]
 	 */
@@ -900,31 +909,199 @@ final class WPDKACollections {
 			}
 		}
 
-		if(count($collection_relations) > 0) {
-			self::$collection_relations = array();
+		self::map_collections_to_material($collection_relations,self::$collection_relations);
+
+		return $search_results;
+	}
+
+	/**
+	 * Get material objects and map them to their collection
+	 * Prevents lazy loading
+	 * $material_guids: array($collection_guid => $material_guid)
+	 * 
+	 * @author Joachim Jensen <jv@intox.dk>
+	 * @param  array    $material_guids
+	 * @param  array    $map
+	 * @return void
+	 */
+	public static function map_collections_to_material($material_guids,&$map) {
+		if(count($material_guids) > 0) {
+			$map = array();
 			try {
 				$response = WPChaosClient::instance()->Object()->Get(
-					'(GUID:('.implode(' OR ',$collection_relations).'))',   // Search query
+					'(GUID:('.implode(' OR ',$material_guids).'))',   // Search query
 					null,   // Sort
 					null, 
 					0,      // pageIndex
-					count($collection_relations),      // pageSize
+					count($material_guids),      // pageSize
 					true,   // includeMetadata
 					true,   // includeFiles
 					true    // includeObjectRelations
 				);
 				//Flip to get O(1) lookup
-				$collection_relations = array_flip($collection_relations);
+				$material_guids = array_flip($material_guids);
 				foreach($response->MCM()->Results() as $material) {
-					$collection_guid = $collection_relations[$material->GUID];
-					self::$collection_relations[$collection_guid] = $material;				
+					$collection_guid = $material_guids[$material->GUID];
+					$map[$collection_guid] = new WPChaosObject($material);				
 				}
 			} catch(\CHAOSException $e) {
 				error_log('CHAOS error when getting collection relations: '.$e->getMessage());
 			}
 		}
+	}
 
-		return $search_results;
+	/**
+	 * Shortcode for collection slider
+	 */
+	public function collection_slider_shortcode($atts, $content) {
+		$collections = explode(',', $content);
+		$thumbnails = array();
+		$count = 0;
+		$ret = '<div id="frontpage_carousel" class="carousel slide" data-ride="carousel">';
+    	$ret .= '<div class="carousel-inner">';
+		foreach ($collections as $c) {
+			$c = trim($c);
+			$collection = WPDKACollections::get_collection_by_guid($c);
+			$firstObject = WPChaosClient::instance()->Object()->Get(
+				"(GUID:(".implode(" OR ", $collection->playlist_raw)."))",   // Search query
+				null,   // Sort
+				null,   // AP injected
+				0,      // pageIndex
+				10, // pageSize
+				true,   // includeMetadata
+				true,   // includeFiles
+				false    // includeObjectRelations
+			);
+
+			//If the materials from collection playlist exist in CHAOS
+			if($firstObject->MCM()->Count() > 0) {
+				foreach($firstObject->MCM()->Results() as $result) {
+					$firstObject = new WPChaosObject($result);
+					if ($firstObject->thumbnail != null) {
+						WPChaosClient::set_object($firstObject);
+						break;
+					}
+				}
+			}
+			WPChaosClient::set_object($firstObject);
+			$thumbnail = WPChaosClient::get_object()->thumbnail;
+			$url = $firstObject->url . '#' . $c;
+			$description = $collection->description;
+			$title = $collection->title;
+
+			$thumbnails[] = $thumbnail;
+			$ret .= '<div class="item' . (($count == 0) ? ' active' : '') . '">';
+        	$ret .= '<img src="' . $thumbnail . '" alt="' . $title . '">';
+        	$ret .= '<a href="' . $url . '">';
+    		$ret .= '<div class="carousel-caption">';
+      		$ret .= '<h3>' . $title . '</h3>';
+      		$ret .= '<p>' . $description . '</p>';
+    		$ret .= '</div>';
+    		$ret .= '</a>';
+      		$ret .= '</div>';
+			$count++;
+		}
+		WPChaosClient::reset_object();
+		$ret .= '</div><ul class="carousel-indicators">';
+		$count = 0;
+		foreach ($thumbnails as $thumb) {
+			$ret .= '<li data-target="#frontpage_carousel" data-slide-to="' . $count . '"'. (($count == 0) ? ' class="active" ' : '') . 'style="background-image: url(\'' . $thumb . '\');"></li>';
+    		$count++;
+		}
+		$ret .= '</ul></div>';
+
+		return $ret;
+	}
+
+	public function float_right_shortcode($atts, $content) {
+		return '<div class="info_right">' . do_shortcode( $content ) . '</div>';
+	}
+
+	public function general_information_shortcode($atts, $content) {
+		$ret = $content . '<div class="general_info">';
+		foreach (WPDKAObject::$format_types as $format_type => $args) {
+			if($format_type == WPDKAObject::TYPE_IMAGE_AUDIO || $format_type == WPDKAObject::TYPE_UNKNOWN) {
+				continue;
+			}
+			
+			$ret .= '<a class="media_info" href="' . WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => (WPDKASearch::QUERY_KEY_TYPE . '-' . $format_type))) . '">';
+			$ret .= '<i class="' . $args['class'] . '"></i>';
+			$ret .= '<p>' . number_format_i18n($this->get_facet_count(WPDKASearch::QUERY_KEY_TYPE, $args['chaos-value'])) . ' ' . $args['title'] . '</p>';
+			$ret .= '</a>';
+		}
+    	$ret .= '</div>';
+
+    	return $ret;
+	}
+
+	public function usertags_shortcode($atts, $content) {
+		extract(shortcode_atts( array(
+				'number_of_tags' => 21,
+		), $atts ));
+		$ret = $content;
+		$ret .= '<div class="general_info">';
+    	$tags = $this->get_random_tags_from_results_raw(array('number_of_tags' => $number_of_tags));
+    	foreach ($tags as $tag) {
+    		$ret .= '<a class="media_info" href="' . $tag['href'] . '">';
+    		$ret .= '<p>' . $tag['title'] . '</p>';
+    		$ret .= '</a>';
+    	}
+    	$ret .= '</div>';
+
+    	return $ret;
+	}
+
+	private function get_facet_count($field, $values) {
+		if(is_string($values)) {
+			$values = array($values);
+		}
+		global $facets;
+		$sum = 0;
+		if(array_key_exists($field, $facets)) {
+			foreach($values as $value) {
+				if(array_key_exists($value, $facets[$field])) {
+					$sum += intval($facets[$field][$value]);
+				}
+			}
+		}
+		return $sum;
+	}
+
+	private function get_random_tags_from_results_raw($args = null) {
+		$args = wp_parse_args($args, array(
+			'query' => '',
+			'number_of_tags' => 10,
+			'pageindex' => 0,
+			'pagesize' => get_option("wpchaos-searchsize"),
+			'sort' => 'visninger',
+			'accesspoint' => null
+		));
+		extract($args, EXTR_SKIP);	
+
+		WPChaosSearch::generate_searchresults($args);
+		$tags = array();
+		foreach(WPChaosSearch::get_search_results()->MCM()->Results() as $object) {
+			WPChaosClient::set_object($object);
+			$tags = array_merge($tags,WPChaosClient::get_object()->tags_raw);
+
+		}
+		WPChaosClient::reset_object();
+
+		//$tags = array_map('strval',$tags);
+		$tags = array_unique($tags);
+
+		$sep = '';
+		$result = array();
+		while($number_of_tags > 0 && $tags) {
+
+			$tag = array_splice($tags, rand(0,count($tags)-1), 1);
+			$tag = $tag[0];
+
+			$link = WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_FREETEXT => $tag, WPChaosSearch::QUERY_KEY_SORT => $sort));
+			$result[] = array('href' => $link, 'title' => esc_attr($tag), 'tag' => $tag);
+			$number_of_tags--;
+		}
+		return $result;
 	}
 
 	/**
@@ -941,6 +1118,16 @@ final class WPDKACollections {
 			require_once("wpdkacollectionobjects-list-table.php");			
 		}
 		require("wpchaosobject-filters.php");
+		require("custom-post-types.php");
+		require_once('widgets/featured.php');
+	}
+
+	/**
+	 * Register widgets in WordPress
+	 * @return  void
+	 */
+	public function register_widgets() {
+		register_widget( 'WPDKACollectionFeaturedWidget' );
 	}
 
 	/**

@@ -8,15 +8,7 @@
  * WordPress Widget that makes it possible to style
  * and display one data attribute from a CHAOs object
  */
-class WPDKAObjectPlayerWidget extends WP_Widget {
-
-	/**
-	 * Fields in widget. Defines keys for values
-	 * @var array
-	 */
-	private $fields = array(
-		
-	);
+class WPDKAObjectPlayerWidget extends WPChaosWidget {
 
 	/**
 	 * Constructor
@@ -29,6 +21,33 @@ class WPDKAObjectPlayerWidget extends WP_Widget {
 			array( 'description' => __('Display a player according to the material format','wpdka') )
 		);
 
+		$this->fields = array(
+			array(
+				'title' => __('Slug/GUID','wpdka'),
+				'name' => 'id',
+				'type' => 'text',
+				'val' => '',
+			),
+			array(
+				'title' => __('Title/Alternate text','wpdka'),
+				'name' => 'alt',
+				'type' => 'text',
+				'val' => '',
+			),
+			array(
+				'title' => __('Autoplay','wpdka'),
+				'name' => 'autoplay',
+				'type' => 'checkbox',
+				'val' => 0,
+			),
+			array(
+				'title' => __('Show link','wpdka'),
+				'name' => 'link',
+				'type' => 'checkbox',
+				'val' => 0,
+			)
+		);
+
 	}
 
 	/**
@@ -39,75 +58,58 @@ class WPDKAObjectPlayerWidget extends WP_Widget {
 	 * @return void 
 	 */
 	public function widget( $args, $instance ) {
+
+		$object = '';
+		if(isset($instance['id']) && $instance['id']) {
+			//Does id match guid pattern?
+			if (preg_match('/^\{?[a-f\d]{8}-(?:[a-f\d]{4}-){3}[a-f\d]{12}\}?$/i', $instance['id'])) {
+				$query = 'GUID:'.$instance['id'];
+			} else {
+				$query = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':'. $instance['id'];
+			}
+
+			try {
+				$serviceResult = WPChaosClient::instance()->Object()->Get(
+					"(".$query.")",   // Search query
+					null,   // Sort
+					null,   
+					0,      // pageIndex
+					1,      // pageSize
+					true,   // includeMetadata
+					true,   // includeFiles
+					true    // includeObjectRelations
+				);
+			} catch(\Exception $e) {
+				echo "Error in CHAOS.";
+			}
+
+			if($serviceResult->MCM()->Count() > 0) {
+				$object = WPChaosObject::parseResponse($serviceResult);
+				//Set global obj to use templates
+				WPChaosClient::set_object($object[0]);		
+			} else {
+				echo "Could not find any object with ID ".$id;
+			}			
+
+		}
+
 		if(WPChaosClient::get_object()) {
+
+			$autoplay = (isset($instance['autoplay']) ? $instance['autoplay'] : true);
+			$alt = (isset($instance['alt']) ? $instance['alt'] : '');
+			$link = (isset($instance['link']) ? $instance['link'] : false);
+
 			echo $args['before_widget'];
-
-			//var_dump(WPChaosClient::get_object()->Files);
-			
-			$type = WPChaosClient::get_object()->type;
-			
-			//Look in theme dir and include if found
-			if(locate_template('chaos-player-'.$type, true) == "") {
-				include(dirname(__FILE__)."/../templates/player-".$type.".php");
+			echo WPDKA::get_object_player(WPChaosClient::get_object(),$autoplay,$alt);
+			if($link) {
+				echo '<a href="'.WPChaosClient::get_object()->url.'">'.__('Read more','wpdka').'</a>';
 			}
-
 			echo $args['after_widget'];
-		}
-	}
 
-	/**
-	 * GUI for widget form in the administration
-	 * 
-	 * @param  array $instance Widget values from database
-	 * @return void           
-	 */
-	public function form( $instance ) {
-
-		//Print each field based on its type
-		foreach($this->fields as $field) {
-			$value = isset( $instance[ $field['name'] ]) ? $instance[ $field['name'] ] : $field['val'];
-			$name = $this->get_field_name( $field['name'] );
-			$title = $field['title'];
-			$id = $this->get_field_id( $field['name'] );
-
-			echo '<p>';
-			echo '<label for="'.$name.'">'.$title.'</label>';
-			switch($field['type']) {
-				case 'textarea':
-					echo '<textarea class="widefat" name="'.$name.'" >'.$value.'</textarea>';
-					break;
-				case 'select':
-					echo '<select class="widefat" name="'.$name.'">';
-					foreach($field['list'] as $opt_key => $opt_value) {
-						echo '<option value="'.$opt_key.'" '.selected( $value, $opt_key, false).'>'.$opt_value.'</option>';
-					}
-					echo '</select>';
-					break;
-				case 'text':
-				default:
-					echo '<input class="widefat" id="'.$id.'" name="'.$name.'" type="text" value="'.esc_attr( $value ).'" />';
+			if($object) {
+				WPChaosClient::reset_object();
 			}
-			echo '</p>';
-
 		}
-	}
-
-	/**
-	 * Callback for whenever the widget values should be saved
-	 * 
-	 * @param  array $new_instance New values from the form
-	 * @param  array $old_instance Previously saved values
-	 * @return array               Values to be saved
-	 */
-	public function update( $new_instance, $old_instance ) {
-
-		$instance = array();
-		
-		foreach($this->fields as $field) {
-			$instance[$field['name']] = ( ! empty( $new_instance[$field['name']] ) ) ? $new_instance[$field['name']]  : $field['val'];
-		}
-		
-		return $instance;
 	}
 
 }

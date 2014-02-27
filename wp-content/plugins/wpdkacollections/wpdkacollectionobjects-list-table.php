@@ -212,7 +212,7 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 			if($pagesize > 0) {
 				
 				$this->title .= ' &raquo; '.$this->_current_collection->title;
-
+				$this->guid = $current_collection;
 				//Get the related objects to the collection.
 				$serviceResult2 = WPChaosClient::instance()->Object()->Get(
 					"(GUID:(".implode(" OR ", $this->_current_collection->playlist_raw)."))",   // Search query

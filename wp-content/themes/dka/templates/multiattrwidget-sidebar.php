@@ -13,15 +13,27 @@
 			<hr>
 			<i class="icon-external-link"></i> <a target="_blank" href="<?php echo WPChaosClient::get_object()->externalurl; ?>" title="<?php printf(__('Read more at %s','dka'),WPChaosClient::get_object()->organization); ?>"><?php printf(__('Read more at %s','dka'),WPChaosClient::get_object()->organization); ?></a>
 		</div>
-<?php endif; ?>		
+<?php endif; ?>	
+<?php if(WPChaosClient::get_object()->rights) : ?>	
 		<div class="rights-container">
 			<hr>
 			<?php echo WPChaosClient::get_object()->rights; ?>
 		</div>
+<?php endif; ?>
 		<hr>
 		<div class="social">
 			<?php dka_social_share(array("link"=>WPChaosClient::get_object()->url)); ?>
 		</div>
+<?php if(WPChaosClient::get_object()->is_embeddable) : ?>
+		<div>
+			<hr>
+			<h4><?php _e('Embed material','dka'); ?></h4>
+			<?php if(($page = get_page_by_path('embed',OBJECT,'page'))) : ?>
+			<a href="<?php echo get_permalink($page); ?>">Læs om indlejring</a>
+			<?php endif; ?>
+			<textarea class="form-control" rows="3" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea>
+		</div>
+<?php endif; ?>
 		<div>
 			<hr>
 			<h4><?php _e('Tags','dka'); ?></h4>
