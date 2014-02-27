@@ -5004,6 +5004,7 @@ ul.row.listview .thumb {
   margin-bottom: 6px;
   text-decoration: none;
   cursor: pointer;
+  display: inline-block;
 }
 .nav.info a.tag:hover {
   background: #2f94fd;
