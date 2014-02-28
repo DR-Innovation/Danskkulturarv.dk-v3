@@ -5159,9 +5159,15 @@ footer .copyright a {
   margin-top: 6px;
   color: #999999;
 }
+.panel-row-style-2col_res .panel-grid-cell .panel {
+  margin-bottom: 0!important;
+}
 .colorbox {
   background-color: #e8e9e6;
   padding: 1px 10px 5px;
+  height: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .wp-caption {
   max-width: 100%;
@@ -5408,6 +5414,7 @@ html[xmlns] .flexslider .slides {
     padding-bottom: 0 !important;
   }
   .colorbox {
+    height: auto!important;
     padding: 15px 10px;
   }
   .colorbox h1,
