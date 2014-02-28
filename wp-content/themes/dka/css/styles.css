@@ -5161,7 +5161,7 @@ footer .copyright a {
 }
 .colorbox {
   background-color: #e8e9e6;
-  padding: 1px 10px 5px 10px;
+  padding: 1px 10px 5px;
 }
 .wp-caption {
   max-width: 100%;
@@ -5193,7 +5193,7 @@ footer {
 .flexslider a:focus {
   outline: none;
 }
-.slides,
+.flexslider .slides,
 .flex-control-nav,
 .flex-direction-nav {
   margin: 0;
@@ -5209,7 +5209,6 @@ footer {
   display: none;
   -webkit-backface-visibility: hidden;
 }
-/* Hide the slides before the JS is loaded. Avoids image jumping */
 .flexslider .slides img {
   max-width: 100%;
   max-height: 100%;
@@ -5217,11 +5216,7 @@ footer {
   margin-left: auto;
   margin-right: auto;
 }
-.flex-pauseplay span {
-  text-transform: capitalize;
-}
-/* Clearfix for the .slides element */
-.slides:after {
+.flexslider .slides:after {
   content: ".";
   display: block;
   clear: both;
@@ -5229,38 +5224,47 @@ footer {
   line-height: 0;
   height: 0;
 }
-html[xmlns] .slides {
+.flex-pauseplay span {
+  text-transform: capitalize;
+}
+html[xmlns] .flexslider .slides {
   display: block;
 }
-* html .slides {
+* html .flexslider .slides {
   height: 1%;
 }
 /* No JavaScript Fallback */
-/* If you are not using another script, such as Modernizr, make sure you
- * include js that eliminates this class on page load */
-.no-js .slides > li:first-child {
+.no-js .flexslider .slides > li:first-child {
   display: block;
 }
 /* FlexSlider Default Theme
 *********************************/
-/* .flexslider {margin: 0 0 60px; background: #fff; border: 4px solid #fff; position: relative; -webkit-border-radius: 4px; -moz-border-radius: 4px; -o-border-radius: 4px; border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,.2); -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.2); -moz-box-shadow: 0 1px 4px rgba(0,0,0,.2); -o-box-shadow: 0 1px 4px rgba(0,0,0,.2); zoom: 1;} */
 .flexslider {
-  margin: 0 0 20px;
   background: #fff;
   border: none;
   position: relative;
 }
+.flexslider .slides {
+  zoom: 1;
+}
+.flexslider:hover .flex-next {
+  opacity: 0.8;
+}
+.flexslider:hover .flex-prev {
+  opacity: 0.8;
+}
+.flexslider:hover .flex-next:hover,
+.flexslider:hover .flex-prev:hover {
+  opacity: 1;
+}
 .flex-viewport {
   max-height: 2000px;
-  -webkit-transition: all 1s ease;
   -moz-transition: all 1s ease;
+  -webkit-transition: all 1s ease;
   transition: all 1s ease;
 }
 .loading .flex-viewport {
   max-height: 300px;
-}
-.flexslider .slides {
-  zoom: 1;
 }
 .carousel li {
   margin-right: 5px;
@@ -5281,26 +5285,15 @@ html[xmlns] .slides {
   cursor: pointer;
   text-indent: -9999px;
   opacity: 0;
-  -webkit-transition: all .3s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 .flex-direction-nav .flex-next {
   background-position: 100% 0;
-  right: -36px;
-}
-.flex-direction-nav .flex-prev {
-  left: -36px;
-}
-.flexslider:hover .flex-next {
-  opacity: 0.8;
   right: 5px;
 }
-.flexslider:hover .flex-prev {
-  opacity: 0.8;
+.flex-direction-nav .flex-prev {
   left: 5px;
-}
-.flexslider:hover .flex-next:hover,
-.flexslider:hover .flex-prev:hover {
-  opacity: 1;
 }
 .flex-direction-nav .flex-disabled {
   opacity: .3!important;
@@ -5413,6 +5406,20 @@ html[xmlns] .slides {
   }
   .panel-grid-cell:last-child {
     padding-bottom: 0 !important;
+  }
+  .colorbox {
+    padding: 15px 10px;
+  }
+  .colorbox h1,
+  .colorbox .h1,
+  .colorbox h2,
+  .colorbox .h2,
+  .colorbox h3,
+  .colorbox .h3 {
+    margin: 0;
+  }
+  .colorbox p {
+    display: none;
   }
 }
 @media only screen and (min-width: 768px) {
