@@ -410,11 +410,12 @@ final class WPDKACollections {
 		$relation = $this->_add_material_to_collection($collection,$_POST['object_guid']);
 
 		if (!$relation) {
-			echo "Lol could not be added";
-			throw new \RuntimeException("Collection could not be added to CHAOS");
+			echo "Object could not be added to collection";
+			throw new \RuntimeException("Object could not be added to collection");
 		}
 
 		//echo json_encode($response);
+		echo 1;
 		die();
 	}
 
