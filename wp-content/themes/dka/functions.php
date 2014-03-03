@@ -223,8 +223,8 @@ add_action('dequeue_all_styles', 'dka_dequeue_all_styles');
 function dka_scripts_styles() {
 
 	wp_register_style( 'font-awesome', '//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css' );
-	wp_register_style('asap', 'http://fonts.googleapis.com/css?family=Asap:400,700,400italic');
-	wp_register_style( 'dka-style', get_template_directory_uri() . '/css/styles.css', array('font-awesome','asap') );
+	//wp_register_style('asap', 'http://fonts.googleapis.com/css?family=Asap:400,700,400italic');
+	wp_register_style( 'dka-style', get_template_directory_uri() . '/css/styles.css', array('font-awesome'/*,'asap'*/) );
 	wp_register_style( 'dka-embed-style', get_template_directory_uri() . '/css/embed-style.css');
 
 	wp_enqueue_style( 'dka-style' );
@@ -268,7 +268,7 @@ add_action( 'wp_enqueue_scripts', 'dka_scripts_styles' );
 
 add_action('wp_head',function() {	
 	if(is_user_logged_in()) {
-		echo '<style>.navbar-fixed-top {margin-top:32px;}</style>'; 
+		echo '<style>.navbar-fixed-top {margin-top:32px;} @media screen and ( max-width: 782px ) { .navbar-fixed-top {margin-top:46px;}}</style>'; 
 	}
 });
 

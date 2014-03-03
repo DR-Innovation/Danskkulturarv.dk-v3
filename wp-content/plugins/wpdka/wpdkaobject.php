@@ -266,8 +266,26 @@ class WPDKAObject {
 				$query = array();
 			}
 
-			//WordPress pages get priority
-			if(is_404()) {
+			$chaos_material_slug = false;
+
+			//Case for <organisation>/integer
+			//when a chaos material slug consists
+			//of an integer
+			if(is_page() && get_query_var('page')) {
+				global $wpdb;
+				$result = $wpdb->get_col("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'chaos_organization'");
+				$result[] = get_option('wpdka-default-organization-page');	
+				$array = array_unique($result);
+				if(in_array(get_the_ID(),$result)) {
+					$chaos_material_slug = get_query_var('page');
+				}
+			}
+			//Case for <organisation>/<404 page>(/embed)
+			//when a chaos material slug triggers
+			//a 404 in WordPress
+			//WordPress pages will therefore get priority over
+			//chaos pages
+			elseif(is_404()) {
 				$http = strstr(get_home_url(),'://',true) ?: 'http';
 
 				//<blog url>/<institution>/<slug>(/<embed>)
@@ -276,6 +294,8 @@ class WPDKAObject {
 				
 				//$matches[2] is slug
 				if(isset($matches[2])) {
+
+					$chaos_material_slug = $matches[2];
 
 					$query[] = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':"'. $matches[2] .'"';
 
@@ -287,6 +307,10 @@ class WPDKAObject {
 						return $template;
 					});
 				}				
+			}
+
+			if($chaos_material_slug) {
+				$query[] = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':"'. $chaos_material_slug .'"';
 			}
 			
 				

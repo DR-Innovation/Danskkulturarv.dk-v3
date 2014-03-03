@@ -542,7 +542,8 @@ final class WPDKATags {
 			$metadataXML->addAttribute('created', date('c', time()));
 			$metadataXML->addAttribute('status', self::TAG_STATE_UNAPPROVED);
 			
-			$tag->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+			//Set metadata but do not refresh client
+			$tag->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false);
 
 			//Set relation between object and tag
 			WPChaosClient::instance()->ObjectRelation()->Create(esc_html($object_guid),$tag->GUID,self::TAG_RELATION_ID);
@@ -576,7 +577,7 @@ final class WPDKATags {
 			return true;
 				
 			} catch(\Exception $e) {
-				error_log('CHAOS Error when changing tag state: '.$e->getMessage());
+				error_log('CHAOS Error when changing object taggable: '.$e->getMessage());
 			}
 		
 		return false;
@@ -598,7 +599,9 @@ final class WPDKATags {
 				if($metadataXML['status'] != $new_state) {
 					
 					$metadataXML['status'] = $new_state;
-					$tag_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+
+					//Set metadata but do not refresh client
+					$tag_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false);
 					return true;
 
 				}
@@ -625,7 +628,9 @@ final class WPDKATags {
 			$metadataXML = $tag_object->get_metadata(self::METADATA_SCHEMA_GUID);
 			if($metadataXML[0] != $new_value) {
 				$metadataXML[0] = $new_value;
-				$tag_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+
+				//Set metadata but do not refresh client
+				$tag_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false);
 				return true;
 			}
 			
