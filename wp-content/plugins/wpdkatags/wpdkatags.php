@@ -95,7 +95,7 @@ final class WPDKATags {
 				add_action('wp_ajax_wpdkatags_taggable', array(&$this,'ajax_taggable') );
 				add_action('wp_ajax_nopriv_wpdkatags_taggable', array(&$this,'ajax_taggable') );
 
-				add_action('right_now_discussion_table_end', array(&$this,'add_usertag_counts'));
+				add_action('dashboard_glance_items', array(&$this,'add_usertag_counts'));
 
 			} else {
 
@@ -690,6 +690,9 @@ final class WPDKATags {
 		return empty($objects) ? null : $objects[0];
 	}
 
+	/**
+	 * Add numbers to At A Glance dashboard widget
+	 */
 	public function add_usertag_counts() {
 
 		$facetsResponse = WPChaosClient::instance()->Index()->Search(WPChaosClient::generate_facet_query(array(self::FACET_KEY_STATUS)), "(FolderID:".self::TAGS_FOLDER_ID.")", false);
@@ -709,8 +712,7 @@ final class WPDKATags {
 			}
 		}
 
-		function dashboard_entry($text,$num,$status = null) {
-			
+		function dashboard_entry($text,$num,$status = null) {	
 			$admin_url = 'admin.php?page=wpdkatags';
 			$num = number_format_i18n($num);
 
@@ -718,16 +720,12 @@ final class WPDKATags {
 				$admin_url .= "&amp;tag_status=".$status;
 			}
 
-			echo '<tr>';
-			echo '<td class="b b-chaos-material"><a href="'.$admin_url.'">'.$num.'</a></td>';
-			echo '<td class="t chaos-material"><a href="'.$admin_url.'">'.$text.'</a></td>';
-			echo '</tr>';
-
+			echo '<li class="page-count"><a href="'.$admin_url.'">'.$num.' '.$text.'</a></li>'."\n";
 		}
 
 		dashboard_entry(_n('User tag', 'User tags', $total_count,self::DOMAIN),$total_count,null);
-		dashboard_entry(_n('Approved user tag', 'Approved user tags', $facets['approved'],self::DOMAIN),$facets['approved'],'approved');
-		dashboard_entry(_n('Unapproved user tag', 'Unapproved user tags', $facets['unapproved'],self::DOMAIN),$facets['unapproved'],'unapproved');
+		//dashboard_entry(_n('Approved user tag', 'Approved user tags', $facets['approved'],self::DOMAIN),$facets['approved'],'approved');
+		//dashboard_entry(_n('Unapproved user tag', 'Unapproved user tags', $facets['unapproved'],self::DOMAIN),$facets['unapproved'],'unapproved');
 		dashboard_entry(_n('Flagged user tag', 'Flagged user tags', $facets['flagged'],self::DOMAIN),$facets['flagged'],'flagged');
 
 	}
