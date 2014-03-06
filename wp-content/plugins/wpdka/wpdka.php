@@ -68,7 +68,7 @@ class WPDKA {
 			add_action('wp_ajax_' . self::SOCIAL_COUNTS_AJAX, array(&$this, 'ajax_social_counts'));
 			add_action('wp_ajax_nopriv_' . self::SOCIAL_COUNTS_AJAX, array(&$this, 'ajax_social_counts'));
 			
-			add_action('right_now_content_table_end', array(&$this,'add_chaos_material_counts'));
+			add_action('dashboard_glance_items', array(&$this,'add_chaos_material_counts'));
 			add_action('plugins_loaded',array(&$this,'load_textdomain'));
 
 		}
@@ -397,57 +397,48 @@ class WPDKA {
 		die();
 	}
 
+	/**
+	 * Add numbers to At A Glance dashboard widget
+	 */
 	function add_chaos_material_counts() {
-	
+		//Even though this function only is in this scope
+		//another function in another scope (wpdkatags.php)
+		//causes a redeclaration. Suffixing with 2.
+		function dashboard_entry2($text,$num) {
+			$num = number_format_i18n($num);
+			echo '<li class="page-count"><a href="">'.$num.' '.$text.'</a></li>'."\n";
+		}
+
+		$sum = WPChaosClient::instance()->Object()->Get('', null, null, 0, 0)->MCM()->TotalCount();
+
+		dashboard_entry2(_n('CHAOS material', 'CHAOS materials', intval($sum),'wpdka'),$sum);
+
 		$facetFields = array('DKA-Crowd-Views_int', 'DKA-Crowd-Likes_int', 'DKA-Crowd-Shares_int');
-
-		$num_posts = WPChaosClient::instance()->Object()->Get('', null, null, 0, 0)->MCM()->TotalCount();
-		$num = number_format_i18n($num_posts);
-		$text = _n('CHAOS material', 'CHAOS materials', intval($num_posts),'wpdka');
-
-		echo '<tr>';
-		echo '<td class="first b b-chaos-material">'.$num.'</td>';
-		echo '<td class="t chaos-material">'.$text.'</td>';
-		echo '</tr>';
-
 		$sum = WPChaosClient::summed_index_search($facetFields);
 
-		$num_posts = $sum['DKA-Crowd-Views_int'];
-		$num = number_format_i18n($num_posts);
-		$text = _n('CHAOS material view', 'CHAOS material views', intval($num_posts),'wpdka');
-
-		echo '<tr>';
-		echo '<td class="first b b-chaos-material">'.$num.'</td>';
-		echo '<td class="t chaos-material">'.$text.'</td>';
-		echo '</tr>';
-
-		$num_posts = $sum['DKA-Crowd-Likes_int'];
-		$num = number_format_i18n($num_posts);
-		$text = _n('CHAOS material like', 'CHAOS material likes', intval($num_posts),'wpdka');
-
-		echo '<tr>';
-		echo '<td class="first b b-chaos-material">'.$num.'</td>';
-		echo '<td class="t chaos-material">'.$text.'</td>';
-		echo '</tr>';
-
-		$num_posts = $sum['DKA-Crowd-Shares_int'];
-		$num = number_format_i18n($num_posts);
-		$text = _n('CHAOS material share', 'CHAOS material shares', intval($num_posts),'wpdka');
-
-		echo '<tr>';
-		echo '<td class="first b b-chaos-material">'.$num.'</td>';
-		echo '<td class="t chaos-material">'.$text.'</td>';
-		echo '</tr>';
+		dashboard_entry2(_n('CHAOS material view', 'CHAOS material views', intval($sum['DKA-Crowd-Views_int']),'wpdka'),$sum['DKA-Crowd-Views_int']);
+		//dashboard_entry2(_n('CHAOS material like', 'CHAOS material likes', intval($sum['DKA-Crowd-Likes_int']),'wpdka'),$sum['DKA-Crowd-Likes_int']);
+		dashboard_entry2(_n('CHAOS material share', 'CHAOS material shares', intval($sum['DKA-Crowd-Shares_int']),'wpdka'),$sum['DKA-Crowd-Shares_int']);
 
 	}
 
+	/**
+	 * Remove clutter from dashboard
+	 * @return void
+	 */
 	public function remove_dashboard_widgets() {
 		remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
 		remove_meta_box( 'dashboard_secondary', 'dashboard', 'side' );
 		remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
 		remove_meta_box( 'dashboard_plugins', 'dashboard', 'normal' );
 	} 
-	
+
+	/**
+	 * Print a jwplayer
+	 * @param  array    $options
+	 * @param  string    $player_id
+	 * @return void
+	 */
 	public static function print_jwplayer($options, $player_id = 'main-jwplayer') {
 		echo '<div id="'.$player_id.'"><p style="text-align:center;">'.__('Loading the player ...','wpdka').'</p></div>';
 		echo '<script type="text/javascript">';
@@ -469,6 +460,13 @@ class WPDKA {
 		return $file->Token . $quality;
 	}
 
+	/**
+	 * Get a player according to its format type
+	 * @param  WPChaosObject    $object
+	 * @param  boolean   $autoplay
+	 * @param  string    $title
+	 * @return string
+	 */
 	public static function get_object_player(WPChaosObject $object = null, $autoplay = false, $title = '') {
 		$return = "";
 
