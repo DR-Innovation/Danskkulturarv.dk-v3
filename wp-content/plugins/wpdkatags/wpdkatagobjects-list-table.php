@@ -27,7 +27,6 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		} else {
 			$this->_current_tag = " ";
 		}
-		
 
 		$this->title = '<a href="'.add_query_arg('page',WPDKATags::DOMAIN,'admin.php').'">'.__('DKA User Tags', WPDKATags::DOMAIN).'</a> &raquo; '.$this->get_current_tag();
 
@@ -95,7 +94,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 
 		switch($column_name) {
 			case 'material_title':
-				if(isset($this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID])) {
+				if(!empty($_tags_related_item) && isset($this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID])) {
 					$material = $this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID];
 					return '<a href="'.$material->url.'" target="_blank">'.$material->title.'</a>';	
 				}
@@ -210,7 +209,6 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	public function prepare_items() {
 
 		$per_page = $this->get_items_per_page( 'edit_wpdkatags_per_page');
-		//$per_page = 1;
 
 		//Set column headers
 		$hidden = array();
@@ -260,23 +258,26 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 				}
 			}
 
-			//Get the related objects to the tags.
-			//The quantity we get here should at most be the quantity we got in $serviceResult
-			$serviceResult2 = WPChaosClient::instance()->Object()->Get(
-				"(".implode("+OR+", $relation_guids).")",   // Search query
-				null,   // Sort
-				null,   // AP injected
-				0,      // pageIndex
-				$per_page,      // pageSize
-				true,   // includeMetadata
-				false,   // includeFiles
-				false    // includeObjectRelations
-			);
+			if($relation_guids) {
+				//Get the related objects to the tags.
+				//The quantity we get here should at most be the quantity we got in $serviceResult
+				$serviceResult2 = WPChaosClient::instance()->Object()->Get(
+					"(".implode("+OR+", $relation_guids).")",   // Search query
+					null,   // Sort
+					null,   // AP injected
+					0,      // pageIndex
+					$per_page,      // pageSize
+					true,   // includeMetadata
+					false,   // includeFiles
+					false    // includeObjectRelations
+				);
+				//Loop through objects to make them available for later use
+				foreach($serviceResult2->MCM()->Results() as $object) {
+					$this->_tags_related_item[$object->GUID] = new WPChaosObject($object);
+				}	
+			}
 
-			//Loop through objects to make them available for later use
-			foreach($serviceResult2->MCM()->Results() as $object) {
-				$this->_tags_related_item[$object->GUID] = new WPChaosObject($object);
-			}			
+		
 		}
 		
 		//Set items
