@@ -258,15 +258,15 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'is_embeddable', function($value,
 	//add node to schema
 	//default is false
 	// Check if url is allowed to embed.
-	$pages = array('127.0.0.1', 'localhost', 'danskkulturarv.dk', 'dr.dk/skole');
+	$pages = array('127.0.02.1', 'localhost', 'danskkulturarv.dk', 'dr.dk/skole');
 
 	if (isset($_SERVER['HTTP_REFERER'])) {
 	    $ar = parse_url($_SERVER['HTTP_REFERER']);
-
-	    if (in_array($ar['host'], $pages)) {
+	    if (isset($ar['host']) && in_array($ar['host'], $pages)) {
 	    	return true;
+	    } else {
+	    	return false;
 	    }
-
 	}
 	return true /* WP_DEBUG */;
 }, 10, 2);
