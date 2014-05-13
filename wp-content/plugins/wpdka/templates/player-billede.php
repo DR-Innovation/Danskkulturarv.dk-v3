@@ -23,7 +23,8 @@ add_action( 'wp_footer', function() {
 	
 ?>
 		<li>
-			<img src="<?php echo htmlspecialchars($file->URL); ?>" title="<?php echo $title; ?>" alt="<?php echo $title; ?>">
+			<a href="<?php echo WPChaosClient::get_object()->url; ?>" class="image_logo" title="<?php printf(__('Go to DKA.dk %s', 'wpdka'), WPChaosClient::get_object()->title); ?>" target="_top"><img src="<?php echo get_template_directory_uri() . '/img/dka-logo-top.png'; ?>" alt="<?php bloginfo('name'); ?>" /></a>
+			<img src="<?php echo htmlspecialchars($file->URL); ?>" alt="<?php bloginfo('name'); ?>">
 		</li>
 <?php ;endforeach; ?>
 	</ul>

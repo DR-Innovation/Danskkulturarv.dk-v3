@@ -825,3 +825,24 @@ iframe {
 footer {
 	margin-top: 75px;
 }
+
+/* ==========================================================================
+   DKA logo
+   ========================================================================== */
+.slides li {
+	.image_logo {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		opacity: 0;
+	   transition: opacity .15s ease-in-out;
+	   -moz-transition: opacity .15s ease-in-out;
+	   -webkit-transition: opacity .15s ease-in-out;
+	}
+	&:hover {
+		.image_logo {
+			opacity: 1;
+		}
+	}
+}
+

@@ -44,7 +44,7 @@ $options = array(
 	"logo" => array(
 		"file" => get_template_directory_uri() . '/img/dka-logo-jwplayer.png',
 		"hide" => true,
-		"link" => site_url(),
+		"link" => /*site_url()*/$object->url,
 		"margin" => 20
 	),
 	"abouttext" => sprintf(__("About %s",'wpdka'),get_bloginfo('title')),

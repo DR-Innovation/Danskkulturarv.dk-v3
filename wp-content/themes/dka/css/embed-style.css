@@ -62,14 +62,18 @@ img {
 .copyright, .title {
 	overflow:hidden;
 	text-overflow:ellipsis;
-	width:50%;
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
 	-webkit-box-sizing:border-box;
 }
 
+.copyright {
+	width: 80%;
+}
+
 .title {
 	text-align:right;
+	width: 20%;
 }
 
 /* Secure responsive slider vertical and horizontal */
@@ -93,6 +97,20 @@ img {
 	height: 100% !important;
 }
 
+.slides li .image_logo {
+	position: absolute;
+	max-width: 70%;
+	right: 10px;
+	top: 10px;
+	opacity: 0;
+	transition: opacity .15s ease-in-out;
+	-moz-transition: opacity .15s ease-in-out;
+	-webkit-transition: opacity .15s ease-in-out;
+}
+.slides li:hover .image_logo {
+	opacity: 1;
+}
+
 .flex-active-slide img {
 	max-height: 100%;
 	max-width: 100%;
@@ -106,6 +124,9 @@ img {
 }
 .flexslider .slides {
 	height: 100%;
+}
+.slides img {
+	margin: 0 auto !important;
 }
 .flex-active-slide {
 	height: auto !important;

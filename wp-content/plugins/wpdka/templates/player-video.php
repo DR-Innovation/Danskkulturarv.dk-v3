@@ -26,7 +26,6 @@ foreach($object->Files as $file) {
 }
 
 $sharing_link = site_url($_SERVER["REQUEST_URI"]);
-
 $options = array(
 	"skin" => get_template_directory_uri() . '/lib/jwplayer/dka.xml',
 	"width" => "100%",
@@ -34,7 +33,7 @@ $options = array(
 	"logo" => array(
 		"file" => get_template_directory_uri() . '/img/dka-logo-jwplayer.png',
 		"hide" => true,
-		"link" => site_url(),
+		"link" => /*site_url()*/$object->url,
 		"margin" => 20
 	),
 	"abouttext" => sprintf(__("About %s",'wpdka'),get_bloginfo('title')),
