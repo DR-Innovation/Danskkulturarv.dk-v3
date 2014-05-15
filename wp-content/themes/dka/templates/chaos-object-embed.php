@@ -101,7 +101,7 @@ echo '<div class="title pull-right"><a href="'.WPChaosClient::get_object()->url.
 		try {
 			if (window.self === window.top) {
 				console.log(document.querySelectorAll('.player'));
-				document.querySelectorAll('.player')[0].outerHTML += '<div class="overlay"><div class="info"><h2>Hvordan embedder jeg?</h2><textarea onClick="this.select()" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea><p><?php echo WPChaosClient::get_object()->rights; ?></p></div><a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode);" class="exit">&times;</a></div>';
+				document.querySelectorAll('.player')[0].outerHTML += '<div class="overlay"><div class="info"><h2>Embedding</h2><textarea onClick="this.select()" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea><p>Vær opmærksom på at embedding fra <a href="<?php echo site_url(); ?>">danskkulturarv.dk</a> kun er tilladt på <strong>udvalgte</strong> sider</p><p><?php echo WPChaosClient::get_object()->rights; ?></p></div><a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode);" class="exit">&times;</a></div>';
 			}
 		} catch (e) {
 		}
