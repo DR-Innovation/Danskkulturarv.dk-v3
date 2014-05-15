@@ -258,7 +258,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'is_embeddable', function($value,
 	//add node to schema
 	//default is false
 	// Check if url is allowed to embed.
-	$pages = array('127.0.0.1', 'localhost', 'dr.dk');
+	$pages = array('danskkulturarv.dk', 'dr.dk');
 
 	if (isset($_SERVER['HTTP_REFERER'])) {
 	    $ar = parse_url($_SERVER['HTTP_REFERER']);
@@ -274,7 +274,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'is_embeddable', function($value,
 
 //object->embed
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'embed', function($value, $object) {
-	
+
 	$url = str_replace('ø', '%C3%B8', str_replace('æ', '%C3%A6', str_replace('å', '%C3%A5', $object->url)));
 	return '<iframe src="'.rtrim($url, '/').'/embed" frameborder="0" allowfullscreen width="480" height="360"></iframe>';
 }, 10, 2);
