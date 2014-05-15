@@ -83,17 +83,36 @@ echo '<div class="title pull-right"><a href="'.WPChaosClient::get_object()->url.
 <?php if (!isset($_SERVER['HTTP_REFERER'])): ?>
 		<script>
 		    try {
+		    	// If page is loading inside an iFrame.
 		        if (window.self !== window.top) {
-		        	var meta = document.createElement('meta');
-					meta.httpEquiv = "X-Frame-Options";
-					meta.content = "deny";
+		   			// var meta = document.createElement('meta');
+					// meta.httpEquiv = "X-Frame-Options";
+					// meta.content = "deny";
 					// document.getElementsByTagName('head')[0].appendChild(meta);
 					document.getElementsByTagName('body')[0].innerHTML = '<a href="<?php echo WPChaosClient::get_object()->url; ?>" target="_blank" rel="bookmark">Dette materiale fra <?php bloginfo('name'); ?> kan ikke embeddes.</a><p>Det lader til at du ikke har tilladelse til at embedde materialer fra <a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a></p>';
+					var stylesheets = document.getElementsByTagName('link'), i, sheet;
+					
+					// Removing stylesheets
+					for (i in stylesheets) {
+					    sheet = stylesheets[i];
+				        sheet.parentNode.removeChild(sheet);
+					}
 		        }
 		    } catch (e) {
 		    }
 		</script>
 	<?php endif; ?>
+	<script>
+		// If someone trying to access /embed without an iframe.
+		// Shows an overlay with the html of how to implement the material in an iframe. 
+		try {
+			if (window.self === window.top) {
+				console.log(document.querySelectorAll('.player'));
+				document.querySelectorAll('.player')[0].outerHTML += '<div class="overlay"><div class="info"><h2>Hvordan embedder jeg?</h2><textarea onClick="this.select()" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea><p><?php echo WPChaosClient::get_object()->rights; ?></p></div><a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode);" class="exit">&times;</a></div>';
+			}
+		} catch (e) {
+		}
+	</script>
 </div>
 
 <?php wp_footer(); ?>
