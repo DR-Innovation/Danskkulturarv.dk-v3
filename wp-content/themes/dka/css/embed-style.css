@@ -13,8 +13,6 @@ body {
 	line-height: 1.428571429;
 	color: #333333;
 	background-color: transparent;
-	white-space: normal;
-	word-break: break-word;
 }
 audio,
 video {
@@ -28,11 +26,11 @@ audio:not([controls]) {
 a {
 	background: transparent;
 }
-a:visited {
+.overlay a:visited {
 	color: #bbb;
 }
-a:active,
-a:hover {
+.overlay a:active,
+.overlay a:hover {
 	outline: 0;
 	color: #fff;
 }
@@ -42,6 +40,11 @@ strong {
 }
 img {
 	border: 0;
+}
+h1 {
+	font-size: 1.6em;
+	font-weight: 500;
+	line-height: 1.1;
 }
 
 .nav {
@@ -188,6 +191,14 @@ i.underline {
 }
 .flex-active-slide {
 	height: auto !important;
+}
+.noembed {
+	white-space: normal; 
+	word-break: break-word;
+	background-color: #fff;
+}
+p.lead {
+	font-size: 16px;
 }
 /*
  * jQuery FlexSlider v2.0
