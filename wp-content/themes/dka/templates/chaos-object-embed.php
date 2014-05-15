@@ -90,13 +90,6 @@ echo '<div class="title pull-right"><a href="'.WPChaosClient::get_object()->url.
 					// meta.content = "deny";
 					// document.getElementsByTagName('head')[0].appendChild(meta);
 					document.getElementsByTagName('body')[0].innerHTML = '<a href="<?php echo WPChaosClient::get_object()->url; ?>" target="_blank" rel="bookmark">Dette materiale fra <?php bloginfo('name'); ?> kan ikke embeddes.</a><p>Det lader til at du ikke har tilladelse til at embedde materialer fra <a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a></p>';
-					var stylesheets = document.getElementsByTagName('link'), i, sheet;
-					
-					// Removing stylesheets
-					for (i in stylesheets) {
-					    sheet = stylesheets[i];
-				        sheet.parentNode.removeChild(sheet);
-					}
 		        }
 		    } catch (e) {
 		    }

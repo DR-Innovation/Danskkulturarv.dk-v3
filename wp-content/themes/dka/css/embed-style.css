@@ -13,6 +13,8 @@ body {
 	line-height: 1.428571429;
 	color: #333333;
 	background-color: transparent;
+	white-space: normal;
+	word-break: break-word;
 }
 audio,
 video {
