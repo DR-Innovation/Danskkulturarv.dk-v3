@@ -275,7 +275,8 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'is_embeddable', function($value,
 //object->embed
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'embed', function($value, $object) {
 	
-	return '<iframe src="'.$object->url.'embed" frameborder="0" allowfullscreen width="480" height="360"></iframe>';
+	$url = str_replace('ø', '%C3%B8', str_replace('æ', '%C3%A6', str_replace('å', '%C3%A5', $object->url)));
+	return '<iframe src="'.rtrim($url, '/').'/embed" frameborder="0" allowfullscreen width="480" height="360"></iframe>';
 }, 10, 2);
 
 //object->og_tags
