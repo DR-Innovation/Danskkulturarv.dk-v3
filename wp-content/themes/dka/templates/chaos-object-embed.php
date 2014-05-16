@@ -101,7 +101,7 @@ echo '<div class="title pull-right"><a href="'.WPChaosClient::get_object()->url.
 		try {
 			if (window.self === window.top) {
 				console.log(document.querySelectorAll('.player'));
-				document.querySelectorAll('.player')[0].outerHTML += '<div class="overlay"><div class="info"><h1>Embed af materiale <?php echo WPChaosClient::get_object()->title; ?></h1><textarea onClick="this.select()" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea><p class="lead">Vær opmærksom på at embedding af materialer fra <a href="<?php echo site_url(); ?>">danskkulturarv.dk</a> kun er tilladt på <strong>udvalgte</strong> domæner.</p></div><a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode);" class="exit">&times;</a></div>';
+				document.querySelectorAll('.player')[0].outerHTML += '<div class="overlay"><div class="info"><h1>Embed af materiale <?php echo WPChaosClient::get_object()->title; ?></h1><textarea onClick="this.select()" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea><p class="lead">Vær opmærksom på at embedding af materialer fra <a href="<?php echo site_url(); ?>"><?php bloginfo('name'); ?></a> kun er tilladt på <strong>udvalgte</strong> domæner.</p></div><a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode);" class="exit">&times;</a></div>';
 			}
 		} catch (e) {
 		}
