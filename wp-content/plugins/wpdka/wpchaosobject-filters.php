@@ -254,14 +254,12 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'caption', function($value, $obje
 
 //object->is_embeddable
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'is_embeddable', function($value, $object) {
-	//TODO: some materials might not be embeddable
-	//add node to schema
-	//default is false
-	// Check if url is allowed to embed.
+	// Pages who are allowed to embed.
 	$pages = array('danskkulturarv.dk', 'dr.dk');
 
 	if (isset($_SERVER['HTTP_REFERER'])) {
 	    $ar = parse_url($_SERVER['HTTP_REFERER']);
+	    // Remove http(s)://www. from urls to compare easier.
 	    $ar = preg_replace('/(?:https?:\/\/)?(?:www\.)?(.*)\/?$/i', '$1', $ar);
 	    if (isset($ar['host']) && in_array($ar['host'], $pages)) {
 	    	return true;
@@ -269,12 +267,13 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'is_embeddable', function($value,
 	    	return false;
 	    }
 	}
-	return true /* WP_DEBUG */;
+
+	return true; // If HTTP_REFERER is not set, it will return true and let JavaScript handle an iFrame error.
 }, 10, 2);
 
 //object->embed
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'embed', function($value, $object) {
-
+	// Replace æøå when printing html iFrame.
 	$url = str_replace('ø', '%C3%B8', str_replace('æ', '%C3%A6', str_replace('å', '%C3%A5', $object->url)));
 	return '<iframe src="'.rtrim($url, '/').'/embed" frameborder="0" allowfullscreen width="480" height="360"></iframe>';
 }, 10, 2);
