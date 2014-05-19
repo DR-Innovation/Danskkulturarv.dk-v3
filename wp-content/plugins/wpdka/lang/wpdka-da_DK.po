@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPChaosSearch\n"
-"POT-Creation-Date: 2014-02-24 15:37+0100\n"
-"PO-Revision-Date: 2014-02-24 15:37+0100\n"
+"POT-Creation-Date: 2014-05-19 12:44+0100\n"
+"PO-Revision-Date: 2014-05-19 12:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -18,6 +18,50 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
+
+#: ../templates/player-billede.php:21
+#, php-format
+msgid "Image %s for %s"
+msgstr "Billede %s til %s"
+
+#: ../templates/player-billede.php:26
+#, php-format
+msgid "Go to %s"
+msgstr "Gå til %s"
+
+#: ../templates/player-lyd-mediaelement.backup.php:34
+#: ../templates/player-lyd.php:50 ../templates/player-video.php:39
+#, php-format
+msgid "About %s"
+msgstr "Om %s"
+
+#: ../widgets/player.php:20
+msgid "DKA Object Player"
+msgstr "DKA Objektafspiller"
+
+#: ../widgets/player.php:21
+msgid "Display a player according to the material format"
+msgstr "Vis en afspiller i henhold til materialeformatet"
+
+#: ../widgets/player.php:26
+msgid "Slug/GUID"
+msgstr "Slug/GUID"
+
+#: ../widgets/player.php:32
+msgid "Title/Alternate text"
+msgstr "Titel/alternativ tekst"
+
+#: ../widgets/player.php:38
+msgid "Autoplay"
+msgstr "Auto-afspil"
+
+#: ../widgets/player.php:44
+msgid "Show link"
+msgstr "Vis link"
+
+#: ../widgets/player.php:105
+msgid "Read more"
+msgstr "Læs mere"
 
 #: ../wpchaosobject-filters.php:21
 msgid " without title"
@@ -54,72 +98,66 @@ msgstr "JW Player indstillinger"
 msgid "JW Player API key"
 msgstr "JW Player API-nøgle"
 
-#: ../wpdka.php:406
+#: ../wpdka.php:414
 msgid "CHAOS material"
 msgid_plural "CHAOS materials"
 msgstr[0] "CHAOS materiale"
 msgstr[1] "CHAOS materialer"
 
-#: ../wpdka.php:417
+#: ../wpdka.php:419
 msgid "CHAOS material view"
 msgid_plural "CHAOS material views"
 msgstr[0] "CHAOS materialevisning"
 msgstr[1] "CHAOS materialevisninger"
 
-#: ../wpdka.php:426
-msgid "CHAOS material like"
-msgid_plural "CHAOS material likes"
-msgstr[0] "CHAOS materiale-like"
-msgstr[1] "CHAOS materiale-likes"
-
-#: ../wpdka.php:435
+#: ../wpdka.php:421
 msgid "CHAOS material share"
 msgid_plural "CHAOS material shares"
 msgstr[0] "CHAOS materialedeling"
 msgstr[1] "CHAOS materialedelinger"
 
-#: ../wpdka.php:452
+#: ../wpdka.php:443
 msgid "Loading the player ..."
 msgstr "Henter afspiller ..."
 
-#: ../wpdka.php:521
+#: ../wpdka.php:519
 msgid "WordPress DKA"
 msgstr "WordPress DKA"
 
-#: ../wpdka.php:521
+#: ../wpdka.php:519
 #, php-format
 msgid "needs %s to be activated."
 msgstr "kræver at %s er aktiveret."
 
-#: ../wpdkaobject.php:151
+#: ../wpdkaobject.php:166
 msgid "Actors"
 msgstr "Skuespillere"
 
-#: ../wpdkaobject.php:152
+#: ../wpdkaobject.php:167
 msgid "Cinematography"
 msgstr "Kinematografi"
 
-#: ../wpdkaobject.php:153
+#: ../wpdkaobject.php:168
 msgid "Creator"
 msgstr "Skaber"
 
-#: ../wpdkaobject.php:154
+#: ../wpdkaobject.php:169
 msgid "Direction"
 msgstr "Instruktion"
 
-#: ../wpdkaobject.php:155
+#: ../wpdkaobject.php:170
 msgid "Directors"
 msgstr "Instruktører"
 
-#: ../wpdkaobject.php:156
+#: ../wpdkaobject.php:171
 msgid "Production"
 msgstr "Produktion"
 
-#: ../wpdkaobject.php:157
+#: ../wpdkaobject.php:172
 msgid "Script"
 msgstr "Manuskript"
 
-#: ../wpdkaobject.php:174
+#: ../wpdkaobject.php:189
 msgid "Not provided"
 msgstr "Ikke opgivet"
 
@@ -142,44 +180,10 @@ msgstr " Formatet er %s."
 msgid "%s contains %s materials about %s."
 msgstr "%s indeholder %s materialer om %s."
 
-#: ../templates/player-billede.php:21
-#, php-format
-msgid "Image %s for %s"
-msgstr "Billede %s til %s"
-
-#: ../templates/player-lyd-mediaelement.backup.php:34
-#: ../templates/player-lyd.php:50 ../templates/player-video.php:40
-#, php-format
-msgid "About %s"
-msgstr "Om %s"
-
-#: ../widgets/player.php:20
-msgid "DKA Object Player"
-msgstr "DKA Objektafspiller"
-
-#: ../widgets/player.php:21
-msgid "Display a player according to the material format"
-msgstr "Vis en afspiller i henhold til materialeformatet"
-
-#: ../widgets/player.php:26
-msgid "Slug/GUID"
-msgstr "Slug/GUID"
-
-#: ../widgets/player.php:32
-msgid "Title/Alternate text"
-msgstr "Titel/alternativ tekst"
-
-#: ../widgets/player.php:38
-msgid "Autoplay"
-msgstr "Auto-afspil"
-
-#: ../widgets/player.php:44
-msgid "Show link"
-msgstr "Vis link"
-
-#: ../widgets/player.php:105
-msgid "Read more"
-msgstr "Læs mere"
+#~ msgid "CHAOS material like"
+#~ msgid_plural "CHAOS material likes"
+#~ msgstr[0] "CHAOS materiale-like"
+#~ msgstr[1] "CHAOS materiale-likes"
 
 #~ msgid "Material"
 #~ msgstr "Materiale"
