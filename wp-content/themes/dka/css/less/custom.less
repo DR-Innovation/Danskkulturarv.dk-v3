@@ -829,15 +829,17 @@ footer {
 /* ==========================================================================
    DKA logo
    ========================================================================== */
-.slides li {
+.flexslider {
 	.image_logo {
 		position: absolute;
+		max-width: 70%;
 		right: 10px;
 		top: 10px;
 		opacity: 0;
-	   transition: opacity .15s ease-in-out;
-	   -moz-transition: opacity .15s ease-in-out;
-	   -webkit-transition: opacity .15s ease-in-out;
+		transition: opacity .15s ease-in-out;
+		-moz-transition: opacity .15s ease-in-out;
+		-webkit-transition: opacity .15s ease-in-out;
+		z-index: 10;
 	}
 	&:hover {
 		.image_logo {
@@ -845,4 +847,3 @@ footer {
 		}
 	}
 }
-
