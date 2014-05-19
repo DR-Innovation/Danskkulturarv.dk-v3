@@ -4,7 +4,6 @@ html {
 	-webkit-text-size-adjust: 100%;
 	font-size: 62.5%;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-	white-space: nowrap;
 }
 body {
 	margin: 0 !important;
@@ -58,6 +57,8 @@ h1 {
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
 	-webkit-box-sizing:border-box;
+	white-space: nowrap;
+	z-index: 20;
 }
 i.underline {
 	text-decoration: underline;
@@ -151,7 +152,6 @@ i.underline {
 	text-decoration: none;
 }
 .flex-control-nav {
-	position: absolute;
 	z-index: 1;
 	margin-top: 5px !important;
 }
