@@ -77,7 +77,7 @@ if(WPChaosClient::get_object()->rights) :
 echo '<div title="'.esc_attr(WPChaosClient::get_object()->rights).'" class="copyright pull-left">'.WPChaosClient::get_object()->rights.'</div>';
 endif;
 
-echo '<div class="title pull-right"><a href="'.WPChaosClient::get_object()->url.'" target="_blank" rel="bookmark">Fra '.get_bloginfo('name').'</a></div>';
+echo '<div class="title pull-right"><a title="' . get_bloginfo('name') . '" href="'.WPChaosClient::get_object()->url.'" target="_blank" rel="bookmark">Fra '.get_bloginfo('name').'</a></div>';
 
 ?>
 <?php if (!isset($_SERVER['HTTP_REFERER'])): ?>
