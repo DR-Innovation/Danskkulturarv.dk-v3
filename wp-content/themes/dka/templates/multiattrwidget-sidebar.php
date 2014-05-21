@@ -24,14 +24,14 @@
 		<div class="social">
 			<?php dka_social_share(array("link"=>WPChaosClient::get_object()->url)); ?>
 		</div>
-<?php if(WPChaosClient::get_object()->is_embeddable) : ?>
+<?php if(0 && WPChaosClient::get_object()->is_embeddable) : // Deaktiveret. ?>
 		<div>
 			<hr>
 			<h4><?php _e('Embed material','dka'); ?></h4>
 			<?php if(($page = get_page_by_path('embed',OBJECT,'page'))) : ?>
-			<a href="<?php echo get_permalink($page); ?>">Læs om indlejring</a>
+			<a href="<?php echo get_permalink($page); ?>">Læs om embedding</a>
 			<?php endif; ?>
-			<textarea class="form-control" rows="3" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea>
+			<textarea onClick="this.select()" class="form-control" rows="3" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea>
 		</div>
 <?php endif; ?>
 		<div>
