@@ -261,7 +261,7 @@ function dka_scripts_styles() {
 	}
 
 	wp_enqueue_script( 'custom-functions', get_template_directory_uri() . '/js/custom-functions.js', array('jquery'), '1', true );
-	wp_localize_script( 'custom-functions', 'dka', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+	wp_localize_script( 'custom-functions', 'dka', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'search_page' => get_post(get_option('wpchaos-searchpage'))->post_name ) );
 
 }
 add_action( 'wp_enqueue_scripts', 'dka_scripts_styles' );
