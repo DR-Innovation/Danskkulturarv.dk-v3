@@ -5183,10 +5183,8 @@ footer {
 /* ==========================================================================
    DKA logo
    ========================================================================== */
-.flexslider {
-  display: none;
-}
 .flexslider .image_logo {
+  display: none;
   position: absolute;
   max-width: 70%;
   right: 10px;
