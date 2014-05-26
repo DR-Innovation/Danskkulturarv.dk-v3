@@ -1,7 +1,7 @@
 <script type="text/javascript">
 jQuery(document).ready(function($) {
 	$('.pllexislider').pllexislider({
-		animation: "fade",
+		animation: "slide",
 		directionNav: false,
 		start: function(slider){
 			slider.hover(
