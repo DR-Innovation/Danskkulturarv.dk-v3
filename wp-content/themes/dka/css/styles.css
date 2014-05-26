@@ -5163,7 +5163,7 @@ footer .copyright a {
 .colorbox {
   background-color: #e8e9e6;
   padding: 1px 10px 5px;
-  height: 140px;
+  height: 185px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -5184,6 +5184,7 @@ footer {
    DKA logo
    ========================================================================== */
 .flexslider .image_logo {
+  display: none;
   position: absolute;
   max-width: 70%;
   right: 10px;
@@ -5196,6 +5197,9 @@ footer {
 }
 .flexslider:hover .image_logo {
   opacity: 1;
+}
+.jwlogo {
+  display: none;
 }
 /*
  * jQuery FlexSlider v2.0

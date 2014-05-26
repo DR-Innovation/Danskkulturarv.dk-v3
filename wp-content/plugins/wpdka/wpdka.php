@@ -446,6 +446,7 @@ class WPDKA {
 		echo '	jwplayer("'.$player_id.'").setup(';
 		echo json_encode($options);
 		echo '	);';
+		echo 'jwplayer().onPlay(function() { $(".jwlogo").prop("title", "' . __("Go to original page", "wpdka") . '");});';
 		echo '});';
 		echo '</script>';
 	}
