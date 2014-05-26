@@ -89,7 +89,7 @@ echo '<div class="title pull-right"><a title="' . get_bloginfo('name') . '" href
 					// meta.httpEquiv = "X-Frame-Options";
 					// meta.content = "deny";
 					// document.getElementsByTagName('head')[0].appendChild(meta);
-					document.getElementsByTagName('body')[0].innerHTML = '<div class="noembed"><a href="<?php echo WPChaosClient::get_object()->url; ?>" target="_blank" rel="bookmark">Dette materiale fra <?php bloginfo('name'); ?> kan ikke embeddes.</a><p>Det lader til at du ikke har tilladelse til at embedde materialer fra <a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a></p></div>';
+					document.getElementsByTagName('body')[0].innerHTML = '<div class="noembed"><a href="<?php echo WPChaosClient::get_object()->url; ?>" target="_blank" rel="bookmark">Dette materiale fra <?php bloginfo('name'); ?> kan ikke embeddes.</a><p>Det lader til at du ikke har tilladelse til at embedde materialer fra <a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a>.</p><p><a href="mailto:drexdibe@dr.dk">Kontakt os venligst </a> hvis du mener der er sket en fejl.</p></div>';
 		        }
 		    } catch (e) {
 		    }
@@ -101,7 +101,7 @@ echo '<div class="title pull-right"><a title="' . get_bloginfo('name') . '" href
 		try {
 			if (window.self === window.top) {
 				console.log(document.querySelectorAll('.player'));
-				document.querySelectorAll('.player')[0].outerHTML += '<div class="overlay"><div class="info"><h1>Embed af materiale <?php echo WPChaosClient::get_object()->title; ?></h1><textarea onClick="this.select()" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea><p class="lead">Vær opmærksom på, at embedding af materialer fra <a href="<?php echo site_url(); ?>"><?php bloginfo('name'); ?></a>, kun er tilladt på <strong>udvalgte</strong> domæner.</p></div><a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode); return false;" class="exit">&times;</a></div>';
+				document.querySelectorAll('.player')[0].outerHTML += '<div class="overlay"><div class="info"><h1>Embed</h1><textarea onClick="this.select()" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea><p class="lead">Vær opmærksom på, at embedding af materialer fra <a href="<?php echo site_url(); ?>"><?php bloginfo('name'); ?></a>, kun er tilladt på <strong>udvalgte</strong> domæner.</p></div><a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode); return false;" class="exit">&times;</a></div>';
 			}
 		} catch (e) {
 		}
@@ -122,7 +122,8 @@ status_header(404); ?>
 	<body>
 		<div class="noembed" style="background-color: #fff;">
 			<a href="<?php echo WPChaosClient::get_object()->url; ?>" target="_blank" rel="bookmark">Dette materiale fra <?php bloginfo('name'); ?> kan ikke embeddes.</a>
-			<p>Det lader til at du ikke har tilladelse til at embedde materialer fra <a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a></p>
+			<p>Det lader til at du ikke har tilladelse til at embedde materialer fra <a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a>.</p>
+			<p><a href="mailto:drexdibe@dr.dk">Kontakt os venligst </a> hvis du mener der er sket en fejl.</p>
 		</div>
 	</body>
 </html>
