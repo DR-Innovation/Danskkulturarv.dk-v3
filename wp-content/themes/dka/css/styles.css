@@ -5183,6 +5183,9 @@ footer {
 /* ==========================================================================
    DKA logo
    ========================================================================== */
+.flexslider {
+  display: none;
+}
 .flexslider .image_logo {
   position: absolute;
   max-width: 70%;
@@ -5196,6 +5199,9 @@ footer {
 }
 .flexslider:hover .image_logo {
   opacity: 1;
+}
+.jwlogo {
+  display: none;
 }
 /*
  * jQuery FlexSlider v2.0
