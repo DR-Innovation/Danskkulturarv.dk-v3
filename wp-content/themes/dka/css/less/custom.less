@@ -802,15 +802,50 @@ footer {
 	margin-bottom:0!important;
 }
 
+
+
 // Colorbox
-.colorbox {
-	background-color: rgb(232, 233, 230);
-	padding: 1px 10px 5px;
-	height:185px;
+.frontbox {
+	height: 359px;
 	overflow: hidden;
 	text-overflow:ellipsis;
+	max-width: 750px;
+	margin-left: auto;
+	margin-right: auto;
+	.colorbox {
+		background-color: rgb(232, 233, 230);
+		padding: 1px 10px 5px;
+		height: 100%;
+		overflow: hidden;
+		text-overflow:ellipsis;
+	}
+	.imgbox {
+		overflow: hidden;
+		img {
+			width: 100%;
+		}
+		background-color: rgb(232, 233, 230);
+		height: 128px;
+		width: 100%;
+	}
+	@media (min-width: 991px) and (max-width: 1199px) {
+		//height: 295px;
+		height: auto;
+		.imgbox {
+			height: auto;
+		}
+	}
+	@media (max-width: 990px) {
+		height: auto;
+		.colorbox h3 {
+			margin-top: 10px;
+		}
+		.imgbox {
+			height: auto;
+		}
+	}
+	
 }
-
 // Make inserted images and iframes responsive
 .wp-caption {
 	max-width: 100%;
@@ -824,6 +859,19 @@ iframe {
 }
 footer {
 	margin-top: 75px;
+}
+
+.panel-row-style-lgscreen {
+	display: none;
+	@media only screen and (min-width: 1200px) {
+		display: block;
+	}
+}
+.panel-row-style-smscreen {
+	display: none;
+	@media only screen and (max-width: 1199px) {
+		display: block;
+	}
 }
 
 /* ==========================================================================
@@ -851,3 +899,34 @@ footer {
 .jwlogo {
 	display: none;
 }
+
+/* ==========================================================================
+   Facebook widget
+   ========================================================================== */
+.fb_iframe_widget {
+	width: 100% !important;
+	span {
+		width: 100% !important;
+		iframe {
+			width: 100% !important;
+		}
+	}
+
+	@media (min-width: 990px) and (max-width: 1199px) {
+		max-width: 359px;
+		span {
+			max-width: 359px;
+			iframe {
+				max-width: 359px;
+			}
+		}
+	}
+}
+.pllexislider {
+	@media (min-width: 990px) and (max-width: 1199px) {
+		height: 359px;
+		width: 359px;
+		float: right;
+	}
+}
+

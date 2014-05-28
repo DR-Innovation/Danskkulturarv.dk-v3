@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dansk Kulturarv\n"
-"POT-Creation-Date: 2014-05-26 11:45+0100\n"
-"PO-Revision-Date: 2014-05-26 11:46+0100\n"
+"POT-Creation-Date: 2014-05-28 15:20+0100\n"
+"PO-Revision-Date: 2014-05-28 15:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
@@ -46,28 +46,48 @@ msgstr "%s på Instagram"
 msgid "2 columns responsive"
 msgstr "2 kolonne-responsivt"
 
-#: ../functions.php:320 ../single.php:27
+#: ../functions.php:161
+msgid "Only larger screens"
+msgstr "Kun store opløsninger"
+
+#: ../functions.php:162
+msgid "Only smaller screens"
+msgstr "Kun små opløsninger"
+
+#: ../functions.php:174
+msgid "Text-box"
+msgstr "Tekstboks"
+
+#: ../functions.php:180
+msgid "Image-box"
+msgstr "Billedboks"
+
+#: ../functions.php:186
+msgid "Box"
+msgstr "Boks"
+
+#: ../functions.php:334 ../single.php:27
 msgid "Post navigation"
 msgstr "Indlægsnavigation"
 
-#: ../functions.php:321
+#: ../functions.php:335
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr "<span class=\"meta-nav\">&larr;</span> Ældre indlæg"
 
-#: ../functions.php:322
+#: ../functions.php:336
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Nyere indlæg <span class=\"meta-nav\">&rarr;</span>"
 
-#: ../functions.php:337 ../functions.php:340
+#: ../functions.php:351 ../functions.php:354
 msgid ", "
 msgstr ", "
 
-#: ../functions.php:351
+#: ../functions.php:365
 #, php-format
 msgid "View all posts by %s"
 msgstr "Vis alle indlæg af %s"
 
-#: ../functions.php:357
+#: ../functions.php:371
 #, php-format
 msgid ""
 "This entry was posted in %1$s and tagged %2$s on %3$s<span class=\"by-author"
@@ -76,7 +96,7 @@ msgstr ""
 "Dette indlæg blev udgivet i %1$s og tagget %2$s den %3$s<span class=\"by-"
 "author\"> af %4$s</span>."
 
-#: ../functions.php:359
+#: ../functions.php:373
 #, php-format
 msgid ""
 "This entry was posted in %1$s on %3$s<span class=\"by-author\"> by %4$s</"
@@ -85,23 +105,23 @@ msgstr ""
 "Dette indlæg blev udgivet i %1$s den %3$s<span class=\"by-author\"> af %4$s</"
 "span>."
 
-#: ../functions.php:361
+#: ../functions.php:375
 #, php-format
 msgid "This entry was posted on %3$s<span class=\"by-author\"> by %4$s</span>."
 msgstr ""
 "Dette indlæg blev udgivet den %3$s<span class=\"by-author\"> af %4$s</span>."
 
-#: ../functions.php:395
+#: ../functions.php:409
 #, php-format
 msgid "Page %s"
 msgstr "Side %s"
 
-#: ../functions.php:511 ../functions.php:512 ../functions.php:513
+#: ../functions.php:525 ../functions.php:526 ../functions.php:527
 #, php-format
 msgid "Share on %s"
 msgstr "Del på %s"
 
-#: ../functions.php:514
+#: ../functions.php:528
 msgid "Send as e-mail"
 msgstr "Send som e-mail"
 
@@ -129,6 +149,30 @@ msgstr "&larr;"
 msgctxt "Next post link"
 msgid "&rarr;"
 msgstr "&rarr;"
+
+#: ../templates/chaos-object-embed.php:42
+msgid "Update"
+msgstr "Opdater"
+
+#: ../templates/chaos-object-embed.php:44
+msgid "Default"
+msgstr "Standard"
+
+#: ../templates/chaos-object-embed.php:45
+msgid "Small"
+msgstr "Lille"
+
+#: ../templates/chaos-object-embed.php:46
+msgid "Medium"
+msgstr "Mellem"
+
+#: ../templates/chaos-object-embed.php:47
+msgid "Full"
+msgstr "Fuld"
+
+#: ../templates/chaos-object-embed.php:48
+msgid "Custom"
+msgstr "Tilpas"
 
 #: ../templates/chaos-search-form.php:32
 msgctxt "verb"
@@ -174,28 +218,28 @@ msgstr[1] "materialer"
 msgid "Views"
 msgstr "Visninger"
 
-#: ../templates/multiattrwidget-sidebar.php:14
+#: ../templates/multiattrwidget-sidebar.php:13
 #, php-format
 msgid "Read more at %s"
 msgstr "Læs mere hos %s"
 
-#: ../templates/multiattrwidget-sidebar.php:30
+#: ../templates/multiattrwidget-sidebar.php:29
 msgid "Embed material"
 msgstr ""
 
-#: ../templates/multiattrwidget-sidebar.php:39
+#: ../templates/multiattrwidget-sidebar.php:38
 msgid "Tags"
 msgstr "Tags"
 
-#: ../templates/multiattrwidget-sidebar.php:46
+#: ../templates/multiattrwidget-sidebar.php:45
 msgid "User Tags"
 msgstr "Brugertags"
 
-#: ../templates/multiattrwidget-sidebar.php:48
+#: ../templates/multiattrwidget-sidebar.php:47
 msgid "Disable"
 msgstr "Frys"
 
-#: ../templates/multiattrwidget-sidebar.php:48
+#: ../templates/multiattrwidget-sidebar.php:47
 msgid "Enable"
 msgstr "Optø"
 

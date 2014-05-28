@@ -30,7 +30,8 @@ a {
 	color: #bbb;
 }
 .overlay a:active,
-.overlay a:hover {
+.overlay a:hover,
+.overlay a:link {
 	outline: 0;
 	color: #fff;
 }
@@ -46,6 +47,75 @@ h1 {
 	font-weight: 500;
 	line-height: 1.1;
 }
+
+select {
+	height: 26px;
+	padding: 0 1.65em;
+	width: 100%;
+	border: none;
+}
+
+form[name="embed_customize"] {
+	width: 110px;
+	margin: 0 auto;
+}
+
+input[type="text"] {
+	color: #000;
+	background-image: none;
+	border: none;
+	padding: 5px;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	-webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	background-color: #eee;
+	height: 26px;
+	width: 100%;
+	box-sizing: border-box;
+}
+input[type="Submit"] {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+	background-color:#ededed;
+	border-radius: 5px;
+	text-indent:0;
+	border:1px solid #dcdcdc;
+	color:#000000;
+	height:30px;
+	width:100%;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #ffffff;
+}
+.inline {
+	display: inline-block;
+}
+
+.custom_size {
+	display: none;
+	margin-top: 5px;
+}
+.custom_size .custom_width,
+.custom_size .custom_height {
+	display: inline;
+	width: 47px;
+}
+.custom_form {
+	margin-bottom: 30px;
+	padding: 10px;
+}
+
+.options {
+	margin-bottom: 10px;
+	text-align: left;
+}
+
 
 .nav {
 	position:fixed;
@@ -140,7 +210,7 @@ i.underline {
 	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 	-webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 	transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-	cursor: not-allowed;
+	cursor: text;
 	background-color: #eee;
 	opacity: 1;
 	resize: none;

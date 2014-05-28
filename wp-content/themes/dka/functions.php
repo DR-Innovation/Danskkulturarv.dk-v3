@@ -158,6 +158,8 @@ add_filter( 'post_gallery', 'dka_gallery_markup', 11, 2 );
  */
 function col2_style_page_builder($styles) {
 	$styles['2col_res'] = __('2 columns responsive', 'dka');
+	$styles['lgscreen'] = __('Only larger screens', 'dka');
+	$styles['smscreen'] = __('Only smaller screens', 'dka');
 	return $styles;
 }
 add_filter('siteorigin_panels_row_styles', 'col2_style_page_builder');
@@ -169,11 +171,23 @@ add_filter('tiny_mce_before_init', function($arr) {
 	$arr['theme_advanced_blockformats'] = 'p,h2,h3,h4,h5,h6,address,pre';
 	$style_formats = array(  
 		array(  
-			'title' => 'Kasse',  
+			'title' => __('Text-box', 'dka'),  
 			'block' => 'div',  
 			'classes' => 'colorbox',  
 			'wrapper' => true  
-		)  
+		),
+		array(
+			'title' => __('Image-box', 'dka'),
+			'block' => 'div',
+			'classes' => 'imgbox',
+			'wrapper' => true
+		),
+		array(
+			'title' => __('Box', 'dka'),
+			'block' => 'div',
+			'classes' => 'frontbox',
+			'wrapper' => true
+		)
 	);  
 	$arr['style_formats'] = json_encode( $style_formats );  
 	return $arr;

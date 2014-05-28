@@ -370,8 +370,18 @@ img.wp-smiley {
 }
 
 /* Colorbox */
-.colorbox {
+.frontbox {
+	border: 2px solid #aaa;
+	margin: 0;
+	height: 359px;
+}
+.frontbox .colorbox {
 	background-color: rgb(232, 233, 230);
-	padding: 1px 10px 5px 10px;
+	padding: 1px 10px 5px;
+	text-overflow:ellipsis;
 	margin-top: -24px;
+}
+.frontbox .imgbox {
+	max-height: 128px;
+	width: 100%;
 }
