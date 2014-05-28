@@ -23,8 +23,7 @@ var dka = {
                     '<div class="options"><input type="Submit" value="' + embed.submittext + '" /></div>' +
                     '</form></div></div>' +
                     '<a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode); return false;" class="exit">&times;</a>';
-
-                if (embed.type == 'billede') {
+                if (embed.type == 'video' || embed.type == 'lyd') {
                     document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML = '<div class="options"><span>Start: </span><input type="text" maxlength="10" value="0:00" placeholder="0:00" class="timeoffset" /></div>' + document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML;
                 }
 
