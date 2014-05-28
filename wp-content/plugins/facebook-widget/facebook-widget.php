@@ -63,7 +63,7 @@ class WeblizarFacebook extends WP_Widget {
         $Header = apply_filters( 'facebook_header', $instance['Header'] );
         $Height = apply_filters( 'facebook_height', $instance['Height'] );
         $FacebookPageURL = apply_filters( 'facebook_page_url', $instance['FacebookPageURL'] );
-        $ShowBorder = true; //apply_filters( 'facebook_show_border', $instance['ShowBorder'] );
+        //$ShowBorder = apply_filters( 'facebook_show_border', $instance['ShowBorder'] );
         //$ShowFaces = apply_filters( 'facebook_show_faces', $instance['ShowFaces'] );
         $Stream = apply_filters( 'facebook_stream', $instance['Stream'] );
         $Width = apply_filters( 'facebook_width', $instance['Width'] );
@@ -74,6 +74,12 @@ class WeblizarFacebook extends WP_Widget {
             //echo __( 'Hello, World!', 'text_domain' );
         ?>
         <div id="fb-root"></div>
+
+        <style>
+        	.fb_iframe_widget {
+        		border: 1px solid #ccc;
+        	}
+        </style>
 
         <script>(function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
