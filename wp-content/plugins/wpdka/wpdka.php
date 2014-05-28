@@ -446,7 +446,13 @@ class WPDKA {
 		echo '	jwplayer("'.$player_id.'").setup(';
 		echo json_encode($options);
 		echo '	);';
-		echo 'jwplayer().onPlay(function() { $(".jwlogo").prop("title", "' . __("Go to original page", "wpdka") . '");});';
+		echo 'jwplayer().onPlay(function() {';
+		echo '	$(".jwlogo").prop("title", "' . __("Go to original page", "wpdka") . '");';
+		echo '});';
+		if (isset($options['startparam'])) {
+			echo 'jwplayer().onReady(function() { jwplayer().seek(' . $options['startparam'] . ')});';
+		}
+		
 		echo '});';
 		echo '</script>';
 	}
@@ -468,7 +474,7 @@ class WPDKA {
 	 * @param  string    $title
 	 * @return string
 	 */
-	public static function get_object_player(WPChaosObject $object = null, $autoplay = false, $title = '') {
+	public static function get_object_player(WPChaosObject $object = null, $autoplay = false, $title = '', $embed = null, $start = 0) {
 		$return = "";
 
 		if($object == null && WPChaosClient::get_object()) {
