@@ -59,12 +59,12 @@ class WeblizarFacebook extends WP_Widget {
     public function widget( $args, $instance ) {
         $FbAppId = apply_filters( 'facebook_app_id', $instance['FbAppId'] );
         $ColorScheme = apply_filters( 'facebook_color_scheme', $instance['ColorScheme'] );
-        $ForceWall = apply_filters( 'facebook_force_wall', $instance['ForceWall'] );
+        //$ForceWall = apply_filters( 'facebook_force_wall', $instance['ForceWall'] );
         $Header = apply_filters( 'facebook_header', $instance['Header'] );
         $Height = apply_filters( 'facebook_height', $instance['Height'] );
         $FacebookPageURL = apply_filters( 'facebook_page_url', $instance['FacebookPageURL'] );
-        $ShowBorder = apply_filters( 'facebook_show_border', $instance['ShowBorder'] );
-        $ShowFaces = apply_filters( 'facebook_show_faces', $instance['ShowFaces'] );
+        $ShowBorder = true; //apply_filters( 'facebook_show_border', $instance['ShowBorder'] );
+        //$ShowFaces = apply_filters( 'facebook_show_faces', $instance['ShowFaces'] );
         $Stream = apply_filters( 'facebook_stream', $instance['Stream'] );
         $Width = apply_filters( 'facebook_width', $instance['Width'] );
 
