@@ -39,7 +39,9 @@ add_action( 'wp_enqueue_scripts', function() {
 		array( 'html' 		=> esc_html(WPChaosClient::get_object()->embed), 
 			'blogname' 		=> '<a href="' . site_url() .'">' . get_bloginfo('name') . '</a>', 
 			'type' 			=> WPChaosClient::get_object()->type, 
-			'submittext' 	=> __('Update', 'dka'),
+			'submit_string' => __('Update', 'dka'),
+			'start_string'	=> __('Time offset', 'dka'),
+			'size_string'	=> __('Size', 'dka'),
 			'sizes' 		=> 	array(
 									array('label' => __('Default', 'dka'), 'width' => '480', 'height' => '360'), 
 									array('label' => __('Small', 'dka'), 'width' => '640', 'height' => '360'), 

@@ -15,16 +15,16 @@ var dka = {
                     '</div>';
 
                 document.querySelectorAll('.info')[0].innerHTML += '<div class="custom_form"><form name="embed_customize">' +
-                    '<div class="options"><span>Size: </span>' +
+                    '<div class="options"><span>' + embed.size_string + '</span>' +
                     '<span class="js-size">' +
                     '<div class="custom_size"><input type="text" class="inline custom_width" /> x <input type="text" class="inline custom_height" /></div>' +
                     '</span>' +
                     '</div>' +
-                    '<div class="options"><input type="Submit" value="' + embed.submittext + '" /></div>' +
+                    '<div class="options"><input type="Submit" value="' + embed.submit_string + '" /></div>' +
                     '</form></div></div>' +
                     '<a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode); return false;" class="exit">&times;</a>';
                 if (embed.type == 'video' || embed.type == 'lyd') {
-                    document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML = '<div class="options"><span>Start: </span><input type="text" maxlength="10" value="0:00" placeholder="0:00" class="timeoffset" /></div>' + document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML;
+                    document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML = '<div class="options"><span>' + embed.start_string + '</span><input type="text" maxlength="10" value="0:00" placeholder="0:00" class="timeoffset" /></div>' + document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML;
                 }
 
                 // Adding selectbox with different sizes.

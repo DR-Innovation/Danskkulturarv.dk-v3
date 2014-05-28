@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dansk Kulturarv\n"
-"POT-Creation-Date: 2014-05-28 15:20+0100\n"
-"PO-Revision-Date: 2014-05-28 15:22+0100\n"
+"POT-Creation-Date: 2014-05-28 18:47+0100\n"
+"PO-Revision-Date: 2014-05-28 18:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
@@ -154,23 +154,31 @@ msgstr "&rarr;"
 msgid "Update"
 msgstr "Opdater"
 
+#: ../templates/chaos-object-embed.php:43
+msgid "Time offset"
+msgstr "Tidsforskydning"
+
 #: ../templates/chaos-object-embed.php:44
+msgid "Size"
+msgstr "Størrelse"
+
+#: ../templates/chaos-object-embed.php:46
 msgid "Default"
 msgstr "Standard"
 
-#: ../templates/chaos-object-embed.php:45
+#: ../templates/chaos-object-embed.php:47
 msgid "Small"
 msgstr "Lille"
 
-#: ../templates/chaos-object-embed.php:46
+#: ../templates/chaos-object-embed.php:48
 msgid "Medium"
 msgstr "Mellem"
 
-#: ../templates/chaos-object-embed.php:47
+#: ../templates/chaos-object-embed.php:49
 msgid "Full"
 msgstr "Fuld"
 
-#: ../templates/chaos-object-embed.php:48
+#: ../templates/chaos-object-embed.php:50
 msgid "Custom"
 msgstr "Tilpas"
 
@@ -225,7 +233,7 @@ msgstr "Læs mere hos %s"
 
 #: ../templates/multiattrwidget-sidebar.php:29
 msgid "Embed material"
-msgstr ""
+msgstr "Embed materiale"
 
 #: ../templates/multiattrwidget-sidebar.php:38
 msgid "Tags"
