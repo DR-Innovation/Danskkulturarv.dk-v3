@@ -17,7 +17,7 @@ var dka = {
                 document.querySelectorAll('.info')[0].innerHTML += '<div class="custom_form"><form name="embed_customize">' +
                     '<div class="options"><span>' + embed.size_string + '</span>' +
                     '<span class="js-size">' +
-                    '<div class="custom_size"><input type="text" class="inline custom_width" /> x <input type="text" class="inline custom_height" /></div>' +
+                    '<div class="custom_size"><input type="text" class="inline custom_width" placeholder="' + embed.width_string + '" /> x <input type="text" class="inline custom_height" placeholder="' + embed.height_string + '" /></div>' +
                     '</span>' +
                     '</div>' +
                     '<div class="options"><input type="Submit" value="' + embed.submit_string + '" /></div>' +

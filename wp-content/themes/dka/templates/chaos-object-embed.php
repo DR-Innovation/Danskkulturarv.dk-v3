@@ -42,6 +42,8 @@ add_action( 'wp_enqueue_scripts', function() {
 			'submit_string' => __('Update', 'dka'),
 			'start_string'	=> __('Time offset', 'dka'),
 			'size_string'	=> __('Size', 'dka'),
+			'width_string'	=> __('Width', 'dka'),
+			'height_string'	=> __('Height', 'dka'),
 			'sizes' 		=> 	array(
 									array('label' => __('Default', 'dka'), 'width' => '480', 'height' => '360'), 
 									array('label' => __('Small', 'dka'), 'width' => '640', 'height' => '360'), 
