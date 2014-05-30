@@ -26,7 +26,6 @@
 }
 .pllexislider:hover .instagram_logo {
 	opacity: 0;
-	display: none;
 }
 /* Flexislider Default Settings */
 .pllexislider { margin: 0; padding: 0; }
