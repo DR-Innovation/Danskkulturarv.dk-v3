@@ -23,8 +23,11 @@ var dka = {
                     '<div class="options"><input type="Submit" value="' + embed.submit_string + '" /></div>' +
                     '</form></div></div>' +
                     '<a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode); return false;" class="exit">&times;</a>';
+
                 if (embed.type == 'video' || embed.type == 'lyd') {
-                    document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML = '<div class="options"><span>' + embed.start_string + '</span><input type="text" maxlength="10" value="0:00" placeholder="0:00" class="timeoffset" /></div>' + document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML;
+                    document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML = '<div class="options"><span>' + embed.start_string + '</span><input type="text" maxlength="10" value="0:00" placeholder="0:00" class="timeoffset" /></div>' +
+                        '<div class="options"><span>' + embed.autoplay_string + '</span><input style="float: right;" type="checkbox" class="js-autoplay" value="1" /></div>' +
+                        document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML;
                 }
 
                 // Adding selectbox with different sizes.
@@ -37,30 +40,40 @@ var dka = {
 
                 $(function() {
                     $('.js-size').html(sizes + $('.js-size').html());
-                    var embed = $('.js-embed').text();
-                    $('.overlay').on('submit', '[name="embed_customize"]', function() {
-                        $('.js-embed').text(embed);
-                        var par = '?';
-                        if (embed.indexOf('?') >= 0) {
-                            par = '&';
-                        }
+                    var embed_text = $('.js-embed').text();
 
-                        // Update Start.
-                        var text = $('.js-embed').text();
-                        var time = $('.timeoffset').val();
-                        // Robustness with regex. Finds time in seconds or minutes and seconds (min:sec)
-                        if (/^(([0-9]*):)?([0-9])+$/.test(time)) {
-                            var time_extra = 0;
-                            if (time.indexOf(':') >= 0) {
-                                var timesplit = time.split(':');
-                                time_extra = (timesplit[0] * 60) + parseInt(timesplit[1]);
-                            } else {
-                                time_extra = time;
+                    $('.overlay').on('submit', '[name="embed_customize"]', function() {
+                        $('.js-embed').text(embed_text);
+
+                        if (embed.type == 'video' || embed.type == 'lyd') {
+                            var time_string = '';
+
+                            var autoplay_string = '';
+                            // Autoplay
+                            if ($('.js-autoplay').is(':checked')) {
+                                autoplay_string = '?autoplay=1';
                             }
 
-                            // If the time is more than 0 seconds, it will be added to the iframe html.
-                            if (time_extra > 0) {
-                                $('.js-embed').text($('.js-embed').text().replace(/(\/embed)\/?(\")/, '$1/' + par + 'start=' + time_extra + '$2'));
+                            // Update Start.
+                            var text = $('.js-embed').text();
+                            var time = $('.timeoffset').val();
+                            // Robustness with regex. Finds time in seconds or minutes and seconds (min:sec)
+                            if (/^(([0-9]*):)?([0-9])+$/.test(time)) {
+                                var time_extra = 0;
+                                if (time.indexOf(':') >= 0) {
+                                    var timesplit = time.split(':');
+                                    time_extra = (timesplit[0] * 60) + parseInt(timesplit[1]);
+                                } else {
+                                    time_extra = time;
+                                }
+
+                                // If the time is more than 0 seconds, it will be added to the iframe html.
+                                if (time_extra > 0) {
+                                    time_string = (autoplay_string ? '&' : '?') + 'start=' + time_extra;
+                                }
+                            }
+                            if (autoplay_string || time_string) {
+                                $('.js-embed').text($('.js-embed').text().replace(/(\/embed)\/?([^"]*)(\")/, '$1/' + autoplay_string + time_string + '$3'));
                             }
                         }
 
@@ -70,13 +83,13 @@ var dka = {
                         var height = $('.size-selector option:selected').data('height');
                         // Checks if the data-attributes are set else it should be custom.
                         if (width && height && !isNaN(width) && !isNaN(height)) {
-                            $('.js-embed').text($('.js-embed').text().replace(/(width=\"{1})[0-9]*(\"{1})/, '$1' + width + '$2'));
-                            $('.js-embed').text($('.js-embed').text().replace(/(height=\"{1})[0-9]*(\"{1})/, '$1' + height + '$2' + (width == 100 && height == 100 ? ' style="width: 100%; height: 100%;"' : '')));
+                            $('.js-embed').text($('.js-embed').text().replace(/(width=\")[0-9]*(\")/, '$1' + width + '$2'));
+                            $('.js-embed').text($('.js-embed').text().replace(/(height=\")[0-9]*(\")/, '$1' + height + '$2' + (width == 100 && height == 100 ? ' style="width: 100%; height: 100%;"' : '')));
                         } else {
                             // Custom size - Getting values from text inputs.
                             if (!isNaN($('.custom_size .custom_height').val()) && !isNaN($('.custom_size .custom_width').val())) {
-                                $('.js-embed').text($('.js-embed').text().replace(/(width=\"{1})[0-9]*(\"{1})/, '$1' + $('.custom_size .custom_width').val() + '$2'));
-                                $('.js-embed').text($('.js-embed').text().replace(/(height=\"{1})[0-9]*(\"{1})/, '$1' + $('.custom_size .custom_height').val() + '$2'));
+                                $('.js-embed').text($('.js-embed').text().replace(/(width=\")[0-9]*(\")/, '$1' + $('.custom_size .custom_width').val() + '$2'));
+                                $('.js-embed').text($('.js-embed').text().replace(/(height=\")[0-9]*(\")/, '$1' + $('.custom_size .custom_height').val() + '$2'));
                             }
                         }
 

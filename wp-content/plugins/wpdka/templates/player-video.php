@@ -47,7 +47,7 @@ $options = array(
 	"sharing" => array(
 		"link" => $sharing_link
 	),
-	"autostart" => (isset($jwplayer_autostart) ? $jwplayer_autostart : true),
+	"autostart" => true,
 	"ga" => array()
 );
 if (isset($embed)) {
@@ -57,9 +57,11 @@ if (isset($embed)) {
 		"link" => /*site_url()*/$object->url,
 		"margin" => 20
 	);
+	$options['autostart'] = (isset($jwplayer_autostart) && $jwplayer_autostart ? $jwplayer_autostart : false);
+	if (isset($start) && $start > 0) {
+		$options['startparam'] = $start;
+	}
 }
-if (isset($start) && $start > 0) {
-	$options['startparam'] = $start;
-}
+
 
 WPDKA::print_jwplayer($options, 'jwplayer-'.uniqid());

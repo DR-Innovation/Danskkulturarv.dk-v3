@@ -36,21 +36,22 @@ add_action( 'wp_enqueue_scripts', function() {
 
 	wp_enqueue_script( 'embed-custom-functions', get_template_directory_uri() . '/js/embed-custom-functions.js', array('jquery'), '1', true );
 	wp_localize_script( 'embed-custom-functions', 'embed', 
-		array( 'html' 		=> esc_html(WPChaosClient::get_object()->embed), 
-			'blogname' 		=> '<a href="' . site_url() .'">' . get_bloginfo('name') . '</a>', 
-			'type' 			=> WPChaosClient::get_object()->type, 
-			'submit_string' => __('Update', 'dka'),
-			'start_string'	=> __('Time offset', 'dka'),
-			'size_string'	=> __('Size', 'dka'),
-			'width_string'	=> __('Width', 'dka'),
-			'height_string'	=> __('Height', 'dka'),
-			'sizes' 		=> 	array(
-									array('label' => __('Default', 'dka'), 'width' => '480', 'height' => '360'), 
-									array('label' => __('Small', 'dka'), 'width' => '640', 'height' => '360'), 
-									array('label' => __('Medium', 'dka'), 'width' => '853', 'height' => '480'),
-									array('label' => __('Full', 'dka'), 'width' => '100', 'height' => '100'),
-									array('label' => __('Custom', 'dka'), 'width' => '0', 'height' => '0')
-								)
+		array( 'html' 			=> esc_html(WPChaosClient::get_object()->embed), 
+			'blogname' 			=> '<a href="' . site_url() .'">' . get_bloginfo('name') . '</a>', 
+			'type' 				=> WPChaosClient::get_object()->type, 
+			'submit_string' 	=> __('Update', 'dka'),
+			'start_string'		=> __('Time offset', 'dka'),
+			'size_string'		=> __('Size', 'dka'),
+			'width_string'		=> __('Width', 'dka'),
+			'height_string'		=> __('Height', 'dka'),
+			'autoplay_string' 	=> __('Autoplay', 'dka'),
+			'sizes' 			=> 	array(
+										array('label' => __('Default', 'dka'), 'width' => '480', 'height' => '360'), 
+										array('label' => __('Small', 'dka'), 'width' => '640', 'height' => '360'), 
+										array('label' => __('Medium', 'dka'), 'width' => '853', 'height' => '480'),
+										array('label' => __('Full', 'dka'), 'width' => '100', 'height' => '100'),
+										array('label' => __('Custom', 'dka'), 'width' => '0', 'height' => '0')
+									)
 		)
 	);
 
