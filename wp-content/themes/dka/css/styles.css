@@ -5186,7 +5186,7 @@ footer .copyright a {
 }
 @media (min-width: 991px) and (max-width: 1199px) {
   .frontbox {
-    height: auto;
+    height: 293px;
   }
   .frontbox .imgbox {
     height: auto;
@@ -5219,7 +5219,7 @@ footer {
 .panel-row-style-lgscreen {
   display: none;
 }
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 991px) {
   .panel-row-style-lgscreen {
     display: block;
   }
@@ -5227,7 +5227,7 @@ footer {
 .panel-row-style-smscreen {
   display: none;
 }
-@media only screen and (max-width: 1199px) {
+@media only screen and (max-width: 990px) {
   .panel-row-style-smscreen {
     display: block;
   }
@@ -5257,17 +5257,19 @@ footer {
    Facebook widget
    ========================================================================== */
 .fb_iframe_widget {
-  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden;
 }
 .fb_iframe_widget span {
-  width: 100% !important;
+  max-width: 100% !important;
 }
 .fb_iframe_widget span iframe {
-  width: 100% !important;
+  max-width: 100% !important;
 }
-@media (min-width: 990px) and (max-width: 1199px) {
+@media (min-width: 991px) and (max-width: 1199px) {
   .fb_iframe_widget {
     max-width: 359px;
+    height: 293px;
   }
   .fb_iframe_widget span {
     max-width: 359px;
@@ -5276,11 +5278,46 @@ footer {
     max-width: 359px;
   }
 }
-@media (min-width: 990px) and (max-width: 1199px) {
+@media (min-width: 768px) and (max-width: 990px) {
+  .fb_iframe_widget {
+    height: 344px;
+  }
+}
+@media (max-width: 767px) {
+  .fb_iframe_widget {
+    height: auto;
+    width: 100% !important;
+  }
+  .fb_iframe_widget span {
+    width: 100% !important;
+  }
+  .fb_iframe_widget span iframe {
+    width: 100% !important;
+  }
+}
+.pllexislider {
+  max-width: 100%;
+}
+@media (min-width: 991px) and (max-width: 1199px) {
   .pllexislider {
-    height: 359px;
-    width: 359px;
+    height: 293px;
     float: right;
+  }
+}
+@media (min-width: 768px) and (max-width: 990px) {
+  .pllexislider {
+    height: 344px;
+  }
+}
+@media (max-width: 767px) {
+  .pllexislider {
+    height: auto;
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .panel-grid-cell {
+    width: 100% !important;
   }
 }
 /*
@@ -5501,8 +5538,10 @@ upon your base.less styles.
 
 -------------------------------------------------- */
   .panel-grid-cell {
-    width: 100% !important;
     padding-bottom: 10px !important;
+  }
+  .panel-row-style {
+    width: 100%;
   }
   .panel-row-style-2col_res {
     padding-left: 8px;

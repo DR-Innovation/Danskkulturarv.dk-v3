@@ -830,7 +830,7 @@ footer {
 	}
 	@media (min-width: 991px) and (max-width: 1199px) {
 		//height: 295px;
-		height: auto;
+		height: 293px;
 		.imgbox {
 			height: auto;
 		}
@@ -863,13 +863,13 @@ footer {
 
 .panel-row-style-lgscreen {
 	display: none;
-	@media only screen and (min-width: 1200px) {
+	@media only screen and (min-width: 991px) {
 		display: block;
 	}
 }
 .panel-row-style-smscreen {
 	display: none;
-	@media only screen and (max-width: 1199px) {
+	@media only screen and (max-width: 990px) {
 		display: block;
 	}
 }
@@ -904,16 +904,18 @@ footer {
    Facebook widget
    ========================================================================== */
 .fb_iframe_widget {
-	width: 100% !important;
+	max-width: 100% !important;
+	overflow: hidden;
 	span {
-		width: 100% !important;
+		max-width: 100% !important;
 		iframe {
-			width: 100% !important;
+			max-width: 100% !important;
 		}
 	}
 
-	@media (min-width: 990px) and (max-width: 1199px) {
+	@media (min-width: 991px) and (max-width: 1199px) {
 		max-width: 359px;
+		height: 293px;
 		span {
 			max-width: 359px;
 			iframe {
@@ -921,12 +923,37 @@ footer {
 			}
 		}
 	}
-}
-.pllexislider {
-	@media (min-width: 990px) and (max-width: 1199px) {
-		height: 359px;
-		width: 359px;
-		float: right;
+	@media (min-width: 768px) and (max-width: 990px) {
+		height: 344px;
+	}
+	@media (max-width: 767px) {
+		height: auto;
+		width: 100% !important;
+		span {
+			width: 100% !important;
+			iframe {
+				width: 100% !important;
+			}
+		}
 	}
 }
-
+.pllexislider {
+	max-width: 100%;
+	@media (min-width: 991px) and (max-width: 1199px) {
+		//width: 359px;
+		height: 293px;
+		float: right;
+	}
+	@media (min-width: 768px) and (max-width: 990px) {
+		height: 344px;
+	}
+	@media (max-width: 767px) {
+		height: auto;
+		width: 100%;
+	}
+}
+@media (max-width: 767px) {
+	.panel-grid-cell {
+		width: 100% !important;
+	}
+}
