@@ -47,7 +47,7 @@ $options = array(
 	"sharing" => array(
 		"link" => $sharing_link
 	),
-	"autostart" => true,
+	"autostart" => false,
 	"ga" => array()
 );
 if (isset($embed)) {

@@ -458,7 +458,7 @@ class WPDKA {
 		// Autoplay
 		if (isset($options['autostart']) && $options['autostart']) {
 			// Makes sure player is stopped and then played.
-			echo 'var stopped = false; jwplayer("'.$player_id.'").onPlay(function () { if (!stopped) { stopped = true; jwplayer("'.$player_id.'").pause(); } });';
+			//echo 'var stopped = false; jwplayer("'.$player_id.'").onPlay(function () { if (!stopped) { stopped = true; jwplayer("'.$player_id.'").pause(); } });';
 			echo 'var played = true; jwplayer("'.$player_id.'").onPause(function() { if (played) { played = false; jwplayer("'.$player_id.'").play(); } });';
 		}
 		echo '});';
