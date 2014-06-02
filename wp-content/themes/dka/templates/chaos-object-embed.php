@@ -74,7 +74,7 @@ add_action( 'wp_enqueue_scripts', function() {
 	<?php wp_head(); ?>
 </head>
 <body>
-<div class="player">
+<div class="player"<?php echo WPChaosClient::get_object()->type == 'billede-lyd' ? ' style="bottom: 62px;"' : ''; ?>>
 	<?php
 		$autoplay = false;
 		$start = 0;

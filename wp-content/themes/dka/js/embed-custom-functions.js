@@ -45,7 +45,7 @@ var dka = {
                     $('.overlay').on('submit', '[name="embed_customize"]', function() {
                         $('.js-embed').text(embed_text);
 
-                        if (embed.type == 'video' || embed.type == 'lyd') {
+                        if (embed.type != 'billede') {
                             var time_string = '';
 
                             var autoplay_string = '';
