@@ -24,7 +24,7 @@ var dka = {
                     '</form></div></div>' +
                     '<a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode); return false;" class="exit">&times;</a>';
 
-                if (embed.type == 'video' || embed.type == 'lyd') {
+                if (embed.type != 'billede') {
                     document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML = '<div class="options"><span>' + embed.start_string + '</span><input type="text" maxlength="10" value="0:00" placeholder="0:00" class="timeoffset" /></div>' +
                         '<div class="options"><span>' + embed.autoplay_string + '</span><input style="float: right;" type="checkbox" class="js-autoplay" value="1" /></div>' +
                         document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML;
