@@ -70,7 +70,11 @@ var dka = {
                                 // If the time is more than 0 seconds, it will be added to the iframe html.
                                 if (time_extra > 0) {
                                     time_string = (autoplay_string ? '&' : '?') + 'start=' + time_extra;
+                                } else {
+                                    $('.timeoffset').val('');
                                 }
+                            } else {
+                                $('.timeoffset').val('');
                             }
                             if (autoplay_string || time_string) {
                                 $('.js-embed').text($('.js-embed').text().replace(/(\/embed)\/?([^"]*)(\")/, '$1/' + autoplay_string + time_string + '$3'));
