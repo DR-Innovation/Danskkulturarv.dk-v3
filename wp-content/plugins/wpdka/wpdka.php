@@ -452,8 +452,7 @@ class WPDKA {
 		echo 'var stopped = false;';
 		// Time offset. Using jwplayer seek function.
 		if (isset($options['startoffset'])) {
-			// In some way the offset has to be added with 10 to get the right offset.
-			echo 'jwplayer("'.$player_id.'").onReady(function() { jwplayer("'.$player_id.'").seek(parseInt(' . (10 + intval($options['startoffset'])) . '))});';
+			echo 'jwplayer("'.$player_id.'").onReady(function() { jwplayer("'.$player_id.'").seek(parseInt(' . intval($options['startoffset']) . '))});';
 			// Stop player after seek
 			echo 'jwplayer("'.$player_id.'").onPlay(function () { if (!stopped) { stopped = true; jwplayer("'.$player_id.'").pause(); } });';
 		}

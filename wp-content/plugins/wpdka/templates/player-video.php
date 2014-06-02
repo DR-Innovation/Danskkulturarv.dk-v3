@@ -50,7 +50,7 @@ $options = array(
 	"autostart" => false,
 	"ga" => array()
 );
-if (isset($embed)) {
+if (isset($embed) && $embed) {
 	$options['logo'] = array(
 		"file" => get_template_directory_uri() . '/img/dka-logo-jwplayer.png',
 		"hide" => true,

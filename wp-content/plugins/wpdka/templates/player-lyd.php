@@ -59,7 +59,7 @@ $options = array(
 	"ga" => array(),
 );
 
-if (isset($embed)) {
+if (isset($embed) && $embed) {
 	$options['autostart'] = (isset($jwplayer_autostart) && $jwplayer_autostart) ? $jwplayer_autostart : false;
 	if (isset($start) && $start > 0) {
 		$options['startoffset'] = $start;
