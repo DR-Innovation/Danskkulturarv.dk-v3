@@ -89,12 +89,13 @@ var dka = {
                         if (width && height && !isNaN(width) && !isNaN(height)) {
                             $('.js-embed').text($('.js-embed').text().replace(/(width=\")[0-9]*(\")/, '$1' + width + '$2'));
                             $('.js-embed').text($('.js-embed').text().replace(/(height=\")[0-9]*(\")/, '$1' + height + '$2' + (width == 100 && height == 100 ? ' style="width: 100%; height: 100%;"' : '')));
-                        } else {
+                        } else if (!isNaN($('.custom_size .custom_height').val()) && !isNaN($('.custom_size .custom_width').val())) {
                             // Custom size - Getting values from text inputs.
-                            if (!isNaN($('.custom_size .custom_height').val()) && !isNaN($('.custom_size .custom_width').val())) {
-                                $('.js-embed').text($('.js-embed').text().replace(/(width=\")[0-9]*(\")/, '$1' + $('.custom_size .custom_width').val() + '$2'));
-                                $('.js-embed').text($('.js-embed').text().replace(/(height=\")[0-9]*(\")/, '$1' + $('.custom_size .custom_height').val() + '$2'));
-                            }
+                            $('.js-embed').text($('.js-embed').text().replace(/(width=\")[0-9]*(\")/, '$1' + $('.custom_size .custom_width').val() + '$2'));
+                            $('.js-embed').text($('.js-embed').text().replace(/(height=\")[0-9]*(\")/, '$1' + $('.custom_size .custom_height').val() + '$2'));
+                        } else {
+                            $('.custom_size .custom_width').val('');
+                            $('.custom_size .custom_height').val('');
                         }
 
                         return false;
