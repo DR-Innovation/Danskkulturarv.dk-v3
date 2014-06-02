@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dansk Kulturarv\n"
-"POT-Creation-Date: 2014-05-30 11:45+0100\n"
-"PO-Revision-Date: 2014-05-30 11:45+0100\n"
+"POT-Creation-Date: 2014-06-02 12:03+0100\n"
+"PO-Revision-Date: 2014-06-02 12:03+0100\n"
 "Last-Translator: \n"
 "Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
@@ -155,8 +155,8 @@ msgid "Update"
 msgstr "Opdater"
 
 #: ../templates/chaos-object-embed.php:43
-msgid "Time offset"
-msgstr "Tidsforskydning"
+msgid "Start playback"
+msgstr "Start afspilningen ved"
 
 #: ../templates/chaos-object-embed.php:44
 msgid "Size"

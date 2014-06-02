@@ -40,7 +40,7 @@ add_action( 'wp_enqueue_scripts', function() {
 			'blogname' 			=> '<a href="' . site_url() .'">' . get_bloginfo('name') . '</a>', 
 			'type' 				=> WPChaosClient::get_object()->type, 
 			'submit_string' 	=> __('Update', 'dka'),
-			'start_string'		=> __('Time offset', 'dka'),
+			'start_string'		=> __('Start playback', 'dka'),
 			'size_string'		=> __('Size', 'dka'),
 			'width_string'		=> __('Width', 'dka'),
 			'height_string'		=> __('Height', 'dka'),
