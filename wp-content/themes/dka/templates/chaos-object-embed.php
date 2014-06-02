@@ -78,8 +78,8 @@ add_action( 'wp_enqueue_scripts', function() {
 	<?php
 		$autoplay = false;
 		$start = 0;
-		if (isset($_GET['autoplay'])) {
-			$autoplay = $_GET['autoplay'];
+		if (isset($_GET['autoplay']) && $_GET['autoplay']) {
+			$autoplay = true;
 		}
 		if (isset($_GET['start'])) {
 			$start = $_GET['start'];

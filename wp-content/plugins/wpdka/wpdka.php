@@ -449,16 +449,16 @@ class WPDKA {
 		echo 'jwplayer().onPlay(function() {';
 		echo '	$(".jwlogo").prop("title", "' . __("Go to original page", "wpdka") . '");';
 		echo '});';
+		echo 'var stopped = false;';
 		// Time offset. Using jwplayer seek function.
 		if (isset($options['startoffset'])) {
 			// In some way the offset has to be added with 10 to get the right offset.
 			echo 'jwplayer("'.$player_id.'").onReady(function() { jwplayer("'.$player_id.'").seek(parseInt(' . (10 + intval($options['startoffset'])) . '))});';
-			echo 'var stopped = false; jwplayer("'.$player_id.'").onPlay(function () { if (!stopped) { stopped = true; jwplayer("'.$player_id.'").pause(); } });';
+			// Stop player after seek
+			echo 'jwplayer("'.$player_id.'").onPlay(function () { if (!stopped) { stopped = true; jwplayer("'.$player_id.'").pause(); } });';
 		}
 		// Autoplay
 		if (isset($options['autostart']) && $options['autostart']) {
-			// Makes sure player is stopped and then played.
-			//echo 'var stopped = false; jwplayer("'.$player_id.'").onPlay(function () { if (!stopped) { stopped = true; jwplayer("'.$player_id.'").pause(); } });';
 			echo 'var played = true; jwplayer("'.$player_id.'").onPause(function() { if (played) { played = false; jwplayer("'.$player_id.'").play(); } });';
 		}
 		echo '});';
