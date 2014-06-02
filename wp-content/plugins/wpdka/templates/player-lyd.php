@@ -55,7 +55,7 @@ $options = array(
 		"sources" => $playlist_sources,
 		"title" => $object->title
 	)),
-	"autostart" => true,
+	"autostart" => false,
 	"ga" => array(),
 );
 
