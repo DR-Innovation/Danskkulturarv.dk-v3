@@ -103,7 +103,7 @@ $views = array(
 					<hr>
 					<div class="media-type-container">
 						<i title="<?php echo WPChaosClient::get_object()->type_title; ?>" class="<?php echo WPChaosClient::get_object()->type_class; ?>"></i>
-						<?php if($views) : ?>
+						<?php if(0 && $views) : ?>
 						<i class="icon-eye-open"> <?php echo $views; ?></i>
 						<?php endif; ?>
 					</div>

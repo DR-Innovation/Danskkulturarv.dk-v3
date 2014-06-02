@@ -30,12 +30,12 @@ $options = array(
 	"skin" => get_template_directory_uri() . '/lib/jwplayer/dka.xml',
 	"width" => "100%",
 	"aspectratio" => "4:3",
-	"logo" => array(
-		"file" => get_template_directory_uri() . '/img/dka-logo-jwplayer.png',
+	/*"logo" => array(
+		/*"file" => get_template_directory_uri() . '/img/dka-logo-jwplayer.png',
 		"hide" => true,
-		"link" => /*site_url()*/$object->url,
+		"link" => /*site_url()*//*$object->url,
 		"margin" => 20
-	),
+	),*/
 	"abouttext" => sprintf(__("About %s",'wpdka'),get_bloginfo('title')),
 	"aboutlink" => site_url('om'),
 	"playlist" => array(array(
@@ -47,8 +47,21 @@ $options = array(
 	"sharing" => array(
 		"link" => $sharing_link
 	),
-	"autostart" => (isset($jwplayer_autostart) ? $jwplayer_autostart : true),
+	"autostart" => true,
 	"ga" => array()
 );
+if (isset($embed)) {
+	$options['logo'] = array(
+		"file" => get_template_directory_uri() . '/img/dka-logo-jwplayer.png',
+		"hide" => true,
+		"link" => /*site_url()*/$object->url,
+		"margin" => 20
+	);
+	$options['autostart'] = (isset($jwplayer_autostart) && $jwplayer_autostart ? $jwplayer_autostart : false);
+	if (isset($start) && $start > 0) {
+		$options['startoffset'] = $start;
+	}
+}
+
 
 WPDKA::print_jwplayer($options, 'jwplayer-'.uniqid());

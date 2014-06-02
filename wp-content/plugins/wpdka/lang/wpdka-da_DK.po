@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPChaosSearch\n"
-"POT-Creation-Date: 2014-05-19 12:44+0100\n"
-"PO-Revision-Date: 2014-05-19 12:44+0100\n"
+"POT-Creation-Date: 2014-05-26 11:46+0100\n"
+"PO-Revision-Date: 2014-05-26 11:47+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -19,15 +19,14 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../templates/player-billede.php:21
+#: ../templates/player-billede.php:17
+msgid "Go to original page"
+msgstr "Gå til oprindelige side"
+
+#: ../templates/player-billede.php:22
 #, php-format
 msgid "Image %s for %s"
 msgstr "Billede %s til %s"
-
-#: ../templates/player-billede.php:26
-#, php-format
-msgid "Go to %s"
-msgstr "Gå til %s"
 
 #: ../templates/player-lyd-mediaelement.backup.php:34
 #: ../templates/player-lyd.php:50 ../templates/player-video.php:39
@@ -179,6 +178,9 @@ msgstr " Formatet er %s."
 #, php-format
 msgid "%s contains %s materials about %s."
 msgstr "%s indeholder %s materialer om %s."
+
+#~ msgid "Go to %s"
+#~ msgstr "Gå til %s"
 
 #~ msgid "CHAOS material like"
 #~ msgid_plural "CHAOS material likes"

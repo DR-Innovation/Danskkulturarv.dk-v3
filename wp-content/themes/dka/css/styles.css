@@ -5160,12 +5160,48 @@ footer .copyright a {
 .panel-row-style-2col_res .panel-grid-cell .panel {
   margin-bottom: 0!important;
 }
-.colorbox {
-  background-color: #e8e9e6;
-  padding: 1px 10px 5px;
-  height: 140px;
+.frontbox {
+  height: 359px;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.frontbox .colorbox {
+  background-color: #e8e9e6;
+  padding: 1px 10px 5px;
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.frontbox .imgbox {
+  overflow: hidden;
+  background-color: #e8e9e6;
+  height: 128px;
+  width: 100%;
+}
+.frontbox .imgbox img {
+  width: 100%;
+}
+@media (min-width: 991px) and (max-width: 1199px) {
+  .frontbox {
+    height: 293px;
+  }
+  .frontbox .imgbox {
+    height: auto;
+  }
+}
+@media (max-width: 990px) {
+  .frontbox {
+    height: auto;
+  }
+  .frontbox .colorbox h3 {
+    margin-top: 10px;
+  }
+  .frontbox .imgbox {
+    height: auto;
+  }
 }
 .wp-caption {
   max-width: 100%;
@@ -5180,10 +5216,27 @@ iframe {
 footer {
   margin-top: 75px;
 }
+.panel-row-style-lgscreen {
+  display: none;
+}
+@media only screen and (min-width: 991px) {
+  .panel-row-style-lgscreen {
+    display: block;
+  }
+}
+.panel-row-style-smscreen {
+  display: none;
+}
+@media only screen and (max-width: 990px) {
+  .panel-row-style-smscreen {
+    display: block;
+  }
+}
 /* ==========================================================================
    DKA logo
    ========================================================================== */
 .flexslider .image_logo {
+  display: none;
   position: absolute;
   max-width: 70%;
   right: 10px;
@@ -5196,6 +5249,76 @@ footer {
 }
 .flexslider:hover .image_logo {
   opacity: 1;
+}
+.jwlogo {
+  display: none;
+}
+/* ==========================================================================
+   Facebook widget
+   ========================================================================== */
+.fb_iframe_widget {
+  max-width: 100% !important;
+  overflow: hidden;
+}
+.fb_iframe_widget span {
+  max-width: 100% !important;
+}
+.fb_iframe_widget span iframe {
+  max-width: 100% !important;
+}
+@media (min-width: 991px) and (max-width: 1199px) {
+  .fb_iframe_widget {
+    max-width: 359px;
+    height: 293px;
+  }
+  .fb_iframe_widget span {
+    max-width: 359px;
+  }
+  .fb_iframe_widget span iframe {
+    max-width: 359px;
+  }
+}
+@media (min-width: 768px) and (max-width: 990px) {
+  .fb_iframe_widget {
+    height: 344px;
+  }
+}
+@media (max-width: 767px) {
+  .fb_iframe_widget {
+    height: auto;
+    width: 100% !important;
+  }
+  .fb_iframe_widget span {
+    width: 100% !important;
+  }
+  .fb_iframe_widget span iframe {
+    width: 100% !important;
+  }
+}
+.pllexislider {
+  max-width: 100%;
+}
+@media (min-width: 991px) and (max-width: 1199px) {
+  .pllexislider {
+    height: 293px;
+    float: right;
+  }
+}
+@media (min-width: 768px) and (max-width: 990px) {
+  .pllexislider {
+    height: 344px;
+  }
+}
+@media (max-width: 767px) {
+  .pllexislider {
+    height: auto;
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .panel-grid-cell {
+    width: 100% !important;
+  }
 }
 /*
  * jQuery FlexSlider v2.0
@@ -5415,8 +5538,10 @@ upon your base.less styles.
 
 -------------------------------------------------- */
   .panel-grid-cell {
-    width: 100% !important;
     padding-bottom: 10px !important;
+  }
+  .panel-row-style {
+    width: 100%;
   }
   .panel-row-style-2col_res {
     padding-left: 8px;
@@ -5440,9 +5565,6 @@ upon your base.less styles.
   .colorbox h3,
   .colorbox .h3 {
     margin: 0;
-  }
-  .colorbox p {
-    display: none;
   }
 }
 @media only screen and (min-width: 768px) {

@@ -14,7 +14,7 @@ add_action( 'wp_footer', function() {
 
 //Loop through each file and skip those whose format is not image ?>
 <div class="flexslider">
-	<a href="<?php echo WPChaosClient::get_object()->url; ?>" class="image_logo" title="<?php printf(__('Go to %s', 'wpdka'), WPChaosClient::get_object()->title); ?>" target="_top"><img src="<?php echo get_template_directory_uri() . '/img/dka-logo-top.png'; ?>" alt="<?php bloginfo('name'); ?>" /></a>
+	<a href="<?php echo WPChaosClient::get_object()->url; ?>" class="image_logo" title="<?php _e('Go to original page', 'wpdka'); ?>" target="_top"><img src="<?php echo get_template_directory_uri() . '/img/dka-logo-top.png'; ?>" alt="<?php bloginfo('name'); ?>" /></a>
 	<ul class="slides">
 <?php foreach(WPChaosClient::get_object()->Files as $file) :
 	if($file->FormatType != 'Image' || $file->FormatCategory != 'Image Source') continue;

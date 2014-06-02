@@ -20,7 +20,21 @@
 			this.addToggleAllListener();
 			this.addFlexSliders();
 			this.socialSharePopup();
+			this.ga_search();
 
+		},
+
+		/**
+		 * Sends a fake search query string to google analytics every time a search is done.
+		 * @return {void}
+		 */
+		ga_search: function() {
+			// Checks if search page is loaded.
+			var regex = new RegExp("/" + dka.search_page + "/");
+			if(location.pathname.match(regex)) {
+				// When search page is loaded, it will fake a query string to google analytics
+				_gaq.push(["_trackPageview", location.pathname.replace("/" + dka.search_page + "/","/" + dka.search_page + "?q=")]);
+			}
 		},
 
 		/**
