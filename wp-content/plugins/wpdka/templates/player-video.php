@@ -47,7 +47,7 @@ $options = array(
 	"sharing" => array(
 		"link" => $sharing_link
 	),
-	"autostart" => false,
+	"autostart" => $jwplayer_autostart,
 	"ga" => array()
 );
 if (isset($embed) && $embed) {
@@ -57,7 +57,6 @@ if (isset($embed) && $embed) {
 		"link" => /*site_url()*/$object->url,
 		"margin" => 20
 	);
-	$options['autostart'] = (isset($jwplayer_autostart) && $jwplayer_autostart) ? $jwplayer_autostart : false;
 	if (isset($start) && $start > 0) {
 		$options['startoffset'] = $start;
 	}
