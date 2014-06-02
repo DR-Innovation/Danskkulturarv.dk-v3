@@ -50,14 +50,14 @@ $options = array(
 	"autostart" => false,
 	"ga" => array()
 );
-if (isset($embed)) {
+if (isset($embed) && $embed) {
 	$options['logo'] = array(
 		"file" => get_template_directory_uri() . '/img/dka-logo-jwplayer.png',
 		"hide" => true,
 		"link" => /*site_url()*/$object->url,
 		"margin" => 20
 	);
-	$options['autostart'] = (isset($jwplayer_autostart) && $jwplayer_autostart ? $jwplayer_autostart : false);
+	$options['autostart'] = (isset($jwplayer_autostart) && $jwplayer_autostart) ? $jwplayer_autostart : false;
 	if (isset($start) && $start > 0) {
 		$options['startoffset'] = $start;
 	}
