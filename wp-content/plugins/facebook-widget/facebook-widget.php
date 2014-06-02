@@ -89,7 +89,7 @@ class WeblizarFacebook extends WP_Widget {
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
         </script>
-        <div class="fb-like-box" colorscheme="<?php echo $ColorScheme; ?>" data-header="<?php echo $Header; ?>" data-height="<?php echo $Height; ?>" data-href="<?php echo $FacebookPageURL; ?>" data-show-border="<?php echo $ShowBorder; ?>" data-show-faces="<?php echo $ShowFaces; ?>" data-stream="<?php echo $Stream; ?>" data-width="<?php echo $Width; ?>" data-force-wall="<?php echo $ForceWall; ?>"></div>
+        <div class="fb-like-box" colorscheme="<?php echo $ColorScheme; ?>" data-header="<?php echo $Header; ?>" data-height="<?php echo $Height; ?>" data-href="<?php echo $FacebookPageURL; ?>" data-show-border="<?php echo isset($ShowBorder) ? $ShowBorder : 'false'; ?>" data-show-faces="<?php echo isset($ShowFaces) ? $ShowFaces : 'false'; ?>" data-stream="<?php echo isset($Stream) ? $Stream : 'false'; ?>" data-width="<?php echo isset($Width) ? $Width : 'false'; ?>" data-force-wall="<?php echo isset($ForceWall) ? $ForceWall : 'false'; ?>"></div>
 
         <?php
         //echo $args['after_widget'];
