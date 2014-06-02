@@ -71,10 +71,10 @@ var dka = {
                                 if (time_extra > 0) {
                                     time_string = (autoplay_string ? '&' : '?') + 'start=' + time_extra;
                                 } else {
-                                    $('.timeoffset').val('');
+                                    $('.timeoffset').val('0:00');
                                 }
                             } else {
-                                $('.timeoffset').val('');
+                                $('.timeoffset').val('0:00');
                             }
                             if (autoplay_string || time_string) {
                                 $('.js-embed').text($('.js-embed').text().replace(/(\/embed)\/?([^"]*)(\")/, '$1/' + autoplay_string + time_string + '$3'));
