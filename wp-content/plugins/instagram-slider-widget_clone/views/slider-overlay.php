@@ -3,6 +3,7 @@ jQuery(document).ready(function($) {
 	$('.pllexislider').pllexislider({
 		animation: "fade",
 		directionNav: false,
+		pauseOnHover: true,
 		start: function(slider){
 			slider.hover(
 				function () {

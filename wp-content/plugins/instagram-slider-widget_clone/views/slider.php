@@ -2,7 +2,8 @@
 jQuery(document).ready(function($) {
 	$('.pllexislider').pllexislider({
 		animation: "fade",
-		directionNav: false,
+		pauseOnHover: true,
+		directionNav: false
 	});
 });
 </script>
