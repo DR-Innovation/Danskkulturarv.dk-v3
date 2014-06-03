@@ -20,7 +20,7 @@
             this.addToggleAllListener();
             this.addFlexSliders();
             this.socialSharePopup();
-            this.ga_search();
+            //this.ga_search();
 
         },
 
