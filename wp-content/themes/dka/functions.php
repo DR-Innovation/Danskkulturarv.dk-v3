@@ -10,6 +10,15 @@ require('wp-bootstrap-navwalker/wp_bootstrap_navwalker.php');
 add_filter( 'pre_site_transient_update_core', function($a) { return null; } );
 //wp_clear_scheduled_hook( 'wp_version_check' );
 
+add_action('google_analyticator_extra_js_after', function() {
+		echo 'var regex = new RegExp("/" + dka.search_page + "/");';
+        echo 'if (location.pathname.match(regex)) {';
+            // When search page is loaded, it will fake a query string to google analytics
+            echo '_gaq.push(["_trackPageview", location.pathname.replace("/" + dka.search_page + "/", "/" + dka.search_page + "/?s=")]);';
+        echo '} else {';
+            echo '_gaq.push(["_trackPageview"]);';
+        echo '}';
+});
 
 /**
  * Make post class compatible with Bootstrap
