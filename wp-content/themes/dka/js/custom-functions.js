@@ -35,7 +35,9 @@
             var regex = new RegExp("/" + dka.search_page + "/");
             if (location.pathname.match(regex)) {
                 // When search page is loaded, it will fake a query string to google analytics
-                _gaq.push(["_trackPageview", location.pathname.replace("/" + dka.search_page + "/", "/" + dka.search_page + "?q=")]);
+                _gaq.push(["_trackPageview", location.pathname.replace("/" + dka.search_page + "/", "/" + dka.search_page + "/?s=")]);
+            } else {
+                _gaq.push(["_trackPageview"]);
             }
         },
 
