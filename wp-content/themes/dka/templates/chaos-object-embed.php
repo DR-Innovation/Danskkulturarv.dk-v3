@@ -41,6 +41,7 @@ add_action( 'wp_enqueue_scripts', function() {
 			'type' 				=> WPChaosClient::get_object()->type, 
 			'submit_string' 	=> __('Update', 'dka'),
 			'start_string'		=> __('Start playback', 'dka'),
+			'time_stop_string'	=> __('Stop playback', 'dka'),
 			'size_string'		=> __('Size', 'dka'),
 			'width_string'		=> __('Width', 'dka'),
 			'height_string'		=> __('Height', 'dka'),
@@ -49,7 +50,7 @@ add_action( 'wp_enqueue_scripts', function() {
 										array('label' => __('Default', 'dka'), 'width' => '480', 'height' => '360'), 
 										array('label' => __('Small', 'dka'), 'width' => '640', 'height' => '360'), 
 										array('label' => __('Medium', 'dka'), 'width' => '853', 'height' => '480'),
-										array('label' => __('Full', 'dka'), 'width' => '100', 'height' => '100'),
+										array('label' => __('Large', 'dka'), 'width' => '100', 'height' => '100'),
 										array('label' => __('Custom', 'dka'), 'width' => '0', 'height' => '0')
 									)
 		)
@@ -77,6 +78,7 @@ add_action( 'wp_enqueue_scripts', function() {
 <div class="player"<?php echo WPChaosClient::get_object()->type == 'billede-lyd' ? ' style="bottom: 62px;"' : ''; ?>>
 	<?php
 		$autoplay = false;
+		$stop = false;
 		$start = 0;
 		if (isset($_GET['autoplay']) && $_GET['autoplay']) {
 			$autoplay = true;
@@ -84,8 +86,11 @@ add_action( 'wp_enqueue_scripts', function() {
 		if (isset($_GET['start'])) {
 			$start = $_GET['start'];
 		}
+		if (isset($_GET['stop'])) {
+			$stop = isset($start) ? ($start < $_GET['stop'] ? $_GET['stop'] : false) : $_GET['stop'];
+		}
 	?>
-	<?php echo WPDKA::get_object_player(null, $autoplay, '', true, $start); ?>
+	<?php echo WPDKA::get_object_player(null, $autoplay, '', true, $start, $stop); ?>
 </div>
 <div class="nav">
 
