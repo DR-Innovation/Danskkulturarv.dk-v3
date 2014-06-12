@@ -72,7 +72,7 @@ input[type="text"] {
 	transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 	background-color: #eee;
 	height: 26px;
-	width: 100%;
+	width: 45%;
 	box-sizing: border-box;
 }
 input[type="Submit"] {

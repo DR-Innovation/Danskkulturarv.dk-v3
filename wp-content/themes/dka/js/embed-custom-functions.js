@@ -20,12 +20,13 @@ var dka = {
                     '<div class="custom_size"><input type="text" class="inline custom_width" placeholder="' + embed.width_string + '" /> x <input type="text" class="inline custom_height" placeholder="' + embed.height_string + '" /></div>' +
                     '</span>' +
                     '</div>' +
-                    '<div class="options"><input type="Submit" value="' + embed.submit_string + '" /></div>' +
+                '<div class="options"><input type="Submit" value="' + embed.submit_string + '" /></div>' +
                     '</form></div></div>' +
                     '<a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode); return false;" class="exit">&times;</a>';
 
                 if (embed.type != 'billede') {
-                    document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML = '<div class="options"><span>' + embed.start_string + '</span><input type="text" maxlength="10" value="0:00" placeholder="0:00" class="timeoffset" /></div>' +
+                    document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML = '<div class="options"><span>' + embed.start_string + '</span><input type="text" maxlength="10" value="0:00" placeholder="0:00" class="timeoffset" />' +
+                        ' - <input type="text" maxlength="10" value="" class="timeoffset_stop" /></div>' +
                         '<div class="options"><span>' + embed.autoplay_string + '</span><input style="float: right;" type="checkbox" class="js-autoplay" value="1" /></div>' +
                         document.querySelectorAll('.info [name="embed_customize"]')[0].innerHTML;
                 }
@@ -47,16 +48,19 @@ var dka = {
 
                         if (embed.type != 'billede') {
                             var time_string = '';
+                            var getPar = false; // True for & and false for ?
 
                             var autoplay_string = '';
                             // Autoplay
                             if ($('.js-autoplay').is(':checked')) {
                                 autoplay_string = '?autoplay=1';
+                                getPar = true;
                             }
 
                             // Update Start.
                             var text = $('.js-embed').text();
                             var time = $('.timeoffset').val();
+                            var time_stop = $('.timeoffset_stop').val();
                             // Robustness with regex. Finds time in seconds or minutes and seconds (min:sec)
                             if (/^(([0-9]*):)?([0-9])+$/.test(time)) {
                                 var time_extra = 0;
@@ -69,13 +73,36 @@ var dka = {
 
                                 // If the time is more than 0 seconds, it will be added to the iframe html.
                                 if (time_extra > 0) {
-                                    time_string = (autoplay_string ? '&' : '?') + 'start=' + time_extra;
+                                    time_string = (getPar ? '&' : '?') + 'start=' + time_extra;
+                                    getPar = true;
                                 } else {
                                     $('.timeoffset').val('0:00');
                                 }
                             } else {
                                 $('.timeoffset').val('0:00');
                             }
+
+                            // Stop time
+                            if (/^(([0-9]*):)?([0-9])+$/.test(time_stop)) {
+                                var time_extra_stop = 0;
+                                if (time_stop.indexOf(':') >= 0) {
+                                    var timesplit = time_stop.split(':');
+                                    time_extra_stop = (timesplit[0] * 60) + parseInt(timesplit[1]);
+                                } else {
+                                    time_extra_stop = time_stop;
+                                }
+
+                                // If the time is more than 0 seconds, it will be added to the iframe html.
+                                if (time_extra_stop > 0) {
+                                    time_string += (getPar ? '&' : '?') + 'stop=' + time_extra_stop;
+                                    getPar = true;
+                                } else {
+                                    $('.timeoffset_stop').val('');
+                                }
+                            } else {
+                                $('.timeoffset_stop').val('');
+                            }
+
                             if (autoplay_string || time_string) {
                                 $('.js-embed').text($('.js-embed').text().replace(/(\/embed)\/?([^"]*)(\")/, '$1/' + autoplay_string + time_string + '$3'));
                             }
