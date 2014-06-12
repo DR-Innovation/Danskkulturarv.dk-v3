@@ -449,16 +449,27 @@ class WPDKA {
 		echo 'jwplayer().onPlay(function() {';
 		echo '	$(".jwlogo").prop("title", "' . __("Go to original page", "wpdka") . '");';
 		echo '});';
-		echo 'var stopped = false;';
+		echo 'var stopped = false; var stoptimeend = false;';
 		// Time offset. Using jwplayer seek function.
 		if (isset($options['startoffset'])) {
-			echo 'jwplayer("'.$player_id.'").onReady(function() { jwplayer("'.$player_id.'").seek(parseInt(' . intval($options['startoffset']) . '))});';
+			echo 'jwplayer("'.$player_id.'").onReady(function() { this.seek(parseInt(' . $options['startoffset'] . '))});';
 			// Stop player after seek
-			echo 'jwplayer("'.$player_id.'").onPlay(function () { if (!stopped) { stopped = true; jwplayer("'.$player_id.'").pause(); } });';
+			echo 'jwplayer("'.$player_id.'").onPlay(function () { if (!stopped) { stopped = true; this.pause(); } });';
+		}
+		// Stop time.
+		if (isset($options['stoptime'])) {
+			// Check if the player position is equal or bigger than stoptime. 
+			echo 'jwplayer("'.$player_id.'").onTime(function () { if (!stoptimeend && this.getPosition() >= ' . $options['stoptime'] . ') { stoptimeend = true; this.pause(); } });';	
+			/*echo 'jwplayer("'.$player_id.'").onPlay(function() { ';
+			echo 'if (!stoptimeend) { stoptime_interval = setInterval(function() { console.log("test"); if (!stoptimeend && jwplayer("'.$player_id.'").getPosition() >= ' . $options['stoptime'] . ') { clearInterval(stoptime_interval); stoptimeend = true; jwplayer("'.$player_id.'").pause(); } }, 1000); }';
+			echo '});';
+			echo 'jwplayer("'.$player_id.'").onIdle(function() { ';
+			echo 'clearInterval(stoptime_interval);';
+			echo '});';*/
 		}
 		// Autoplay
 		if (isset($options['autostart']) && $options['autostart']) {
-			echo 'var played = true; jwplayer("'.$player_id.'").onPause(function() { if (played) { played = false; jwplayer("'.$player_id.'").play(); } });';
+			echo 'var played = true; jwplayer("'.$player_id.'").onPause(function() { if (played && !stoptimeend) { played = false; this.play(); } });';
 		}
 		echo '});';
 		echo '</script>';
@@ -481,7 +492,7 @@ class WPDKA {
 	 * @param  string    $title
 	 * @return string
 	 */
-	public static function get_object_player(WPChaosObject $object = null, $autoplay = false, $title = '', $embed = null, $start = 0) {
+	public static function get_object_player(WPChaosObject $object = null, $autoplay = false, $title = '', $embed = null, $start = 0, $stoptime = false) {
 		$return = "";
 
 		if($object == null && WPChaosClient::get_object()) {
