@@ -55,7 +55,7 @@ select {
 	border: none;
 }
 
-form[name="embed_customize"] {
+.embed_customize {
 	width: 130px;
 	margin: 0 auto;
 }
