@@ -35,10 +35,10 @@ var dka = {
                     time_string = (getPar ? '&' : '?') + 'start=' + time_extra;
                     getPar = true;
                 } else {
-                    $('.timeoffset').val('0:00');
+                    //$('.timeoffset').val('0:00');
                 }
             } else {
-                $('.timeoffset').val('0:00');
+                //$('.timeoffset').val('0:00');
             }
 
             // Stop time
@@ -56,10 +56,10 @@ var dka = {
                     time_string += (getPar ? '&' : '?') + 'stop=' + time_extra_stop;
                     getPar = true;
                 } else {
-                    $('.timeoffset_stop').val('');
+                    //$('.timeoffset_stop').val('');
                 }
             } else {
-                $('.timeoffset_stop').val('');
+                //$('.timeoffset_stop').val('');
             }
 
             if (autoplay_string || time_string) {
