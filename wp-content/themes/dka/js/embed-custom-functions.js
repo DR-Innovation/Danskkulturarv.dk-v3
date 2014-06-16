@@ -77,11 +77,10 @@ var dka = {
             $('.js-embed').text($('.js-embed').text().replace(/(height=\")[0-9]*(\")/, '$1' + height + '$2' + (width == 100 && height == 100 ? ' style="width: 100%; height: 100%;"' : '')));
         } else if (!isNaN($('.custom_size .custom_height').val()) && !isNaN($('.custom_size .custom_width').val())) {
             // Custom size - Getting values from text inputs.
-            $('.js-embed').text($('.js-embed').text().replace(/(width=\")[0-9]*(\")/, '$1' + $('.custom_size .custom_width').val() + '$2'));
-            $('.js-embed').text($('.js-embed').text().replace(/(height=\")[0-9]*(\")/, '$1' + $('.custom_size .custom_height').val() + '$2'));
-        } else {
-            $('.custom_size .custom_width').val('');
-            $('.custom_size .custom_height').val('');
+            if ($('.custom_size .custom_width').val() > 0 && $('.custom_size .custom_height').val() > 0) {
+                $('.js-embed').text($('.js-embed').text().replace(/(width=\")[0-9]*(\")/, '$1' + $('.custom_size .custom_width').val() + '$2'));
+                $('.js-embed').text($('.js-embed').text().replace(/(height=\")[0-9]*(\")/, '$1' + $('.custom_size .custom_height').val() + '$2'));
+            }
         }
     },
     overlay: function() {
@@ -137,6 +136,11 @@ var dka = {
 
                     // If custom size is checked then it should be replaced with a textfield. 
                     $('.embed_customize').on('change', '.size-selector', function() {
+                        if ($('.size-selector option:selected').data('width') == 0 && $('.size-selector option:selected').data('height') == 0) {
+                            $('.embed_customize .custom_size').show();
+                        } else {
+                            $('.embed_customize .custom_size').hide();
+                        }
                         dka.formChange(embed_text);
                         return false;
                     });
