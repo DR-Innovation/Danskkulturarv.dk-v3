@@ -5,34 +5,39 @@ var dka = {
     formChange: function(embed_text) {
         $('.js-embed').text(embed_text);
 
+        // Autoplay, Start- and end time offset. Only if type is not a picture.
         if (embed.type != 'billede') {
-            var time_string = '';
-            var getPar = false; // True for & and false for ?
 
-            var autoplay_string = '';
+            var getPar = false; // True for & and false for ?
+            var time_string = ''; // Time string to contain start and/or end time offset (for the iframe html).
+            var text = $('.js-embed').text(); // Current iframe html
+            var time_start = $('.timeoffset').val(); // Gets time start offset from input field
+            var time_stop = $('.timeoffset_stop').val(); // Gets time stop offset from input field
+            var time_offset_start = 0; // Start offset in seconds.
+            var time_offset_stop = 0; // Stop offset in seconds.
+            var autoplay_string = ''; // Autoplay string to set into iframe html.
+
             // Autoplay
             if ($('.js-autoplay').is(':checked')) {
                 autoplay_string = '?autoplay=1';
                 getPar = true;
             }
 
-            // Update Start.
-            var text = $('.js-embed').text();
-            var time = $('.timeoffset').val();
-            var time_stop = $('.timeoffset_stop').val();
             // Robustness with regex. Finds time in seconds or minutes and seconds (min:sec)
-            if (/^(([0-9]*):)?([0-9])+$/.test(time)) {
-                var time_extra = 0;
-                if (time.indexOf(':') >= 0) {
-                    var timesplit = time.split(':');
-                    time_extra = (timesplit[0] * 60) + parseInt(timesplit[1]);
+
+            // Start time offset
+            if (/^(([0-9]*):)?([0-9])+$/.test(time_start)) {
+                // Splitting minutes from seconds (if there are any)
+                if (time_start.indexOf(':') >= 0) {
+                    var timesplit = time_start.split(':');
+                    time_offset_start = (timesplit[0] * 60) + parseInt(timesplit[1]);
                 } else {
-                    time_extra = time;
+                    time_offset_start = time_start;
                 }
 
-                // If the time is more than 0 seconds, it will be added to the iframe html.
-                if (time_extra > 0) {
-                    time_string = (getPar ? '&' : '?') + 'start=' + time_extra;
+                // If the time_start is more than 0 seconds, it will be added to the iframe html.
+                if (time_offset_start > 0) {
+                    time_string = (getPar ? '&' : '?') + 'start=' + time_offset_start;
                     getPar = true;
                 } else {
                     //$('.timeoffset').val('0:00');
@@ -41,19 +46,19 @@ var dka = {
                 //$('.timeoffset').val('0:00');
             }
 
-            // Stop time
+            // Stop time offset
             if (/^(([0-9]*):)?([0-9])+$/.test(time_stop)) {
-                var time_extra_stop = 0;
+                // Splitting minutes from seconds (if there are any)
                 if (time_stop.indexOf(':') >= 0) {
                     var timesplit = time_stop.split(':');
-                    time_extra_stop = (timesplit[0] * 60) + parseInt(timesplit[1]);
+                    time_offset_stop = (timesplit[0] * 60) + parseInt(timesplit[1]);
                 } else {
-                    time_extra_stop = time_stop;
+                    time_offset_stop = time_stop;
                 }
 
-                // If the time is more than 0 seconds, it will be added to the iframe html.
-                if (time_extra_stop > 0) {
-                    time_string += (getPar ? '&' : '?') + 'stop=' + time_extra_stop;
+                // If the time is more than 0 seconds and greater than time_offset_start, it will be added to the iframe html.
+                if (time_offset_stop > 0 && time_offset_stop > time_offset_start) {
+                    time_string += (getPar ? '&' : '?') + 'stop=' + time_offset_stop;
                     getPar = true;
                 } else {
                     //$('.timeoffset_stop').val('');
@@ -86,67 +91,73 @@ var dka = {
     overlay: function() {
         // If someone trying to access /embed without an iframe.
         // Shows an overlay with the html of how to implement the material in an iframe. 
+        var window_self = false;
         try {
             if (window.self === window.top) {
-                // 
-                document.querySelectorAll('.player')[0].outerHTML += '<div class="overlay">' +
-                    '<div class="info">' +
-                    '<h1>Embed</h1><textarea class="js-embed" onClick="this.select()" readonly>' + embed.html + '</textarea>' +
-                    '<p class="lead">Vær opmærksom på, at embedding af materialer fra ' + embed.blogname + ', kun er tilladt på <strong>udvalgte</strong> domæner.</p>' +
-                    '</div>';
-
-                document.querySelectorAll('.info')[0].innerHTML += '<div class="custom_form"><div class="embed_customize">' +
-                    '<div class="options"><span>' + embed.size_string + '</span>' +
-                    '<span class="js-size">' +
-                    '<div class="custom_size"><input type="text" class="inline custom_width" placeholder="' + embed.width_string + '" /> x <input type="text" class="inline custom_height" placeholder="' + embed.height_string + '" /></div>' +
-                    '</span>' +
-                    '</div>' +
-                    '</div></div></div>' +
-                    '<a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode); return false;" class="exit">&times;</a>';
-
-                if (embed.type != 'billede') {
-                    document.querySelectorAll('.info .embed_customize')[0].innerHTML = '<div class="options"><span>' + embed.start_string + '</span><input type="text" maxlength="10" value="0:00" placeholder="0:00" class="timeoffset" />' +
-                        ' - <input type="text" maxlength="10" value="" class="timeoffset_stop" /></div>' +
-                        '<div class="options"><span>' + embed.autoplay_string + '</span><input style="float: right;" type="checkbox" class="js-autoplay" value="1" /></div>' +
-                        document.querySelectorAll('.info .embed_customize')[0].innerHTML;
-                }
-
-                // Adding selectbox with different sizes.
-                // Different sizes coming from embed. Adding data-attributes like data-width and data-height.
-                var sizes = '<select class="size-selector">';
-                for (var i = 0; i < embed.sizes.length; i++) {
-                    sizes += '<option value="' + i + '" data-width="' + embed.sizes[i].width + '" data-height="' + embed.sizes[i].height + '">' + embed.sizes[i].label + '</option>';
-                }
-                sizes += '</select></div>';
-
-                $(function() {
-                    var getPar = false; // True for & and false for ?
-
-                    $('.js-size').html(sizes + $('.js-size').html());
-                    var embed_text = $('.js-embed').text();
-
-                    $('.embed_customize').on('keyup', 'input', function() {
-                        dka.formChange(embed_text);
-                        return false;
-                    });
-
-                    $('.embed_customize').on('change', '.js-autoplay', function() {
-                        dka.formChange(embed_text);
-                    });
-
-                    // If custom size is checked then it should be replaced with a textfield. 
-                    $('.embed_customize').on('change', '.size-selector', function() {
-                        if ($('.size-selector option:selected').data('width') == 0 && $('.size-selector option:selected').data('height') == 0) {
-                            $('.embed_customize .custom_size').show();
-                        } else {
-                            $('.embed_customize .custom_size').hide();
-                        }
-                        dka.formChange(embed_text);
-                        return false;
-                    });
-                });
+                window_self = true;
             }
-        } catch (e) {}
+        } catch (e) {
+
+        }
+        if (window_self) {
+            // 
+            document.querySelectorAll('.player')[0].outerHTML += '<div class="overlay">' +
+                '<div class="info">' +
+                '<h1>Embed</h1><textarea class="js-embed" onClick="this.select()" readonly>' + embed.html + '</textarea>' +
+                '<p class="lead">Vær opmærksom på, at embedding af materialer fra ' + embed.blogname + ', kun er tilladt på <strong>udvalgte</strong> domæner.</p>' +
+                '</div>';
+
+            document.querySelectorAll('.info')[0].innerHTML += '<div class="custom_form"><div class="embed_customize">' +
+                '<div class="options"><span>' + embed.size_string + '</span>' +
+                '<span class="js-size">' +
+                '<div class="custom_size"><input type="text" class="inline custom_width" placeholder="' + embed.width_string + '" /> x <input type="text" class="inline custom_height" placeholder="' + embed.height_string + '" /></div>' +
+                '</span>' +
+                '</div>' +
+                '</div></div></div>' +
+                '<a href="#" onClick="this.parentNode.parentNode.removeChild(this.parentNode); return false;" class="exit">&times;</a>';
+
+            if (embed.type != 'billede') {
+                document.querySelectorAll('.info .embed_customize')[0].innerHTML = '<div class="options"><span>' + embed.start_string + '</span><input type="text" maxlength="10" value="0:00" placeholder="0:00" class="timeoffset" />' +
+                    ' - <input type="text" maxlength="10" value="" class="timeoffset_stop" /></div>' +
+                    '<div class="options"><span>' + embed.autoplay_string + '</span><input style="float: right;" type="checkbox" class="js-autoplay" value="1" /></div>' +
+                    document.querySelectorAll('.info .embed_customize')[0].innerHTML;
+            }
+
+            // Adding selectbox with different sizes.
+            // Different sizes coming from embed. Adding data-attributes like data-width and data-height.
+            var sizes = '<select class="size-selector">';
+            for (var i = 0; i < embed.sizes.length; i++) {
+                sizes += '<option value="' + i + '" data-width="' + embed.sizes[i].width + '" data-height="' + embed.sizes[i].height + '">' + embed.sizes[i].label + '</option>';
+            }
+            sizes += '</select></div>';
+
+            $(function() {
+                var getPar = false; // True for & and false for ?
+
+                $('.js-size').html(sizes + $('.js-size').html());
+                var embed_text = $('.js-embed').text();
+
+                $('.embed_customize').on('keyup', 'input', function() {
+                    dka.formChange(embed_text);
+                    return false;
+                });
+
+                $('.embed_customize').on('change', '.js-autoplay', function() {
+                    dka.formChange(embed_text);
+                });
+
+                // If custom size is checked then it should be replaced with a textfield. 
+                $('.embed_customize').on('change', '.size-selector', function() {
+                    if ($('.size-selector option:selected').data('width') == 0 && $('.size-selector option:selected').data('height') == 0) {
+                        $('.embed_customize .custom_size').show();
+                    } else {
+                        $('.embed_customize .custom_size').hide();
+                    }
+                    dka.formChange(embed_text);
+                    return false;
+                });
+            });
+        }
     }
 }
 
