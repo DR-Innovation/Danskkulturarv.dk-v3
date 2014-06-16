@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dansk Kulturarv\n"
-"POT-Creation-Date: 2014-06-02 12:03+0100\n"
-"PO-Revision-Date: 2014-06-02 12:03+0100\n"
+"POT-Creation-Date: 2014-06-12 15:12+0100\n"
+"PO-Revision-Date: 2014-06-12 22:17+0100\n"
 "Last-Translator: \n"
 "Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
@@ -159,38 +159,42 @@ msgid "Start playback"
 msgstr "Start afspilningen ved"
 
 #: ../templates/chaos-object-embed.php:44
+msgid "Stop playback"
+msgstr "Stop afspilningen ved"
+
+#: ../templates/chaos-object-embed.php:45
 msgid "Size"
 msgstr "Størrelse"
 
-#: ../templates/chaos-object-embed.php:45
+#: ../templates/chaos-object-embed.php:46
 msgid "Width"
 msgstr "Bredde"
 
-#: ../templates/chaos-object-embed.php:46
+#: ../templates/chaos-object-embed.php:47
 msgid "Height"
 msgstr "Højde"
 
-#: ../templates/chaos-object-embed.php:47
+#: ../templates/chaos-object-embed.php:48
 msgid "Autoplay"
 msgstr "Autostart"
 
-#: ../templates/chaos-object-embed.php:49
+#: ../templates/chaos-object-embed.php:50
 msgid "Default"
 msgstr "Standard"
 
-#: ../templates/chaos-object-embed.php:50
+#: ../templates/chaos-object-embed.php:51
 msgid "Small"
 msgstr "Lille"
 
-#: ../templates/chaos-object-embed.php:51
+#: ../templates/chaos-object-embed.php:52
 msgid "Medium"
 msgstr "Mellem"
 
-#: ../templates/chaos-object-embed.php:52
-msgid "Full"
-msgstr "Fuld"
-
 #: ../templates/chaos-object-embed.php:53
+msgid "Large"
+msgstr "Stor"
+
+#: ../templates/chaos-object-embed.php:54
 msgid "Custom"
 msgstr "Tilpas"
 
@@ -262,6 +266,9 @@ msgstr "Frys"
 #: ../templates/multiattrwidget-sidebar.php:47
 msgid "Enable"
 msgstr "Optø"
+
+#~ msgid "Full"
+#~ msgstr "Fuld"
 
 #~ msgid "%s on Twitter"
 #~ msgstr "%s på Twitter"

@@ -60,7 +60,11 @@ if (isset($embed) && $embed) {
 	if (isset($start) && $start > 0) {
 		$options['startoffset'] = $start;
 	}
-}
+
+	if (isset($stoptime) && $stoptime > 0) {
+		$options['stoptime'] = $stoptime;
+	}
+};
 
 
 WPDKA::print_jwplayer($options, 'jwplayer-'.uniqid());
