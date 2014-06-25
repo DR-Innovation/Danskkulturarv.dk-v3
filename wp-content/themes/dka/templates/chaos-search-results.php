@@ -75,6 +75,7 @@ $views = array(
 			$organization = WPChaosClient::get_object()->organization;
 			$views = number_format_i18n((double)WPChaosClient::get_object()->views);
 			$class = '';
+			$publish = current_user_can(WPDKA::PUBLISH_STATE_CAPABILITY) ? WPChaosClient::get_object()->isPublished ? '' : ' unpublished' : '';
 			if($collection_obj) {
 				$url .= '#'.$collection_obj->GUID;
 				$caption = count($collection_obj->ObjectRelations) . ' ' . _n( 'material', 'materials', count($collection_obj->ObjectRelations), 'dka' );
@@ -84,7 +85,7 @@ $views = array(
 				$class = ' collection-result';
 			}
 			?>
-			<li class="search-object col-xs-12 col-sm-6 col-lg-3<?php echo $class ?>">
+			<li class="search-object col-xs-12 col-sm-6 col-lg-3<?php echo $class ?><?php echo $publish; ?>">
 				<a class="thumbnail" href="<?php echo $url; ?>" id="<?php echo WPChaosClient::get_object()->GUID; ?>">
 
 					<div class="thumb format-<?php echo WPChaosClient::get_object()->type; ?>"<?php echo $thumbnail; ?>>

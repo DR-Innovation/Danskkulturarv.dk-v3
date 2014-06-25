@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dansk Kulturarv\n"
-"POT-Creation-Date: 2014-06-12 15:12+0100\n"
-"PO-Revision-Date: 2014-06-12 22:17+0100\n"
+"POT-Creation-Date: 2014-06-25 13:53+0100\n"
+"PO-Revision-Date: 2014-06-25 13:53+0100\n"
 "Last-Translator: \n"
 "Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
@@ -232,7 +232,7 @@ msgstr "Viser %s resultater for %s"
 msgid "Sort by:"
 msgstr "Sorter:"
 
-#: ../templates/chaos-search-results.php:80
+#: ../templates/chaos-search-results.php:81
 msgid "material"
 msgid_plural "materials"
 msgstr[0] "materiale"
@@ -242,28 +242,60 @@ msgstr[1] "materialer"
 msgid "Views"
 msgstr "Visninger"
 
-#: ../templates/multiattrwidget-sidebar.php:13
+#: ../templates/multiattrwidget-sidebar.php:16
+#: ../templates/multiattrwidget-sidebar.php:19
+msgid "This object is unpublished and is not visible for other users."
+msgstr "Dette materiale er afpubliceret og ikke synlig for andre brugere."
+
+#: ../templates/multiattrwidget-sidebar.php:17
+msgid "Republish this object again"
+msgstr "Genpublicer dette materiale igen"
+
+#: ../templates/multiattrwidget-sidebar.php:20
+msgid "Please contact the institution if you want this object republished."
+msgstr ""
+"Kontakt venligst institutionen hvis du ønsker at genpublicere dette "
+"materiale."
+
+#: ../templates/multiattrwidget-sidebar.php:23
+#: ../templates/multiattrwidget-sidebar.php:30
+msgid ""
+"Object is using an old metadata schema. You can not change the publish state "
+"for this object."
+msgstr ""
+"Materiale benytter et gammelt metadata skema. Du kan ikke ændre "
+"publiceringen for dette materiale."
+
+#: ../templates/multiattrwidget-sidebar.php:27
+msgid "This object is published and is visible for other users."
+msgstr "Dette materiale er publiceret og synlig for andre brugere."
+
+#: ../templates/multiattrwidget-sidebar.php:28
+msgid "Unpublish this object"
+msgstr "Afpublicer dette materiale"
+
+#: ../templates/multiattrwidget-sidebar.php:38
 #, php-format
 msgid "Read more at %s"
 msgstr "Læs mere hos %s"
 
-#: ../templates/multiattrwidget-sidebar.php:29
+#: ../templates/multiattrwidget-sidebar.php:54
 msgid "Embed material"
 msgstr "Embed materiale"
 
-#: ../templates/multiattrwidget-sidebar.php:38
+#: ../templates/multiattrwidget-sidebar.php:63
 msgid "Tags"
 msgstr "Tags"
 
-#: ../templates/multiattrwidget-sidebar.php:45
+#: ../templates/multiattrwidget-sidebar.php:70
 msgid "User Tags"
 msgstr "Brugertags"
 
-#: ../templates/multiattrwidget-sidebar.php:47
+#: ../templates/multiattrwidget-sidebar.php:72
 msgid "Disable"
 msgstr "Frys"
 
-#: ../templates/multiattrwidget-sidebar.php:47
+#: ../templates/multiattrwidget-sidebar.php:72
 msgid "Enable"
 msgstr "Optø"
 
