@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPChaosSearch\n"
-"POT-Creation-Date: 2014-05-26 11:46+0100\n"
-"PO-Revision-Date: 2014-05-26 11:47+0100\n"
+"POT-Creation-Date: 2014-06-25 13:50+0100\n"
+"PO-Revision-Date: 2014-06-25 13:51+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../templates/player-billede.php:17
+#: ../templates/player-billede.php:17 ../wpdka.php:551
 msgid "Go to original page"
 msgstr "Gå til oprindelige side"
 
@@ -62,68 +62,88 @@ msgstr "Vis link"
 msgid "Read more"
 msgstr "Læs mere"
 
-#: ../wpchaosobject-filters.php:21
+#: ../wpchaosobject-filters.php:23
 msgid " without title"
 msgstr " uden titel"
 
-#: ../wpchaosobject-filters.php:51
+#: ../wpchaosobject-filters.php:53
 msgid "No tags"
 msgstr "Ingen tags"
 
-#: ../wpchaosobject-filters.php:130
+#: ../wpchaosobject-filters.php:155
 msgid "Year "
 msgstr "Året "
 
-#: ../wpchaosobject-filters.php:249
+#: ../wpchaosobject-filters.php:274
 #, php-format
 msgid "%s image"
 msgid_plural "%s images"
 msgstr[0] "%s billede"
 msgstr[1] "%s billeder"
 
-#: ../wpdka.php:109
+#: ../wpdka.php:128
 msgid "Dansk Kulturarv"
 msgstr "Dansk Kulturarv"
 
-#: ../wpdka.php:113
+#: ../wpdka.php:132
 msgid "Page for objects with an unknown organization."
 msgstr "Side til objekter med ukendt institution"
 
-#: ../wpdka.php:121
+#: ../wpdka.php:140
 msgid "JW Player Settings"
 msgstr "JW Player indstillinger"
 
-#: ../wpdka.php:126
+#: ../wpdka.php:145
 msgid "JW Player API key"
 msgstr "JW Player API-nøgle"
 
-#: ../wpdka.php:414
+#: ../wpdka.php:438
+msgid "Object is now republished and is visible for other viewers again."
+msgstr "Materialet er nu genpubliceret og synlig for andre brugere igen."
+
+#: ../wpdka.php:442
+msgid ""
+"Object is unpublished by the institution. You have no permission to publish "
+"this."
+msgstr ""
+"Materialet er afpubliceret af institutionen. Du har ikke tilladelse til at "
+"publicere."
+
+#: ../wpdka.php:470
+msgid ""
+"Object is now unpublished and is <strong>not</strong> visible for other "
+"viewers."
+msgstr ""
+"Materialet er nu afpubliceret og er <strong>ikke</strong> synlig for andre "
+"brugere."
+
+#: ../wpdka.php:515
 msgid "CHAOS material"
 msgid_plural "CHAOS materials"
 msgstr[0] "CHAOS materiale"
 msgstr[1] "CHAOS materialer"
 
-#: ../wpdka.php:419
+#: ../wpdka.php:520
 msgid "CHAOS material view"
 msgid_plural "CHAOS material views"
 msgstr[0] "CHAOS materialevisning"
 msgstr[1] "CHAOS materialevisninger"
 
-#: ../wpdka.php:421
+#: ../wpdka.php:522
 msgid "CHAOS material share"
 msgid_plural "CHAOS material shares"
 msgstr[0] "CHAOS materialedeling"
 msgstr[1] "CHAOS materialedelinger"
 
-#: ../wpdka.php:443
+#: ../wpdka.php:544
 msgid "Loading the player ..."
 msgstr "Henter afspiller ..."
 
-#: ../wpdka.php:519
+#: ../wpdka.php:645
 msgid "WordPress DKA"
 msgstr "WordPress DKA"
 
-#: ../wpdka.php:519
+#: ../wpdka.php:645
 #, php-format
 msgid "needs %s to be activated."
 msgstr "kræver at %s er aktiveret."

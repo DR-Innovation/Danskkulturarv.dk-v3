@@ -4,7 +4,9 @@
 \CHAOS\Portal\Client\Data\Object::registerXMLNamespace('dka', 'http://www.danskkulturarv.dk/DKA.xsd');
 \CHAOS\Portal\Client\Data\Object::registerXMLNamespace('dka2', 'http://www.danskkulturarv.dk/DKA2.xsd');
 \CHAOS\Portal\Client\Data\Object::registerXMLNamespace('dkac', 'http://www.danskkulturarv.dk/DKA.Crowd.xsd');
-\CHAOS\Portal\Client\Data\Object::registerXMLNamespace('xhtml', 'http://www.w3.org/1999/xhtml');
+\CHAOS\Portal\Client\Data\Object::registerXMLNamespace('xhtml1-transitional.xsd', 'http://www.w3.org/1999/xhtml', 'schemas/xhtml1-transitional.xsd');
+\CHAOS\Portal\Client\Data\Object::registerXMLNamespace('http://www.w3.org/2001/xml.xsd', 'http://www.w3.org/2001/xml.xsd', 'schemas/xml.xsd');
+
 
 //object->title
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'title', function($value, \WPCHAOSObject $object) {
@@ -114,6 +116,29 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'description', function($value, \
 		array('/dka2:DKA/dka2:Description', '/DKA/Description/text()')
 		);
 	return $value;
+}, 10, 2);
+
+//object->unpublishedByCurator
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'unpublishedByCurator', function($value, \WPCHAOSObject $object) {
+	return $object->metadata(
+		array(WPDKAObject::DKA2_SCHEMA_GUID),
+		array('/dka2:DKA/dka2:unpublishedByCurator')
+		);
+}, 10, 2);
+
+//object->isPublished
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'isPublished', function($value, \WPCHAOSObject $object) {
+	foreach ($object->AccessPoints as $a) {
+		if (isset($a->StartDate)) {
+			return true;
+		}
+	}
+	return false;
+}, 10, 2);
+
+//object->hasDKA2MetaDataSchema
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'hasDKA2MetaDataSchema', function($value, \WPCHAOSObject $object) {
+	return $object->has_metadata(WPDKAObject::DKA2_SCHEMA_GUID);
 }, 10, 2);
 
 //object->published
