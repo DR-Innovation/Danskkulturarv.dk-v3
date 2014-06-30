@@ -43,9 +43,6 @@ class WPDKASearch {
 		),
 	);
 
-	// Words to be ignored when searching for objects.
-	public static $search_words_ignore = array("!uden titel", "!ukendt titel");
-
 	/**
 	 * Construct
 	 */
@@ -147,9 +144,6 @@ class WPDKASearch {
 				foreach(WPDKAObject::$FREETEXT_SCHEMA_GUIDS as $schemaGUID) {
 					foreach(WPDKAObject::$FREETEXT_LANGUAGE as $language) {
 						$searches[] = sprintf("(m%s_%s_all:(%s))", $schemaGUID, $language, $freetext);
-
-						// Ignoring objects.
-						$searches[] = sprintf("(m%s_%s_all:(%s))", $schemaGUID, $language, implode(' AND ', self::$search_words_ignore));
 					}
 				}
 				$query[] = '(' . implode(" OR ", $searches) . ')';
