@@ -88,8 +88,9 @@ class WPDKA {
 	public function loadJsCss() {
 		wp_enqueue_script('wpdka-publish',plugins_url( 'js/publish.js' , __FILE__ ),array('jquery'),'1.0',true);
 		$translation_array = array(
-			'ajaxurl' => admin_url( 'admin-ajax.php' )
-			//'token' => self::TOKEN_PREFIX
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'token' => wp_create_nonce(self::TOKEN_PREFIX),
+			'error' => '<div class="alert alert-warning">' . __('Metadata schema is not valid for this object.', 'wpdka') . '</div>'
 			);
 		wp_localize_script( 'wpdka-publish', 'WPDKAPublish', $translation_array );
 	}
@@ -395,7 +396,7 @@ class WPDKA {
 
 
 	public function ajax_set_publish_state () {
-		if(!array_key_exists('object_guid', $_POST)/* || !check_ajax_referer(self::TOKEN_PREFIX, 'token', false)*/) {
+		if(!array_key_exists('object_guid', $_POST) || !check_ajax_referer(self::TOKEN_PREFIX, 'token', false)) {
 			status_header(500);
 			echo "Object GUID and URL must be specified.";
 			die();
@@ -418,7 +419,9 @@ class WPDKA {
 					unset($unpublishedByCurator[0]->unpublishedByCurator);
 					
 					// Do not refresh client
-					$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false);
+					if (!$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false)) {
+						die();
+					}
 					
 				} catch(\Exception $e) {
 					error_log('CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage());
@@ -449,8 +452,9 @@ class WPDKA {
 				$metadataXML = $object->get_metadata(WPDKAObject::DKA2_SCHEMA_GUID);
 				$unpublishedByCurator = $metadataXML->xpath('/dka2:DKA');
 				$unpublishedByCurator[0]->unpublishedByCurator = 'true';
-
-				$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+				if (!$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE)) {
+					die();
+				}
 				
 			} catch(\Exception $e) {
 				error_log('CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage());

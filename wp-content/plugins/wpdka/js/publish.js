@@ -17,8 +17,8 @@
                     data: {
                         action: 'wpdka_set_publish_state',
                         publishState: button.attr('data-dka-publish'),
-                        object_guid: $('.single-material').attr('id')
-                        //token: WPDKAPublish.token
+                        object_guid: $('.single-material').attr('id'),
+                        token: WPDKAPublish.token
                     },
                     dataType: 'JSON',
                     type: 'POST',
@@ -29,6 +29,7 @@
                         }, 3000);
                     },
                     error: function(errorThrown) {
+                        $('.single-material .publishinfo').html(WPDKAPublish.error);
                         button.attr('disabled', false);
                         console.log(errorThrown);
                     }
