@@ -403,7 +403,7 @@ class WPDKA {
 		}
 
 		$objects = WPChaosObject::parseResponse(WPChaosClient::instance()->Object()->Get($_POST['object_guid'], null, false, 0, 1, true, true, true));
-		$publish = $_POST['publishState'];
+		$publish = isset($_POST['publishState']) ? $_POST['publishState'] : true;
 		if (count($objects) != 1) {
 			echo "Object didn't exist or too many objects returned from service.";
 			die();
@@ -419,16 +419,14 @@ class WPDKA {
 					unset($unpublishedByCurator[0]->unpublishedByCurator);
 					
 					// Do not refresh client
-					if (!$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false)) {
-						die();
-					}
+					$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false);
 					
 				} catch(\Exception $e) {
 					error_log('CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage());
 					echo 'CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage();
 					die();
 				}
-
+				
 				// Sets accesspoint (publish)
 				$serviceResult = WPChaosClient::instance()->Object()->SetPublishSettings(
 					$_POST['object_guid'], // objectGUID
@@ -446,15 +444,12 @@ class WPDKA {
 				);
 			}
 		} else { 
-
 			// Setting unpublishedByCurator to true.
 			try {
 				$metadataXML = $object->get_metadata(WPDKAObject::DKA2_SCHEMA_GUID);
 				$unpublishedByCurator = $metadataXML->xpath('/dka2:DKA');
 				$unpublishedByCurator[0]->unpublishedByCurator = 'true';
-				if (!$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE)) {
-					die();
-				}
+				$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
 				
 			} catch(\Exception $e) {
 				error_log('CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage());

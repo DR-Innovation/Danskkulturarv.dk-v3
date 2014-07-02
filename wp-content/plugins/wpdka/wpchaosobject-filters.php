@@ -123,13 +123,13 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'unpublishedByCurator', function(
 	return $object->metadata(
 		array(WPDKAObject::DKA2_SCHEMA_GUID),
 		array('/dka2:DKA/dka2:unpublishedByCurator')
-		);
+	);
 }, 10, 2);
 
 //object->isPublished
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'isPublished', function($value, \WPCHAOSObject $object) {
 	foreach ($object->AccessPoints as $a) {
-		if (isset($a->StartDate)) {
+		if ($a->AccessPointGUID == strtolower(get_option('wpchaos-accesspoint-guid')) && !empty($a->StartDate)) {
 			return true;
 		}
 	}
