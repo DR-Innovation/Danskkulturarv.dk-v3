@@ -26,8 +26,8 @@ class WPDKAObject {
 	
 	// TODO: Consider moving this back into the harvester.
 	public static $DERIVED_FILES = array(
-		'|^(?P<streamer>rtmp://vod-bonanza\.gss\.dr\.dk/bonanza)/mp4:bonanza/(?P<filename>.+\.mp4)$|i' => 'http://om.gss.dr.dk/MediaCache/_definst_/mp4:content/bonanza/{$matches["filename"]}/Playlist.m3u8',
-		'|^(?P<streamer>rtmp://vod-kulturarv\.dr\.dk/bonanza)/mp4:bonanza/(?P<filename>.+\.mp4)$|i' => 'http://om.gss.dr.dk/MediaCache/_definst_/mp4:content/bonanza/{$matches["filename"]}/Playlist.m3u8'
+		'|^(?P<streamer>rtmp://vod-bonanza\.gss\.dr\.dk/bonanza)/mp4:bonanza/(?P<filename>.+\.mp4)$|i' => 'http://vod-kulturarv.dr.dk/bonanza/mp4:bonanza/bonanza/{$matches["filename"]}/Playlist.m3u8',
+		'|^(?P<streamer>rtmp://vod-kulturarv\.dr\.dk/bonanza)/mp4:bonanza/(?P<filename>.+\.mp4)$|i' => 'http://vod-kulturarv.dr.dk/bonanza/mp4:bonanza/bonanza/{$matches["filename"]}/Playlist.m3u8'
 	);
 	
 	public static $KNOWN_STREAMERS = array(
