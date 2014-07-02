@@ -8,7 +8,7 @@
 		<!--<div>
 			<i class="icon-eye-open"></i> <?php _e('Views','dka'); ?> <strong class="pull-right"><?php echo WPChaosClient::get_object()->views; ?></strong>
 		</div>-->
-<?php if(current_user_can(WPDKA::PUBLISH_STATE_CAPABILITY)): ?>
+<?php if(0 /*current_user_can(WPDKA::PUBLISH_STATE_CAPABILITY)*/): ?>
 	<div>
 		<?php if (!WPChaosClient::get_object()->isPublished): ?> <!--Material is not published (no accesspoint)-->
 			<?php if (WPChaosClient::get_object()->hasDKA2MetaDataSchema): ?> <!-- Makes sure object has DKA2 metadata schema -->
