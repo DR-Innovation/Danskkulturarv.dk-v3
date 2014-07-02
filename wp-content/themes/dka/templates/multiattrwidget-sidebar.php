@@ -8,6 +8,31 @@
 		<!--<div>
 			<i class="icon-eye-open"></i> <?php _e('Views','dka'); ?> <strong class="pull-right"><?php echo WPChaosClient::get_object()->views; ?></strong>
 		</div>-->
+<?php if(0 /*current_user_can(WPDKA::PUBLISH_STATE_CAPABILITY)*/): ?>
+	<div>
+		<?php if (!WPChaosClient::get_object()->isPublished): ?> <!--Material is not published (no accesspoint)-->
+			<?php if (WPChaosClient::get_object()->hasDKA2MetaDataSchema): ?> <!-- Makes sure object has DKA2 metadata schema -->
+				<?php if (WPChaosClient::get_object()->unpublishedByCurator): ?> <!--User has unpublished material-->
+					<p><?php _e('This object is unpublished and is not visible for other users.', 'dka'); ?></p>
+					<button data-dka-publish="1" id="publishState" class="btn btn-primary btn-fat"><?php _e('Republish this object again', 'dka'); ?></button>
+				<?php else: ?> <!--Institution has unpublished object-->
+					<p><?php _e('This object is unpublished and is not visible for other users.', 'dka'); ?></p>
+					<p><?php _e('Please contact the institution if you want this object republished.', 'dka'); ?></p>
+				<?php endif; ?>
+			<?php else: ?>
+				<p><?php _e('Object is using an old metadata schema. You can not change the publish state for this object.', 'dka'); ?></p>
+			<?php endif; ?>
+		<?php else: ?> <!--object is published-->
+			<?php if (WPChaosClient::get_object()->hasDKA2MetaDataSchema): ?>
+				<p><?php _e('This object is published and is visible for other users.', 'dka'); ?></p>
+				<button data-dka-publish="0" id="publishState" class="btn btn-danger btn-fat"><?php _e('Unpublish this object', 'dka'); ?></button>
+			<?php else: ?>
+				<p><?php _e('Object is using an old metadata schema. You can not change the publish state for this object.', 'dka'); ?></p>
+			<?php endif; ?>
+		<?php endif; ?>
+	<hr>
+	</div>
+<?php endif; ?>
 <?php if(WPChaosClient::get_object()->externalurl) : ?>
 		<div class="external-link-container">
 			<i class="icon-external-link"></i> <a target="_blank" href="<?php echo WPChaosClient::get_object()->externalurl; ?>" title="<?php printf(__('Read more at %s','dka'),WPChaosClient::get_object()->organization); ?>"><?php printf(__('Read more at %s','dka'),WPChaosClient::get_object()->organization); ?></a>
@@ -23,7 +48,7 @@
 		<div class="social">
 			<?php dka_social_share(array("link"=>WPChaosClient::get_object()->url)); ?>
 		</div>
-<?php if(0 && WPChaosClient::get_object()->is_embeddable) : // Deaktiveret. ?>
+<!--<?php if(0 && WPChaosClient::get_object()->is_embeddable) : // Deaktiveret. ?>
 		<div>
 			<hr>
 			<h4><?php _e('Embed material','dka'); ?></h4>
@@ -32,7 +57,7 @@
 			<?php endif; ?>
 			<textarea onClick="this.select()" class="form-control" rows="3" readonly><?php echo esc_html(WPChaosClient::get_object()->embed); ?></textarea>
 		</div>
-<?php endif; ?>
+<?php endif; ?>-->
 		<div>
 			<hr>
 			<h4><?php _e('Tags','dka'); ?></h4>

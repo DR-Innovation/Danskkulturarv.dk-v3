@@ -122,7 +122,6 @@ class WPDKASearch {
 			}
 				
 			$query[] = '(ObjectTypeID:(' . implode(" OR ", WPDKAObject::$OBJECT_TYPE_IDS) . '))';
-				
 			return implode(" AND ", $query);
 		}, 9, 2);
 		

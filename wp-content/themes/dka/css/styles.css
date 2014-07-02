@@ -5253,6 +5253,9 @@ footer {
 .jwlogo {
   display: none;
 }
+.unpublished {
+  opacity: .3;
+}
 /* ==========================================================================
    Facebook widget
    ========================================================================== */
@@ -5294,6 +5297,9 @@ footer {
   .fb_iframe_widget span iframe {
     width: 100% !important;
   }
+}
+.btn-fat {
+  width: 100%;
 }
 .pllexislider {
   max-width: 100%;

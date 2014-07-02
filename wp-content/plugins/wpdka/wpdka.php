@@ -24,6 +24,12 @@ class WPDKA {
 	 * @var string
 	 */
 	const MENU_PAGE = 'wpdka-administration';
+
+	/**
+	 * Capability requirement to change publish state
+	 */
+	const PUBLISH_STATE_CAPABILITY = 'moderate_comments';
+	const TOKEN_PREFIX = 'somestring';
 	
 	const RESET_CROWD_METADATA_START_BTN = 'Start Resetting Crowd Metadata';
 	const RESET_CROWD_METADATA_PAUSE_BTN = 'Pause';
@@ -31,6 +37,7 @@ class WPDKA {
 	const REMOVE_DUPLICATE_SLUGS_BTN = 'Remove duplicate slugs';
 	const RESET_CROWD_METADATA_AJAX = 'wpdka_reset_crowd_metadata';
 	const REMOVE_DUPLICATE_SLUGS_AJAX = 'wpdka_remove_duplicate_slugs';
+	const SET_PUBLISH_STATE_AJAX = 'wpdka_set_publish_state';
 	const SOCIAL_COUNTS_AJAX = 'wpdka_social_counts';
 	const RESET_CROWD_METADATA_PAGE_INDEX_OPTION = 'wp-dka-rcm-pageIndex';
 	const RESET_CROWD_METADATA_PAGE_SIZE_OPTION = 'wp-dka-rcm-pageSize';
@@ -59,11 +66,14 @@ class WPDKA {
 				add_action('wp_ajax_' . self::REMOVE_DUPLICATE_SLUGS_AJAX, array(&$this, 'ajax_remove_duplicate_slugs'));
 				
 				add_filter('wpchaos-config', array(&$this, 'settings'));
-
 			}
+			add_action('wp_enqueue_scripts', array(&$this, 'loadJsCss'));
 
 			add_filter('widgets_init',array(&$this,'register_widgets'));
 			
+			// Set publish state
+			add_action('wp_ajax_' . self::SET_PUBLISH_STATE_AJAX, array(&$this, 'ajax_set_publish_state'));
+
 			// Social stuff
 			add_action('wp_ajax_' . self::SOCIAL_COUNTS_AJAX, array(&$this, 'ajax_social_counts'));
 			add_action('wp_ajax_nopriv_' . self::SOCIAL_COUNTS_AJAX, array(&$this, 'ajax_social_counts'));
@@ -73,6 +83,16 @@ class WPDKA {
 
 		}
 
+	}
+
+	public function loadJsCss() {
+		wp_enqueue_script('wpdka-publish',plugins_url( 'js/publish.js' , __FILE__ ),array('jquery'),'1.0',true);
+		$translation_array = array(
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'token' => wp_create_nonce(self::TOKEN_PREFIX),
+			'error' => '<div class="alert alert-warning">' . __('Metadata schema is not valid for this object.', 'wpdka') . '</div>'
+			);
+		wp_localize_script( 'wpdka-publish', 'WPDKAPublish', $translation_array );
 	}
 
 	public function load_textdomain() {
@@ -372,6 +392,86 @@ class WPDKA {
 		$result['nextPageIndex'] = $result['pageIndex'] + 1;
 		echo json_encode($result);
 		die();
+	}
+
+
+	public function ajax_set_publish_state () {
+		if(!array_key_exists('object_guid', $_POST) || !check_ajax_referer(self::TOKEN_PREFIX, 'token', false)) {
+			status_header(500);
+			echo "Object GUID and URL must be specified.";
+			die();
+		}
+
+		$objects = WPChaosObject::parseResponse(WPChaosClient::instance()->Object()->Get($_POST['object_guid'], null, false, 0, 1, true, true, true));
+		$publish = isset($_POST['publishState']) ? $_POST['publishState'] : true;
+		if (count($objects) != 1) {
+			echo "Object didn't exist or too many objects returned from service.";
+			die();
+		}
+		$object = $objects[0];
+		if ($publish) {
+			// Only publish if curator was the one unpublishing in the first place.
+			if ($object->unpublishedByCurator) {
+				// Resetting unpublishedByCurator to false again.
+				try {
+					$metadataXML = $object->get_metadata(WPDKAObject::DKA2_SCHEMA_GUID);
+					$unpublishedByCurator = $metadataXML->xpath('/dka2:DKA');
+					unset($unpublishedByCurator[0]->unpublishedByCurator);
+					
+					// Do not refresh client
+					$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false);
+					
+				} catch(\Exception $e) {
+					error_log('CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage());
+					echo 'CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage();
+					die();
+				}
+				
+				// Sets accesspoint (publish)
+				$serviceResult = WPChaosClient::instance()->Object()->SetPublishSettings(
+					$_POST['object_guid'], // objectGUID
+					get_option('wpchaos-accesspoint-guid'), // accessPointGUID
+					new DateTime('NOW'), // startDate
+					null // endDate
+				);
+
+				$response = array(
+					'<div class="alert alert-success">' . __('Object is now republished and is visible for other viewers again.', 'wpdka') . '</div>'
+				);
+			} else {
+				$response = array(
+					'<div class="alert alert-warning">' . __('Object is unpublished by the institution. You have no permission to publish this.', 'wpdka') . '</div>'
+				);
+			}
+		} else { 
+			// Setting unpublishedByCurator to true.
+			try {
+				$metadataXML = $object->get_metadata(WPDKAObject::DKA2_SCHEMA_GUID);
+				$unpublishedByCurator = $metadataXML->xpath('/dka2:DKA');
+				$unpublishedByCurator[0]->unpublishedByCurator = 'true';
+				$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
+				
+			} catch(\Exception $e) {
+				error_log('CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage());
+				echo 'CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage();
+				die();
+			}
+
+			// Sets accesspoint, but removing startDate (unpublish)
+			$serviceResult = WPChaosClient::instance()->Object()->SetPublishSettings(
+				$_POST['object_guid'], // objectGUID
+				get_option('wpchaos-accesspoint-guid'), // accessPointGUID
+				null, // startDate
+				null // endDate
+			);
+
+			$response = array(
+				'<div class="alert alert-danger">' . __('Object is now unpublished and is <strong>not</strong> visible for other viewers.', 'wpdka') . '</div>'
+			);
+		}
+		echo json_encode($response);
+		die();
+
 	}
 	
 	public function ajax_social_counts() {
