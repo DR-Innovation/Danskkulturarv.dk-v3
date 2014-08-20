@@ -74,6 +74,10 @@ class QM_Collector_PHP_Errors extends QM_Collector {
 
 		if ( error_reporting() > 0 ) {
 
+			if ( ! class_exists( 'QM_Backtrace' ) ) {
+				return false;
+			}
+
 			$trace  = new QM_Backtrace;
 			$caller = $trace->get_caller();
 			$key    = md5( $message . $file . $line . $caller['id'] );
@@ -99,6 +103,10 @@ class QM_Collector_PHP_Errors extends QM_Collector {
 
 		return apply_filters( 'query_monitor_php_errors_return_value', true );
 
+	}
+
+	public function process() {
+		restore_error_handler();
 	}
 
 }

@@ -33,7 +33,7 @@ class QM_Dispatcher_Html extends QM_Dispatcher {
 			return;
 		}
 
-		$class = implode( ' ', array( 'hide-if-js', QM_Util::wpv() ) );
+		$class = implode( ' ', array( 'hide-if-js' ) );
 		$title = __( 'Query Monitor', 'query-monitor' );
 
 		$wp_admin_bar->add_menu( array(
@@ -72,7 +72,7 @@ class QM_Dispatcher_Html extends QM_Dispatcher {
 
 	public function enqueue_assets() {
 
-		global $wp_locale;
+		global $wp_locale, $wp_version;
 
 		wp_enqueue_style(
 			'query-monitor',
@@ -99,6 +99,15 @@ class QM_Dispatcher_Html extends QM_Dispatcher {
 				'ajax_error' => __( 'PHP Error in AJAX Response', 'query-monitor' ),
 			)
 		);
+
+		if ( floatval( $wp_version ) <= 3.7 ) {
+			wp_enqueue_style(
+				'query-monitor-compat',
+				$this->qm->plugin_url( 'assets/compat.css' ),
+				null,
+				$this->qm->plugin_ver( 'assets/compat.css' )
+			);
+		}
 
 	}
 
@@ -143,8 +152,8 @@ class QM_Dispatcher_Html extends QM_Dispatcher {
 
 	public function js_admin_bar_menu() {
 
-		$class = implode( ' ', apply_filters( 'query_monitor_class', array( QM_Util::wpv() ) ) );
-		$title = implode( ' &nbsp; ', apply_filters( 'query_monitor_title', array() ) );
+		$class = implode( ' ', apply_filters( 'query_monitor_class', array() ) );
+		$title = implode( '&nbsp;&nbsp;&nbsp;', apply_filters( 'query_monitor_title', array() ) );
 
 		if ( empty( $title ) )
 			$title = __( 'Query Monitor', 'query-monitor' );
@@ -164,7 +173,7 @@ class QM_Dispatcher_Html extends QM_Dispatcher {
 
 	}
 
-	public function active() {
+	public function is_active() {
 
 		if ( ! $this->qm->user_can_view() ) {
 			return false;
