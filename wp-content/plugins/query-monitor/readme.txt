@@ -1,9 +1,9 @@
 === Query Monitor ===
 Contributors: johnbillion
-Tags: debug, debugging, development, developer, performance, profiler, profiling, queries
+Tags: debug, debugging, development, developer, performance, profiler, profiling, queries, query monitor
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 2.6.4
+Stable tag: 2.6.8
 License: GPLv2 or later
 
 View debugging and performance information on database queries, hooks, conditionals, HTTP requests, redirects and more.	
@@ -12,7 +12,7 @@ View debugging and performance information on database queries, hooks, condition
 
 Query Monitor is a debugging plugin for anyone developing with WordPress. It has some advanced features not available in other debugging plugins, including automatic AJAX debugging and the ability to narrow down things by plugin or theme.
 
-For complete information, please see [Query Monitor's GitHub repo](https://github.com/johnbillion/QueryMonitor).
+For complete information, please see [the Query Monitor home page](https://querymonitor.com/) or [Query Monitor's GitHub repo](https://github.com/johnbillion/QueryMonitor).
 
 Here's an overview of what's shown:
 
@@ -129,9 +129,13 @@ In addition to this, you can set an authentication cookie which allows you to vi
 
 Short answer: Yes, but only a little.
 
-Long answer: Query Monitor has a small impact on page generation time because it hooks into a few places in WordPress in the same way that other plugins do. The impact is negligable.
+Long answer: Query Monitor has a small impact on page generation time because it hooks into a few places in WordPress in the same way that other plugins do. The impact is negligible.
 
 On pages that have an especially high number of database queries (in the hundreds), Query Monitor currently uses more memory than I would like it to. This is due to the amount of data that is captured in the stack trace for each query. I have been and will be working to continually reduce this.
+
+= Are there any add-on plugins for Query Monitor? =
+
+Yep, the first one was released recently: [Query Monitor bbPress & BuddyPress Conditionals](https://wordpress.org/plugins/query-monitor-bbpress-buddypress-conditionals/) by Stephen Edgar.
 
 = Where can I suggest a new feature or report a bug? =
 
@@ -141,7 +145,36 @@ Please use [the issue tracker on Query Monitor's GitHub repo](https://github.com
 
 No, I do not accept donations. If you like the plugin, I'd love for you to [leave a review](http://wordpress.org/support/view/plugin-reviews/query-monitor). Tell all your friends about the plugin too!
 
+== Upgrade Notice ==
+
+= 2.6.8 =
+* Misc minor bugfixes. Nothing to get excited about.
+
 == Changelog ==
+
+= 2.6.8 =
+* RTL layout tweaks
+* Correct the component detection logic so it's more accurate
+* Re-implement output on the login screen which went missing
+* Display a few more proxy and debugging related constants
+
+= 2.6.7 =
+* Use an actual authentication cookie instead of a nonce in the Authentication component
+* Implement some extra methods of determining the current user/group
+* Move the loading of dispatchers to the `plugins_loaded` hook so plugins can add their own
+* Misc performance improvements
+
+= 2.6.6 =
+* More robust support for alternative database drivers (including `mysqli` in core)
+* Avoid warnings and notices when a custom database class is in place and it's not saving queries (ie. HyperDB)
+* Better handling when certain functions (such as `memory_get_peak_usage()`) are disabled
+
+= 2.6.5 =
+* Avoid the "Class 'QM_Backtrace' not found" error
+* Correct the layout of the Slow Queries and Query Errors panels
+* Move back-compat CSS into its own file
+* Huge simplification of code in `db.php` by using `parent::query()`
+* Misc visual tweaks
 
 = 2.6.4 =
 * Introduce sortable columns for database query times and numbers

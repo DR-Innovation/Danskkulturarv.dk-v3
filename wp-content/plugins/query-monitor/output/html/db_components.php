@@ -55,15 +55,13 @@ class QM_Output_Html_DB_Components extends QM_Output_Html {
 
 			echo '<tbody>';
 
-			usort( $data['times'], 'QM_Util::sort' );
-
-			foreach ( $data['times'] as $component => $row ) {
+			foreach ( $data['times'] as $row ) {
 				$total_time  += $row['ltime'];
 				$total_calls += $row['calls'];
 				$stime = number_format_i18n( $row['ltime'], 4 );
 
 				echo '<tr>';
-				echo "<td valign='top' class='qm-ltr'>{$row['component']}</td>";
+				echo "<td valign='top'>{$row['component']}</td>";
 
 				foreach ( $data['types'] as $type_name => $type_count ) {
 					if ( isset( $row['types'][$type_name] ) )

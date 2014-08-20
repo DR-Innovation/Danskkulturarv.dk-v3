@@ -32,14 +32,24 @@ abstract class QM_Collector {
 	}
 
 	public static function format_bool_constant( $constant ) {
-		if ( !defined( $constant ) or !constant( $constant ) )
+		if ( !defined( $constant ) ) {
+			return 'undefined';
+		} else if ( !constant( $constant ) ) {
 			return 'false';
-		else
+		} else {
 			return 'true';
+		}
 	}
 
 	final public function get_data() {
 		return $this->data;
+	}
+
+	public static function sort_ltime( $a, $b ) {
+		if ( $a['ltime'] == $b['ltime'] )
+			return 0;
+		else
+			return ( $a['ltime'] > $b['ltime'] ) ? -1 : 1;
 	}
 
 	public function process() {}

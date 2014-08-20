@@ -1,10 +1,10 @@
 === Easy WP SMTP ===
 Contributors: wpecommerce
 Donate link: http://wp-ecommerce.net/?p=2197
-Tags: mail, wordpress smtp, phpmailer, smtp, wp_mail, email, gmail, outgoing mail, privacy, security, sendmail, ssl, tls, wp-phpmailer, mail smtp, wp smtp
+Tags: mail, wordpress smtp, phpmailer, smtp, wp_mail, email, gmail, outgoing mail, privacy, security, sendmail, ssl, tls, wp-phpmailer, mail smtp, wp smtp 
 Requires at least: 3.0
-Tested up to: 3.6
-Stable tag: 1.0.4
+Tested up to: 3.9
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,7 +37,6 @@ The general settings section consists of the following options
 * SMTP Authentication: No/Yes (This option should always be checked "Yes")
 * Username: The username that you use to login to your mail server
 * Password: The password that you use to login to your mail server
-* Enable Debug: Use this option if you are having issues with sending emails since it allows you to see the SMTP debug output on the screen.
 
 For detailed documentation on how you can configure these options please visit the [Easy WordPress SMTP](http://wp-ecommerce.net/easy-wordpress-smtp-send-emails-from-your-wordpress-site-using-a-smtp-server-2197) plugin page
 
@@ -69,19 +68,58 @@ Yes.
 
 For screenshots please visit the [Easy WordPress SMTP](http://wp-ecommerce.net/easy-wordpress-smtp-send-emails-from-your-wordpress-site-using-a-smtp-server-2197) plugin page
 
+== Other Notes ==
+
+Inspired by [WP Mail SMTP](http://wordpress.org/plugins/wp-mail-smtp/) plugin
+
+
 == Changelog ==
 
-= 1.0.1 =
-* First commit of the plugin
+= 1.1.1 =
 
-= 1.0.2 =
-* Fixed a bug where the debug output was being displayed on the front end
+* Fixed an issue where the plugin CSS was affecting other input fields on the admin side.
 
-= 1.0.3 =
-* Added a new option to the settings which allows a user to enable/disable SMTP debug
+= 1.1.0 =
+
+* "The settings have been changed" notice will only be displayed if a input field is changed
+
+= 1.0.9 =
+
+* Fixed some bugs in the SMTP configuration and mail functionality
+
+= 1.0.8 =
+
+* Plugin now works with WordPress 3.9
+
+= 1.0.7 =
+
+* Plugin now works with WordPress 3.8
+
+= 1.0.6 =
+
+* Plugin is now compatible with WordPress 3.7
+
+= 1.0.5 =
+
+* "Reply-To" text will no longer be added to the email header
+* From Name field can now contain quotes. It will no longer be converted to '\'
 
 = 1.0.4 =
+
 * Plugin is now compatible with WordPress 3.6
 
+= 1.0.3 =
+
+* Added a new option to the settings which allows a user to enable/disable SMTP debug
+
+= 1.0.2 =
+
+* Fixed a bug where the debug output was being displayed on the front end
+
+= 1.0.1 =
+
+* First commit of the plugin
+
 == Upgrade Notice ==
-none
+
+There were some major changes in version 1.0.8. So you will need to reconfigure the SMTP options after the upgrade.
