@@ -16,13 +16,13 @@ function origin_widgets_init(){
 		$class = str_replace(' ', '_', $class);
 
 		$class = 'SiteOrigin_Panels_Widget_'.$class;
-		if(class_exists($class)) register_widget($class);
+		if( class_exists($class) ) register_widget($class);
 	}
 }
 add_action('widgets_init', 'origin_widgets_init');
 
 function origin_widgets_enqueue($prefix){
-	if($prefix == 'widgets.php') wp_enqueue_script('origin-widgets-admin-script', plugin_dir_url(SITEORIGIN_PANELS_BASE_FILE) . 'widgets/js/admin.min.js', array('jquery'), SITEORIGIN_PANELS_VERSION);
+	if($prefix == 'widgets.php') wp_enqueue_script('origin-widgets-admin-script', plugin_dir_url(SITEORIGIN_PANELS_BASE_FILE).'/widgets/js/admin.min.js', array('jquery'), SITEORIGIN_PANELS_VERSION);
 }
 add_action('admin_enqueue_scripts', 'origin_widgets_enqueue');
 
@@ -150,19 +150,6 @@ abstract class SiteOrigin_Panels_Widget extends WP_Widget{
 	 * @return string|void
 	 */
 	public function form($instance){
-
-		?>
-		<p>
-			<?php _e("We're moving this widget into a separate plugin in order to keep Page Builder core light weight.", 'siteorigin-panels') ?>
-			<?php
-			printf(
-				__("Either find an alternative in our <a href='%s' target='_blank'>recommended widgets</a> or install the <a href='%s' target='_blank'>Legacy Widgets plugin</a> to continue using it.", 'siteorigin-panels'),
-				admin_url('plugin-install.php?tab=favorites&user=siteorigin-pagebuilder'),
-				'http://siteorigin.com/page-builder-legacy-widgets/'
-			)
-			?>
-		</p>
-		<?php
 
 		foreach($this->form_args as $field_id => $field_args) {
 			if(isset($field_args['default']) && !isset($instance[$field_id])) {
@@ -389,7 +376,7 @@ abstract class SiteOrigin_Panels_Widget extends WP_Widget{
 		}
 		if(empty($style_file)) return '';
 
-		if(!class_exists('lessc')) include plugin_dir_path(__FILE__).'lib/lessc.inc.php';
+		if( !class_exists('lessc') ) include plugin_dir_path(__FILE__) . 'lib/lessc.inc.php';
 
 		foreach($this->get_widget_folders() as $folder => $folder_url) {
 			$filename = rtrim($folder, '/') . '/' . $this->origin_id.'/styles/'.$style.'.less';

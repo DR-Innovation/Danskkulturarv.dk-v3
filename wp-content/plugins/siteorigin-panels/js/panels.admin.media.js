@@ -4,11 +4,11 @@
  * @copyright Greg Priday 2013
  * @license GPL 2.0 http://www.gnu.org/licenses/gpl-2.0.html
  */
-
 jQuery(function($){
+    if( typeof wp == 'undefined' || !wp.media || !wp.media.editor ) return;
 
     var originalInsert = wp.media.editor.insert;
-    
+
     wp.media.editor.insert = function(h){
 
         // Check that panels tab is active and that no dialogs are open.
@@ -76,6 +76,9 @@ jQuery(function($){
         originalInsert(h);
     }
 
+});
+
+jQuery(function($){
     // When the user clicks on the select button, we need to display the gallery editing
     $('body').on({
         click: function(event){
@@ -101,12 +104,12 @@ jQuery(function($){
                 dialog.find('input[name$="[ids]"]' ).val(ids.join(','));
             });
 
-            frame.on('escape', function(){
+            frame.on( 'escape', function(){
                 // Reopen the dialog
                 dialog.find('.ui-dialog-content' ).dialog('open');
-            });
+            } );
 
             return false;
         }
     }, '.so-gallery-widget-select-attachments');
-});
+})

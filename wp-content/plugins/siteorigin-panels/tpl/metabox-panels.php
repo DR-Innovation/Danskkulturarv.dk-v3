@@ -1,6 +1,6 @@
 <?php
 global $wp_widget_factory;
-$layouts = apply_filters('siteorigin_panels_prebuilt_layouts', array());
+$layouts = apply_filters( 'siteorigin_panels_prebuilt_layouts', array() );
 ?>
 
 <div id="panels" data-animations="<?php echo siteorigin_panels_setting('animations') ? 'true' : 'false' ?>">
@@ -58,13 +58,13 @@ $layouts = apply_filters('siteorigin_panels_prebuilt_layouts', array());
 		<p><input type="text" id="grid-add-dialog-input" name="column_count" class="small-text" value="3" /></p>
 	</div>
 
-	<?php // The layouts dialog ?>
+	<?php // The prebuilt layouts dialog ?>
 
 	<?php if(!empty($layouts)) : ?>
 		<div id="grid-prebuilt-dialog" data-title="<?php esc_attr_e('Insert Prebuilt Page Layout','siteorigin-panels') ?>" class="panels-admin-dialog">
 			<p><label><strong><?php _e('Page Layout', 'siteorigin-panels') ?></strong></label></p>
 			<p>
-				<select type="text" id="grid-prebuilt-input" name="prebuilt_layout" style="width:580px;" placeholder="<?php esc_attr_e('Select Layout', 'siteorigin-panels') ?>" >
+				<select type="text" id="grid-prebuilt-input" name="prebuilt_layout" style="width:568px;" placeholder="<?php esc_attr_e('Select Layout', 'siteorigin-panels') ?>" >
 					<option class="empty" <?php selected(true) ?> value=""></option>
 					<?php foreach($layouts as $id => $data) : ?>
 						<option id="panel-prebuilt-<?php echo esc_attr($id) ?>" data-layout-id="<?php echo esc_attr($id) ?>" class="prebuilt-layout">
