@@ -290,12 +290,12 @@ class JR_InstagramSlider extends WP_Widget {
 			$user_options = compact('username', 'cache_hours', 'nr_images');
 			
 			update_option( $opt_name, $user_options );
-			
+
 			if ( $json['response']['code'] == 200 ) {
 	
 				$json 	  = $json['body'];
-				$json     = strstr( $json, '{"entry_data"' );
-
+				$json     = strstr( $json, 'window._sharedData = ' );
+				$json     = str_replace('window._sharedData = ', '', $json);
 				// Compatibility for version of php where strstr() doesnt accept third parameter
 				if ( version_compare( phpversion(), '5.3.10', '<' ) ) {
 					$json = substr( $json, 0, strpos($json, '</script>' ) );
@@ -304,7 +304,7 @@ class JR_InstagramSlider extends WP_Widget {
 				}
 				
 				$json     = rtrim( $json, ';' );
-				
+
 				// Function json_last_error() is not available before PHP * 5.3.0 version
 				if ( function_exists( 'json_last_error' ) ) {
 				
