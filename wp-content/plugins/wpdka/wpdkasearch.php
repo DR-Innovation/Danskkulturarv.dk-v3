@@ -9,6 +9,7 @@
  * Dansk Kulturarv and registers attributes
  * for WPChaosObject
  */
+
 class WPDKASearch {
 	
 	const QUERY_KEY_TYPE = 'med';
@@ -40,19 +41,25 @@ class WPDKASearch {
 			'title' => 'Udgivelsestid',
 			'link' => 'udgivelse',
 			'chaos-value' => 'DKA-FirstPublishedDate_date+asc'
-		),
+		)
 	);
 
 	/**
 	 * Construct
 	 */
 	public function __construct() {
+
+		self::$sorts['nyt-paa-dka'] = array(
+			'title' => 'Nyt på DKA',
+			'link'  => 'nyt-paa-dka',
+			'chaos-value' => 'ap' . strtolower(get_option('wpchaos-accesspoint-guid')) . '_PubStart+desc'
+		);
 		
 		add_filter('wpchaos-head-meta',array(&$this,'set_search_meta'),99);
 
 		WPChaosSearch::register_search_query_variable(2, WPDKASearch::QUERY_KEY_ORGANIZATION, '[\w-]+?', true, '-');
 		WPChaosSearch::register_search_query_variable(3, WPDKASearch::QUERY_KEY_TYPE, '[\w-]+?', true, '-');
-		
+
 		// Define the free-text search filter.
 		$this->define_search_filters();
 		add_filter('wpchaos-solr-sort',array(&$this,'map_chaos_sorting'),10,2);
