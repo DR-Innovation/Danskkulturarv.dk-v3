@@ -411,20 +411,23 @@ class WPDKA {
 		$object = $objects[0];
 		if ($publish) {
 			// Only publish if curator was the one unpublishing in the first place.
-			if ($object->unpublishedByCurator) {
-				// Resetting unpublishedByCurator to false again.
-				try {
-					$metadataXML = $object->get_metadata(WPDKAObject::DKA2_SCHEMA_GUID);
-					$unpublishedByCurator = $metadataXML->xpath('/dka2:DKA');
-					unset($unpublishedByCurator[0]->unpublishedByCurator);
-					
-					// Do not refresh client
-					$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false);
-					
-				} catch(\Exception $e) {
-					error_log('CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage());
-					echo 'CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage();
-					die();
+			// If WP_DEBUG the curator is still able republish.
+			if ($object->unpublishedByCurator || WP_DEBUG) {
+				// Removing unpublishedByCurator
+				if ($object->unpublishedByCurator) {
+					try {
+						$metadataXML = $object->get_metadata(WPDKAObject::DKA2_SCHEMA_GUID);
+						$unpublishedByCurator = $metadataXML->xpath('/dka2:DKA');
+						unset($unpublishedByCurator[0]->unpublishedByCurator);
+						
+						// Do not refresh client
+						$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false);
+						
+					} catch(\Exception $e) {
+						error_log('CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage());
+						echo 'CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage();
+						die();
+					}
 				}
 				
 				// Sets accesspoint (publish)
