@@ -421,22 +421,21 @@ class WPDKA {
 						unset($unpublishedByCurator[0]->unpublishedByCurator);
 						
 						// Do not refresh client
-						$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false);
-						
+						if ($object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false)) {
+							// Sets accesspoint (publish)
+							$serviceResult = WPChaosClient::instance()->Object()->SetPublishSettings(
+								$_POST['object_guid'], // objectGUID
+								get_option('wpchaos-accesspoint-guid'), // accessPointGUID
+								new DateTime('NOW'), // startDate
+								null // endDate
+							);
+						}
 					} catch(\Exception $e) {
 						error_log('CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage());
 						echo 'CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage();
 						die();
 					}
 				}
-				
-				// Sets accesspoint (publish)
-				$serviceResult = WPChaosClient::instance()->Object()->SetPublishSettings(
-					$_POST['object_guid'], // objectGUID
-					get_option('wpchaos-accesspoint-guid'), // accessPointGUID
-					new DateTime('NOW'), // startDate
-					null // endDate
-				);
 
 				$response = array(
 					'<div class="alert alert-success">' . __('Object is now republished and is visible for other viewers again.', 'wpdka') . '</div>'
@@ -452,21 +451,21 @@ class WPDKA {
 				$metadataXML = $object->get_metadata(WPDKAObject::DKA2_SCHEMA_GUID);
 				$unpublishedByCurator = $metadataXML->xpath('/dka2:DKA');
 				$unpublishedByCurator[0]->unpublishedByCurator = 'true';
-				$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
-				
+				if ($object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA2_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE)) {
+					// Sets accesspoint, but removing startDate (unpublish)
+					$serviceResult = WPChaosClient::instance()->Object()->SetPublishSettings(
+						$_POST['object_guid'], // objectGUID
+						get_option('wpchaos-accesspoint-guid'), // accessPointGUID
+						null, // startDate
+						null // endDate
+					);
+				}
 			} catch(\Exception $e) {
+				echo 'lalalalalalalalalaalalalalalalalalalalalala';
 				error_log('CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage());
 				echo 'CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage();
 				die();
 			}
-
-			// Sets accesspoint, but removing startDate (unpublish)
-			$serviceResult = WPChaosClient::instance()->Object()->SetPublishSettings(
-				$_POST['object_guid'], // objectGUID
-				get_option('wpchaos-accesspoint-guid'), // accessPointGUID
-				null, // startDate
-				null // endDate
-			);
 
 			$response = array(
 				'<div class="alert alert-danger">' . __('Object is now unpublished and is <strong>not</strong> visible for other viewers.', 'wpdka') . '</div>'
