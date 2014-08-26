@@ -26,7 +26,7 @@
                         $('.single-material .publishinfo').html(data);
                         setTimeout(function() {
                             location.reload(true);
-                        }, 3000);
+                        }, 1000);
                     },
                     error: function(errorThrown) {
                         $('.single-material .publishinfo').html(WPDKAPublish.error);
