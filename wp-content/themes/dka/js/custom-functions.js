@@ -20,6 +20,11 @@
             this.addToggleAllListener();
             this.addFlexSliders();
             this.socialSharePopup();
+            this.focusSearchBar();
+        },
+
+        focusSearchBar: function() {
+        	$('input[name="' + dka.query_key_freetext + '"]').focus();
         },
 
         /**
