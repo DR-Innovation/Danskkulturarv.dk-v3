@@ -50,7 +50,7 @@ h1 {
 
 select {
 	height: 26px;
-	padding: 0 1.65em;
+	/*padding: 0 1.65em;*/
 	width: 100%;
 	border: none;
 }
