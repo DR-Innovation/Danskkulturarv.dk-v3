@@ -50,7 +50,7 @@ class WPDKASearch {
 	public function __construct() {
 
 		self::$sorts['nyt-paa-dka'] = array(
-			'title' => 'Nyt på DKA',
+			'title' => 'Nyt på sitet',
 			'link'  => 'nyt-paa-dka',
 			'chaos-value' => 'ap' . strtolower(get_option('wpchaos-accesspoint-guid')) . '_PubStart+desc'
 		);
