@@ -143,10 +143,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'hasDKA2MetaDataSchema', function
 
 //object->published
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'published', function($value, \WPCHAOSObject $object) {
-	$time = $object->metadata(
-		array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
-		array('/dka2:DKA/dka2:FirstPublishedDate/text()', '/DKA/FirstPublishedDate/text()')
-		);
+	$time = $object->metadata(WPDKAObject::DKA2_SCHEMA_GUID, '/dka2:DKA/dka2:FirstPublishedDate/text()');
 
 	if($time) {
 		$time = strtotime($time);
