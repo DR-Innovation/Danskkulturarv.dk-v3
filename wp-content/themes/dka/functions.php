@@ -161,7 +161,7 @@ function cookie_policy_popup() {
 				<div class="col-xs-12 col-sm-offset-2 col-sm-8">
 					<h4><img class="pull-left" src="http://www.dr.dk/assets/img/cookie-icon.png">Cookie- og privatlivspolitik på <?php bloginfo( 'name' ); ?>.</h4>
 					<p>
-						Vi bruger cookies for at forbedre din oplevelse, vurdere brugen af de enkelte elementer på dr.dk og til at støtte markedsføringen af vores services. Ved at klikke videre på dr.dk accepterer du vores brug af cookies.
+						Vi bruger cookies for at forbedre din oplevelse, vurdere brugen af de enkelte elementer på <?php bloginfo( 'name' ); ?> og til at støtte markedsføringen af vores services. Ved at klikke videre på <?php bloginfo( 'name' ); ?> accepterer du vores brug af cookies.
 						<a class="dr-link" href="http://www.dr.dk/service/privatlivspolitik/">Læs mere</a>
 					</p>
 					<button type="button" class="exit exitlg btn btn-primary hidden-xs">OK</button>
