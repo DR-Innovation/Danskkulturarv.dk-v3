@@ -411,8 +411,7 @@ class WPDKA {
 		$object = $objects[0];
 		if ($publish) {
 			// Only publish if curator was the one unpublishing in the first place.
-			// If WP_DEBUG the curator is still able republish.
-			if ($object->unpublishedByCurator || WP_DEBUG) {
+			if ($object->unpublishedByCurator) {
 				// Removing unpublishedByCurator
 				if ($object->unpublishedByCurator) {
 					try {
@@ -461,7 +460,6 @@ class WPDKA {
 					);
 				}
 			} catch(\Exception $e) {
-				echo 'lalalalalalalalalaalalalalalalalalalalalala';
 				error_log('CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage());
 				echo 'CHAOS Error when changing unpublishedByCurator state: '.$e->getMessage();
 				die();
