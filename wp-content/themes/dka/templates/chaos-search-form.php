@@ -34,6 +34,9 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
 		</div>
 		<input type="hidden" name="<?php echo WPChaosSearch::QUERY_KEY_VIEW; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_VIEW, 'esc_attr'); ?>">
 		<input type="hidden" name="<?php echo WPChaosSearch::QUERY_KEY_SORT; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_SORT, 'esc_attr'); ?>">
+		<?php if (current_user_can(WPDKA::PUBLISH_STATE_CAPABILITY)): ?>
+			<input type="hidden" name="<?php echo WPChaosSearch::QUERY_KEY_ONLY_PUBLISHED; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_ONLY_PUBLISHED, 'esc_attr'); ?>">
+		<?php endif; ?>
 	</div>
 	<div class="col-sm-3 col-md-2 hidden-xs">
 		<div class="btn-group btn-group-justified btn-group-media-type" data-toggle="buttons">

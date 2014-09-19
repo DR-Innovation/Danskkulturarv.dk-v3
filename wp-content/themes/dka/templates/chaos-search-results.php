@@ -8,6 +8,7 @@
 
 $current_view = (WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_VIEW) ? 'listview' : 'thumbnails');
 $current_sort = isset(WPDKASearch::$sorts[WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_SORT)]) ? WPDKASearch::$sorts[WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_SORT)]['title'] : WPDKASearch::$sorts[null]['title'];
+$only_published_objects = WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_ONLY_PUBLISHED) == 'publicerede';
 
 $views = array(
 	array(
@@ -45,6 +46,11 @@ $views = array(
 					echo '<a type="button" class="btn btn-default btn-sm'.($view['view'] == $current_view ? ' active' : '').'" href="'.WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_VIEW => $view['link'])).'" title="'.$view['title'].'"><i class="'.$view['class'].'"></i></a>';
 					endforeach; ?>
 				</div>
+				<?php if (current_user_can(WPDKA::PUBLISH_STATE_CAPABILITY)): ?>
+					<div class="btn-group">
+						<a type="button" class="btn btn-default btn-sm<?php echo $only_published_objects ? ' active' : ''; ?>" title="<?php _e('Only show published materials', 'dka'); ?>" href="<?php echo WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_ONLY_PUBLISHED => ($only_published_objects ? '' : 'publicerede'))); ?>"><i class="icon-eye-open"></i></a>
+					</div>
+				<?php endif; ?>
 			</div>
 			<div class="col-md-4 col-sm-6 col-xs-12 pagination-div">
 				<ul class="pagination">
