@@ -153,6 +153,28 @@ function dka_gallery_markup($output, $attr) {
 
 add_filter( 'post_gallery', 'dka_gallery_markup', 11, 2 );
 
+function cookie_policy_popup() {
+	if (!is_user_logged_in() && !isset($_COOKIE['cookie_policy_seen'])):
+		?>
+
+			<div class="footer_cookie_policy row">
+				<div class="col-xs-12 col-sm-offset-2 col-sm-8">
+					<h4><img class="pull-left" src="http://www.dr.dk/assets/img/cookie-icon.png">Cookie- og privatlivspolitik på <?php bloginfo( 'name' ); ?>.</h4>
+					<p>
+						Vi bruger cookies for at forbedre din oplevelse, vurdere brugen af de enkelte elementer på dr.dk og til at støtte markedsføringen af vores services. Ved at klikke videre på dr.dk accepterer du vores brug af cookies.
+						<a class="dr-link" href="http://www.dr.dk/service/privatlivspolitik/">Læs mere</a>
+					</p>
+					<button type="button" class="exit exitlg btn btn-primary hidden-xs">OK</button>
+				</div>
+				<div class="col-xs-12 visible-xs">
+					<button type="button" class="exit btn btn-primary btn-block">OK</button>
+				</div>
+			</div>
+		<?php
+	endif;
+}
+add_action('wp_footer', 'cookie_policy_popup');
+
 /**
  * Add responsive with 2 columns pr. row for page builder
  */

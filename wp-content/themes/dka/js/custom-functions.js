@@ -21,6 +21,18 @@
             this.addFlexSliders();
             this.socialSharePopup();
             this.focusSearchBar();
+            this.cookiePolicy();
+        },
+
+        cookiePolicy: function() {
+        	$('.footer_cookie_policy').on('click', '.exit', function(e) {
+        		e.preventDefault();
+        		var d = new Date();
+			    d.setTime(d.getTime() + (24*60*60*1000));
+			    var expires = "expires="+d.toUTCString();
+			    document.cookie = "cookie_policy_seen=true; " + expires;
+			    $('.footer_cookie_policy').remove();
+        	});
         },
 
         focusSearchBar: function() {
