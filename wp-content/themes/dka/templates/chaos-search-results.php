@@ -48,7 +48,7 @@ $views = array(
 				</div>
 				<?php if (current_user_can(WPDKA::PUBLISH_STATE_CAPABILITY)): ?>
 					<div class="btn-group">
-						<a type="button" class="btn btn-default btn-sm<?php echo $only_published_objects ? ' active' : ''; ?>" title="<?php _e('Only show published materials', 'dka'); ?>" href="<?php echo WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_ONLY_PUBLISHED => ($only_published_objects ? '' : 'publicerede'))); ?>"><i class="icon-eye-open"></i></a>
+						<a type="button" class="btn btn-default btn-sm<?php echo $only_published_objects ? ' active' : ''; ?>" title="<?php _e('Show only published objects.', 'dka'); ?>" href="<?php echo WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_ONLY_PUBLISHED => ($only_published_objects ? '' : 'publicerede'))); ?>"><i class="icon-eye-open"></i></a>
 					</div>
 				<?php endif; ?>
 			</div>
