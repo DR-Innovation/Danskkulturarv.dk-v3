@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dansk Kulturarv\n"
-"POT-Creation-Date: 2014-09-19 14:18+0100\n"
-"PO-Revision-Date: 2014-09-19 14:20+0100\n"
+"POT-Creation-Date: 2014-09-19 14:37+0100\n"
+"PO-Revision-Date: 2014-09-19 14:37+0100\n"
 "Last-Translator: \n"
 "Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
@@ -233,8 +233,8 @@ msgid "Sort by:"
 msgstr "Sorter:"
 
 #: ../templates/chaos-search-results.php:51
-msgid "Show only published objects."
-msgstr "Vis kun afpublicerede materialer."
+msgid "Show only published objects"
+msgstr "Vis kun afpublicerede materialer"
 
 #: ../templates/chaos-search-results.php:87
 msgid "material"
@@ -252,7 +252,6 @@ msgid "This object is unpublished and is not visible for other users."
 msgstr "Dette materiale er afpubliceret og ikke synlig for andre brugere."
 
 #: ../templates/multiattrwidget-sidebar.php:17
-#: ../templates/multiattrwidget-sidebar.php:24
 msgid "Republish this object again"
 msgstr "Genpublicer dette materiale igen"
 
@@ -263,17 +262,7 @@ msgstr ""
 "materiale."
 
 #: ../templates/multiattrwidget-sidebar.php:23
-msgid ""
-"Debug/test mode has been detected. You are able to republish this, but it "
-"will be unpublished by the institution as soon as the object is scanned by "
-"the harvester."
-msgstr ""
-"Debug/test tilstand er slået til. Du har nu mulighed for at genpublicere "
-"materialet, men det vil blive afpubliceret af institutionen så snart at "
-"materialet er blevet høstet igen."
-
-#: ../templates/multiattrwidget-sidebar.php:28
-#: ../templates/multiattrwidget-sidebar.php:35
+#: ../templates/multiattrwidget-sidebar.php:30
 msgid ""
 "Object is using an old metadata schema. You can not change the publish state "
 "for this object."
@@ -281,38 +270,47 @@ msgstr ""
 "Materiale benytter et gammelt metadata skema. Du kan ikke ændre "
 "publiceringen for dette materiale."
 
-#: ../templates/multiattrwidget-sidebar.php:32
+#: ../templates/multiattrwidget-sidebar.php:27
 msgid "This object is published and is visible for other users."
 msgstr "Dette materiale er publiceret og synlig for andre brugere."
 
-#: ../templates/multiattrwidget-sidebar.php:33
+#: ../templates/multiattrwidget-sidebar.php:28
 msgid "Unpublish this object"
 msgstr "Afpublicer dette materiale"
 
-#: ../templates/multiattrwidget-sidebar.php:43
+#: ../templates/multiattrwidget-sidebar.php:38
 #, php-format
 msgid "Read more at %s"
 msgstr "Læs mere hos %s"
 
-#: ../templates/multiattrwidget-sidebar.php:59
+#: ../templates/multiattrwidget-sidebar.php:54
 msgid "Embed material"
 msgstr "Embed materiale"
 
-#: ../templates/multiattrwidget-sidebar.php:68
+#: ../templates/multiattrwidget-sidebar.php:63
 msgid "Tags"
 msgstr "Tags"
 
-#: ../templates/multiattrwidget-sidebar.php:75
+#: ../templates/multiattrwidget-sidebar.php:70
 msgid "User Tags"
 msgstr "Brugertags"
 
-#: ../templates/multiattrwidget-sidebar.php:77
+#: ../templates/multiattrwidget-sidebar.php:72
 msgid "Disable"
 msgstr "Frys"
 
-#: ../templates/multiattrwidget-sidebar.php:77
+#: ../templates/multiattrwidget-sidebar.php:72
 msgid "Enable"
 msgstr "Optø"
+
+#~ msgid ""
+#~ "Debug/test mode has been detected. You are able to republish this, but it "
+#~ "will be unpublished by the institution as soon as the object is scanned "
+#~ "by the harvester."
+#~ msgstr ""
+#~ "Debug/test tilstand er slået til. Du har nu mulighed for at genpublicere "
+#~ "materialet, men det vil blive afpubliceret af institutionen så snart at "
+#~ "materialet er blevet høstet igen."
 
 #~ msgid "Full"
 #~ msgstr "Fuld"
