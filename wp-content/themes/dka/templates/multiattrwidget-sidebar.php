@@ -18,11 +18,6 @@
 				<?php else: ?> <!--Institution has unpublished object-->
 					<p><?php _e('This object is unpublished and is not visible for other users.', 'dka'); ?></p>
 					<p><?php _e('Please contact the institution if you want this object republished.', 'dka'); ?></p>
-					<?php if (WP_DEBUG): ?>
-						<hr>
-						<p><?php _e('Debug/test mode has been detected. You are able to republish this, but it will be unpublished by the institution as soon as the object is scanned by the harvester.', 'dka'); ?></p>
-						<button data-dka-publish="1" id="publishState" class="btn btn-primary btn-fat"><?php _e('Republish this object again', 'dka'); ?></button>
-					<?php endif; ?>
 				<?php endif; ?>
 			<?php else: ?>
 				<p><?php _e('Object is using an old metadata schema. You can not change the publish state for this object.', 'dka'); ?></p>

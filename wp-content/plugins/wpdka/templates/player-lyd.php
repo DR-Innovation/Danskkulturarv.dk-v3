@@ -31,25 +31,31 @@ $options = array(
 	"skin" => get_template_directory_uri() . '/lib/jwplayer/dka.xml',
 	"width" => "100%",
 	"height" => 24,
-	"logo" => array(
+	/*"logo" => array(
 		"file" => get_template_directory_uri() . '/img/dka-logo-jwplayer.png',
 		"hide" => true,
-		"link" => /*site_url()*/$object->url,
+		"link" => /*site_url()*//*$object->url,
 		"margin" => 20
-	),
+	),*/
 	"abouttext" => sprintf(__("About %s",'wpdka'),get_bloginfo('title')),
 	"aboutlink" => site_url('om'),
 	"playlist" => array(array(
 		"image" => $object->thumbnail,
 		"mediaid" => $object->GUID,
 		"sources" => $playlist_sources,
-		"title" => $object->title
+		"title" => htmlspecialchars_decode($object->title)
 	)),
 	"autostart" => $jwplayer_autostart,
 	"ga" => array(),
 );
 
 if (isset($embed) && $embed) {
+	$options['logo'] = array(
+		"file" => get_template_directory_uri() . '/img/dka-logo-jwplayer.png',
+		"hide" => true,
+		"link" => /*site_url()*/$object->url,
+		"margin" => 20
+	);
 	if (isset($start) && $start > 0) {
 		$options['startoffset'] = $start;
 	}
