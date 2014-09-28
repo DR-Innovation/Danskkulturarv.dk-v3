@@ -5349,12 +5349,19 @@ footer {
   text-transform: uppercase;
   text-decoration: underline;
 }
-.footer_cookie_policy p {
-  margin-left: 60px;
-  margin-right: 100px;
-  padding: 0;
-  display: block;
-  max-width: 700px;
+@media (min-width: 768px) {
+  .footer_cookie_policy p {
+    margin-left: 60px;
+    margin-right: 100px;
+    padding: 0;
+    display: block;
+    max-width: 700px;
+  }
+}
+@media (max-width: 767px) {
+  .footer_cookie_policy p {
+    margin-top: 25px;
+  }
 }
 .footer_cookie_policy .exitlg {
   position: absolute;
@@ -5365,8 +5372,7 @@ footer {
 .footer_cookie_policy img {
   position: absolute;
   left: 0;
-  top: 50%;
-  margin-top: -10px;
+  top: 0;
   height: 43px;
   width: auto;
 }
