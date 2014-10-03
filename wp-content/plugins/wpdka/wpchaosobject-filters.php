@@ -111,10 +111,19 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'organization_link', function($va
 
 //object->description
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'description', function($value, \WPCHAOSObject $object) {
+	require('htmlcleaner.php');
+
 	$value .= $object->metadata(
 		array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
 		array('/dka2:DKA/dka2:Description', '/DKA/Description/text()')
 		);
+	// Does $value contain any html
+	if (!strcmp( $value, strip_tags($value))) {
+		$doc = new DOMDocument();
+		$doc->loadHTML($value);
+		return htmlcleaner_clean($doc);
+	}
+
 	return $value;
 }, 10, 2);
 
