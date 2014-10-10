@@ -28,6 +28,7 @@ foreach($object->Files as $file) {
 $sharing_link = site_url($_SERVER["REQUEST_URI"]);
 $options = array(
 	"skin" => get_template_directory_uri() . '/lib/jwplayer/dka.xml',
+	"skin_embed" => get_template_directory_uri() . '/lib/jwplayer/dka.embed.xml',
 	"width" => "100%",
 	"aspectratio" => "4:3",
 	/*"logo" => array(
@@ -50,6 +51,7 @@ $options = array(
 	"autostart" => $jwplayer_autostart,
 	"ga" => array()
 );
+
 if (isset($embed) && $embed) {
 	$options['logo'] = array(
 		"file" => get_template_directory_uri() . '/img/dka-logo-jwplayer.png',

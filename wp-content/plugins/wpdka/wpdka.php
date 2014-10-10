@@ -543,9 +543,16 @@ class WPDKA {
 		echo '<div id="'.$player_id.'"><p style="text-align:center;">'.__('Loading the player ...','wpdka').'</p></div>';
 		echo '<script type="text/javascript">';
 		echo 'jQuery(document).ready(function() {';
-		echo '	jwplayer("'.$player_id.'").setup(';
-		echo json_encode($options);
-		echo '	);';
+		echo 'if ($("#' . $player_id . '").width() > 320) {';
+			echo '	jwplayer("'.$player_id.'").setup(';
+			echo json_encode($options);
+			echo '	);';
+		echo '} else {'; // Makes sure to use skin_embed with smaller font size.
+			$options['skin'] = $options['skin_embed'];
+			echo '	jwplayer("'.$player_id.'").setup(';
+			echo json_encode($options);
+			echo '	);';
+		echo '}';
 		echo 'jwplayer().onPlay(function() {';
 		echo '	$(".jwlogo").prop("title", "' . __("Go to original page", "wpdka") . '");';
 		echo '});';
