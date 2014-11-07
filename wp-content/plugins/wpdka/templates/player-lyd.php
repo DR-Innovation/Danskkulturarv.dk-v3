@@ -10,7 +10,7 @@ add_action( 'wp_footer', function() {
 	wp_enqueue_script( 'jwplayer' );
 });
 add_action( 'wp_footer', function() {
-	echo '<script type="text/javascript">jwplayer.key="'. get_option('wpdka-jwplayer-api-key') .'";</script>';
+	//echo '<script type="text/javascript">jwplayer.key="'. get_option('wpdka-jwplayer-api-key') .'";</script>';
 }, 99);
 
 $object = WPChaosClient::get_object();
@@ -65,4 +65,4 @@ if (isset($embed) && $embed) {
 	}
 }
 
-WPDKA::print_jwplayer($options);
+WPDKA::print_jwplayer($options, 'jwplayer-'.uniqid());

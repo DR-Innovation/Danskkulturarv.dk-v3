@@ -93,6 +93,8 @@ class WPDKA {
 			'error' => '<div class="alert alert-warning">' . __('Metadata schema is not valid for this object.', 'wpdka') . '</div>'
 			);
 		wp_localize_script( 'wpdka-publish', 'WPDKAPublish', $translation_array );
+		wp_enqueue_script('wpdka-player', plugins_url( 'js/player.js', __FILE__),array('jquery'), '1.0',true);
+		wp_localize_script( 'wpdka-player', 'WPDKAPlayer', array('goToOriginalPage' => __("Go to original page", "wpdka"), "jwplayerKey" => get_option('wpdka-jwplayer-api-key')));
 	}
 
 	public function load_textdomain() {
@@ -543,41 +545,7 @@ class WPDKA {
 		echo '<div id="'.$player_id.'"><p style="text-align:center;">'.__('Loading the player ...','wpdka').'</p></div>';
 		echo '<script type="text/javascript">';
 		echo 'jQuery(document).ready(function() {';
-		echo 'if ($("#' . $player_id . '").width() > 320) {';
-			echo '	jwplayer("'.$player_id.'").setup(';
-			echo json_encode($options);
-			echo '	);';
-		echo '} else {'; // Makes sure to use skin_embed with smaller font size.
-			$options['skin'] = $options['skin_embed'];
-			echo '	jwplayer("'.$player_id.'").setup(';
-			echo json_encode($options);
-			echo '	);';
-		echo '}';
-		echo 'jwplayer().onPlay(function() {';
-		echo '	$(".jwlogo").prop("title", "' . __("Go to original page", "wpdka") . '");';
-		echo '});';
-		echo 'var stopped = false; var stoptimeend = false;';
-		// Time offset. Using jwplayer seek function.
-		if (isset($options['startoffset'])) {
-			echo 'jwplayer("'.$player_id.'").onReady(function() { this.seek(parseInt(' . $options['startoffset'] . '))});';
-			// Stop player after seek
-			echo 'jwplayer("'.$player_id.'").onPlay(function () { if (!stopped) { stopped = true; this.pause(); } });';
-		}
-		// Stop time.
-		if (isset($options['stoptime'])) {
-			// Check if the player position is equal or bigger than stoptime. 
-			echo 'jwplayer("'.$player_id.'").onTime(function () { if (!stoptimeend && this.getPosition() >= ' . $options['stoptime'] . ') { stoptimeend = true; this.pause(); } });';	
-			/*echo 'jwplayer("'.$player_id.'").onPlay(function() { ';
-			echo 'if (!stoptimeend) { stoptime_interval = setInterval(function() { console.log("test"); if (!stoptimeend && jwplayer("'.$player_id.'").getPosition() >= ' . $options['stoptime'] . ') { clearInterval(stoptime_interval); stoptimeend = true; jwplayer("'.$player_id.'").pause(); } }, 1000); }';
-			echo '});';
-			echo 'jwplayer("'.$player_id.'").onIdle(function() { ';
-			echo 'clearInterval(stoptime_interval);';
-			echo '});';*/
-		}
-		// Autoplay
-		if (isset($options['autostart']) && $options['autostart']) {
-			echo 'var played = true; jwplayer("'.$player_id.'").onPause(function() { if (played && !stoptimeend) { played = false; this.play(); } });';
-		}
+		echo 'initPlayer(\'' . $player_id . '\', ' . json_encode($options) . ');';
 		echo '});';
 		echo '</script>';
 	}
