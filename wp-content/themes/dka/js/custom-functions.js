@@ -29,7 +29,7 @@
         		e.preventDefault();
         		var d = new Date();
 			    d.setTime(d.getTime() + (365*24*60*60*1000));
-			    var expires = "expires="+d.toUTCString();
+			    var expires = "expires="+d.toGMTString();
 			    document.cookie = "cookie_policy_seen=true; " + expires;
 			    $('.footer_cookie_policy').remove();
         	});
