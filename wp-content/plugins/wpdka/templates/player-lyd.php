@@ -65,4 +65,4 @@ if (isset($embed) && $embed) {
 	}
 }
 
-WPDKA::print_jwplayer($options);
+WPDKA::print_jwplayer($options, 'jwplayer-'.uniqid());
