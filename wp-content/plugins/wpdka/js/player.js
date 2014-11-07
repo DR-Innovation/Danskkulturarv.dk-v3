@@ -1,3 +1,7 @@
+$(function() {
+	jwplayerKey = WPDKAPlayer.jwplayerKey
+});
+
 function initPlayer(id, options) {
 	var player = jwplayer(id);
 	if ($('#'+id).width() <= 320) {

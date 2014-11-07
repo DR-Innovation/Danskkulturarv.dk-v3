@@ -93,9 +93,8 @@ class WPDKA {
 			'error' => '<div class="alert alert-warning">' . __('Metadata schema is not valid for this object.', 'wpdka') . '</div>'
 			);
 		wp_localize_script( 'wpdka-publish', 'WPDKAPublish', $translation_array );
-
 		wp_enqueue_script('wpdka-player', plugins_url( 'js/player.js', __FILE__),array('jquery'), '1.0',true);
-		wp_localize_script( 'wpdka-player', 'WPDKAPlayer', array('goToOriginalPage' => __("Go to original page", "wpdka")));
+		wp_localize_script( 'wpdka-player', 'WPDKAPlayer', array('goToOriginalPage' => __("Go to original page", "wpdka"), "jwplayerKey" => get_option('wpdka-jwplayer-api-key')));
 	}
 
 	public function load_textdomain() {
