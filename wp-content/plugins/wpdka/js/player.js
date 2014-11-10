@@ -21,7 +21,7 @@ function initPlayer(id, options) {
 		player.onTime(function () { if (!stoptimeend && this.getPosition() >= options['stoptime']) { stoptimeend = true; this.pause(); } });
 	}
 
-	if (options['autostart'] && options['autostart'] !== undefined) {
+	if (options['autostart']) {
 		var played = true;
 		player.onPause(function() { if (played && !stoptimeend) { played = false; this.play(); } });
 	}
