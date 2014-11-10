@@ -1,6 +1,4 @@
-$(function() {
-	jwplayerKey = WPDKAPlayer.jwplayerKey
-});
+jwplayerKey = WPDKAPlayer.jwplayerKey
 
 function initPlayer(id, options) {
 	var player = jwplayer(id);
@@ -26,7 +24,7 @@ function initPlayer(id, options) {
 
 	if (options['autostart'] && options['autostart'] !== undefined) {
 		var played = true;
-		
+		player.onPause(function() { if (played && !stoptimeend) { played = false; this.play(); } });
 	}
 
 }
