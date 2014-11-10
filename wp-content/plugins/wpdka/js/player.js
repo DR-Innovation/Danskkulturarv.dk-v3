@@ -1,5 +1,3 @@
-var jwplayerKey = WPDKAPlayer.jwplayerKey
-
 function initPlayer(id, options) {
 	var player = jwplayer(id);
 	
