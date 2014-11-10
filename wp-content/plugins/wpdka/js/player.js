@@ -1,14 +1,13 @@
-jwplayerKey = WPDKAPlayer.jwplayerKey
-
 function initPlayer(id, options) {
 	var player = jwplayer(id);
-	if ($('#'+id).width() <= 320) {
-		options['skin'] = options['skin_embed'];
-	}
-	player.setup(options);
+	
 	player.onPlay(function() {
 		$(".jwlogo").prop("title", WPDKAPlayer.goToOriginalPage);
 	});
+	if ($('#'+id).width() <= 320) {
+		options.skin = options.skin_embed;
+	}
+	player.setup(options);
 
 	var stopped = false, stoptimeend = false;
 	if (options['startoffset']  && options['startoffset'] !== undefined) {
@@ -26,5 +25,4 @@ function initPlayer(id, options) {
 		var played = true;
 		player.onPause(function() { if (played && !stoptimeend) { played = false; this.play(); } });
 	}
-
 }
