@@ -83,7 +83,7 @@ class WPDKAObjectPlayerWidget extends WPChaosWidget {
 				echo "Error in CHAOS.";
 			}
 
-			if($serviceResult->MCM()->Count() > 0) {
+			if(isset($serviceResult) && $serviceResult->MCM()->Count() > 0) {
 				$object = WPChaosObject::parseResponse($serviceResult);
 				//Set global obj to use templates
 				WPChaosClient::set_object($object[0]);		

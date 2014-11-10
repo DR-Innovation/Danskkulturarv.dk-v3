@@ -29,6 +29,7 @@ $sharing_link = site_url($_SERVER["REQUEST_URI"]);
 
 $options = array(
 	"skin" => get_template_directory_uri() . '/lib/jwplayer/dka.xml',
+	"skin_embed" => get_template_directory_uri() . '/lib/jwplayer/dka.embed.xml',
 	"width" => "100%",
 	"height" => 24,
 	/*"logo" => array(
