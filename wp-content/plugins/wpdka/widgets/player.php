@@ -95,7 +95,7 @@ class WPDKAObjectPlayerWidget extends WPChaosWidget {
 
 		if(WPChaosClient::get_object()) {
 
-			$autoplay = (isset($instance['autoplay']) ? $instance['autoplay'] : true);
+			$autoplay = (isset($instance['autoplay']) ? $instance['autoplay'] : false);
 			$alt = (isset($instance['alt']) ? $instance['alt'] : '');
 			$link = (isset($instance['link']) ? $instance['link'] : false);
 
