@@ -75,7 +75,7 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 
 		echo '<div class="col-xs-12 col-sm-4"><div class="programlisting-month"><select name="' . WPDKAProgramListings::QUERY_KEY_MONTH . '"><option value="" disabled selected>' . __('Month',WPDKAProgramListings::DOMAIN) . '</option>';
 		for ($m = 1; $m <= 12; $m++) {
-			echo '<option value="' . $m . '">' . ucfirst(__(date('F', mktime(0,0,0,$m)))) . '</option>';
+			echo '<option value="' . $m . '">' . ucfirst(__(date('F', mktime(0,0,0,$m,1)))) . '</option>';
 		}
 		echo '</select></div></div>';
 		echo '<div class="col-xs-12 col-sm-4"><div class="programlisting-day"><select name="' . WPDKAProgramListings::QUERY_KEY_DAY . '"><option value="" disabled selected>' . __('Day',WPDKAProgramListings::DOMAIN) . '</option>';

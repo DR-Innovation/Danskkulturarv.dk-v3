@@ -27,7 +27,7 @@
 					<select name="<?php echo WPDKAProgramListings::QUERY_KEY_MONTH; ?>">
 						<option value="" disabled selected><?php _e('Month', WPDKAProgramListings::DOMAIN); ?></option>
 				<?php for ($m = 1; $m <= 12; $m++): ?>
-						<option value="<?php echo $m; ?>" <?php selected($month, $m); ?>><?php echo ucfirst(__(date('F', mktime(0,0,0,$m)))); ?></option>
+						<option value="<?php echo $m; ?>" <?php selected($month, $m); ?>><?php echo ucfirst(__(date('F', mktime(0,0,0,$m,1)))); ?></option>
 				<?php endfor; ?>
 					</select>
 				</div>
