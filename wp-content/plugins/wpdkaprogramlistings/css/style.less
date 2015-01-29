@@ -1,0 +1,56 @@
+.selector() {
+	border: 1px solid #eee;
+	margin-bottom: 5px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fff url("../images/arrows.png") no-repeat 95% 50%;
+    font-weight: 700;
+	select {
+		padding: 8px;
+	    width: 130%;
+	    border: none;
+	    box-shadow: none;
+	    background: transparent;
+	    background-image: none;
+	    -webkit-appearance: none;
+
+	    &:focus {
+	    	outline: none;
+	    }
+
+		&:-moz-focusring {
+		    color: transparent;
+		    text-shadow: 0 0 0 #000;
+		}
+	}
+}
+.programlisting-year {
+	.selector();
+}
+
+.programlisting-month {
+	.selector();
+}
+
+.programlisting-day {
+	.selector();
+}
+
+.programlisting-search-results {
+	margin-bottom: 20px;
+	margin-top: 5px;
+	border-bottom: 1px solid #eee;
+
+	.programlisting-count {
+		line-height: 40px;
+		height: 40px;
+	}
+}
+
+.programlisting-results {
+	margin: 0 auto;
+	text-align: center;
+	div {
+		margin-bottom: 20px;
+	}
+}
