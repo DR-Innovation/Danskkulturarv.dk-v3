@@ -1,0 +1,75 @@
+@small-selector: 30%;
+@big-selector: 40%;
+
+.selector() {
+	box-sizing: border-box;
+	display: inline-block;
+	// background: url('../arrow.jpg') no-repeat 96% 0 #000;
+	background-color: #fff;
+	overflow: hidden;
+	padding: 0 10px;
+	select {
+		border: 1px solid #ccc;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		background: #fff;
+		box-sizing: border-box;
+		padding: 7px;
+		// width: 130%;
+		width: 100%;
+		color: #000;
+		-webkit-appearance: none;
+
+		&:-moz-focusring {
+		    color: transparent;
+		    text-shadow: 0 0 0 #000;
+		}
+	}
+}
+.programlisting-year {
+	.selector();
+	padding-left: 0;
+	width: @small-selector;
+}
+
+.programlisting-month {
+	.selector();
+	width: @big-selector;
+}
+
+.programlisting-day {
+	.selector();
+	padding-right: 0;
+	width: @small-selector;
+}
+
+.programlisting-search-results {
+	margin-bottom: 20px;
+	margin-top: 5px;
+	border-bottom: 1px solid #eee;
+
+	.programlisting-count {
+		line-height: 40px;
+		height: 40px;
+	}
+	.programlisting-year {
+		.selector();
+	}
+
+	.programlisting-month {
+		.selector();
+	}
+
+	.programlisting-day {
+		.selector();
+	}
+}
+
+.programlisting-results {
+	margin: 0 auto;
+	text-align: center;
+	canvas {
+		padding: 10px;
+	}
+}
