@@ -62,27 +62,31 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 		if (!empty($title) && empty($image)) {
 			echo $title;
 		} else if (!empty($image)) {
-			echo '<img src="' . $image . '" alt="' . $title . '" style="max-width: 200px;" />';
+			// echo '<img src="' . $image . '" alt="' . $title . '" style="max-width: 200px;" />';
+		} else {
+
 		}
+		echo '<img src="' . plugins_url( '../images/logo.jpg' , __FILE__ ) . '" alt="' . $title . '" style="max-width: 240px;" />';
 		echo $args['after_title'];
 		echo '<p>' . $instance['description'] . '</p>';
-		echo '<form method="GET" action="' . get_permalink(get_option('wpdkaprogramlistings-page')) . '">';
-		echo '<div class="programlisting-year"><select name="' . WPDKAProgramListings::QUERY_KEY_YEAR . '"><option value="" disabled selected>' . __('Year',WPDKAProgramListings::DOMAIN) . '</option>';
+		echo '<form method="GET" action="' . get_permalink(get_option('wpdkaprogramlistings-page')) . '" class="row">';
+		echo '<div class="col-xs-12 col-sm-4"><div class="programlisting-year"><select name="' . WPDKAProgramListings::QUERY_KEY_YEAR . '"><option value="" disabled selected>' . __('Year',WPDKAProgramListings::DOMAIN) . '</option>';
 		for ($y = WPDKAProgramListings::START_YEAR; $y <= WPDKAProgramListings::END_YEAR; $y++) {
 			echo '<option value="' . $y . '">' . $y . '</option>';
 		}
-		echo '</select></div>';
-		echo '<div class="programlisting-month"><select name="' . WPDKAProgramListings::QUERY_KEY_MONTH . '"><option value="" disabled selected>' . __('Month',WPDKAProgramListings::DOMAIN) . '</option>';
+		echo '</select></div></div>';
+
+		echo '<div class="col-xs-12 col-sm-4"><div class="programlisting-month"><select name="' . WPDKAProgramListings::QUERY_KEY_MONTH . '"><option value="" disabled selected>' . __('Month',WPDKAProgramListings::DOMAIN) . '</option>';
 		for ($m = 1; $m <= 12; $m++) {
 			echo '<option value="' . $m . '">' . ucfirst(__(date('F', mktime(0,0,0,$m)))) . '</option>';
 		}
-		echo '</select></div>';
-		echo '<div class="programlisting-day"><select name="' . WPDKAProgramListings::QUERY_KEY_DAY . '"><option value="" disabled selected>' . __('Day',WPDKAProgramListings::DOMAIN) . '</option>';
+		echo '</select></div></div>';
+		echo '<div class="col-xs-12 col-sm-4"><div class="programlisting-day"><select name="' . WPDKAProgramListings::QUERY_KEY_DAY . '"><option value="" disabled selected>' . __('Day',WPDKAProgramListings::DOMAIN) . '</option>';
 		for ($d = 1; $d <= 31; $d++) {
 			echo '<option value="' . $d . '">' . $d . '</option>';
 		}
-		echo '</select></div>';
-		echo '<input type="submit" value="' . __('Search') . '" class="btn btn-primary btn-block" />';
+		echo '</select></div></div>';
+		echo '<div class="col-xs-12 col-sm-12"><button type="submit" class="btn btn-primary btn-block">' . __('Search the archive', WPDKAProgramListings::DOMAIN) . '</button></div>';
 		echo '</form>';
 
 		echo '</div>';

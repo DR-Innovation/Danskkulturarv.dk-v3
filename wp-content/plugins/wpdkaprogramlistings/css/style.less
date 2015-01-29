@@ -1,25 +1,22 @@
-@small-selector: 30%;
-@big-selector: 40%;
-
 .selector() {
-	box-sizing: border-box;
-	display: inline-block;
-	// background: url('../arrow.jpg') no-repeat 96% 0 #000;
-	background-color: #fff;
-	overflow: hidden;
-	padding: 0 10px;
+	border: 1px solid #eee;
+	margin-bottom: 5px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fff url("data:image/png;base64,R0lGODlhDwAUAIABAAAAAP///yH5BAEAAAEALAAAAAAPABQAAAIXjI+py+0Po5wH2HsXzmw//lHiSJZmUAAAOw==") no-repeat 90% 50%;
+    font-weight: 700;
 	select {
-		border: 1px solid #ccc;
-		-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
-		border-radius: 3px;
-		background: #fff;
-		box-sizing: border-box;
-		padding: 7px;
-		// width: 130%;
-		width: 100%;
-		color: #000;
-		-webkit-appearance: none;
+		padding: 8px;
+	    width: 130%;
+	    border: none;
+	    box-shadow: none;
+	    background: transparent;
+	    background-image: none;
+	    -webkit-appearance: none;
+
+	    &:focus {
+	    	outline: none;
+	    }
 
 		&:-moz-focusring {
 		    color: transparent;
@@ -29,19 +26,14 @@
 }
 .programlisting-year {
 	.selector();
-	padding-left: 0;
-	width: @small-selector;
 }
 
 .programlisting-month {
 	.selector();
-	width: @big-selector;
 }
 
 .programlisting-day {
 	.selector();
-	padding-right: 0;
-	width: @small-selector;
 }
 
 .programlisting-search-results {
@@ -52,17 +44,6 @@
 	.programlisting-count {
 		line-height: 40px;
 		height: 40px;
-	}
-	.programlisting-year {
-		.selector();
-	}
-
-	.programlisting-month {
-		.selector();
-	}
-
-	.programlisting-day {
-		.selector();
 	}
 }
 

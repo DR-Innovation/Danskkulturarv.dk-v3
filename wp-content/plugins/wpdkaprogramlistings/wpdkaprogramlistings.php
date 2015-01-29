@@ -50,8 +50,8 @@ class WPDKAProgramListings {
 		add_action('template_redirect', array(&$this, 'get_programlisting_page'));
 
 		self::register_search_query_variable(1, self::QUERY_KEY_YEAR, '\d{4}', false, null, '');
-		self::register_search_query_variable(2, self::QUERY_KEY_MONTH, '\d{1,2}', false, null, '1');
-		self::register_search_query_variable(3, self::QUERY_KEY_DAY, '\d{1,2}', false, null, '1');
+		self::register_search_query_variable(2, self::QUERY_KEY_MONTH, '\d{1,2}', false, null, '');
+		self::register_search_query_variable(3, self::QUERY_KEY_DAY, '\d{1,2}', false, null, '');
 
 		add_action('init', array('WPDKAProgramListings', 'handle_rewrite_rules'));
 	}

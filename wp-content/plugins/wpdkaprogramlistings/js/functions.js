@@ -165,6 +165,8 @@ function changeMonth () {
 }
 
 $(function() {
+	changeMonth();
+    changeNumberDays();
     $('.programlisting-year select').change(function () {
         changeMonth();
         changeNumberDays();

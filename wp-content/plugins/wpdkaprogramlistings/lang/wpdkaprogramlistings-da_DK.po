@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-01-29 13:16+0100\n"
-"PO-Revision-Date: 2015-01-29 13:16+0100\n"
+"POT-Creation-Date: 2015-01-29 13:59+0100\n"
+"PO-Revision-Date: 2015-01-29 14:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
@@ -35,26 +35,25 @@ msgid_plural "program listings"
 msgstr[0] "programoversigt"
 msgstr[1] "programoversigter"
 
-#: ../templates/programlisting-search-results.php:16
+#: ../templates/programlisting-search-results.php:17
 #: ../widgets/featured.php:70
-#, fuzzy
 msgid "Year"
-msgstr "Året "
+msgstr "År"
 
-#: ../templates/programlisting-search-results.php:25
-#: ../widgets/featured.php:75
+#: ../templates/programlisting-search-results.php:27
+#: ../widgets/featured.php:76
 msgid "Month"
 msgstr "Måned"
 
-#: ../templates/programlisting-search-results.php:34
-#: ../widgets/featured.php:80
+#: ../templates/programlisting-search-results.php:37
+#: ../widgets/featured.php:81
 msgid "Day"
 msgstr "Dag"
 
-#: ../templates/programlisting-search-results.php:41
-#: ../widgets/featured.php:85
-msgid "Search"
-msgstr "Søg"
+#: ../templates/programlisting-search-results.php:45
+#: ../widgets/featured.php:86
+msgid "Search the archive"
+msgstr "Søg i arkivet"
 
 #: ../widgets/featured.php:19
 #, fuzzy
@@ -74,25 +73,25 @@ msgstr "Programoversigter"
 msgid "Search description"
 msgstr "Beskrivelse"
 
-#: ../widgets/featured.php:114
+#: ../widgets/featured.php:115
 msgid "Upload new image"
 msgstr "Indlæs nyt billede"
 
-#: ../widgets/featured.php:114
+#: ../widgets/featured.php:115
 msgid "Upload Image"
 msgstr "Indlæs billede"
 
-#: ../widgets/featured.php:116
+#: ../widgets/featured.php:117
 #, fuzzy
 msgid "Remove image"
 msgstr "Fjern"
 
-#: ../widgets/featured.php:121
+#: ../widgets/featured.php:122
 #, fuzzy
 msgid "Title:"
 msgstr "Titel"
 
-#: ../widgets/featured.php:125
+#: ../widgets/featured.php:126
 #, fuzzy
 msgid "Description:"
 msgstr "Beskrivelse"
@@ -120,6 +119,9 @@ msgstr ""
 #, php-format
 msgid "%s program listing %s"
 msgstr "%s programoversigt %s"
+
+#~ msgid "Search"
+#~ msgstr "Søg"
 
 #~ msgid "Exhibitions"
 #~ msgstr "Udstillinger"
