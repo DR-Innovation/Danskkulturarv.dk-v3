@@ -86,6 +86,9 @@ class WPDKA {
 	}
 
 	public function loadJsCss() {
+		add_action( 'wp_footer', function() {
+			echo '<script type="text/javascript">jwplayer.key="'. get_option('wpdka-jwplayer-api-key') .'";</script>';
+		}, 99);
 		wp_enqueue_script('wpdka-publish',plugins_url( 'js/publish.js' , __FILE__ ),array('jquery'),'1.0',true);
 		$translation_array = array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
@@ -94,7 +97,7 @@ class WPDKA {
 			);
 		wp_localize_script( 'wpdka-publish', 'WPDKAPublish', $translation_array );
 		wp_enqueue_script('wpdka-player', plugins_url( 'js/player.js', __FILE__),array('jquery'), '1.0',true);
-		wp_localize_script( 'wpdka-player', 'WPDKAPlayer', array('goToOriginalPage' => __("Go to original page", "wpdka"), "jwplayerKey" => get_option('wpdka-jwplayer-api-key')));
+		wp_localize_script( 'wpdka-player', 'WPDKAPlayer', array('goToOriginalPage' => __("Go to original page", "wpdka")));
 	}
 
 	public function load_textdomain() {

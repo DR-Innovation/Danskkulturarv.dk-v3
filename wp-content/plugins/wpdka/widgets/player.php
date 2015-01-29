@@ -83,7 +83,7 @@ class WPDKAObjectPlayerWidget extends WPChaosWidget {
 				echo "Error in CHAOS.";
 			}
 
-			if($serviceResult->MCM()->Count() > 0) {
+			if(isset($serviceResult) && $serviceResult->MCM()->Count() > 0) {
 				$object = WPChaosObject::parseResponse($serviceResult);
 				//Set global obj to use templates
 				WPChaosClient::set_object($object[0]);		
@@ -95,7 +95,7 @@ class WPDKAObjectPlayerWidget extends WPChaosWidget {
 
 		if(WPChaosClient::get_object()) {
 
-			$autoplay = (isset($instance['autoplay']) ? $instance['autoplay'] : true);
+			$autoplay = (isset($instance['autoplay']) ? $instance['autoplay'] : false);
 			$alt = (isset($instance['alt']) ? $instance['alt'] : '');
 			$link = (isset($instance['link']) ? $instance['link'] : false);
 
