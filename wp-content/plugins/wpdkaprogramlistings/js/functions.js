@@ -174,34 +174,3 @@ $(function() {
         changeNumberDays();
     });
 });
-
-function renderPDF(url, id) {
-    console.log("Start redering id " + id + " (" + url + ")");
-    PDFJS.getDocument(url).then(function(pdf) {
-        console.log("hehe");
-      // Using promise to fetch the page
-      pdf.getPage(1).then(function(page) {
-        console.log("test");
-        var scale = 0.8;
-        var viewport = page.getViewport(scale);
-
-        //
-        // Prepare canvas using PDF page dimensions
-        //
-        var canvas = document.getElementById(id);
-        var context = canvas.getContext('2d');
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-
-        //
-        // Render PDF page into canvas context
-        //
-        var renderContext = {
-          canvasContext: context,
-          viewport: viewport
-        };
-        page.render(renderContext);
-        console.log("rendering id " + id);
-      });
-    });
-}

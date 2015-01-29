@@ -21,9 +21,9 @@ class WPDKAProgramListings {
 
 	const FLUSH_REWRITE_RULES_OPTION_KEY = 'wpprogramlisting-flush-rewrite-rules';
 
-	const QUERY_KEY_DAY = 'day';
-	const QUERY_KEY_MONTH = 'month';
-	const QUERY_KEY_YEAR = 'year';
+	const QUERY_KEY_DAY = 'pl-day';
+	const QUERY_KEY_MONTH = 'pl-month';
+	const QUERY_KEY_YEAR = 'pl-year'; // day, month, year are reserved to Wordpress
 	const QUERY_DEFAULT_POST_SEPERATOR = '/';
 	const QUERY_PREFIX_CHAR = '/';
 
@@ -72,6 +72,7 @@ class WPDKAProgramListings {
 	 */
 	private function load_dependencies() {
 		require_once('widgets/featured.php');
+		require_once('pdfjs/pdfjs-viewer.php');
 	}
 
 	public function load_textdomain() {
@@ -349,9 +350,9 @@ class WPDKAProgramListings {
 	 */
 	public function generate_programlisting_results($args = array()) {
 		$search_vars = self::get_programlisting_vars();
-		$year = $search_vars['year'];
-		$month = $search_vars['month'];
-		$day = $search_vars['day'];
+		$year = $search_vars[self::QUERY_KEY_YEAR];
+		$month = $search_vars[self::QUERY_KEY_MONTH];
+		$day = $search_vars[self::QUERY_KEY_DAY];
 		if (empty($year) || empty($month) || empty($day)) {
 			return;
 		}

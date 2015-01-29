@@ -6,7 +6,7 @@
 		<div class="programlisting-count col-md-4 col-sm-12 col-xs-12">
 			<?php 
 				if (isset($results)) {
-					printf(__('The search gave %s %s'), count($results), _n('program listing', 'program listings', count($results)));
+					printf(__('The search gave %s %s', WPDKAProgramListings::DOMAIN), count($results), _n('program listing', 'program listings', count($results), WPDKAProgramListings::DOMAIN));
 				}
 			?>
 		</div>
@@ -46,9 +46,8 @@
 	<?php if (isset($results)): ?>
 		<?php foreach ($results as $r): ?>
 			<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-				<canvas id="<?php echo 'pdf-' . $r['_id']; ?>" class="pdf"></canvas>
-				<a title="Download" href="<?php echo $r['_source']['url']; ?>"><?php _e('Download program listing', WPDKAProgramListings::DOMAIN); ?></a>
-				<script>renderPDF("<?php echo $r['_source']['url']; ?>", "pdf-<?php echo $r['_id']; ?>");</script>
+				<?php echo do_shortcode('[pdfjs-viewer url=' . $r['_source']['url'] . ' viewer_width=600px viewer_height=700px fullscreen=true download=true print=true openfile=false]'); ?>
+				
 			</div>
 		<?php endforeach; ?>
 	<?php endif; ?>
