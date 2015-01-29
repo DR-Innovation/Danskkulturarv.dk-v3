@@ -59,14 +59,11 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 
 		echo '<div class="programlisting-search">';
 		echo $args['before_title'];
-		if (!empty($title) && empty($image)) {
-			echo $title;
-		} else if (!empty($image)) {
-			// echo '<img src="' . $image . '" alt="' . $title . '" style="max-width: 200px;" />';
+		if (!empty($image)) {
+			echo '<img src="' . $image . '" alt="' . $title . '" style="max-width: 240px;" />';
 		} else {
-
+			echo '<img src="' . plugins_url( '../images/logo.jpg' , __FILE__ ) . '" alt="' . $title . '" style="max-width: 240px;" />';
 		}
-		echo '<img src="' . plugins_url( '../images/logo.jpg' , __FILE__ ) . '" alt="' . $title . '" style="max-width: 240px;" />';
 		echo $args['after_title'];
 		echo '<p>' . $instance['description'] . '</p>';
 		echo '<form method="GET" action="' . get_permalink(get_option('wpdkaprogramlistings-page')) . '" class="row">';
