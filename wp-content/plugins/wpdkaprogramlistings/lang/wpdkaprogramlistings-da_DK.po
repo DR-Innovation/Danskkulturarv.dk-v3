@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-01-29 13:59+0100\n"
-"PO-Revision-Date: 2015-01-29 14:00+0100\n"
+"POT-Creation-Date: 2015-01-30 10:11+0100\n"
+"PO-Revision-Date: 2015-01-30 10:12+0100\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
@@ -24,39 +24,31 @@ msgstr ""
 msgid "View fullscreen"
 msgstr "Vis i fuldskærm"
 
-#: ../templates/programlisting-search-results.php:9
-#, php-format
-msgid "The search gave %s %s"
-msgstr "Søgning gav %s %s"
-
-#: ../templates/programlisting-search-results.php:9
-msgid "program listing"
-msgid_plural "program listings"
-msgstr[0] "programoversigt"
-msgstr[1] "programoversigter"
-
-#: ../templates/programlisting-search-results.php:17
+#: ../templates/programlisting-search-results.php:18
 #: ../widgets/featured.php:70
 msgid "Year"
 msgstr "År"
 
-#: ../templates/programlisting-search-results.php:27
+#: ../templates/programlisting-search-results.php:28
 #: ../widgets/featured.php:76
 msgid "Month"
 msgstr "Måned"
 
-#: ../templates/programlisting-search-results.php:37
+#: ../templates/programlisting-search-results.php:38
 #: ../widgets/featured.php:81
 msgid "Day"
 msgstr "Dag"
 
-#: ../templates/programlisting-search-results.php:45
+#: ../templates/programlisting-search-results.php:46
 #: ../widgets/featured.php:86
 msgid "Search the archive"
 msgstr "Søg i arkivet"
 
+#: ../templates/programlisting-search-results.php:56
+msgid "Download program listing"
+msgstr "Hent programoversigt"
+
 #: ../widgets/featured.php:19
-#, fuzzy
 msgid "DKA Featured Program Listings"
 msgstr "DKA Fremhævede samlinger"
 
@@ -69,9 +61,8 @@ msgid "Program Listings"
 msgstr "Programoversigter"
 
 #: ../widgets/featured.php:26
-#, fuzzy
 msgid "Search description"
-msgstr "Beskrivelse"
+msgstr "Søge beskrivelse"
 
 #: ../widgets/featured.php:115
 msgid "Upload new image"
@@ -82,19 +73,16 @@ msgid "Upload Image"
 msgstr "Indlæs billede"
 
 #: ../widgets/featured.php:117
-#, fuzzy
 msgid "Remove image"
-msgstr "Fjern"
+msgstr "Fjern billede"
 
 #: ../widgets/featured.php:122
-#, fuzzy
 msgid "Title:"
-msgstr "Titel"
+msgstr "Titel:"
 
 #: ../widgets/featured.php:126
-#, fuzzy
 msgid "Description:"
-msgstr "Beskrivelse"
+msgstr "Beskrivelse:"
 
 #: ../wpdkaprogramlistings.php:105
 msgid "WordPress program listing Search"
@@ -105,9 +93,8 @@ msgid "Rewrite rules flushed .."
 msgstr "Rewrite rules nulstillet .."
 
 #: ../wpdkaprogramlistings.php:135
-#, fuzzy
 msgid "Page for program listing results"
-msgstr "Side til søgeresultater"
+msgstr "Side til programoversigt søgeresultater"
 
 #: ../wpdkaprogramlistings.php:140
 #, fuzzy
@@ -119,6 +106,9 @@ msgstr ""
 #, php-format
 msgid "%s program listing %s"
 msgstr "%s programoversigt %s"
+
+#~ msgid "The search gave %s %s"
+#~ msgstr "Søgning gav %s %s"
 
 #~ msgid "Search"
 #~ msgstr "Søg"
