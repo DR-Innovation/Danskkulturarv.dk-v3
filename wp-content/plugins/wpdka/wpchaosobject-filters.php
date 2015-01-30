@@ -120,7 +120,8 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'description', function($value, \
 	// Does $value contain any html
 	if (!strcmp( $value, strip_tags($value))) {
 		$doc = new DOMDocument();
-		$doc->loadHTML($value);
+		$doc->loadHTML('<?xml encoding="UTF-8">' . $value);
+		$doc->encoding = 'UTF-8';
 		return htmlcleaner_clean($doc);
 	}
 
