@@ -61,7 +61,7 @@ class WPDKAProgramListings {
 	 */
 	public function loadJsCss() {
 		wp_enqueue_style('dka-programlisting-style',plugins_url( 'css/style.css' , __FILE__ ));
-		wp_enqueue_script('dka-programlisting-script',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery', 'pdfjs'));
+		wp_enqueue_script('dka-programlisting-script',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery'));
 	}
 
 	/**
@@ -366,7 +366,11 @@ class WPDKAProgramListings {
 		$searchParams['index'] = self::ES_INDEX;
 		$searchParams['type']  = self::ES_TYPE;
 		$searchParams['body']['query']['match']['date'] = sprintf("%s-%s-%s", $year, $month, $day);
-		$queryResponse = $client->search($searchParams);
+		try {
+			$queryResponse = $client->search($searchParams);
+		} catch (\Exception $e) {
+			return;
+		}
 
 		self::$search_results = $queryResponse['hits']['hits'];
 	}
