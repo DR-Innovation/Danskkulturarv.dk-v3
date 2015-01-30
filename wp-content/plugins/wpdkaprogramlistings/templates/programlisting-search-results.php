@@ -53,7 +53,7 @@
 		<?php foreach ($results as $r): ?>
 			<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 				<?php echo do_shortcode('[pdfjs-viewer url=' . $r['_source']['url'] . ' viewer_width=600px viewer_height=700px fullscreen=true download=true print=true openfile=false]'); ?>
-				
+				<noscript><a href="<?php echo $r['_source']['url']; ?>" alt="Download PDF"><?php _e('Download program listing', WPDKAProgramListings::DOMAIN); ?></a></noscript>
 			</div>
 		<?php endforeach; ?>
 	<?php endif; ?>
