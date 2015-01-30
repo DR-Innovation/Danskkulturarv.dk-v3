@@ -62,8 +62,6 @@ class WPDKAProgramListings {
 	public function loadJsCss() {
 		wp_enqueue_style('dka-programlisting-style',plugins_url( 'css/style.css' , __FILE__ ));
 		wp_enqueue_script('dka-programlisting-script',plugins_url( 'js/functions.js' , __FILE__ ),array('jquery', 'pdfjs'));
-		wp_enqueue_script('pdfjs',plugins_url( 'js/pdfjs/build/pdf.js' , __FILE__ ),array('jquery', 'pdfworker'));
-		wp_enqueue_script('pdfworker',plugins_url( 'js/pdfjs/build/pdf.worker.js' , __FILE__ ),array('jquery'));
 	}
 
 	/**
