@@ -12,7 +12,7 @@
 			<img src="<?php echo plugins_url( '../images/logo.jpg' , __FILE__ ); ?>" alt="TV og Radio" style="vertical-align: top; max-width: 210px;" />
 		</div>
 		<div class="col-lg-7 col-md-8 col-sm-12 col-xs-12">
-			<div class="col-xs-3 col-md-3 col-sm-3">
+			<div class="col-xs-12 col-md-3 col-sm-3">
 				<div class="programlisting-year">
 					<select name="<?php echo WPDKAProgramListings::QUERY_KEY_YEAR; ?>">
 						<option value="" disabled selected><?php _e('Year', WPDKAProgramListings::DOMAIN); ?></option>
@@ -22,7 +22,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-xs-3 col-md-3 col-sm-3">
+			<div class="col-xs-12 col-md-3 col-sm-3">
 				<div class="programlisting-month">
 					<select name="<?php echo WPDKAProgramListings::QUERY_KEY_MONTH; ?>">
 						<option value="" disabled selected><?php _e('Month', WPDKAProgramListings::DOMAIN); ?></option>
@@ -32,7 +32,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-xs-3 col-md-3 col-sm-3">
+			<div class="col-xs-12 col-md-3 col-sm-3">
 				<div class="programlisting-day">
 					<select name="<?php echo WPDKAProgramListings::QUERY_KEY_DAY; ?>">
 						<option value="" disabled selected><?php _e('Day', WPDKAProgramListings::DOMAIN); ?></option>
@@ -42,7 +42,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-xs-3 col-md-3 col-sm-3">
+			<div class="col-xs-12 col-md-3 col-sm-3">
 				<button type="submit" class="btn btn-default btn-primary btn-block" style="margin-top: 1px;"><?php _e('Search the archive', WPDKAProgramListings::DOMAIN); ?></button>
 			</div>
 		</div>
