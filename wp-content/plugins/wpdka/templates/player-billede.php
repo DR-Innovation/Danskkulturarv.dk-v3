@@ -24,7 +24,11 @@ add_action( 'wp_footer', function() {
 	
 ?>
 		<li>
-			<img src="<?php echo htmlspecialchars($file->URL); ?>" alt="<?php bloginfo('name'); ?>">
+			<?php if ($link): ?>
+			<a href="<?php echo WPChaosClient::get_object()->url; ?>" title="<?php _e('Go to object', 'wpdka'); ?>">
+			<?php endif; ?>
+				<img src="<?php echo htmlspecialchars($file->URL); ?>" alt="<?php bloginfo('name'); ?>">
+			<?php if ($link) { echo '</a>'; } ?>
 		</li>
 <?php ;endforeach; ?>
 	</ul>

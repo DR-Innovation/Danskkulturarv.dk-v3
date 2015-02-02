@@ -27,7 +27,7 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
 <form method="GET" action="<?php echo $page; ?>">
 	<div class="col-sm-7 col-md-8 col-xs-9">
 		<div class="input-group">
-			<input class="form-control input-lg" id="appendedInputButton" type="text" name="<?php echo WPChaosSearch::QUERY_KEY_FREETEXT; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" placeholder="<?php echo $freetext_placeholder; ?>" />
+			<input class="form-control input-lg" maxlength="100" id="appendedInputButton" type="text" name="<?php echo WPChaosSearch::QUERY_KEY_FREETEXT; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" placeholder="<?php echo $freetext_placeholder; ?>" />
 			<span class="input-group-btn">
 				<button type="submit" class="btn btn-primary btn-search btn-lg" id="searchsubmit"><?php _ex('Search','verb','dka'); ?></button>
 			</span>

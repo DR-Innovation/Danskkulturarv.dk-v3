@@ -51,12 +51,6 @@ $options = array(
 );
 
 if (isset($embed) && $embed) {
-	$options['logo'] = array(
-		"file" => get_template_directory_uri() . '/img/dka-logo-jwplayer.png',
-		"hide" => true,
-		"link" => /*site_url()*/$object->url,
-		"margin" => 20
-	);
 	if (isset($start) && $start > 0) {
 		$options['startoffset'] = $start;
 	}

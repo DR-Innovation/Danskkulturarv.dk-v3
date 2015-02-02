@@ -53,9 +53,10 @@ $options = array(
 	"ga" => array()
 );
 
-if (isset($embed) && $embed) {
+if ($link || (isset($embed) && $embed)) {
 	$options['logo'] = array(
 		"file" => get_template_directory_uri() . '/img/dka-logo-jwplayer.png',
+		"file_mini" => get_template_directory_uri() . '/img/dka-logo-jwplayer-mini.png',
 		"hide" => true,
 		"link" => /*site_url()*/$object->url,
 		"margin" => 20

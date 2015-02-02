@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPChaosSearch\n"
-"POT-Creation-Date: 2014-10-10 00:09+0100\n"
-"PO-Revision-Date: 2014-10-10 00:10+0100\n"
+"POT-Creation-Date: 2015-01-30 14:41+0100\n"
+"PO-Revision-Date: 2015-01-30 14:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../templates/player-billede.php:17 ../wpdka.php:550
+#: ../templates/player-billede.php:17 ../wpdka.php:100
 msgid "Go to original page"
 msgstr "Gå til oprindelige side"
 
@@ -28,8 +28,12 @@ msgstr "Gå til oprindelige side"
 msgid "Image %s for %s"
 msgstr "Billede %s til %s"
 
+#: ../templates/player-billede.php:28
+msgid "Go to object"
+msgstr "Gå til materiale"
+
 #: ../templates/player-lyd-mediaelement.backup.php:34
-#: ../templates/player-lyd.php:40 ../templates/player-video.php:39
+#: ../templates/player-lyd.php:41 ../templates/player-video.php:41
 #, php-format
 msgid "About %s"
 msgstr "Om %s"
@@ -55,12 +59,8 @@ msgid "Autoplay"
 msgstr "Auto-afspil"
 
 #: ../widgets/player.php:44
-msgid "Show link"
-msgstr "Vis link"
-
-#: ../widgets/player.php:105
-msgid "Read more"
-msgstr "Læs mere"
+msgid "Link to object"
+msgstr "Link til materiale"
 
 #: ../wpchaosobject-filters.php:23
 msgid " without title"
@@ -70,42 +70,42 @@ msgstr " uden titel"
 msgid "No tags"
 msgstr "Ingen tags"
 
-#: ../wpchaosobject-filters.php:161
+#: ../wpchaosobject-filters.php:162
 msgid "Year "
 msgstr "Året "
 
-#: ../wpchaosobject-filters.php:280
+#: ../wpchaosobject-filters.php:281
 #, php-format
 msgid "%s image"
 msgid_plural "%s images"
 msgstr[0] "%s billede"
 msgstr[1] "%s billeder"
 
-#: ../wpdka.php:93
+#: ../wpdka.php:96
 msgid "Metadata schema is not valid for this object."
 msgstr "Metadata skema er ikke gyldigt for dette materiale."
 
-#: ../wpdka.php:129
+#: ../wpdka.php:134
 msgid "Dansk Kulturarv"
 msgstr "Dansk Kulturarv"
 
-#: ../wpdka.php:133
+#: ../wpdka.php:138
 msgid "Page for objects with an unknown organization."
 msgstr "Side til objekter med ukendt institution"
 
-#: ../wpdka.php:141
+#: ../wpdka.php:146
 msgid "JW Player Settings"
 msgstr "JW Player indstillinger"
 
-#: ../wpdka.php:146
+#: ../wpdka.php:151
 msgid "JW Player API key"
 msgstr "JW Player API-nøgle"
 
-#: ../wpdka.php:440
+#: ../wpdka.php:445
 msgid "Object is now republished and is visible for other viewers again."
 msgstr "Materialet er nu genpubliceret og synlig for andre brugere igen."
 
-#: ../wpdka.php:444
+#: ../wpdka.php:449
 msgid ""
 "Object is unpublished by the institution. You have no permission to publish "
 "this."
@@ -113,7 +113,7 @@ msgstr ""
 "Materialet er afpubliceret af institutionen. Du har ikke tilladelse til at "
 "publicere."
 
-#: ../wpdka.php:469
+#: ../wpdka.php:474
 msgid ""
 "Object is now unpublished and is <strong>not</strong> visible for other "
 "viewers."
@@ -121,33 +121,33 @@ msgstr ""
 "Materialet er nu afpubliceret og er <strong>ikke</strong> synlig for andre "
 "brugere."
 
-#: ../wpdka.php:514
+#: ../wpdka.php:519
 msgid "CHAOS material"
 msgid_plural "CHAOS materials"
 msgstr[0] "CHAOS materiale"
 msgstr[1] "CHAOS materialer"
 
-#: ../wpdka.php:519
+#: ../wpdka.php:524
 msgid "CHAOS material view"
 msgid_plural "CHAOS material views"
 msgstr[0] "CHAOS materialevisning"
 msgstr[1] "CHAOS materialevisninger"
 
-#: ../wpdka.php:521
+#: ../wpdka.php:526
 msgid "CHAOS material share"
 msgid_plural "CHAOS material shares"
 msgstr[0] "CHAOS materialedeling"
 msgstr[1] "CHAOS materialedelinger"
 
-#: ../wpdka.php:543
+#: ../wpdka.php:548
 msgid "Loading the player ..."
 msgstr "Henter afspiller ..."
 
-#: ../wpdka.php:644
+#: ../wpdka.php:622
 msgid "WordPress DKA"
 msgstr "WordPress DKA"
 
-#: ../wpdka.php:644
+#: ../wpdka.php:622
 #, php-format
 msgid "needs %s to be activated."
 msgstr "kræver at %s er aktiveret."
@@ -203,8 +203,11 @@ msgstr " Formatet er %s."
 msgid "%s contains %s materials about %s."
 msgstr "%s indeholder %s materialer om %s."
 
-#~ msgid "Go to %s"
-#~ msgstr "Gå til %s"
+#~ msgid "Show link"
+#~ msgstr "Vis link"
+
+#~ msgid "Read more"
+#~ msgstr "Læs mere"
 
 #~ msgid "CHAOS material like"
 #~ msgid_plural "CHAOS material likes"

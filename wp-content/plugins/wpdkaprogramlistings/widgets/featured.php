@@ -16,7 +16,7 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 		
 		parent::__construct(
 			'dka-program-listing-featured-widget',
-			__('DKA Featured Program Listings',WPDKAProgramListings::DOMAIN),
+			__('DKA Program Listings',WPDKAProgramListings::DOMAIN),
 			array( 'description' => __('Search for program listings',WPDKAProgramListings::DOMAIN) )
 		);
 

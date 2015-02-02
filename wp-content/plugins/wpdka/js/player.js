@@ -6,6 +6,9 @@ function initPlayer(id, options) {
 	});
 	if ($('#'+id).width() <= 320) {
 		options.skin = options.skin_embed;
+		if (options.logo) {
+			options.logo.file = options.logo.file_mini;
+		}
 	}
 	player.setup(options);
 

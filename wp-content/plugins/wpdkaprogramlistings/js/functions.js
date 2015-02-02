@@ -96,8 +96,12 @@ function changeMonth () {
     if ($('.programlisting-year select').val() == 1925) { // Only program listings from 23/3 1925
         earliest = 1925;
         var currentMonth = $('.programlisting-month select').val();
+        var currentDay = $('.programlisting-day select').val();
         if (currentMonth < 3) {
             $('.programlisting-month select').val(3);
+            if (currentDay < 23) {
+                $('.programlisting-day select').val(23);
+            }
         }
         for (var i = 1; i <= 12; i++) {
             if (i < 3) {
@@ -115,6 +119,10 @@ function changeMonth () {
     } else if ($('.programlisting-year select').val() == 1984) { // Only program listings to 1/1 1984
         earliest = 1984;
         $('.programlisting-month select').val(1);
+        var currentDay = $('.programlisting-day select').val();
+        if (currentDay > 1) {
+            $('.programlisting-day select').val(1);
+        }
         for (var i = 2; i <= 12; i++) {
             if (!monthOptions[i]) {
                 monthOptions[i] = $('.programlisting-month select option[value=' + i + ']');
@@ -165,7 +173,7 @@ function changeMonth () {
 }
 
 $(function() {
-	changeMonth();
+    changeMonth();
     changeNumberDays();
     $('.programlisting-year select').change(function () {
         changeMonth();

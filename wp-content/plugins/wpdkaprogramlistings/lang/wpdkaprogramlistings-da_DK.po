@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-01-30 10:11+0100\n"
-"PO-Revision-Date: 2015-01-30 10:12+0100\n"
+"POT-Creation-Date: 2015-01-30 14:31+0100\n"
+"PO-Revision-Date: 2015-01-30 14:32+0100\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
@@ -49,8 +49,8 @@ msgid "Download program listing"
 msgstr "Hent programoversigt"
 
 #: ../widgets/featured.php:19
-msgid "DKA Featured Program Listings"
-msgstr "DKA Fremhævede samlinger"
+msgid "DKA Program Listings"
+msgstr "DKA Programoversigter"
 
 #: ../widgets/featured.php:20
 msgid "Search for program listings"
@@ -106,6 +106,9 @@ msgstr ""
 #, php-format
 msgid "%s program listing %s"
 msgstr "%s programoversigt %s"
+
+#~ msgid "DKA Featured Program Listings"
+#~ msgstr "DKA Fremhævede samlinger"
 
 #~ msgid "The search gave %s %s"
 #~ msgstr "Søgning gav %s %s"
