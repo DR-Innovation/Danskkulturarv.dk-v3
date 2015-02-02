@@ -9,7 +9,7 @@
 					printf(__('The search gave %s %s', WPDKAProgramListings::DOMAIN), count($results), _n('program listing', 'program listings', count($results), WPDKAProgramListings::DOMAIN));
 				}*/
 			?>
-			<img src="<?php echo plugins_url( '../images/logo.jpg' , __FILE__ ); ?>" alt="TV og Radio" style="vertical-align: top; max-width: 210px;" />
+			<img src="<?php echo plugins_url( '../images/logo.png' , __FILE__ ); ?>" alt="TV og Radio" style="vertical-align: top; max-width: 300px; max-height: 38px;" />
 		</div>
 		<div class="col-lg-7 col-md-8 col-sm-12 col-xs-12">
 			<div class="col-xs-12 col-md-3 col-sm-3">
