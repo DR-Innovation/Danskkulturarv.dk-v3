@@ -879,7 +879,6 @@ final class WPDKACollections {
 		//For each substring in search, look for matching tags
 		if(array_key_exists(WPChaosSearch::QUERY_KEY_FREETEXT, $query_vars)) {
 			$freetext = $query_vars[WPChaosSearch::QUERY_KEY_FREETEXT];
-			$freetext = WPChaosClient::escapeSolrValue($freetext);
 			if($freetext) {
 				//Get collections by typeid, folderid and status publish
 				$query[] = '(m'.self::METADATA_SCHEMA_GUID.'_da_all:(' . $freetext . ') AND (ObjectTypeID:'.self::COLLECTIONS_TYPE_ID.') AND (FolderID:'.self::COLLECTIONS_FOLDER_ID.') AND ('.self::FACET_KEY_STATUS.':'.self::STATUS_PUBLISH.'))';
