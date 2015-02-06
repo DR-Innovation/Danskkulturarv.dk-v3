@@ -59,6 +59,9 @@ class WPDKAObject {
 	const TYPE_IMAGE = 'billede';
 	const TYPE_IMAGE_AUDIO = 'billede-lyd';
 	const TYPE_UNKNOWN = 'unknown';
+
+	const IMAGE_MAX_WIDTH = 800;
+	const IMAGE_MAX_HEIGHT = 400;
 	
 	/**
 	 * How many seconds should we wait for the CHAOS service to realize the slug has changed?
@@ -118,6 +121,16 @@ class WPDKAObject {
 		if (count($words) > $length)
 			$string = implode(' ', array_slice($words, 0, $length)) . $ellipsis;
 		return $string;
+	}
+
+	/**
+	 * Resize image server side
+	 * @author Mads Lundt <mads@socialsquare.dk>
+	 * @param 	string 	$url
+	 * @return 	string 	link to resized image
+	 */
+	public static function resizeImage($url) {
+		return sprintf('%s?src=%s&w=%s&h=%s', plugins_url( 'cimage/webroot/img.php' , __FILE__ ), $url, self::IMAGE_MAX_WIDTH, self::IMAGE_MAX_HEIGHT);
 	}
 
 	/**

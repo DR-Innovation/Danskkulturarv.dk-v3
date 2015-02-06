@@ -21,13 +21,12 @@ add_action( 'wp_footer', function() {
 	if(!isset($title) || empty($title)) {
 		$title = sprintf(esc_attr__('Image %s for %s','wpdka'),$file->Filename,WPChaosClient::get_object()->title);
 	}
-	
 ?>
 		<li>
 			<?php if ($link): ?>
 			<a href="<?php echo WPChaosClient::get_object()->url; ?>" title="<?php _e('Go to object', 'wpdka'); ?>">
 			<?php endif; ?>
-				<img src="<?php echo htmlspecialchars($file->URL); ?>" alt="<?php bloginfo('name'); ?>">
+				<img src="<?php echo strtolower(WPChaosClient::get_object()->organization) == 'smk' ? WPDKAObject::resizeImage(htmlspecialchars($file->URL)) : htmlspecialchars($file->URL); ?>" alt="<?php bloginfo('name'); ?>">
 			<?php if ($link) { echo '</a>'; } ?>
 		</li>
 <?php ;endforeach; ?>
