@@ -26,7 +26,7 @@ add_action( 'wp_footer', function() {
 			<?php if ($link): ?>
 			<a href="<?php echo WPChaosClient::get_object()->url; ?>" title="<?php _e('Go to object', 'wpdka'); ?>">
 			<?php endif; ?>
-				<img src="<?php echo strtolower(WPChaosClient::get_object()->organization) == 'smk' ? WPDKAObject::resizeImage(htmlspecialchars($file->URL)) : htmlspecialchars($file->URL); ?>" alt="<?php bloginfo('name'); ?>">
+				<img src="<?php echo strtolower(WPChaosClient::get_object()->organization_raw) == 'smk' ? WPDKAObject::resizeImage(htmlspecialchars($file->URL)) : htmlspecialchars($file->URL); ?>" alt="<?php bloginfo('name'); ?>">
 			<?php if ($link) { echo '</a>'; } ?>
 		</li>
 <?php ;endforeach; ?>
