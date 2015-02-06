@@ -23,7 +23,7 @@ class CImage
     /**
      * Constant for default image quality when not set
      */
-    const JPEG_QUALITY_DEFAULT = 100;
+    const JPEG_QUALITY_DEFAULT = 90;
 
 
 
