@@ -32,12 +32,23 @@ function changeNumberDays () {
             }
         }
 
-        if (currentYear == 1925 && currentMonth == 3) {
-            for (i = 1; i < 23; i++) {
-                if (!dayOptions[i]) {
-                    dayOptions[i] = $('.programlisting-day select option[value=' + i + ']');
+        if (currentYear == 1925) {
+            if (currentMonth == 3) {
+                for (i = 1; i < 23; i++) {
+                    if (!dayOptions[i]) {
+                        dayOptions[i] = $('.programlisting-day select option[value=' + i + ']');
+                    }
+                    $('.programlisting-day select option[value=' + i + ']').remove();
                 }
-                $('.programlisting-day select option[value=' + i + ']').remove();
+            } else {
+                for (i = 22; i >= 1; i--) {
+                    if (dayOptions[i]) {
+                        if ($('.programlisting-day select option[value=' + i + ']').length === 0) {
+                            $(dayOptions[i][0]).insertAfter('.programlisting-day select option:first-child');
+                        }
+                        delete dayOptions[i];
+                    }
+                }
             }
         }
         if (currentYear == 1984) {
