@@ -62,7 +62,7 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 		// if (!empty($image)) {
 			// echo '<img src="' . $image . '" alt="' . $title . '" style="max-width: 240px;" />';
 		// } else {
-			echo '<img src="' . plugins_url( '../images/logo.png' , __FILE__ ) . '" alt="' . $title . '" style="max-width: 338px;" />';
+			echo '<img src="' . plugins_url( '../images/logo.png' , __FILE__ ) . '" alt="' . $title . '" style="max-width: 100%;" />';
 		// }
 		echo $args['after_title'];
 		echo '<p>' . $instance['description'] . '</p>';
