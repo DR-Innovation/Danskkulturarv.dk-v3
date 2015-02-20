@@ -38,49 +38,50 @@ var dka = {
 
             // Robustness with regex. Finds time in seconds or minutes and seconds (min:sec)
             // If using thumbnail we don't need to check time start and time end since they are disabled then.
-            if (!thumbnail_string)  {
-                // Start time offset
-                if (/^(([0-9]*):)?([0-9])+$/.test(time_start)) {
-                    // Splitting minutes from seconds (if there are any)
-                    if (time_start.indexOf(':') >= 0) {
-                        var timesplit = time_start.split(':');
-                        time_offset_start = (timesplit[0] * 60) + parseInt(timesplit[1]);
-                    } else {
-                        time_offset_start = time_start;
-                    }
+            //if (!thumbnail_string)  {
+            	
+            // Start time offset
+            if (/^(([0-9]*):)?([0-9])+$/.test(time_start)) {
+                // Splitting minutes from seconds (if there are any)
+                if (time_start.indexOf(':') >= 0) {
+                    var timesplit = time_start.split(':');
+                    time_offset_start = (timesplit[0] * 60) + parseInt(timesplit[1]);
+                } else {
+                    time_offset_start = time_start;
+                }
 
-                    // If the time_start is more than 0 seconds, it will be added to the iframe html.
-                    if (time_offset_start > 0) {
-                        time_string = (getPar ? '&' : '?') + 'start=' + time_offset_start;
-                        getPar = true;
-                    } else {
-                        //$('.timeoffset').val('0:00');
-                    }
+                // If the time_start is more than 0 seconds, it will be added to the iframe html.
+                if (time_offset_start > 0) {
+                    time_string = (getPar ? '&' : '?') + 'start=' + time_offset_start;
+                    getPar = true;
                 } else {
                     //$('.timeoffset').val('0:00');
                 }
+            } else {
+                //$('.timeoffset').val('0:00');
+            }
 
-                // Stop time offset
-                if (/^(([0-9]*):)?([0-9])+$/.test(time_stop)) {
-                    // Splitting minutes from seconds (if there are any)
-                    if (time_stop.indexOf(':') >= 0) {
-                        var timesplit = time_stop.split(':');
-                        time_offset_stop = (timesplit[0] * 60) + parseInt(timesplit[1]);
-                    } else {
-                        time_offset_stop = time_stop;
-                    }
+            // Stop time offset
+            if (/^(([0-9]*):)?([0-9])+$/.test(time_stop)) {
+                // Splitting minutes from seconds (if there are any)
+                if (time_stop.indexOf(':') >= 0) {
+                    var timesplit = time_stop.split(':');
+                    time_offset_stop = (timesplit[0] * 60) + parseInt(timesplit[1]);
+                } else {
+                    time_offset_stop = time_stop;
+                }
 
-                    // If the time is more than 0 seconds and greater than time_offset_start, it will be added to the iframe html.
-                    if (time_offset_stop > 0 && time_offset_stop > time_offset_start) {
-                        time_string += (getPar ? '&' : '?') + 'stop=' + time_offset_stop;
-                        getPar = true;
-                    } else {
-                        //$('.timeoffset_stop').val('');
-                    }
+                // If the time is more than 0 seconds and greater than time_offset_start, it will be added to the iframe html.
+                if (time_offset_stop > 0 && time_offset_stop > time_offset_start) {
+                    time_string += (getPar ? '&' : '?') + 'stop=' + time_offset_stop;
+                    getPar = true;
                 } else {
                     //$('.timeoffset_stop').val('');
                 }
+            } else {
+                //$('.timeoffset_stop').val('');
             }
+            //}
 
             if (autoplay_string || thumbnail_string || time_string) {
                 $('.js-embed').text($('.js-embed').text().replace(/(\/embed)\/?([^"]*)(\")/, '$1/' + autoplay_string + thumbnail_string + time_string + '$3'));
