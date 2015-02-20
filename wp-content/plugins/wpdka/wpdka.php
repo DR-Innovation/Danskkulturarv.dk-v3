@@ -570,7 +570,7 @@ class WPDKA {
 	 * @param  string    $title
 	 * @return string
 	 */
-	public static function get_object_player(WPChaosObject $object = null, $autoplay = false, $title = '', $embed = null, $start = 0, $stoptime = false, $link = false) {
+	public static function get_object_player(WPChaosObject $object = null, $autoplay = false, $title = '', $embed = null, $start = 0, $stoptime = false, $link = false, $only_thumbnail = false) {
 		$return = "";
 
 		if($object == null && WPChaosClient::get_object()) {

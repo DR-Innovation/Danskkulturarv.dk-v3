@@ -16,6 +16,7 @@ var dka = {
             var time_offset_start = 0; // Start offset in seconds.
             var time_offset_stop = 0; // Stop offset in seconds.
             var autoplay_string = ''; // Autoplay string to set into iframe html.
+            var thumbnail_string = ''; // Thumbnail instead of the actual material
 
             // Autoplay
             if ($('.js-autoplay').is(':checked')) {
@@ -23,8 +24,22 @@ var dka = {
                 getPar = true;
             }
 
-            // Robustness with regex. Finds time in seconds or minutes and seconds (min:sec)
+            /*if ($('.js-thumbnail').is(':checked')) {
+                $('.time_option input').attr('disabled', 'disabled');
+                $('.js-autoplay').attr('disabled', 'disabled');
+                autoplay_string = '';
+                time_string = '';
+                thumbnail_string = '?thumbnail=1';
+                getPar = true;
+            } else {
+                $('.time_option input').removeAttr('disabled');
+                $('.js-autoplay').removeAttr('disabled');
+            }*/
 
+            // Robustness with regex. Finds time in seconds or minutes and seconds (min:sec)
+            // If using thumbnail we don't need to check time start and time end since they are disabled then.
+            //if (!thumbnail_string)  {
+            	
             // Start time offset
             if (/^(([0-9]*):)?([0-9])+$/.test(time_start)) {
                 // Splitting minutes from seconds (if there are any)
@@ -66,9 +81,10 @@ var dka = {
             } else {
                 //$('.timeoffset_stop').val('');
             }
+            //}
 
-            if (autoplay_string || time_string) {
-                $('.js-embed').text($('.js-embed').text().replace(/(\/embed)\/?([^"]*)(\")/, '$1/' + autoplay_string + time_string + '$3'));
+            if (autoplay_string || thumbnail_string || time_string) {
+                $('.js-embed').text($('.js-embed').text().replace(/(\/embed)\/?([^"]*)(\")/, '$1/' + autoplay_string + thumbnail_string + time_string + '$3'));
             }
         }
 
@@ -117,9 +133,10 @@ var dka = {
                 '<a href="#" onClick="$(\'.overlay\').remove(); return false;" class="exit">&times;</a>';
 
             if (embed.type != 'billede') {
-                document.querySelectorAll('.info .embed_customize')[0].innerHTML = '<div class="options"><span>' + embed.start_string + '</span><input type="text" maxlength="10" value="0:00" placeholder="0:00" class="timeoffset" />' +
+                document.querySelectorAll('.info .embed_customize')[0].innerHTML = '<div class="options time_option"><span>' + embed.start_string + '</span><input type="text" maxlength="10" value="0:00" placeholder="0:00" class="timeoffset" />' +
                     ' - <input type="text" maxlength="10" value="" class="timeoffset_stop" /></div>' +
-                    '<div class="options"><span>' + embed.autoplay_string + '</span><input style="float: right;" type="checkbox" class="js-autoplay" value="1" /></div>' +
+                    '<div class="options autplay_option"><span>' + embed.autoplay_string + '</span><input style="float: right;" type="checkbox" class="js-autoplay" value="1" /></div>' +
+                    //'<div class="options thumbnail_option"><span>' + embed.thumbnail_string + '</span><input style="float: right;" type="checkbox" class="js-thumbnail" value="1" /></div>' +
                     document.querySelectorAll('.info .embed_customize')[0].innerHTML;
             }
 
@@ -143,6 +160,10 @@ var dka = {
                 });
 
                 $('.embed_customize').on('change', '.js-autoplay', function() {
+                    dka.formChange(embed_text);
+                });
+
+                $('.embed_customize').on('change', '.js-thumbnail', function() {
                     dka.formChange(embed_text);
                 });
 

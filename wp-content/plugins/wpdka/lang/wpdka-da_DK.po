@@ -1,39 +1,47 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPChaosSearch\n"
-"POT-Creation-Date: 2015-01-30 14:41+0100\n"
-"PO-Revision-Date: 2015-01-30 14:42+0100\n"
+"POT-Creation-Date: 2015-02-20 13:22+0100\n"
+"PO-Revision-Date: 2015-02-20 13:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.7.4\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
-"esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;"
+"esc_html_x:1,2c\n"
 "X-Poedit-Basepath: .\n"
 "X-Textdomain-Support: yes\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../templates/player-billede.php:17 ../wpdka.php:100
+#: ../templates/player-billede.php:28 ../templates/player-lyd.php:29
+#: ../templates/player-video.php:29
+msgid "material"
+msgid_plural "materials"
+msgstr[0] "materiale"
+msgstr[1] "materialer"
+
+#: ../templates/player-billede.php:73 ../wpdka.php:100
 msgid "Go to original page"
 msgstr "Gå til oprindelige side"
 
-#: ../templates/player-billede.php:22
+#: ../templates/player-billede.php:78
 #, php-format
 msgid "Image %s for %s"
 msgstr "Billede %s til %s"
 
-#: ../templates/player-billede.php:28
+#: ../templates/player-billede.php:83
 msgid "Go to object"
 msgstr "Gå til materiale"
 
 #: ../templates/player-lyd-mediaelement.backup.php:34
-#: ../templates/player-lyd.php:41 ../templates/player-video.php:41
+#: ../templates/player-lyd.php:98 ../templates/player-video.php:98
 #, php-format
 msgid "About %s"
 msgstr "Om %s"
@@ -61,6 +69,10 @@ msgstr "Auto-afspil"
 #: ../widgets/player.php:44
 msgid "Link to object"
 msgstr "Link til materiale"
+
+#: ../widgets/player.php:50
+msgid "Show thumbnail"
+msgstr "Vis thumbnail"
 
 #: ../wpchaosobject-filters.php:23
 msgid " without title"
@@ -152,35 +164,35 @@ msgstr "WordPress DKA"
 msgid "needs %s to be activated."
 msgstr "kræver at %s er aktiveret."
 
-#: ../wpdkaobject.php:166
+#: ../wpdkaobject.php:179
 msgid "Actors"
 msgstr "Skuespillere"
 
-#: ../wpdkaobject.php:167
+#: ../wpdkaobject.php:180
 msgid "Cinematography"
 msgstr "Kinematografi"
 
-#: ../wpdkaobject.php:168
+#: ../wpdkaobject.php:181
 msgid "Creator"
 msgstr "Skaber"
 
-#: ../wpdkaobject.php:169
+#: ../wpdkaobject.php:182
 msgid "Direction"
 msgstr "Instruktion"
 
-#: ../wpdkaobject.php:170
+#: ../wpdkaobject.php:183
 msgid "Directors"
 msgstr "Instruktører"
 
-#: ../wpdkaobject.php:171
+#: ../wpdkaobject.php:184
 msgid "Production"
 msgstr "Produktion"
 
-#: ../wpdkaobject.php:172
+#: ../wpdkaobject.php:185
 msgid "Script"
 msgstr "Manuskript"
 
-#: ../wpdkaobject.php:189
+#: ../wpdkaobject.php:202
 msgid "Not provided"
 msgstr "Ikke opgivet"
 
@@ -202,6 +214,9 @@ msgstr " Formatet er %s."
 #, php-format
 msgid "%s contains %s materials about %s."
 msgstr "%s indeholder %s materialer om %s."
+
+#~ msgid "Only show thumbnail"
+#~ msgstr "Vis kun thumbnail"
 
 #~ msgid "Show link"
 #~ msgstr "Vis link"
