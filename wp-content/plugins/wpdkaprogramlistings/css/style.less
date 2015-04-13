@@ -57,11 +57,33 @@
 	margin-bottom: 20px;
 	margin-top: 5px;
 	border-bottom: 1px solid #eee;
-
+    
+    .change-search {
+        min-height: 40px;
+    }
 	.programlisting-count {
 		line-height: 40px;
 		height: 40px;
 	}
+
+    .free-text-search {
+        div:first-child {
+            margin-top: 5px;
+            @media (max-width: 768px) {
+                margin-top: 10px;
+            }
+        }
+    }
+
+    .programlistings-search-text {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        box-shadow: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        height: 35px;
+        margin-bottom: 6px;
+    }
 }
 
 .programlisting-results {
@@ -70,4 +92,25 @@
 	div {
 		margin-bottom: 20px;
 	}
+    .search-overview {
+        li {
+            text-align: left;
+            .center {
+                text-align: center;
+            }
+            .right {
+                text-align: right;
+            }
+            a {
+                text-decoration: underline;
+                &:visited {
+                    color: #800080;
+                }
+            }
+        }
+    }
+    .results-count {
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
 }

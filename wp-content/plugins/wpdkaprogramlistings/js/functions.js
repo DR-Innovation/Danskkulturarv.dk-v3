@@ -194,4 +194,11 @@ $(function() {
     $('.programlisting-month select').change(function () {
         changeNumberDays();
     });
+
+    $('.js-change-search').click(function (e) {
+        e.preventDefault();
+        $('.js-free-text-search-content').toggleClass('hidden');
+        $('.js-date-search-content').toggleClass('hidden');
+        return false;
+    })
 });
