@@ -129,8 +129,8 @@ class WPDKAObject {
 	 * @param 	string 	$url
 	 * @return 	string 	link to resized image
 	 */
-	public static function resizeImage($url) {
-		return sprintf('%s?src=%s&w=%s&h=%s', plugins_url( 'cimage/webroot/img.php' , __FILE__ ), $url, self::IMAGE_MAX_WIDTH, self::IMAGE_MAX_HEIGHT);
+	public static function resizeImage($id) {
+		return sprintf('%s?guid=%s&w=%s&h=%s', plugins_url( 'cimage/webroot/img.php' , __FILE__ ), $id, self::IMAGE_MAX_WIDTH, self::IMAGE_MAX_HEIGHT);
 	}
 
 	/**

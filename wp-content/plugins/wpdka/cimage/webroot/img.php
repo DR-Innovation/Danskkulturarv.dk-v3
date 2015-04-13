@@ -123,6 +123,46 @@ function verbose($msg = null)
     $log[] = $msg;
 }
 
+function get_object_by_guid($guid) {
+    /* 
+       Including CHAOS and WP options
+       ========================================================================== */
+    set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ ."/../../../wpchaosclient/lib/chaos-client/src");
+    require_once("CaseSensitiveAutoload.php");
+    spl_autoload_extensions(".php");
+    spl_autoload_register("CaseSensitiveAutoload");
+    include(__DIR__ .'/../../../../../wp-load.php'); // Make sure we still can use get_option to retrieve client and accesspoint GUID.
+
+    /* 
+       Setting guids and path
+       ========================================================================== */
+    $servicePath = "http://api.danskkulturarv.dk/";
+    $clientGUID = get_option('wpchaos-clientguid');
+    $accessPointGUID = get_option('wpchaos-accesspoint-guid');
+
+
+    $client = new CHAOS\Portal\Client\PortalClient($servicePath, $clientGUID);
+    $objects = array();
+    try {
+        $serviceResult = $client->Object()->GetByObjectGUID(
+            $guid,   // GUID
+            $accessPointGUID,
+            false,   // includeMetadata
+            true,   // includeFiles
+            false,    // includeObjectRelations
+            false
+            );
+        if (!$serviceResult) {
+            return false;
+        }
+        $object = $serviceResult->MCM()->Results()[0];
+    } catch(Exception $e) {
+        var_dump('error');
+        die();
+    }
+    return $object;
+}
+
 
 
 /**
@@ -321,12 +361,24 @@ if (isset($shortcut)
 }
 
 
-
 /**
  * src - the source image file.
  */
-$srcImage = get('src')
-    or errorPage('Must set src-attribute.');
+if (!get('guid')) {
+    errorPage('No GUID');
+}
+$object = get_object_by_guid(get('guid'));
+
+if (!$object || $object == null) {
+    errorPage('Invalid GUID');
+}
+
+$srcImage = $object->Files[0]->URL;
+
+if (!strpos($srcImage, 'smk')) { // Only allow smk images to be resized
+    header('Location: ' . $srcImage);
+    die();
+}
 
 // Check for valid/invalid characters
 $imagePath           = getConfig('image_path', __DIR__ . '/img/');
