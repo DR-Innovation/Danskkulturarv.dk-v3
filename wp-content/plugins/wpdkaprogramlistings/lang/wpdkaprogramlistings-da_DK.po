@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-01-30 14:31+0100\n"
-"PO-Revision-Date: 2015-01-30 14:32+0100\n"
+"POT-Creation-Date: 2015-04-17 10:16+0100\n"
+"PO-Revision-Date: 2015-04-17 10:17+0100\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.7.4\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -20,33 +20,70 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../pdfjs/pdfjs-viewer.php:51
+#: ../pdfjs/pdfjs-viewer.php:57
 msgid "View fullscreen"
 msgstr "Vis i fuldskærm"
 
-#: ../templates/programlisting-search-results.php:18
+#: ../templates/programlisting-search-results.php:17
+msgid "Full text search"
+msgstr "Fuldtekstsøgning"
+
+#: ../templates/programlisting-search-results.php:24
+#: ../templates/programlisting-search-results.php:71
 #: ../widgets/featured.php:70
 msgid "Year"
 msgstr "År"
 
-#: ../templates/programlisting-search-results.php:28
+#: ../templates/programlisting-search-results.php:34
+#: ../templates/programlisting-search-results.php:81
 #: ../widgets/featured.php:76
 msgid "Month"
 msgstr "Måned"
 
-#: ../templates/programlisting-search-results.php:38
+#: ../templates/programlisting-search-results.php:44
+#: ../templates/programlisting-search-results.php:91
 #: ../widgets/featured.php:81
 msgid "Day"
 msgstr "Dag"
 
-#: ../templates/programlisting-search-results.php:46
+#: ../templates/programlisting-search-results.php:52
+#: ../templates/programlisting-search-results.php:99
 #: ../widgets/featured.php:86
 msgid "Search the archive"
 msgstr "Søg i arkivet"
 
-#: ../templates/programlisting-search-results.php:56
+#: ../templates/programlisting-search-results.php:59
+#: ../templates/programlisting-search-results.php:104
+msgid "Search in program listings"
+msgstr "Søg i programoversigter"
+
+#: ../templates/programlisting-search-results.php:62
+#: ../templates/programlisting-search-results.php:107
+msgid "Search"
+msgstr "Søg"
+
+#: ../templates/programlisting-search-results.php:117
 msgid "Download program listing"
 msgstr "Hent programoversigt"
+
+#: ../templates/programlisting-search-results.php:124
+#, php-format
+msgid "%d result"
+msgid_plural "%d results"
+msgstr[0] "%d resultat"
+msgstr[1] "%d resultater"
+
+#: ../templates/programlisting-search-results.php:129
+msgid "Date"
+msgstr "Dato"
+
+#: ../templates/programlisting-search-results.php:130
+msgid "Download to your computer"
+msgstr "Hent til din computer"
+
+#: ../templates/programlisting-search-results.php:131
+msgid "Type"
+msgstr "Type"
 
 #: ../widgets/featured.php:19
 msgid "DKA Program Listings"
@@ -56,7 +93,7 @@ msgstr "DKA Programoversigter"
 msgid "Search for program listings"
 msgstr "Søg efter programoversigter"
 
-#: ../widgets/featured.php:25 ../wpdkaprogramlistings.php:130
+#: ../widgets/featured.php:25 ../wpdkaprogramlistings.php:132
 msgid "Program Listings"
 msgstr "Programoversigter"
 
@@ -84,25 +121,25 @@ msgstr "Titel:"
 msgid "Description:"
 msgstr "Beskrivelse:"
 
-#: ../wpdkaprogramlistings.php:105
+#: ../wpdkaprogramlistings.php:107
 msgid "WordPress program listing Search"
 msgstr "WordPress programoversigt søg"
 
-#: ../wpdkaprogramlistings.php:105
+#: ../wpdkaprogramlistings.php:107
 msgid "Rewrite rules flushed .."
 msgstr "Rewrite rules nulstillet .."
 
-#: ../wpdkaprogramlistings.php:135
+#: ../wpdkaprogramlistings.php:137
 msgid "Page for program listing results"
 msgstr "Side til programoversigt søgeresultater"
 
-#: ../wpdkaprogramlistings.php:140
+#: ../wpdkaprogramlistings.php:142
 #, fuzzy
 msgid "Permalinks must be enabled for program listings search to work properly"
 msgstr ""
 "Permalinks skal være aktiveret for at CHAOS søgning skal fungere korrekt"
 
-#: ../wpdkaprogramlistings.php:225
+#: ../wpdkaprogramlistings.php:230
 #, php-format
 msgid "%s program listing %s"
 msgstr "%s programoversigt %s"
@@ -112,9 +149,6 @@ msgstr "%s programoversigt %s"
 
 #~ msgid "The search gave %s %s"
 #~ msgstr "Søgning gav %s %s"
-
-#~ msgid "Search"
-#~ msgstr "Søg"
 
 #~ msgid "Exhibitions"
 #~ msgstr "Udstillinger"
@@ -185,9 +219,6 @@ msgstr "%s programoversigt %s"
 
 #~ msgid "Rights"
 #~ msgstr "Rettigheder"
-
-#~ msgid "Type"
-#~ msgstr "Type"
 
 #~ msgid "Status"
 #~ msgstr "Status"
@@ -286,9 +317,6 @@ msgstr "%s programoversigt %s"
 #, fuzzy
 #~ msgid "Show material"
 #~ msgstr "CHAOS materiale"
-
-#~ msgid "Date"
-#~ msgstr "Dato"
 
 #~ msgid "Quantity"
 #~ msgstr "Kvantitet"

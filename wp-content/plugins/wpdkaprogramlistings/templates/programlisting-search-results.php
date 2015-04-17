@@ -126,7 +126,7 @@
                 <?php if (!empty($results)): ?>
                     <ul class="list-unstyled search-overview">
                         <li class="row">
-                            <div class="col-xs-4"><strong><?php _e('Date'); ?></strong></div>
+                            <div class="col-xs-4"><strong><?php _e('Date', WPDKAProgramListings::DOMAIN); ?></strong></div>
                             <div class="col-xs-4"><strong><?php _e('Download to your computer', WPDKAProgramListings::DOMAIN); ?></strong></div>
                             <div class="col-xs-4 right"><strong><?php _e('Type'); ?></strong></div>
                         </li>
