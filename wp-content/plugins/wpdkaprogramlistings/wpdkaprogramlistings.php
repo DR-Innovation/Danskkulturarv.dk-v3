@@ -226,8 +226,12 @@ class WPDKAProgramListings {
             $date .= $day ? $day . '/' : '';
             $date .= $month ? $month . '/' : '';
             $date .= $year ? $year : '';
-
-            $wp_query->queried_object->post_title = sprintf(__('%s program listing %s',self::DOMAIN),get_bloginfo('title'),$date);
+            if (!empty($date)) {
+                $wp_query->queried_object->post_title = sprintf(__('%s program listing %s',self::DOMAIN),get_bloginfo('title'),$date);
+            } else {
+                $text = self::get_programlisting_var(self::QUERY_KEY_FREETEXT, 'esc_html');
+                $wp_query->queried_object->post_title = sprintf(__('%s program listing search results %s',self::DOMAIN),get_bloginfo('title'),$text);
+            }
 
 			add_filter('wpchaos-head-meta',function($metadatas) use($wp_query) {
 				$metadatas['og:title']['content'] = $wp_query->queried_object->post_title;
