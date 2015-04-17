@@ -23,7 +23,7 @@ class WPDKAProgramListings {
 
 	const FLUSH_REWRITE_RULES_OPTION_KEY = 'wpprogramlisting-flush-rewrite-rules';
 
-    const QUERY_KEY_FREETEXT = 'text';
+    const QUERY_KEY_FREETEXT = 'pl-text';
 	const QUERY_KEY_DAY = 'pl-day';
 	const QUERY_KEY_MONTH = 'pl-month';
 	const QUERY_KEY_YEAR = 'pl-year'; // day, month, year are reserved to Wordpress
@@ -52,7 +52,7 @@ class WPDKAProgramListings {
 
 		add_action('template_redirect', array(&$this, 'get_programlisting_page'));
 
-        self::register_search_query_variable(1, self::QUERY_KEY_FREETEXT, '[^/&]*?', 'text', null, '', '/');
+        self::register_search_query_variable(1, self::QUERY_KEY_FREETEXT, '[^/&]*?', false, null, '', '/');
 		self::register_search_query_variable(2, self::QUERY_KEY_YEAR, '\d{4}', false, null, '');
 		self::register_search_query_variable(3, self::QUERY_KEY_MONTH, '\d{1,2}', false, null, '');
 		self::register_search_query_variable(4, self::QUERY_KEY_DAY, '\d{1,2}', false, null, '');
