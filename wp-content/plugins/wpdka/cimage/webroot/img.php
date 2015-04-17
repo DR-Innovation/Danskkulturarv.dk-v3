@@ -128,11 +128,7 @@ function get_object_by_guid($guid) {
        Including CHAOS and WP options
        ========================================================================== */
     set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ ."/../../../wpchaosclient/lib/chaos-client/src");
-    if (!function_exists('CaseSensitiveAutoload')) {
-        require_once("CaseSensitiveAutoload.php");
-    }
-    spl_autoload_extensions(".php");
-    spl_autoload_register("CaseSensitiveAutoload");
+    
     include(__DIR__ .'/../../../../../wp-load.php'); // Make sure we still can use get_option to retrieve client and accesspoint GUID.
 
     /* 
