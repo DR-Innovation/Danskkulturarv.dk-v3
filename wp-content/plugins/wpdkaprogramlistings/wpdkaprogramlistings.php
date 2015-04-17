@@ -379,8 +379,12 @@ class WPDKAProgramListings {
         $searchParams['body']['size'] = 100; // Max 100 results
         if (empty($text)) {
             $searchParams['body']['query']['match']['date'] = sprintf("%s-%s-%s", $year, $month, $day);
+            $searchParams['body']['sort']['type']['order'] = 'DESC';
         } else {
-            $searchParams['body']['query']['match']['allText'] = $text;
+            $searchParams['body']['query']['match']['allText']['query'] = $text;
+            // $searchParams['body']['query']['query_string']['default_field'] = 'allText';
+            // $searchParams['body']['query']['query_string']['query'] = $text;
+            // $searchParams['body']['query']['query_string']['default_operator'] = 'AND';
             $searchParams['body']['sort']['date']['order'] = 'ASC';
         }
 		try {
@@ -389,7 +393,16 @@ class WPDKAProgramListings {
 			return;
 		}
 
-		self::$search_results = $queryResponse['hits']['hits'];
+        // Sort by filename - elasticsearch can't do this when it is in _source
+        $ret_hits = $hits = $queryResponse['hits']['hits'];
+        $ret_hits = array();
+        foreach ($hits as $hit) {
+            $filename = $hit['_source']['filename'];
+            $ret_hits[$filename] = $hit;
+        }
+        ksort($ret_hits);
+
+		self::$search_results = $ret_hits;
 	}
 
     public static function get_programlisting_search_type() {

@@ -59,7 +59,7 @@
                 <input type="text" name="<?php echo WPDKAProgramListings::QUERY_KEY_FREETEXT; ?>" class="form-control programlistings-search-text" placeholder="<?php _e('Search in program listings', WPDKAProgramListings::DOMAIN); ?>" value="<?php echo WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" />
             </div>
             <div class="col-xs-12 col-lg-2 col-sm-3">
-                <button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit"><?php _e('Search', WPDKAProgramListings::DOMAIN); ?></button>
+                <button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit"><?php _e('Search the archive', WPDKAProgramListings::DOMAIN); ?></button>
             </div>
         </form>
     </div>
@@ -104,7 +104,7 @@
                 <input type="text" class="programlistings-search-text" name="<?php echo WPDKAProgramListings::QUERY_KEY_FREETEXT; ?>" class="form-control" placeholder="<?php _e('Search in program listings', WPDKAProgramListings::DOMAIN); ?>" value="<?php echo WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" />
             </div>
             <div class="col-xs-12 col-lg-2 col-sm-3">
-                <button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit"><?php _e('Search', WPDKAProgramListings::DOMAIN); ?></button>
+                <button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit"><?php _e('Search the archive', WPDKAProgramListings::DOMAIN); ?></button>
             </div>
         </form>
     </noscript>
@@ -132,7 +132,18 @@
                         </li>
                     <?php foreach ($results as $r): ?>
                         <li class="row">
-                            <div class="col-xs-4"><?php echo date(WPDKAProgramListings::DATE_FORMAT, strtotime($r['_source']['date'])); ?></div>
+                            <div class="col-xs-4">
+                                <form method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
+                                    <?php 
+                                        $date = date(WPDKAProgramListings::DATE_FORMAT, strtotime($r['_source']['date'])); 
+                                        $date_explode = explode('-', $date);
+                                    ?>
+                                    <input type="hidden" value="<?php echo $date_explode[2]; ?>" name="<?php echo WPDKAProgramListings::QUERY_KEY_YEAR; ?>" />
+                                    <input type="hidden" value="<?php echo $date_explode[1]; ?>" name="<?php echo WPDKAProgramListings::QUERY_KEY_MONTH; ?>" />
+                                    <input type="hidden" value="<?php echo $date_explode[0]; ?>" name="<?php echo WPDKAProgramListings::QUERY_KEY_DAY; ?>" />
+                                    <button type="submit" class="btn btn-link"><?php echo $date; ?></button>
+                                </form>
+                            </div>
                             <div class="col-xs-4"><a href="<?php echo $r['_source']['url']; ?>" title="Download PDF" download="<?php echo $r['_source']['filename']; ?>"><?php echo $r['_source']['filename']; ?></a></div>
                             <div class="col-xs-4 right"><?php echo $r['_source']['type'] == 'Program' ? 'Programoversigt' : 'Rettelse til programoversigt'; ?></div>
                         </li>    

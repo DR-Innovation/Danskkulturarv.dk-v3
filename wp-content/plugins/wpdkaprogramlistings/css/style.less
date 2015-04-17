@@ -93,6 +93,7 @@
 		margin-bottom: 20px;
 	}
     .search-overview {
+        overflow-x: hidden;
         li {
             text-align: left;
             .center {
@@ -106,6 +107,15 @@
                 &:visited {
                     color: #800080;
                 }
+            }
+        }
+        .btn-link {
+            color: inherit;
+            padding-top: 0;
+            padding-bottom: 0;
+            &:hover, &:active, &:visited {
+                color: inherit;
+                text-decoration: none;
             }
         }
     }
