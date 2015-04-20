@@ -6,11 +6,6 @@
 ?>
 <div class="programlisting-search-results row">
     <div class="programlisting-count col-lg-3 col-md-9 col-sm-9 col-xs-10">
-        <?php 
-            /*if (isset($results)) {
-                printf(__('The search gave %s %s', WPDKAProgramListings::DOMAIN), count($results), _n('program listing', 'program listings', count($results), WPDKAProgramListings::DOMAIN));
-            }*/
-        ?>
         <img src="<?php echo plugins_url( '../images/logo.png' , __FILE__ ); ?>" alt="TV og Radio" style="vertical-align: top; max-width: 100%; max-height: 38px;" />
     </div>
     <div class="col-xs-2 col-md-3 col-sm-3 col-lg-1 change-search pull-right">

@@ -45,14 +45,11 @@ class WPDKAProgramListings {
 		}
 
 		add_action('plugins_loaded',array(&$this,'load_textdomain'));
-
 		add_filter('widgets_init',array(&$this,'register_widgets'));
-
+        add_action('template_redirect', array(&$this, 'get_programlisting_page'));
 		add_action('wp_enqueue_scripts', array(&$this, 'loadJsCss'));
 
-		add_action('template_redirect', array(&$this, 'get_programlisting_page'));
-
-        self::register_search_query_variable(1, self::QUERY_KEY_FREETEXT, '[^/&]*?', false, null, '', '/');
+        self::register_search_query_variable(1, self::QUERY_KEY_FREETEXT, '[^/&]*', false, null, '', '/');
 		self::register_search_query_variable(2, self::QUERY_KEY_YEAR, '\d{4}', false, null, '');
 		self::register_search_query_variable(3, self::QUERY_KEY_MONTH, '\d{1,2}', false, null, '');
 		self::register_search_query_variable(4, self::QUERY_KEY_DAY, '\d{1,2}', false, null, '');
@@ -104,7 +101,7 @@ class WPDKAProgramListings {
 			delete_option(self::FLUSH_REWRITE_RULES_OPTION_KEY);
 			if(WP_DEBUG) {
 				add_action( 'admin_notices', function() {
-					echo '<div class="updated"><p><strong>'.__('WordPress program listing Search',WPDKAProgramListings::DOMAIN).'</strong> '.__('Rewrite rules flushed ..',WPDKAProgramListings::DOMAIN).'</p></div>';
+					echo '<div class="updated"><p><strong>'.__('WordPress program listing',self::DOMAIN).'</strong> '.__('Rewrite rules flushed ..',self::DOMAIN).'</p></div>';
 				}, 10);
 			}
 			flush_rewrite_rules();
@@ -112,7 +109,7 @@ class WPDKAProgramListings {
 	}
 
 	public static function install() {
-		WPDKAProgramListings::flush_rewrite_rules_soon();
+		self::flush_rewrite_rules_soon();
 	}
 	
 	public static function uninstall() {
@@ -139,7 +136,7 @@ class WPDKAProgramListings {
 						'list' => $pages,
 						'precond' => array(array(
 							'cond' => (get_option('permalink_structure') != ''),
-							'message' => __('Permalinks must be enabled for program listings search to work properly','WPDKAProgramListings')
+							'message' => __('Permalinks must be enabled for program listings search to work properly',self::DOMAIN)
 						))
 					)
 				)
@@ -215,7 +212,6 @@ class WPDKAProgramListings {
 			//Change GET params to nice url
 			$this->programlisting_query_prettify();
 			$this->generate_programlisting_results();
-
 			//set title and meta
 			global $wp_query;
 			$day   = self::get_programlisting_var(self::QUERY_KEY_DAY, 'esc_html');
@@ -229,8 +225,7 @@ class WPDKAProgramListings {
             if (!empty($date)) {
                 $wp_query->queried_object->post_title = sprintf(__('%s program listing %s',self::DOMAIN),get_bloginfo('title'),$date);
             } else {
-                $text = self::get_programlisting_var(self::QUERY_KEY_FREETEXT, 'esc_html');
-                $wp_query->queried_object->post_title = sprintf(__('%s program listing search results %s',self::DOMAIN),get_bloginfo('title'),$text);
+                $wp_query->queried_object->post_title = sprintf(__('%s program listing search results %s',self::DOMAIN),get_bloginfo('title'),self::get_programlisting_var(self::QUERY_KEY_FREETEXT));
             }
 
 			add_filter('wpchaos-head-meta',function($metadatas) use($wp_query) {
@@ -248,7 +243,6 @@ class WPDKAProgramListings {
 				//Include from plugin template	
 				$include = plugin_dir_path(__FILE__)."/templates/programlisting-search-results.php";
 			}
-			$search_vars = self::get_programlisting_vars();
 			$year = intval($year);
 			$month = intval($month);
 			$day = intval($day);
@@ -276,7 +270,12 @@ class WPDKAProgramListings {
 	 */
 	public static function add_rewrite_tags() {
 		foreach(self::$search_query_variables as $variable) {
-			add_rewrite_tag('%'.$variable['key'].'%', '('.$variable['regexp'].')');
+			// If prefix-key is set - the 
+            if(isset($variable['prefix-key'])) {
+                add_rewrite_tag('%'.$variable['key'].'%', $variable['key'].self::QUERY_PREFIX_CHAR.'('.$variable['regexp'].')');
+            } else {
+                add_rewrite_tag('%'.$variable['key'].'%', '('.$variable['regexp'].')');
+            }
 		}
 	}
 
@@ -298,7 +297,7 @@ class WPDKAProgramListings {
 			}
 			$regex .= '$';
 			
-			$redirect = "index.php?page_id=$searchPageID";
+			$redirect = "index.php?pagename=$searchPageName";
 			$v = 1;
 			foreach(self::$search_query_variables as $variable) {
 				// An optional non-capturing group wrapped around the $regexp.
@@ -313,7 +312,7 @@ class WPDKAProgramListings {
 		foreach(self::$search_query_variables as $variable) {
 			if(array_key_exists($variable['key'], $_GET)) {
 				$redirection = self::generate_pretty_search_url(self::get_programlisting_vars(false));
-				wp_redirect($redirection);
+                wp_redirect($redirection);
 				exit();
 			}
 		}
@@ -352,6 +351,14 @@ class WPDKAProgramListings {
 		return site_url($result);
 	}
 
+    public static function escapeSearchValue($string)
+    {
+        $match = array('#', '&', '\\', '/', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '~', '*', '?', ':', '"', ';', ' '); // The # and & is apparently CHAOS specific.
+        $replace = array('\\ ', '\\ ', '\\\\', '\\/', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(', '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*', '\\?', '\\:', '\\"', '\\;', '\\ ');
+        $string = str_replace($match, $replace, $string);
+        return $string;
+    }
+
 	/**
 	 * Generate data and include template for search results
 	 * @param  array $args 
@@ -359,16 +366,16 @@ class WPDKAProgramListings {
 	 */
 	public function generate_programlisting_results($args = array()) {
 		$search_vars = self::get_programlisting_vars();
-        $text  = self::get_programlisting_var(self::QUERY_KEY_FREETEXT, 'esc_attr,trim');
 		$year  = $search_vars[self::QUERY_KEY_YEAR];
 		$month = $search_vars[self::QUERY_KEY_MONTH];
 		$day   = $search_vars[self::QUERY_KEY_DAY];
-
+        $text  = self::get_programlisting_var(self::QUERY_KEY_FREETEXT, 'esc_attr,trim');
 		if (empty($year) || empty($month) || empty($day)) {
 			if (empty($text)) {
                 return;
             }
 		}
+        $text = self::escapeSearchValue($text);
 
 		// Test results
 		require(plugin_dir_path(__FILE__).'/elasticsearch/autoload.php');
