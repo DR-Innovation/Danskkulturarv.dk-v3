@@ -367,8 +367,8 @@ class WPDKAProgramListings {
 
     public static function escapeSearchValue($string)
     {
-        $match = array('#', '&', '\\', '/', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '~', '*', '?', ':', '"', ';', ' '); // The # and & is apparently CHAOS specific.
-        $replace = array('\\ ', '\\ ', '\\\\', '\\/', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(', '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*', '\\?', '\\:', '\\"', '\\;', '\\ ');
+        $match = array('#', '&', '\\', '/', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '~', '*', '?', ':', '"', ';'); // The # and & is apparently CHAOS specific.
+        $replace = array('\\ ', '\\ ', '\\\\', '\\/', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(', '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*', '\\?', '\\:', '\\"', '\\;');
         $string = str_replace($match, $replace, $string);
         return $string;
     }
@@ -383,7 +383,7 @@ class WPDKAProgramListings {
 		$year  = $search_vars[self::QUERY_KEY_YEAR];
 		$month = $search_vars[self::QUERY_KEY_MONTH];
 		$day   = $search_vars[self::QUERY_KEY_DAY];
-        $text  = self::get_programlisting_var(self::QUERY_KEY_FREETEXT, 'esc_attr,trim');
+        $text  = self::get_programlisting_var(self::QUERY_KEY_FREETEXT, 'trim');
 		if (empty($year) || empty($month) || empty($day)) {
 			if (empty($text)) {
                 return;
