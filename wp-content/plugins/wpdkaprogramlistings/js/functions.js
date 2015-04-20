@@ -203,5 +203,7 @@ $(function() {
             $('.js-free-text-search-content .programlistings-search-text').focus();
         }
         return false;
-    })
+    });
+
+    $('.programlisting-search-results .hover-info').popover();
 });

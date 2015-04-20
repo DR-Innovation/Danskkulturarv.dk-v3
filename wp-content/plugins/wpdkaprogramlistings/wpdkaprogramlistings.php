@@ -49,10 +49,10 @@ class WPDKAProgramListings {
         add_action('template_redirect', array(&$this, 'get_programlisting_page'));
 		add_action('wp_enqueue_scripts', array(&$this, 'loadJsCss'));
 
-        self::register_search_query_variable(1, self::QUERY_KEY_FREETEXT, '[^/&]*', false, null, '', '/');
-		self::register_search_query_variable(2, self::QUERY_KEY_YEAR, '\d{4}', false, null, '');
-		self::register_search_query_variable(3, self::QUERY_KEY_MONTH, '\d{1,2}', false, null, '');
-		self::register_search_query_variable(4, self::QUERY_KEY_DAY, '\d{1,2}', false, null, '');
+        self::register_search_query_variable(1, self::QUERY_KEY_YEAR, '\d{4}', false, null, '');
+        self::register_search_query_variable(2, self::QUERY_KEY_MONTH, '\d{1,2}', false, null, '');
+        self::register_search_query_variable(3, self::QUERY_KEY_DAY, '\d{1,2}', false, null, '');
+        self::register_search_query_variable(4, self::QUERY_KEY_FREETEXT, '[^/&]+?', false, null, '', '/');
 
 		add_action('init', array('WPDKAProgramListings', 'handle_rewrite_rules'));
 	}
@@ -351,6 +351,20 @@ class WPDKAProgramListings {
 		return site_url($result);
 	}
 
+    public static function print_search_info_text() {
+        printf(__('Use %s, %s, or %s keywords.', self::DOMAIN), '<strong>AND</strong>','<strong>OR</strong>','<strong>NOT</strong>');
+        echo '<br />';
+        printf(__('%s is used to include both words.', self::DOMAIN), '<strong>AND</strong>');
+        echo '<br />';
+        printf(__('%s is used to include atleast one of the words.', self::DOMAIN), '<strong>OR</strong>');
+        echo '<br />';
+        printf(__('%s is used if it should not include the following word.', self::DOMAIN), '<strong>NOT</strong>');
+        echo '<br /><br /><i>';
+        printf(__('If nothing has been specified it is by default %s.', self::DOMAIN), '<strong>AND</strong>');
+        echo '</i><br /><br />';
+        _e('Put words or phrase in quotes to get more specific search results.', self::DOMAIN);
+    }
+
     public static function escapeSearchValue($string)
     {
         $match = array('#', '&', '\\', '/', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '~', '*', '?', ':', '"', ';', ' '); // The # and & is apparently CHAOS specific.
@@ -392,10 +406,9 @@ class WPDKAProgramListings {
             $searchParams['body']['query']['match']['date'] = sprintf("%s-%s-%s", $year, $month, $day);
             $searchParams['body']['sort']['type']['order'] = 'DESC';
         } else {
-            $searchParams['body']['query']['match']['allText']['query'] = $text;
-            // $searchParams['body']['query']['query_string']['default_field'] = 'allText';
-            // $searchParams['body']['query']['query_string']['query'] = $text;
-            // $searchParams['body']['query']['query_string']['default_operator'] = 'AND';
+            $searchParams['body']['query']['query_string']['default_field'] = 'allText';
+            $searchParams['body']['query']['query_string']['query'] = $text;
+            $searchParams['body']['query']['query_string']['default_operator'] = 'AND';
             $searchParams['body']['sort']['date']['order'] = 'ASC';
         }
 		try {
@@ -418,7 +431,7 @@ class WPDKAProgramListings {
 
     public static function get_programlisting_search_type() {
         $search_vars = self::get_programlisting_vars();
-        return $search_vars[self::QUERY_KEY_FREETEXT] ? self::QUERY_KEY_FREETEXT : 'date';
+        return ($search_vars[self::QUERY_KEY_DAY] && $search_vars[self::QUERY_KEY_MONTH] && $search_vars[self::QUERY_KEY_YEAR]) ? 'date' : self::QUERY_KEY_FREETEXT ;
     }
 
 	public static function get_programlisting_results() {

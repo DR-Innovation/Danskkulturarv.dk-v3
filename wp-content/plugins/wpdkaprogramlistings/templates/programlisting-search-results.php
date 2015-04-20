@@ -51,9 +51,14 @@
     <div class="js-free-text-search-content <?php echo !$search_text ? ' hidden' : ''; ?>">
         <form method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
             <div class="col-xs-12 col-lg-6 col-sm-9">
-                <input type="text" name="<?php echo WPDKAProgramListings::QUERY_KEY_FREETEXT; ?>" class="form-control programlistings-search-text" placeholder="<?php _e('Search in program listings', WPDKAProgramListings::DOMAIN); ?>" value="<?php echo WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" />
+                <div class="input-group">
+                    <input type="text" name="<?php echo WPDKAProgramListings::QUERY_KEY_FREETEXT; ?>" class="form-control programlistings-search-text" placeholder="<?php _e('Search in program listings', WPDKAProgramListings::DOMAIN); ?>" value="<?php echo WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" />
+                    <div class="input-group-addon hover-info" data-html="true" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="<?php WPDKAProgramListings::print_search_info_text(); ?>">
+                        <i class="icon icon-info-sign"></i>
+                    </div>
+                </div>
             </div>
-            <div class="col-xs-12 col-lg-2 col-sm-3">
+            <div class="col-xs-12 col-lg-2 col-sm-3" style="padding-bottom: 5px;">
                 <button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit"><?php _e('Search the archive', WPDKAProgramListings::DOMAIN); ?></button>
             </div>
         </form>
