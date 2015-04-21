@@ -363,12 +363,16 @@ class WPDKAProgramListings {
         printf(__('If nothing has been specified it is by default %s.', self::DOMAIN), '<strong>AND</strong>');
         echo '</i><br /><br />';
         _e('Put words or phrase in quotes to get more specific search results.', self::DOMAIN);
+        echo '<br /><br />';
+        printf(__('Use %s to replace a single character.', self::DOMAIN), '<strong>?</strong>');
+        echo '<br />';
+        printf(__('Use %s to replace zero or more characters.', self::DOMAIN), '<strong>*</strong>');
     }
 
     public static function escapeSearchValue($string)
     {
-        $match = array('#', '&', '\\', '/', '+', '-', '&', '|', '!', '(', ')', '{', '}', '[', ']', '^', '~', '*', '?', ':', '"', ';'); // The # and & is apparently CHAOS specific.
-        $replace = array('\\ ', '\\ ', '\\\\', '\\/', '\\+', '\\-', '\\&', '\\|', '\\!', '\\(', '\\)', '\\{', '\\}', '\\[', '\\]', '\\^', '\\~', '\\*', '\\?', '\\:', '\\"', '\\;');
+        $match = array('"');
+        $replace = array('\\"');
         $string = str_replace($match, $replace, $string);
         return $string;
     }
@@ -431,7 +435,7 @@ class WPDKAProgramListings {
 
     public static function get_programlisting_search_type() {
         $search_vars = self::get_programlisting_vars();
-        return ($search_vars[self::QUERY_KEY_DAY] && $search_vars[self::QUERY_KEY_MONTH] && $search_vars[self::QUERY_KEY_YEAR]) ? 'date' : self::QUERY_KEY_FREETEXT ;
+        return $search_vars[self::QUERY_KEY_FREETEXT] ? self::QUERY_KEY_FREETEXT : 'date';
     }
 
 	public static function get_programlisting_results() {
