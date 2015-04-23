@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-04-21 13:38+0100\n"
-"PO-Revision-Date: 2015-04-21 13:39+0100\n"
+"POT-Creation-Date: 2015-04-23 08:10+0100\n"
+"PO-Revision-Date: 2015-04-23 08:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
@@ -180,12 +180,12 @@ msgstr ""
 #: ../wpdkaprogramlistings.php:367
 #, php-format
 msgid "Use %s to replace a single character."
-msgstr "Skriv %s for at erstatte en enkelt karaktér."
+msgstr "Benyt %s for at erstatte én enkelt karaktér."
 
 #: ../wpdkaprogramlistings.php:369
 #, php-format
 msgid "Use %s to replace zero or more characters."
-msgstr "Skriv %s for at erstatte nul eller flere karakterer."
+msgstr "Benyt %s for at erstatte nul eller flere karakterer."
 
 #~ msgid "Search"
 #~ msgstr "Søg"
