@@ -14,7 +14,7 @@ class WPDKAProgramListings {
 
 	const ES_INDEX = 'programoversigter';
 	const ES_TYPE  = 'programoversigt';
-	const ES_URL   = 'files.danskkulturarv.dk:80/api';
+	const ES_URL   = '54.72.221.2:80/api'; // files.danskkulturarv.dk
 
 	const START_YEAR = 1925;
 	const END_YEAR   = 1984;
