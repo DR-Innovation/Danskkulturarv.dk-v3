@@ -43,6 +43,12 @@ function pdfjs_function($incomingfromhandler) {
   if ($openfile != 'true') {
       $openfile = 'false';
   }
+  $re = "/.*danskkulturarv.dk\\/.*/"; 
+   
+  if (!preg_match($re, $file_name, $matches)) {
+    return 'Not valid url';
+    
+  }
   
   $final_url = $viewer_base_url."?file=".$file_name."&download=".$download."&print=".$print."&openfile=".$openfile;
   

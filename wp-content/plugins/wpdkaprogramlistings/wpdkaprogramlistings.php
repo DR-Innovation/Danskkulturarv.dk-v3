@@ -14,13 +14,16 @@ class WPDKAProgramListings {
 
 	const ES_INDEX = 'programoversigter';
 	const ES_TYPE  = 'programoversigt';
-	const ES_URL   = 'files.danskkulturarv.dk:80/api';
+	const ES_URL   = '54.72.221.2:80/api'; // files.danskkulturarv.dk
 
 	const START_YEAR = 1925;
 	const END_YEAR   = 1984;
 
+    const DATE_FORMAT = 'd-m-Y';
+
 	const FLUSH_REWRITE_RULES_OPTION_KEY = 'wpprogramlisting-flush-rewrite-rules';
 
+    const QUERY_KEY_FREETEXT = 'pl-text';
 	const QUERY_KEY_DAY = 'pl-day';
 	const QUERY_KEY_MONTH = 'pl-month';
 	const QUERY_KEY_YEAR = 'pl-year'; // day, month, year are reserved to Wordpress
@@ -42,16 +45,14 @@ class WPDKAProgramListings {
 		}
 
 		add_action('plugins_loaded',array(&$this,'load_textdomain'));
-
 		add_filter('widgets_init',array(&$this,'register_widgets'));
-
+        add_action('template_redirect', array(&$this, 'get_programlisting_page'));
 		add_action('wp_enqueue_scripts', array(&$this, 'loadJsCss'));
 
-		add_action('template_redirect', array(&$this, 'get_programlisting_page'));
-
-		self::register_search_query_variable(1, self::QUERY_KEY_YEAR, '\d{4}', false, null, '');
-		self::register_search_query_variable(2, self::QUERY_KEY_MONTH, '\d{1,2}', false, null, '');
-		self::register_search_query_variable(3, self::QUERY_KEY_DAY, '\d{1,2}', false, null, '');
+        self::register_search_query_variable(1, self::QUERY_KEY_YEAR, '\d{4}', false, null, '');
+        self::register_search_query_variable(2, self::QUERY_KEY_MONTH, '\d{1,2}', false, null, '');
+        self::register_search_query_variable(3, self::QUERY_KEY_DAY, '\d{1,2}', false, null, '');
+        self::register_search_query_variable(4, self::QUERY_KEY_FREETEXT, '[^/&]+?', false, null, '', '/');
 
 		add_action('init', array('WPDKAProgramListings', 'handle_rewrite_rules'));
 	}
@@ -100,7 +101,7 @@ class WPDKAProgramListings {
 			delete_option(self::FLUSH_REWRITE_RULES_OPTION_KEY);
 			if(WP_DEBUG) {
 				add_action( 'admin_notices', function() {
-					echo '<div class="updated"><p><strong>'.__('WordPress program listing Search',WPDKAProgramListings::DOMAIN).'</strong> '.__('Rewrite rules flushed ..',WPDKAProgramListings::DOMAIN).'</p></div>';
+					echo '<div class="updated"><p><strong>'.__('WordPress program listing',self::DOMAIN).'</strong> '.__('Rewrite rules flushed ..',self::DOMAIN).'</p></div>';
 				}, 10);
 			}
 			flush_rewrite_rules();
@@ -108,7 +109,7 @@ class WPDKAProgramListings {
 	}
 
 	public static function install() {
-		WPDKAProgramListings::flush_rewrite_rules_soon();
+		self::flush_rewrite_rules_soon();
 	}
 	
 	public static function uninstall() {
@@ -135,7 +136,7 @@ class WPDKAProgramListings {
 						'list' => $pages,
 						'precond' => array(array(
 							'cond' => (get_option('permalink_structure') != ''),
-							'message' => __('Permalinks must be enabled for program listings search to work properly','WPDKAProgramListings')
+							'message' => __('Permalinks must be enabled for program listings search to work properly',self::DOMAIN)
 						))
 					)
 				)
@@ -211,16 +212,21 @@ class WPDKAProgramListings {
 			//Change GET params to nice url
 			$this->programlisting_query_prettify();
 			$this->generate_programlisting_results();
-
 			//set title and meta
 			global $wp_query;
-			$date = '';
-			if (self::get_programlisting_var(self::QUERY_KEY_DAY, 'esc_html') && 
-				self::get_programlisting_var(self::QUERY_KEY_MONTH, 'esc_html') &&
-				self::get_programlisting_var(self::QUERY_KEY_YEAR, 'esc_html')) {
-				$date = self::get_programlisting_var(self::QUERY_KEY_DAY, 'esc_html') . '/' . self::get_programlisting_var(self::QUERY_KEY_MONTH, 'esc_html') . '/' . self::get_programlisting_var(self::QUERY_KEY_YEAR, 'esc_html');
-			}
-			$wp_query->queried_object->post_title = sprintf(__('%s program listing %s',self::DOMAIN),get_bloginfo('title'),$date);
+			$day   = self::get_programlisting_var(self::QUERY_KEY_DAY, 'esc_html');
+            $month = self::get_programlisting_var(self::QUERY_KEY_MONTH, 'esc_html');
+            $year  = self::get_programlisting_var(self::QUERY_KEY_YEAR, 'esc_html');
+            $date = '';
+
+            $date .= $day ? $day . '/' : '';
+            $date .= $month ? $month . '/' : '';
+            $date .= $year ? $year : '';
+            if (!empty($date)) {
+                $wp_query->queried_object->post_title = sprintf(__('%s program listing %s',self::DOMAIN),get_bloginfo('title'),$date);
+            } else {
+                $wp_query->queried_object->post_title = sprintf(__('%s program listing search results %s',self::DOMAIN),get_bloginfo('title'),self::get_programlisting_var(self::QUERY_KEY_FREETEXT));
+            }
 
 			add_filter('wpchaos-head-meta',function($metadatas) use($wp_query) {
 				$metadatas['og:title']['content'] = $wp_query->queried_object->post_title;
@@ -237,10 +243,9 @@ class WPDKAProgramListings {
 				//Include from plugin template	
 				$include = plugin_dir_path(__FILE__)."/templates/programlisting-search-results.php";
 			}
-			$search_vars = self::get_programlisting_vars();
-			$year = intval(self::get_programlisting_var(self::QUERY_KEY_YEAR, 'esc_html'));
-			$month = intval(self::get_programlisting_var(self::QUERY_KEY_MONTH, 'esc_html'));
-			$day = intval(self::get_programlisting_var(self::QUERY_KEY_DAY, 'esc_html'));
+			$year = intval($year);
+			$month = intval($month);
+			$day = intval($day);
 			require($include);
 			exit();
 		}
@@ -265,7 +270,12 @@ class WPDKAProgramListings {
 	 */
 	public static function add_rewrite_tags() {
 		foreach(self::$search_query_variables as $variable) {
-			add_rewrite_tag('%'.$variable['key'].'%', '('.$variable['regexp'].')');
+			// If prefix-key is set - the 
+            if(isset($variable['prefix-key'])) {
+                add_rewrite_tag('%'.$variable['key'].'%', $variable['key'].self::QUERY_PREFIX_CHAR.'('.$variable['regexp'].')');
+            } else {
+                add_rewrite_tag('%'.$variable['key'].'%', '('.$variable['regexp'].')');
+            }
 		}
 	}
 
@@ -287,7 +297,7 @@ class WPDKAProgramListings {
 			}
 			$regex .= '$';
 			
-			$redirect = "index.php?page_id=$searchPageID";
+			$redirect = "index.php?pagename=$searchPageName";
 			$v = 1;
 			foreach(self::$search_query_variables as $variable) {
 				// An optional non-capturing group wrapped around the $regexp.
@@ -302,7 +312,7 @@ class WPDKAProgramListings {
 		foreach(self::$search_query_variables as $variable) {
 			if(array_key_exists($variable['key'], $_GET)) {
 				$redirection = self::generate_pretty_search_url(self::get_programlisting_vars(false));
-				wp_redirect($redirection);
+                wp_redirect($redirection);
 				exit();
 			}
 		}
@@ -341,6 +351,32 @@ class WPDKAProgramListings {
 		return site_url($result);
 	}
 
+    public static function print_search_info_text() {
+        printf(__('Use %s, %s, or %s keywords.', self::DOMAIN), '<strong>AND</strong>','<strong>OR</strong>','<strong>NOT</strong>');
+        echo '<br />';
+        printf(__('%s is used to include both words.', self::DOMAIN), '<strong>AND</strong>');
+        echo '<br />';
+        printf(__('%s is used to include atleast one of the words.', self::DOMAIN), '<strong>OR</strong>');
+        echo '<br />';
+        printf(__('%s is used if it should not include the following word.', self::DOMAIN), '<strong>NOT</strong>');
+        echo '<br /><br /><i>';
+        printf(__('If nothing has been specified it is by default %s.', self::DOMAIN), '<strong>AND</strong>');
+        echo '</i><br /><br />';
+        _e('Put words or phrase in quotes to get more specific search results.', self::DOMAIN);
+        echo '<br /><br />';
+        printf(__('Use %s to replace a single character.', self::DOMAIN), '<strong>?</strong>');
+        echo '<br />';
+        printf(__('Use %s to replace zero or more characters.', self::DOMAIN), '<strong>*</strong>');
+    }
+
+    public static function escapeSearchValue($string)
+    {
+        $match = array('"');
+        $replace = array('\\"');
+        $string = str_replace($match, $replace, $string);
+        return $string;
+    }
+
 	/**
 	 * Generate data and include template for search results
 	 * @param  array $args 
@@ -348,12 +384,16 @@ class WPDKAProgramListings {
 	 */
 	public function generate_programlisting_results($args = array()) {
 		$search_vars = self::get_programlisting_vars();
-		$year = $search_vars[self::QUERY_KEY_YEAR];
+		$year  = $search_vars[self::QUERY_KEY_YEAR];
 		$month = $search_vars[self::QUERY_KEY_MONTH];
-		$day = $search_vars[self::QUERY_KEY_DAY];
+		$day   = $search_vars[self::QUERY_KEY_DAY];
+        $text  = self::get_programlisting_var(self::QUERY_KEY_FREETEXT, 'trim');
 		if (empty($year) || empty($month) || empty($day)) {
-			return;
+			if (empty($text)) {
+                return;
+            }
 		}
+        $text = self::escapeSearchValue($text);
 
 		// Test results
 		require(plugin_dir_path(__FILE__).'/elasticsearch/autoload.php');
@@ -365,15 +405,38 @@ class WPDKAProgramListings {
 
 		$searchParams['index'] = self::ES_INDEX;
 		$searchParams['type']  = self::ES_TYPE;
-		$searchParams['body']['query']['match']['date'] = sprintf("%s-%s-%s", $year, $month, $day);
+        $searchParams['body']['size'] = 100; // Max 100 results
+        if (empty($text)) {
+            $searchParams['body']['query']['match']['date'] = sprintf("%s-%s-%s", $year, $month, $day);
+            $searchParams['body']['sort']['type']['order'] = 'DESC';
+        } else {
+            $searchParams['body']['query']['query_string']['default_field'] = 'allText';
+            $searchParams['body']['query']['query_string']['query'] = $text;
+            $searchParams['body']['query']['query_string']['default_operator'] = 'AND';
+            $searchParams['body']['sort']['date']['order'] = 'ASC';
+        }
 		try {
 			$queryResponse = $client->search($searchParams);
 		} catch (\Exception $e) {
 			return;
 		}
 
-		self::$search_results = $queryResponse['hits']['hits'];
+        // Sort by filename - elasticsearch can't do this when it is in _source
+        $ret_hits = $hits = $queryResponse['hits']['hits'];
+        $ret_hits = array();
+        foreach ($hits as $hit) {
+            $filename = $hit['_source']['filename'];
+            $ret_hits[$filename] = $hit;
+        }
+        ksort($ret_hits);
+
+		self::$search_results = $ret_hits;
 	}
+
+    public static function get_programlisting_search_type() {
+        $search_vars = self::get_programlisting_vars();
+        return $search_vars[self::QUERY_KEY_FREETEXT] ? self::QUERY_KEY_FREETEXT : 'date';
+    }
 
 	public static function get_programlisting_results() {
 		return self::$search_results;

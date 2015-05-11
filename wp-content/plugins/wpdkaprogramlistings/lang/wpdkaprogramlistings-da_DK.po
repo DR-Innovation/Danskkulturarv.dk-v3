@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-01-30 14:31+0100\n"
-"PO-Revision-Date: 2015-01-30 14:32+0100\n"
+"POT-Creation-Date: 2015-04-23 08:10+0100\n"
+"PO-Revision-Date: 2015-04-23 08:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.7.4\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -20,33 +20,67 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../pdfjs/pdfjs-viewer.php:51
+#: ../pdfjs/pdfjs-viewer.php:57
 msgid "View fullscreen"
 msgstr "Vis i fuldskærm"
 
-#: ../templates/programlisting-search-results.php:18
+#: ../templates/programlisting-search-results.php:12
+msgid "Full text search"
+msgstr "Fuldtekstsøgning"
+
+#: ../templates/programlisting-search-results.php:19
+#: ../templates/programlisting-search-results.php:71
 #: ../widgets/featured.php:70
 msgid "Year"
 msgstr "År"
 
-#: ../templates/programlisting-search-results.php:28
+#: ../templates/programlisting-search-results.php:29
+#: ../templates/programlisting-search-results.php:81
 #: ../widgets/featured.php:76
 msgid "Month"
 msgstr "Måned"
 
-#: ../templates/programlisting-search-results.php:38
+#: ../templates/programlisting-search-results.php:39
+#: ../templates/programlisting-search-results.php:91
 #: ../widgets/featured.php:81
 msgid "Day"
 msgstr "Dag"
 
-#: ../templates/programlisting-search-results.php:46
+#: ../templates/programlisting-search-results.php:47
+#: ../templates/programlisting-search-results.php:62
+#: ../templates/programlisting-search-results.php:99
+#: ../templates/programlisting-search-results.php:107
 #: ../widgets/featured.php:86
 msgid "Search the archive"
 msgstr "Søg i arkivet"
 
-#: ../templates/programlisting-search-results.php:56
+#: ../templates/programlisting-search-results.php:55
+#: ../templates/programlisting-search-results.php:104
+msgid "Search in program listings"
+msgstr "Søg i programoversigter"
+
+#: ../templates/programlisting-search-results.php:117
 msgid "Download program listing"
 msgstr "Hent programoversigt"
+
+#: ../templates/programlisting-search-results.php:124
+#, php-format
+msgid "%d result"
+msgid_plural "%d results"
+msgstr[0] "%d resultat"
+msgstr[1] "%d resultater"
+
+#: ../templates/programlisting-search-results.php:129
+msgid "Date"
+msgstr "Dato"
+
+#: ../templates/programlisting-search-results.php:130
+msgid "Download to your computer"
+msgstr "Hent til din computer"
+
+#: ../templates/programlisting-search-results.php:131
+msgid "Type"
+msgstr "Type"
 
 #: ../widgets/featured.php:19
 msgid "DKA Program Listings"
@@ -56,7 +90,7 @@ msgstr "DKA Programoversigter"
 msgid "Search for program listings"
 msgstr "Søg efter programoversigter"
 
-#: ../widgets/featured.php:25 ../wpdkaprogramlistings.php:130
+#: ../widgets/featured.php:25 ../wpdkaprogramlistings.php:129
 msgid "Program Listings"
 msgstr "Programoversigter"
 
@@ -84,37 +118,86 @@ msgstr "Titel:"
 msgid "Description:"
 msgstr "Beskrivelse:"
 
-#: ../wpdkaprogramlistings.php:105
-msgid "WordPress program listing Search"
-msgstr "WordPress programoversigt søg"
+#: ../wpdkaprogramlistings.php:104
+msgid "WordPress program listing"
+msgstr "WordPress sendeplaner"
 
-#: ../wpdkaprogramlistings.php:105
+#: ../wpdkaprogramlistings.php:104
 msgid "Rewrite rules flushed .."
 msgstr "Rewrite rules nulstillet .."
 
-#: ../wpdkaprogramlistings.php:135
+#: ../wpdkaprogramlistings.php:134
 msgid "Page for program listing results"
 msgstr "Side til programoversigt søgeresultater"
 
-#: ../wpdkaprogramlistings.php:140
+#: ../wpdkaprogramlistings.php:139
 #, fuzzy
 msgid "Permalinks must be enabled for program listings search to work properly"
 msgstr ""
 "Permalinks skal være aktiveret for at CHAOS søgning skal fungere korrekt"
 
-#: ../wpdkaprogramlistings.php:225
+#: ../wpdkaprogramlistings.php:226
 #, php-format
 msgid "%s program listing %s"
 msgstr "%s programoversigt %s"
+
+#: ../wpdkaprogramlistings.php:228
+#, php-format
+msgid "%s program listing search results %s"
+msgstr "%s sendeplaner søgeresultater %s"
+
+#: ../wpdkaprogramlistings.php:355
+#, php-format
+msgid "Use %s, %s, or %s keywords."
+msgstr "Benyt %s, %s eller %s som nøgleord."
+
+#: ../wpdkaprogramlistings.php:357
+#, php-format
+msgid "%s is used to include both words."
+msgstr "%s bruges hvis søgningen skal indeholde begge ord."
+
+#: ../wpdkaprogramlistings.php:359
+#, php-format
+msgid "%s is used to include atleast one of the words."
+msgstr "%s bruges hvis søgningen skal indeholde mindst ét af ordene."
+
+#: ../wpdkaprogramlistings.php:361
+#, php-format
+msgid "%s is used if it should not include the following word."
+msgstr "%s bruges hvis et ord skal udelukkes fra søgningen."
+
+#: ../wpdkaprogramlistings.php:363
+#, php-format
+msgid "If nothing has been specified it is by default %s."
+msgstr "Hvis ingenting er specificeret vil der blive brugt %s."
+
+#: ../wpdkaprogramlistings.php:365
+msgid "Put words or phrase in quotes to get more specific search results."
+msgstr ""
+"Indsæt ord eller sætninger i anførselstegn for at få mere specifikke "
+"søgeresultater."
+
+#: ../wpdkaprogramlistings.php:367
+#, php-format
+msgid "Use %s to replace a single character."
+msgstr "Benyt %s for at erstatte én enkelt karaktér."
+
+#: ../wpdkaprogramlistings.php:369
+#, php-format
+msgid "Use %s to replace zero or more characters."
+msgstr "Benyt %s for at erstatte nul eller flere karakterer."
+
+#~ msgid "Search"
+#~ msgstr "Søg"
+
+#~ msgid "WordPress program listing Search"
+#~ msgstr "WordPress programoversigt søg"
 
 #~ msgid "DKA Featured Program Listings"
 #~ msgstr "DKA Fremhævede samlinger"
 
 #~ msgid "The search gave %s %s"
 #~ msgstr "Søgning gav %s %s"
-
-#~ msgid "Search"
-#~ msgstr "Søg"
 
 #~ msgid "Exhibitions"
 #~ msgstr "Udstillinger"
@@ -185,9 +268,6 @@ msgstr "%s programoversigt %s"
 
 #~ msgid "Rights"
 #~ msgstr "Rettigheder"
-
-#~ msgid "Type"
-#~ msgstr "Type"
 
 #~ msgid "Status"
 #~ msgstr "Status"
@@ -286,9 +366,6 @@ msgstr "%s programoversigt %s"
 #, fuzzy
 #~ msgid "Show material"
 #~ msgstr "CHAOS materiale"
-
-#~ msgid "Date"
-#~ msgstr "Dato"
 
 #~ msgid "Quantity"
 #~ msgstr "Kvantitet"

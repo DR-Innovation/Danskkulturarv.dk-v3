@@ -194,4 +194,16 @@ $(function() {
     $('.programlisting-month select').change(function () {
         changeNumberDays();
     });
+
+    $('.js-change-search').click(function (e) {
+        e.preventDefault();
+        $('.js-free-text-search-content').toggleClass('hidden');
+        $('.js-date-search-content').toggleClass('hidden');
+        if ($('.js-free-text-search-content').is(':visible')) {
+            $('.js-free-text-search-content .programlistings-search-text').focus();
+        }
+        return false;
+    });
+
+    $('.programlisting-search-results .hover-info').popover();
 });
