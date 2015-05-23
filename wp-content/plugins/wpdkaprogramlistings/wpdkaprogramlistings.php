@@ -372,7 +372,7 @@ class WPDKAProgramListings {
     public static function escapeSearchValue($string)
     {
         $match = array('"');
-        $replace = array('\\"');
+        $replace = array('\\\\"');
         $string = str_replace($match, $replace, $string);
         return $string;
     }
@@ -409,15 +409,11 @@ class WPDKAProgramListings {
             $searchParams['body']['query']['match']['date'] = sprintf("%s-%s-%s", $year, $month, $day);
             $searchParams['body']['sort']['type']['order'] = 'DESC';
         } else {
-            if (preg_match('/"([^"]+?)"/', $text, $m)) {
-                $searchParams['body']['query']['match_phrase']['allText'] = $text;
-            } else {
-                $text = self::escapeSearchValue($text);
-                $searchParams['body']['query']['query_string']['default_field'] = 'allText';
-                $searchParams['body']['query']['query_string']['query'] = $text;
-                $searchParams['body']['query']['query_string']['default_operator'] = 'AND';
-                $searchParams['body']['sort']['date']['order'] = 'ASC';
-            }
+            $text = self::escapeSearchValue($text);
+            $searchParams['body']['query']['query_string']['default_field'] = 'allText';
+            $searchParams['body']['query']['query_string']['query'] = $text;
+            $searchParams['body']['query']['query_string']['default_operator'] = 'AND';
+            $searchParams['body']['sort']['date']['order'] = 'ASC';
         }
 		try {
 			$queryResponse = $client->search($searchParams);
