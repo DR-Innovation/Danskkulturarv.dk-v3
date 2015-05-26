@@ -1,11 +1,11 @@
-function daysInMonth(month,year) {
+function daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
 }
 
 var dayOptions = {};
 var monthOptions = {};
 
-function changeNumberDays () {
+function changeNumberDays() {
     if ($('.programlisting-month select').val() > 0 && $('.programlisting-year select').val() > 0) {
         var currentDay = $('.programlisting-day select').val();
         var currentMonth = $('.programlisting-month select').val();
@@ -64,7 +64,8 @@ function changeNumberDays () {
 }
 
 var earliest = 0;
-function changeMonth () {
+
+function changeMonth() {
     if (earliest != 0 && ($('.programlisting-year select').val() == 1925 || $('.programlisting-year select').val() == 1984)) {
         if (earliest == 1984) {
             for (var i = 2; i >= 1; i--) {
@@ -140,7 +141,7 @@ function changeMonth () {
             }
             $('.programlisting-month select option[value=' + i + ']').remove();
         }
-        
+
     } else {
         if (earliest == 1925) {
             for (var i = 2; i >= 1; i--) {
@@ -183,27 +184,75 @@ function changeMonth () {
     }
 }
 
+function drawArrowhead(locx, locy, angle, sizex, sizey, ctx) {
+    var hx = sizex / 2;
+    var hy = sizey / 2;
+    ctx.translate((locx), (locy));
+    ctx.rotate(angle);
+    ctx.translate(-hx, -hy);
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, 1 * sizey);
+    ctx.lineTo(1 * sizex, 1 * hy);
+    ctx.closePath();
+    ctx.fill();
+}
+
+
+// returns radians
+function findAngle(sx, sy, ex, ey) {
+    // make sx and sy at the zero point
+    return Math.atan((ey - sy) / (ex - sx));
+}
+
+var sx = 200;
+var sy = 100;
+var ex = 200;
+var ey = 10;
+
+
+
+
 $(function() {
     changeMonth();
     changeNumberDays();
-    $('.programlisting-year select').change(function () {
+    $('.programlisting-year select').change(function() {
         changeMonth();
         changeNumberDays();
     });
 
-    $('.programlisting-month select').change(function () {
+    $('.programlisting-month select').change(function() {
         changeNumberDays();
     });
 
-    $('.js-change-search').click(function (e) {
+    $('.js-change-search').click(function(e) {
         e.preventDefault();
         $('.js-free-text-search-content').toggleClass('hidden');
         $('.js-date-search-content').toggleClass('hidden');
         if ($('.js-free-text-search-content').is(':visible')) {
             $('.js-free-text-search-content .programlistings-search-text').focus();
+            $('.full-text-search-div').hide();
+        } else {
+            $('.full-text-search-div').show();
         }
         return false;
     });
 
     $('.programlisting-search-results .hover-info').popover();
+
+    var can = document.getElementById('full-text-search-arrow');
+    if (can) {
+        var ctx = can.getContext('2d');
+        ctx.beginPath();
+        ctx.fillStyle = "rgb(7,127,253)";
+        ctx.moveTo(100, 100);
+        ctx.quadraticCurveTo(sx, sy, ex, ey);
+        ctx.strokeStyle = "rgb(7,127,253)";
+        ctx.stroke();
+
+        var ang = findAngle(sx, sy, ex, ey);
+        ctx.fillRect(ex, ey, 2, 2);
+        drawArrowhead(ex, ey, ang, 15, 10, ctx);
+    }
 });

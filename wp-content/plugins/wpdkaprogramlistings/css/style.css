@@ -1,1 +1,186 @@
-.programlisting-year{border:1px solid #eee;margin-bottom:5px;border-radius:3px;overflow:hidden;background:#fff url("../images/arrows.png") no-repeat 95% 50%;font-weight:700}.programlisting-year select{padding:8px;width:130%;border:none;box-shadow:none;background:transparent;background-image:none;-webkit-appearance:none}.programlisting-year select:focus{outline:none}.programlisting-year select:-moz-focusring{color:transparent;text-shadow:0 0 0 #000}.programlisting-month{border:1px solid #eee;margin-bottom:5px;border-radius:3px;overflow:hidden;background:#fff url("../images/arrows.png") no-repeat 95% 50%;font-weight:700}.programlisting-month select{padding:8px;width:130%;border:none;box-shadow:none;background:transparent;background-image:none;-webkit-appearance:none}.programlisting-month select:focus{outline:none}.programlisting-month select:-moz-focusring{color:transparent;text-shadow:0 0 0 #000}.programlisting-day{border:1px solid #eee;margin-bottom:5px;border-radius:3px;overflow:hidden;background:#fff url("../images/arrows.png") no-repeat 95% 50%;font-weight:700}.programlisting-day select{padding:8px;width:130%;border:none;box-shadow:none;background:transparent;background-image:none;-webkit-appearance:none}.programlisting-day select:focus{outline:none}.programlisting-day select:-moz-focusring{color:transparent;text-shadow:0 0 0 #000}.programlisting-search{height:auto;border:1px solid #ccc;box-sizing:border-box;padding:10px}.programlisting-search h3{text-align:center}@media (min-width:1200px){.programlisting-search{min-height:360px}}@media (min-width:991px) and (max-width:1199px){.programlisting-search{min-height:293px}}.programlisting-search-results{min-height:43px;margin-bottom:20px;margin-top:5px;border-bottom:1px solid #eee}.programlisting-search-results .hover-info{border-color:#ddd}.programlisting-search-results .hover-info:hover{cursor:default}.programlisting-search-results .change-search{min-height:40px}.programlisting-search-results .programlisting-count{line-height:40px;height:40px}.programlisting-search-results .free-text-search div:first-child{margin-top:5px}@media (max-width:768px){.programlisting-search-results .free-text-search div:first-child{margin-top:10px}}.programlisting-search-results .programlistings-search-text{background-color:#fff;border:1px solid #ddd;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;height:35px;margin-bottom:6px}.programlisting-results{margin:0 auto;text-align:center}.programlisting-results div{margin-bottom:20px}.programlisting-results .search-overview{overflow-x:hidden}.programlisting-results .search-overview li{text-align:left}.programlisting-results .search-overview li .center{text-align:center}.programlisting-results .search-overview li .right{text-align:right}.programlisting-results .search-overview li a{text-decoration:underline}.programlisting-results .search-overview li a:visited{color:#800080}.programlisting-results .search-overview .btn-link{color:inherit;padding-top:0;padding-bottom:0}.programlisting-results .search-overview .btn-link:hover,.programlisting-results .search-overview .btn-link:active,.programlisting-results .search-overview .btn-link:visited{color:inherit;text-decoration:none}.programlisting-results .results-count{text-align:left;border-bottom:1px solid #eee}
+@import url(http://fonts.googleapis.com/css?family=Calligraffitti);
+.programlisting-year {
+  border: 1px solid #eee;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #ffffff url("../images/arrows.png") no-repeat 95% 50%;
+  font-weight: 700;
+}
+.programlisting-year select {
+  padding: 8px;
+  width: 130%;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  background-image: none;
+  -webkit-appearance: none;
+}
+.programlisting-year select:focus {
+  outline: none;
+}
+.programlisting-year select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+.programlisting-month {
+  border: 1px solid #eee;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #ffffff url("../images/arrows.png") no-repeat 95% 50%;
+  font-weight: 700;
+}
+.programlisting-month select {
+  padding: 8px;
+  width: 130%;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  background-image: none;
+  -webkit-appearance: none;
+}
+.programlisting-month select:focus {
+  outline: none;
+}
+.programlisting-month select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+.programlisting-day {
+  border: 1px solid #eee;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #ffffff url("../images/arrows.png") no-repeat 95% 50%;
+  font-weight: 700;
+}
+.programlisting-day select {
+  padding: 8px;
+  width: 130%;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  background-image: none;
+  -webkit-appearance: none;
+}
+.programlisting-day select:focus {
+  outline: none;
+}
+.programlisting-day select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+.programlisting-search {
+  height: auto;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.programlisting-search h3 {
+  text-align: center;
+}
+@media (min-width: 1200px) {
+  .programlisting-search {
+    min-height: 360px;
+  }
+}
+@media (min-width: 991px) and (max-width: 1199px) {
+  .programlisting-search {
+    min-height: 293px;
+  }
+}
+.programlisting-search-results {
+  min-height: 43px;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  border-bottom: 1px solid #eee;
+}
+.programlisting-search-results .hover-info {
+  border-color: #ddd;
+}
+.programlisting-search-results .hover-info:hover {
+  cursor: default;
+}
+.programlisting-search-results .change-search {
+  min-height: 40px;
+}
+.programlisting-search-results .programlisting-count {
+  line-height: 40px;
+  height: 40px;
+}
+.programlisting-search-results .free-text-search div:first-child {
+  margin-top: 5px;
+}
+@media (max-width: 768px) {
+  .programlisting-search-results .free-text-search div:first-child {
+    margin-top: 10px;
+  }
+}
+.programlisting-search-results .programlistings-search-text {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  height: 35px;
+  margin-bottom: 6px;
+}
+.programlisting-results {
+  margin: 0 auto;
+  text-align: center;
+}
+.programlisting-results div {
+  margin-bottom: 20px;
+}
+.programlisting-results .search-overview {
+  overflow-x: hidden;
+}
+.programlisting-results .search-overview li {
+  text-align: left;
+}
+.programlisting-results .search-overview li .center {
+  text-align: center;
+}
+.programlisting-results .search-overview li .right {
+  text-align: right;
+}
+.programlisting-results .search-overview li a {
+  text-decoration: underline;
+}
+.programlisting-results .search-overview li a:visited {
+  color: #800080;
+}
+.programlisting-results .search-overview .btn-link {
+  color: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.programlisting-results .search-overview .btn-link:hover,
+.programlisting-results .search-overview .btn-link:active,
+.programlisting-results .search-overview .btn-link:visited {
+  color: inherit;
+  text-decoration: none;
+}
+.programlisting-results .results-count {
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+.full-text-search-div {
+  min-height: 200px;
+}
+.full-text-search-div #full-text-search-arrow {
+  position: absolute;
+  right: -20px;
+  top: -20px;
+}
+.full-text-search-div p {
+  font-family: 'Calligraffitti', cursive;
+  position: absolute;
+  right: 140px;
+  top: 65px;
+  font-size: 20px;
+  color: #077ffd;
+  z-index: 2;
+  letter-spacing: 1px;
+}

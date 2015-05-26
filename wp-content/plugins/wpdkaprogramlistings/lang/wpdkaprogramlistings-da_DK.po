@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-04-23 08:10+0100\n"
-"PO-Revision-Date: 2015-04-23 08:11+0100\n"
+"POT-Creation-Date: 2015-05-26 16:25+0100\n"
+"PO-Revision-Date: 2015-05-26 16:25+0100\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
@@ -24,63 +24,67 @@ msgstr ""
 msgid "View fullscreen"
 msgstr "Vis i fuldskærm"
 
-#: ../templates/programlisting-search-results.php:12
+#: ../templates/programlisting-search-results.php:11
 msgid "Full text search"
 msgstr "Fuldtekstsøgning"
 
-#: ../templates/programlisting-search-results.php:19
-#: ../templates/programlisting-search-results.php:71
+#: ../templates/programlisting-search-results.php:18
+#: ../templates/programlisting-search-results.php:70
 #: ../widgets/featured.php:70
 msgid "Year"
 msgstr "År"
 
-#: ../templates/programlisting-search-results.php:29
-#: ../templates/programlisting-search-results.php:81
+#: ../templates/programlisting-search-results.php:28
+#: ../templates/programlisting-search-results.php:80
 #: ../widgets/featured.php:76
 msgid "Month"
 msgstr "Måned"
 
-#: ../templates/programlisting-search-results.php:39
-#: ../templates/programlisting-search-results.php:91
+#: ../templates/programlisting-search-results.php:38
+#: ../templates/programlisting-search-results.php:90
 #: ../widgets/featured.php:81
 msgid "Day"
 msgstr "Dag"
 
-#: ../templates/programlisting-search-results.php:47
-#: ../templates/programlisting-search-results.php:62
-#: ../templates/programlisting-search-results.php:99
-#: ../templates/programlisting-search-results.php:107
+#: ../templates/programlisting-search-results.php:46
+#: ../templates/programlisting-search-results.php:61
+#: ../templates/programlisting-search-results.php:98
+#: ../templates/programlisting-search-results.php:106
 #: ../widgets/featured.php:86
 msgid "Search the archive"
 msgstr "Søg i arkivet"
 
-#: ../templates/programlisting-search-results.php:55
-#: ../templates/programlisting-search-results.php:104
+#: ../templates/programlisting-search-results.php:54
+#: ../templates/programlisting-search-results.php:103
 msgid "Search in program listings"
 msgstr "Søg i programoversigter"
 
-#: ../templates/programlisting-search-results.php:117
+#: ../templates/programlisting-search-results.php:116
 msgid "Download program listing"
 msgstr "Hent programoversigt"
 
-#: ../templates/programlisting-search-results.php:124
+#: ../templates/programlisting-search-results.php:123
 #, php-format
 msgid "%d result"
 msgid_plural "%d results"
 msgstr[0] "%d resultat"
 msgstr[1] "%d resultater"
 
-#: ../templates/programlisting-search-results.php:129
+#: ../templates/programlisting-search-results.php:128
 msgid "Date"
 msgstr "Dato"
 
-#: ../templates/programlisting-search-results.php:130
+#: ../templates/programlisting-search-results.php:129
 msgid "Download to your computer"
 msgstr "Hent til din computer"
 
-#: ../templates/programlisting-search-results.php:131
+#: ../templates/programlisting-search-results.php:130
 msgid "Type"
 msgstr "Type"
+
+#: ../templates/programlisting-search-results.php:154
+msgid "Click to full text search"
+msgstr "Klik her for at fritekstsøge"
 
 #: ../widgets/featured.php:19
 msgid "DKA Program Listings"
