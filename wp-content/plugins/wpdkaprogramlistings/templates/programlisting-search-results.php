@@ -1,5 +1,4 @@
 <?php get_header(); ?>
-
 <?php 
     $results = WPDKAProgramListings::get_programlisting_results(); 
     $search_text = WPDKAProgramListings::get_programlisting_search_type() === WPDKAProgramListings::QUERY_KEY_FREETEXT;
@@ -150,6 +149,11 @@
                     <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>
+            <?php else: ?>
+                <div class="full-text-search-div hidden-xs hidden-sm hidden-md">
+                    <p><?php _e('Click to full text search', WPDKAProgramListings::DOMAIN); ?></p>
+                    <canvas id="full-text-search-arrow" width="250" height="200"></canvas>
+                </div>
             <?php endif; ?>
         </div>
 	<?php endif; ?>
