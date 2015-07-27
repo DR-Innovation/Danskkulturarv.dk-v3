@@ -83,7 +83,7 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 			echo '<option value="' . $d . '">' . $d . '</option>';
 		}
 		echo '</select></div></div>';
-		echo '<div class="col-xs-12 col-sm-12"><button type="submit" class="btn btn-primary btn-block">' . __('Search the archive', WPDKAProgramListings::DOMAIN) . '</button></div>';
+		echo '<div class="col-xs-12 col-sm-12"><button type="submit" class="btn btn-primary btn-block">' . __('Search the program listings', WPDKAProgramListings::DOMAIN) . '</button></div>';
 		echo '</form>';
 
 		echo '</div>';
