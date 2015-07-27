@@ -43,7 +43,7 @@
     			</div>
     		</div>
     		<div class="col-xs-12 col-md-3 col-sm-3 col-lg-2">
-    			<button type="submit" class="btn btn-primary btn-block"><?php _e('Search the archive', WPDKAProgramListings::DOMAIN); ?></button>
+    			<button type="submit" class="btn btn-primary btn-block"><?php _e('Search on date', WPDKAProgramListings::DOMAIN); ?></button>
     		</div>
     	</form>
     </div>
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="col-xs-12 col-lg-2 col-sm-3" style="padding-bottom: 5px;">
-                <button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit"><?php _e('Search the archive', WPDKAProgramListings::DOMAIN); ?></button>
+                <button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit"><?php _e('Search on date', WPDKAProgramListings::DOMAIN); ?></button>
             </div>
         </form>
     </div>
@@ -95,7 +95,7 @@
                 </div>
             </div>
             <div class="col-xs-12 col-md-3 col-sm-3 col-lg-2">
-                <button type="submit" class="btn btn-primary btn-block"><?php _e('Search the archive', WPDKAProgramListings::DOMAIN); ?></button>
+                <button type="submit" class="btn btn-primary btn-block"><?php _e('Search on date', WPDKAProgramListings::DOMAIN); ?></button>
             </div>
         </form>
         <form class="free-text-search<?php echo $search_text ? ' hidden' : ''; ?>" method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
@@ -103,7 +103,7 @@
                 <input type="text" class="programlistings-search-text" name="<?php echo WPDKAProgramListings::QUERY_KEY_FREETEXT; ?>" class="form-control" placeholder="<?php _e('Search in program listings', WPDKAProgramListings::DOMAIN); ?>" value="<?php echo WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" />
             </div>
             <div class="col-xs-12 col-lg-2 col-sm-3">
-                <button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit"><?php _e('Search the archive', WPDKAProgramListings::DOMAIN); ?></button>
+                <button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit"><?php _e('Search on date', WPDKAProgramListings::DOMAIN); ?></button>
             </div>
         </form>
     </noscript>
