@@ -3,12 +3,26 @@
     $results = WPDKAProgramListings::get_programlisting_results(); 
     $search_text = WPDKAProgramListings::get_programlisting_search_type() === WPDKAProgramListings::QUERY_KEY_FREETEXT;
 ?>
+<div class="schedule-free-text-search row">
+    <div class="js-free-text-search-content">
+        <form method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
+            <div class="col-xs-12 col-lg-6 col-sm-9">
+                <div class="input-group">
+                    <input type="text" name="<?php echo WPDKAProgramListings::QUERY_KEY_FREETEXT; ?>" class="form-control programlistings-search-text" placeholder="<?php _e('Search program schedule', WPDKAProgramListings::DOMAIN); ?>" value="<?php echo WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" />
+                    <div class="input-group-addon hover-info" data-html="true" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="<?php WPDKAProgramListings::print_search_info_text(); ?>">
+                        <i class="icon icon-info-sign"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-lg-2 col-sm-3" style="padding-bottom: 5px; padding-left: 0;">
+                <button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit"><?php _e('Search', WPDKAProgramListings::DOMAIN); ?></button>
+            </div>
+        </form>
+    </div>
+</div>
 <div class="programlisting-search-results row">
     <div class="programlisting-count col-lg-3 col-md-9 col-sm-9 col-xs-10">
         <img src="<?php echo plugins_url( '../images/logo.png' , __FILE__ ); ?>" alt="TV og Radio" style="vertical-align: top; max-width: 100%; max-height: 38px;" />
-    </div>
-    <div class="col-xs-2 col-md-3 col-sm-3 col-lg-1 change-search pull-right">
-        <button class="btn btn-default js-change-search pull-right" title="<?php _e('Full text search', WPDKAProgramListings::DOMAIN); ?>"><i class="icon icon-search"></i></button>
     </div>
     <div class="js-date-search-content<?php echo $search_text ? ' hidden' : ''; ?>">
     	<form method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
@@ -46,21 +60,6 @@
     			<button type="submit" class="btn btn-primary btn-block"><?php _e('Search on date', WPDKAProgramListings::DOMAIN); ?></button>
     		</div>
     	</form>
-    </div>
-    <div class="js-free-text-search-content <?php echo !$search_text ? ' hidden' : ''; ?>">
-        <form method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
-            <div class="col-xs-12 col-lg-6 col-sm-9">
-                <div class="input-group">
-                    <input type="text" name="<?php echo WPDKAProgramListings::QUERY_KEY_FREETEXT; ?>" class="form-control programlistings-search-text" placeholder="<?php _e('Search in program listings', WPDKAProgramListings::DOMAIN); ?>" value="<?php echo WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" />
-                    <div class="input-group-addon hover-info" data-html="true" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="<?php WPDKAProgramListings::print_search_info_text(); ?>">
-                        <i class="icon icon-info-sign"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-lg-2 col-sm-3" style="padding-bottom: 5px;">
-                <button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit"><?php _e('Search on date', WPDKAProgramListings::DOMAIN); ?></button>
-            </div>
-        </form>
     </div>
     <noscript>
         <form method="GET" class="<?php echo !$search_text ? 'hidden' : ''; ?>" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
@@ -149,11 +148,6 @@
                     <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>
-            <?php else: ?>
-                <div class="full-text-search-div hidden-xs hidden-sm hidden-md">
-                    <p><?php _e('Click to full text search', WPDKAProgramListings::DOMAIN); ?></p>
-                    <canvas id="full-text-search-arrow" width="250" height="200"></canvas>
-                </div>
             <?php endif; ?>
         </div>
 	<?php endif; ?>

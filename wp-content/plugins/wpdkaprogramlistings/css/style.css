@@ -184,3 +184,28 @@
   z-index: 2;
   letter-spacing: 1px;
 }
+
+
+.schedule-free-text-search {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.schedule-free-text-search input.programlistings-search-text {
+  padding: 10px 16px;
+  font-size: 17px;
+  line-height: 1.33;
+  border-radius: 4px;
+  height: 44px;
+  color: #555555;
+  background-color: #fbfbfb;
+}
+
+.schedule-free-text-search button {
+  line-height: 22px;
+  height: 44px;
+  padding: 0 18px;
+  font-size: 14px;
+  width: initial;
+}
+

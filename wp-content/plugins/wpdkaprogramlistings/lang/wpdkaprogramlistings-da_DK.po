@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-07-27 10:21+0200\n"
-"PO-Revision-Date: 2015-07-27 10:21+0200\n"
+"POT-Creation-Date: 2015-07-29 10:18+0200\n"
+"PO-Revision-Date: 2015-07-29 10:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
@@ -24,63 +24,61 @@ msgstr ""
 msgid "View fullscreen"
 msgstr "Vis i fuldskærm"
 
-#: ../templates/programlisting-search-results.php:11
-msgid "Full text search"
-msgstr "Fuldtekstsøgning"
+#: ../templates/programlisting-search-results.php:11 ../widgets/featured.php:86
+msgid "Search program schedule"
+msgstr "Søg i sendeplanerne"
 
 #: ../templates/programlisting-search-results.php:18
-#: ../templates/programlisting-search-results.php:70 ../widgets/featured.php:70
+msgid "Search"
+msgstr "Søg"
+
+#: ../templates/programlisting-search-results.php:32
+#: ../templates/programlisting-search-results.php:69 ../widgets/featured.php:70
 msgid "Year"
 msgstr "År"
 
-#: ../templates/programlisting-search-results.php:28
-#: ../templates/programlisting-search-results.php:80 ../widgets/featured.php:76
+#: ../templates/programlisting-search-results.php:42
+#: ../templates/programlisting-search-results.php:79 ../widgets/featured.php:76
 msgid "Month"
 msgstr "Måned"
 
-#: ../templates/programlisting-search-results.php:38
-#: ../templates/programlisting-search-results.php:90 ../widgets/featured.php:81
+#: ../templates/programlisting-search-results.php:52
+#: ../templates/programlisting-search-results.php:89 ../widgets/featured.php:81
 msgid "Day"
 msgstr "Dag"
 
-#: ../templates/programlisting-search-results.php:46
-#: ../templates/programlisting-search-results.php:61
-#: ../templates/programlisting-search-results.php:98
-#: ../templates/programlisting-search-results.php:106
+#: ../templates/programlisting-search-results.php:60
+#: ../templates/programlisting-search-results.php:97
+#: ../templates/programlisting-search-results.php:105
 msgid "Search on date"
 msgstr "Søg på dato"
 
-#: ../templates/programlisting-search-results.php:54
-#: ../templates/programlisting-search-results.php:103
+#: ../templates/programlisting-search-results.php:102
 msgid "Search in program listings"
 msgstr "Søg i programoversigter"
 
-#: ../templates/programlisting-search-results.php:116
+#: ../templates/programlisting-search-results.php:115
 msgid "Download program listing"
 msgstr "Hent programoversigt"
 
-#: ../templates/programlisting-search-results.php:123
+#: ../templates/programlisting-search-results.php:122
 #, php-format
 msgid "%d result"
 msgid_plural "%d results"
 msgstr[0] "%d resultat"
 msgstr[1] "%d resultater"
 
-#: ../templates/programlisting-search-results.php:128
+#: ../templates/programlisting-search-results.php:127
 msgid "Date"
 msgstr "Dato"
 
-#: ../templates/programlisting-search-results.php:129
+#: ../templates/programlisting-search-results.php:128
 msgid "Download to your computer"
 msgstr "Hent til din computer"
 
-#: ../templates/programlisting-search-results.php:130
+#: ../templates/programlisting-search-results.php:129
 msgid "Type"
 msgstr "Type"
-
-#: ../templates/programlisting-search-results.php:154
-msgid "Click to full text search"
-msgstr "Klik her for at fritekstsøge"
 
 #: ../widgets/featured.php:19
 msgid "DKA Program Listings"
@@ -97,10 +95,6 @@ msgstr "Programoversigter"
 #: ../widgets/featured.php:26
 msgid "Search description"
 msgstr "Søge beskrivelse"
-
-#: ../widgets/featured.php:86
-msgid "Search the program listings"
-msgstr "Søg i sendeplanerne"
 
 #: ../widgets/featured.php:115
 msgid "Upload new image"
@@ -191,11 +185,17 @@ msgstr "Benyt %s for at erstatte én enkelt karaktér."
 msgid "Use %s to replace zero or more characters."
 msgstr "Benyt %s for at erstatte nul eller flere karakterer."
 
+#~ msgid "Full text search"
+#~ msgstr "Fuldtekstsøgning"
+
+#~ msgid "Click to full text search"
+#~ msgstr "Klik her for at fritekstsøge"
+
+#~ msgid "Search the program listings"
+#~ msgstr "Søg i sendeplanerne"
+
 #~ msgid "Search the archive"
 #~ msgstr "Søg i arkivet"
-
-#~ msgid "Search"
-#~ msgstr "Søg"
 
 #~ msgid "WordPress program listing Search"
 #~ msgstr "WordPress programoversigt søg"
