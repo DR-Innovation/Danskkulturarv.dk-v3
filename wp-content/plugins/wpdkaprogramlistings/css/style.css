@@ -96,10 +96,11 @@
   margin-top: 5px;
   border-bottom: 1px solid #eee;
 }
-.programlisting-search-results .hover-info {
+.schedule-free-text-search .hover-info {
   border-color: #ddd;
 }
-.programlisting-search-results .hover-info:hover {
+
+.schedule-free-text-search .hover-info:hover {
   cursor: default;
 }
 .programlisting-search-results .change-search {
@@ -188,7 +189,7 @@
 
 .schedule-free-text-search {
   width: 100%;
-  margin: 10px 0;
+  margin: 0;
 }
 
 .schedule-free-text-search input.programlistings-search-text {
