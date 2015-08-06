@@ -1,14 +1,14 @@
 # BEGIN Legacy rewrites
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /dka/
-RewriteRule ^chaos_post/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$ /dka/index.php?guid=$1 [R=301,NC]
+RewriteBase /
+RewriteRule ^chaos_post/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$ /index.php?guid=$1 [R=301,NC]
 RewriteCond %{QUERY_STRING} ^s=([^&]*)$
-RewriteRule .* /dka/find/%1/? [L,R=301]
+RewriteRule .* /find/%1/? [L,R=301]
 RewriteRule ^collection/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/?$	http://social.danskkulturarv.dk/collection/$1 [L,R=301]
-RewriteRule ^members.*$		/dka/relaunch/ [L,R=301]
-RewriteRule ^inspiration/?$	/dka/relaunch/ [L,R=301]
-RewriteRule ^english/?$		/dka/relaunch/ [L,R=301]
+RewriteRule ^members.*$		/relaunch/ [L,R=301]
+RewriteRule ^inspiration/?$	/relaunch/ [L,R=301]
+RewriteRule ^english/?$		/relaunch/ [L,R=301]
 </IfModule>
 # END Legacy rewrites
 
@@ -22,11 +22,11 @@ RewriteRule ^english/?$		/dka/relaunch/ [L,R=301]
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /dka/
+RewriteBase /
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /dka/index.php [L]
+RewriteRule . /index.php [L]
 </IfModule>
 
 # END WordPress
