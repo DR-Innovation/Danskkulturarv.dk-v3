@@ -56,7 +56,7 @@ class WPDKAProgramListingsSearchWidget extends WP_Widget {
         echo '<div class="schedule-free-text-search row">';
         echo '<div class="js-free-text-search-content">';
         echo '<form method="GET" action="' . get_permalink(get_option('wpdkaprogramlistings-page'))  . '">';
-        echo '<div class="col-xs-12 col-lg-6 col-sm-9">';
+        echo '<div class="col-xs-12 col-lg-10 col-sm-9">';
         echo '<div class="input-group">';
         echo '<input type="text" name="' . WPDKAProgramListings::QUERY_KEY_FREETEXT . '" class="form-control programlistings-search-text" placeholder="' . __('Search program schedule', WPDKAProgramListings::DOMAIN) . '" value="' . WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim') . '" />';
         echo '<div class="input-group-addon hover-info" data-html="true" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="';
