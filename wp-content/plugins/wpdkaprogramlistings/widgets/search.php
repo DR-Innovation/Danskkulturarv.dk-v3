@@ -57,8 +57,8 @@ class WPDKAProgramListingsSearchWidget extends WP_Widget {
         echo '<div class="js-free-text-search-content">';
         echo '<form method="GET" action="' . get_permalink(get_option('wpdkaprogramlistings-page'))  . '">';
         echo '<div class="col-xs-9 col-lg-10 col-sm-9">';
-        echo '<div class="input-group" style="">';
-        echo '<input type="text" name="' . WPDKAProgramListings::QUERY_KEY_FREETEXT . '" class="form-control programlistings-search-text" placeholder="' . __('Search program schedule', WPDKAProgramListings::DOMAIN) . '" value="' . WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim') . '" />';
+        echo '<div class="input-group">';
+        echo '<input type="text" name="' . WPDKAProgramListings::QUERY_KEY_FREETEXT . '" class="form-control programlistings-search-text" placeholder="' . __('Search program schedule', WPDKAProgramListings::DOMAIN) . '" value="' . WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim') . '" data-original-title="" title="" />';
         echo '<div class="input-group-addon hover-info" data-html="true" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="';
         WPDKAProgramListings::print_search_info_text();
         echo '"><i class="icon icon-info-sign"></i>';
