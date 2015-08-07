@@ -4,7 +4,7 @@
     $search_text = WPDKAProgramListings::get_programlisting_search_type() === WPDKAProgramListings::QUERY_KEY_FREETEXT;
 ?>
 <div class="programlisting-search-results row">
-    <div class="programlisting-count col-lg-3 col-md-9 col-sm-9 col-xs-10">
+    <div class="programlisting-count col-lg-3 col-md-12 col-sm-12 col-xs-12">
         <img src="<?php echo plugins_url( '../images/logo.png' , __FILE__ ); ?>" alt="TV og Radio" style="vertical-align: top; max-width: 100%; max-height: 38px;" />
     </div>
     <div class="js-date-search-content">

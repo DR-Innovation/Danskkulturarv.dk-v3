@@ -53,17 +53,17 @@ class WPDKAProgramListingsSearchWidget extends WP_Widget {
 		$image = $instance['image'];
 		echo $args['before_widget'];
 
-        echo '<div class="schedule-free-text-search row">';
+        echo '<div class="schedule-free-text-search ">';
         echo '<div class="js-free-text-search-content">';
         echo '<form method="GET" action="' . get_permalink(get_option('wpdkaprogramlistings-page'))  . '">';
-        echo '<div class="col-xs-12 col-lg-10 col-sm-9">';
-        echo '<div class="input-group">';
+        echo '<div class="col-xs-9 col-lg-10 col-sm-9">';
+        echo '<div class="input-group" style="">';
         echo '<input type="text" name="' . WPDKAProgramListings::QUERY_KEY_FREETEXT . '" class="form-control programlistings-search-text" placeholder="' . __('Search program schedule', WPDKAProgramListings::DOMAIN) . '" value="' . WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim') . '" />';
         echo '<div class="input-group-addon hover-info" data-html="true" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="';
         WPDKAProgramListings::print_search_info_text();
         echo '"><i class="icon icon-info-sign"></i>';
         echo '</div></div></div>';
-        echo '<div class="col-xs-12 col-lg-2 col-sm-3" style="padding-bottom: 5px; padding-left: 0;">';
+        echo '<div class="col-xs-3 col-lg-2 col-sm-3" style="padding-bottom: 5px; padding-left: 0;">';
         echo '<button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit">' . __('Search', WPDKAProgramListings::DOMAIN) . '</button>';
         echo '</div></form>';
         echo '</div></div>';
