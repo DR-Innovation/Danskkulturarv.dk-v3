@@ -130,6 +130,9 @@
   height: 35px;
   margin-bottom: 6px;
 }
+.programlisting-search-results button {
+  max-width: 9em;
+}
 .programlisting-results {
   margin: 0 auto;
   text-align: center;
