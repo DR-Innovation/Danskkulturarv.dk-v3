@@ -71,6 +71,7 @@ class WPDKAProgramListings {
 	 */
 	private function load_dependencies() {
 		require_once('widgets/featured.php');
+		require_once('widgets/search.php');
 		require_once('pdfjs/pdfjs-viewer.php');
 	}
 
@@ -84,6 +85,7 @@ class WPDKAProgramListings {
 	 */
 	public function register_widgets() {
 		register_widget( 'WPDKAProgramListingsFeaturedWidget' );
+		register_widget( 'WPDKAProgramListingsSearchWidget' );
 	}
 
 	public static function flush_rewrite_rules_soon() {

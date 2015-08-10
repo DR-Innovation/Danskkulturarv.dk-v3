@@ -75,7 +75,8 @@ final class WPDKACollections {
 	 */
 	private static $plugin_dependencies = array(
 		'wpchaosclient/wpchaosclient.php' => 'WordPress Chaos Client',
-		'wpdka/wpdka.php' => 'WordPress DKA'
+		'wpdka/wpdka.php' => 'WordPress DKA',
+		'wpchaossearch/wpchaossearch.php' => 'WordPress Chaos Search'
 	);
 
 	/**

@@ -239,7 +239,7 @@ $(function() {
         return false;
     });
 
-    $('.programlisting-search-results .hover-info').popover();
+    $('.schedule-free-text-search .hover-info').popover();
 
     var can = document.getElementById('full-text-search-arrow');
     if (can) {
