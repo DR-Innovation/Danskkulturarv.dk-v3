@@ -103,6 +103,9 @@
 .schedule-free-text-search .hover-info:hover {
   cursor: default;
 }
+.schedule-free-text-search button {
+    max-width: 5em;
+}
 .programlisting-search-results .change-search {
   min-height: 40px;
 }
