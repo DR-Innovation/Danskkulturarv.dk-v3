@@ -1,0 +1,34 @@
+$('#a4, #a5, #a6').on('touchstart click', function() {
+  me = $(this).attr('id');
+  $('body').removeClass('a4 a5 a6').addClass(me);
+});
+
+
+<div class="col-xs-6">
+  <p>Vælg papirformat (liggende):</p>
+</div>
+<div class="col-xs-4">
+  <div class="btn-group btn-block paperformats" data-toggle="buttons">
+    <label class="btn btn-default" id="a6"><input type="radio" name="formats" />A6</label>
+    <label class="btn btn-default" id="a5"><input type="radio" name="formats" />A5</label>
+    <label class="btn btn-default active" id="a4"><input type="radio" name="formats" />A4</label>
+  </div>
+</div>
+
+
+$('#adjustment').on('touchstart click', function() {
+  $('body').addClass('clicked');
+});
+
+
+,
+crop: function(e) {
+  // Output the result data for cropping image.
+  console.log(e.x);
+  console.log(e.y);
+  console.log(e.width);
+  console.log(e.height);
+  console.log(e.rotate);
+  console.log(e.scaleX);
+  console.log(e.scaleY);
+}
