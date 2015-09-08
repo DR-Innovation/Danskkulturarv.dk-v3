@@ -996,7 +996,7 @@ html[dir='rtl'] .verticalToolbarSeparator {
 }
 
 .horizontalToolbarSeparator {
-  display: block; 
+  display: block;
   margin: 0 0 4px 0;
   height: 1px;
   width: 100%;
@@ -1670,3 +1670,28 @@ canvas {
   }
 }
 
+
+
+/* Custom stuff */
+
+#toolbarViewerLeft, #openFile, #viewBookmark, #secondaryToolbarToggle, #presentationMode, #download, .verticalToolbarSeparator {
+	display: none;
+}
+.innerCenter span#scaleSelectContainer.dropdownToolbarButton {
+	max-width: 130px !important;
+}
+#scaleSelectContainer select {
+	-webkit-appearance:none;
+	height: 19px;
+}
+html[dir='ltr'] #toolbarContainer .outerCenter{
+  left: 0px;
+  float: none;
+}
+html[dir='ltr'] #toolbarContainer .innerCenter{
+  float: none;
+  right: auto;
+}
+#print {
+  display: block !important;
+}

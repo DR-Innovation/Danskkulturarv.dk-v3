@@ -1,8 +1,11 @@
 <?php get_header(); ?>
-<?php 
-    $results = WPDKAProgramListings::get_programlisting_results(); 
+<?php
+    $results = WPDKAProgramListings::get_programlisting_results();
     $search_text = WPDKAProgramListings::get_programlisting_search_type() === WPDKAProgramListings::QUERY_KEY_FREETEXT;
 ?>
+
+
+<!-- SEARCH BAR -->
 <div class="programlisting-search-results row">
     <div class="programlisting-count col-lg-3 col-md-12 col-sm-12 col-xs-12">
         <img src="<?php echo plugins_url( '../images/logo.png' , __FILE__ ); ?>" alt="TV og Radio" style="vertical-align: top; max-width: 100%; max-height: 38px;" />
@@ -90,14 +93,19 @@
         </form>
     </noscript>
 </div>
+<!-- END SEARCH BAR -->
+
+<!-- Search results -->
 <div class="row programlisting-results">
 	<?php if (isset($results) && !$search_text): ?>
+<!-- LOOP -->
 		<?php foreach ($results as $r): ?>
 			<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 				<?php echo do_shortcode('[pdfjs-viewer url=' . $r['_source']['url'] . ' viewer_width=600px viewer_height=700px fullscreen=true download=true print=true openfile=false]'); ?>
 				<noscript><a href="<?php echo $r['_source']['url']; ?>" alt="Download PDF"><?php _e('Download program listing', WPDKAProgramListings::DOMAIN); ?></a></noscript>
 			</div>
 		<?php endforeach; ?>
+<!-- END LOOP -->
     <?php else: ?>
         <div class="col-xs-12">
             <?php if (isset($results)): ?>
@@ -115,8 +123,8 @@
                         <li class="row">
                             <div class="col-xs-4">
                                 <form method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
-                                    <?php 
-                                        $date = date(WPDKAProgramListings::DATE_FORMAT, strtotime($r['_source']['date'])); 
+                                    <?php
+                                        $date = date(WPDKAProgramListings::DATE_FORMAT, strtotime($r['_source']['date']));
                                         $date_explode = explode('-', $date);
                                     ?>
                                     <input type="hidden" value="<?php echo $date_explode[2]; ?>" name="<?php echo WPDKAProgramListings::QUERY_KEY_YEAR; ?>" />
@@ -127,7 +135,7 @@
                             </div>
                             <div class="col-xs-4"><a href="<?php echo $r['_source']['url']; ?>" title="Download PDF" download="<?php echo $r['_source']['filename']; ?>"><?php echo $r['_source']['filename']; ?></a></div>
                             <div class="col-xs-4 right"><?php echo $r['_source']['type'] == 'Program' ? 'Programoversigt' : 'Rettelse til programoversigt'; ?></div>
-                        </li>    
+                        </li>
                     <?php endforeach; ?>
                     </ul>
                 <?php endif; ?>

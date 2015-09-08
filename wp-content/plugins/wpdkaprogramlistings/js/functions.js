@@ -255,4 +255,8 @@ $(function() {
         ctx.fillRect(ex, ey, 2, 2);
         drawArrowhead(ex, ey, ang, 15, 10, ctx);
     }
+
+    $('.modal-ok').click(function() {
+      $('.modal').modal('hide');
+    });
 });

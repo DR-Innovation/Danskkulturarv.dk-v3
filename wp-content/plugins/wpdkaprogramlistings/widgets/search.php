@@ -13,7 +13,7 @@ class WPDKAProgramListingsSearchWidget extends WP_Widget {
 	 * Constructor
 	 */
 	public function __construct() {
-		
+
 		parent::__construct(
 			'dka-program-listing-featured-widget',
 			__('DKA Search program schedule',WPDKAProgramListings::DOMAIN),
@@ -43,10 +43,10 @@ class WPDKAProgramListingsSearchWidget extends WP_Widget {
 
 	/**
 	 * GUI for widget content
-	 * 
+	 *
 	 * @param  array $args Sidebar arguments
 	 * @param  array $instance Widget values from database
-	 * @return void 
+	 * @return void
      */
 	public function widget( $args, $instance ) {
 		$title = apply_filters( 'widget_title', $instance['title'] );
@@ -68,10 +68,10 @@ class WPDKAProgramListingsSearchWidget extends WP_Widget {
         echo '</div></form>';
         echo '</div></div>';
 
-		echo $args['after_widget'];			
+		echo $args['after_widget'];
 	}
 
-	// Widget Backend 
+	// Widget Backend
 	public function form($instance) {
 		$title = '';
 		if (isset($instance['title'])) {
@@ -99,16 +99,16 @@ class WPDKAProgramListingsSearchWidget extends WP_Widget {
             <input name="<?php echo $this->get_field_name( 'image' ); ?>" id="<?php echo $this->get_field_id( 'image' ); ?>" class="widefat" type="hidden" size="36"  value="<?php echo esc_url( $image ); ?>" />
         </p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:'); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:'); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'description' ); ?>"><?php _e('Description:'); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'description' ); ?>"><?php _e('Description:'); ?></label>
 			<textarea class="widefat" id="<?php echo $this->get_field_id( 'description' ); ?>" name="<?php echo $this->get_field_name( 'description' ); ?>"><?php echo esc_attr( $description ); ?></textarea>
 		</p>
-	<?php 
+	<?php
 	}
-		
+
 	// Updating widget replacing old instances with new
 	public function update( $new_instance, $old_instance ) {
 		$updated_instance = $new_instance;

@@ -1,4 +1,4 @@
-																<html>
+<html>
 <body>
   <div>
     <button id="prev" onclick="goPrevious()">Previous</button>
@@ -6,7 +6,7 @@
     &nbsp; &nbsp;
     <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
   </div>
-  
+
   <div>
     <canvas id="the-canvas" style="border:1px solid black"></canvas>
   </div>
@@ -15,11 +15,11 @@
   <script type="text/javascript" src="https://raw.github.com/mozilla/pdf.js/gh-pages/build/pdf.js"></script>
   <script type="text/javascript" src="https://raw.github.com/mozilla/pdf.js/gh-pages/web/compatibility.js"></script>
   <script type="text/javascript" src="https://raw.github.com/mozilla/pdf.js/gh-pages/web/l10n.js"</script>
-  <script type="text/javascript" src="http://mozilla.github.io/pdf.js/web/viewer.js"></script> 
+  <script type="text/javascript" src="http://mozilla.github.io/pdf.js/web/viewer.js"></script>
  <!-- <link rel="stylesheet" href="http://mozilla.github.io/pdf.js/web/viewer.css"/> -->
   <script type="text/javascript">
     //
-    // NOTE: 
+    // NOTE:
     // Modifying the URL below to another server will likely *NOT* work. Because of browser
     // security restrictions, we have to use a file server with special headers
     // (CORS) - most servers don't support cross-origin browser requests.
@@ -88,6 +88,6 @@
       pdfDoc = _pdfDoc;
       renderPage(pageNum);
     });
-  </script>  
+  </script>
 </body>
 </html>

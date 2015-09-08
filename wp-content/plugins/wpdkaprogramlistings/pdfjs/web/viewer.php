@@ -1,4 +1,4 @@
-																																				<!DOCTYPE html>
+<!DOCTYPE html>
 <!--
 Copyright 2012 Mozilla Foundation
 
@@ -194,12 +194,12 @@ limitations under the License.
                 <button <?php if ($_GET["openfile"] != "true") { echo 'style="display:none;"'; } ?> id="openFile" class="toolbarButton openFile hiddenLargeView" title="Open File" tabindex="13" data-l10n-id="open_file">
                   <span data-l10n-id="open_file_label">Open</span>
                 </button>
-                
+
 
                 <button <?php if ($_GET["print"] != "true") { echo 'style="display:none;"'; } ?> id="print" class="toolbarButton print hiddenMediumView" title="Print" tabindex="14" data-l10n-id="print">
                     <span data-l10n-id="print_label">Print</span>
                 </button>
-                
+
 
                 <button <?php if ($_GET["download"] != "true") { echo 'style="display:none;"'; } ?> id="download" class="toolbarButton download hiddenMediumView" title="Download" tabindex="15" data-l10n-id="download">
                       <span data-l10n-id="download_label">Download</span>
@@ -211,10 +211,10 @@ limitations under the License.
                 </a>
 
                 <div class="verticalToolbarSeparator hiddenSmallView"></div>
-                
+
                 <button id="secondaryToolbarToggle" class="toolbarButton" title="Tools" tabindex="17" data-l10n-id="tools">
                   <span data-l10n-id="tools_label">Tools</span>
-                </button> 
+                </button>
               </div>
               <div class="outerCenter">
                 <div class="innerCenter" id="toolbarViewerMiddle">
@@ -308,7 +308,7 @@ limitations under the License.
             </div>
           </div>
         </div>
-      </div> 
+      </div>
 
     </div> <!-- outerContainer -->
     <div id="printContainer"></div>
