@@ -13,6 +13,9 @@ $(document).ready(function() {
     }
   }, 400);
 
+  $('#adjustment').on('touchstart click', function() {
+    $('#downloadButton').attr( "disabled", "disabled" );
+  });
 
   // Cropper buttons
   $('button[title="Rotate Left"]').on('touchstart click', function() {
@@ -39,7 +42,9 @@ $(document).ready(function() {
   $('button[title="Move Up"]').on('touchstart click', function() {
     $('#card-crop > img').cropper('move', 0, 2);
   });
-});
+
+
+}); // END DOCUMENT READY
 
 
 $(window).load(function() {
@@ -47,17 +52,6 @@ $(window).load(function() {
 
   // Showing/hiding stuff on window load
   $("body").addClass('loaded');
-
-
-  // Initialize cropper
-  $('#card-crop > img').cropper({
-    aspectRatio: 3 / 2,
-    autoCropArea: 1,
-    guides: false,
-    highlight: false,
-    cropBoxResizable: false,
-    preview: "#front"
-  });
 
 
   // html2canvas
@@ -69,19 +63,27 @@ $(window).load(function() {
         var img = canvas.toDataURL("image/png");
 
         // facebook url
-        var url = "http://test.danskkulturarv.dk/wp-content/plugins/wpdkaprogramlistings/image-print/postcard.php?base=" + img;
+        var url = "http://danskkulturarv.dk/wp-content/plugins/wpdkaprogramlistings/image-print/?base=" + img;
         // facebook sharer url
         var fburl = "http://www.facebook.com/sharer.php?u=" + url;
 
+        $('#downloadButton').attr("href", img).removeAttr("disabled");
+
         // update metadata
-        $('meta[property="og:image"]').attr("content", img);
-        $('meta[property="og:url"]').attr("content", url);
-        $('#fbButton').attr("href", fburl);
+        // $('meta[property="og:image"]').attr("content", img);
+        // $('meta[property="og:url"]').attr("content", url);
+        // $('#fbButton').attr("href", fburl);
 
         // $('body').append('<img src="' + img + '"/>');
         // Save PNG
         // return Canvas2Image.saveAsPNG(canvas);
       }
     });
+
+
   });
 });
+
+/*
+http://stackoverflow.com/questions/21111893/upload-base64-image-facebook-graph-api-how-to-use-this-script/21145106#21145106
+*/

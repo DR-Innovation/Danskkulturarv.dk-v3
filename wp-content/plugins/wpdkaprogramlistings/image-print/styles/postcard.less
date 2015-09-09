@@ -53,6 +53,10 @@ h2 {
   margin: 2em 0;
   background-color: white;
   box-shadow: 0 0 85px hsla(0, 0%, 0%, 0.05), 0 0 65px hsla(0, 0%, 0%, 0.05), 0 0 45px hsla(0, 0%, 0%, 0.05), 0 0 20px hsla(0, 0%, 0%, 0.05), 0 0 10px hsla(0, 0%, 0%, 0.05);
+
+  &.poster {
+    height: 296.8mm;
+  }
 }
 
 .postcard-image {
@@ -86,6 +90,7 @@ img {
 #adjustment {
   text-align: center;
   margin: 1em 0 -1em;
+
   button {
     font-size: inherit;
   }
@@ -99,6 +104,7 @@ img {
   .loadhide {
     display: block;
   }
+
   #load {
     display: none;
   }
@@ -109,6 +115,14 @@ img {
   right: 6mm;
   bottom: 3.6mm;
   font-size: 60%;
+}
+
+.poster {
+  margin-bottom: 10vh;
+
+  .front-text {
+    bottom: 3.8mm;
+  }
 }
 
 .postcard-text,
@@ -153,19 +167,16 @@ img {
 
 @page {
   margin: 0;
-  width: 210mm;
-  height: 148mm;
 }
 
 @media print {
   body {
-    margin: 1px;
     padding: 0;
     background-color: #fff;
   }
 
   .noprint {
-    display: none;
+    display: none !important;
   }
 
   .postcard-wrap {

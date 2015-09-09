@@ -48,6 +48,9 @@ h2 {
   background-color: white;
   box-shadow: 0 0 85px rgba(0, 0, 0, 0.05), 0 0 65px rgba(0, 0, 0, 0.05), 0 0 45px rgba(0, 0, 0, 0.05), 0 0 20px rgba(0, 0, 0, 0.05), 0 0 10px rgba(0, 0, 0, 0.05);
 }
+.postcard-wrap.poster {
+  height: 296.8mm;
+}
 .postcard-image {
   position: absolute;
   top: 12mm;
@@ -91,6 +94,12 @@ img {
   bottom: 3.6mm;
   font-size: 60%;
 }
+.poster {
+  margin-bottom: 10vh;
+}
+.poster .front-text {
+  bottom: 3.8mm;
+}
 .postcard-text,
 #front {
   position: absolute;
@@ -128,17 +137,14 @@ img {
 }
 @page {
   margin: 0;
-  width: 210mm;
-  height: 148mm;
 }
 @media print {
   body {
-    margin: 1px;
     padding: 0;
     background-color: #fff;
   }
   .noprint {
-    display: none;
+    display: none !important;
   }
   .postcard-wrap {
     box-shadow: none;

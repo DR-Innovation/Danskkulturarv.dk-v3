@@ -13,8 +13,7 @@ function pdfjs_handler($args)
     'fullscreen' => 'false',
     'download' => 'true',
     'print' => 'true',
-    'openfile' => 'false',
-    'postcard' => 'true',
+    'openfile' => 'false'
   ), $args);
   //run function that actually does the work of the plugin
   $pdfjs_output = pdfjs_function($args);
@@ -37,7 +36,6 @@ function pdfjs_function($incomingfromhandler)
     $download = $incomingfromhandler['download'];
     $print = $incomingfromhandler['print'];
     $openfile = $incomingfromhandler['openfile'];
-    $postcard = $incomingfromhandler['postcard'];
 
     if ($download != 'true') {
         $download = 'false';
@@ -60,7 +58,8 @@ function pdfjs_function($incomingfromhandler)
     $short_name = preg_replace('/http\:\/\/files\.danskkulturarv\.dk\//', '', $file_name);
     $shorter_name = preg_replace('/\.pdf/', '', $short_name);
     $image_url = $plugin_url.'image-print/pdftopng.php?pdf='.$shorter_name;
-    $card_url = $plugin_url.'image-print/postcard.php?pdf='.$shorter_name;
+    $card_url = $plugin_url.'image-print/?type=card&pdf='.$shorter_name;
+    $poster_url = $plugin_url.'image-print/?type=poster&pdf='.$shorter_name;
     $buttons_start = '<div class="btn-group" role="group" aria-label="Do more">';
     $buttons_end = '</div>';
     $button_class = 'type="button" class="btn btn-default"';
@@ -69,13 +68,13 @@ function pdfjs_function($incomingfromhandler)
     $dropdown_end = ' <span class="caret"></span></button>';
 
     $postcard_link = '';
-    if ($postcard == 'true') {
-        $postcard_link = '<button type="button" '.$button_class.' data-toggle="modal" data-target="#card'.$shorter_name.'">'.__('Create postcard/poster', wpdkaprogramlistings::DOMAIN).'</button>
+    if ($print == 'true') {
+        $postcard_link = '<button type="button" '.$button_class.' data-toggle="modal" data-target="#card'.$shorter_name.'">'.__('Create postcard', wpdkaprogramlistings::DOMAIN).'</button>
          <div class="modal" id="card'.$shorter_name.'" tabindex="-1" role="dialog">
            <div class="modal-dialog modal-sm">
              <div class="modal-content">
                 <div class="modal-body text-left">
-                  '.__('Loading the postcards takes ~10 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
+                  '.__('Loading the postcard takes ~10 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
                 </div>
                 <div class="modal-footer">
                   <button data-dismiss="modal" '.$button_class.'>'.__('Cancel', wpdkaprogramlistings::DOMAIN).'</button>
@@ -85,10 +84,30 @@ function pdfjs_function($incomingfromhandler)
            </div>
          </div>';
     }
+
+    $poster_link = '';
+    if ($print == 'true') {
+        $poster_link = '<button type="button" '.$button_class.' data-toggle="modal" data-target="#poster'.$shorter_name.'">'.__('Create poster', wpdkaprogramlistings::DOMAIN).'</button>
+         <div class="modal" id="poster'.$shorter_name.'" tabindex="-1" role="dialog">
+           <div class="modal-dialog modal-sm">
+             <div class="modal-content">
+                <div class="modal-body text-left">
+                  '.__('Loading the poster takes ~10 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
+                </div>
+                <div class="modal-footer">
+                  <button data-dismiss="modal" '.$button_class.'>'.__('Cancel', wpdkaprogramlistings::DOMAIN).'</button>
+                  <a '.$button_ok_class.' target="_blank" href="'.$poster_url.'">'.__('OK', wpdkaprogramlistings::DOMAIN).'</a>
+                </div>
+             </div>
+           </div>
+         </div>';
+    }
+
     $fullscreen_link = '';
     if ($fullscreen == 'true') {
         $fullscreen_link = '<a '.$button_class.' target="_blank" href="'.$final_url.'">'.__('View fullscreen', wpdkaprogramlistings::DOMAIN).'</a>  ';
     }
+
     $downloads = '';
     if ($download == 'true') {
         $downloads = $dropdown_start.__('Download', wpdkaprogramlistings::DOMAIN).$dropdown_end.'<ul class="dropdown-menu">
@@ -109,7 +128,8 @@ function pdfjs_function($incomingfromhandler)
            </div>
          </div>';
     }
+
     $iframe_code = '<iframe width="'.$viewer_width.';" height="'.$viewer_height.';" src="'.$final_url.'"></iframe> ';
 
-    return $postcard_link./*$fullscreen_link.*/$buttons_start.$downloads.$buttons_end.$iframe_code;
+    return $postcard_link.$poster_link./*$fullscreen_link.*/$buttons_start.$downloads.$buttons_end.$iframe_code;
 }
