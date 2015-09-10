@@ -74,7 +74,7 @@ function pdfjs_function($incomingfromhandler)
            <div class="modal-dialog modal-sm">
              <div class="modal-content">
                 <div class="modal-body text-left">
-                  '.__('Loading the postcard takes ~10 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
+                  '.__('Loading the postcard takes ~15 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
                 </div>
                 <div class="modal-footer">
                   <button data-dismiss="modal" '.$button_class.'>'.__('Cancel', wpdkaprogramlistings::DOMAIN).'</button>
@@ -92,7 +92,7 @@ function pdfjs_function($incomingfromhandler)
            <div class="modal-dialog modal-sm">
              <div class="modal-content">
                 <div class="modal-body text-left">
-                  '.__('Loading the poster takes ~10 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
+                  '.__('Loading the poster takes ~15 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
                 </div>
                 <div class="modal-footer">
                   <button data-dismiss="modal" '.$button_class.'>'.__('Cancel', wpdkaprogramlistings::DOMAIN).'</button>
@@ -118,7 +118,7 @@ function pdfjs_function($incomingfromhandler)
            <div class="modal-dialog modal-sm">
              <div class="modal-content">
                 <div class="modal-body text-left">
-                  '.__('Converting to JPG takes ~10 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
+                  '.__('Converting to JPG takes ~15 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
                 </div>
                 <div class="modal-footer">
                   <button data-dismiss="modal" '.$button_class.'>'.__('Cancel', wpdkaprogramlistings::DOMAIN).'</button>

@@ -14,13 +14,17 @@
   A5	148 x 210 mm
   A6	105 x 148 mm
   */
+
+html {
+  padding: 0 20px;
+}
 body {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   margin: 0 auto;
   background-color: #ddd;
   font-size: 5.4mm;
-  width: 210mm;
+  width: 794px;
 }
 
 .btn {
@@ -48,27 +52,22 @@ h2 {
 
 .postcard-wrap {
   position: relative;
-  height: 148mm;
-  width: 100%;
+  height: 559px;
   margin: 2em 0;
   background-color: white;
   box-shadow: 0 0 85px hsla(0, 0%, 0%, 0.05), 0 0 65px hsla(0, 0%, 0%, 0.05), 0 0 45px hsla(0, 0%, 0%, 0.05), 0 0 20px hsla(0, 0%, 0%, 0.05), 0 0 10px hsla(0, 0%, 0%, 0.05);
 
   &.poster {
-    height: 296.8mm;
+    height: 1126px;
   }
 }
 
 .postcard-image {
   position: absolute;
-  top: 12mm;
-  bottom: 12mm;
-  left: 12mm;
-  right: 12mm;
-
-  &.backside {
-    bottom: 10mm;
-  }
+  top: 50px;
+  bottom: 50px;
+  left: 50px;
+  right: 50px;
 }
 
 #card-crop {
@@ -112,17 +111,9 @@ img {
 
 .front-text {
   position: absolute;
-  right: 6mm;
-  bottom: 3.6mm;
+  right: 24px;
+  bottom: 17px;
   font-size: 60%;
-}
-
-.poster {
-  margin-bottom: 10vh;
-
-  .front-text {
-    bottom: 3.8mm;
-  }
 }
 
 .postcard-text,
@@ -161,7 +152,10 @@ img {
   right: 0;
 }
 
-.back {
+.back, .poster {
+  margin-bottom: 5vh;
+}
+.last-one {
   margin-bottom: 10vh;
 }
 
@@ -170,8 +164,13 @@ img {
 }
 
 @media print {
+  html {
+    padding: 0;
+  }
+
   body {
     padding: 0;
+    margin: 1px;
     background-color: #fff;
   }
 

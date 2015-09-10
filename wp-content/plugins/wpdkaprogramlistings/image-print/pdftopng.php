@@ -6,7 +6,7 @@ $image = new Imagick();
 if ($_GET['pdf']){
     $pdf = $_GET['pdf'];
     $pdf_url = "http://files.danskkulturarv.dk/".$pdf.".pdf";
-    $image->setResolution(300, 300);
+    $image->setResolution(400, 400);
     $image->readImage($pdf_url);
     $image->setImageFormat('jpeg');
     $image->setImageCompressionQuality(100);

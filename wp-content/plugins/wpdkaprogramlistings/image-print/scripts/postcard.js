@@ -52,9 +52,11 @@ $(window).load(function() {
 
   // Showing/hiding stuff on window load
   $("body").addClass('loaded');
+  $("button").removeClass('disabled');
 
 
   // html2canvas
+
   $("#pngButton").click(function() {
     html2canvas($("#frontpage"), {
       onrendered: function(canvas) {
@@ -62,25 +64,13 @@ $(window).load(function() {
         // convert canvas to base64 and store as variable img
         var img = canvas.toDataURL("image/png");
 
-        // facebook url
-        var url = "http://danskkulturarv.dk/wp-content/plugins/wpdkaprogramlistings/image-print/?base=" + img;
-        // facebook sharer url
-        var fburl = "http://www.facebook.com/sharer.php?u=" + url;
-
-        $('#downloadButton').attr("href", img).removeAttr("disabled");
-
-        // update metadata
-        // $('meta[property="og:image"]').attr("content", img);
-        // $('meta[property="og:url"]').attr("content", url);
-        // $('#fbButton').attr("href", fburl);
-
-        // $('body').append('<img src="' + img + '"/>');
-        // Save PNG
-        // return Canvas2Image.saveAsPNG(canvas);
+        // if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+        //   window.location.assign(img);
+        // } else {
+        //   download(img, "danskkulturarv.png", "image/png");
+        // }
       }
     });
-
-
   });
 });
 

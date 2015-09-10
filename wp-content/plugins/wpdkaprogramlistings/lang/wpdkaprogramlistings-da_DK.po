@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-09-10 09:35+0200\n"
-"PO-Revision-Date: 2015-09-10 09:37+0200\n"
+"POT-Creation-Date: 2015-09-10 16:07+0200\n"
+"PO-Revision-Date: 2015-09-10 16:08+0200\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
@@ -25,9 +25,9 @@ msgid "Create postcard"
 msgstr "Lav postkort"
 
 #: ../pdfjs/pdfjs-viewer.php:77
-msgid "Loading the postcard takes ~10 seconds.<br/>Click OK to begin."
+msgid "Loading the postcard takes ~15 seconds.<br/>Click OK to begin."
 msgstr ""
-"Det tager ~10 sekunder at loade postkortet.<br/>Tryk OK for at begynde."
+"Det tager ~15 sekunder at loade postkortet.<br/>Tryk OK for at begynde."
 
 #: ../pdfjs/pdfjs-viewer.php:80 ../pdfjs/pdfjs-viewer.php:98
 #: ../pdfjs/pdfjs-viewer.php:124
@@ -44,8 +44,8 @@ msgid "Create poster"
 msgstr "Lav plakat"
 
 #: ../pdfjs/pdfjs-viewer.php:95
-msgid "Loading the poster takes ~10 seconds.<br/>Click OK to begin."
-msgstr "Det tager ~10 sekunder at loade plakaten.<br/>Tryk OK for at begynde."
+msgid "Loading the poster takes ~15 seconds.<br/>Click OK to begin."
+msgstr "Det tager ~15 sekunder at loade plakaten.<br/>Tryk OK for at begynde."
 
 #: ../pdfjs/pdfjs-viewer.php:108
 msgid "View fullscreen"
@@ -64,7 +64,7 @@ msgid "Convert to image (JPG)"
 msgstr "Konverter til billede (JPG)"
 
 #: ../pdfjs/pdfjs-viewer.php:121
-msgid "Converting to JPG takes ~10 seconds.<br/>Click OK to begin."
+msgid "Converting to JPG takes ~15 seconds.<br/>Click OK to begin."
 msgstr ""
 "Det tager ~10 sekunder at konvertere til JPG.<br/>Tryk OK for at begynde."
 
@@ -242,6 +242,22 @@ msgstr "Benyt %s for at erstatte én enkelt karaktér."
 #, php-format
 msgid "Use %s to replace zero or more characters."
 msgstr "Benyt %s for at erstatte nul eller flere karakterer."
+
+#~ msgid "Loading the postcard takes ~10 seconds.<br/>Click OK to begin."
+#~ msgstr ""
+#~ "Det tager ~10 sekunder at loade postkortet.<br/>Tryk OK for at begynde."
+
+#~ msgid "Loading the poster takes ~10 seconds.<br/>Click OK to begin."
+#~ msgstr ""
+#~ "Det tager ~10 sekunder at loade plakaten.<br/>Tryk OK for at begynde.\n"
+#~ "Det tager ~10 sekunder at loade postkortet.<br/>Tryk OK for at begynde."
+
+#~ msgid "Converting to JPG takes ~10 seconds.<br/>Click OK to begin."
+#~ msgstr ""
+#~ "Det tager ~10 sekunder at konvertere til JPG.<br/>Tryk OK for at "
+#~ "begynde.\n"
+#~ "Det tager ~10 sekunder at loade plakaten.<br/>Tryk OK for at begynde.\n"
+#~ "Det tager ~10 sekunder at loade postkortet.<br/>Tryk OK for at begynde."
 
 #~ msgid "Create postcard/poster"
 #~ msgstr "Lav postkort/plakat"
