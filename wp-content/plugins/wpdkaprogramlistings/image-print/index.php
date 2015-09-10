@@ -102,8 +102,8 @@ $social = '
       <ul>
         <li>Print af postkort virker bedst i <a href="http://www.google.com/chrome/" target="_blank">Google Chrome</a> (gratis).</li>
         <li>Standardformatet er A4 stående eller A5 liggende.</li>
-        <li>Ved andre størrelser får du pæneste resultat ved at gemme som pdf først.</li>
-        <li>Du kan gemme som pdf i Chrome ved at vælge "Gem som pdf" som printer.</li>
+        <li>Ved andre størrelser får du pæneste resultat ved at gemme som pdf først og herefter åbne pdf på din computer.</li>
+        <li>Du kan gemme som pdf i Chrome ved at vælge trykke "print" og "Gem som pdf" som printer.</li>
       </ul>
     </div>
     <div class="col-xs-12 text-center loadhide">
@@ -159,8 +159,8 @@ $social = '
       <ul>
         <li>Print af plakat virker bedst i <a href="http://www.google.com/chrome/" target="_blank">Google Chrome</a> (gratis).</li>
         <li>Standardformatet er A4 stående.</li>
-        <li>Ved andre størrelser får du pæneste resultat ved at gemme som pdf først.</li>
-        <li>Du kan gemme som pdf i Chrome ved at vælge "Gem som pdf" som printer.</li>
+        <li>Ved andre størrelser får du pæneste resultat ved at gemme som pdf først og herefter åbne pdf på din computer.</li>
+        <li>Du kan gemme som pdf i Chrome ved at vælge trykke "print" og "Gem som pdf" som printer.</li>
       </ul>
     </div>
     <div class="col-xs-12 text-center loadhide">
