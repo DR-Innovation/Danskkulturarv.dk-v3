@@ -89,8 +89,8 @@ $social = '
 <body>
 
   <div id="card-crop">
-    <img src="images/pdftopng.jpeg" />
-    <!-- <img class="img" src="pdftopng.php?pdf=<?php echo $pdf ?>" /> -->
+    <!-- <img src="images/pdftopng.jpeg" /> -->
+    <img class="img" src="pdftopng.php?pdf=<?php echo $pdf ?>" />
   </div>
 
 <?php if ($type == 'card') : ?>
