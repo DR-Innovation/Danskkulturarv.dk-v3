@@ -64,11 +64,11 @@ $(window).load(function() {
         // convert canvas to base64 and store as variable img
         var img = canvas.toDataURL("image/png");
 
-        // if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
-        //   window.location.assign(img);
-        // } else {
-        //   download(img, "danskkulturarv.png", "image/png");
-        // }
+        if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+          window.location.assign(img);
+        } else {
+          download(img, "danskkulturarv.png", "image/png");
+        }
       }
     });
   });
