@@ -112,8 +112,9 @@ $social = '
   </div>
   <div class="row noprint">
     <div class="col-xs-12">
-      <h2>Gem billede</h2>
+      <h2>Gem forside som billede</h2>
       <ul>
+        <li>Til deling fx på sociale medier.</li>
         <li>Rotér, zoom og juster billedet som ønsket og tryk herefter gem og download.</li>
         <li>(Bemærk at gemte billeder har lav opløsning - print og "gem som pdf" hvis du ønsker høj opløsning).</li>
       </ul>
@@ -165,16 +166,6 @@ $social = '
     <div class="col-xs-12 text-center loadhide">
       <button onclick="window.print()" type="button" class="btn btn-primary btn-lg" title="print"><i class="fa fa-print"></i> Print</button>
     </div>
-  </div>
-  <div class="row noprint">
-    <div class="col-xs-12">
-      <h2>Gem</h2>
-      <!-- <ul>
-        <li>Du kan også dele plakaten på sociale medier</li>
-        <li>Rotér, zoom og juster billedet som ønsket og tryk herefter gem inden du deler på fx facebook.</li>
-      </ul> -->
-    </div>
-    <?php echo $social; ?>
   </div>
 
   <h2 class="noprint">Plakat</h2>
