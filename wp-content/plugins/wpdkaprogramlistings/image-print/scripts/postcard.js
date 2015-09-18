@@ -64,7 +64,10 @@ $(window).load(function() {
         // convert canvas to base64 and store as variable img
         var img = canvas.toDataURL("image/png");
 
+        // Safari and iOS devices doesn't support renaming files on download
         if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+          window.location.assign(img);
+        } else if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
           window.location.assign(img);
         } else {
           download(img, "danskkulturarv.png", "image/png");
