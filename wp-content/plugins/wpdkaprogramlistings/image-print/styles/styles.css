@@ -89,9 +89,14 @@ img {
 }
 .front-text {
   position: absolute;
-  right: 24px;
-  bottom: 17px;
   font-size: 60%;
+  bottom: 17px;
+}
+.front-text.right {
+  right: 24px;
+}
+.front-text.left {
+  left: 24px;
 }
 .postcard-text,
 #front {

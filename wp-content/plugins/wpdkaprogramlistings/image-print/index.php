@@ -7,6 +7,24 @@
 
 if ($_GET['pdf']) {
     $pdf = $_GET['pdf'];
+    $year = substr($pdf, 2, 4);
+    $month = substr($pdf, 7, 2);
+    $day = substr($pdf, 10, 2);
+    $validDate = false;
+    if (substr($day, 0, 1) == "0") { $day = substr($day, 1, 1); }
+    if ($month == "01") { $month = "Januar"; }
+    else if ($month == "02") { $month = "Februar"; }
+    else if ($month == "03") { $month = "Marts"; }
+    else if ($month == "04") { $month = "April"; }
+    else if ($month == "05") { $month = "Maj"; }
+    else if ($month == "06") { $month = "Juni"; }
+    else if ($month == "07") { $month = "Juli"; }
+    else if ($month == "08") { $month = "August"; }
+    else if ($month == "09") { $month = "September"; }
+    else if ($month == "10") { $month = "Oktober"; }
+    else if ($month == "11") { $month = "November"; }
+    else if ($month == "12") { $month = "December"; }
+    if (strlen($month) >= 3) { $validDate = true; }
 }
 if ($_GET['base']) {
     $base = $_GET['base'];
@@ -76,7 +94,6 @@ $adjustment = '
 
 <body>
 
-
   <div id="card-crop">
     <!-- <img src="images/pdftopng.jpeg" /> -->
     <img class="img" src="pdftopng.php?pdf=<?php echo $pdf ?>" />
@@ -102,7 +119,12 @@ $adjustment = '
       <div id="front"></div>
       <div id="load">Konverterer pdf til billede (~15 sek) </div>
     </div>
-    <div class="front-text">&copy; DR. <b>Danskkulturarv.dk</b></div>
+    <div class="front-text left">
+      <b>
+        <?php if ($validDate == true){ echo 'DR sendeplan ' . $day . '. ' . $month . ' ' . $year . ' &copy; DR'; } ?>
+      </b>
+    </div>
+    <div class="front-text right"><b>Danskkulturarv.dk</b></div>
   </div>
 
 
@@ -140,7 +162,7 @@ $adjustment = '
     <div class="col-xs-12">
       <h2>Gem forside som billede</h2>
       <ul>
-        <li>Lavere opløsning til deling fx på sociale medier.</li>
+        <li>Lavere opløsning til deling fx på sociale medier (kan i nogle browsere tage et par sek).</li>
       </ul>
     </div>
     <div class="col-xs-12 text-center">
@@ -167,7 +189,12 @@ $adjustment = '
       <div id="front"></div>
       <div id="load">Konverterer pdf til billede (~15 sek) </div>
     </div>
-    <div class="front-text">&copy; DR. <b>Danskkulturarv.dk</b></div>
+    <div class="front-text left">
+      <b>
+        <?php if ($validDate == true){ echo 'DR sendeplan ' . $day . '. ' . $month . ' ' . $year . ' &copy; DR'; } ?>
+      </b>
+    </div>
+    <div class="front-text right"><b>Danskkulturarv.dk</b></div>
   </div>
 
   <div class="row noprint last-one">
@@ -193,7 +220,6 @@ $adjustment = '
   <script src="bower_components/html2canvas/build/html2canvas.js"></script>
   <script src="scripts/download.js"></script>
   <script src="scripts/postcard.js"></script>
-  <!-- <script src="scripts/canvas2image.js"></script> -->
 
 <?php if ($type == 'card') : ?>
 
