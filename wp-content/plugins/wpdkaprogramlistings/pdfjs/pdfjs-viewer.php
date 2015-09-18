@@ -69,38 +69,13 @@ function pdfjs_function($incomingfromhandler)
 
     $postcard_link = '';
     if ($print == 'true') {
-        $postcard_link = '<button type="button" '.$button_class.' data-toggle="modal" data-target="#card'.$shorter_name.'">'.__('Create postcard', wpdkaprogramlistings::DOMAIN).'</button>
-         <div class="modal" id="card'.$shorter_name.'" tabindex="-1" role="dialog">
-           <div class="modal-dialog modal-sm">
-             <div class="modal-content">
-                <div class="modal-body text-left">
-                  '.__('Loading the postcard takes ~15 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
-                </div>
-                <div class="modal-footer">
-                  <button data-dismiss="modal" '.$button_class.'>'.__('Cancel', wpdkaprogramlistings::DOMAIN).'</button>
-                  <a '.$button_ok_class.' target="_blank" href="'.$card_url.'">'.__('OK', wpdkaprogramlistings::DOMAIN).'</a>
-                </div>
-             </div>
-           </div>
-         </div>';
+        $postcard_link = '<a '.$button_class.' target="_blank" href="'.$card_url.'">'.__('Create postcard', wpdkaprogramlistings::DOMAIN).'</a> ';
     }
 
     $poster_link = '';
     if ($print == 'true') {
-        $poster_link = '<button type="button" '.$button_class.' data-toggle="modal" data-target="#poster'.$shorter_name.'">'.__('Create poster', wpdkaprogramlistings::DOMAIN).'</button>
-         <div class="modal" id="poster'.$shorter_name.'" tabindex="-1" role="dialog">
-           <div class="modal-dialog modal-sm">
-             <div class="modal-content">
-                <div class="modal-body text-left">
-                  '.__('Loading the poster takes ~15 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
-                </div>
-                <div class="modal-footer">
-                  <button data-dismiss="modal" '.$button_class.'>'.__('Cancel', wpdkaprogramlistings::DOMAIN).'</button>
-                  <a '.$button_ok_class.' target="_blank" href="'.$poster_url.'">'.__('OK', wpdkaprogramlistings::DOMAIN).'</a>
-                </div>
-             </div>
-           </div>
-         </div>';
+        $poster_link = '<a '.$button_class.' target="_blank" href="'.$poster_url.'">'.__('Create poster', wpdkaprogramlistings::DOMAIN).'</a> ';
+
     }
 
     $fullscreen_link = '';
