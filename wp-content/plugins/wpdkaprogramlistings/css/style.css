@@ -73,6 +73,7 @@
 }
 .programlisting-search {
   height: auto;
+  position: relative;
   border: 1px solid #ccc;
   box-sizing: border-box;
   padding: 10px;
@@ -84,6 +85,15 @@
   color: #999;
   font-size: 1.2em;
   padding: 10px 5px;
+}
+.programlisting-search img {
+  max-width: 100%;
+}
+.programlisting-search .widget-promo-image {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
 }
 @media (min-width: 1200px) {
   .programlisting-search {

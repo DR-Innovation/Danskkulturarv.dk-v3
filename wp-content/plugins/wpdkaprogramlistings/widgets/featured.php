@@ -62,7 +62,7 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 		// if (!empty($image)) {
 			// echo '<img src="' . $image . '" alt="' . $title . '" style="max-width: 240px;" />';
 		// } else {
-			echo '<img src="' . plugins_url( '../images/logo.png' , __FILE__ ) . '" alt="' . $title . '" style="max-width: 100%;" />';
+			echo '<img src="' . plugins_url( '../images/logo.png' , __FILE__ ) . '" alt="' . $title . '" />';
 		// }
 		echo $args['after_title'];
 		echo '<p>' . $instance['description'] . '</p>';
@@ -85,7 +85,10 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 		echo '</select></div></div>';
 		echo '<div class="col-xs-12 col-sm-12"><button type="submit" class="btn btn-primary btn-block">' . __('Search program schedule', WPDKAProgramListings::DOMAIN) . '</button></div>';
 		echo '</form>';
-		echo '<div class="print-pr"><p>'. __('You can now print posters and postcards of the program schedules using the built in print function.<br/>Just start by searching for program schedules on your selected date.', WPDKAProgramListings::DOMAIN) .'</p></div>';
+		echo '<div class="widget-promo-image">
+						<img src="' . plugins_url( '../images/promo.jpg' , __FILE__ ) . '" alt="'. __('Poster and postcard promo image', WPDKAProgramListings::DOMAIN) .'" />
+					</div>';
+		// echo '<div class="print-pr"><p>'. __('You can now print posters and postcards of the program schedules using the built in print function.<br/>Just start by searching for program schedules on your selected date.', WPDKAProgramListings::DOMAIN) .'</p></div>';
 
 		echo '</div>';
 
