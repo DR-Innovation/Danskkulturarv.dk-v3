@@ -1,37 +1,7 @@
-$('#a4, #a5, #a6').on('touchstart click', function() {
-  me = $(this).attr('id');
-  $('body').removeClass('a4 a5 a6').addClass(me);
-});
-
-
-<div class="col-xs-6">
-  <p>Vælg papirformat (liggende):</p>
-</div>
-<div class="col-xs-4">
-  <div class="btn-group btn-block paperformats" data-toggle="buttons">
-    <label class="btn btn-default" id="a6"><input type="radio" name="formats" />A6</label>
-    <label class="btn btn-default" id="a5"><input type="radio" name="formats" />A5</label>
-    <label class="btn btn-default active" id="a4"><input type="radio" name="formats" />A4</label>
-  </div>
-</div>
-
-
 $('#adjustment').on('touchstart click', function() {
   $('body').addClass('clicked');
 });
 
-
-,
-crop: function(e) {
-  // Output the result data for cropping image.
-  console.log(e.x);
-  console.log(e.y);
-  console.log(e.width);
-  console.log(e.height);
-  console.log(e.rotate);
-  console.log(e.scaleX);
-  console.log(e.scaleY);
-}
 
 
 // facebook url
@@ -57,3 +27,52 @@ return Canvas2Image.saveAsPNG(canvas);
   <button id="twButton" type="button" class="btn btn-primary btn-lg" title="Save png"><i class="fa fa-twitter"></i></button>
   <button id="inButton" type="button" class="btn btn-primary btn-lg" title="Save png"><i class="fa fa-instagram"></i></button>
 </div>
+
+
+
+<button type="button" '.$button_class.' data-toggle="modal" data-target="#card'.$shorter_name.'">'.__('Create postcard', wpdkaprogramlistings::DOMAIN).'</button>
+ <div class="modal" id="card'.$shorter_name.'" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-sm">
+     <div class="modal-content">
+        <div class="modal-body text-left">
+          '.__('Loading the postcard takes ~15 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
+        </div>
+        <div class="modal-footer">
+          <button data-dismiss="modal" '.$button_class.'>'.__('Cancel', wpdkaprogramlistings::DOMAIN).'</button>
+          <a '.$button_ok_class.' target="_blank" href="'.$card_url.'">'.__('OK', wpdkaprogramlistings::DOMAIN).'</a>
+        </div>
+     </div>
+   </div>
+ </div>
+
+
+
+
+ var deferred = $.Deferred();
+ var img = new Image();
+ img.crossOrigin = 'Anonymous';
+ img.onload = function() {
+   var canvas = document.createElement('CANVAS'),
+     ctx = canvas.getContext('2d'),
+     dataURL;
+   canvas.height = this.height;
+   canvas.width = this.width;
+   ctx.drawImage(this, 0, 0);
+   dataURL = canvas.toDataURL(outputFormat);
+
+   deferred.resolve(dataURL);
+   canvas = null;
+ };
+ img.src = url;
+ return deferred.promise();
+
+
+ convertImgToBase64URL(imgSource).then(function(base64Img) {
+   pdfMake.createPdf(docDefinition).open()
+ });
+
+
+ <button onclick="window.print()" type="button" class="btn btn-primary btn-lg disabled" title="print"><i class="fa fa-print"></i> Print</button>
+
+
+ <button id="backpngButton" type="button" class="btn btn-primary btn-lg disabled" title="Save png"><i class="fa fa-picture-o"></i> Bagside</button>

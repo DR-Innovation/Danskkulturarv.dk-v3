@@ -17,22 +17,27 @@ html {
   padding: 0 20px;
 }
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
   margin: 0 auto;
   background-color: #ddd;
-  font-size: 5.4mm;
+  font-size: 21px;
   width: 794px;
 }
 .btn {
   font-size: inherit;
+  outline: none !important;
+}
+.btn .fa {
+  font-size: 1.6em;
+  padding-top: 2px;
 }
 h1,
 h2,
 h3,
 h4 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
   text-align: center;
 }
 h1 {
@@ -51,7 +56,7 @@ h2 {
   box-shadow: 0 0 85px rgba(0, 0, 0, 0.05), 0 0 65px rgba(0, 0, 0, 0.05), 0 0 45px rgba(0, 0, 0, 0.05), 0 0 20px rgba(0, 0, 0, 0.05), 0 0 10px rgba(0, 0, 0, 0.05);
 }
 .postcard-wrap.poster {
-  height: 1126px;
+  height: 1112px;
 }
 .postcard-image {
   position: absolute;
@@ -78,6 +83,11 @@ img {
 #adjustment button {
   font-size: inherit;
 }
+.scale #frontpage {
+  -webkit-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  transform: scale(1.5);
+}
 .loadhide {
   display: none;
 }
@@ -89,7 +99,7 @@ img {
 }
 .front-text {
   position: absolute;
-  font-size: 60%;
+  font-size: 66%;
   bottom: 17px;
 }
 .front-text.right {
@@ -120,13 +130,13 @@ img {
   font-family: inherit;
 }
 .greeting {
-  width: 50%;
+  width: 54%;
   height: 100%;
 }
 .address {
   width: 35%;
-  height: 58%;
-  line-height: 2.55em;
+  height: 57%;
+  line-height: 2.47em;
   bottom: 0;
   right: 0;
 }
