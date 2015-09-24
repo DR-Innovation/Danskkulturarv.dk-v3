@@ -105,8 +105,8 @@ if ($_GET['type']) {
 <body>
 
   <div id="card-crop" class="<?php if ($type == 'card') : ?>card<?php elseif ($type == 'poster') : ?>poster<?php endif; ?>">
-    <img src="images/pdftopng.jpeg" />
-    <!-- <img src="pdftopng.php?pdf=<?php echo $pdf ?>" /> -->
+    <!-- <img src="images/pdftopng.jpeg" /> -->
+    <img src="pdftopng.php?pdf=<?php echo $pdf ?>" />
   </div>
 
 
