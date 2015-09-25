@@ -86,9 +86,8 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 		echo '<div class="col-xs-12 col-sm-12"><button type="submit" class="btn btn-primary btn-block">' . __('Search program schedule', WPDKAProgramListings::DOMAIN) . '</button></div>';
 		echo '</form>';
 		echo '<div class="widget-promo-image">
-						<img src="' . plugins_url( '../images/promo.jpg' , __FILE__ ) . '" alt="'. __('Poster and postcard promo image', WPDKAProgramListings::DOMAIN) .'" />
+						<a href="http://www.danskkulturarv.dk/udstilling/postkort-og-plakater/"><img src="' . plugins_url( '../images/promo.jpg' , __FILE__ ) . '" alt="'. __('Poster and postcard promo image', WPDKAProgramListings::DOMAIN) .'" /></a>
 					</div>';
-		// echo '<div class="print-pr"><p>'. __('You can now print posters and postcards of the program schedules using the built in print function.<br/>Just start by searching for program schedules on your selected date.', WPDKAProgramListings::DOMAIN) .'</p></div>';
 
 		echo '</div>';
 

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-09-10 16:07+0200\n"
-"PO-Revision-Date: 2015-09-10 16:08+0200\n"
+"POT-Creation-Date: 2015-09-25 10:41+0200\n"
+"PO-Revision-Date: 2015-09-25 10:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
@@ -25,48 +25,37 @@ msgid "Create postcard"
 msgstr "Lav postkort"
 
 #: ../pdfjs/pdfjs-viewer.php:77
-msgid "Loading the postcard takes ~15 seconds.<br/>Click OK to begin."
-msgstr ""
-"Det tager ~15 sekunder at loade postkortet.<br/>Tryk OK for at begynde."
-
-#: ../pdfjs/pdfjs-viewer.php:80 ../pdfjs/pdfjs-viewer.php:98
-#: ../pdfjs/pdfjs-viewer.php:124
-msgid "Cancel"
-msgstr "Annuller"
-
-#: ../pdfjs/pdfjs-viewer.php:81 ../pdfjs/pdfjs-viewer.php:99
-#: ../pdfjs/pdfjs-viewer.php:125
-msgid "OK"
-msgstr "OK"
-
-#: ../pdfjs/pdfjs-viewer.php:90
 msgid "Create poster"
 msgstr "Lav plakat"
 
-#: ../pdfjs/pdfjs-viewer.php:95
-msgid "Loading the poster takes ~15 seconds.<br/>Click OK to begin."
-msgstr "Det tager ~15 sekunder at loade plakaten.<br/>Tryk OK for at begynde."
-
-#: ../pdfjs/pdfjs-viewer.php:108
+#: ../pdfjs/pdfjs-viewer.php:83
 msgid "View fullscreen"
 msgstr "Vis i fuldskærm"
 
-#: ../pdfjs/pdfjs-viewer.php:113
+#: ../pdfjs/pdfjs-viewer.php:88
 msgid "Download"
 msgstr "Download"
 
-#: ../pdfjs/pdfjs-viewer.php:114
+#: ../pdfjs/pdfjs-viewer.php:89
 msgid "Document (PDF)"
 msgstr "Dokument (PDF)"
 
-#: ../pdfjs/pdfjs-viewer.php:115
+#: ../pdfjs/pdfjs-viewer.php:90
 msgid "Convert to image (JPG)"
 msgstr "Konverter til billede (JPG)"
 
-#: ../pdfjs/pdfjs-viewer.php:121
+#: ../pdfjs/pdfjs-viewer.php:96
 msgid "Converting to JPG takes ~15 seconds.<br/>Click OK to begin."
 msgstr ""
 "Det tager ~10 sekunder at konvertere til JPG.<br/>Tryk OK for at begynde."
+
+#: ../pdfjs/pdfjs-viewer.php:99
+msgid "Cancel"
+msgstr "Annuller"
+
+#: ../pdfjs/pdfjs-viewer.php:100
+msgid "OK"
+msgstr "OK"
 
 #: ../templates/programlisting-search-results.php:18
 #: ../templates/programlisting-search-results.php:55 ../widgets/featured.php:70
@@ -137,32 +126,27 @@ msgstr "Søge beskrivelse"
 msgid "Search program schedule"
 msgstr "Søg i sendeplanerne"
 
-#: ../widgets/featured.php:88
-msgid ""
-"You can now print posters and postcards of the program schedules using the "
-"built in print function.<br/>Just start by searching for program schedules "
-"on your selected date."
-msgstr ""
-"Du kan nu printe postkort og plakater direkte på danskkulturarv.dk<br/"
-">Begynd ved at søge efter sendeplaner fra din ønskede dato."
+#: ../widgets/featured.php:89
+msgid "Poster and postcard promo image"
+msgstr "Plakat og postkort promoverings billede"
 
-#: ../widgets/featured.php:116 ../widgets/search.php:95
+#: ../widgets/featured.php:118 ../widgets/search.php:95
 msgid "Upload new image"
 msgstr "Indlæs nyt billede"
 
-#: ../widgets/featured.php:116 ../widgets/search.php:95
+#: ../widgets/featured.php:118 ../widgets/search.php:95
 msgid "Upload Image"
 msgstr "Indlæs billede"
 
-#: ../widgets/featured.php:118 ../widgets/search.php:97
+#: ../widgets/featured.php:120 ../widgets/search.php:97
 msgid "Remove image"
 msgstr "Fjern billede"
 
-#: ../widgets/featured.php:123 ../widgets/search.php:102
+#: ../widgets/featured.php:125 ../widgets/search.php:102
 msgid "Title:"
 msgstr "Titel:"
 
-#: ../widgets/featured.php:127 ../widgets/search.php:106
+#: ../widgets/featured.php:129 ../widgets/search.php:106
 msgid "Description:"
 msgstr "Beskrivelse:"
 
@@ -242,6 +226,22 @@ msgstr "Benyt %s for at erstatte én enkelt karaktér."
 #, php-format
 msgid "Use %s to replace zero or more characters."
 msgstr "Benyt %s for at erstatte nul eller flere karakterer."
+
+#~ msgid "Loading the postcard takes ~15 seconds.<br/>Click OK to begin."
+#~ msgstr ""
+#~ "Det tager ~15 sekunder at loade postkortet.<br/>Tryk OK for at begynde."
+
+#~ msgid "Loading the poster takes ~15 seconds.<br/>Click OK to begin."
+#~ msgstr ""
+#~ "Det tager ~15 sekunder at loade plakaten.<br/>Tryk OK for at begynde."
+
+#~ msgid ""
+#~ "You can now print posters and postcards of the program schedules using "
+#~ "the built in print function.<br/>Just start by searching for program "
+#~ "schedules on your selected date."
+#~ msgstr ""
+#~ "Du kan nu printe postkort og plakater direkte på danskkulturarv.dk<br/"
+#~ ">Begynd ved at søge efter sendeplaner fra din ønskede dato."
 
 #~ msgid "Loading the postcard takes ~10 seconds.<br/>Click OK to begin."
 #~ msgstr ""
