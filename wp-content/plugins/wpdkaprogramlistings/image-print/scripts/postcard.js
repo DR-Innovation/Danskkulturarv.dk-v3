@@ -2,20 +2,13 @@
  * Variables
  **********/
 
-// var imgSource = $('#card-crop').find('img').attr("src");
 var backImg = $('.backside').find('img').attr("src");
 var loadText = $("#load").text();
 var round = 0;
 var docDefinition;
 var croppedImage = $('#card-crop > img');
 
-
-// pdfMake.fonts = {
-// 	Montserrat: {
-// 		normal: '../fonts/montserrat-regular.ttf',
-// 		bold:  '../fonts/montserrat-bold.ttf'
-// 	}
-// };
+$("#workInProgress").hide();
 
 /***********
  * Functions
@@ -31,10 +24,13 @@ setInterval(function() {
   }
 }, 400);
 
-
+function pdfAlert() {
+  $("#workInProgress").show(0).delay(10000).hide(0);
+}
 
 function postcardContent(resolution) {
-  var dfd = $.Deferred();
+  var deferred = $.Deferred();
+  pdfAlert();
   docDefinition = {
     // a string or { width: number, height: number }
     pageSize: 'A5',
@@ -91,11 +87,13 @@ function postcardContent(resolution) {
   docDefinition.content[3].columns[0].text = $('.greeting').val();
   docDefinition.content[3].columns[1].text = $('.address').val();
   docDefinition.content[2].image = backImg;
-  return dfd.promise();
+  deferred.resolve();
+  return deferred.promise();
 }
 
 function posterContent(resolution) {
-  var dfd = $.Deferred();
+  var deferred = $.Deferred();
+  pdfAlert();
   docDefinition = {
     pageSize: 'A4',
     pageOrientation: 'portrait',
@@ -128,15 +126,19 @@ function posterContent(resolution) {
   docDefinition.content[0].image = croppedImage.cropper('getCroppedCanvas', { width: resolution }).toDataURL();
   docDefinition.content[1].columns[0].text = $('.front-text.left b').text();
   docDefinition.content[1].columns[1].text = "Danskkulturarv.dk";
-  return dfd.promise();
+  deferred.resolve();
+  return deferred.promise();
 }
-
 
 
 function createThePdf(name) {
+  var deferred = $.Deferred();
   pdfMake.createPdf(docDefinition).download(name);
   docDefinition = '';
+  deferred.resolve();
+  return deferred.promise();
 }
+
 
 function createPng(id, name) {
   html2canvas($(id), {
@@ -188,19 +190,19 @@ $(window).load(function() {
 
   // Create Postcard
   $('#pdfPostcardButton').on('touchstart click', function() {
-    postcardContent(1500).done(createThePdf('postkort.pdf'));
+    postcardContent(1500).then(createThePdf('postkort.pdf'));
   });
   $('#pdfHighPostcardButton').on('touchstart click', function() {
-    postcardContent(5000).done(createThePdf('postkort.pdf'));
+    postcardContent(5000).then(createThePdf('postkort.pdf'));
   });
 
 
   // Create Poster
   $('#pdfPosterButton').on('touchstart click', function() {
-    posterContent(2000).done(createThePdf('plakat.pdf'));
+    posterContent(2000).then(createThePdf('plakat.pdf'));
   });
   $('#pdfHighPosterButton').on('touchstart click', function() {
-    posterContent(5000).done(createThePdf('plakat.pdf'));
+    posterContent(5000).then(createThePdf('plakat.pdf'));
   });
 
 

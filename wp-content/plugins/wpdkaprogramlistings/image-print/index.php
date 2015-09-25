@@ -87,17 +87,17 @@ if ($_GET['type']) {
     <![endif]-->
 
 
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-26415779-1']);
-    _gaq.push(['_trackPageview']);
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+    ga('create', 'UA-68073212-1', 'auto');
+    ga('send', 'pageview');
   </script>
+
+  <!-- Add user... https://www.google.com/analytics/web/?et&authuser=2#management/Settings/a68073212w104784778p109030005/%3Fm.page%3DPropertyUsers/ -->
 
 
 </head>
@@ -180,6 +180,7 @@ if ($_GET['type']) {
       </ul>
     </div>
     <div class="col-xs-12 text-center">
+      <div class="alert alert-info" role="alert" id="workInProgress">Generering af PDF startet - vent venligst. Denne besked forsvinder automatisk.</div>
       <button id="<?php if ($type == 'card') : ?>pdfPostcardButton<?php elseif ($type == 'poster') : ?>pdfPosterButton<?php endif; ?>" type="button" class="btn btn-primary btn-lg disabled" title="print"><i class="fa fa-file-pdf-o"></i> PDF</button>
         <button id="<?php if ($type == 'card') : ?>pdfHighPostcardButton<?php elseif ($type == 'poster') : ?>pdfHighPosterButton<?php endif; ?>" type="button" class="btn btn-primary btn-lg disabled" title="print"><i class="fa fa-file-pdf-o"></i> Højt opløst pdf</button>
     </div>
