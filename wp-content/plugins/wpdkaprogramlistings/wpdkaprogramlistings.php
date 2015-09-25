@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: WP DKA Program Listings
-Plugin URI: 
+Plugin URI:
 Description: Program listings
 Version: 1.0
 Author: Mads Lundt
-Author URI: 
-License: 
+Author URI:
+License:
 */
 class WPDKAProgramListings {
 
@@ -15,15 +15,16 @@ class WPDKAProgramListings {
 	const ES_INDEX = 'programoversigter';
 	const ES_TYPE  = 'programoversigt';
 	const ES_URL   = '54.72.221.2:80/api'; // files.danskkulturarv.dk
+	const ES_UUID  = 'universally-unique-identifier';
 
 	const START_YEAR = 1925;
 	const END_YEAR   = 1984;
 
-    const DATE_FORMAT = 'd-m-Y';
+  const DATE_FORMAT = 'd-m-Y';
 
 	const FLUSH_REWRITE_RULES_OPTION_KEY = 'wpprogramlisting-flush-rewrite-rules';
 
-    const QUERY_KEY_FREETEXT = 'pl-text';
+  const QUERY_KEY_FREETEXT = 'pl-text';
 	const QUERY_KEY_DAY = 'pl-day';
 	const QUERY_KEY_MONTH = 'pl-month';
 	const QUERY_KEY_YEAR = 'pl-year'; // day, month, year are reserved to Wordpress
@@ -94,7 +95,7 @@ class WPDKAProgramListings {
 
 	/**
 	 * Flush rewrite rules hard
-	 * @return void 
+	 * @return void
 	 */
 	public static function handle_rewrite_rules() {
 		self::add_rewrite_tags();
@@ -113,13 +114,13 @@ class WPDKAProgramListings {
 	public static function install() {
 		self::flush_rewrite_rules_soon();
 	}
-	
+
 	public static function uninstall() {
 		flush_rewrite_rules();
 	}
 
 	public function add_chaos_settings($settings) {
-		$pages = array(); 
+		$pages = array();
 		foreach(get_pages() as $page) {
 			$pages[$page->ID] = $page->post_title;
 		}
@@ -149,7 +150,7 @@ class WPDKAProgramListings {
 
 	/**
 	 * Get search parameters
-	 * @return array 
+	 * @return array
 	 */
 	public static function get_programlisting_vars($urldecode = true) {
 		global $wp_query;
@@ -206,7 +207,7 @@ class WPDKAProgramListings {
 
 	/**
 	 * Get (and print) template for a program listing page
-	 * @return void 
+	 * @return void
 	 */
 	public function get_programlisting_page() {
 		//Include template for program listing results
@@ -217,18 +218,18 @@ class WPDKAProgramListings {
 			//set title and meta
 			global $wp_query;
 			$day   = self::get_programlisting_var(self::QUERY_KEY_DAY, 'esc_html');
-            $month = self::get_programlisting_var(self::QUERY_KEY_MONTH, 'esc_html');
-            $year  = self::get_programlisting_var(self::QUERY_KEY_YEAR, 'esc_html');
-            $date = '';
+      $month = self::get_programlisting_var(self::QUERY_KEY_MONTH, 'esc_html');
+      $year  = self::get_programlisting_var(self::QUERY_KEY_YEAR, 'esc_html');
+      $date  = '';
 
-            $date .= $day ? $day . '/' : '';
-            $date .= $month ? $month . '/' : '';
-            $date .= $year ? $year : '';
-            if (!empty($date)) {
-                $wp_query->queried_object->post_title = sprintf(__('%s program listing %s',self::DOMAIN),get_bloginfo('title'),$date);
-            } else {
-                $wp_query->queried_object->post_title = sprintf(__('%s program listing search results %s',self::DOMAIN),get_bloginfo('title'),self::get_programlisting_var(self::QUERY_KEY_FREETEXT));
-            }
+      $date .= $day ? $day . '/' : '';
+      $date .= $month ? $month . '/' : '';
+      $date .= $year ? $year : '';
+      if (!empty($date)) {
+          $wp_query->queried_object->post_title = sprintf(__('%s program listing %s',self::DOMAIN),get_bloginfo('title'),$date);
+      } else {
+          $wp_query->queried_object->post_title = sprintf(__('%s program listing search results %s',self::DOMAIN),get_bloginfo('title'),self::get_programlisting_var(self::QUERY_KEY_FREETEXT));
+      }
 
 			add_filter('wpchaos-head-meta',function($metadatas) use($wp_query) {
 				$metadatas['og:title']['content'] = $wp_query->queried_object->post_title;
@@ -242,7 +243,7 @@ class WPDKAProgramListings {
 			//Look in theme dir and include if found
 			$include = locate_template('templates/programlisting-search-results.php', false);
 			if($include == "") {
-				//Include from plugin template	
+				//Include from plugin template
 				$include = plugin_dir_path(__FILE__)."/templates/programlisting-search-results.php";
 			}
 			$year = intval($year);
@@ -254,7 +255,7 @@ class WPDKAProgramListings {
 	}
 
 	public static $search_query_variables = array();
-	
+
 	public static function register_search_query_variable($position, $key, $regexp, $prefix_key = false, $multivalue_seperator = null, $default_value = null, $post_seperator = self::QUERY_DEFAULT_POST_SEPERATOR) {
 		self::$search_query_variables[$position] = array(
 			'key' => $key,
@@ -266,13 +267,13 @@ class WPDKAProgramListings {
 		);
 		ksort(self::$search_query_variables);
 	}
-	
+
 	/**
 	 * Add rewrite tags to WordPress installation
 	 */
 	public static function add_rewrite_tags() {
 		foreach(self::$search_query_variables as $variable) {
-			// If prefix-key is set - the 
+			// If prefix-key is set - the
             if(isset($variable['prefix-key'])) {
                 add_rewrite_tag('%'.$variable['key'].'%', $variable['key'].self::QUERY_PREFIX_CHAR.'('.$variable['regexp'].')');
             } else {
@@ -298,7 +299,7 @@ class WPDKAProgramListings {
 				}
 			}
 			$regex .= '$';
-			
+
 			$redirect = "index.php?pagename=$searchPageName";
 			$v = 1;
 			foreach(self::$search_query_variables as $variable) {
@@ -309,7 +310,7 @@ class WPDKAProgramListings {
 			add_rewrite_rule($regex, $redirect, 'top');
 		}
 	}
-	
+
 	public static function programlisting_query_prettify() {
 		foreach(self::$search_query_variables as $variable) {
 			if(array_key_exists($variable['key'], $_GET)) {
@@ -319,7 +320,7 @@ class WPDKAProgramListings {
 			}
 		}
 	}
-	
+
 	public static function generate_pretty_search_url($variables = array()) {
 		$variables = array_merge(self::get_programlisting_vars(), $variables);
 		// Start with the search page uri.
@@ -381,7 +382,7 @@ class WPDKAProgramListings {
 
 	/**
 	 * Generate data and include template for search results
-	 * @param  array $args 
+	 * @param  array $args
 	 * @return string The markup generated.
 	 */
 	public function generate_programlisting_results($args = array()) {

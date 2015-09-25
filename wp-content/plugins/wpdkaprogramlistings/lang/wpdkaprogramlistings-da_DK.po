@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-08-05 14:55+0200\n"
-"PO-Revision-Date: 2015-08-05 14:56+0200\n"
+"POT-Creation-Date: 2015-09-10 16:07+0200\n"
+"PO-Revision-Date: 2015-09-10 16:08+0200\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.3\n"
+"X-Generator: Poedit 1.8.4\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -20,55 +20,99 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../pdfjs/pdfjs-viewer.php:57
+#: ../pdfjs/pdfjs-viewer.php:72
+msgid "Create postcard"
+msgstr "Lav postkort"
+
+#: ../pdfjs/pdfjs-viewer.php:77
+msgid "Loading the postcard takes ~15 seconds.<br/>Click OK to begin."
+msgstr ""
+"Det tager ~15 sekunder at loade postkortet.<br/>Tryk OK for at begynde."
+
+#: ../pdfjs/pdfjs-viewer.php:80 ../pdfjs/pdfjs-viewer.php:98
+#: ../pdfjs/pdfjs-viewer.php:124
+msgid "Cancel"
+msgstr "Annuller"
+
+#: ../pdfjs/pdfjs-viewer.php:81 ../pdfjs/pdfjs-viewer.php:99
+#: ../pdfjs/pdfjs-viewer.php:125
+msgid "OK"
+msgstr "OK"
+
+#: ../pdfjs/pdfjs-viewer.php:90
+msgid "Create poster"
+msgstr "Lav plakat"
+
+#: ../pdfjs/pdfjs-viewer.php:95
+msgid "Loading the poster takes ~15 seconds.<br/>Click OK to begin."
+msgstr "Det tager ~15 sekunder at loade plakaten.<br/>Tryk OK for at begynde."
+
+#: ../pdfjs/pdfjs-viewer.php:108
 msgid "View fullscreen"
 msgstr "Vis i fuldskærm"
 
-#: ../templates/programlisting-search-results.php:15
-#: ../templates/programlisting-search-results.php:52 ../widgets/featured.php:70
+#: ../pdfjs/pdfjs-viewer.php:113
+msgid "Download"
+msgstr "Download"
+
+#: ../pdfjs/pdfjs-viewer.php:114
+msgid "Document (PDF)"
+msgstr "Dokument (PDF)"
+
+#: ../pdfjs/pdfjs-viewer.php:115
+msgid "Convert to image (JPG)"
+msgstr "Konverter til billede (JPG)"
+
+#: ../pdfjs/pdfjs-viewer.php:121
+msgid "Converting to JPG takes ~15 seconds.<br/>Click OK to begin."
+msgstr ""
+"Det tager ~10 sekunder at konvertere til JPG.<br/>Tryk OK for at begynde."
+
+#: ../templates/programlisting-search-results.php:18
+#: ../templates/programlisting-search-results.php:55 ../widgets/featured.php:70
 msgid "Year"
 msgstr "År"
 
-#: ../templates/programlisting-search-results.php:25
-#: ../templates/programlisting-search-results.php:62 ../widgets/featured.php:76
+#: ../templates/programlisting-search-results.php:28
+#: ../templates/programlisting-search-results.php:65 ../widgets/featured.php:76
 msgid "Month"
 msgstr "Måned"
 
-#: ../templates/programlisting-search-results.php:35
-#: ../templates/programlisting-search-results.php:72 ../widgets/featured.php:81
+#: ../templates/programlisting-search-results.php:38
+#: ../templates/programlisting-search-results.php:75 ../widgets/featured.php:81
 msgid "Day"
 msgstr "Dag"
 
-#: ../templates/programlisting-search-results.php:43
-#: ../templates/programlisting-search-results.php:80
-#: ../templates/programlisting-search-results.php:88
+#: ../templates/programlisting-search-results.php:46
+#: ../templates/programlisting-search-results.php:83
+#: ../templates/programlisting-search-results.php:91
 msgid "Search on date"
 msgstr "Søg på dato"
 
-#: ../templates/programlisting-search-results.php:85
+#: ../templates/programlisting-search-results.php:88
 msgid "Search in program listings"
 msgstr "Søg i programoversigter"
 
-#: ../templates/programlisting-search-results.php:98
+#: ../templates/programlisting-search-results.php:105
 msgid "Download program listing"
 msgstr "Hent programoversigt"
 
-#: ../templates/programlisting-search-results.php:105
+#: ../templates/programlisting-search-results.php:113
 #, php-format
 msgid "%d result"
 msgid_plural "%d results"
 msgstr[0] "%d resultat"
 msgstr[1] "%d resultater"
 
-#: ../templates/programlisting-search-results.php:110
+#: ../templates/programlisting-search-results.php:118
 msgid "Date"
 msgstr "Dato"
 
-#: ../templates/programlisting-search-results.php:111
+#: ../templates/programlisting-search-results.php:119
 msgid "Download to your computer"
 msgstr "Hent til din computer"
 
-#: ../templates/programlisting-search-results.php:112
+#: ../templates/programlisting-search-results.php:120
 msgid "Type"
 msgstr "Type"
 
@@ -80,7 +124,7 @@ msgstr "DKA Programoversigter"
 msgid "Search for program listings"
 msgstr "Søg efter programoversigter"
 
-#: ../widgets/featured.php:25 ../wpdkaprogramlistings.php:131
+#: ../widgets/featured.php:25 ../wpdkaprogramlistings.php:132
 msgid "Program Listings"
 msgstr "Programoversigter"
 
@@ -88,27 +132,37 @@ msgstr "Programoversigter"
 msgid "Search description"
 msgstr "Søge beskrivelse"
 
-#: ../widgets/featured.php:86 ../widgets/search.php:20 ../widgets/search.php:61
+#: ../widgets/featured.php:86 ../widgets/search.php:20 ../widgets/search.php:25
+#: ../widgets/search.php:61
 msgid "Search program schedule"
 msgstr "Søg i sendeplanerne"
 
-#: ../widgets/featured.php:115 ../widgets/search.php:94
+#: ../widgets/featured.php:88
+msgid ""
+"You can now print posters and postcards of the program schedules using the "
+"built in print function.<br/>Just start by searching for program schedules "
+"on your selected date."
+msgstr ""
+"Du kan nu printe postkort og plakater direkte på danskkulturarv.dk<br/"
+">Begynd ved at søge efter sendeplaner fra din ønskede dato."
+
+#: ../widgets/featured.php:116 ../widgets/search.php:95
 msgid "Upload new image"
 msgstr "Indlæs nyt billede"
 
-#: ../widgets/featured.php:115 ../widgets/search.php:94
+#: ../widgets/featured.php:116 ../widgets/search.php:95
 msgid "Upload Image"
 msgstr "Indlæs billede"
 
-#: ../widgets/featured.php:117 ../widgets/search.php:96
+#: ../widgets/featured.php:118 ../widgets/search.php:97
 msgid "Remove image"
 msgstr "Fjern billede"
 
-#: ../widgets/featured.php:122 ../widgets/search.php:101
+#: ../widgets/featured.php:123 ../widgets/search.php:102
 msgid "Title:"
 msgstr "Titel:"
 
-#: ../widgets/featured.php:126 ../widgets/search.php:105
+#: ../widgets/featured.php:127 ../widgets/search.php:106
 msgid "Description:"
 msgstr "Beskrivelse:"
 
@@ -116,82 +170,137 @@ msgstr "Beskrivelse:"
 msgid "DKA Search program schedule"
 msgstr "DKA Søg i sendeplanerne"
 
-#: ../widgets/search.php:25
-msgid "Program schedule"
-msgstr ""
-
-#: ../widgets/search.php:66
+#: ../widgets/search.php:67
 msgid "Search"
 msgstr "Søg"
 
-#: ../wpdkaprogramlistings.php:106
+#: ../wpdkaprogramlistings.php:107
 msgid "WordPress program listing"
 msgstr "WordPress sendeplaner"
 
-#: ../wpdkaprogramlistings.php:106
+#: ../wpdkaprogramlistings.php:107
 msgid "Rewrite rules flushed .."
 msgstr "Rewrite rules nulstillet .."
 
-#: ../wpdkaprogramlistings.php:136
+#: ../wpdkaprogramlistings.php:137
 msgid "Page for program listing results"
 msgstr "Side til programoversigt søgeresultater"
 
-#: ../wpdkaprogramlistings.php:141
-#, fuzzy
+#: ../wpdkaprogramlistings.php:142
 msgid "Permalinks must be enabled for program listings search to work properly"
 msgstr ""
-"Permalinks skal være aktiveret for at CHAOS søgning skal fungere korrekt"
+"Permalinks skal være aktiveret for at søgning i programoversigter fungerer "
+"korrekt"
 
-#: ../wpdkaprogramlistings.php:228
+#: ../wpdkaprogramlistings.php:229
 #, php-format
 msgid "%s program listing %s"
 msgstr "%s programoversigt %s"
 
-#: ../wpdkaprogramlistings.php:230
+#: ../wpdkaprogramlistings.php:231
 #, php-format
 msgid "%s program listing search results %s"
 msgstr "%s sendeplaner søgeresultater %s"
 
-#: ../wpdkaprogramlistings.php:357
+#: ../wpdkaprogramlistings.php:358
 #, php-format
 msgid "Use %s, %s, or %s keywords."
 msgstr "Benyt %s, %s eller %s som nøgleord."
 
-#: ../wpdkaprogramlistings.php:359
+#: ../wpdkaprogramlistings.php:360
 #, php-format
 msgid "%s is used to include both words."
 msgstr "%s bruges hvis søgningen skal indeholde begge ord."
 
-#: ../wpdkaprogramlistings.php:361
+#: ../wpdkaprogramlistings.php:362
 #, php-format
 msgid "%s is used to include atleast one of the words."
 msgstr "%s bruges hvis søgningen skal indeholde mindst ét af ordene."
 
-#: ../wpdkaprogramlistings.php:363
+#: ../wpdkaprogramlistings.php:364
 #, php-format
 msgid "%s is used if it should not include the following word."
 msgstr "%s bruges hvis et ord skal udelukkes fra søgningen."
 
-#: ../wpdkaprogramlistings.php:365
+#: ../wpdkaprogramlistings.php:366
 #, php-format
 msgid "If nothing has been specified it is by default %s."
 msgstr "Hvis ingenting er specificeret vil der blive brugt %s."
 
-#: ../wpdkaprogramlistings.php:367
+#: ../wpdkaprogramlistings.php:368
 msgid "Put words or phrase in quotes to get more specific search results."
 msgstr ""
 "Indsæt ord eller sætninger i anførselstegn for at få mere specifikke "
 "søgeresultater."
 
-#: ../wpdkaprogramlistings.php:369
+#: ../wpdkaprogramlistings.php:370
 #, php-format
 msgid "Use %s to replace a single character."
 msgstr "Benyt %s for at erstatte én enkelt karaktér."
 
-#: ../wpdkaprogramlistings.php:371
+#: ../wpdkaprogramlistings.php:372
 #, php-format
 msgid "Use %s to replace zero or more characters."
 msgstr "Benyt %s for at erstatte nul eller flere karakterer."
+
+#~ msgid "Loading the postcard takes ~10 seconds.<br/>Click OK to begin."
+#~ msgstr ""
+#~ "Det tager ~10 sekunder at loade postkortet.<br/>Tryk OK for at begynde."
+
+#~ msgid "Loading the poster takes ~10 seconds.<br/>Click OK to begin."
+#~ msgstr ""
+#~ "Det tager ~10 sekunder at loade plakaten.<br/>Tryk OK for at begynde.\n"
+#~ "Det tager ~10 sekunder at loade postkortet.<br/>Tryk OK for at begynde."
+
+#~ msgid "Converting to JPG takes ~10 seconds.<br/>Click OK to begin."
+#~ msgstr ""
+#~ "Det tager ~10 sekunder at konvertere til JPG.<br/>Tryk OK for at "
+#~ "begynde.\n"
+#~ "Det tager ~10 sekunder at loade plakaten.<br/>Tryk OK for at begynde.\n"
+#~ "Det tager ~10 sekunder at loade postkortet.<br/>Tryk OK for at begynde."
+
+#~ msgid "Create postcard/poster"
+#~ msgstr "Lav postkort/plakat"
+
+#~ msgid "Loading the postcards takes ~10 seconds.<br/>Click OK to begin."
+#~ msgstr ""
+#~ "Det tager ~10 sekunder at loade postkortene.<br/>Tryk OK for at begynde."
+
+#~ msgid "Converting"
+#~ msgstr "Konvertering"
+
+#~ msgid ""
+#~ "Converting to JPG takes ~10 seconds so please be patient. Click OK to "
+#~ "begin."
+#~ msgstr ""
+#~ "Konvertering til JPG tager ~10 sekunder, så vær tålmodig. Klik på OK for "
+#~ "at begynde."
+
+#~ msgid "Close"
+#~ msgstr "Luk"
+
+#~ msgid ""
+#~ "Converting to PNG takes 10-20 seconds so please be patient\\. Click OK to "
+#~ "begin\\."
+#~ msgstr ""
+#~ "Konvertering til PNG tager 10-20 sekunder, så vær tålmodig\\. Klik OK for "
+#~ "at begynde\\."
+
+#~ msgid "Convert to image (PNG)"
+#~ msgstr "Konverter til billede (PNG)"
+
+#~ msgid "Converting to PNG takes 10-20 seconds so please be patient"
+#~ msgstr "Konvertering til PNG tager 10-20 sekunder, så vær tålmodig "
+
+#~ msgid "Converting to PNG takes 5-10 seconds.\\nClick \"OK\" to start."
+#~ msgstr ""
+#~ "Konvertering til PNG tager 5-10 sekunder.\n"
+#~ "Klik på “OK” for at starte."
+
+#~ msgid "Converting to PNG takes 5-10 seconds\\nClick \"OK\" to start"
+#~ msgstr ""
+#~ "Konvertering til PNG tager 5-10 sekunder.\n"
+#~ "Klik på “OK” for at starte."
 
 #~ msgid "Full text search"
 #~ msgstr "Fuldtekstsøgning"
@@ -327,9 +436,6 @@ msgstr "Benyt %s for at erstatte nul eller flere karakterer."
 #~ msgctxt "page"
 #~ msgid "Add New"
 #~ msgstr "Tilføj ny"
-
-#~ msgid "Cancel"
-#~ msgstr "Cancel"
 
 #~ msgid "Add material to collection"
 #~ msgstr "Tilføj materiale til samling"

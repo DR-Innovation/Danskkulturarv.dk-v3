@@ -13,7 +13,7 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 	 * Constructor
 	 */
 	public function __construct() {
-		
+
 		parent::__construct(
 			'dka-program-listing-featured-widget',
 			__('DKA Program Listings',WPDKAProgramListings::DOMAIN),
@@ -43,10 +43,10 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 
 	/**
 	 * GUI for widget content
-	 * 
+	 *
 	 * @param  array $args Sidebar arguments
 	 * @param  array $instance Widget values from database
-	 * @return void 
+	 * @return void
 	 */
 	public function widget( $args, $instance ) {
 		// if (empty(get_option('wpdkaprogramlistings-page')) || !is_page(get_option('wpdkaprogramlistings-page'))) {
@@ -62,7 +62,7 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 		// if (!empty($image)) {
 			// echo '<img src="' . $image . '" alt="' . $title . '" style="max-width: 240px;" />';
 		// } else {
-			echo '<img src="' . plugins_url( '../images/logo.png' , __FILE__ ) . '" alt="' . $title . '" style="max-width: 100%;" />';
+			echo '<img src="' . plugins_url( '../images/logo.png' , __FILE__ ) . '" alt="' . $title . '" />';
 		// }
 		echo $args['after_title'];
 		echo '<p>' . $instance['description'] . '</p>';
@@ -85,13 +85,17 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
 		echo '</select></div></div>';
 		echo '<div class="col-xs-12 col-sm-12"><button type="submit" class="btn btn-primary btn-block">' . __('Search program schedule', WPDKAProgramListings::DOMAIN) . '</button></div>';
 		echo '</form>';
+		echo '<div class="widget-promo-image">
+						<img src="' . plugins_url( '../images/promo.jpg' , __FILE__ ) . '" alt="'. __('Poster and postcard promo image', WPDKAProgramListings::DOMAIN) .'" />
+					</div>';
+		// echo '<div class="print-pr"><p>'. __('You can now print posters and postcards of the program schedules using the built in print function.<br/>Just start by searching for program schedules on your selected date.', WPDKAProgramListings::DOMAIN) .'</p></div>';
 
 		echo '</div>';
 
-		echo $args['after_widget'];			
+		echo $args['after_widget'];
 	}
 
-	// Widget Backend 
+	// Widget Backend
 	public function form($instance) {
 		$title = '';
 		if (isset($instance['title'])) {
@@ -119,16 +123,16 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
             <input name="<?php echo $this->get_field_name( 'image' ); ?>" id="<?php echo $this->get_field_id( 'image' ); ?>" class="widefat" type="hidden" size="36"  value="<?php echo esc_url( $image ); ?>" />
         </p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:'); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e('Title:'); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'description' ); ?>"><?php _e('Description:'); ?></label> 
+			<label for="<?php echo $this->get_field_id( 'description' ); ?>"><?php _e('Description:'); ?></label>
 			<textarea class="widefat" id="<?php echo $this->get_field_id( 'description' ); ?>" name="<?php echo $this->get_field_name( 'description' ); ?>"><?php echo esc_attr( $description ); ?></textarea>
 		</p>
-	<?php 
+	<?php
 	}
-		
+
 	// Updating widget replacing old instances with new
 	public function update( $new_instance, $old_instance ) {
 		$updated_instance = $new_instance;

@@ -1,0 +1,78 @@
+$('#adjustment').on('touchstart click', function() {
+  $('body').addClass('clicked');
+});
+
+
+
+// facebook url
+var url = "http://danskkulturarv.dk/wp-content/plugins/wpdkaprogramlistings/image-print/?base=" + img;
+// facebook sharer url
+var fburl = "http://www.facebook.com/sharer.php?u=" + url;
+
+$('#downloadButton').attr("href", img).removeAttr("disabled");
+
+update metadata
+$('meta[property="og:image"]').attr("content", img);
+$('meta[property="og:url"]').attr("content", url);
+$('#fbButton').attr("href", fburl);
+
+$('body').append('<img src="' + img + '"/>');
+Save PNG
+return Canvas2Image.saveAsPNG(canvas);
+
+
+
+<div class="btn-group">
+  <a href="http://www.facebook.com/sharer.php?u=http://www.danskkulturarv.dk/programoversigt/" id="fbButton" type="button" class="btn btn-primary btn-lg" title="Save png"><i class="fa fa-facebook"></i></a>
+  <button id="twButton" type="button" class="btn btn-primary btn-lg" title="Save png"><i class="fa fa-twitter"></i></button>
+  <button id="inButton" type="button" class="btn btn-primary btn-lg" title="Save png"><i class="fa fa-instagram"></i></button>
+</div>
+
+
+
+<button type="button" '.$button_class.' data-toggle="modal" data-target="#card'.$shorter_name.'">'.__('Create postcard', wpdkaprogramlistings::DOMAIN).'</button>
+ <div class="modal" id="card'.$shorter_name.'" tabindex="-1" role="dialog">
+   <div class="modal-dialog modal-sm">
+     <div class="modal-content">
+        <div class="modal-body text-left">
+          '.__('Loading the postcard takes ~15 seconds.<br/>Click OK to begin.', wpdkaprogramlistings::DOMAIN).'
+        </div>
+        <div class="modal-footer">
+          <button data-dismiss="modal" '.$button_class.'>'.__('Cancel', wpdkaprogramlistings::DOMAIN).'</button>
+          <a '.$button_ok_class.' target="_blank" href="'.$card_url.'">'.__('OK', wpdkaprogramlistings::DOMAIN).'</a>
+        </div>
+     </div>
+   </div>
+ </div>
+
+
+
+
+ var deferred = $.Deferred();
+ var img = new Image();
+ img.crossOrigin = 'Anonymous';
+ img.onload = function() {
+   var canvas = document.createElement('CANVAS'),
+     ctx = canvas.getContext('2d'),
+     dataURL;
+   canvas.height = this.height;
+   canvas.width = this.width;
+   ctx.drawImage(this, 0, 0);
+   dataURL = canvas.toDataURL(outputFormat);
+
+   deferred.resolve(dataURL);
+   canvas = null;
+ };
+ img.src = url;
+ return deferred.promise();
+
+
+ convertImgToBase64URL(imgSource).then(function(base64Img) {
+   pdfMake.createPdf(docDefinition).open()
+ });
+
+
+ <button onclick="window.print()" type="button" class="btn btn-primary btn-lg disabled" title="print"><i class="fa fa-print"></i> Print</button>
+
+
+ <button id="backpngButton" type="button" class="btn btn-primary btn-lg disabled" title="Save png"><i class="fa fa-picture-o"></i> Bagside</button>
