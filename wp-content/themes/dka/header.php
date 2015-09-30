@@ -47,6 +47,11 @@
 ?>
 				</div><!--/.nav-collapse -->
 			</div>
+			<!-- This content is ignored in IE10 and other browsers.
+			In older versions of IE it renders as part of the page. -->
+			<!--[if IE]>
+				<a class="btn btn-lg btn-warning" id="old-browser-btn" href="<?php echo esc_url( home_url( '/understottelse' ) ); ?>">Din gamle browser er ikke understøttet: Klik her for mere information.</a>
+			<![endif]-->
 		</nav><!-- end navigation -->
 
 		<div class="container body-container">
