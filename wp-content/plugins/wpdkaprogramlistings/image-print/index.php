@@ -15,29 +15,29 @@ if ($_GET['pdf']) {
         $day = substr($day, 1, 1);
     }
     if ($month == '01') {
-        $month = 'Januar';
+        $month = 'januar';
     } elseif ($month == '02') {
-        $month = 'Februar';
+        $month = 'februar';
     } elseif ($month == '03') {
-        $month = 'Marts';
+        $month = 'marts';
     } elseif ($month == '04') {
-        $month = 'April';
+        $month = 'april';
     } elseif ($month == '05') {
-        $month = 'Maj';
+        $month = 'maj';
     } elseif ($month == '06') {
-        $month = 'Juni';
+        $month = 'juni';
     } elseif ($month == '07') {
-        $month = 'Juli';
+        $month = 'juli';
     } elseif ($month == '08') {
-        $month = 'August';
+        $month = 'august';
     } elseif ($month == '09') {
-        $month = 'September';
+        $month = 'september';
     } elseif ($month == '10') {
-        $month = 'Oktober';
+        $month = 'oktober';
     } elseif ($month == '11') {
-        $month = 'November';
+        $month = 'november';
     } elseif ($month == '12') {
-        $month = 'December';
+        $month = 'december';
     }
     if (strlen($month) >= 3) {
         $validDate = true;
@@ -146,8 +146,7 @@ if ($_GET['type']) {
     </div>
     <div class="front-text left">
       <?php if ($validDate == true) {
-    echo '<b>DR sendeplan '.$day.'. '.$month.' '.$year.' &copy; DR</b>';
-} ?>
+    echo '<b>DR sendeplan d. '.$day.'. '.$month.' '.$year.' &copy; DR</b>';} ?>
     </div>
     <div class="front-text right"><b>Danskkulturarv.dk</b></div>
   </div>
@@ -207,7 +206,7 @@ if ($_GET['type']) {
   <script src="bower_components/cropper/dist/cropper.min.js"></script>
   <script src="bower_components/html2canvas/build/html2canvas.js"></script>
   <script src='scripts/pdfmake.min.js'></script>
- 	<script src='scripts/vfs_fonts.js'></script>
+   <script src='scripts/vfs_fonts.js'></script>
   <script src="scripts/download.js"></script>
   <script src="scripts/postcard.js"></script>
 
