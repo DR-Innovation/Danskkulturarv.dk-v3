@@ -25,6 +25,13 @@ $views = array(
 		),
 	);
 	?>
+
+<div class="container body-container">
+
+<!-- start search -->
+<div class="search row"><?php dynamic_sidebar( 'Top' ); ?></div>
+<!-- end search -->
+
 	<article class="search-results">
 		<div class="row search-results-top">
 			<div class="col-md-4 col-sm-12 col-xs-12 search-count">

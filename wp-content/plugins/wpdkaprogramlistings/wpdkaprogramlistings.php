@@ -35,7 +35,7 @@ class WPDKAProgramListings {
 
 
 	/**
-	 * Constructor
+	 * Constructor (pretty URLs) - remember to go into permalinks and update after changing stuff here
 	 */
 	public function __construct() {
 		$this->load_dependencies();
@@ -47,7 +47,7 @@ class WPDKAProgramListings {
 
 		add_action('plugins_loaded',array(&$this,'load_textdomain'));
 		add_filter('widgets_init',array(&$this,'register_widgets'));
-        add_action('template_redirect', array(&$this, 'get_programlisting_page'));
+    add_action('template_redirect', array(&$this, 'get_programlisting_page'));
 		add_action('wp_enqueue_scripts', array(&$this, 'loadJsCss'));
 
         self::register_search_query_variable(1, self::QUERY_KEY_YEAR, '\d{4}', false, null, '');

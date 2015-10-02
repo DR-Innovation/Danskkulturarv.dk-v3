@@ -4,14 +4,23 @@
  * @subpackage DKA
  */
 get_header(); ?>
+
+
+<div class="container body-container">
+
+<!-- start search -->
+<div class="search row"><?php dynamic_sidebar( 'Top' ); ?></div>
+<!-- end search -->
+
+
 <div class="row">
-<?php while ( have_posts() ) : the_post(); ?>
-				
+	<?php while ( have_posts() ) : the_post(); ?>
+
 				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<div class="">
 						<h1 class="entry-title">
 							<?php the_title(); ?>
-						</h1>		
+						</h1>
 
 						<div class="entry-content">
 							<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'dka' ) ); ?>
@@ -21,7 +30,7 @@ get_header(); ?>
 
 				</article><!-- #post -->
 
-			
+
 
 <?php endwhile; // end of the loop. ?>
 

@@ -6,6 +6,12 @@
 
 
 <!-- SEARCH BAR -->
+<div class="container body-container">
+
+<!-- start search -->
+<div class="search row"><?php dynamic_sidebar( 'Top' ); ?></div>
+<!-- end search -->
+
 <div class="programlisting-search-results row">
     <div class="programlisting-count col-lg-3 col-md-12 col-sm-12 col-xs-12">
         <img src="<?php echo plugins_url( '../images/logo.png' , __FILE__ ); ?>" alt="TV og Radio" style="vertical-align: top; max-width: 100%; max-height: 38px;" />
@@ -111,6 +117,8 @@
             <?php if (isset($results)): ?>
                 <p class="results-count">
                     <?php printf(_n('%d result', '%d results', count($results), WPDKAProgramListings::DOMAIN), count($results)); ?>
+
+<!-- Show something if results > 100 -->
                 </p>
                 <?php if (!empty($results)): ?>
                     <ul class="list-unstyled search-overview">
