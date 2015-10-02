@@ -13,11 +13,10 @@
 
 <!-- sticky footer -->
 <footer>
-	<!--[if lt IE 9]><a class="btn btn-warning" id="old-browser-btn" href="<?php echo esc_url( home_url( '/understottelse' ) ); ?>">Du benytter en ældre browser: Klik her for mere information.</a><![endif]-->
-	<div class="container text-center">
-		<div class="bloginfo-footer"><?php bloginfo( 'name' ); ?> <span>- <?php bloginfo( 'description' ); ?></span></div>
-		
-<?php 
+  <div class="container text-center">
+    <div class="bloginfo-footer"><?php bloginfo( 'name' ); ?> <span>- <?php bloginfo( 'description' ); ?></span></div>
+
+<?php
     wp_nav_menu( array(
         'theme_location' => 'secondary',
         'depth'      => 1,
@@ -29,8 +28,8 @@
     );
 ?>
 
-		<div class="copyright">Copyright &#169; 2012-<?php echo date('Y'); ?> <a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"><?php bloginfo( 'name' ); ?></a></div>
-	</div>
+    <div class="copyright">Copyright &#169; 2012-<?php echo date('Y'); ?> <a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"><?php bloginfo( 'name' ); ?></a></div>
+  </div>
 </footer>
 
 <?php wp_footer(); ?>
