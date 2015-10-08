@@ -8,34 +8,34 @@
 <!--[if IE 8 ]><html class="ie8" <?php language_attributes(); ?>> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!--><html <?php language_attributes(); ?>><!--<![endif]-->
 <head prefix="og: http://ogp.me/ns#">
-	<meta charset="<?php bloginfo( 'charset' ); ?>" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="apple-mobile-web-app-capable" content="yes"/>
-	<title><?php wp_title( '|', true, 'right' ); ?></title>
-	<link rel="profile" href="http://gmpg.org/xfn/11" />
-	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-	<?php wp_head(); ?>
+  <meta charset="<?php bloginfo( 'charset' ); ?>" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <title><?php wp_title( '|', true, 'right' ); ?></title>
+  <link rel="profile" href="http://gmpg.org/xfn/11" />
+  <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
+  <?php wp_head(); ?>
 </head>
 <body>
-	<!-- start wrapper (for page content to push down sticky footer) -->
-	<div id="wrap">
+  <!-- start wrapper (for page content to push down sticky footer) -->
+  <div id="wrap">
 
-		<!-- start navigation -->
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">		
-				<!-- .navbar-toggle is used as the toggle for collapsed navbar content -->
-				    <div class="navbar-header">
-				      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-				        <span class="sr-only">Toggle navigation</span>
-				        <span class="icon-bar"></span>
-				        <span class="icon-bar"></span>
-				        <span class="icon-bar"></span>
-				      </button>
-				      <a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><img src="<?php echo get_template_directory_uri() . '/img/dka-logo-top.png' ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"></a>
-				    </div>
-				<div class="collapse navbar-collapse navbar-responsive-collapse">
-<?php 
+    <!-- start navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <!-- .navbar-toggle is used as the toggle for collapsed navbar content -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><img src="<?php echo get_template_directory_uri() . '/img/dka-logo-top.png' ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"></a>
+            </div>
+        <div class="collapse navbar-collapse navbar-responsive-collapse">
+<?php
     wp_nav_menu( array(
         'theme_location'       => 'primary',
         'depth'      => 3,
@@ -45,12 +45,15 @@
         'walker' => new wp_bootstrap_navwalker())
     );
 ?>
-				</div><!--/.nav-collapse -->
-			</div>
-		</nav><!-- end navigation -->
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav><!-- end navigation -->
 
-		<div class="container body-container">
+    <div class="container body-container">
 
-		<!-- start search -->
-		<div class="search row"><?php dynamic_sidebar( 'Top' ); ?></div>
-		<!-- end search -->
+    <!-- start search -->
+    <div class="search row">
+      <!--[if IE ]><div class="col-xs-12"><a class="btn btn-lg btn-warning" id="old-browser-btn" href="<?php echo esc_url( home_url( '/understottelse' ) ); ?>">Din gamle browser kan desværre ikke understøttes: Klik her for mere information.</a></div><![endif]-->
+      <?php dynamic_sidebar( 'Top' ); ?>
+    </div>
+    <!-- end search -->
