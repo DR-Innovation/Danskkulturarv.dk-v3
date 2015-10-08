@@ -53,11 +53,7 @@
 
     <!-- start search -->
     <div class="search row">
-      <!--[if IE]>
-      <div>
-        <a class="btn btn-lg btn-warning" id="old-browser-btn" href="<?php echo esc_url( home_url( '/understottelse' ) ); ?>">Din gamle browser kan desværre ikke understøttes: Klik her for mere information.</a>
-      </div>
-      <![endif]-->
+      <!--[if IE ]><div><a class="btn btn-lg btn-warning" id="old-browser-btn" href="<?php echo esc_url( home_url( '/understottelse' ) ); ?>">Din gamle browser kan desværre ikke understøttes: Klik her for mere information.</a></div><![endif]-->
       <?php dynamic_sidebar( 'Top' ); ?>
     </div>
     <!-- end search -->
