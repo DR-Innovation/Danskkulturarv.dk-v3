@@ -7,128 +7,105 @@ So you can start working with more styles, background images,
 and other resources.
 
 -------------------------------------------------- */
-
+body {
+  font-size: ceil((@font-size-base * 1.05));
+}
 .container .search .row {
   padding: 0 10px 0 20px;
 }
-
 #advanced-search-container {
   .btn.filter-btn {
-    font-size: 12px;
+    font-size: @font-size-small;
     min-width: 160px;
+
     //.border-radius(26px);
   }
 }
 
 //header
-
-.nav {    
-  padding: 20px 0;
+.nav {
+  padding: 35px 0;
 }
-
 .navbar {
-
   .navbar-brand img {
     height: 27px;
   }
-
   .navbar-brand {
-    padding: 24px 20px 0 0;
+    padding: 41px 20px 0 0;
   }
-
-
 }
-
 #menu-topmenu {
   float: right;
 }
-
 #menu-top-navigation {
   float: right;
-
   li.menu-item a {
     border-radius: @border-radius-small;
-    -webkit-border-radius: @border-radius-small; 
+    -webkit-border-radius: @border-radius-small;
     -moz-border-radius: @border-radius-small;
   }
-
 }
-
 .navbar-responsive-collapse {
-
-    li.menu-item {
+  li.menu-item {
     margin-right: 10px !important;
-      }
-
-    ul.dropdown-menu {
-      position: absolute;
-      margin-left: 0;
-      width: auto;
-      padding: 10px;
-      border-top-left-radius: @border-radius-small;
-
-	  li {
-	  	margin:0!important;
-	  	padding:0 !important;
-
-	  a {
+  }
+  ul.dropdown-menu {
+    position: absolute;
+    margin-left: 0;
+    width: auto;
+    padding: 10px;
+    border-top-left-radius: @border-radius-small;
+    li {
+      margin: 0 !important;
+      padding: 0 !important;
+      a {
         background-color: inherit !important;
         width: 100% !important;
         border-radius: 0!important;
       }
+    }
+    li.dropdown-header {
+      margin-left: 10px;
+    }
   }
+  li {
+    display: box;
+  }
+  a.dropdown-menu-item {
 
-      li.dropdown-header {
-        margin-left: 10px;
-      }
+    // color: #fff !important;
+    padding: 4px 10px !important;
 
-    }
-
-    li {
-      display: box;
-    }
-
-    a.dropdown-menu-item {
-      color: #fff !important;
-      padding: 4px 10px !important;
-      background-color: @gray-semi-light !important;
-    }
-
+    // background-color: @gray-semi-light !important;
+  }
 }
-
 .pagination {
-	float:right;
+  float: right;
 }
 
 //front page
-
 .front-page-content {
   font-size: 32px;
   line-height: 36px;
-
   strong {
     font-size: 42px;
     line-height: 48px;
   }
-
 }
-
 footer {
   margin-left: 0;
   margin-right: 0;
-
   .bloginfo-footer {
     margin: 20px 0;
     font-size: 18px;
   }
-
   .social {
     font-size: 16px;
     line-height: 12px;
     margin-right: 5px;
   }
-
-  .copyright, .copyright a {
+  .copyright,
+  .copyright a {
     margin-top: 18px;
     color: @gray-light;
   }

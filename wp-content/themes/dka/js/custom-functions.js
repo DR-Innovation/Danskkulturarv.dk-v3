@@ -20,7 +20,7 @@
             this.addToggleAllListener();
             this.addFlexSliders();
             this.socialSharePopup();
-            this.focusSearchBar();
+            // this.focusSearchBar();
             this.cookiePolicy();
         },
 

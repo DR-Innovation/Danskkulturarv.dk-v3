@@ -20,7 +20,7 @@ add_filter('post_class', function($classes) {
 	} else {
 		$classes[] = 'col-xs-12';
 	}
-	
+
 	return $classes;
 });
 
@@ -191,12 +191,12 @@ add_filter('siteorigin_panels_row_styles', 'col2_style_page_builder');
  */
 add_filter('tiny_mce_before_init', function($arr) {
 	$arr['theme_advanced_blockformats'] = 'p,h2,h3,h4,h5,h6,address,pre';
-	$style_formats = array(  
-		array(  
-			'title' => __('Text-box', 'dka'),  
-			'block' => 'div',  
-			'classes' => 'colorbox',  
-			'wrapper' => true  
+	$style_formats = array(
+		array(
+			'title' => __('Text-box', 'dka'),
+			'block' => 'div',
+			'classes' => 'colorbox',
+			'wrapper' => true
 		),
 		array(
 			'title' => __('Image-box', 'dka'),
@@ -210,19 +210,19 @@ add_filter('tiny_mce_before_init', function($arr) {
 			'classes' => 'frontbox',
 			'wrapper' => true
 		)
-	);  
-	$arr['style_formats'] = json_encode( $style_formats );  
+	);
+	$arr['style_formats'] = json_encode( $style_formats );
 	return $arr;
 });
 
-/** 
- * Add "Styles" drop-down 
- */  
-add_filter( 'mce_buttons_2', 'tuts_mce_editor_buttons' );  
-function tuts_mce_editor_buttons( $buttons ) {  
-	array_unshift( $buttons, 'styleselect' );  
-	return $buttons;  
-}  
+/**
+ * Add "Styles" drop-down
+ */
+add_filter( 'mce_buttons_2', 'tuts_mce_editor_buttons' );
+function tuts_mce_editor_buttons( $buttons ) {
+	array_unshift( $buttons, 'styleselect' );
+	return $buttons;
+}
 
 
 function dka_setup() {
@@ -239,7 +239,7 @@ function dka_setup() {
 	remove_action( 'wp_head','rsd_link',10);
 	remove_action( 'wp_head','wlwmanifest_link',10);
 
-	//add_theme_support( 'post-thumbnails' );
+	add_theme_support( 'post-thumbnails' );
 	//set_post_thumbnail_size( 624, 9999 ); // Unlimited height, soft crop
 	add_filter('wp_mail_from', function($old) { return get_bloginfo('admin_email'); });
 	add_filter('wp_mail_from_name', function($old) { return get_bloginfo('name'); });
@@ -264,7 +264,7 @@ function dka_scripts_styles() {
 	wp_register_style( 'dka-embed-style', get_template_directory_uri() . '/css/embed-style.css');
 
 	wp_enqueue_style( 'dka-style' );
-	
+
 	//Use Google CDN instead
 	wp_deregister_script('jquery');
 	wp_register_script('jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js', false, '1.11.0', false);
@@ -302,9 +302,9 @@ function dka_scripts_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'dka_scripts_styles' );
 
-add_action('wp_head',function() {	
+add_action('wp_head',function() {
 	if(is_user_logged_in()) {
-		echo '<style>.navbar-fixed-top {margin-top:32px;} @media screen and ( max-width: 782px ) { .navbar-fixed-top {margin-top:46px;}}</style>'; 
+		echo '<style>.navbar-fixed-top {margin-top:32px;} @media screen and ( max-width: 782px ) { .navbar-fixed-top {margin-top:46px;}}</style>';
 	}
 });
 
@@ -435,7 +435,7 @@ function dka_wp_title( $title, $sep ) {
 add_filter( 'wp_title', 'dka_wp_title', 10, 2 );
 
 
-function dka_wp_head() {	
+function dka_wp_head() {
 
 	$metadatas = array();
 
@@ -459,7 +459,7 @@ function dka_wp_head() {
 	if(is_singular()) {
 		global $post;
 		setup_postdata($post);
-		
+
 		$excerpt = dka_custom_excerpt(20);
 
 		$metadatas['description'] = array(
@@ -494,7 +494,7 @@ function dka_wp_head() {
 		//Insert attributes in meta node and print
 		echo "<meta ".implode(" ", $fields).">\n";
 	}
-	
+
 }
 
 function dka_gemius_tracking() {
@@ -511,7 +511,7 @@ function dka_gemius_tracking() {
 	//--><!]]>
 	</script>
 HTML;
-	
+
 }
 
 //Only track in production

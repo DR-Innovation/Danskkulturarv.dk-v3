@@ -5,6 +5,11 @@
  */
 get_header(); ?>
 
+<div class="container body-container">
+
+	<!-- start search -->
+	<div class="search row"><?php dynamic_sidebar( 'Top' ); ?></div>
+	<!-- end search -->
 			<article id="post-0" class="post error404 no-results not-found">
 				<header class="entry-header">
 					<h1 class="entry-title"><?php _e( 'Page not found', 'dka' ); ?></h1>

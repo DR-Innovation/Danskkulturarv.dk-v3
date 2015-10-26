@@ -1,0 +1,66 @@
+// --------------------------------------------------
+// FOOTER
+// --------------------------------------------------
+// sticky footer
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height    : auto !important;
+  height    : 100%;
+  /* Negative indent footer by it's height */
+  margin    : 0 auto -136px;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+footer {
+  height: 136px;
+}
+footer {
+  background-color: #323538;
+  border-top      : 1px solid #000;
+  text-align      : center;
+  .container {
+    margin-top: 25px;
+  }
+  .nav-footer {
+    margin-left  : 0;
+    padding-left : 0;
+    display      : inline-block;
+    font-weight  : 700;
+    margin-bottom: 2px;
+    line-height  : 20px;
+    a {
+      color: @gray-dark !important;
+    }
+    a:hover {
+      background     : none!important;
+      color          : @gray-light!important;
+      text-decoration: none;
+    }
+    > li+li {
+      border-left : 1px solid @gray-light;
+      margin-left : 10px;
+      padding-left: 10px;
+    }
+    > li+li:last-child {
+      border-left: none;
+      margin-left: -6px;
+    }
+    > li {
+      display    : inline-block;
+      list-style : none;
+      line-height: 16px;
+    }
+  }
+  .social {
+    font-size   : @font-size-large;
+    line-height : 12px;
+    margin-right: 6px;
+  }
+  .copyright,
+  .copyright a {
+    margin-top: 6px;
+    color     : @gray-light;
+  }
+}

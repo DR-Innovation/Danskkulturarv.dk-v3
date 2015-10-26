@@ -1,21 +1,25 @@
 <?php
 /**
- * @package WordPress
- * @subpackage DKA
  */
 get_header(); ?>
 
-<?php while ( have_posts() ) : the_post(); ?>
-				<div class="row">
-					<article id="post-front" class="col-xs-12">
+<div class="container-fluid body-container">
+  <!-- start search -->
+  <div class="dark-search">
+    <div class="front search row"><?php dynamic_sidebar('Top'); ?></div>
+  </div>
+  <!-- end search -->
 
-						<div class="entry-content">
-							<?php the_content(); ?>
-						</div>
+    <?php while (have_posts()) : the_post(); ?>
+    <div class="row no-negative">
+      <article class="col-xs-12" id="post-front">
 
-					</article><!-- #post -->
-				</div>
+        <div class="entry-content">
+          <?php the_content(); ?>
+        </div>
 
-<?php endwhile; // end of the loop. ?>
+      </article><!-- #post -->
+    </div>
+    <?php endwhile; // end of the loop. ?>
 
 <?php get_footer(); ?>

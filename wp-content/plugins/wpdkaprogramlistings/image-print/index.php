@@ -78,15 +78,6 @@ if ($_GET['type']) {
   <meta property="og:description" content="Lav postkort og plakater fra gamle sendeplaner." />
   <meta property="og:image"       content="images/postkortogplakater.jpg" />
 
-
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -97,12 +88,16 @@ if ($_GET['type']) {
     ga('send', 'pageview');
   </script>
 
-  <!-- Add user... https://www.google.com/analytics/web/?et&authuser=2#management/Settings/a68073212w104784778p109030005/%3Fm.page%3DPropertyUsers/ -->
-
-
 </head>
 
 <body>
+
+  <a class="btn btn-lg btn-warning" id="old-browser-btn" href="www.danskkulturarv.dk/understottelse">Din gamle browser er ikke understøttet: Klik her for mere information.</a>
+  <!-- This content is ignored in IE10 and other browsers.
+  In older versions of IE it renders as part of the page. -->
+  <!--[if IE]>
+    <a class="btn btn-lg btn-warning" id="old-browser-btn" href="www.danskkulturarv.dk/understottelse">Din gamle browser er ikke understøttet: Klik her for mere information.</a>
+  <![endif]-->
 
   <div id="card-crop" class="<?php if ($type == 'card') : ?>card<?php elseif ($type == 'poster') : ?>poster<?php endif; ?>">
     <!-- <img src="images/pdftopng.jpeg" /> -->
