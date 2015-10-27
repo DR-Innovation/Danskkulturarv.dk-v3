@@ -15,7 +15,7 @@
 <div class="programlisting-search-results row">
     <div class="js-date-search-content">
       <form method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
-        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-2 col-lg-offset-2">
+        <div class="col-xs-4 col-sm-3 col-lg-2 col-lg-offset-2">
           <div class="programlisting-year">
             <select name="<?php echo WPDKAProgramListings::QUERY_KEY_YEAR; ?>">
               <option value=""><?php _e('Year', WPDKAProgramListings::DOMAIN); ?></option>
@@ -25,7 +25,7 @@
             </select>
           </div>
         </div>
-        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-2">
+        <div class="col-xs-4 col-sm-3 col-lg-2">
           <div class="programlisting-month">
             <select name="<?php echo WPDKAProgramListings::QUERY_KEY_MONTH; ?>">
               <option value=""><?php _e('Month', WPDKAProgramListings::DOMAIN); ?></option>
@@ -35,7 +35,7 @@
             </select>
           </div>
         </div>
-        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-2">
+        <div class="col-xs-4 col-sm-3 col-lg-2">
           <div class="programlisting-day">
             <select name="<?php echo WPDKAProgramListings::QUERY_KEY_DAY; ?>">
               <option value=""><?php _e('Day', WPDKAProgramListings::DOMAIN); ?></option>
@@ -45,7 +45,7 @@
             </select>
           </div>
         </div>
-        <div class="col-xs-12 col-md-3 col-sm-3 col-lg-2">
+        <div class="col-xs-12 col-sm-3 col-lg-2">
           <button type="submit" class="btn btn-primary btn-block"><?php _e('Search on date', WPDKAProgramListings::DOMAIN); ?></button>
         </div>
       </form>
@@ -103,7 +103,7 @@
   <?php if (isset($results) && !$search_text): ?>
 <!-- LOOP through pdf previews -->
     <?php foreach ($results as $r): ?>
-      <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+      <div class="col-lg-6">
 
         <!--[if !IE]><!-->
         <?php echo do_shortcode('[pdfjs-viewer url='.$r['_source']['url'].' viewer_width=600px viewer_height=700px fullscreen=true download=true print=true openfile=false]'); ?>

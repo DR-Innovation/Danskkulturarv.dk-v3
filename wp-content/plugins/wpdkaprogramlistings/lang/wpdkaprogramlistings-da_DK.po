@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-10-27 21:22+0100\n"
-"PO-Revision-Date: 2015-10-27 21:23+0100\n"
+"POT-Creation-Date: 2015-10-27 21:32+0100\n"
+"PO-Revision-Date: 2015-10-27 21:33+0100\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
@@ -76,7 +76,7 @@ msgstr "Dag"
 #: ../templates/programlisting-search-results.php:86
 #: ../templates/programlisting-search-results.php:94
 msgid "Search on date"
-msgstr "Søg på dato"
+msgstr "Søg (dato)"
 
 #: ../templates/programlisting-search-results.php:91
 msgid "Search in program listings"
@@ -161,8 +161,8 @@ msgid "DKA Search program schedule"
 msgstr "DKA Søg i sendeplanerne"
 
 #: ../widgets/search.php:67
-msgid "Search"
-msgstr "Søg"
+msgid "Search for words"
+msgstr "Søg (fritekst)"
 
 #: ../wpdkaprogramlistings.php:120
 msgid "WordPress program listing"
@@ -232,6 +232,9 @@ msgstr "Benyt %s for at erstatte én enkelt karaktér."
 #, php-format
 msgid "Use %s to replace zero or more characters."
 msgstr "Benyt %s for at erstatte nul eller flere karakterer."
+
+#~ msgid "Search"
+#~ msgstr "Søg"
 
 #~ msgid "View fullscreen"
 #~ msgstr "Vis i fuldskærm"

@@ -90,6 +90,9 @@
 .programlisting-search .widget-promo-image {
   margin-top: 10px;
 }
+.js-free-text-search-content .search-field {
+  margin-bottom: 5px;
+}
 .programlisting-search-results {
   min-height: 43px;
   margin-top: 5px;
@@ -125,7 +128,7 @@
   margin-bottom: 6px;
 }
 .programlisting-results {
-  margin: 0 auto;
+  margin: 30px auto 0;
   text-align: center;
 }
 .programlisting-results iframe {
