@@ -129,8 +129,10 @@
                 <?php if (!empty($results)): ?>
                     <ul class="list-unstyled search-overview">
                         <li class="row">
-                            <div class="col-xs-4 col-sm-2"><strong><?php _e('Date', WPDKAProgramListings::DOMAIN); ?></strong></div>
-                            <div class="col-xs-8 col-sm-3 right"><strong><?php _e('Type'); ?></strong></div>
+                            <div class="col-xs-8 col-sm-4 col-lg-3"><strong><?php _e('Date', WPDKAProgramListings::DOMAIN); ?></strong>
+                              <?php _e('- click to open preview', WPDKAProgramListings::DOMAIN); ?>
+                            </div>
+                            <div class="col-xs-4 col-sm-2 col-lg-2 right"><strong><?php _e('Type'); ?></strong></div>
                         </li>
                       <?php foreach ($results as $r): ?>
                         <li class="row">
@@ -146,8 +148,8 @@
                                     <button type="submit" class="btn btn-link"><?php echo $date; ?></button>
                                 </form>
                             </div>
-                            <div class="col-xs-8 col-sm-3 right type"><?php echo $r['_source']['type'] == 'Program' ? 'Programoversigt' : 'Rettelse til programoversigt'; ?></div>
-                            <div class="col-xs-12 col-sm-7 col-lg-7 right">
+                            <div class="col-xs-8 col-sm-4 col-lg-3 right type"><?php echo $r['_source']['type'] == 'Program' ? 'Programoversigt' : 'Rettelse til programoversigt'; ?></div>
+                            <div class="col-xs-12 col-sm-6 col-lg-7 right">
                               <?php echo do_shortcode('[no-pdfjs-viewer url='.$r['_source']['url'].' viewer_width=600px viewer_height=700px fullscreen=true download=true print=true openfile=false]'); ?>
                             </div>
                         </li>

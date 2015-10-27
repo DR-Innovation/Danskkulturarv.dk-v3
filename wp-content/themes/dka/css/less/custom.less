@@ -71,16 +71,23 @@ h5 {
 }
 body,
 .btn,
-.form-control {
+.form-control,
+.dropdown-menu {
   font-size: @font-size-base;
+}
+.dropdown-menu {
+  text-align: left;
+  a {
+    text-decoration: none !important;
+  }
 }
 p {
   letter-spacing: 0.02em;
 }
 .form-control,
 select {
-  border: 1px solid @gray-lighter;
-  box-shadow: none;
+  border     : 1px solid @gray-lighter;
+  box-shadow : none;
   font-weight: @regular-weight;
 }
 .btn-link {

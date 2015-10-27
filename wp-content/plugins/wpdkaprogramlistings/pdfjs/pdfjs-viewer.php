@@ -84,7 +84,7 @@ function pdfjs_function($incomingfromhandler)
     $card_url = $plugin_url.'image-print/?type=card&pdf='.$shorter_name;
     $poster_url = $plugin_url.'image-print/?type=poster&pdf='.$shorter_name;
     $buttons_start = '<div class="btn-group" role="group" aria-label="Do more">';
-    $buttons_end = '</div>';
+    $buttons_end = '</div> ';
     $button_class = 'type="button" class="btn btn-default"';
     $button_ok_class = 'type="button" class="btn btn-default modal-ok"';
     $dropdown_start = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
@@ -97,13 +97,8 @@ function pdfjs_function($incomingfromhandler)
 
     $poster_link = '';
     if ($print == 'true') {
-        $poster_link = '<a '.$button_class.' target="_blank" href="'.$poster_url.'">'.__('Create poster', wpdkaprogramlistings::DOMAIN).'</a> ';
+        $poster_link = '<a '.$button_class.' target="_blank" href="'.$poster_url.'">'.__('Create poster', wpdkaprogramlistings::DOMAIN).'</a>';
 
-    }
-
-    $fullscreen_link = '';
-    if ($fullscreen == 'true') {
-        $fullscreen_link = '<a '.$button_class.' target="_blank" href="'.$final_url.'">'.__('View fullscreen', wpdkaprogramlistings::DOMAIN).'</a>  ';
     }
 
     $downloads = '';
@@ -133,5 +128,5 @@ function pdfjs_function($incomingfromhandler)
     }
 
 
-    return $postcard_link.$poster_link./*$fullscreen_link.*/$buttons_start.$downloads.$buttons_end.$iframe_code;
+    return $buttons_start.$downloads.$buttons_end.$postcard_link.$poster_link.$iframe_code;
 }

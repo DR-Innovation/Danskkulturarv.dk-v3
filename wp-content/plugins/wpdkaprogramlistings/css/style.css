@@ -92,7 +92,6 @@
 }
 .programlisting-search-results {
   min-height: 43px;
-  margin-bottom: 20px;
   margin-top: 5px;
 }
 .programlisting-search-results .hover-info {
@@ -156,24 +155,24 @@
 .programlisting-results .search-overview {
   overflow-x: hidden;
 }
-.programlisting-results .search-overview li {
+.programlisting-results .search-overview > li {
   text-align: left;
   padding: 10px 0px;
   border-bottom: 1px solid #eee;
 }
-.programlisting-results .search-overview li .center {
+.programlisting-results .search-overview > li .center {
   text-align: center;
 }
-.programlisting-results .search-overview li .right {
+.programlisting-results .search-overview > li .right {
   text-align: right;
 }
-.programlisting-results .search-overview li a {
+.programlisting-results .search-overview > li a {
   text-decoration: underline;
 }
-.programlisting-results .search-overview li a:visited {
+.programlisting-results .search-overview > li a:visited {
   color: #800080;
 }
-.programlisting-results .search-overview li .type {
+.programlisting-results .search-overview > li .type {
   padding-top: 6px;
   padding-bottom: 6px;
 }
@@ -188,7 +187,7 @@
 }
 .programlisting-results .results-count {
   text-align: left;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
 }
 .full-text-search-div {
   min-height: 200px;

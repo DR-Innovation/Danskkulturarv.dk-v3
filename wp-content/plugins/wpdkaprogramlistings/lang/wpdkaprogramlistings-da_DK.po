@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-10-27 17:27+0100\n"
-"PO-Revision-Date: 2015-10-27 17:27+0100\n"
+"POT-Creation-Date: 2015-10-27 21:22+0100\n"
+"PO-Revision-Date: 2015-10-27 21:23+0100\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
@@ -29,31 +29,27 @@ msgid "Create poster"
 msgstr "Lav plakat"
 
 #: ../pdfjs/pdfjs-viewer.php:106
-msgid "View fullscreen"
-msgstr "Vis i fuldskærm"
-
-#: ../pdfjs/pdfjs-viewer.php:111
 msgid "Download"
 msgstr "Download"
 
-#: ../pdfjs/pdfjs-viewer.php:112
+#: ../pdfjs/pdfjs-viewer.php:107
 msgid "Document (PDF)"
 msgstr "Dokument (PDF)"
 
-#: ../pdfjs/pdfjs-viewer.php:113
+#: ../pdfjs/pdfjs-viewer.php:108
 msgid "Convert to image (JPG)"
 msgstr "Konverter til billede (JPG)"
 
-#: ../pdfjs/pdfjs-viewer.php:119
+#: ../pdfjs/pdfjs-viewer.php:114
 msgid "Converting to JPG takes ~15 seconds.<br/>Click OK to begin."
 msgstr ""
 "Det tager ~10 sekunder at konvertere til JPG.<br/>Tryk OK for at begynde."
 
-#: ../pdfjs/pdfjs-viewer.php:122
+#: ../pdfjs/pdfjs-viewer.php:117
 msgid "Cancel"
 msgstr "Annuller"
 
-#: ../pdfjs/pdfjs-viewer.php:123
+#: ../pdfjs/pdfjs-viewer.php:118
 msgid "OK"
 msgstr "OK"
 
@@ -108,6 +104,10 @@ msgid "Date"
 msgstr "Dato"
 
 #: ../templates/programlisting-search-results.php:133
+msgid "- click to open preview"
+msgstr "- klik for at se preview"
+
+#: ../templates/programlisting-search-results.php:135
 msgid "Type"
 msgstr "Type"
 
@@ -232,6 +232,9 @@ msgstr "Benyt %s for at erstatte én enkelt karaktér."
 #, php-format
 msgid "Use %s to replace zero or more characters."
 msgstr "Benyt %s for at erstatte nul eller flere karakterer."
+
+#~ msgid "View fullscreen"
+#~ msgstr "Vis i fuldskærm"
 
 #~ msgid "Download to your computer"
 #~ msgstr "Hent til din computer"

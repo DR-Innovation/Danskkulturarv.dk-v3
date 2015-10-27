@@ -5280,8 +5280,15 @@ h5 {
 }
 body,
 .btn,
-.form-control {
+.form-control,
+.dropdown-menu {
   font-size: 13px;
+}
+.dropdown-menu {
+  text-align: left;
+}
+.dropdown-menu a {
+  text-decoration: none !important;
 }
 p {
   letter-spacing: 0.02em;
@@ -5789,7 +5796,8 @@ and other resources.
 -------------------------------------------------- */
   body,
   .btn,
-  .form-control {
+  .form-control,
+  .dropdown-menu {
     font-size: 14px;
   }
   .container .search .row {
@@ -5880,7 +5888,8 @@ be seen on the Desktop.
 -------------------------------------------------- */
   body,
   .btn,
-  .form-control {
+  .form-control,
+  .dropdown-menu {
     font-size: 15px;
   }
   .front-page-content {
