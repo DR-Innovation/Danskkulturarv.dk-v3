@@ -1,6 +1,14 @@
 // --------------------------------------------------
 // SEARCH
 // --------------------------------------------------
+// Frontpage
+.dark-search {
+  background-color: #f6f7f8;
+  .search {
+    max-width: 1170px;
+    margin   : 0 auto;
+  }
+}
 .search {
   padding  : 20px 0;
   input,
@@ -220,33 +228,20 @@ ul.row.listview {
   > div {
     line-height  : 40px;
     height       : 40px;
-
-    //border-top: 1px solid @gray-lighter;
-    border-bottom: 1px solid @gray-lighter;
   }
   .search-result-listing {
     text-align : center;
     line-height: 40px;
-    .dropdown-menu {
-      text-align: left;
-    }
-    .btn-group {
-      margin-bottom: 4px;
-    }
-    a {
-      font-size: 1em;
-      padding  : 3px 10px 4px;
+    .dropdown-toggle {
+      [class^="icon-"] {
+        margin-top: 0;
+      }
     }
   }
   .search-count {
     overflow     : hidden;
     text-overflow: ellipsis;
   }
-}
-
-//bottom pagination
-.search-results-bottom {
-  border-top: 1px solid @gray-lighter;
 }
 .thumbnails {
   padding: 0;
@@ -260,11 +255,5 @@ ul.row.listview {
   .pagination {
     margin       : 0;
     border-radius: 0;
-    > li {
-      > a,
-      > span {
-        padding     : 10px 16px;
-      }
-    }
   }
 }

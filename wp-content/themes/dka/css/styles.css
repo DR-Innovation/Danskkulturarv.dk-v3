@@ -4714,6 +4714,13 @@ section.adamrob_parallax {
 .front.search.row {
   margin: 0 auto;
 }
+.dark-search {
+  background-color: #f6f7f8;
+}
+.dark-search .search {
+  max-width: 1170px;
+  margin: 0 auto;
+}
 .search {
   padding: 20px 0;
 }
@@ -4973,28 +4980,17 @@ ul.row.listview .thumb {
 .search-results-top > div {
   line-height: 40px;
   height: 40px;
-  border-bottom: 1px solid #d9d9d9;
 }
 .search-results-top .search-result-listing {
   text-align: center;
   line-height: 40px;
 }
-.search-results-top .search-result-listing .dropdown-menu {
-  text-align: left;
-}
-.search-results-top .search-result-listing .btn-group {
-  margin-bottom: 4px;
-}
-.search-results-top .search-result-listing a {
-  font-size: 1em;
-  padding: 3px 10px 4px;
+.search-results-top .search-result-listing .dropdown-toggle [class^="icon-"] {
+  margin-top: 0;
 }
 .search-results-top .search-count {
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.search-results-bottom {
-  border-top: 1px solid #d9d9d9;
 }
 .thumbnails {
   padding: 0;
@@ -5009,10 +5005,6 @@ ul.row.listview .thumb {
 .pagination-div .pagination {
   margin: 0;
   border-radius: 0;
-}
-.pagination-div .pagination > li > a,
-.pagination-div .pagination > li > span {
-  padding: 10px 16px;
 }
 .widget .widget-title {
   text-align: center;
@@ -5105,13 +5097,6 @@ select {
 .body-container.front-page {
   padding-left: 0;
   padding-right: 0;
-}
-.dark-search {
-  background-color: #f6f7f8;
-}
-.dark-search .search {
-  max-width: 1170px;
-  margin: 0 auto;
 }
 .search-results h1,
 .single-material h1 {
@@ -5653,9 +5638,6 @@ and other resources.
   }
   .navbar-responsive-collapse a.dropdown-menu-item {
     padding: 4px 10px !important;
-  }
-  .pagination {
-    float: right;
   }
   .front-page-content {
     font-size: 32px;
