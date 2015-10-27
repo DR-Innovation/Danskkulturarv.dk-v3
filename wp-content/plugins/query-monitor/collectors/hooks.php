@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2014 John Blackbourn
+Copyright 2009-2015 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,77 +22,89 @@ class QM_Collector_Hooks extends QM_Collector {
 		return __( 'Hooks', 'query-monitor' );
 	}
 
-	public function __construct() {
-		parent::__construct();
-	}
-
 	public function process() {
 
 		global $wp_actions, $wp_filter;
 
-		if ( is_admin() and ( $admin = QueryMonitor::get_collector( 'admin' ) ) )
-			$this->data['screen'] = $admin->data['base'];
-		else
-			$this->data['screen'] = '';
+		$this->hide_qm = ( defined( 'QM_HIDE_SELF' ) and QM_HIDE_SELF );
 
-		$hooks = $parts = $components = array();
+		if ( is_admin() and ( $admin = QM_Collectors::get( 'admin' ) ) ) {
+			$this->data['screen'] = $admin->data['base'];
+		} else {
+			$this->data['screen'] = '';
+		}
+
+		$hooks = $all_parts = $components = array();
+
+		if ( has_filter( 'all' ) ) {
+			$hooks['all'] = $this->process_action( 'all', $wp_filter );
+		}
 
 		foreach ( $wp_actions as $name => $count ) {
 
-			$actions = array();
-			# @TODO better variable name:
-			$c = array();
+			$hooks[$name] = $this->process_action( $name, $wp_filter );
 
-			if ( isset( $wp_filter[$name] ) ) {
+			$all_parts    = array_merge( $all_parts, $hooks[$name]['parts'] );
+			$components   = array_merge( $components, $hooks[$name]['components'] );
 
-				# http://core.trac.wordpress.org/ticket/17817
-				$action = $wp_filter[$name];
+		}
 
-				foreach ( $action as $priority => $callbacks ) {
+		$this->data['hooks'] = $hooks;
+		$this->data['parts'] = array_unique( array_filter( $all_parts ) );
+		$this->data['components'] = array_unique( array_filter( $components ) );
 
-					foreach ( $callbacks as $callback ) {
+	}
 
-						$callback = QM_Util::populate_callback( $callback );
+	protected function process_action( $name, array $wp_filter ) {
 
-						if ( isset( $callback['component'] ) )
-							$c[$callback['component']->name] = $callback['component']->name;
+		$actions = $components = array();
 
-						$actions[] = array(
-							'priority'  => $priority,
-							'callback'  => $callback,
-						);
+		if ( isset( $wp_filter[$name] ) ) {
 
+			# http://core.trac.wordpress.org/ticket/17817
+			$action = $wp_filter[$name];
+
+			foreach ( $action as $priority => $callbacks ) {
+
+				foreach ( $callbacks as $callback ) {
+
+					$callback = QM_Util::populate_callback( $callback );
+
+					if ( isset( $callback['component'] ) ) {
+						if ( $this->hide_qm and ( 'query-monitor' === $callback['component']->context ) ) {
+							continue;
+						}
+
+						$components[$callback['component']->name] = $callback['component']->name;
 					}
+
+					$actions[] = array(
+						'priority'  => $priority,
+						'callback'  => $callback,
+					);
 
 				}
 
 			}
 
-			# @TODO better variable name:
-			$p = array_filter( preg_split( '/[_\/-]/', $name ) );
-			$parts = array_merge( $parts, $p );
-			$components = array_merge( $components, $c );
-
-			$hooks[$name] = array(
-				'name'    => $name,
-				'actions' => $actions,
-				'parts'   => $p,
-				'components' => $c,
-			);
-
 		}
 
-		$this->data['hooks'] = $hooks;
-		$this->data['parts'] = array_unique( array_filter( $parts ) );
-		$this->data['components'] = array_unique( array_filter( $components ) );
+		$parts = array_filter( preg_split( '#[_/-]#', $name ) );
+
+		return array(
+			'name'       => $name,
+			'actions'    => $actions,
+			'parts'      => $parts,
+			'components' => $components,
+		);
 
 	}
 
 }
 
-function register_qm_collector_hooks( array $qm ) {
-	$qm['hooks'] = new QM_Collector_Hooks;
-	return $qm;
+function register_qm_collector_hooks( array $collectors, QueryMonitor $qm ) {
+	$collectors['hooks'] = new QM_Collector_Hooks;
+	return $collectors;
 }
 
-add_filter( 'query_monitor_collectors', 'register_qm_collector_hooks', 80 );
+add_filter( 'qm/collectors', 'register_qm_collector_hooks', 20, 2 );

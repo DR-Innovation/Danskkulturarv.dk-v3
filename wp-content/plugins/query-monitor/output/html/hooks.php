@@ -1,7 +1,6 @@
 <?php
 /*
-
-Copyright 2014 John Blackbourn
+Copyright 2009-2015 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,29 +20,35 @@ class QM_Output_Html_Hooks extends QM_Output_Html {
 
 	public function __construct( QM_Collector $collector ) {
 		parent::__construct( $collector );
-		add_filter( 'query_monitor_menus', array( $this, 'admin_menu' ), 70 );
+		add_filter( 'qm/output/menus', array( $this, 'admin_menu' ), 80 );
 	}
 
 	public function output() {
 
 		$data = $this->collector->get_data();
 
-		if ( empty( $data ) )
+		if ( empty( $data['hooks'] ) ) {
 			return;
+		}
 
-		$row_attr = array();
-
-		if ( is_multisite() and is_network_admin() )
+		if ( is_multisite() and is_network_admin() ) {
 			$screen = preg_replace( '|-network$|', '', $data['screen'] );
-		else
+		} else {
 			$screen = $data['screen'];
+		}
 
-		echo '<div class="qm" id="' . $this->collector->id() . '">';
+		echo '<div class="qm" id="' . esc_attr( $this->collector->id() ) . '">';
 		echo '<table cellspacing="0">';
 		echo '<thead>';
 		echo '<tr>';
-		echo '<th>' . __( 'Hook', 'query-monitor' ) . $this->build_filter( 'name', $data['parts'] ) . '</th>';
-		echo '<th colspan="3">' . __( 'Actions', 'query-monitor' ) . $this->build_filter( 'component', $data['components'] ) . '</th>';
+		echo '<th>';
+		esc_html_e( 'Hook', 'query-monitor' );
+		echo $this->build_filter( 'name', $data['parts'] ); // WPCS: XSS ok.
+		echo '</th>';
+		echo '<th colspan="3">';
+		esc_html_e( 'Actions', 'query-monitor' );
+		echo $this->build_filter( 'component', $data['components'], 'subject' ); // WPCS: XSS ok.
+		echo '</th>';
 		echo '</tr>';
 		echo '</thead>';
 		echo '<tbody>';
@@ -52,62 +57,86 @@ class QM_Output_Html_Hooks extends QM_Output_Html {
 
 			if ( !empty( $screen ) ) {
 
-				if ( false !== strpos( $hook['name'], $screen . '.php' ) )
-					$hook['name'] = str_replace( '-' . $screen . '.php', '-<span class="qm-current">' . $screen . '.php</span>', $hook['name'] );
-				else
-					$hook['name'] = str_replace( '-' . $screen, '-<span class="qm-current">' . $screen . '</span>', $hook['name'] );
+				if ( false !== strpos( $hook['name'], $screen . '.php' ) ) {
+					$hook_name = str_replace( '-' . $screen . '.php', '-<span class="qm-current">' . $screen . '.php</span>', esc_html( $hook['name'] ) );
+				} else {
+					$hook_name = str_replace( '-' . $screen, '-<span class="qm-current">' . $screen . '</span>', esc_html( $hook['name'] ) );
+				}
 
+			} else {
+				$hook_name = esc_html( $hook['name'] );
 			}
 
-			$row_attr['data-qm-hooks-name']      = implode( ' ', $hook['parts'] );
-			$row_attr['data-qm-hooks-component'] = implode( ' ', $hook['components'] );
+			$row_attr = array();
+			$row_attr['data-qm-name']      = implode( ' ', $hook['parts'] );
+			$row_attr['data-qm-component'] = implode( ' ', $hook['components'] );
 
 			$attr = '';
 
-			if ( !empty( $hook['actions'] ) )
+			if ( !empty( $hook['actions'] ) ) {
 				$rowspan = count( $hook['actions'] );
-			else
+			} else {
 				$rowspan = 1;
+			}
 
-			foreach ( $row_attr as $a => $v )
+			foreach ( $row_attr as $a => $v ) {
 				$attr .= ' ' . $a . '="' . esc_attr( $v ) . '"';
+			}
 
-			echo "<tr{$attr}>";
-
-			echo "<td valign='top' rowspan='{$rowspan}'>{$hook['name']}</td>";	
 			if ( !empty( $hook['actions'] ) ) {
 
 				$first = true;
 
 				foreach ( $hook['actions'] as $action ) {
 
-					if ( isset( $action['callback']['component'] ) )
+					if ( isset( $action['callback']['component'] ) ) {
 						$component = $action['callback']['component']->name;
-					else
+					} else {
 						$component = '';
+					}
 
-					if ( !$first )
-						echo "<tr{$attr}>";
+					printf(
+						'<tr data-qm-subject="%s" %s>',
+						esc_attr( $component ),
+						$attr
+					); // WPCS: XSS ok.
 
-					echo '<td valign="top" class="qm-priority">' . $action['priority'] . '</td>';
-					echo '<td valign="top" class="qm-ltr">';
+					if ( $first ) {
+
+						echo "<th rowspan='" . absint( $rowspan ) . "'>";
+						echo $hook_name; // WPCS: XSS ok.
+						if ( 'all' === $hook['name'] ) {
+							echo '<br><span class="qm-warn">';
+							printf(
+								esc_html__( 'Warning: The %s action is extremely resource intensive. Try to avoid using it.', 'query-monitor' ),
+								'<code>all</code>'
+							);
+							echo '<span>';
+						}
+						echo '</th>';
+
+					}
+
+					echo '<td class="qm-num">' . intval( $action['priority'] ) . '</td>';
+					echo '<td class="qm-ltr qm-nowrap">';
 
 					if ( isset( $action['callback']['file'] ) ) {
-						echo self::output_filename( esc_html( $action['callback']['name'] ), $action['callback']['file'], $action['callback']['line'] );
+						echo self::output_filename( $action['callback']['name'], $action['callback']['file'], $action['callback']['line'] ); // WPCS: XSS ok.
 					} else {
 						echo esc_html( $action['callback']['name'] );
 					}
 
 					if ( isset( $action['callback']['error'] ) ) {
 						echo '<br><span class="qm-warn">';
-						printf( __( 'Error: %s', 'query-monitor' ),
-							esc_html( $action['callback']['error']->get_error_message() )
-						);
+						echo esc_html( sprintf(
+							__( 'Error: %s', 'query-monitor' ),
+							$action['callback']['error']->get_error_message()
+						) );
 						echo '<span>';
 					}
 
 					echo '</td>';
-					echo '<td valign="top">';
+					echo '<td class="qm-nowrap">';
 					echo esc_html( $component );
 					echo '</td>';
 					echo '</tr>';
@@ -115,9 +144,14 @@ class QM_Output_Html_Hooks extends QM_Output_Html {
 				}
 
 			} else {
+				echo "<tr{$attr}>"; // WPCS: XSS ok.
+				echo "<th>";
+				echo $hook_name; // WPCS: XSS ok.
+				echo '</th>';
 				echo '<td colspan="3">&nbsp;</td>';
+				echo '</tr>';
 			}
-			echo '</tr>';
+
 		}
 
 		echo '</tbody>';
@@ -126,19 +160,13 @@ class QM_Output_Html_Hooks extends QM_Output_Html {
 
 	}
 
-	public function admin_menu( array $menu ) {
+}
 
-		$menu[] = $this->menu( array(
-			'title' => __( 'Hooks', 'query-monitor' )
-		) );
-		return $menu;
-
+function register_qm_output_html_hooks( array $output, QM_Collectors $collectors ) {
+	if ( $collector = QM_Collectors::get( 'hooks' ) ) {
+		$output['hooks'] = new QM_Output_Html_Hooks( $collector );
 	}
-
+	return $output;
 }
 
-function register_qm_output_html_hooks( QM_Output $output = null, QM_Collector $collector ) {
-	return new QM_Output_Html_Hooks( $collector );
-}
-
-add_filter( 'query_monitor_output_html_hooks', 'register_qm_output_html_hooks', 10, 2 );
+add_filter( 'qm/outputter/html', 'register_qm_output_html_hooks', 80, 2 );

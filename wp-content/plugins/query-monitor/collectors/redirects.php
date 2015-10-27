@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2014 John Blackbourn
+Copyright 2009-2015 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,8 +29,9 @@ class QM_Collector_Redirects extends QM_Collector {
 
 	public function filter_wp_redirect( $location, $status ) {
 
-		if ( !$location )
+		if ( !$location ) {
 			return $location;
+		}
 
 		$trace = new QM_Backtrace;
 
@@ -44,9 +45,5 @@ class QM_Collector_Redirects extends QM_Collector {
 
 }
 
-function register_qm_collector_redirects( array $qm ) {
-	$qm['redirects'] = new QM_Collector_Redirects;
-	return $qm;
-}
-
-add_filter( 'query_monitor_collectors', 'register_qm_collector_redirects', 140 );
+# Load early in case a plugin is doing a redirect when it initialises instead of after the `plugins_loaded` hook
+QM_Collectors::add( new QM_Collector_Redirects );

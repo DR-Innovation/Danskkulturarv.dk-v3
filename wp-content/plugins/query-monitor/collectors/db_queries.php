@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2014 John Blackbourn
+Copyright 2009-2015 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,19 +28,17 @@ class QM_Collector_DB_Queries extends QM_Collector {
 		return __( 'Database Queries', 'query-monitor' );
 	}
 
-	public function __construct() {
-		parent::__construct();
-	}
-
 	public function get_errors() {
-		if ( !empty( $this->data['errors'] ) )
+		if ( !empty( $this->data['errors'] ) ) {
 			return $this->data['errors'];
+		}
 		return false;
 	}
 
 	public function get_expensive() {
-		if ( !empty( $this->data['expensive'] ) )
+		if ( !empty( $this->data['expensive'] ) ) {
 			return $this->data['expensive'];
+		}
 		return false;
 	}
 
@@ -50,30 +48,25 @@ class QM_Collector_DB_Queries extends QM_Collector {
 
 	public function process() {
 
-		if ( !SAVEQUERIES )
+		if ( !SAVEQUERIES ) {
 			return;
+		}
 
 		$this->data['total_qs']   = 0;
 		$this->data['total_time'] = 0;
 		$this->data['errors']     = array();
 
-		$this->db_objects = apply_filters( 'query_monitor_db_objects', array(
+		$this->db_objects = apply_filters( 'qm/collect/db_objects', array(
 			'$wpdb' => $GLOBALS['wpdb']
 		) );
 
 		foreach ( $this->db_objects as $name => $db ) {
-			if ( is_a( $db, 'wpdb' ) )
+			if ( is_a( $db, 'wpdb' ) ) {
 				$this->process_db_object( $name, $db );
+			} else {
+				unset( $this->db_objects[ $name ] );
+			}
 		}
-
-	}
-
-	protected function log_type( $type ) {
-
-		if ( isset( $this->data['types'][$type] ) )
-			$this->data['types'][$type]++;
-		else
-			$this->data['types'][$type] = 1;
 
 	}
 
@@ -91,31 +84,11 @@ class QM_Collector_DB_Queries extends QM_Collector {
 		$this->data['times'][$caller]['calls']++;
 		$this->data['times'][$caller]['ltime'] += $ltime;
 
-		if ( isset( $this->data['times'][$caller]['types'][$type] ) )
+		if ( isset( $this->data['times'][$caller]['types'][$type] ) ) {
 			$this->data['times'][$caller]['types'][$type]++;
-		else
+		} else {
 			$this->data['times'][$caller]['types'][$type] = 1;
-
-	}
-
-	protected function log_component( $component, $ltime, $type ) {
-
-		if ( !isset( $this->data['component_times'][$component->name] ) ) {
-			$this->data['component_times'][$component->name] = array(
-				'component' => $component->name,
-				'calls'     => 0,
-				'ltime'     => 0,
-				'types'     => array()
-			);
 		}
-
-		$this->data['component_times'][$component->name]['calls']++;
-		$this->data['component_times'][$component->name]['ltime'] += $ltime;
-
-		if ( isset( $this->data['component_times'][$component->name]['types'][$type] ) )
-			$this->data['component_times'][$component->name]['types'][$type]++;
-		else
-			$this->data['component_times'][$component->name]['types'][$type] = 1;
 
 	}
 
@@ -130,8 +103,9 @@ class QM_Collector_DB_Queries extends QM_Collector {
 		foreach ( (array) $db->queries as $query ) {
 
 			# @TODO: decide what I want to do with this:
-			if ( false !== strpos( $query[2], 'wp_admin_bar' ) and !isset( $_REQUEST['qm_display_admin_bar'] ) )
+			if ( false !== strpos( $query[2], 'wp_admin_bar' ) and !isset( $_REQUEST['qm_display_admin_bar'] ) ) {
 				continue;
+			}
 
 			$sql           = $query[0];
 			$ltime         = $query[1];
@@ -139,10 +113,11 @@ class QM_Collector_DB_Queries extends QM_Collector {
 			$has_trace     = isset( $query['trace'] );
 			$has_result    = isset( $query['result'] );
 
-			if ( isset( $query['result'] ) )
+			if ( isset( $query['result'] ) ) {
 				$result = $query['result'];
-			else
+			} else {
 				$result = null;
+			}
 
 			$total_time += $ltime;
 
@@ -161,10 +136,11 @@ class QM_Collector_DB_Queries extends QM_Collector {
 				$callers   = explode( ',', $stack );
 				$caller    = trim( end( $callers ) );
 
-				if ( false !== strpos( $caller, '(' ) )
+				if ( false !== strpos( $caller, '(' ) ) {
 					$caller_name = substr( $caller, 0, strpos( $caller, '(' ) ) . '()';
-				else
+				} else {
 					$caller_name = $caller;
+				}
 
 			}
 
@@ -175,26 +151,31 @@ class QM_Collector_DB_Queries extends QM_Collector {
 			$this->log_type( $type );
 			$this->log_caller( $caller_name, $ltime, $type );
 
-			if ( $component )
+			if ( $component ) {
 				$this->log_component( $component, $ltime, $type );
+			}
 
-			if ( !isset( $types[$type]['total'] ) )
+			if ( !isset( $types[$type]['total'] ) ) {
 				$types[$type]['total'] = 1;
-			else
+			} else {
 				$types[$type]['total']++;
+			}
 
-			if ( !isset( $types[$type]['callers'][$caller] ) )
+			if ( !isset( $types[$type]['callers'][$caller] ) ) {
 				$types[$type]['callers'][$caller] = 1;
-			else
+			} else {
 				$types[$type]['callers'][$caller]++;
+			}
 
 			$row = compact( 'caller', 'caller_name', 'stack', 'sql', 'ltime', 'result', 'type', 'component', 'trace' );
 
-			if ( is_wp_error( $result ) )
+			if ( is_wp_error( $result ) ) {
 				$this->data['errors'][] = $row;
+			}
 
-			if ( self::is_expensive( $row ) )
+			if ( self::is_expensive( $row ) ) {
 				$this->data['expensive'][] = $row;
+			}
 
 			$rows[] = $row;
 
@@ -213,9 +194,9 @@ class QM_Collector_DB_Queries extends QM_Collector {
 
 }
 
-function register_qm_collector_db_queries( array $qm ) {
-	$qm['db_queries'] = new QM_Collector_DB_Queries;
-	return $qm;
+function register_qm_collector_db_queries( array $collectors, QueryMonitor $qm ) {
+	$collectors['db_queries'] = new QM_Collector_DB_Queries;
+	return $collectors;
 }
 
-add_filter( 'query_monitor_collectors', 'register_qm_collector_db_queries', 20 );
+add_filter( 'qm/collectors', 'register_qm_collector_db_queries', 10, 2 );

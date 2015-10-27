@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2014 John Blackbourn
+Copyright 2009-2015 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,19 +18,29 @@ class QM_Collector_Request extends QM_Collector {
 
 	public $id = 'request';
 
-	public function __construct() {
-		parent::__construct();
-	}
-
 	public function name() {
 		return __( 'Request', 'query-monitor' );
 	}
 
 	public function process() {
 
-		global $wp, $wp_query;
+		global $wp, $wp_query, $current_blog, $current_site;
 
 		$qo = get_queried_object();
+
+		if ( is_multisite() ) {
+			$this->data['multisite']['current_blog'] = array(
+				'title' => sprintf( 'Current blog: #%d', $current_blog->blog_id ),
+				'data'  => $current_blog,
+			);
+		}
+
+		if ( QM_Util::is_multi_network() ) {
+			$this->data['multisite']['current_site'] = array(
+				'title' => sprintf( 'Current site: #%d', $current_site->id ),
+				'data'  => $current_site,
+			);
+		}
 
 		if ( is_admin() ) {
 			$this->data['request']['request'] = $_SERVER['REQUEST_URI'];
@@ -49,11 +59,13 @@ class QM_Collector_Request extends QM_Collector {
 
 		foreach ( $qvars as $k => $v ) {
 			if ( isset( $plugin_qvars[$k] ) ) {
-				if ( '' !== $v )
+				if ( '' !== $v ) {
 					$query_vars[$k] = $v;
+				}
 			} else {
-				if ( !empty( $v ) )
+				if ( !empty( $v ) ) {
 					$query_vars[$k] = $v;
+				}
 			}
 		}
 
@@ -69,8 +81,9 @@ class QM_Collector_Request extends QM_Collector {
 
 		# Now add all other vars to $this->data['qvars']:
 		foreach ( $query_vars as $k => $v ) {
-			if ( !isset( $plugin_qvars[$k] ) )
+			if ( !isset( $plugin_qvars[$k] ) ) {
 				$this->data['qvars'][$k] = $v;
+			}
 		}
 
 		switch ( true ) {
@@ -81,8 +94,7 @@ class QM_Collector_Request extends QM_Collector {
 
 			case is_a( $qo, 'WP_Post' ):
 				// Single post
-				$this->data['queried_object_type']  = 'post';
-				$this->data['queried_object_title'] = sprintf( __( 'Single %s: #%d', 'query-monitor' ),
+				$this->data['queried_object']['title'] = sprintf( __( 'Single %s: #%d', 'query-monitor' ),
 					get_post_type_object( $qo->post_type )->labels->singular_name,
 					$qo->ID
 				);
@@ -90,45 +102,44 @@ class QM_Collector_Request extends QM_Collector {
 
 			case is_a( $qo, 'WP_User' ):
 				// Author archive
-				$this->data['queried_object_type']  = 'user';
-				$this->data['queried_object_title'] = sprintf( __( 'Author archive: %s', 'query-monitor' ),
+				$this->data['queried_object']['title'] = sprintf( __( 'Author archive: %s', 'query-monitor' ),
 					$qo->user_nicename
 				);
 				break;
 
+			case is_a( $qo, 'WP_Term' ):
 			case property_exists( $qo, 'term_id' ):
 				// Term archive
-				$this->data['queried_object_type']  = 'term';
-				$this->data['queried_object_title'] = sprintf( __( 'Term archive: %s', 'query-monitor' ),
+				$this->data['queried_object']['title'] = sprintf( __( 'Term archive: %s', 'query-monitor' ),
 					$qo->slug
 				);
 				break;
 
 			case property_exists( $qo, 'has_archive' ):
 				// Post type archive
-				$this->data['queried_object_type']  = 'archive';
-				$this->data['queried_object_title'] = sprintf( __( 'Post type archive: %s', 'query-monitor' ),
+				$this->data['queried_object']['title'] = sprintf( __( 'Post type archive: %s', 'query-monitor' ),
 					$qo->name
 				);
 				break;
 
 			default:
 				// Unknown, but we have a queried object
-				$this->data['queried_object_type']  = 'unknown';
-				$this->data['queried_object_title'] = __( 'Unknown queried object', 'query-monitor' );
+				$this->data['queried_object']['title'] = __( 'Unknown queried object', 'query-monitor' );
 				break;
 
 		}
 
-		$this->data['queried_object'] = $qo;
+		if ( ! is_null( $qo ) ) {
+			$this->data['queried_object']['data'] = $qo;
+		}
 
 	}
 
 }
 
-function register_qm_collector_request( array $qm ) {
-	$qm['request'] = new QM_Collector_Request;
-	return $qm;
+function register_qm_collector_request( array $collectors, QueryMonitor $qm ) {
+	$collectors['request'] = new QM_Collector_Request;
+	return $collectors;
 }
 
-add_filter( 'query_monitor_collectors', 'register_qm_collector_request', 60 );
+add_filter( 'qm/collectors', 'register_qm_collector_request', 10, 2 );

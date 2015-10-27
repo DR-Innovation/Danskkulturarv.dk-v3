@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2014 John Blackbourn
+Copyright 2009-2015 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,13 +22,9 @@ class QM_Collector_DB_Callers extends QM_Collector {
 		return __( 'Queries by Caller', 'query-monitor' );
 	}
 
-	public function __construct() {
-		parent::__construct();
-	}
-
 	public function process() {
 
-		if ( $dbq = QueryMonitor::get_collector( 'db_queries' ) ) {
+		if ( $dbq = QM_Collectors::get( 'db_queries' ) ) {
 			if ( isset( $dbq->data['times'] ) ) {
 				$this->data['times'] = $dbq->data['times'];
 				usort( $this->data['times'], 'QM_Collector::sort_ltime' );
@@ -42,9 +38,9 @@ class QM_Collector_DB_Callers extends QM_Collector {
 
 }
 
-function register_qm_collector_db_callers( array $qm ) {
-	$qm['db_callers'] = new QM_Collector_DB_Callers;
-	return $qm;
+function register_qm_collector_db_callers( array $collectors, QueryMonitor $qm ) {
+	$collectors['db_callers'] = new QM_Collector_DB_Callers;
+	return $collectors;
 }
 
-add_filter( 'query_monitor_collectors', 'register_qm_collector_db_callers', 30 );
+add_filter( 'qm/collectors', 'register_qm_collector_db_callers', 20, 2 );

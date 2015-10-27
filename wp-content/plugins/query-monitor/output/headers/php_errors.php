@@ -1,7 +1,6 @@
 <?php
 /*
-
-Copyright 2014 John Blackbourn
+Copyright 2009-2015 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,15 +16,14 @@ GNU General Public License for more details.
 
 class QM_Output_Headers_PHP_Errors extends QM_Output_Headers {
 
-	public function output() {
-
-		if ( ! QM_Util::is_ajax() )
-			return;
+	public function get_output() {
 
 		$data = $this->collector->get_data();
+		$headers = array();
 
-		if ( empty( $data['errors'] ) )
-			return;
+		if ( empty( $data['errors'] ) ) {
+			return array();
+		}
 
 		$count = 0;
 
@@ -40,32 +38,33 @@ class QM_Output_Headers_PHP_Errors extends QM_Output_Headers {
 				$component = $error->trace->get_component();
 				$output_error = array(
 					'type'      => $error->type,
-					'message'   => $error->message,
+					'message'   => wp_strip_all_tags( $error->message ),
 					'file'      => $error->file,
 					'line'      => $error->line,
 					'stack'     => $error->trace->get_stack(),
 					'component' => $component->name,
 				);
 
-				header( sprintf( 'X-QM-Error-%d: %s',
-					$count,
-					json_encode( $output_error )
-				) );
+				$key = sprintf( 'error-%d', $count );
+				$headers[ $key ] = json_encode( $output_error );
 
 			}
 
 		}
 
-		header( sprintf( 'X-QM-Errors: %d',
-			$count
-		) );
+		return array_merge( array(
+			'error-count' => $count,
+		), $headers );
 
 	}
 
 }
 
-function register_qm_output_headers_php_errors( QM_Output $output = null, QM_Collector $collector ) {
-	return new QM_Output_Headers_PHP_Errors( $collector );
+function register_qm_output_headers_php_errors( array $output, QM_Collectors $collectors ) {
+	if ( $collector = QM_Collectors::get( 'php_errors' ) ) {
+		$output['php_errors'] = new QM_Output_Headers_PHP_Errors( $collector );
+	}
+	return $output;
 }
 
-add_filter( 'query_monitor_output_headers_php_errors', 'register_qm_output_headers_php_errors', 10, 2 );
+add_filter( 'qm/outputter/headers', 'register_qm_output_headers_php_errors', 110, 2 );

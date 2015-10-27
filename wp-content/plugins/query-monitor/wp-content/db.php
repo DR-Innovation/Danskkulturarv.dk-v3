@@ -9,7 +9,7 @@ additional database query information in Query Monitor's output.
 
 *********************************************************************
 
-Copyright 2014 John Blackbourn
+Copyright 2009-2015 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -25,21 +25,28 @@ GNU General Public License for more details.
 
 defined( 'ABSPATH' ) or die();
 
-if ( defined( 'QM_DISABLED' ) and QM_DISABLED )
+if ( defined( 'QM_DISABLED' ) and QM_DISABLED ) {
 	return;
+}
+
+if ( 'cli' === php_sapi_name() && ! defined( 'QM_TESTS' ) ) {
+	# For the time being, let's not load QM when using the CLI because we've no persistent storage and no means of
+	# outputting collected data on the CLI. This will hopefully change in a future version of QM.
+	return;
+}
 
 # No autoloaders for us. See https://github.com/johnbillion/QueryMonitor/issues/7
 $qm_dir = dirname( dirname( __FILE__ ) );
-foreach ( array( 'Backtrace', 'Collector', 'Plugin', 'Util' ) as $qm_class ) {
-	if ( ! is_readable( $qm_file = "{$qm_dir}/{$qm_class}.php" ) )
-		return;
-	require_once $qm_file;
+if ( ! is_readable( $backtrace = "{$qm_dir}/classes/Backtrace.php" ) ) {
+	return;
+}
+require_once $backtrace;
+
+if ( !defined( 'SAVEQUERIES' ) ) {
+	define( 'SAVEQUERIES', true );
 }
 
-if ( !defined( 'SAVEQUERIES' ) )
-	define( 'SAVEQUERIES', true );
-
-class QueryMonitorDB extends wpdb {
+class QM_DB extends wpdb {
 
 	public $qm_php_vars = array(
 		'max_execution_time'  => null,
@@ -55,8 +62,9 @@ class QueryMonitorDB extends wpdb {
 	 */
 	function __construct( $dbuser, $dbpassword, $dbname, $dbhost ) {
 
-		foreach ( $this->qm_php_vars as $setting => &$val )
+		foreach ( $this->qm_php_vars as $setting => &$val ) {
 			$val = ini_get( $setting );
+		}
 
 		parent::__construct( $dbuser, $dbpassword, $dbname, $dbhost );
 
@@ -71,30 +79,34 @@ class QueryMonitorDB extends wpdb {
 	 * @return int|false Number of rows affected/selected or false on error
 	 */
 	function query( $query ) {
-		if ( ! $this->ready )
+		if ( ! $this->ready ) {
 			return false;
+		}
 
-		if ( $this->show_errors )
+		if ( $this->show_errors ) {
 			$this->hide_errors();
+		}
 
 		$result = parent::query( $query );
 
-		if ( ! SAVEQUERIES )
+		if ( ! SAVEQUERIES ) {
 			return $result;
+		}
 
 		$i = $this->num_queries - 1;
 		$this->queries[$i]['trace'] = new QM_Backtrace( array(
 			'ignore_items' => 1,
 		) );
 
-		if ( $this->last_error )
+		if ( $this->last_error ) {
 			$this->queries[$i]['result'] = new WP_Error( 'qmdb', $this->last_error );
-		else
+		} else {
 			$this->queries[$i]['result'] = $result;
+		}
 
 		return $result;
 	}
 
 }
 
-$wpdb = new QueryMonitorDB( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST );
+$wpdb = new QM_DB( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST );

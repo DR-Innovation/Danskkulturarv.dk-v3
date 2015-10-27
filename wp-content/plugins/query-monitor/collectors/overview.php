@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2014 John Blackbourn
+Copyright 2009-2015 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,19 +22,16 @@ class QM_Collector_Overview extends QM_Collector {
 		return __( 'Overview', 'query-monitor' );
 	}
 
-	public function __construct() {
-		parent::__construct();
-	}
-
 	public function process() {
 
 		$this->data['time']       = self::timer_stop_float();
 		$this->data['time_limit'] = ini_get( 'max_execution_time' );
 
-		if ( !empty( $this->data['time_limit'] ) )
+		if ( !empty( $this->data['time_limit'] ) ) {
 			$this->data['time_usage'] = ( 100 / $this->data['time_limit'] ) * $this->data['time'];
-		else
+		} else {
 			$this->data['time_usage'] = 0;
+		}
 
 		if ( function_exists( 'memory_get_peak_usage' ) ) {
 			$this->data['memory'] = memory_get_peak_usage();
@@ -51,9 +48,9 @@ class QM_Collector_Overview extends QM_Collector {
 
 }
 
-function register_qm_collector_overview( array $qm ) {
-	$qm['overview'] = new QM_Collector_Overview;
-	return $qm;
+function register_qm_collector_overview( array $collectors, QueryMonitor $qm ) {
+	$collectors['overview'] = new QM_Collector_Overview;
+	return $collectors;
 }
 
-add_filter( 'query_monitor_collectors', 'register_qm_collector_overview', 10 );
+add_filter( 'qm/collectors', 'register_qm_collector_overview', 1, 2 );

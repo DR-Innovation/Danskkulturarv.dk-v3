@@ -1,7 +1,6 @@
 <?php
 /*
-
-Copyright 2014 John Blackbourn
+Copyright 2009-2015 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,35 +18,41 @@ class QM_Output_Html_DB_Components extends QM_Output_Html {
 
 	public function __construct( QM_Collector $collector ) {
 		parent::__construct( $collector );
-		add_filter( 'query_monitor_menus', array( $this, 'admin_menu' ), 40 );
+		add_filter( 'qm/output/menus', array( $this, 'admin_menu' ), 40 );
 	}
 
 	public function output() {
 
 		$data = $this->collector->get_data();
 
-		if ( empty( $data ) )
+		if ( empty( $data['types'] ) ) {
 			return;
+		}
 
 		$total_time  = 0;
 		$total_calls = 0;
 		$span = count( $data['types'] ) + 2;
 
-		echo '<div class="qm qm-half" id="' . $this->collector->id() . '">';
+		echo '<div class="qm qm-half" id="' . esc_attr( $this->collector->id() ) . '">';
 		echo '<table cellspacing="0" class="qm-sortable">';
 		echo '<thead>';
 		echo '<tr>';
-		echo '<th colspan="' . $span . '">' . $this->collector->name() . '</th>';
+		echo '<th colspan="' . esc_attr( $span ) . '">' . esc_html( $this->collector->name() ) . '</th>';
 		echo '</tr>';
 		echo '<tr>';
-		echo '<th>' . _x( 'Component', 'Query component', 'query-monitor' ) . '</th>';
+		echo '<th>' . esc_html_x( 'Component', 'Query component', 'query-monitor' ) . '</th>';
 
-		if ( !empty( $data['types'] ) ) {
-			foreach ( $data['types'] as $type_name => $type_count )
-				echo '<th class="qm-num">' . $type_name . $this->build_sorter() . '</th>';
+		foreach ( $data['types'] as $type_name => $type_count ) {
+			echo '<th class="qm-num">';
+			echo esc_html( $type_name );
+			echo $this->build_sorter(); // WPCS: XSS ok;
+			echo '</th>';
 		}
 
-		echo '<th class="qm-num qm-sorted-desc">' . __( 'Time', 'query-monitor' ) . $this->build_sorter() . '</th>';
+		echo '<th class="qm-num qm-sorted-desc">';
+		esc_html_e( 'Time', 'query-monitor' );
+		echo $this->build_sorter(); // WPCS: XSS ok;
+		echo '</th>';
 		echo '</tr>';
 		echo '</thead>';
 
@@ -58,19 +63,19 @@ class QM_Output_Html_DB_Components extends QM_Output_Html {
 			foreach ( $data['times'] as $row ) {
 				$total_time  += $row['ltime'];
 				$total_calls += $row['calls'];
-				$stime = number_format_i18n( $row['ltime'], 4 );
 
 				echo '<tr>';
-				echo "<td valign='top'>{$row['component']}</td>";
+				echo '<td>' . esc_html( $row['component'] ) . '</td>';
 
 				foreach ( $data['types'] as $type_name => $type_count ) {
-					if ( isset( $row['types'][$type_name] ) )
-						echo "<td valign='top'>{$row['types'][$type_name]}</td>";
-					else
-						echo "<td valign='top'>&nbsp;</td>";
+					if ( isset( $row['types'][$type_name] ) ) {
+						echo '<td class="qm-num">' . esc_html( number_format_i18n( $row['types'][ $type_name ] ) ) . '</td>';
+					} else {
+						echo '<td class="qm-num">&nbsp;</td>';
+					}
 				}
 
-				echo "<td valign='top'>{$stime}</td>";
+				echo '<td class="qm-num">' . esc_html( number_format_i18n( $row['ltime'], 4 ) ) . '</td>';
 				echo '</tr>';
 
 			}
@@ -83,10 +88,11 @@ class QM_Output_Html_DB_Components extends QM_Output_Html {
 			echo '<tr>';
 			echo '<td>&nbsp;</td>';
 
-			foreach ( $data['types'] as $type_name => $type_count )
-				echo '<td>' . number_format_i18n( $type_count ) . '</td>';
+			foreach ( $data['types'] as $type_name => $type_count ) {
+				echo '<td class="qm-num">' . esc_html( number_format_i18n( $type_count ) ) . '</td>';
+			}
 
-			echo "<td>{$total_stime}</td>";
+			echo '<td class="qm-num">'  . esc_html( $total_stime ) . '</td>';
 			echo '</tr>';
 			echo '</tfoot>';
 
@@ -94,7 +100,7 @@ class QM_Output_Html_DB_Components extends QM_Output_Html {
 
 			echo '<tbody>';
 			echo '<tr>';
-			echo '<td colspan="' . $span . '" style="text-align:center !important"><em>' . __( 'Unknown', 'query-monitor' ) . '</em></td>';
+			echo '<td colspan="' . esc_attr( $span ) . '" style="text-align:center !important"><em>' . esc_html__( 'Unknown', 'query-monitor' ) . '</em></td>';
 			echo '</tr>';
 			echo '</tbody>';
 
@@ -107,11 +113,11 @@ class QM_Output_Html_DB_Components extends QM_Output_Html {
 
 	public function admin_menu( array $menu ) {
 
-		if ( $dbq = QueryMonitor::get_collector( 'db_queries' ) ) {
+		if ( $dbq = QM_Collectors::get( 'db_queries' ) ) {
 			$dbq_data = $dbq->get_data();
 			if ( isset( $dbq_data['component_times'] ) ) {
 				$menu[] = $this->menu( array(
-					'title' => __( 'Queries by Component', 'query-monitor' )
+					'title' => esc_html__( 'Queries by Component', 'query-monitor' )
 				) );
 			}
 		}
@@ -121,8 +127,11 @@ class QM_Output_Html_DB_Components extends QM_Output_Html {
 
 }
 
-function register_qm_output_html_db_components( QM_Output $output = null, QM_Collector $collector ) {
-	return new QM_Output_Html_DB_Components( $collector );
+function register_qm_output_html_db_components( array $output, QM_Collectors $collectors ) {
+	if ( $collector = QM_Collectors::get( 'db_components' ) ) {
+		$output['db_components'] = new QM_Output_Html_DB_Components( $collector );
+	}
+	return $output;
 }
 
-add_filter( 'query_monitor_output_html_db_components', 'register_qm_output_html_db_components', 10, 2 );
+add_filter( 'qm/outputter/html', 'register_qm_output_html_db_components', 40, 2 );
