@@ -9,7 +9,7 @@
 <div class="container body-container">
 <h1><?php _e('TV and radio through time', WPDKAProgramListings::DOMAIN); ?></h1>
 <!-- start search -->
-<div class="search row"><?php dynamic_sidebar( 'Top' ); ?></div>
+<div class="search row"><?php dynamic_sidebar('Top'); ?></div>
 <!-- end search -->
 
 <div class="programlisting-search-results row">
@@ -19,7 +19,7 @@
           <div class="programlisting-year">
             <select name="<?php echo WPDKAProgramListings::QUERY_KEY_YEAR; ?>">
               <option value=""><?php _e('Year', WPDKAProgramListings::DOMAIN); ?></option>
-          <?php for ($y = WPDKAProgramListings::START_YEAR; $y <= WPDKAProgramListings::END_YEAR; $y++): ?>
+          <?php for ($y = WPDKAProgramListings::START_YEAR; $y <= WPDKAProgramListings::END_YEAR; ++$y): ?>
               <option value="<?php echo $y; ?>" <?php selected($year, $y); ?>><?php echo $y; ?></option>
           <?php endfor; ?>
             </select>
@@ -29,8 +29,8 @@
           <div class="programlisting-month">
             <select name="<?php echo WPDKAProgramListings::QUERY_KEY_MONTH; ?>">
               <option value=""><?php _e('Month', WPDKAProgramListings::DOMAIN); ?></option>
-          <?php for ($m = 1; $m <= 12; $m++): ?>
-              <option value="<?php echo $m; ?>" <?php selected($month, $m); ?>><?php echo ucfirst(__(date('F', mktime(0,0,0,$m,1)))); ?></option>
+          <?php for ($m = 1; $m <= 12; ++$m): ?>
+              <option value="<?php echo $m; ?>" <?php selected($month, $m); ?>><?php echo ucfirst(__(date('F', mktime(0, 0, 0, $m, 1)))); ?></option>
           <?php endfor; ?>
             </select>
           </div>
@@ -39,7 +39,7 @@
           <div class="programlisting-day">
             <select name="<?php echo WPDKAProgramListings::QUERY_KEY_DAY; ?>">
               <option value=""><?php _e('Day', WPDKAProgramListings::DOMAIN); ?></option>
-          <?php for ($d = 1; $d <= 31; $d++): ?>
+          <?php for ($d = 1; $d <= 31; ++$d): ?>
               <option value="<?php echo $d; ?>" <?php selected($day, $d); ?>><?php echo $d; ?></option>
           <?php endfor; ?>
             </select>
@@ -56,7 +56,7 @@
                 <div class="programlisting-year">
                     <select name="<?php echo WPDKAProgramListings::QUERY_KEY_YEAR; ?>">
                         <option value=""><?php _e('Year', WPDKAProgramListings::DOMAIN); ?></option>
-                <?php for ($y = WPDKAProgramListings::START_YEAR; $y <= WPDKAProgramListings::END_YEAR; $y++): ?>
+                <?php for ($y = WPDKAProgramListings::START_YEAR; $y <= WPDKAProgramListings::END_YEAR; ++$y): ?>
                         <option value="<?php echo $y; ?>" <?php selected($year, $y); ?>><?php echo $y; ?></option>
                 <?php endfor; ?>
                     </select>
@@ -66,8 +66,8 @@
                 <div class="programlisting-month">
                     <select name="<?php echo WPDKAProgramListings::QUERY_KEY_MONTH; ?>">
                         <option value=""><?php _e('Month', WPDKAProgramListings::DOMAIN); ?></option>
-                <?php for ($m = 1; $m <= 12; $m++): ?>
-                        <option value="<?php echo $m; ?>" <?php selected($month, $m); ?>><?php echo ucfirst(__(date('F', mktime(0,0,0,$m,1)))); ?></option>
+                <?php for ($m = 1; $m <= 12; ++$m): ?>
+                        <option value="<?php echo $m; ?>" <?php selected($month, $m); ?>><?php echo ucfirst(__(date('F', mktime(0, 0, 0, $m, 1)))); ?></option>
                 <?php endfor; ?>
                     </select>
                 </div>
@@ -76,7 +76,7 @@
                 <div class="programlisting-day">
                     <select name="<?php echo WPDKAProgramListings::QUERY_KEY_DAY; ?>">
                         <option value=""><?php _e('Day', WPDKAProgramListings::DOMAIN); ?></option>
-                <?php for ($d = 1; $d <= 31; $d++): ?>
+                <?php for ($d = 1; $d <= 31; ++$d): ?>
                         <option value="<?php echo $d; ?>" <?php selected($day, $d); ?>><?php echo $d; ?></option>
                 <?php endfor; ?>
                     </select>
@@ -106,7 +106,7 @@
       <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 
         <!--[if !IE]><!-->
-        <?php echo do_shortcode('[pdfjs-viewer url=' . $r['_source']['url'] . ' viewer_width=600px viewer_height=700px fullscreen=true download=true print=true openfile=false]'); ?>
+        <?php echo do_shortcode('[pdfjs-viewer url='.$r['_source']['url'].' viewer_width=600px viewer_height=700px fullscreen=true download=true print=true openfile=false]'); ?>
         <!--<![endif]-->
 
         <!--[if !IE]><!--><noscript><!--<![endif]-->
@@ -148,7 +148,7 @@
                             </div>
                             <div class="col-xs-8 col-sm-3 right type"><?php echo $r['_source']['type'] == 'Program' ? 'Programoversigt' : 'Rettelse til programoversigt'; ?></div>
                             <div class="col-xs-12 col-sm-7 col-lg-7 right">
-                              <?php echo do_shortcode('[no-pdfjs-viewer url=' . $r['_source']['url'] . ' viewer_width=600px viewer_height=700px fullscreen=true download=true print=true openfile=false]'); ?>
+                              <?php echo do_shortcode('[no-pdfjs-viewer url='.$r['_source']['url'].' viewer_width=600px viewer_height=700px fullscreen=true download=true print=true openfile=false]'); ?>
                             </div>
                         </li>
                       <?php endforeach; ?>
@@ -157,6 +157,8 @@
             <?php endif; ?>
         </div>
   <?php endif; ?>
+</div>
+
 </div>
 
 <?php get_footer(); ?>
