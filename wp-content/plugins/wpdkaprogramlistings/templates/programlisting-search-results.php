@@ -121,7 +121,7 @@
             <?php if (isset($results)): ?>
                 <p class="results-count">
                     <?php if (count($results) == 100): ?>
-                      <?php{_e('There are more results than the 100 we found. Try being more precise. Hover the "i" button for hints.', WPDKAProgramListings::DOMAIN);} ?>
+                      <?php {_e('There are more results than the 100 we found. Try being more precise. Hover the "i" button for hints.', WPDKAProgramListings::DOMAIN);} ?>
                     <?php else: ?>
                       <?php printf(_n('%d result', '%d results', count($results), WPDKAProgramListings::DOMAIN), count($results)); ?>
                     <?php endif; ?>
