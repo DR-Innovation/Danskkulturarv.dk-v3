@@ -34,7 +34,7 @@ function register_sc_parallax_scroll( $atts ) {
 
     //Check for valid ID
     $postid = intval($id);
-    if ($postid==0 || !is_int($postid)){ 
+    if ($postid==0 || !is_int($postid)){
         //Return error
         return '<p><strong>Invalid Parallax ID</strong></p>';
     }
@@ -62,7 +62,7 @@ function register_sc_parallax_scroll( $atts ) {
             //CHECK AND SANITIZE POST INPUTS
 
             // check if the post has a Post Thumbnail assigned to it.
-            if ( !has_post_thumbnail() ) { 
+            if ( !has_post_thumbnail() ) {
                 //Error because of no image
                 wp_reset_postdata();
                 return '<p><strong> No Feature Image Defined!</strong></p>';
@@ -133,12 +133,12 @@ function register_sc_parallax_scroll( $atts ) {
 
             //Check if full width is enabled
             if ($fullWidthEnable){
-            	//include full width java script
-            	wp_enqueue_script( 'parallax-script-fullwidth' );
+              //include full width java script
+              wp_enqueue_script( 'parallax-script-fullwidth' );
 
-            	//Rename IDs
-            	$parallaxFWStyleClass='adamrob_parallax_fullwidth';
-            	$containerFWStyleClass='adamrob_parallax_container_fullwidth';
+              //Rename IDs
+              $parallaxFWStyleClass='adamrob_parallax_fullwidth';
+              $containerFWStyleClass='adamrob_parallax_container_fullwidth';
 
                 //Send parameters to script
                 wp_localize_script('parallax-script-fullwidth', 'parallax_script_options', array(
@@ -146,7 +146,7 @@ function register_sc_parallax_scroll( $atts ) {
                     'parallaxcontainerid' => $containerFWStyleClass
                 ));
 
-        	}
+          }
 
 
             //Build the style tag for the parallax container
@@ -182,12 +182,14 @@ function register_sc_parallax_scroll( $atts ) {
                 $ParallaxSizeStyle='background-size: '.$mobpsize.'px;background-repeat: no-repeat;';
             }
 
+            $output = '';
+            
             //Give the entire plugin a container if we are full width
             if ($fullWidthEnable){
                 //Enables us to pad out when in full screen mode
                 $output = '<div id="parallax_container'.$postid.'" class="parallax-window-container '.$containerFWStyleClass.'">';
             };
-            
+
             //Build the parallax container
             if(wp_is_mobile()&&isset($mobpsize)){
                 //Display static image
@@ -196,7 +198,7 @@ function register_sc_parallax_scroll( $atts ) {
                 //display parallax image
                 $output .= '<section id="parallax_'.$postid.'" class="adamrob_parallax '.$parallaxFWStyleClass.'" style="'.$parallaxStyle.$ParallaxImgStyle.$ParallaxSizeStyle.'">';
             }
-            
+
 
 
             $output .= '<div id="parallax_'.$postid.'_content" class="adamrob_pcontainer" style="'.$parallaxStyle.'">';
@@ -232,7 +234,7 @@ function register_sc_parallax_scroll( $atts ) {
         }
         //Reset query data
         wp_reset_postdata();
-   
+
     } else {
         // none were found
         wp_reset_postdata();
