@@ -3,7 +3,7 @@
  */
 get_header(); ?>
 
-<div class="container-fluid body-container">
+<div class="container-fluid body-container front-page">
   <!-- start search -->
   <div class="dark-search">
     <div class="front search row"><?php dynamic_sidebar('Top'); ?></div>

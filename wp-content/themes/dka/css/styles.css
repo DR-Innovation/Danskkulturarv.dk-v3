@@ -267,7 +267,7 @@ html {
 }
 body {
   font-family: "Roboto", sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.42857143;
   color: #333333;
   background-color: #ffffff;
@@ -326,8 +326,8 @@ img {
   border-radius: 50%;
 }
 hr {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 18px;
+  margin-bottom: 18px;
   border: 0;
   border-top: 1px solid #d9d9d9;
 }
@@ -392,8 +392,8 @@ h2,
 .h2,
 h3,
 .h3 {
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 18px;
+  margin-bottom: 9px;
 }
 h1 small,
 .h1 small,
@@ -415,8 +415,8 @@ h5,
 .h5,
 h6,
 .h6 {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 9px;
+  margin-bottom: 9px;
 }
 h4 small,
 .h4 small,
@@ -434,40 +434,40 @@ h6 .small,
 }
 h1,
 .h1 {
-  font-size: 36px;
+  font-size: 33px;
 }
 h2,
 .h2 {
-  font-size: 30px;
+  font-size: 27px;
 }
 h3,
 .h3 {
-  font-size: 24px;
+  font-size: 23px;
 }
 h4,
 .h4 {
-  font-size: 18px;
+  font-size: 17px;
 }
 h5,
 .h5 {
-  font-size: 14px;
+  font-size: 13px;
 }
 h6,
 .h6 {
   font-size: 12px;
 }
 p {
-  margin: 0 0 10px;
+  margin: 0 0 9px;
 }
 .lead {
-  margin-bottom: 20px;
-  font-size: 16px;
+  margin-bottom: 18px;
+  font-size: 14px;
   font-weight: 200;
   line-height: 1.4;
 }
 @media (min-width: 768px) {
   .lead {
-    font-size: 21px;
+    font-size: 19.5px;
   }
 }
 small,
@@ -554,14 +554,14 @@ a.bg-danger:hover {
   background-color: #e4b9b9;
 }
 .page-header {
-  padding-bottom: 9px;
-  margin: 40px 0 20px;
+  padding-bottom: 8px;
+  margin: 36px 0 18px;
   border-bottom: 1px solid #d9d9d9;
 }
 ul,
 ol {
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 9px;
 }
 ul ul,
 ol ul,
@@ -585,7 +585,7 @@ ol ol {
 }
 dl {
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 dt,
 dd {
@@ -621,9 +621,9 @@ abbr[data-original-title] {
   text-transform: uppercase;
 }
 blockquote {
-  padding: 10px 20px;
-  margin: 0 0 20px;
-  font-size: 17.5px;
+  padding: 9px 18px;
+  margin: 0 0 18px;
+  font-size: 16.25px;
   border-left: 5px solid #d9d9d9;
 }
 blockquote p:last-child,
@@ -673,7 +673,7 @@ blockquote:after {
   content: "";
 }
 address {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   font-style: normal;
   line-height: 1.42857143;
 }
@@ -701,9 +701,9 @@ kbd {
 }
 pre {
   display: block;
-  padding: 9.5px;
-  margin: 0 0 10px;
-  font-size: 13px;
+  padding: 8.5px;
+  margin: 0 0 9px;
+  font-size: 12px;
   line-height: 1.42857143;
   word-break: break-all;
   word-wrap: break-word;
@@ -1400,7 +1400,7 @@ th {
 }
 .table {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -1576,7 +1576,7 @@ table th[class*="col-"] {
 @media (max-width: 767px) {
   .table-responsive {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 13.5px;
     overflow-y: hidden;
     overflow-x: scroll;
     -ms-overflow-style: -ms-autohiding-scrollbar;
@@ -1630,8 +1630,8 @@ legend {
   display: block;
   width: 100%;
   padding: 0;
-  margin-bottom: 20px;
-  font-size: 21px;
+  margin-bottom: 18px;
+  font-size: 19.5px;
   line-height: inherit;
   color: #333333;
   border: 0;
@@ -1675,16 +1675,16 @@ input[type="checkbox"]:focus {
 output {
   display: block;
   padding-top: 7px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.42857143;
   color: #555555;
 }
 .form-control {
   display: block;
   width: 100%;
-  height: 34px;
+  height: 32px;
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.42857143;
   color: #555555;
   background-color: #fbfbfb;
@@ -1726,7 +1726,7 @@ input[type="search"] {
   -webkit-appearance: none;
 }
 input[type="date"] {
-  line-height: 34px;
+  line-height: 32px;
 }
 .form-group {
   margin-bottom: 15px;
@@ -1734,7 +1734,7 @@ input[type="date"] {
 .radio,
 .checkbox {
   display: block;
-  min-height: 20px;
+  min-height: 18px;
   margin-top: 10px;
   margin-bottom: 10px;
   padding-left: 20px;
@@ -1800,15 +1800,15 @@ select[multiple].input-sm {
   height: auto;
 }
 .input-lg {
-  height: 46px;
+  height: 45px;
   padding: 10px 16px;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.33;
   border-radius: 4px;
 }
 select.input-lg {
-  height: 46px;
-  line-height: 46px;
+  height: 45px;
+  line-height: 45px;
 }
 textarea.input-lg,
 select[multiple].input-lg {
@@ -1818,16 +1818,16 @@ select[multiple].input-lg {
   position: relative;
 }
 .has-feedback .form-control {
-  padding-right: 42.5px;
+  padding-right: 40px;
 }
 .has-feedback .form-control-feedback {
   position: absolute;
-  top: 25px;
+  top: 23px;
   right: 0;
   display: block;
-  width: 34px;
-  height: 34px;
-  line-height: 34px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
   text-align: center;
 }
 .has-success .help-block,
@@ -1963,7 +1963,7 @@ select[multiple].input-lg {
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox {
-  min-height: 27px;
+  min-height: 25px;
 }
 .form-horizontal .form-group {
   margin-left: -15px;
@@ -1992,7 +1992,7 @@ select[multiple].input-lg {
   border: 1px solid transparent;
   white-space: nowrap;
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.42857143;
   border-radius: 4px;
   -webkit-user-select: none;
@@ -2311,7 +2311,7 @@ fieldset[disabled] .btn-link:focus {
 .btn-lg,
 .btn-group-lg > .btn {
   padding: 10px 16px;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.33;
   border-radius: 4px;
 }
@@ -2391,7 +2391,7 @@ input[type="button"].btn-block {
   padding: 5px 0;
   margin: 2px 0 0;
   list-style: none;
-  font-size: 14px;
+  font-size: 13px;
   background-color: #ffffff;
   border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -2406,7 +2406,7 @@ input[type="button"].btn-block {
 }
 .dropdown-menu .divider {
   height: 1px;
-  margin: 9px 0;
+  margin: 8px 0;
   overflow: hidden;
   background-color: #e5e5e5;
 }
@@ -2686,17 +2686,17 @@ input[type="button"].btn-block {
 .input-group-lg > .form-control,
 .input-group-lg > .input-group-addon,
 .input-group-lg > .input-group-btn > .btn {
-  height: 46px;
+  height: 45px;
   padding: 10px 16px;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.33;
   border-radius: 4px;
 }
 select.input-group-lg > .form-control,
 select.input-group-lg > .input-group-addon,
 select.input-group-lg > .input-group-btn > .btn {
-  height: 46px;
-  line-height: 46px;
+  height: 45px;
+  line-height: 45px;
 }
 textarea.input-group-lg > .form-control,
 textarea.input-group-lg > .input-group-addon,
@@ -2747,7 +2747,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .input-group-addon {
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
   line-height: 1;
   color: #555555;
@@ -2763,7 +2763,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .input-group-addon.input-lg {
   padding: 10px 16px;
-  font-size: 18px;
+  font-size: 17px;
   border-radius: 4px;
 }
 .input-group-addon input[type="radio"],
@@ -2857,7 +2857,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .nav .nav-divider {
   height: 1px;
-  margin: 9px 0;
+  margin: 8px 0;
   overflow: hidden;
   background-color: #e5e5e5;
 }
@@ -3015,7 +3015,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   min-height: 50px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   border: 1px solid transparent;
 }
 @media (min-width: 768px) {
@@ -3111,9 +3111,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-brand {
   float: left;
-  padding: 15px 15px;
-  font-size: 18px;
-  line-height: 20px;
+  padding: 16px 15px;
+  font-size: 17px;
+  line-height: 18px;
   height: 50px;
 }
 .navbar-brand:hover,
@@ -3156,12 +3156,12 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-nav {
-  margin: 7.5px -15px;
+  margin: 8px -15px;
 }
 .navbar-nav > li > a {
   padding-top: 10px;
   padding-bottom: 10px;
-  line-height: 20px;
+  line-height: 18px;
 }
 @media (max-width: 767px) {
   .navbar-nav .open .dropdown-menu {
@@ -3178,7 +3178,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     padding: 5px 15px 5px 25px;
   }
   .navbar-nav .open .dropdown-menu > li > a {
-    line-height: 20px;
+    line-height: 18px;
   }
   .navbar-nav .open .dropdown-menu > li > a:hover,
   .navbar-nav .open .dropdown-menu > li > a:focus {
@@ -3194,8 +3194,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     float: left;
   }
   .navbar-nav > li > a {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
   .navbar-nav.navbar-right:last-child {
     margin-right: -15px;
@@ -3217,8 +3217,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 9px;
+  margin-bottom: 9px;
 }
 @media (min-width: 768px) {
   .navbar-form .form-group {
@@ -3285,8 +3285,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom-left-radius: 0;
 }
 .navbar-btn {
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 9px;
+  margin-bottom: 9px;
 }
 .navbar-btn.btn-sm {
   margin-top: 10px;
@@ -3297,8 +3297,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin-bottom: 14px;
 }
 .navbar-text {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 @media (min-width: 768px) {
   .navbar-text {
@@ -3485,7 +3485,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .pagination {
   display: inline-block;
   padding-left: 0;
-  margin: 20px 0;
+  margin: 18px 0;
   border-radius: 4px;
 }
 .pagination > li {
@@ -3548,7 +3548,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .pagination-lg > li > a,
 .pagination-lg > li > span {
   padding: 10px 16px;
-  font-size: 18px;
+  font-size: 17px;
 }
 .pagination-lg > li:first-child > a,
 .pagination-lg > li:first-child > span {
@@ -3684,7 +3684,7 @@ a.list-group-item.active > .badge,
 .thumbnail {
   display: block;
   padding: 4px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   line-height: 1.42857143;
   background-color: #ffffff;
   border: 1px solid #dddddd;
@@ -3708,7 +3708,7 @@ a.thumbnail.active {
 }
 .alert {
   padding: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   border: 1px solid transparent;
   border-radius: 4px;
 }
@@ -3961,7 +3961,7 @@ a.list-group-item-danger.active:focus {
 }
 .close {
   float: right;
-  font-size: 21px;
+  font-size: 19.5px;
   font-weight: bold;
   line-height: 1;
   color: #000000;
@@ -4228,7 +4228,7 @@ button.close {
 .popover-title {
   margin: 0;
   padding: 8px 14px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
   line-height: 18px;
   background-color: #f7f7f7;
@@ -4509,10 +4509,16 @@ button.close {
   border: none;
   margin: 0;
 }
+.navbar .container-fluid {
+  margin: 0 auto;
+  max-width: 1170px;
+}
 .navbar .navbar-toggle {
-  background-color: #333333;
-  margin-right: 10px;
   border: none;
+  margin-right: 0;
+}
+.navbar .navbar-toggle .icon-bar {
+  background-color: #333333;
 }
 .navbar #old-browser-btn {
   position: absolute;
@@ -4524,10 +4530,11 @@ button.close {
 .navbar .navbar-brand {
   text-align: left;
   margin-left: 0 !important;
+  padding-left: 0;
   font-size: 2.1em;
   text-transform: uppercase;
   color: #333333;
-  font-weight: 700;
+  font-weight: 900;
 }
 .navbar .navbar-brand img {
   height: 18px;
@@ -4577,7 +4584,7 @@ a.dropdown-toggle:active {
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
-  border: 1px solid #999999;
+  border: 1px solid #d9d9d9;
   color: #555555;
 }
 /* Wrapper for page content to push down footer */
@@ -4630,7 +4637,7 @@ footer .nav-footer > li {
   line-height: 16px;
 }
 footer .social {
-  font-size: 18px;
+  font-size: 17px;
   line-height: 12px;
   margin-right: 6px;
 }
@@ -4709,8 +4716,6 @@ section.adamrob_parallax {
 }
 .search {
   padding: 20px 0;
-  margin: 0 auto;
-  max-width: 1170px;
 }
 .search input,
 .search .btn-advanced-search {
@@ -4809,7 +4814,7 @@ fieldset[disabled] .search .btn-advanced-search.collapsed.active {
   color: #000;
   border: none;
   padding: 0 5px 0 10px;
-  border-radius: 10px;
+  border-radius: 3px;
   line-height: 20px;
   background-color: #d9d9d9;
 }
@@ -4855,10 +4860,10 @@ fieldset[disabled] .search .btn-advanced-search.collapsed.active {
   height: auto;
 }
 .search-object {
-  height: 255px;
+  height: 246px;
 }
 .search-object a.thumbnail {
-  height: 255px;
+  height: 246px;
 }
 .search-object .thumb {
   height: 145px;
@@ -4881,9 +4886,10 @@ fieldset[disabled] .search .btn-advanced-search.collapsed.active {
 }
 .search-object .date {
   color: #555555;
+  margin: 0;
 }
-.search-object hr {
-  margin: 6px 0;
+.search-object i {
+  margin-left: 2px;
 }
 .search-object .title,
 .search-object .organization {
@@ -5007,13 +5013,6 @@ ul.row.listview .thumb {
 .pagination-div .pagination > li > a,
 .pagination-div .pagination > li > span {
   padding: 10px 16px;
-  border-width: 0 1px;
-}
-.pagination-div .pagination > li:first-child > a,
-.pagination-div .pagination > li:last-child > a,
-.pagination-div .pagination > li:first-child > span,
-.pagination-div .pagination > li:last-child > span {
-  border-radius: 0;
 }
 .widget .widget-title {
   text-align: center;
@@ -5053,7 +5052,7 @@ ul.row.listview .thumb {
 }
 [class^="icon-"],
 [class*=" icon-"] {
-  font-size: 18px;
+  font-size: 17px;
   margin-top: 2px;
   margin-left: -2px;
   display: inline-block;
@@ -5078,18 +5077,41 @@ h1 em,
 h2 em {
   font-weight: 700;
 }
+h3,
+h4,
+h5 {
+  font-weight: 700;
+}
+body,
+.btn,
+.form-control {
+  font-size: 13px;
+}
 p {
   letter-spacing: 0.02em;
 }
 .form-control,
 select {
   border: 1px solid #d9d9d9;
+  box-shadow: none;
+  font-weight: 300;
+}
+.btn-link {
+  font-weight: 300;
 }
 .body-container {
-  padding: 100px 0 0;
+  padding-top: 100px;
+}
+.body-container.front-page {
+  padding-left: 0;
+  padding-right: 0;
 }
 .dark-search {
   background-color: #f6f7f8;
+}
+.dark-search .search {
+  max-width: 1170px;
+  margin: 0 auto;
 }
 .search-results h1,
 .single-material h1 {
@@ -5159,7 +5181,7 @@ select {
   width: 35px;
   height: 35px;
   line-height: 35px;
-  font-size: 18px !important;
+  font-size: 17px !important;
   background-color: #999999;
   margin-right: 8px;
   text-decoration: none;
@@ -5276,7 +5298,7 @@ div.contributors dd {
   line-height: 20px;
 }
 .front-page-content strong {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 22px;
 }
@@ -5562,6 +5584,9 @@ upon your base.less styles.
   .colorbox .h3 {
     margin: 0;
   }
+  .btn {
+    padding: 6px;
+  }
 }
 @media only screen and (min-width: 768px) {
   /*
@@ -5573,15 +5598,13 @@ So you can start working with more styles, background images,
 and other resources.
 
 -------------------------------------------------- */
-  body {
-    font-size: 15px;
+  body,
+  .btn,
+  .form-control {
+    font-size: 14px;
   }
   .container .search .row {
     padding: 0 10px 0 20px;
-  }
-  #advanced-search-container .btn.filter-btn {
-    font-size: 12px;
-    min-width: 160px;
   }
   .nav {
     padding: 35px 0;
@@ -5669,8 +5692,10 @@ This is the desktop size. It's larger than an iPad so it will only
 be seen on the Desktop.
 
 -------------------------------------------------- */
-  body {
-    font-size: 16px;
+  body,
+  .btn,
+  .form-control {
+    font-size: 15px;
   }
   .front-page-content {
     font-size: 52px;
@@ -5679,5 +5704,16 @@ be seen on the Desktop.
   .front-page-content strong {
     font-size: 64px;
     line-height: 72px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .dark-search {
+    padding-bottom: 3rem;
+  }
+  .body-container {
+    padding-top: 50px;
+  }
+  .navbar .navbar-brand {
+    font-size: 1.5em;
   }
 }

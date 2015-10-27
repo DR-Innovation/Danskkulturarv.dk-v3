@@ -1,4 +1,4 @@
-// out: ../styles.css, sourcemap: false, compress: false
+// out: ../styles.css, sourcemap: true, compress: false
 @import "bootstrap/bootstrap";
 
 // --------------------------------------------------
@@ -7,11 +7,12 @@
 @gray-semi-light: #646464;
 @orange: #ff7e21;
 @brand-primary: hsl(202, 85%, 48%);
-@font-size-base: 14px;
+@font-size-base: 13px;
 @font-family-sans-serif: "Roboto", sans-serif;
 @max-width: 1170px;
 @header-color: @text-color;
 @header-bg: white;
+@regular-weight: 300;
 @import "custom/header";
 @import "custom/footer";
 @import "custom/parallax";
@@ -53,7 +54,7 @@
 html,
 body {
   height     : 100%;
-  font-weight: 300;
+  font-weight: @regular-weight;
 }
 h1,
 h2 {
@@ -62,18 +63,41 @@ h2 {
     font-weight: 700;
   }
 }
+h3,
+h4,
+h5 {
+  font-weight: 700;
+}
+body,
+.btn,
+.form-control {
+  font-size: @font-size-base;
+}
 p {
   letter-spacing: 0.02em;
 }
 .form-control,
 select {
   border: 1px solid @gray-lighter;
+  box-shadow: none;
+  font-weight: @regular-weight;
+}
+.btn-link {
+  font-weight: @regular-weight;
 }
 .body-container {
-  padding: 100px 0 0;
+  padding-top: 100px;
+  &.front-page {
+    padding-left : 0;
+    padding-right: 0;
+  }
 }
 .dark-search {
   background-color: #f6f7f8;
+  .search {
+    max-width: 1170px;
+    margin   : 0 auto;
+  }
 }
 .search-results,
 .single-material {
@@ -523,4 +547,17 @@ footer {
 }
 @media only screen and (min-width: @screen-md-min) {
   @import "custom-medium.less";
+}
+@media only screen and (max-width: 767px) {
+  .dark-search {
+    padding-bottom: 3rem;
+  }
+  .body-container {
+    padding-top: 50px;
+  }
+  .navbar {
+    .navbar-brand {
+      font-size: 1.5em;
+    }
+  }
 }

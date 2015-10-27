@@ -94,7 +94,6 @@
   min-height: 43px;
   margin-bottom: 20px;
   margin-top: 5px;
-  border-bottom: 1px solid #eee;
 }
 .programlisting-search-results .hover-info {
   border-color: #ddd;
@@ -138,6 +137,12 @@
 .programlisting-results .btn-group {
   margin-bottom: 0;
 }
+.programlisting-results .btn {
+  text-decoration: none !important;
+}
+.programlisting-results form .btn {
+  padding-left: 0;
+}
 .programlisting-results .dropdown-menu {
   min-width: 0;
 }
@@ -153,6 +158,8 @@
 }
 .programlisting-results .search-overview li {
   text-align: left;
+  padding: 10px 0px;
+  border-bottom: 1px solid #eee;
 }
 .programlisting-results .search-overview li .center {
   text-align: center;
@@ -166,10 +173,12 @@
 .programlisting-results .search-overview li a:visited {
   color: #800080;
 }
+.programlisting-results .search-overview li .type {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
 .programlisting-results .search-overview .btn-link {
   color: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
 }
 .programlisting-results .search-overview .btn-link:hover,
 .programlisting-results .search-overview .btn-link:active,

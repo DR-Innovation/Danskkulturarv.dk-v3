@@ -3,10 +3,6 @@
 // --------------------------------------------------
 .search {
   padding  : 20px 0;
-  margin   : 0 auto;
-  max-width: 1170px;
-
-  // border-bottom: 1px solid @gray-lighter;
   input,
   .btn-advanced-search {
     height: 44px;
@@ -59,7 +55,7 @@
     color           : #000;
     border          : none;
     padding         : 0 5px 0 10px;
-    border-radius   : 10px;
+    border-radius   : 3px;
     line-height     : 20px;
     background-color: @gray-lighter;
     .chaos-filter {
@@ -110,9 +106,9 @@
   }
 }
 .search-object {
-  height: 255px;
+  height: 246px;
   a.thumbnail {
-    height: 255px;
+    height: 246px;
   }
   .thumb {
     height             : 145px;
@@ -135,9 +131,10 @@
   }
   .date {
     color: @gray;
+    margin: 0;
   }
-  hr {
-    margin: 6px 0;
+  i {
+    margin-left: 2px;
   }
   .title,
   .organization {
@@ -267,14 +264,6 @@ ul.row.listview {
       > a,
       > span {
         padding     : 10px 16px;
-        border-width: 0 1px;
-      }
-      &:first-child,
-      &:last-child {
-        > a,
-        > span {
-          border-radius: 0;
-        }
       }
     }
   }

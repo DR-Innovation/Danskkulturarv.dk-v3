@@ -2,6 +2,7 @@
 
 //tell wordpress to register the pdfjs-viewer shortcode
 add_shortcode('pdfjs-viewer', 'pdfjs_handler');
+add_shortcode('no-pdfjs-viewer', 'pdf_handler');
 
 function pdfjs_handler($args)
 {
@@ -13,13 +14,34 @@ function pdfjs_handler($args)
     'fullscreen' => 'false',
     'download' => 'true',
     'print' => 'true',
-    'openfile' => 'false'
+    'openfile' => 'false',
+    'iframe' => 'true',
   ), $args);
   //run function that actually does the work of the plugin
   $pdfjs_output = pdfjs_function($args);
   //send back text to replace shortcode in post
   return $pdfjs_output;
 }
+
+function pdf_handler($args)
+{
+    //set defaults
+  $args = shortcode_atts(array(
+    'url' => 'bad-url.pdf',
+    'viewer_height' => '1360px',
+    'viewer_width' => '100%',
+    'fullscreen' => 'false',
+    'download' => 'true',
+    'print' => 'true',
+    'openfile' => 'false',
+    'iframe' => 'false',
+  ), $args);
+  //run function that actually does the work of the plugin
+  $pdfjs_output = pdfjs_function($args);
+  //send back text to replace shortcode in post
+  return $pdfjs_output;
+}
+
 
 function pdfjs_function($incomingfromhandler)
 {
@@ -36,6 +58,7 @@ function pdfjs_function($incomingfromhandler)
     $download = $incomingfromhandler['download'];
     $print = $incomingfromhandler['print'];
     $openfile = $incomingfromhandler['openfile'];
+    $iframe = $incomingfromhandler['iframe'];
 
     if ($download != 'true') {
         $download = 'false';
@@ -104,7 +127,11 @@ function pdfjs_function($incomingfromhandler)
          </div>';
     }
 
-    $iframe_code = '<iframe width="'.$viewer_width.';" height="'.$viewer_height.';" src="'.$final_url.'"></iframe> ';
+    $iframe_code = '';
+    if ($iframe == 'true') {
+        $iframe_code = '<iframe width="'.$viewer_width.';" height="'.$viewer_height.';" src="'.$final_url.'"></iframe> ';
+    }
+
 
     return $postcard_link.$poster_link./*$fullscreen_link.*/$buttons_start.$downloads.$buttons_end.$iframe_code;
 }
