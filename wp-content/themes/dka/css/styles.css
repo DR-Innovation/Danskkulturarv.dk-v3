@@ -4653,9 +4653,10 @@ section.adamrob_parallax {
 }
 .adamrob_pcontainer {
   max-width: 9999px !important;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(40, 42, 44, 0.7);
   font-size: 1.2em;
   color: white;
+  text-shadow: 0 0 3px black;
 }
 .adamrob_pcontainer > div {
   max-width: 700px;
@@ -4665,12 +4666,12 @@ section.adamrob_parallax {
   font-size: 2em;
 }
 .adamrob_pcontainer > div:first-child {
-  padding-top: 140px !important;
+  padding-top: 180px !important;
   padding-bottom: 0 !important;
   font-weight: 700;
 }
 .adamrob_pcontainer > div:last-child {
-  padding-bottom: 140px !important;
+  padding-bottom: 180px !important;
   padding-top: 10px !important;
   letter-spacing: 0.1em;
 }
