@@ -59,10 +59,20 @@
 .programlisting-search {
   height: auto;
   position: relative;
-  border: 1px solid #999;
-  background-color: #ccc;
+  border: 1px solid #E8EAED;
+  background-color: #f6f7f8;
   box-sizing: border-box;
   padding: 10px;
+}
+.programlisting-search .date-year {
+  padding-right: 1%;
+}
+.programlisting-search .date-month {
+  padding-left: 1%;
+  padding-right: 1%;
+}
+.programlisting-search .date-day {
+  padding-left: 1%;
 }
 .programlisting-search h3 {
   text-align: center;
@@ -79,16 +89,6 @@
 }
 .programlisting-search .widget-promo-image {
   margin-top: 10px;
-}
-@media (min-width: 1200px) {
-  .programlisting-search {
-    min-height: 360px;
-  }
-}
-@media (min-width: 991px) and (max-width: 1199px) {
-  .programlisting-search {
-    min-height: 293px;
-  }
 }
 .programlisting-search-results {
   min-height: 43px;

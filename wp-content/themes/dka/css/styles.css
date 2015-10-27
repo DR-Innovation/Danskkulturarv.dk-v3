@@ -329,7 +329,7 @@ hr {
   margin-top: 20px;
   margin-bottom: 20px;
   border: 0;
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid #d9d9d9;
 }
 .sr-only {
   position: absolute;
@@ -556,7 +556,7 @@ a.bg-danger:hover {
 .page-header {
   padding-bottom: 9px;
   margin: 40px 0 20px;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #d9d9d9;
 }
 ul,
 ol {
@@ -624,7 +624,7 @@ blockquote {
   padding: 10px 20px;
   margin: 0 0 20px;
   font-size: 17.5px;
-  border-left: 5px solid #eeeeee;
+  border-left: 5px solid #d9d9d9;
 }
 blockquote p:last-child,
 blockquote ul:last-child,
@@ -648,7 +648,7 @@ blockquote .small:before {
 blockquote.pull-right {
   padding-right: 15px;
   padding-left: 0;
-  border-right: 5px solid #eeeeee;
+  border-right: 5px solid #d9d9d9;
   border-left: 0;
   text-align: right;
 }
@@ -1716,7 +1716,7 @@ output {
 .form-control[readonly],
 fieldset[disabled] .form-control {
   cursor: not-allowed;
-  background-color: #eeeeee;
+  background-color: #d9d9d9;
   opacity: 1;
 }
 textarea.form-control {
@@ -2032,7 +2032,7 @@ fieldset[disabled] .btn {
 .btn-default {
   color: #1296e2;
   background-color: #fdfdfd;
-  border-color: #999999;
+  border-color: #d9d9d9;
 }
 .btn-default:hover,
 .btn-default:focus,
@@ -2041,7 +2041,7 @@ fieldset[disabled] .btn {
 .open .dropdown-toggle.btn-default {
   color: #1296e2;
   background-color: #e9e9e9;
-  border-color: #7a7a7a;
+  border-color: #bababa;
 }
 .btn-default:active,
 .btn-default.active,
@@ -2064,7 +2064,7 @@ fieldset[disabled] .btn-default:active,
 .btn-default[disabled].active,
 fieldset[disabled] .btn-default.active {
   background-color: #fdfdfd;
-  border-color: #999999;
+  border-color: #d9d9d9;
 }
 .btn-default .badge {
   color: #fdfdfd;
@@ -2752,7 +2752,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   line-height: 1;
   color: #555555;
   text-align: center;
-  background-color: #eeeeee;
+  background-color: #d9d9d9;
   border: 1px solid #bebebe;
   border-radius: 4px;
 }
@@ -2837,7 +2837,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a:hover,
 .nav > li > a:focus {
   text-decoration: none;
-  background-color: #eeeeee;
+  background-color: #d9d9d9;
 }
 .nav > li.disabled > a {
   color: #999999;
@@ -2852,7 +2852,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus {
-  background-color: #eeeeee;
+  background-color: #d9d9d9;
   border-color: #1296e2;
 }
 .nav .nav-divider {
@@ -2878,7 +2878,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-radius: 4px 4px 0 0;
 }
 .nav-tabs > li > a:hover {
-  border-color: #eeeeee #eeeeee #dddddd;
+  border-color: #d9d9d9 #d9d9d9 #dddddd;
 }
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
@@ -3500,7 +3500,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   text-decoration: none;
   color: #1296e2;
   background-color: #ffffff;
-  border: 1px solid #eeeeee;
+  border: 1px solid #d9d9d9;
   margin-left: -1px;
 }
 .pagination > li:first-child > a,
@@ -3519,8 +3519,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .pagination > li > a:focus,
 .pagination > li > span:focus {
   color: #0d679c;
-  background-color: #eeeeee;
-  border-color: #eeeeee;
+  background-color: #d9d9d9;
+  border-color: #d9d9d9;
 }
 .pagination > .active > a,
 .pagination > .active > span,
@@ -3531,7 +3531,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   z-index: 2;
   color: #999999;
   background-color: #f5f5f5;
-  border-color: #eeeeee;
+  border-color: #d9d9d9;
   cursor: default;
 }
 .pagination > .disabled > span,
@@ -3542,7 +3542,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .pagination > .disabled > a:focus {
   color: #999999;
   background-color: #ffffff;
-  border-color: #eeeeee;
+  border-color: #d9d9d9;
   cursor: not-allowed;
 }
 .pagination-lg > li > a,
@@ -4505,7 +4505,7 @@ button.close {
   background-color: white;
   padding: 0 20px;
   font-weight: bold;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.1), 0 0 40px rgba(0, 0, 0, 0.1);
   border: none;
   margin: 0;
 }
@@ -4536,7 +4536,7 @@ button.close {
   margin-right: 0;
 }
 .navbar .navbar-responsive-collapse .navbar-nav.navbar-right:last-child li.menu-item {
-  margin-right: 0!important;
+  margin-right: 0 !important;
   margin-left: 10px;
 }
 .dropdown-header {
@@ -4639,6 +4639,11 @@ footer .copyright a {
   margin-top: 6px;
   color: #999999;
 }
+section.adamrob_parallax {
+  margin-top: -3rem;
+  margin-left: -15px;
+  margin-right: -15px;
+}
 .adamrob_pcontainer {
   max-width: 9999px !important;
   background-color: rgba(0, 0, 0, 0.5);
@@ -4653,15 +4658,14 @@ footer .copyright a {
   font-size: 2em;
 }
 .adamrob_pcontainer > div:first-child {
-  padding-top: 160px !important;
+  padding-top: 140px !important;
+  padding-bottom: 0 !important;
   font-weight: 700;
 }
 .adamrob_pcontainer > div:last-child {
-  padding-bottom: 160px !important;
+  padding-bottom: 140px !important;
+  padding-top: 10px !important;
   letter-spacing: 0.1em;
-  -webkit-font-feature-settings: "liga" 0;
-  -moz-font-feature-settings: "liga" 0;
-  font-feature-settings: "liga" 0;
 }
 .adamrob_pcontainer a {
   color: white;
@@ -4682,12 +4686,23 @@ footer .copyright a {
   margin-left: 0;
   margin-right: 0;
 }
-#post-front .panel-grid-cell {
-  padding: 0;
+#post-front .widget_dka-program-listing-featured-widget,
+#post-front .widget_null-instagram-feed,
+#post-front .widget_fbw_id {
+  margin: 0 auto;
+  overflow: hidden;
+  max-width: 360px;
 }
-#post-front .widget_dka-program-listing-featured-widget {
-  padding-left: 15px;
-  padding-right: 15px;
+@media (min-width: 1200px) {
+  #post-front .programlisting-search,
+  #post-front .widget_fbw_id {
+    min-height: 414px;
+  }
+}
+@media (min-width: 991px) and (max-width: 1199px) {
+  #post-front {
+    min-height: 300px;
+  }
 }
 .front.search.row {
   margin: 0 auto;
@@ -4713,7 +4728,7 @@ footer .copyright a {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   color: #1296e2;
   background-color: #e9e9e9;
-  border-color: #7a7a7a;
+  border-color: #bababa;
   background-image: none;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -4728,7 +4743,7 @@ footer .copyright a {
   box-shadow: none;
   color: #1296e2;
   background-color: #fdfdfd;
-  border-color: #999999;
+  border-color: #d9d9d9;
 }
 .search .btn-advanced-search.collapsed:hover,
 .search .btn-advanced-search.collapsed:focus,
@@ -4737,7 +4752,7 @@ footer .copyright a {
 .open .dropdown-toggle.search .btn-advanced-search.collapsed {
   color: #1296e2;
   background-color: #e9e9e9;
-  border-color: #7a7a7a;
+  border-color: #bababa;
 }
 .search .btn-advanced-search.collapsed:active,
 .search .btn-advanced-search.collapsed.active,
@@ -4760,7 +4775,7 @@ fieldset[disabled] .search .btn-advanced-search.collapsed:active,
 .search .btn-advanced-search.collapsed[disabled].active,
 fieldset[disabled] .search .btn-advanced-search.collapsed.active {
   background-color: #fdfdfd;
-  border-color: #999999;
+  border-color: #d9d9d9;
 }
 .search .btn-advanced-search.collapsed .badge {
   color: #fdfdfd;
@@ -4796,7 +4811,7 @@ fieldset[disabled] .search .btn-advanced-search.collapsed.active {
   padding: 0 5px 0 10px;
   border-radius: 10px;
   line-height: 20px;
-  background-color: #eeeeee;
+  background-color: #d9d9d9;
 }
 #advanced-search-container .btn.filter-btn .chaos-filter {
   display: none;
@@ -4847,7 +4862,7 @@ fieldset[disabled] .search .btn-advanced-search.collapsed.active {
 }
 .search-object .thumb {
   height: 145px;
-  background-color: #eeeeee;
+  background-color: #d9d9d9;
   background-position: center;
   background-size: cover!important;
   position: relative;
@@ -4894,13 +4909,13 @@ ul.row.listview {
   width: 100%;
 }
 ul.row.listview li.search-object {
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #d9d9d9;
 }
 ul.row.listview li.search-object:last-child {
   border-bottom: none;
 }
 ul.row.listview li.search-object:hover {
-  background-color: #eeeeee;
+  background-color: #d9d9d9;
 }
 ul.row.listview li {
   width: 100%;
@@ -4952,7 +4967,7 @@ ul.row.listview .thumb {
 .search-results-top > div {
   line-height: 40px;
   height: 40px;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #d9d9d9;
 }
 .search-results-top .search-result-listing {
   text-align: center;
@@ -4973,7 +4988,7 @@ ul.row.listview .thumb {
   text-overflow: ellipsis;
 }
 .search-results-bottom {
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid #d9d9d9;
 }
 .thumbnails {
   padding: 0;
@@ -4999,6 +5014,42 @@ ul.row.listview .thumb {
 .pagination-div .pagination > li:first-child > span,
 .pagination-div .pagination > li:last-child > span {
   border-radius: 0;
+}
+.widget .widget-title {
+  text-align: center;
+  text-transform: uppercase;
+  padding: 10px 0;
+}
+.widget_null-instagram-feed {
+  border: 1px solid #E8EAED;
+  background-color: #f6f7f8;
+}
+.widget_null-instagram-feed {
+  box-sizing: border-box;
+  padding: 10px;
+}
+.widget_null-instagram-feed .folow-insta {
+  display: none;
+}
+.widget_null-instagram-feed ul.instagram-pics li {
+  width: 32%;
+  margin: 0;
+  margin-left: 1%;
+  margin-right: 1%;
+  margin-bottom: 2%;
+  border: none !important;
+}
+.widget_null-instagram-feed ul.instagram-pics li:nth-child(3n+1) {
+  margin-left: 0;
+}
+.widget_null-instagram-feed ul.instagram-pics li:nth-child(3n) {
+  margin-right: 0;
+}
+.widget_null-instagram-feed ul.instagram-pics li:nth-child(n+7) {
+  margin-bottom: 0;
+}
+.widget_null-instagram-feed ul.instagram-pics li img {
+  border-radius: 4px;
 }
 [class^="icon-"],
 [class*=" icon-"] {
@@ -5032,13 +5083,13 @@ p {
 }
 .form-control,
 select {
-  border: 1px solid #999999;
+  border: 1px solid #d9d9d9;
 }
 .body-container {
   padding: 100px 0 0;
 }
 .dark-search {
-  background-color: #ccc;
+  background-color: #f6f7f8;
 }
 .search-results h1,
 .single-material h1 {
@@ -5097,7 +5148,7 @@ select {
   padding: 20px 0 0;
 }
 .single-material .info {
-  border: 1px solid #eeeeee;
+  border: 1px solid #d9d9d9;
   padding: 10px;
   margin-bottom: 20px;
 }
@@ -5152,7 +5203,7 @@ select {
   position: relative;
   margin-right: 3px;
   padding: 4px 10px;
-  background: #eeeeee;
+  background: #d9d9d9;
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;

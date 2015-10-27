@@ -31,10 +31,20 @@
 .programlisting-search {
   height          : auto;
   position        : relative;
-  border          : 1px solid #999;
-  background-color: #ccc;
+  border          : 1px solid #E8EAED;
+  background-color: rgb(246, 247, 248);
   box-sizing      : border-box;
   padding         : 10px;
+  .date-year {
+    padding-right: 1%;
+  }
+  .date-month {
+    padding-left: 1%;
+    padding-right: 1%;
+  }
+  .date-day {
+    padding-left: 1%;
+  }
   h3 {
     text-align: center;
     text-transform: uppercase;
@@ -50,12 +60,6 @@
   }
   .widget-promo-image {
     margin-top: 10px;
-  }
-  @media (min-width: 1200px) {
-    min-height: 360px;
-  }
-  @media (min-width: 991px) and (max-width: 1199px) {
-    min-height: 293px;
   }
 }
 .programlisting-search-results {

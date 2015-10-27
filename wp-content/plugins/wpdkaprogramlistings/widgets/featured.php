@@ -64,23 +64,23 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
     // echo $args['after_title'];
     echo '<p>' . $instance['description'] . '</p>';
     echo '<form method="GET" action="' . get_permalink(get_option('wpdkaprogramlistings-page')) . '" class="row">';
-    echo '<div class="col-xs-12 col-sm-4"><div class="programlisting-year"><select name="' . WPDKAProgramListings::QUERY_KEY_YEAR . '"><option value="" disabled selected>' . __('Year',WPDKAProgramListings::DOMAIN) . '</option>';
+    echo '<div class="col-xs-4 date-year"><div class="programlisting-year"><select name="' . WPDKAProgramListings::QUERY_KEY_YEAR . '"><option value="" disabled selected>' . __('Year',WPDKAProgramListings::DOMAIN) . '</option>';
     for ($y = WPDKAProgramListings::START_YEAR; $y <= WPDKAProgramListings::END_YEAR; $y++) {
       echo '<option value="' . $y . '">' . $y . '</option>';
     }
     echo '</select></div></div>';
 
-    echo '<div class="col-xs-12 col-sm-4"><div class="programlisting-month"><select name="' . WPDKAProgramListings::QUERY_KEY_MONTH . '"><option value="" disabled selected>' . __('Month',WPDKAProgramListings::DOMAIN) . '</option>';
+    echo '<div class="col-xs-4 date-month"><div class="programlisting-month"><select name="' . WPDKAProgramListings::QUERY_KEY_MONTH . '"><option value="" disabled selected>' . __('Month',WPDKAProgramListings::DOMAIN) . '</option>';
     for ($m = 1; $m <= 12; $m++) {
       echo '<option value="' . $m . '">' . ucfirst(__(date('F', mktime(0,0,0,$m,1)))) . '</option>';
     }
     echo '</select></div></div>';
-    echo '<div class="col-xs-12 col-sm-4"><div class="programlisting-day"><select name="' . WPDKAProgramListings::QUERY_KEY_DAY . '"><option value="" disabled selected>' . __('Day',WPDKAProgramListings::DOMAIN) . '</option>';
+    echo '<div class="col-xs-4 date-day"><div class="programlisting-day"><select name="' . WPDKAProgramListings::QUERY_KEY_DAY . '"><option value="" disabled selected>' . __('Day',WPDKAProgramListings::DOMAIN) . '</option>';
     for ($d = 1; $d <= 31; $d++) {
       echo '<option value="' . $d . '">' . $d . '</option>';
     }
     echo '</select></div></div>';
-    echo '<div class="col-xs-12 col-sm-12"><button type="submit" class="btn btn-primary btn-block">' . __('Search program schedule', WPDKAProgramListings::DOMAIN) . '</button></div>';
+    echo '<div class="col-xs-12"><button type="submit" class="btn btn-primary btn-block">' . __('Search program schedule', WPDKAProgramListings::DOMAIN) . '</button></div>';
     echo '</form>';
     echo '<div class="widget-promo-image">
             <a href="http://www.danskkulturarv.dk/udstilling/postkort-og-plakater/"><img src="' . plugins_url( '../images/promo.jpg' , __FILE__ ) . '" alt="'. __('Poster and postcard promo image', WPDKAProgramListings::DOMAIN) .'" /></a>

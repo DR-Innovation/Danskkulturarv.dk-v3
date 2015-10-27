@@ -1,14 +1,21 @@
 #post-front {
   margin-left : 0;
   margin-right: 0;
-
-  .panel-grid-cell {
-    padding: 0;
+  .widget_dka-program-listing-featured-widget,
+  .widget_null-instagram-feed,
+  .widget_fbw_id {
+    margin: 0 auto;
+    overflow: hidden;
+    max-width: 360px;
   }
-
-  .widget_dka-program-listing-featured-widget {
-    padding-left : 15px;
-    padding-right: 15px;
+  @media (min-width: 1200px) {
+    .programlisting-search,
+    .widget_fbw_id {
+      min-height: 414px;
+    }
+  }
+  @media (min-width: 991px) and (max-width: 1199px) {
+    min-height: 300px;
   }
 
 }
