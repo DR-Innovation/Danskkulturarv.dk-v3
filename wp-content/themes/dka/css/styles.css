@@ -5867,4 +5867,7 @@ on larger screens.
   .adamrob_pcontainer > div:last-child {
     padding-bottom: 220px !important;
   }
+  .widget_dka-program-listing-featured-widget .programlisting-search {
+    min-height: 412px !important;
+  }
 }
