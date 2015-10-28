@@ -2,9 +2,9 @@
 // Parallax
 // --------------------------------------------------
 section.adamrob_parallax {
-  margin-top  : -3rem;
-  margin-left : -15px;
-  margin-right: -15px;
+  // margin-top  : -3rem;
+  // margin-left : -15px;
+  // margin-right: -15px;
 }
 .adamrob_pcontainer {
   max-width       : 9999px !important;
@@ -20,12 +20,12 @@ section.adamrob_parallax {
     }
   }
   > div:first-child {
-    padding-top   : 180px !important;
+    padding-top   : 80px !important;
     padding-bottom: 0 !important;
     font-weight   : 700;
   }
   > div:last-child {
-    padding-bottom: 180px !important;
+    padding-bottom: 80px !important;
     padding-top   : 10px !important;
     letter-spacing: 0.1em;
   }
@@ -41,6 +41,11 @@ section.adamrob_parallax {
 #post-front {
   padding-left : 0;
   padding-right: 0;
+  .panel-grid:first-child {
+    .panel-grid-cell:first-child {
+      padding: 0;
+    }    
+  }
   .panel {
     margin-bottom: 0;
   }

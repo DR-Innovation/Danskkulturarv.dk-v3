@@ -1,18 +1,14 @@
 // out: ../styles.css, sourcemap: true, compress: false
+@import url(https://fonts.googleapis.com/css?family=Roboto:900,700italic,700,300italic,300);
+
 @import "bootstrap/bootstrap";
 
-// --------------------------------------------------
-// VARIABLES
-// --------------------------------------------------
-@gray-semi-light: #646464;
-@orange: #ff7e21;
-@brand-primary: hsl(202, 85%, 48%);
-@font-size-base: 13px;
-@font-family-sans-serif: "Roboto", sans-serif;
-@max-width: 1170px;
 @header-color: @text-color;
 @header-bg: white;
 @regular-weight: 300;
+@orange: #ff7e21;
+@max-width: 1170px;
+
 @import "custom/header";
 @import "custom/footer";
 @import "custom/parallax";
@@ -20,9 +16,6 @@
 @import "custom/search";
 @import "custom/instagram";
 @import "flexslider";
-
-// danskkulturarv.dk custom styles
-@import url(https://fonts.googleapis.com/css?family=Roboto:900,700italic,700,300italic,300);
 
 // --------------------------------------------------
 // MIXINS
@@ -431,43 +424,6 @@ footer {
 .unpublished {
   opacity: 0.3;
 }
-
-/* ==========================================================================
-   Facebook widget
-   ========================================================================== */
-.fb_iframe_widget {
-  max-width: 100% !important;
-  overflow : hidden;
-  span {
-    max-width: 100% !important;
-    iframe {
-      max-width: 100% !important;
-    }
-  }
-  @media (min-width: 991px) and (max-width: 1199px) {
-    max-width: 359px;
-    height   : 293px;
-    span {
-      max-width: 359px;
-      iframe {
-        max-width: 359px;
-      }
-    }
-  }
-  @media (min-width: 768px) and (max-width: 990px) {
-    height: 344px;
-  }
-  @media (max-width: 767px) {
-    height: auto;
-    width : 100% !important;
-    span {
-      width: 100% !important;
-      iframe {
-        width: 100% !important;
-      }
-    }
-  }
-}
 .btn-fat {
   width: 100%;
 }
@@ -541,13 +497,16 @@ footer {
   }
 }
 @media only screen and (max-width: @screen-sm-max) {
-  @import "custom-tiny.less";
+  @import "custom/custom-tiny.less";
 }
 @media only screen and (min-width: @screen-sm-min) {
-  @import "custom-small.less";
+  @import "custom/custom-small.less";
 }
 @media only screen and (min-width: @screen-md-min) {
-  @import "custom-medium.less";
+  @import "custom/custom-medium.less";
+}
+@media only screen and (min-width: @screen-lg-min) {
+  @import "custom/custom-large.less";
 }
 @media only screen and (max-width: 767px) {
   .dark-search {

@@ -45,6 +45,9 @@
         </div><!--/.nav-collapse -->
       </div>
       <!--[if IE]>
-        <a class="btn btn-lg btn-warning" id="old-browser-btn" href="<?php echo esc_url(home_url('/understottelse')); ?>">Din gamle browser kan desværre ikke understøttes: Klik her for mere information.</a>
+        <div class="alert alert-warning alert-dismissible text-center" id="old-browser-btn" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          Din gamle browser kan desværre ikke understøttes. <a href="<?php echo esc_url(home_url('/understottelse')); ?>">Mere information.</a>
+        </div>
       <![endif]-->
     </nav><!-- end navigation -->

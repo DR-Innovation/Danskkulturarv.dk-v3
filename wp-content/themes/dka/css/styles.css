@@ -1,5 +1,5 @@
-/*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 @import url(https://fonts.googleapis.com/css?family=Roboto:900,700italic,700,300italic,300);
+/*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -286,7 +286,7 @@ a {
 }
 a:hover,
 a:focus {
-  color: #0d679c;
+  color: #0c679b;
   text-decoration: underline;
 }
 a:focus {
@@ -496,7 +496,7 @@ cite {
   color: #1296e2;
 }
 a.text-primary:hover {
-  color: #0f77b3;
+  color: #0e77b3;
 }
 .text-success {
   color: #3c763d;
@@ -527,7 +527,7 @@ a.text-danger:hover {
   background-color: #1296e2;
 }
 a.bg-primary:hover {
-  background-color: #0f77b3;
+  background-color: #0e77b3;
 }
 .bg-success {
   background-color: #dff0d8;
@@ -2073,7 +2073,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary {
   color: #ffffff;
   background-color: #1296e2;
-  border-color: #0d679c;
+  border-color: #0c679b;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -2081,8 +2081,8 @@ fieldset[disabled] .btn-default.active {
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
   color: #ffffff;
-  background-color: #0f7dbd;
-  border-color: #084263;
+  background-color: #0f7dbc;
+  border-color: #084162;
 }
 .btn-primary:active,
 .btn-primary.active,
@@ -2105,7 +2105,7 @@ fieldset[disabled] .btn-primary:active,
 .btn-primary[disabled].active,
 fieldset[disabled] .btn-primary.active {
   background-color: #1296e2;
-  border-color: #0d679c;
+  border-color: #0c679b;
 }
 .btn-primary .badge {
   color: #1296e2;
@@ -2297,7 +2297,7 @@ fieldset[disabled] .btn-link {
 }
 .btn-link:hover,
 .btn-link:focus {
-  color: #0d679c;
+  color: #0c679b;
   text-decoration: underline;
   background-color: transparent;
 }
@@ -3518,7 +3518,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .pagination > li > span:hover,
 .pagination > li > a:focus,
 .pagination > li > span:focus {
-  color: #0d679c;
+  color: #0c679b;
   background-color: #d9d9d9;
   border-color: #d9d9d9;
 }
@@ -3612,7 +3612,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .label-primary[href]:hover,
 .label-primary[href]:focus {
-  background-color: #0f77b3;
+  background-color: #0e77b3;
 }
 .label-success {
   background-color: #5cb85c;
@@ -4646,11 +4646,6 @@ footer .copyright a {
   margin-top: 6px;
   color: #999999;
 }
-section.adamrob_parallax {
-  margin-top: -3rem;
-  margin-left: -15px;
-  margin-right: -15px;
-}
 .adamrob_pcontainer {
   max-width: 9999px !important;
   background-color: rgba(40, 42, 44, 0.7);
@@ -4666,12 +4661,12 @@ section.adamrob_parallax {
   font-size: 2em;
 }
 .adamrob_pcontainer > div:first-child {
-  padding-top: 180px !important;
+  padding-top: 80px !important;
   padding-bottom: 0 !important;
   font-weight: 700;
 }
 .adamrob_pcontainer > div:last-child {
-  padding-bottom: 180px !important;
+  padding-bottom: 80px !important;
   padding-top: 10px !important;
   letter-spacing: 0.1em;
 }
@@ -4686,6 +4681,9 @@ section.adamrob_parallax {
 #post-front {
   padding-left: 0;
   padding-right: 0;
+}
+#post-front .panel-grid:first-child .panel-grid-cell:first-child {
+  padding: 0;
 }
 #post-front .panel {
   margin-bottom: 0;
@@ -4702,9 +4700,8 @@ section.adamrob_parallax {
   max-width: 360px;
 }
 @media (min-width: 1200px) {
-  #post-front .programlisting-search,
-  #post-front .widget_fbw_id {
-    min-height: 414px;
+  #post-front .programlisting-search {
+    min-height: 412px;
   }
 }
 @media (min-width: 991px) and (max-width: 1199px) {
@@ -5617,48 +5614,6 @@ footer {
 .unpublished {
   opacity: 0.3;
 }
-/* ==========================================================================
-   Facebook widget
-   ========================================================================== */
-.fb_iframe_widget {
-  max-width: 100% !important;
-  overflow: hidden;
-}
-.fb_iframe_widget span {
-  max-width: 100% !important;
-}
-.fb_iframe_widget span iframe {
-  max-width: 100% !important;
-}
-@media (min-width: 991px) and (max-width: 1199px) {
-  .fb_iframe_widget {
-    max-width: 359px;
-    height: 293px;
-  }
-  .fb_iframe_widget span {
-    max-width: 359px;
-  }
-  .fb_iframe_widget span iframe {
-    max-width: 359px;
-  }
-}
-@media (min-width: 768px) and (max-width: 990px) {
-  .fb_iframe_widget {
-    height: 344px;
-  }
-}
-@media (max-width: 767px) {
-  .fb_iframe_widget {
-    height: auto;
-    width: 100% !important;
-  }
-  .fb_iframe_widget span {
-    width: 100% !important;
-  }
-  .fb_iframe_widget span iframe {
-    width: 100% !important;
-  }
-}
 .btn-fat {
   width: 100%;
 }
@@ -5803,6 +5758,12 @@ and other resources.
   .container .search .row {
     padding: 0 10px 0 20px;
   }
+  .adamrob_pcontainer > div:first-child {
+    padding-top: 140px !important;
+  }
+  .adamrob_pcontainer > div:last-child {
+    padding-bottom: 140px !important;
+  }
   .nav {
     padding: 35px 0;
   }
@@ -5899,6 +5860,33 @@ be seen on the Desktop.
   .front-page-content strong {
     font-size: 64px;
     line-height: 72px;
+  }
+  .adamrob_pcontainer > div:first-child {
+    padding-top: 180px !important;
+  }
+  .adamrob_pcontainer > div:last-child {
+    padding-bottom: 180px !important;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  /*
+Custom styles for large screen / wide desktop (1200 and up)
+
+You can add some advanced styles here if you like. This kicks in
+on larger screens.
+
+-------------------------------------------------- */
+  body,
+  .btn,
+  .form-control,
+  .dropdown-menu {
+    font-size: 15px;
+  }
+  .adamrob_pcontainer > div:first-child {
+    padding-top: 220px !important;
+  }
+  .adamrob_pcontainer > div:last-child {
+    padding-bottom: 220px !important;
   }
 }
 @media only screen and (max-width: 767px) {

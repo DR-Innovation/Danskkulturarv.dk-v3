@@ -25,18 +25,18 @@
         },
 
         cookiePolicy: function() {
-        	$('.footer_cookie_policy').on('click', '.exit', function(e) {
-        		e.preventDefault();
-        		var d = new Date();
-			    d.setTime(d.getTime() + (365*24*60*60*1000));
-			    var expires = "expires="+d.toGMTString();
-			    document.cookie = "cookie_policy_seen=true; " + expires;
-			    $('.footer_cookie_policy').remove();
-        	});
+          $('.footer_cookie_policy').on('click', '.exit', function(e) {
+            e.preventDefault();
+            var d = new Date();
+          d.setTime(d.getTime() + (365*24*60*60*1000));
+          var expires = "expires="+d.toGMTString();
+          document.cookie = "cookie_policy_seen=true; " + expires;
+          $('.footer_cookie_policy').remove();
+          });
         },
 
         focusSearchBar: function() {
-        	$('input[name="' + dka.query_key_freetext + '"]').focus();
+          $('input[name="' + dka.query_key_freetext + '"]').focus();
         },
 
         /**
@@ -179,5 +179,10 @@
     $(document).ready(function() {
         dka_api.init();
     });
+
+    $(".close").click(function(e){
+      e.preventDefault();
+      $(this).parent().hide(); // this is the link element that was clicked
+    })
 
 })(jQuery);

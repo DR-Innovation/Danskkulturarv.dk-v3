@@ -100,7 +100,11 @@
 
 <!-- Search results -->
 <div class="row programlisting-results">
-  <?php if (isset($results) && !$search_text): ?>
+  <?php if (!isset($results) && !$search_text): ?>
+    <p class="text-left">
+      <?php _e('Search for a word or select a date to find a program schedule.', WPDKAProgramListings::DOMAIN); ?>
+    </p>
+  <?php elseif (isset($results) && !$search_text): ?>
 <!-- LOOP through pdf previews -->
     <?php foreach ($results as $r): ?>
       <div class="col-lg-6">
