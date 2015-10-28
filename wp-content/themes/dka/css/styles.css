@@ -4531,7 +4531,7 @@ button.close {
   text-align: left;
   margin-left: 0 !important;
   padding-left: 0;
-  font-size: 2.1em;
+  font-size: 1.5em;
   text-transform: uppercase;
   color: #333333;
   font-weight: 900;
@@ -5300,7 +5300,7 @@ select {
   font-weight: 300;
 }
 .body-container {
-  padding-top: 100px;
+  padding-top: 50px;
 }
 .body-container.front-page {
   padding-left: 0;
@@ -5755,6 +5755,12 @@ and other resources.
   .dropdown-menu {
     font-size: 14px;
   }
+  .body-container {
+    padding-top: 100px;
+  }
+  .navbar .navbar-brand {
+    font-size: 2.1em;
+  }
   .container .search .row {
     padding: 0 10px 0 20px;
   }
@@ -5887,16 +5893,5 @@ on larger screens.
   }
   .adamrob_pcontainer > div:last-child {
     padding-bottom: 220px !important;
-  }
-}
-@media only screen and (max-width: 767px) {
-  .dark-search {
-    padding-bottom: 3rem;
-  }
-  .body-container {
-    padding-top: 50px;
-  }
-  .navbar .navbar-brand {
-    font-size: 1.5em;
   }
 }
