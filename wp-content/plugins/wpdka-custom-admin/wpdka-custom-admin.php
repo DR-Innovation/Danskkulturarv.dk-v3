@@ -34,16 +34,16 @@ function theme_instructions_widget_function() {
   <style>ul > ul {padding-left: 1em}ul > li{padding:3px 0}ul > ul > li{padding:0}</style>
   <ul>
     <li>
-      Hover over \"Parallax Scroll\" til venstre og klik \"Add New\"
+      Hover over <b>Parallax Scroll</b> til venstre og klik <b>Add New</b>
     </li>
     <li>
       Indtast titel og tekst
     </li>
     <li>
-      Klik på \"Vælg udvalgt billede\" til højre og vælg/upload et billede
+      Klik på <b>Vælg udvalgt billede</b> til højre og vælg/upload et billede
     </li>
     <li>
-      <b>Vigtigt: </b>Vælg kun følgende \"Parallax Scroll Options\"
+      <b>Vigtigt: </b>Vælg kun følgende <b>Parallax Scroll Options</b>
     </li>
     <ul>
       <li>
@@ -60,32 +60,29 @@ function theme_instructions_widget_function() {
       </li>
     </ul>
     <li>
-      Klik \"Udgiv\"
+      Klik <b>Udgiv</b>
     </li>
     <li>
-      Klik \"Parallax Scroll\" i menuen til venstre
+      Klik <b>Parallax Scroll</b> i menuen til venstre
     </li>
     <li>
-      Kopier \"Shortcode\" - fx <code>[parallax-scroll id=\"665\"]</code>
+      Kopier <b>Shortcode</b> - fx <code>[parallax-scroll id=</b>665</b>]</code>
     </li>
     <li>
-      Rediger forsiden*
+      Rediger forsiden - <a href=\"http://www.danskkulturarv.dk/wp-admin/post.php?post=787&action=edit\">klik her</a>
     </li>
     <li>
-      Rediger den første \"Tekst\" widget, indsæt den kopierede shortcode og \"Opdater\" siden
+      Rediger den første <b>Tekst</b> widget, indsæt den kopierede shortcode og <b>Opdater</b> siden
     </li>
   </ul>
-  <p>
-  *Gå til danskkulturarv.dk og tryk \"Rediger Side\" i top bar
-  </p>
   <hr>
   <span style=\"color:#999\">
   <ul>
     <li>
-      Du kan også indsætte <code>[parallax-scroll id=\"665\"]</code> på almindelige sider.
+      Du kan også indsætte <code>[parallax-scroll id=</b>665</b>]</code> på almindelige sider.
     </li>
     <li>
-      Du kan redigere i eksisterende parallax elementer under \"Parallax Scroll\"
+      Du kan redigere i eksisterende parallax elementer under <b>Parallax Scroll</b>
     </li>
   </ul>
   </span>
