@@ -11,15 +11,14 @@
     overflow: hidden;
     max-width: 360px;
   }
-  @media (min-width: 1200px) {
-    .programlisting-search {
-      min-height: 412px;
+  > .entry-content {
+    margin-top: 0;
+    > div:last-child {
+      max-width: @max-width;
+      margin   : 0 auto;
+      float    : none;
     }
   }
-  @media (min-width: 991px) and (max-width: 1199px) {
-    min-height: 300px;
-  }
-
 }
 .front.search.row {
   margin: 0 auto;

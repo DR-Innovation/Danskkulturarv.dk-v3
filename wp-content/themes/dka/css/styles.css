@@ -4698,15 +4698,13 @@ footer .copyright a {
   overflow: hidden;
   max-width: 360px;
 }
-@media (min-width: 1200px) {
-  #post-front .programlisting-search {
-    min-height: 412px;
-  }
+#post-front > .entry-content {
+  margin-top: 0;
 }
-@media (min-width: 991px) and (max-width: 1199px) {
-  #post-front {
-    min-height: 300px;
-  }
+#post-front > .entry-content > div:last-child {
+  max-width: 1170px;
+  margin: 0 auto;
+  float: none;
 }
 .front.search.row {
   margin: 0 auto;
@@ -5039,6 +5037,70 @@ ul.row.listview .thumb {
 .widget_null-instagram-feed ul.instagram-pics li img {
   border-radius: 4px;
 }
+.footer_cookie_policy {
+  padding: 10px;
+  background-color: #333;
+  background: rgba(77, 77, 77, 0.95);
+  color: #fff;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+}
+.footer_cookie_policy h4 {
+  text-transform: uppercase;
+  position: relative;
+  display: block;
+  margin: 2px 0 0;
+  padding-left: 60px;
+}
+.footer_cookie_policy a {
+  display: block;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+@media (min-width: 768px) {
+  .footer_cookie_policy p {
+    margin-left: 60px;
+    margin-right: 100px;
+    padding: 0;
+    display: block;
+    max-width: 700px;
+  }
+}
+@media (max-width: 767px) {
+  .footer_cookie_policy p {
+    margin-top: 25px;
+  }
+}
+.footer_cookie_policy .exitlg {
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  min-width: 100px;
+}
+.footer_cookie_policy img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 43px;
+  width: auto;
+}
+[class^="icon-"],
+[class*=" icon-"] {
+  font-size: 17px;
+  margin-top: 2px;
+  margin-left: -2px;
+  display: inline-block;
+  width: auto;
+  height: auto;
+  line-height: inherit;
+  vertical-align: baseline;
+  background-image: none;
+  background-position: 0 0;
+  background-repeat: repeat;
+}
 /*
  * jQuery FlexSlider v2.0
  * http://www.woothemes.com/flexslider/
@@ -5242,20 +5304,6 @@ html[xmlns] .flexslider .slides {
     right: 0;
   }
 }
-[class^="icon-"],
-[class*=" icon-"] {
-  font-size: 17px;
-  margin-top: 2px;
-  margin-left: -2px;
-  display: inline-block;
-  width: auto;
-  height: auto;
-  line-height: inherit;
-  vertical-align: baseline;
-  background-image: none;
-  background-position: 0 0;
-  background-repeat: repeat;
-}
 html,
 body {
   height: 100%;
@@ -5369,6 +5417,11 @@ input[type="text"] {
   padding: 10px;
   margin-bottom: 20px;
 }
+.single-material h2 {
+  font-weight: 700;
+  color: #999999;
+  font-size: 1.2em;
+}
 .nav.info .social-share {
   display: inline-block;
   color: #fff;
@@ -5407,9 +5460,6 @@ input[type="text"] {
 }
 .nav.info .social-share:hover {
   color: #fff;
-}
-.nav.info hr {
-  margin: 8px 0;
 }
 .nav.info .rights-container a,
 .nav.info .external-link-container a {
@@ -5486,14 +5536,6 @@ div.contributors dt {
 div.contributors dt,
 div.contributors dd {
   float: left;
-}
-#post-front > .entry-content {
-  margin-top: 0;
-}
-#post-front > .entry-content > div:last-child {
-  max-width: 1170px;
-  margin: 0 auto;
-  float: none;
 }
 .entry-content {
   margin-top: 20px;
@@ -5625,56 +5667,6 @@ footer {
     width: 100% !important;
   }
 }
-.footer_cookie_policy {
-  padding: 10px;
-  background-color: #333;
-  background: rgba(77, 77, 77, 0.95);
-  color: #fff;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 10;
-}
-.footer_cookie_policy h4 {
-  text-transform: uppercase;
-  position: relative;
-  display: block;
-  margin: 2px 0 0;
-  padding-left: 60px;
-}
-.footer_cookie_policy a {
-  display: block;
-  text-transform: uppercase;
-  text-decoration: underline;
-}
-@media (min-width: 768px) {
-  .footer_cookie_policy p {
-    margin-left: 60px;
-    margin-right: 100px;
-    padding: 0;
-    display: block;
-    max-width: 700px;
-  }
-}
-@media (max-width: 767px) {
-  .footer_cookie_policy p {
-    margin-top: 25px;
-  }
-}
-.footer_cookie_policy .exitlg {
-  position: absolute;
-  bottom: 10px;
-  right: 0;
-  min-width: 100px;
-}
-.footer_cookie_policy img {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 43px;
-  width: auto;
-}
 @media only screen and (max-width: 991px) {
   /*
 Custom styles for tiny screen / phone (481 and up)
@@ -5741,9 +5733,6 @@ and other resources.
   .body-container {
     padding-top: 100px;
   }
-  .navbar .navbar-brand {
-    font-size: 2.1em;
-  }
   .container .search .row {
     padding: 0 10px 0 20px;
   }
@@ -5756,11 +5745,12 @@ and other resources.
   .nav {
     padding: 35px 0;
   }
-  .navbar .navbar-brand img {
-    height: 27px;
-  }
   .navbar .navbar-brand {
     padding: 41px 20px 0 0;
+    font-size: 2.1em;
+  }
+  .navbar .navbar-responsive-collapse li a {
+    margin-bottom: 0px;
   }
   #menu-topmenu {
     float: right;

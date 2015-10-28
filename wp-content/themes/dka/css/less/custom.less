@@ -1,20 +1,19 @@
 // out: ../styles.css, sourcemap: true, compress: false
 @import url(https://fonts.googleapis.com/css?family=Roboto:900,700italic,700,300italic,300);
-
 @import "bootstrap/bootstrap";
-
 @header-color: @text-color;
 @header-bg: white;
 @regular-weight: 300;
 @orange: #ff7e21;
 @max-width: 1170px;
-
 @import "custom/header";
 @import "custom/footer";
 @import "custom/parallax";
 @import "custom/frontpage";
 @import "custom/search";
 @import "custom/instagram";
+@import "custom/cookie-footer";
+@import "custom/font-awesome";
 @import "flexslider";
 
 // --------------------------------------------------
@@ -30,21 +29,6 @@
 // --------------------------------------------------
 // GENERAL
 // --------------------------------------------------
-// Font Awsome icons
-[class^="icon-"],
-[class*=" icon-"] {
-  font-size          : @font-size-large;
-  margin-top         : 2px;
-  margin-left        : -2px;
-  display            : inline-block;
-  width              : auto;
-  height             : auto;
-  line-height        : inherit;
-  vertical-align     : baseline;
-  background-image   : none;
-  background-position: 0 0;
-  background-repeat  : repeat;
-}
 html,
 body {
   height     : 100%;
@@ -64,7 +48,7 @@ h5 {
 }
 blockquote {
   font-style: italic;
-  font-size: 1em;
+  font-size : 1em;
 }
 body,
 .btn,
@@ -86,7 +70,7 @@ select {
   border     : 1px solid @gray-lighter;
   box-shadow : none;
   font-weight: @regular-weight;
-  height: auto;
+  height     : auto;
 }
 .btn-link {
   font-weight: @regular-weight;
@@ -101,7 +85,7 @@ select {
 .single-material {
   hr {
     border-top-width: 0;
-    margin-top: 10px;
+    margin-top      : 10px;
   }
 }
 hr {
@@ -125,7 +109,8 @@ select {
 .no-negative {
   margin: 0 !important;
 }
-textarea, input[type="text"] {
+textarea,
+input[type="text"] {
   -webkit-appearance: none;
 }
 
@@ -182,6 +167,11 @@ textarea, input[type="text"] {
     padding      : 10px;
     margin-bottom: 20px;
   }
+  h2 {
+    font-weight: 700;
+    color      : @gray-light;
+    font-size  : 1.2em;
+  }
 }
 .nav.info {
   .social-share {
@@ -210,9 +200,6 @@ textarea, input[type="text"] {
     &:hover {
       color: #fff;
     }
-  }
-  hr {
-    margin: 8px 0;
   }
   .rights-container a,
   .external-link-container a {
@@ -289,18 +276,6 @@ div.contributors {
   dt,
   dd {
     float: left;
-  }
-}
-
-//front page
-#post-front {
-  > .entry-content {
-    margin-top: 0;
-    > div:last-child {
-      max-width: @max-width;
-      margin   : 0 auto;
-      float    : none;
-    }
   }
 }
 .entry-content {
@@ -430,54 +405,6 @@ footer {
 @media (max-width: 767px) {
   .panel-grid-cell {
     width: 100% !important;
-  }
-}
-.footer_cookie_policy {
-  padding         : 10px;
-  background-color: #333;
-  background      : rgba(77, 77, 77, 0.95);
-  color           : #fff;
-  position        : fixed;
-  bottom          : 0;
-  right           : 0;
-  left            : 0;
-  z-index         : 10;
-  h4 {
-    text-transform: uppercase;
-    position      : relative;
-    display       : block;
-    margin        : 2px 0 0;
-    padding-left  : 60px;
-  }
-  a {
-    display        : block;
-    text-transform : uppercase;
-    text-decoration: underline;
-  }
-  p {
-    @media (min-width: 768px) {
-      margin-left : 60px;
-      margin-right: 100px;
-      padding     : 0;
-      display     : block;
-      max-width   : 700px;
-    }
-    @media (max-width: 767px) {
-      margin-top: 25px;
-    }
-  }
-  .exitlg {
-    position : absolute;
-    bottom   : 10px;
-    right    : 0;
-    min-width: 100px;
-  }
-  img {
-    position: absolute;
-    left    : 0;
-    top     : 0;
-    height  : 43px;
-    width   : auto;
   }
 }
 @media only screen and (max-width: @screen-sm-max) {

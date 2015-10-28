@@ -16,18 +16,12 @@ body,
 .body-container {
   padding-top: 100px;
 }
-.navbar {
-  .navbar-brand {
-    font-size: 2.1em;
-  }
-}
 .container .search .row {
   padding: 0 10px 0 20px;
 }
-
 .adamrob_pcontainer {
   > div:first-child {
-    padding-top   : 140px !important;
+    padding-top: 140px !important;
   }
   > div:last-child {
     padding-bottom: 140px !important;
@@ -39,11 +33,14 @@ body,
   padding: 35px 0;
 }
 .navbar {
-  .navbar-brand img {
-    height: 27px;
-  }
   .navbar-brand {
     padding: 41px 20px 0 0;
+    font-size: 2.1em;
+  }
+  .navbar-responsive-collapse {
+    li a {
+      margin-bottom: 0px;
+    }
   }
 }
 #menu-topmenu {
@@ -52,9 +49,9 @@ body,
 #menu-top-navigation {
   float: right;
   li.menu-item a {
-    border-radius: @border-radius-small;
+    border-radius        : @border-radius-small;
     -webkit-border-radius: @border-radius-small;
-    -moz-border-radius: @border-radius-small;
+    -moz-border-radius   : @border-radius-small;
   }
 }
 .navbar-responsive-collapse {
@@ -62,18 +59,18 @@ body,
     margin-right: 10px !important;
   }
   ul.dropdown-menu {
-    position: absolute;
-    margin-left: 0;
-    width: auto;
-    padding: 10px;
+    position              : absolute;
+    margin-left           : 0;
+    width                 : auto;
+    padding               : 10px;
     border-top-left-radius: @border-radius-small;
     li {
-      margin: 0 !important;
+      margin : 0 !important;
       padding: 0 !important;
       a {
         background-color: inherit !important;
-        width: 100% !important;
-        border-radius: 0!important;
+        width           : 100% !important;
+        border-radius   : 0!important;
       }
     }
     li.dropdown-header {
@@ -94,28 +91,28 @@ body,
 
 //front page
 .front-page-content {
-  font-size: 32px;
+  font-size  : 32px;
   line-height: 36px;
   strong {
-    font-size: 42px;
+    font-size  : 42px;
     line-height: 48px;
   }
 }
 footer {
-  margin-left: 0;
+  margin-left : 0;
   margin-right: 0;
   .bloginfo-footer {
-    margin: 20px 0;
+    margin   : 20px 0;
     font-size: 18px;
   }
   .social {
-    font-size: 16px;
-    line-height: 12px;
+    font-size   : 16px;
+    line-height : 12px;
     margin-right: 5px;
   }
   .copyright,
   .copyright a {
     margin-top: 18px;
-    color: @gray-light;
+    color     : @gray-light;
   }
 }
