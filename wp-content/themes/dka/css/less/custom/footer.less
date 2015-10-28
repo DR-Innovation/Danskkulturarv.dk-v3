@@ -17,7 +17,7 @@ footer {
   height: 136px;
 }
 footer {
-  text-align      : center;
+  text-align: center;
   .container {
     margin-top: 25px;
   }
@@ -37,13 +37,7 @@ footer {
       text-decoration: none;
     }
     > li+li {
-      border-left : 1px solid @gray-light;
-      margin-left : 10px;
       padding-left: 10px;
-    }
-    > li+li:last-child {
-      border-left: none;
-      margin-left: -6px;
     }
     > li {
       display    : inline-block;
@@ -52,9 +46,11 @@ footer {
     }
   }
   .social {
-    font-size   : @font-size-large;
-    line-height : 12px;
-    margin-right: 6px;
+    font-size  : @font-size-large;
+    line-height: 12px;
+    &:nth-child(n+2) {
+      padding-left: 10px;
+    }
   }
   .copyright,
   .copyright a {

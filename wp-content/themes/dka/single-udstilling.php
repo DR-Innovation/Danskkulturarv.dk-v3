@@ -7,10 +7,6 @@ get_header(); ?>
 
 <div class="container body-container">
 
-<!-- start search -->
-  <div class="search row"><?php dynamic_sidebar( 'Top' ); ?></div>
-  <!-- end search -->
-
       <?php while ( have_posts() ) : the_post(); ?>
         <div class="row">
           <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
