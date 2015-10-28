@@ -4862,10 +4862,10 @@ fieldset[disabled] .search .btn-advanced-search.collapsed.active {
   height: auto;
 }
 .search-object {
-  height: 246px;
+  height: 242px;
 }
 .search-object a.thumbnail {
-  height: 246px;
+  height: 242px;
 }
 .search-object .thumb {
   height: 145px;
@@ -4886,6 +4886,12 @@ fieldset[disabled] .search .btn-advanced-search.collapsed.active {
 .search-object a:hover {
   text-decoration: none;
 }
+.search-object .date,
+.search-object .title,
+.search-object .organization,
+.search-object .media-type-container {
+  line-height: 2.1rem;
+}
 .search-object .date {
   color: #555555;
   margin: 0;
@@ -4901,6 +4907,10 @@ fieldset[disabled] .search .btn-advanced-search.collapsed.active {
   text-overflow: ellipsis;
   margin-bottom: 0;
   margin-top: 0;
+}
+.search-object .title {
+  margin-top: 3px;
+  font-size: 1.2em;
 }
 .search-object .media-type-container {
   height: 20px;

@@ -114,9 +114,9 @@
   }
 }
 .search-object {
-  height: 246px;
+  height: 242px;
   a.thumbnail {
-    height: 246px;
+    height: 242px;
   }
   .thumb {
     height             : 145px;
@@ -137,6 +137,9 @@
   a:hover {
     text-decoration: none;
   }
+  .date, .title, .organization, .media-type-container {
+    line-height: 2.1rem;
+  }
   .date {
     color: @gray;
     margin: 0;
@@ -152,6 +155,10 @@
     text-overflow: ellipsis;
     margin-bottom: 0;
     margin-top   : 0;
+  }
+  .title {
+    margin-top: 3px;
+    font-size: 1.2em;
   }
   .media-type-container {
     height: 20px;
