@@ -104,6 +104,12 @@ if ($_GET['type']) {
 
 <body>
 
+  <!-- This content is ignored in IE10 and other browsers.
+  In older versions of IE it renders as part of the page. -->
+  <!--[if IE]>
+    <a class="btn btn-lg btn-warning" id="old-browser-btn" href="www.danskkulturarv.dk/understottelse">Din gamle browser er ikke understøttet: Klik her for mere information.</a>
+  <![endif]-->
+
   <div id="card-crop" class="<?php if ($type == 'card') : ?>card<?php elseif ($type == 'poster') : ?>poster<?php endif; ?>">
     <!-- <img src="images/pdftopng.jpeg" /> -->
     <img src="pdftopng.php?pdf=<?php echo $pdf ?>" />
@@ -179,9 +185,9 @@ if ($_GET['type']) {
       </ul>
     </div>
     <div class="col-xs-12 text-center">
-      <div class="alert alert-info" role="alert" id="workInProgress">Generering af PDF startet - vent venligst. Denne besked forsvinder automatisk.</div>
+      <div class="alert alert-info" role="alert" id="pdfInProgress">Generering af PDF startet - vent venligst. Denne besked forsvinder automatisk.</div>
       <button id="<?php if ($type == 'card') : ?>pdfPostcardButton<?php elseif ($type == 'poster') : ?>pdfPosterButton<?php endif; ?>" type="button" class="btn btn-primary btn-lg disabled" title="print"><i class="fa fa-file-pdf-o"></i> PDF</button>
-        <button id="<?php if ($type == 'card') : ?>pdfHighPostcardButton<?php elseif ($type == 'poster') : ?>pdfHighPosterButton<?php endif; ?>" type="button" class="btn btn-primary btn-lg disabled" title="print"><i class="fa fa-file-pdf-o"></i> Højt opløst pdf</button>
+        <button id="<?php if ($type == 'card') : ?>pdfHighPostcardButton<?php elseif ($type == 'poster') : ?>pdfHighPosterButton<?php endif; ?>" type="button" class="btn btn-primary btn-lg disabled" title="print"><i class="fa fa-file-pdf-o"></i> PDF i høj opløsning</button>
     </div>
   </div>
 
@@ -191,10 +197,13 @@ if ($_GET['type']) {
       <h2>Gem billede</h2>
       <ul>
         <li>Lavere opløsning til deling fx på sociale medier.</li>
+        <li>Det kan tage op til 10 sekunder.</li>
+        <li>Tryk én gang og vent tålmodigt:)</li>
       </ul>
     </div>
     <div class="col-xs-12 text-center">
-      <button id="<?php if ($type == 'card') : ?>pngPostcardButton<?php elseif ($type == 'poster') : ?>pngPosterButton<?php endif; ?>" type="button" class="btn btn-primary btn-lg disabled" title="Save png"><i class="fa fa-picture-o"></i><?php if ($type == 'card') : ?> Forside<?php elseif ($type == 'poster') : ?> Billede<?php endif; ?></button>
+      <div class="alert alert-info" role="alert" id="pngInProgress">Generering af billede startet - vent venligst. Denne besked forsvinder automatisk.</div>
+      <button id="<?php if ($type == 'card') : ?>pngPostcardButton<?php elseif ($type == 'poster') : ?>pngPosterButton<?php endif; ?>" type="button" class="btn btn-primary btn-lg disabled" title="Save png"><i class="fa fa-picture-o"></i><?php if ($type == 'card') : ?> Gem postkortforside<?php elseif ($type == 'poster') : ?> Billede<?php endif; ?></button>
       <?php if ($type == 'card') : ?>
       <?php endif ?>
     </div>

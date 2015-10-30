@@ -8,7 +8,8 @@ var round = 0;
 var docDefinition;
 var croppedImage = $('#card-crop > img');
 
-$("#workInProgress").hide();
+$("#pdfInProgress").hide();
+$("#pngInProgress").hide();
 
 /***********
  * Functions
@@ -25,7 +26,10 @@ setInterval(function() {
 }, 400);
 
 function pdfAlert() {
-  $("#workInProgress").show(0).delay(10000).hide(0);
+  $("#pdfInProgress").show(0).delay(10000).hide(0);
+}
+function pngAlert() {
+  $("#pngInProgress").show(0).delay(10000).hide(0);
 }
 
 function postcardContent(resolution) {
@@ -141,6 +145,7 @@ function createThePdf(name) {
 
 
 function createPng(id, name) {
+  pngAlert();
   html2canvas($(id), {
     onrendered: function(canvas) {
       // convert canvas to base64 and store as variable img
