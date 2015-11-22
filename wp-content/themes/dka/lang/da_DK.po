@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dansk Kulturarv\n"
-"POT-Creation-Date: 2014-09-19 14:37+0100\n"
-"PO-Revision-Date: 2014-10-10 00:11+0100\n"
+"POT-Creation-Date: 2015-11-22 22:50+0100\n"
+"PO-Revision-Date: 2015-11-22 22:50+0100\n"
 "Last-Translator: \n"
 "Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.8.4\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
 "esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -20,11 +20,11 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../404.php:10
+#: ../404.php:15
 msgid "Page not found"
 msgstr "Side ikke fundet"
 
-#: ../404.php:14
+#: ../404.php:18
 msgid ""
 "The page you are looking for does not exist. Please recheck the entered "
 "address."
@@ -32,12 +32,12 @@ msgstr ""
 "Siden, du leder efter, eksisterer ikke. Kontroller venligst, at den "
 "indtastede adresse er korrekt."
 
-#: ../footer.php:27
+#: ../footer.php:25
 #, php-format
 msgid "%s on Facebook"
 msgstr "%s på Facebook"
 
-#: ../footer.php:27
+#: ../footer.php:25
 #, php-format
 msgid "%s on Instagram"
 msgstr "%s på Instagram"
@@ -66,7 +66,7 @@ msgstr "Billedboks"
 msgid "Box"
 msgstr "Boks"
 
-#: ../functions.php:356 ../single.php:27
+#: ../functions.php:356 ../single.php:34
 msgid "Post navigation"
 msgstr "Indlægsnavigation"
 
@@ -125,27 +125,27 @@ msgstr "Del på %s"
 msgid "Send as e-mail"
 msgstr "Send som e-mail"
 
-#: ../index.php:17 ../single.php:12 ../template-advent.php:18
+#: ../index.php:26 ../single.php:19 ../template-advent.php:26
 #, php-format
 msgid "Permalink to %s"
 msgstr "Permalink til %s"
 
-#: ../page.php:17 ../single-udstilling.php:16 ../single.php:16
-#: ../template-advent.php:22
+#: ../page.php:22 ../single-udstilling.php:18 ../single.php:23
+#: ../template-advent.php:30
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Læs resten <span class=\"meta-nav\">&rarr;</span>"
 
-#: ../page.php:18 ../single-udstilling.php:17 ../single.php:17
-#: ../template-advent.php:23
+#: ../page.php:23 ../single-udstilling.php:19 ../single.php:24
+#: ../template-advent.php:31
 msgid "Pages:"
 msgstr "Sider:"
 
-#: ../single.php:28
+#: ../single.php:35
 msgctxt "Previous post link"
 msgid "&larr;"
 msgstr "&larr;"
 
-#: ../single.php:29
+#: ../single.php:36
 msgctxt "Next post link"
 msgid "&rarr;"
 msgstr "&rarr;"
@@ -205,15 +205,15 @@ msgstr "Søg"
 
 #: ../templates/chaos-search-form.php:59
 msgid "Options"
-msgstr "Mere"
+msgstr "Filtrér"
 
-#: ../templates/chaos-search-form.php:67
+#: ../templates/chaos-search-form.php:66
 msgid "All Formats"
-msgstr "Alle Typer"
+msgstr "Alle medieformater"
 
-#: ../templates/chaos-search-form.php:82
+#: ../templates/chaos-search-form.php:78
 msgid "All Organizations"
-msgstr "Alle Institutioner"
+msgstr "Alle institutioner"
 
 #: ../templates/chaos-search-results.php:15
 msgid "View as List"
@@ -223,44 +223,80 @@ msgstr "Vis som liste"
 msgid "View as Gallery"
 msgstr "Vis som galleri"
 
-#: ../templates/chaos-search-results.php:31
+#: ../templates/chaos-search-results.php:43
 #, php-format
-msgid "The search gave %s results for %s"
-msgstr "Viser %s resultater for %s"
+msgid "The search gave %s results for \"%s\""
+msgstr "%s resultater for %s"
 
-#: ../templates/chaos-search-results.php:35
+#: ../templates/chaos-search-results.php:45
+#, php-format
+msgid "%s results"
+msgstr "%s resultater"
+
+#: ../templates/chaos-search-results.php:51
 msgid "Sort by:"
 msgstr "Sorter:"
 
-#: ../templates/chaos-search-results.php:51
+#: ../templates/chaos-search-results.php:67
 msgid "Show only published objects"
 msgstr "Vis kun publicerede materialer"
 
-#: ../templates/chaos-search-results.php:87
+#: ../templates/chaos-search-results.php:98
 msgid "material"
 msgid_plural "materials"
 msgstr[0] "materiale"
 msgstr[1] "materialer"
 
-#: ../templates/multiattrwidget-sidebar.php:9
-msgid "Views"
-msgstr "Visninger"
+#: ../templates/multiattrwidget-default.php:19
+#, php-format
+msgid "Link to the material at %s"
+msgstr "Se materialet hos %s"
 
+#: ../templates/multiattrwidget-default.php:19
+msgid "Link to the material"
+msgstr "Link til materialet"
+
+#: ../templates/multiattrwidget-default.php:53
+#: ../templates/multiattrwidget-sidebar.php:63
+msgid "Tags"
+msgstr "Tags"
+
+#: ../templates/multiattrwidget-default.php:59
+#: ../templates/multiattrwidget-sidebar.php:70
+msgid "User Tags"
+msgstr "Brugertags"
+
+#: ../templates/multiattrwidget-default.php:61
+#: ../templates/multiattrwidget-sidebar.php:72
+msgid "Disable"
+msgstr "Frys"
+
+#: ../templates/multiattrwidget-default.php:61
+#: ../templates/multiattrwidget-sidebar.php:72
+msgid "Enable"
+msgstr "Optø"
+
+#: ../templates/multiattrwidget-default.php:81
+#: ../templates/multiattrwidget-default.php:84
 #: ../templates/multiattrwidget-sidebar.php:16
 #: ../templates/multiattrwidget-sidebar.php:19
 msgid "This object is unpublished and is not visible for other users."
 msgstr "Dette materiale er afpubliceret og ikke synlig for andre brugere."
 
+#: ../templates/multiattrwidget-default.php:82
 #: ../templates/multiattrwidget-sidebar.php:17
 msgid "Republish this object again"
 msgstr "Genpublicer dette materiale igen"
 
+#: ../templates/multiattrwidget-default.php:85
 #: ../templates/multiattrwidget-sidebar.php:20
 msgid "Please contact the institution if you want this object republished."
 msgstr ""
 "Kontakt venligst institutionen hvis du ønsker at genpublicere dette "
 "materiale."
 
+#: ../templates/multiattrwidget-default.php:88
+#: ../templates/multiattrwidget-default.php:95
 #: ../templates/multiattrwidget-sidebar.php:23
 #: ../templates/multiattrwidget-sidebar.php:30
 msgid ""
@@ -270,13 +306,19 @@ msgstr ""
 "Materiale benytter et gammelt metadata skema. Du kan ikke ændre "
 "publiceringen for dette materiale."
 
+#: ../templates/multiattrwidget-default.php:92
 #: ../templates/multiattrwidget-sidebar.php:27
 msgid "This object is published and is visible for other users."
 msgstr "Dette materiale er publiceret og synlig for andre brugere."
 
+#: ../templates/multiattrwidget-default.php:93
 #: ../templates/multiattrwidget-sidebar.php:28
 msgid "Unpublish this object"
 msgstr "Afpublicer dette materiale"
+
+#: ../templates/multiattrwidget-sidebar.php:9
+msgid "Views"
+msgstr "Visninger"
 
 #: ../templates/multiattrwidget-sidebar.php:38
 #, php-format
@@ -287,21 +329,11 @@ msgstr "Læs mere hos %s"
 msgid "Embed material"
 msgstr "Embed materiale"
 
-#: ../templates/multiattrwidget-sidebar.php:63
-msgid "Tags"
-msgstr "Tags"
+#~ msgid "The search gave %s results for %s"
+#~ msgstr "%s resultater for %s"
 
-#: ../templates/multiattrwidget-sidebar.php:70
-msgid "User Tags"
-msgstr "Brugertags"
-
-#: ../templates/multiattrwidget-sidebar.php:72
-msgid "Disable"
-msgstr "Frys"
-
-#: ../templates/multiattrwidget-sidebar.php:72
-msgid "Enable"
-msgstr "Optø"
+#~ msgid "See the material at %s"
+#~ msgstr "Se materialet hos %s"
 
 #~ msgid ""
 #~ "Debug/test mode has been detected. You are able to republish this, but it "
