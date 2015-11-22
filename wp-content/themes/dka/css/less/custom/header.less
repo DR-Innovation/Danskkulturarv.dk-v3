@@ -1,3 +1,4 @@
+// main: ../custom.less
 // --------------------------------------------------
 // HEADER
 // --------------------------------------------------
@@ -5,8 +6,7 @@
   background-color: @header-bg;
   padding         : 0 20px;
   font-weight     : bold;
-  box-shadow      : 0 0 5px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.1), 0 0 40px rgba(0, 0, 0, 0.1);
-  border          : none;
+  box-shadow      : 0 0 1px rgba(0, 0, 0, 0.5), 0 0 5px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.1), 0 0 40px rgba(0, 0, 0, 0.1);
   margin          : 0;
   .container-fluid {
     margin   : 0 auto;
@@ -75,7 +75,7 @@ a.dropdown-toggle:active {
   }
   li a {
     background-image                  : none!important;
-    margin                            : 0 0 5px 0;
+    margin                            : 0 0 5px;
     float                             : left;
     width                             : 100%;
     -webkit-transition-delay          : 0s;
@@ -93,8 +93,5 @@ a.dropdown-toggle:active {
     -moz-border-radius   : @border-radius-small;
     border               : 1px solid @gray-lighter;
     color                : @gray;
-  }
-  a.dropdown-menu-item:hover {
-
   }
 }

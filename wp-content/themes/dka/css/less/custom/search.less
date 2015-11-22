@@ -1,109 +1,133 @@
+// main: ../custom.less
 // --------------------------------------------------
 // SEARCH
 // --------------------------------------------------
-// Frontpage
+@thumb-height: 244px;
 .dark-search {
-  background-color: #f6f7f8;
+  background-color: @gray-lighter;
+  margin-top      : -100px;
+  padding-top     : 100px;
   .search {
     max-width: 1170px;
     margin   : 0 auto;
-  }
-}
-.search {
-  padding  : 20px 0;
-  input,
-  .btn-advanced-search {
-    height: 44px;
-  }
-  .btn {
-    line-height: 22px;
-    height     : 44px;
-    text-shadow: none;
-    padding    : 0 18px;
-  }
-  .btn-advanced-search {
-    .btn.active();
-    .btn-default.active();
-    .box-sizing(border-box);
-  }
-  .btn-advanced-search.collapsed {
-    box-shadow: none;
-    .btn-default();
-  }
-  .btn-advanced-search i {
-    margin: 0 2px;
-  }
-  .btn-advanced-search i.icon-caret-down {
-    color: @brand-primary;
-  }
-  .btn-group-media-type {
-    .btn:not(:last-child) {
-      border-right: 0;
+    padding  : 20px 0;
+    .form-control,
+    select,
+    .btn {
+      border     : 1px solid transparent !important;
+      box-shadow : none !important;
+      line-height: 22px;
+      height     : 44px;
+      text-shadow: none;
+      padding    : 0 18px;
+    }
+    .btn-search {
+      border-left-width: 0!important;
+    }
+    .btn-group {
+      .btn {
+        background-color: white;
+        &:hover {
+          background-color: @gray-lightest;
+        }
+        &.active,
+        &:active {
+          background-color: @gray-semi-light;
+          color           : white;
+        }
+      }
+    }
+    .btn-advanced-search-container {
+      .btn {
+        background-color: @gray-semi-light;
+        color           : white;
+        &:hover {
+          background-color: @gray-lightest;
+          color           : @brand-primary;
+          i {
+            color: @brand-primary;
+          }
+        }
+        i {
+          color     : white;
+          transform : rotate(180deg);
+          transition: transform 0.5s ease;
+        }
+      }
+    }
+    .btn-advanced-search-container {
+      .btn.collapsed {
+        background-color: white;
+        color           : @brand-primary;
+        &:hover {
+          background-color: @gray-lightest;
+          color           : @brand-primary;
+        }
+        i {
+          color    : @brand-primary;
+          transform: rotate(0deg);
+        }
+      }
     }
   }
 }
 #advanced-search-container {
   margin-bottom: -20px;
+  margin-top   : 10px;
   padding      : 0;
-  .filter-media-type {
-
-  }
   .filter-container {
     padding: 10px 0;
   }
-  .btn.filter-btn {
-    font-weight     : normal;
+  .filter-media-type {
+    padding-bottom: 0;
+  }
+  .btn {
+    font-weight     : 700;
     font-size       : 1em;
+    color           : @brand-primary;
     position        : relative;
-    height          : 20px;
+    height          : 26px;
     margin          : 5px 0;
-    text-align      : left;
-    background-image: none;
-    width           : 100%;
-    color           : #000;
-    border          : none;
-    padding         : 0 5px 0 10px;
+    padding         : 0 10px;
     border-radius   : 3px;
-    line-height     : 20px;
-    background-color: @gray-lighter;
+    line-height     : 26px;
+    background-color: white;
+    + .btn {
+      margin-left: 2px;
+    }
     .chaos-filter {
       display: none;
     }
     i {
-      line-height : inherit;
-      width       : 16px;
-      font-size   : 1em;
-      text-align  : center;
-      margin-right: 5px;
-      text-shadow : none;
-      &.icon-remove-sign {
-        margin : 0;
+      line-height: inherit;
+      width      : 16px;
+      font-size  : 1em;
+      text-align : center;
+      margin     : 0 5px 0 0;
+      text-shadow: none;
+      &.icon-remove-sign,
+      &.icon-ok {
+        margin : 0 0 0 5px;
         float  : right;
         display: none;
       }
     }
     &.active {
       color           : #fff;
-      background-color: @brand-primary;
+      background-color: @gray-semi-light;
       text-shadow     : none;
       i {
-        &.icon-remove-sign {
+        &.icon-remove-sign,
+        &.icon-ok {
           display: inline-block;
         }
       }
     }
   }
-  .btn.filter-btn-all {
-    margin-bottom: 10px;
-    i.icon-ok {
-      margin : 0;
-      float  : right;
-      display: none;
-    }
-    &.active i.icon-ok {
-      display: inline-block;
-    }
-  }
+}
+.search-container {
+  width    : 100%;
+  max-width: 1170px;
 }
 
 // Search results
@@ -114,9 +138,10 @@
   }
 }
 .search-object {
-  height: 242px;
+  height: @thumb-height;
   a.thumbnail {
-    height: 242px;
+    height: @thumb-height;
+    color : #333333;
   }
   .thumb {
     height             : 145px;
@@ -127,25 +152,28 @@
     margin-bottom      : 0;
     .caption {
       color           : #fff;
-      background-color: #000;
+      background-color: rgba(0, 0, 0, 0.4);
       position        : absolute;
-      bottom          : 5px;
-      right           : 5px;
-      padding         : 0 3px;
+      bottom          : 0;
+      right           : 0;
+      padding         : 3px 4px 0;
     }
   }
   a:hover {
     text-decoration: none;
   }
-  .date, .title, .organization, .media-type-container {
+  .date,
+  .title,
+  .organization,
+  .media-type-container {
     line-height: 2.1rem;
   }
   .date {
-    color: @gray;
+    color : @gray;
     margin: 0;
   }
   i {
-    margin-left: 2px;
+    margin-left: 1px;
   }
   .title,
   .organization {
@@ -158,7 +186,7 @@
   }
   .title {
     margin-top: 3px;
-    font-size: 1.2em;
+    font-size : 1.2em;
   }
   .media-type-container {
     height: 20px;
@@ -231,14 +259,19 @@ ul.row.listview {
 }
 .search-results-top {
   margin-bottom: 20px;
+  margin-top   : 30px;
   white-space  : nowrap;
   > div {
-    line-height  : 40px;
-    height       : 40px;
+    line-height: 40px;
+    height     : 40px;
   }
   .search-result-listing {
     text-align : center;
     line-height: 40px;
+    .btn {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
     .dropdown-toggle {
       [class^="icon-"] {
         margin-top: 0;
@@ -248,6 +281,7 @@ ul.row.listview {
   .search-count {
     overflow     : hidden;
     text-overflow: ellipsis;
+    font-size    : 1.6em;
   }
 }
 .thumbnails {
@@ -259,6 +293,7 @@ ul.row.listview {
 }
 .pagination-div {
   text-align: center;
+  font-size: 1.3em;
   .pagination {
     margin       : 0;
     border-radius: 0;
