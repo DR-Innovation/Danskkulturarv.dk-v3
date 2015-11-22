@@ -7,7 +7,7 @@
     padding           : 5px;
     width             : 100%;
     box-shadow        : none;
-    background        : #fff url("../images/arrows.png") no-repeat 95% 50%;
+    background        : #fff url(../images/arrows.png) no-repeat 95% 50%;
     -webkit-appearance: none;
     &:focus {
       outline: none;
@@ -38,16 +38,16 @@
     padding-right: 1%;
   }
   .date-month {
-    padding-left: 1%;
+    padding-left : 1%;
     padding-right: 1%;
   }
   .date-day {
     padding-left: 1%;
   }
   h3 {
-    text-align: center;
+    text-align    : center;
     text-transform: uppercase;
-    padding: 10px 0;
+    padding       : 10px 0;
   }
   .print-pr {
     color    : #999;
@@ -62,13 +62,23 @@
   }
 }
 .js-free-text-search-content {
- .search-field {
-   margin-bottom: 5px;
- }
+  .search-field {
+    margin-bottom: 5px;
+    .input-group-addon {
+      color           : white;
+      background-color: #646464;
+      border-color    : #646464;
+      .icon-info-sign {
+        font-size: 24px;
+      }
+    }
+  }
 }
 .programlisting-search-results {
-  min-height   : 43px;
-  margin-top   : 5px;
+  min-height : 43px;
+  padding-top: 0 !important;
+  margin-top : -15px !important;
+  padding-bottom: 15px !important;
   .hover-info {
     border-color: #ddd;
     &:hover {
@@ -103,9 +113,14 @@
 .programlisting-results {
   margin    : 30px auto 0;
   text-align: center;
+  > .col-xs-12 {
+    padding-left : 5px;
+    padding-right: 5px;
+  }
   iframe {
-    border    : 0;
-    margin-top: 10px;
+    border       : 0;
+    margin-top   : 10px;
+    border-bottom: 1px solid #404040;
   }
   .btn-group {
     margin-bottom: 0;
@@ -132,8 +147,10 @@
     overflow-x: hidden;
     > li {
       text-align: left;
-      padding: 10px 0px;
-      border-bottom: 1px solid #eee;
+      padding   : 10px;
+      &:nth-child(even) {
+        background-color: #eee;
+      }
       .center {
         text-align: center;
       }
@@ -147,12 +164,12 @@
         }
       }
       .type {
-        padding-top: 6px;
+        padding-top   : 6px;
         padding-bottom: 6px;
       }
     }
     .btn-link {
-      color         : inherit;
+      color: inherit;
       &:hover,
       &:active,
       &:visited {
@@ -162,7 +179,10 @@
     }
   }
   .results-count {
-    text-align   : left;
-    margin-bottom: 20px;
+    text-align    : left;
+    font-size     : 1.6em;
+    padding-left  : 10px;
+    letter-spacing: -0.01em;
+    margin-bottom : 20px;
   }
 }

@@ -7,7 +7,7 @@
   padding: 5px;
   width: 100%;
   box-shadow: none;
-  background: #ffffff url("../images/arrows.png") no-repeat 95% 50%;
+  background: #ffffff url(../images/arrows.png) no-repeat 95% 50%;
   -webkit-appearance: none;
 }
 .programlisting-year select:focus {
@@ -26,7 +26,7 @@
   padding: 5px;
   width: 100%;
   box-shadow: none;
-  background: #ffffff url("../images/arrows.png") no-repeat 95% 50%;
+  background: #ffffff url(../images/arrows.png) no-repeat 95% 50%;
   -webkit-appearance: none;
 }
 .programlisting-month select:focus {
@@ -45,7 +45,7 @@
   padding: 5px;
   width: 100%;
   box-shadow: none;
-  background: #ffffff url("../images/arrows.png") no-repeat 95% 50%;
+  background: #ffffff url(../images/arrows.png) no-repeat 95% 50%;
   -webkit-appearance: none;
 }
 .programlisting-day select:focus {
@@ -92,9 +92,19 @@
 .js-free-text-search-content .search-field {
   margin-bottom: 5px;
 }
+.js-free-text-search-content .search-field .input-group-addon {
+  color: white;
+  background-color: #646464;
+  border-color: #646464;
+}
+.js-free-text-search-content .search-field .input-group-addon .icon-info-sign {
+  font-size: 24px;
+}
 .programlisting-search-results {
   min-height: 43px;
-  margin-top: 5px;
+  padding-top: 0 !important;
+  margin-top: -15px !important;
+  padding-bottom: 15px !important;
 }
 .programlisting-search-results .hover-info {
   border-color: #ddd;
@@ -130,9 +140,14 @@
   margin: 30px auto 0;
   text-align: center;
 }
+.programlisting-results > .col-xs-12 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
 .programlisting-results iframe {
   border: 0;
   margin-top: 10px;
+  border-bottom: 1px solid #404040;
 }
 .programlisting-results .btn-group {
   margin-bottom: 0;
@@ -158,8 +173,10 @@
 }
 .programlisting-results .search-overview > li {
   text-align: left;
-  padding: 10px 0px;
-  border-bottom: 1px solid #eee;
+  padding: 10px;
+}
+.programlisting-results .search-overview > li:nth-child(even) {
+  background-color: #eee;
 }
 .programlisting-results .search-overview > li .center {
   text-align: center;
@@ -188,5 +205,8 @@
 }
 .programlisting-results .results-count {
   text-align: left;
+  font-size: 1.6em;
+  padding-left: 10px;
+  letter-spacing: -0.01em;
   margin-bottom: 20px;
 }

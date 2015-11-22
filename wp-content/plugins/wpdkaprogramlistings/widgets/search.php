@@ -56,14 +56,14 @@ class WPDKAProgramListingsSearchWidget extends WP_Widget {
         echo '<div class="schedule-free-text-search ">';
         echo '<div class="js-free-text-search-content">';
         echo '<form method="GET" action="' . get_permalink(get_option('wpdkaprogramlistings-page'))  . '">';
-        echo '<div class="col-xs-12 col-sm-9 col-lg-6 col-lg-offset-2 search-field">';
+        echo '<div class="col-xs-8 col-sm-6 col-sm-offset-2 search-field">';
         echo '<div class="input-group">';
         echo '<input type="text" name="' . WPDKAProgramListings::QUERY_KEY_FREETEXT . '" class="form-control programlistings-search-text" placeholder="' . __('Search program schedule', WPDKAProgramListings::DOMAIN) . '" value="' . WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim') . '" data-original-title="" title="" />';
         echo '<div class="input-group-addon hover-info" data-html="true" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="';
         WPDKAProgramListings::print_search_info_text();
         echo '"><i class="icon icon-info-sign"></i>';
         echo '</div></div></div>';
-        echo '<div class="col-xs-12 col-sm-3 col-lg-2">';
+        echo '<div class="col-xs-4 col-sm-2">';
         echo '<button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit">' . __('Search for words', WPDKAProgramListings::DOMAIN) . '</button>';
         echo '</div></form>';
         echo '</div></div>';

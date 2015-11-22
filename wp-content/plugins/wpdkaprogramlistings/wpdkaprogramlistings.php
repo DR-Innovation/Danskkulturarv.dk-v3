@@ -23,8 +23,10 @@ class WPDKAProgramListings
   const QUERY_KEY_DAY = 'pl-day';
   const QUERY_KEY_MONTH = 'pl-month';
   const QUERY_KEY_YEAR = 'pl-year'; // day, month, year are reserved to Wordpress
+  const QUERY_LIMIT = 500; // Max 500 results
   const QUERY_DEFAULT_POST_SEPERATOR = '/';
   const QUERY_PREFIX_CHAR = '/';
+
   public static $search_results;
   /**
    * Constructor
@@ -417,7 +419,7 @@ class WPDKAProgramListings
     $client                       = new Elasticsearch\Client($params);
     $searchParams['index']        = self::ES_INDEX;
     $searchParams['type']         = self::ES_TYPE;
-    $searchParams['body']['size'] = 100; // Max 100 results
+    $searchParams['body']['size'] = self::QUERY_LIMIT;
     if (empty($text)) {
       $searchParams['body']['query']['match']['date'] = sprintf("%s-%s-%s", $year, $month, $day);
       $searchParams['body']['sort']['type']['order']  = 'DESC';
