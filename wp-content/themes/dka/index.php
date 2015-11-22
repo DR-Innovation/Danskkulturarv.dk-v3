@@ -5,11 +5,14 @@
  */
 get_header(); ?>
 
-<div class="container body-container">
+<div class="fluid-container body-container">
+  <div class="dark-search">
+    <div class="search row"><?php dynamic_sidebar('Top'); ?></div>
+  </div>
+</div>
 
-<!-- start search -->
-  <div class="search row"><?php dynamic_sidebar( 'Top' ); ?></div>
-  <!-- end search -->
+<div class="container">
+
 
     <?php if ( have_posts() ) : ?>
 

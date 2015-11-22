@@ -26,18 +26,27 @@ $views = array(
   );
   ?>
 
-<div class="container body-container">
+<div class="fluid-container body-container">
+  <div class="dark-search">
+    <div class="search row"><?php dynamic_sidebar('Top'); ?></div>
+  </div>
+</div>
 
-<!-- start search -->
-<div class="search row"><?php dynamic_sidebar( 'Top' ); ?></div>
-<!-- end search -->
-
+<div class="container search-container">
   <article class="search-results">
     <div class="row search-results-top">
-      <div class="col-md-4 col-sm-12 col-xs-12 search-count">
-        <?php echo $result_count = sprintf(__('The search gave %s results for %s','dka'),number_format_i18n(WPChaosSearch::get_search_results()->MCM()->TotalCount()),'<strong class="blue">'.WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html').'</strong>'); ?>
+      <div class="col-xs-12 search-count">
+        <?php
+          $total_count = WPChaosSearch::get_search_results()->MCM()->TotalCount();
+          $search_string = WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html');
+          if ($search_string){
+            echo $result_count = sprintf(__('The search gave %s results for "%s"','dka'),number_format_i18n($total_count),'<strong class="blue">'.$search_string.'</strong>');
+          } else {
+            echo $result_count = sprintf(__('%s results','dka'),number_format_i18n($total_count));
+          }
+          ?>
       </div>
-      <div class="col-md-4 col-sm-6 col-xs-12 search-result-listing">
+      <div class="col-xs-12 search-result-listing">
         <div class="btn-group">
            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><?php _e('Sort by:','dka'); ?> <span class="blue"><?php echo $current_sort; ?></span>
              <i class="icon-caret-down"></i>
@@ -93,21 +102,21 @@ $views = array(
         $class = ' collection-result';
       }
       ?>
-      <li class="search-object col-xs-12 col-sm-6 col-lg-3<?php echo $class ?><?php echo $publish; ?>">
+      <li class="search-object col-xs-6 col-sm-4 col-lg-3<?php echo $class ?><?php echo $publish; ?>">
         <a class="thumbnail" href="<?php echo $url; ?>" id="<?php echo WPChaosClient::get_object()->GUID; ?>">
 
           <div class="thumb format-<?php echo WPChaosClient::get_object()->type; ?>"<?php echo $thumbnail; ?>>
             <?php  if($caption):?>
-            <div class="caption"><?php echo $caption ?></div>
-          <?php endif;?>
+              <div class="caption"><?php echo $caption ?></div>
+            <?php endif;?>
           <?php if(class_exists('WPDKACollections') && current_user_can(WPDKACollections::CAPABILITY) && !$collection_obj) : ?>
             <button type="button" class="add-to-collection btn"><span class="icon-plus"></span></button>
           <?php endif; ?>
           </div>
-          <h2 class="title"><strong><?php echo $title; ?></strong></h2>
-          <p class="organization orange"><strong><?php echo $organization; ?></strong></p>
+          <h2 class="title"><?php echo $title; ?></h2>
+          <p class="organization"><?php echo $organization; ?></p>
           <?php if(WPChaosClient::get_object()->published && $collection_obj == null) : ?>
-            <p class="date"><?php echo WPChaosClient::get_object()->published; ?></p>
+            <p class="date"><?php echo_chaos(published); ?></p>
           <?php endif; ?>
           <div class="media-type-container">
             <i title="<?php echo WPChaosClient::get_object()->type_title; ?>" class="<?php echo WPChaosClient::get_object()->type_class; ?>"></i>
