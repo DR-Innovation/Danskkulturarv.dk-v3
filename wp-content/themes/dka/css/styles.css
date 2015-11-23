@@ -4771,6 +4771,22 @@ footer .copyright a {
   color: #1296e2;
   transform: rotate(0deg);
 }
+.dark-search .search .btn-advanced-search-container .btn.in {
+  background-color: #646464;
+  color: white;
+}
+.dark-search .search .btn-advanced-search-container .btn.in:hover {
+  background-color: #e6e6e6;
+  color: #1296e2;
+}
+.dark-search .search .btn-advanced-search-container .btn.in:hover i {
+  color: #1296e2;
+}
+.dark-search .search .btn-advanced-search-container .btn.in i {
+  color: white;
+  transform: rotate(180deg);
+  transition: transform 0.5s ease;
+}
 #advanced-search-container {
   margin-bottom: -20px;
   margin-top: 10px;
@@ -4985,11 +5001,18 @@ ul.row.listview .thumb {
 }
 .pagination-div {
   text-align: center;
-  font-size: 1.3em;
+  font-size: 1.2em;
 }
 .pagination-div .pagination {
   margin: 0;
   border-radius: 0;
+}
+.pagination-div .pagination > .active > span {
+  background-color: #d9d9d9;
+  color: #333333;
+}
+.pagination-div .pagination > li > a:hover {
+  background-color: #e6e6e6;
 }
 .single-material {
   margin-top: 30px;

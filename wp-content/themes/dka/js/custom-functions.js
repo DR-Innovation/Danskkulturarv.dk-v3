@@ -185,4 +185,8 @@
       $(this).parent().hide(); // this is the link element that was clicked
     })
 
+    $(".btn-advanced-search").click(function(){
+      $(this).removeClass('in');
+    });
+
 })(jQuery);

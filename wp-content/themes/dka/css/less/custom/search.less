@@ -69,6 +69,24 @@
         }
       }
     }
+    .btn-advanced-search-container {
+      .btn.in {
+        background-color: @gray-semi-light;
+        color           : white;
+        &:hover {
+          background-color: @gray-lightest;
+          color           : @brand-primary;
+          i {
+            color: @brand-primary;
+          }
+        }
+        i {
+          color     : white;
+          transform : rotate(180deg);
+          transition: transform 0.5s ease;
+        }
+      }
+    }
   }
 }
 #advanced-search-container {
@@ -293,9 +311,16 @@ ul.row.listview {
 }
 .pagination-div {
   text-align: center;
-  font-size: 1.3em;
+  font-size: 1.2em;
   .pagination {
     margin       : 0;
     border-radius: 0;
+    > .active > span {
+      background-color: @gray-lighter;
+      color: @text-color;
+    }
+    > li > a:hover {
+      background-color: @gray-lightest;      
+    }
   }
 }

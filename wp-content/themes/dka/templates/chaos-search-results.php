@@ -116,7 +116,7 @@ $views = array(
           <h2 class="title"><?php echo $title; ?></h2>
           <p class="organization"><?php echo $organization; ?></p>
           <?php if(WPChaosClient::get_object()->published && $collection_obj == null) : ?>
-            <p class="date"><?php echo_chaos(published); ?></p>
+            <p class="date"><?php echo ltrim(get_chaos(published), "Året"); ?></p>
           <?php endif; ?>
           <div class="media-type-container">
             <i title="<?php echo WPChaosClient::get_object()->type_title; ?>" class="<?php echo WPChaosClient::get_object()->type_class; ?>"></i>
@@ -130,7 +130,7 @@ $views = array(
 </ul>
 
 <div class="row">
-  <div class="col-xs-12 text-center">
+  <div class="col-xs-12 text-center pagination-div">
     <ul class="pagination">
       <?php echo $pagination = WPChaosSearch::paginate('echo=0&before=&after=&count=5'); ?>
     </ul>
