@@ -4734,6 +4734,7 @@ footer .copyright a {
 }
 .dark-search .search .btn-group .btn {
   background-color: white;
+  margin: 0 !important;
 }
 .dark-search .search .btn-group .btn:hover {
   background-color: #e6e6e6;
@@ -4742,6 +4743,12 @@ footer .copyright a {
 .dark-search .search .btn-group .btn:active {
   background-color: #646464;
   color: white;
+}
+.dark-search .search .btn-group > .btn:not(:first-child):not(.dropdown-toggle) {
+  border-left-color: #d9d9d9 !important;
+}
+.dark-search .search .btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+  border-right-color: #d9d9d9 !important;
 }
 .dark-search .search .btn-advanced-search-container .btn {
   background-color: #646464;
@@ -4843,10 +4850,15 @@ footer .copyright a {
   width: 100%;
   max-width: 1170px;
 }
-.listview .search-object {
+.search-container .listview {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 20px;
+}
+.search-container .listview .search-object {
   height: auto;
 }
-.listview .search-object a.thumbnail {
+.search-container .listview .search-object a.thumbnail {
   height: auto;
 }
 .search-object {
@@ -4911,9 +4923,8 @@ footer .copyright a {
   float: right;
 }
 ul.row.listview {
-  margin: 0;
+  list-style-type: none;
   padding: 0;
-  width: 100%;
 }
 ul.row.listview li.search-object {
   border-bottom: 1px solid #d9d9d9;
@@ -4931,35 +4942,13 @@ ul.row.listview li {
   padding-bottom: 5px;
   list-style-type: none;
 }
-ul.row.listview li hr {
-  display: none;
-}
 ul.row.listview li .thumbnail {
   border: none;
   background-color: rgba(0, 0, 0, 0) !important;
 }
 ul.row.listview li a.thumbnail {
-  height: 100px;
-}
-ul.row.listview li h2.title {
-  background-color: none !important;
-}
-ul.row.listview li .organization {
-  float: left;
-  margin-right: 6px;
-  position: relative;
-  white-space: nowrap;
-}
-ul.row.listview li .date {
-  float: left;
-  margin-right: 10px;
-  margin-bottom: 0;
-  position: relative;
-  clear: left;
-}
-ul.row.listview li .media-type-container {
-  float: left;
-  clear: left;
+  height: 110px !important;
+  margin-bottom: 0 !important;
 }
 ul.row.listview .thumb {
   float: right;
@@ -5035,39 +5024,67 @@ ul.row.listview .thumb {
 .single-material .chaos-details .icon-calendar {
   padding-right: 3px;
 }
+.single-material .social.big-screen {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  overflow: hidden;
+}
+.single-material .social.big-screen .social-share {
+  display: block;
+  padding: 5px 15px;
+  width: auto;
+  margin: 0;
+  line-height: 1.4;
+}
+.single-material .social.big-screen .shadow {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: -50px;
+  right: 0;
+  bottom: 0;
+}
 .single-material .social-share {
-  font-size: 30px;
+  font-size: 2.5rem;
+  width: 3.5rem;
+  text-align: center;
   margin-top: -5px;
+  margin-left: 1px;
+  text-decoration: none !important;
 }
-.single-material .social-share:first-child {
-  padding-left: 2px;
+.single-material .social-share.icon-facebook {
+  color: white;
+  background-color: #3b5998;
 }
-.single-material .social-share + .social-share {
-  padding-left: 4px;
+.single-material .social-share.icon-facebook:hover {
+  background-color: #2d4373;
 }
-.single-material .social-share.icon-facebook-sign {
-  color: #3b5998;
+.single-material .social-share.icon-twitter {
+  color: white;
+  background-color: #55acee;
 }
-.single-material .social-share.icon-facebook-sign:hover {
-  color: #2d4373;
+.single-material .social-share.icon-twitter:hover {
+  background-color: #2795e9;
 }
-.single-material .social-share.icon-twitter-sign {
-  color: #55acee;
+.single-material .social-share.icon-google-plus {
+  color: white;
+  background-color: #dd4b39;
 }
-.single-material .social-share.icon-twitter-sign:hover {
-  color: #2795e9;
-}
-.single-material .social-share.icon-google-plus-sign {
-  color: #dd4b39;
-}
-.single-material .social-share.icon-google-plus-sign:hover {
-  color: #c23321;
+.single-material .social-share.icon-google-plus:hover {
+  background-color: #c23321;
 }
 .single-material .social-share.icon-envelope {
-  color: #999999;
+  color: white;
+  background-color: #999999;
 }
 .single-material .social-share.icon-envelope:hover {
-  color: #808080;
+  background-color: #808080;
 }
 .single-material .description a {
   display: block;
@@ -5096,6 +5113,43 @@ ul.row.listview .thumb {
 }
 .single-material .publish {
   margin-top: 80px;
+}
+a.tag {
+  position: relative;
+  margin-right: 3px;
+  padding: 4px 10px;
+  background: #d9d9d9;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  word-wrap: break-word;
+  color: #222222;
+  margin-bottom: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+}
+a.tag:hover {
+  background: #1296e2;
+  color: #fff;
+}
+a.tag:hover > .flag-tag {
+  visibility: visible;
+}
+a.tag .flag-tag {
+  top: 4px;
+  position: absolute;
+  right: 10px;
+  visibility: hidden;
+  color: #fff;
+}
+a.usertag {
+  padding: 4px 24px 4px 10px;
+}
+.no-tag {
+  padding: 0;
+  background: none;
+  color: #646464;
 }
 .widget .widget-title {
   text-align: center;
@@ -5514,48 +5568,6 @@ input[type="text"] {
 }
 .orange {
   color: #ff7e21;
-}
-.nav.info .rights-container a,
-.nav.info .external-link-container a {
-  display: inline;
-  text-wrap: unrestricted;
-}
-.nav.info a.tag {
-  position: relative;
-  margin-right: 3px;
-  padding: 4px 10px;
-  background: #d9d9d9;
-  border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  word-wrap: break-word;
-  color: #222222;
-  margin-bottom: 6px;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-}
-.nav.info a.tag:hover {
-  background: #1296e2;
-  color: #fff;
-}
-.nav.info a.tag:hover > .flag-tag {
-  visibility: visible;
-}
-.nav.info a.tag .flag-tag {
-  top: 4px;
-  position: absolute;
-  right: 10px;
-  visibility: hidden;
-  color: #fff;
-}
-.nav.info a.usertag {
-  padding: 4px 24px 4px 10px;
-}
-.nav.info .no-tag {
-  padding: 0;
-  background: none;
-  color: #646464;
 }
 .type-page {
   height: 100%;

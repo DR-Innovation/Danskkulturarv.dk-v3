@@ -22,9 +22,10 @@
 // MIXINS
 // --------------------------------------------------
 .social-color(@color) {
-  color: @color;
+  color: white;
+  background-color: @color;
   &:hover {
-    color: darken(@color,10%);
+    background-color: darken(@color,10%);
   }
 }
 
@@ -175,51 +176,7 @@ input[type="text"] {
   color: @orange;
 }
 
-// Display Material
-.nav.info {
-  .rights-container a,
-  .external-link-container a {
-    display  : inline;
-    text-wrap: unrestricted;
-  }
-  a.tag {
-    position             : relative;
-    margin-right         : 3px;
-    padding              : 4px 10px;
-    background           : @gray-lighter;
-    border-radius        : @border-radius-small;
-    -webkit-border-radius: @border-radius-small;
-    -moz-border-radius   : @border-radius-small;
-    word-wrap            : break-word;
-    color                : @gray-darker;
-    margin-bottom        : 6px;
-    text-decoration      : none;
-    cursor               : pointer;
-    display              : inline-block;
-    &:hover {
-      background: @brand-primary;
-      color     : #fff;
-      > .flag-tag {
-        visibility: visible;
-      }
-    }
-    .flag-tag {
-      top       : 4px;
-      position  : absolute;
-      right     : 10px;
-      visibility: hidden;
-      color     : #fff;
-    }
-  }
-  a.usertag {
-    padding: 4px 24px 4px 10px;
-  }
-  .no-tag {
-    padding   : 0;
-    background: none;
-    color     : @gray-semi-light;
-  }
-}
+//
 .type-page {
   height: 100%;
 }

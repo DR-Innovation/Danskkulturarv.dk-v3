@@ -27,6 +27,7 @@
     .btn-group {
       .btn {
         background-color: white;
+        margin          : 0 !important;
         &:hover {
           background-color: @gray-lightest;
         }
@@ -35,6 +36,12 @@
           background-color: @gray-semi-light;
           color           : white;
         }
+      }
+      > .btn:not(:first-child):not(.dropdown-toggle) {
+        border-left-color: @gray-lighter !important;
+      }
+      > .btn:not(:last-child):not(.dropdown-toggle) {
+        border-right-color: @gray-lighter !important;
       }
     }
     .btn-advanced-search-container {
@@ -146,13 +153,16 @@
 .search-container {
   width    : 100%;
   max-width: 1170px;
-}
-
-// Search results
-.listview .search-object {
-  height: auto;
-  a.thumbnail {
-    height: auto;
+  .listview {
+    width    : 100%;
+    max-width: 600px;
+    margin   : 0 auto 20px;
+    .search-object {
+      height: auto;
+      a.thumbnail {
+        height: auto;
+      }
+    }
   }
 }
 .search-object {
@@ -219,9 +229,8 @@
 
 // List view
 ul.row.listview {
-  margin : 0;
+  list-style-type: none;
   padding: 0;
-  width  : 100%;
   li.search-object {
     border-bottom: 1px solid @gray-lighter;
     &:last-child {
@@ -237,35 +246,13 @@ ul.row.listview {
     padding-top    : 5px;
     padding-bottom : 5px;
     list-style-type: none;
-    hr {
-      display: none;
-    }
     .thumbnail {
       border          : none;
       background-color: rgba(0,0,0,0) !important;
     }
     a.thumbnail {
-      height: 100px;
-    }
-    h2.title {
-      background-color: none !important;
-    }
-    .organization {
-      float       : left;
-      margin-right: 6px;
-      position    : relative;
-      white-space : nowrap;
-    }
-    .date {
-      float        : left;
-      margin-right : 10px;
-      margin-bottom: 0;
-      position     : relative;
-      clear        : left;
-    }
-    .media-type-container {
-      float: left;
-      clear: left;
+      height: 110px !important;
+      margin-bottom: 0 !important;
     }
   }
   .thumb {
@@ -287,7 +274,7 @@ ul.row.listview {
     text-align : center;
     line-height: 40px;
     .btn {
-      padding-left: 12px;
+      padding-left : 12px;
       padding-right: 12px;
     }
     .dropdown-toggle {
@@ -311,16 +298,16 @@ ul.row.listview {
 }
 .pagination-div {
   text-align: center;
-  font-size: 1.2em;
+  font-size : 1.2em;
   .pagination {
     margin       : 0;
     border-radius: 0;
     > .active > span {
       background-color: @gray-lighter;
-      color: @text-color;
+      color           : @text-color;
     }
     > li > a:hover {
-      background-color: @gray-lightest;      
+      background-color: @gray-lightest;
     }
   }
 }
