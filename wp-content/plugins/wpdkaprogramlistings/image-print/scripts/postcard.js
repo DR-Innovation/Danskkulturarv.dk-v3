@@ -28,6 +28,7 @@ setInterval(function() {
 function pdfAlert() {
   $("#pdfInProgress").show(0).delay(10000).hide(0);
 }
+
 function pngAlert() {
   $("#pngInProgress").show(0).delay(10000).hide(0);
 }
@@ -85,7 +86,9 @@ function postcardContent(resolution) {
       }
     }
   };
-  docDefinition.content[0].image = croppedImage.cropper('getCroppedCanvas', { width: resolution }).toDataURL();
+  docDefinition.content[0].image = croppedImage.cropper('getCroppedCanvas', {
+    width: resolution
+  }).toDataURL();
   docDefinition.content[1].columns[0].text = $('.front-text.left b').text();
   docDefinition.content[1].columns[1].text = "Danskkulturarv.dk";
   docDefinition.content[3].columns[0].text = $('.greeting').val();
@@ -116,7 +119,7 @@ function posterContent(resolution) {
         style: 'bottomStyle',
         text: '',
       }]
-    },],
+    }, ],
     styles: {
       bottomStyle: {
         fontSize: 10,
@@ -127,7 +130,9 @@ function posterContent(resolution) {
       }
     }
   };
-  docDefinition.content[0].image = croppedImage.cropper('getCroppedCanvas', { width: resolution }).toDataURL();
+  docDefinition.content[0].image = croppedImage.cropper('getCroppedCanvas', {
+    width: resolution
+  }).toDataURL();
   docDefinition.content[1].columns[0].text = $('.front-text.left b').text();
   docDefinition.content[1].columns[1].text = "Danskkulturarv.dk";
   deferred.resolve();
@@ -153,7 +158,8 @@ function createPng(id, name) {
       // Safari and iOS devices doesn't support renaming files on download
       if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
         window.location.assign(img);
-      } else if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+      } else if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent
+        .indexOf('Chrome') == -1) {
         window.location.assign(img);
       } else {
         download(img, name, "image/png");
@@ -162,6 +168,23 @@ function createPng(id, name) {
   })
 }
 
+function analyticsPdfEvent() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Buttons',
+    eventAction: 'save',
+    eventLabel: 'Pdf'
+  });
+}
+
+function analyticsImageEvent() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Buttons',
+    eventAction: 'save',
+    eventLabel: 'Image'
+  });
+}
 
 /********************************************************
  * Don't do this stuff until the image conversion is done
@@ -195,27 +218,33 @@ $(window).load(function() {
 
   // Create Postcard
   $('#pdfPostcardButton').on('touchstart click', function() {
+    analyticsPdfEvent();
     postcardContent(1500).then(createThePdf('postkort.pdf'));
   });
   $('#pdfHighPostcardButton').on('touchstart click', function() {
+    analyticsPdfEvent();
     postcardContent(5000).then(createThePdf('postkort.pdf'));
   });
 
 
   // Create Poster
   $('#pdfPosterButton').on('touchstart click', function() {
+    analyticsPdfEvent();
     posterContent(2000).then(createThePdf('plakat.pdf'));
   });
   $('#pdfHighPosterButton').on('touchstart click', function() {
+    analyticsPdfEvent();
     posterContent(5000).then(createThePdf('plakat.pdf'));
   });
 
 
   // Create frontpage image
   $("#pngPostcardButton").click(function() {
+    analyticsImageEvent();
     createPng("#frontpage", "postkort-forside.png");
   });
   $("#pngPosterButton").click(function() {
+    analyticsImageEvent();
     createPng("#frontpage", "plakat.png");
   });
 
@@ -228,6 +257,7 @@ $(window).load(function() {
     if ($('.address').val() === "") {
       $('.address').val(" ");
     }
+    analyticsImageEvent();
     createPng("#backpage", "postkort-bagside.png");
   });
 
