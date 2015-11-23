@@ -1,12 +1,13 @@
 // out: ../styles.css, sourcemap: true, compress: false
-@import url(https://fonts.googleapis.com/css?family=Roboto:900,700italic,700,300italic,300);
+@import url(https://fonts.googleapis.com/css?family=Roboto:900,700italic,700,400italic,400);
 @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:700);
 @import "bootstrap/bootstrap";
 @header-color: @text-color;
 @header-bg: white;
-@regular-weight: 300;
+@regular-weight: 400;
 @orange: #ff7e21;
 @max-width: 1170px;
+@focus-shadow: 0 0 8px fade(@brand-primary, 40%);
 @import "custom/header";
 @import "custom/footer";
 @import "custom/parallax";
@@ -34,9 +35,11 @@
 // --------------------------------------------------
 html,
 body {
-  height        : 100%;
-  font-weight   : @regular-weight;
-  letter-spacing: 0.02em;
+  height                 : 100%;
+  font-weight            : @regular-weight;
+  letter-spacing         : 0.02em;
+  -webkit-font-smoothing : antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 h1,
 h2,
@@ -59,14 +62,19 @@ blockquote {
 body,
 .btn,
 .form-control,
-.dropdown-menu {
+.dropdown-menu,
+select {
   font-size: @font-size-base;
+  box-shadow: none;
 }
 .dropdown-menu {
   text-align: left;
   a {
     text-decoration: none !important;
   }
+}
+.form-control:focus {
+  box-shadow: @focus-shadow;
 }
 .form-control,
 select {
@@ -75,6 +83,9 @@ select {
   box-shadow      : none;
   font-weight     : @regular-weight;
   height          : auto;
+}
+select {
+  cursor: pointer;
 }
 .btn-link {
   font-weight: @regular-weight;
@@ -118,15 +129,15 @@ input[type="text"] {
 .btn-default {
   box-shadow      : none !important;
   background-color: white;
-  border-color    : @gray-lightest;
+  border-color    : @gray-lighte;
   &:hover {
     background-color: @gray-lightest;
-    border-color    : @gray-lightest;
+    border-color    : @gray-lighte;
   }
   &.active,
   &:active {
     background-color: @gray-lighter;
-    border-color    : @gray-lighter;
+    border-color    : @gray-lighte;
   }
 }
 
