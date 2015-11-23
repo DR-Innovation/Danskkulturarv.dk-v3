@@ -14,10 +14,10 @@
     <?php else : ?>
       <?php echo_chaos(organization); ?>
     <?php endif; ?>
-  </strong>
   <?php if (get_chaos(externalurl)) : ?>
     - <a target="_blank" href="<?php echo_chaos(externalurl); ?>" title="<?php printf(__('Link to the material at %s', 'dka'), get_chaos(organization)); ?>"><?php _e('Link to the material', 'dka') ?></a>
   <?php endif; ?>
+  </strong>
 </div>
 <div class="chaos-details">
   <i title="<?php echo_chaos(type_title); ?>" class="<?php echo_chaos(type_class); ?>"></i>
@@ -34,15 +34,19 @@
   <?php echo_chaos(description); ?>
 </div>
 
+<?php if (get_chaos(creator)) : ?>
 <div class="colofon">
   <h3>Kolofon</h3>
   <?php echo_chaos(creator); ?>
 </div>
+<?php endif; ?>
 
+<?php if (get_chaos(contributor)) : ?>
 <div class="contributors">
   <h3>Medvirkende</h3>
   <?php echo_chaos(contributor); ?>
 </div>
+<?php endif; ?>
 
 <div class="social big-screen hidden-sm hidden-xs">
   <?php dka_social_share(array('link' => get_chaos(url))); ?>
