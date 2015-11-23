@@ -40,7 +40,7 @@ $views = array(
           $total_count = WPChaosSearch::get_search_results()->MCM()->TotalCount();
           $search_string = WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html');
           if ($search_string){
-            echo $result_count = sprintf(__('The search gave %s results for "%s"','dka'),number_format_i18n($total_count),'<strong class="blue">'.$search_string.'</strong>');
+            echo $result_count = sprintf(__('The search gave %s results for "%s"','dka'),number_format_i18n($total_count),'<strong>'.$search_string.'</strong>');
           } else {
             echo $result_count = sprintf(__('%s results','dka'),number_format_i18n($total_count));
           }
