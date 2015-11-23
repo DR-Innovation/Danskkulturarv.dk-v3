@@ -27,10 +27,17 @@ body {
 .btn {
   font-size: inherit;
   outline: none !important;
+  line-height: 1.6;
+  vertical-align: middle;
 }
 .btn .fa {
   font-size: 1.6em;
-  padding-top: 2px;
+  line-height: 0;
+  vertical-align: middle;
+}
+.btn .fa-file-pdf-o,
+.btn .fa-picture-o {
+  padding-right: 2px;
 }
 h1,
 h2,
