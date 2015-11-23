@@ -3,21 +3,22 @@
  * @package WordPress
  * @subpackage DKA
  */
-
 ?>
 <h1><?php echo_chaos(title); ?></h1>
-<strong>
-  <?php if (get_chaos(organization_link)) : ?>
-    <a href="<?php echo_chaos(organization_link); ?>"
-      title="<?php echo_chaos(organization); ?>">
-      <?php echo_chaos(organization); ?></a>
-  <?php else : ?>
-    <?php echo_chaos(organization); ?>
+<div class="links">
+  <strong>
+    <?php if (get_chaos(organization_link)) : ?>
+      <a href="<?php echo_chaos(organization_link); ?>"
+        title="<?php echo_chaos(organization); ?>">
+        <?php echo_chaos(organization); ?></a>
+    <?php else : ?>
+      <?php echo_chaos(organization); ?>
+    <?php endif; ?>
+  </strong>
+  <?php if (get_chaos(externalurl)) : ?>
+    - <a target="_blank" href="<?php echo_chaos(externalurl); ?>" title="<?php printf(__('Link to the material at %s', 'dka'), get_chaos(organization)); ?>"><?php _e('Link to the material', 'dka') ?></a>
   <?php endif; ?>
-</strong>
-<?php if (get_chaos(externalurl)) : ?>
-  - <a target="_blank" href="<?php echo_chaos(externalurl); ?>" title="<?php printf(__('Link to the material at %s', 'dka'), get_chaos(organization)); ?>"><?php _e('Link to the material', 'dka') ?></a>
-<?php endif; ?>
+</div>
 <div class="chaos-details">
   <i title="<?php echo_chaos(type_title); ?>" class="<?php echo_chaos(type_class); ?>"></i>
   <?php if (get_chaos(published)) : ?>
@@ -45,41 +46,49 @@
 
 <div class="social big-screen hidden-sm hidden-xs">
   <?php dka_social_share(array('link' => get_chaos(url))); ?>
-  <div class="shadow"></div>
 </div>
 
 
-<div class="row">
-  <div class="social col-xs-12 hidden-md hidden-lg">
-    <h3>Del</h3>
-    <?php dka_social_share(array('link' => get_chaos(url))); ?>
-  </div>
+<div class="social hidden-md hidden-lg">
+  <h3>Del</h3>
+  <?php dka_social_share(array('link' => get_chaos(url))); ?>
+</div>
 
+<hr>
+
+<div class="row">
   <div class="col-sm-6 col-xs-12">
     <h3><?php _e('Tags', 'dka'); ?></h3>
     <?php echo_chaos(tags); ?>
   </div>
-
   <?php if (class_exists('WPDKATags') && intval(get_option('wpdkatags-status', 0)) > 0) : //iff status is active or frozen ?>
   <div class="col-sm-6 col-xs-12">
     <h3>
       <?php _e('User Tags', 'wpdkatags'); ?>
-  <?php if (current_user_can(WPDKATags::CAPABILITY)) : ?>
-      <button style="padding:2px 5px;" class="btn btn-sm btn-default" id="object-taggable" data-dka-taggable="<?php echo !get_chaos(taggable); ?>"><?php get_chaos(taggable) ? _e('Disable', 'dka') : _e('Enable', 'dka'); ?></button>
-  <?php endif; ?>
+      <?php if (current_user_can(WPDKATags::CAPABILITY)) : ?>
+      <button style="padding:2px 5px;" class="btn btn-sm btn-default" id="object-taggable"
+        data-dka-taggable="<?php echo !get_chaos(taggable); ?>">
+        <?php get_chaos(taggable) ? _e('Disable', 'dka') : _e('Enable', 'dka'); ?>
+      </button>
+      <?php endif; ?>
     </h3>
-    <?php echo_chaos(usertags); ?>
-  </div>
-  <?php endif; ?>
-
-  <?php if (class_exists('WPDKACollections') && current_user_can('edit_posts') && count(get_chaos(collections_raw)) > 0): ?>
-  <div class="collection-container">
-    <?php echo_chaos(collections); ?>
+    <div class="usertags-wrap">
+      <?php echo_chaos(usertags); ?>
+    </div>
   </div>
   <?php endif; ?>
 </div>
 
+
+<?php if (class_exists('WPDKACollections') && current_user_can('edit_posts') && count(get_chaos(collections_raw)) > 0): ?>
+<div class="collection-container">
+  <?php echo_chaos(collections); ?>
+</div>
+<?php endif; ?>
+
+
 <?php if (current_user_can(WPDKA::PUBLISH_STATE_CAPABILITY)): ?> <!--Makes sure the user has the capability to unpublish or republish-->
+<hr>
 <div class="publish">
   <h3>Publicer/afpublicer</h3>
  <?php if (!get_chaos(isPublished)): ?> <!--Material is not published (no accesspoint)-->

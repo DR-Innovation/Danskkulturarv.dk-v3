@@ -3,23 +3,32 @@
 // SEARCH
 // --------------------------------------------------
 @thumb-height: 244px;
+@hover-color: @gray-lighter;
+@active-color: @gray-lighte;
+@search-bg-color: @gray-lightest;
 .dark-search {
-  background-color: @gray-lighter;
+  background-color: @search-bg-color;
   margin-top      : -100px;
   padding-top     : 100px;
   .search {
     max-width: 1170px;
     margin   : 0 auto;
-    padding  : 20px 0;
+    padding  : 25px 0;
     .form-control,
     select,
     .btn {
-      border     : 1px solid transparent !important;
-      box-shadow : none !important;
+      border     : 1px solid transparent;
+      box-shadow : none;
       line-height: 22px;
       height     : 44px;
       text-shadow: none;
       padding    : 0 18px;
+    }
+    .form-control {
+      &:focus {
+        box-shadow  : 0 0 8px rgba(18, 150, 226, 0.6);
+        border-color: @brand-primary;
+      }
     }
     .btn-search {
       border-left-width: 0!important;
@@ -29,34 +38,29 @@
         background-color: white;
         margin          : 0 !important;
         &:hover {
-          background-color: @gray-lightest;
+          background-color: @hover-color;
         }
         &.active,
         &:active {
-          background-color: @gray-semi-light;
-          color           : white;
+          background-color: @active-color;
+          color           : darken(@brand-primary, 5%);
         }
       }
       > .btn:not(:first-child):not(.dropdown-toggle) {
-        border-left-color: @gray-lighter !important;
+        border-left-color: @search-bg-color !important;
       }
       > .btn:not(:last-child):not(.dropdown-toggle) {
-        border-right-color: @gray-lighter !important;
+        border-right-color: @search-bg-color !important;
       }
     }
     .btn-advanced-search-container {
       .btn {
-        background-color: @gray-semi-light;
-        color           : white;
+        background-color: @active-color;
+        color           : darken(@brand-primary, 5%);
         &:hover {
-          background-color: @gray-lightest;
-          color           : @brand-primary;
-          i {
-            color: @brand-primary;
-          }
+          background-color: @hover-color;
         }
         i {
-          color     : white;
           transform : rotate(180deg);
           transition: transform 0.5s ease;
         }
@@ -65,30 +69,23 @@
     .btn-advanced-search-container {
       .btn.collapsed {
         background-color: white;
-        color           : @brand-primary;
+        color           : @brand-primary, 5%;
         &:hover {
-          background-color: @gray-lightest;
-          color           : @brand-primary;
+          background-color: @hover-color;
         }
         i {
-          color    : @brand-primary;
           transform: rotate(0deg);
         }
       }
     }
     .btn-advanced-search-container {
       .btn.in {
-        background-color: @gray-semi-light;
-        color           : white;
+        background-color: @active-color;
+        color           : darken(@brand-primary, 5%);
         &:hover {
-          background-color: @gray-lightest;
-          color           : @brand-primary;
-          i {
-            color: @brand-primary;
-          }
+          background-color: @hover-color;
         }
         i {
-          color     : white;
           transform : rotate(180deg);
           transition: transform 0.5s ease;
         }
@@ -137,9 +134,13 @@
         display: none;
       }
     }
-    &.active {
-      color           : #fff;
-      background-color: @gray-semi-light;
+    &:hover {
+      background-color: @hover-color;
+    }
+    &.active,
+    &:active {
+      color           : darken(@brand-primary, 5%);
+      background-color: @active-color;
       text-shadow     : none;
       i {
         &.icon-remove-sign,
@@ -230,7 +231,7 @@
 // List view
 ul.row.listview {
   list-style-type: none;
-  padding: 0;
+  padding        : 0;
   li.search-object {
     border-bottom: 1px solid @gray-lighter;
     &:last-child {
@@ -251,7 +252,7 @@ ul.row.listview {
       background-color: rgba(0,0,0,0) !important;
     }
     a.thumbnail {
-      height: 110px !important;
+      height       : 110px !important;
       margin-bottom: 0 !important;
     }
   }
