@@ -4788,7 +4788,7 @@ footer .copyright a {
   transition: transform 0.5s ease;
 }
 #advanced-search-container {
-  margin-bottom: -20px;
+  margin-bottom: -15px;
   margin-top: 10px;
   padding: 0;
 }
@@ -4798,8 +4798,13 @@ footer .copyright a {
 #advanced-search-container .filter-media-type {
   padding-bottom: 0;
 }
-#advanced-search-container .btn {
+#advanced-search-container .filter-btn-all {
   font-weight: 700;
+}
+#advanced-search-container .filter-btn-single {
+  font-weight: 300;
+}
+#advanced-search-container .btn {
   font-size: 1em;
   color: #e46c15;
   position: relative;
@@ -4810,8 +4815,8 @@ footer .copyright a {
   line-height: 26px;
   background-color: white;
 }
-#advanced-search-container .btn + .btn {
-  margin-left: 2px;
+#advanced-search-container .btn:not(:last-child) {
+  margin-right: 2px;
 }
 #advanced-search-container .btn .chaos-filter {
   display: none;
