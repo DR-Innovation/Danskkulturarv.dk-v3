@@ -53,12 +53,12 @@
 </div>
 
 
+<hr>
+
 <div class="social hidden-md hidden-lg">
   <h3>Del</h3>
   <?php dka_social_share(array('link' => get_chaos(url))); ?>
 </div>
-
-<hr>
 
 <div class="row">
   <div class="col-sm-6 col-xs-12">
