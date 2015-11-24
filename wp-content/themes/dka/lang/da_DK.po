@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Dansk Kulturarv\n"
-"POT-Creation-Date: 2015-11-22 22:50+0100\n"
-"PO-Revision-Date: 2015-11-22 22:50+0100\n"
+"POT-Creation-Date: 2015-11-24 12:11+0100\n"
+"PO-Revision-Date: 2015-11-24 12:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
@@ -20,11 +20,11 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../404.php:15
+#: ../404.php:17
 msgid "Page not found"
 msgstr "Side ikke fundet"
 
-#: ../404.php:18
+#: ../404.php:20
 msgid ""
 "The page you are looking for does not exist. Please recheck the entered "
 "address."
@@ -235,68 +235,68 @@ msgstr "%s resultater"
 
 #: ../templates/chaos-search-results.php:51
 msgid "Sort by:"
-msgstr "Sorter:"
+msgstr "Sortér efter:"
 
-#: ../templates/chaos-search-results.php:67
+#: ../templates/chaos-search-results.php:66
 msgid "Show only published objects"
 msgstr "Vis kun publicerede materialer"
 
-#: ../templates/chaos-search-results.php:98
+#: ../templates/chaos-search-results.php:97
 msgid "material"
 msgid_plural "materials"
 msgstr[0] "materiale"
 msgstr[1] "materialer"
 
-#: ../templates/multiattrwidget-default.php:19
+#: ../templates/multiattrwidget-default2.php:18
 #, php-format
 msgid "Link to the material at %s"
 msgstr "Se materialet hos %s"
 
-#: ../templates/multiattrwidget-default.php:19
+#: ../templates/multiattrwidget-default2.php:18
 msgid "Link to the material"
 msgstr "Link til materialet"
 
-#: ../templates/multiattrwidget-default.php:53
+#: ../templates/multiattrwidget-default2.php:65
 #: ../templates/multiattrwidget-sidebar.php:63
 msgid "Tags"
 msgstr "Tags"
 
-#: ../templates/multiattrwidget-default.php:59
+#: ../templates/multiattrwidget-default2.php:71
 #: ../templates/multiattrwidget-sidebar.php:70
 msgid "User Tags"
 msgstr "Brugertags"
 
-#: ../templates/multiattrwidget-default.php:61
+#: ../templates/multiattrwidget-default2.php:75
 #: ../templates/multiattrwidget-sidebar.php:72
 msgid "Disable"
 msgstr "Frys"
 
-#: ../templates/multiattrwidget-default.php:61
+#: ../templates/multiattrwidget-default2.php:75
 #: ../templates/multiattrwidget-sidebar.php:72
 msgid "Enable"
 msgstr "Optø"
 
-#: ../templates/multiattrwidget-default.php:81
-#: ../templates/multiattrwidget-default.php:84
+#: ../templates/multiattrwidget-default2.php:101
+#: ../templates/multiattrwidget-default2.php:104
 #: ../templates/multiattrwidget-sidebar.php:16
 #: ../templates/multiattrwidget-sidebar.php:19
 msgid "This object is unpublished and is not visible for other users."
 msgstr "Dette materiale er afpubliceret og ikke synlig for andre brugere."
 
-#: ../templates/multiattrwidget-default.php:82
+#: ../templates/multiattrwidget-default2.php:102
 #: ../templates/multiattrwidget-sidebar.php:17
 msgid "Republish this object again"
 msgstr "Genpublicer dette materiale igen"
 
-#: ../templates/multiattrwidget-default.php:85
+#: ../templates/multiattrwidget-default2.php:105
 #: ../templates/multiattrwidget-sidebar.php:20
 msgid "Please contact the institution if you want this object republished."
 msgstr ""
 "Kontakt venligst institutionen hvis du ønsker at genpublicere dette "
 "materiale."
 
-#: ../templates/multiattrwidget-default.php:88
-#: ../templates/multiattrwidget-default.php:95
+#: ../templates/multiattrwidget-default2.php:108
+#: ../templates/multiattrwidget-default2.php:115
 #: ../templates/multiattrwidget-sidebar.php:23
 #: ../templates/multiattrwidget-sidebar.php:30
 msgid ""
@@ -306,12 +306,12 @@ msgstr ""
 "Materiale benytter et gammelt metadata skema. Du kan ikke ændre "
 "publiceringen for dette materiale."
 
-#: ../templates/multiattrwidget-default.php:92
+#: ../templates/multiattrwidget-default2.php:112
 #: ../templates/multiattrwidget-sidebar.php:27
 msgid "This object is published and is visible for other users."
 msgstr "Dette materiale er publiceret og synlig for andre brugere."
 
-#: ../templates/multiattrwidget-default.php:93
+#: ../templates/multiattrwidget-default2.php:113
 #: ../templates/multiattrwidget-sidebar.php:28
 msgid "Unpublish this object"
 msgstr "Afpublicer dette materiale"
