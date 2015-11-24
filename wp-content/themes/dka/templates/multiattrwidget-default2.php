@@ -25,7 +25,7 @@
     <i class="icon-calendar"></i><?php echo ltrim(get_chaos(published), "Året"); ?>
   <?php endif; ?>
   <?php if (get_chaos(rights)) : ?>
-    <span><?php echo_chaos(rights); ?></span>
+    <span><?php str_replace("Copyright © Det Danske Filminstitut","",get_chaos(rights));; ?></span>
   <?php endif; ?>
 </div>
 
