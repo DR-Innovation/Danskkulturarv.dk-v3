@@ -172,8 +172,8 @@ if ($_GET['type']) {
     </div>
     <div class="col-xs-12 text-center">
       <div class="alert alert-info" role="alert" id="pdfInProgress">
-        Din browser genererer nu PDF.<br>
-        Det kan tage op til 2-20 sekunder afhængig af din browser.<br>
+        Din browser genererer nu <?php if ($type == 'card') : ?>dit postkort<?php elseif ($type == 'poster') : ?>din plakat<?php endif; ?>.<br>
+        Det kan tager 2-20 sekunder afhængig af din browser.<br>
         PDF loader automatisk, når den er færdig.<br>
       </div>
       <button id="<?php if ($type == 'card') : ?>pdfPostcardButton<?php elseif ($type == 'poster') : ?>pdfPosterButton<?php endif; ?>" type="button" class="btn btn-primary btn-lg disabled" title="print"><i class="fa fa-file-pdf-o"></i> PDF</button>
@@ -189,8 +189,8 @@ if ($_GET['type']) {
     </div>
     <div class="col-xs-12 text-center">
       <div class="alert alert-info" role="alert" id="pngInProgress">
-        Din browser genererer nu billedet.<br>
-        Det kan tage op til 10 sek afhængig af din browser.<br>
+        Din browser genererer nu <?php if ($type == 'card') : ?>dit postkort<?php elseif ($type == 'poster') : ?>din plakat<?php endif; ?>.<br>
+        Det tager op til 10 sek afhængig af din browser.<br>
         Billedet loader automatisk, når den er færdig.<br>
       </div>
       <button id="<?php if ($type == 'card') : ?>pngPostcardButton<?php elseif ($type == 'poster') : ?>pngPosterButton<?php endif; ?>" type="button" class="btn btn-primary btn-lg disabled" title="Save png"><i class="fa fa-picture-o"></i><?php if ($type == 'card') : ?> Gem postkortforside<?php elseif ($type == 'poster') : ?> Billede<?php endif; ?></button>
