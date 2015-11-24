@@ -26,16 +26,17 @@ setInterval(function() {
 }, 400);
 
 function pdfAlert() {
-  $("#pdfInProgress").show(0).delay(10000).hide(0);
+  $("#pdfInProgress").show();
+  analyticsPdfEvent();
 }
 
 function pngAlert() {
-  $("#pngInProgress").show(0).delay(10000).hide(0);
+  $("#pngInProgress").show();
+  analyticsImageEvent();
 }
 
 function postcardContent(resolution) {
   var deferred = $.Deferred();
-  pdfAlert();
   docDefinition = {
     // a string or { width: number, height: number }
     pageSize: 'A5',
@@ -100,7 +101,6 @@ function postcardContent(resolution) {
 
 function posterContent(resolution) {
   var deferred = $.Deferred();
-  pdfAlert();
   docDefinition = {
     pageSize: 'A4',
     pageOrientation: 'portrait',
@@ -142,6 +142,7 @@ function posterContent(resolution) {
 
 function createThePdf(name) {
   var deferred = $.Deferred();
+  $("#pdfInProgress").delay(4000).fadeOut(1000);
   pdfMake.createPdf(docDefinition).download(name);
   docDefinition = '';
   deferred.resolve();
@@ -150,7 +151,7 @@ function createThePdf(name) {
 
 
 function createPng(id, name) {
-  pngAlert();
+  $("#pngInProgress").delay(1000).fadeOut(1000);
   html2canvas($(id), {
     onrendered: function(canvas) {
       // convert canvas to base64 and store as variable img
@@ -218,34 +219,40 @@ $(window).load(function() {
 
   // Create Postcard
   $('#pdfPostcardButton').on('touchstart click', function() {
-    analyticsPdfEvent();
-    postcardContent(1500).then(createThePdf('postkort.pdf'));
+    $.when($.ajax(pdfAlert())).then(function() {
+      postcardContent(1500).then(createThePdf('postkort.pdf'));
+    });
   });
   $('#pdfHighPostcardButton').on('touchstart click', function() {
-    analyticsPdfEvent();
-    postcardContent(5000).then(createThePdf('postkort.pdf'));
+    $.when($.ajax(pdfAlert())).then(function() {
+      postcardContent(5000).then(createThePdf('postkort.pdf'));
+    });
   });
 
 
   // Create Poster
   $('#pdfPosterButton').on('touchstart click', function() {
-    analyticsPdfEvent();
-    posterContent(2000).then(createThePdf('plakat.pdf'));
+    $.when($.ajax(pdfAlert())).then(function() {
+      posterContent(2000).then(createThePdf('plakat.pdf'));
+    });
   });
   $('#pdfHighPosterButton').on('touchstart click', function() {
-    analyticsPdfEvent();
-    posterContent(5000).then(createThePdf('plakat.pdf'));
+    $.when($.ajax(pdfAlert())).then(function() {
+      posterContent(5000).then(createThePdf('plakat.pdf'));
+    });
   });
 
 
   // Create frontpage image
   $("#pngPostcardButton").click(function() {
-    analyticsImageEvent();
-    createPng("#frontpage", "postkort-forside.png");
+    $.when($.ajax(pngAlert())).then(function() {
+      createPng("#frontpage", "postkort-forside.png");
+    });
   });
   $("#pngPosterButton").click(function() {
-    analyticsImageEvent();
-    createPng("#frontpage", "plakat.png");
+    $.when($.ajax(pngAlert())).then(function() {
+      createPng("#frontpage", "plakat.png");
+    });
   });
 
 

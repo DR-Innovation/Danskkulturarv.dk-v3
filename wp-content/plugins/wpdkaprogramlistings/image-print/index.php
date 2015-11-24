@@ -166,14 +166,16 @@ if ($_GET['type']) {
   <div class="row noprint">
     <div class="col-xs-12">
       <h2>Gem pdf</h2>
-      <ul>
-        <li>Det kan tage op til 10 sekunder.</li>
-        <li>Tryk én gang på "Lav Pdf" og vent tålmodigt.</li>
-        <li>Vælg høj opløsning, hvis du vil printe i stort format (tager længere tid)</li>
-      </ul>
+      <p>
+        Vælg høj opløsning, hvis du vil printe i stort format (tager længere tid).
+      </p>
     </div>
     <div class="col-xs-12 text-center">
-      <div class="alert alert-info" role="alert" id="pdfInProgress">Generering af PDF startet - vent venligst. Denne besked forsvinder automatisk.</div>
+      <div class="alert alert-info" role="alert" id="pdfInProgress">
+        Din browser genererer nu PDF.<br>
+        Det kan tage op til 2-20 sekunder afhængig af din browser.<br>
+        PDF loader automatisk, når den er færdig.<br>
+      </div>
       <button id="<?php if ($type == 'card') : ?>pdfPostcardButton<?php elseif ($type == 'poster') : ?>pdfPosterButton<?php endif; ?>" type="button" class="btn btn-primary btn-lg disabled" title="print"><i class="fa fa-file-pdf-o"></i> PDF</button>
         <button id="<?php if ($type == 'card') : ?>pdfHighPostcardButton<?php elseif ($type == 'poster') : ?>pdfHighPosterButton<?php endif; ?>" type="button" class="btn btn-primary btn-lg disabled" title="print"><i class="fa fa-file-pdf-o"></i> PDF i høj opløsning</button>
     </div>
@@ -183,14 +185,14 @@ if ($_GET['type']) {
   <div class="row noprint last-one">
     <div class="col-xs-12">
       <h2>Gem billede</h2>
-      <ul>
-        <li>Lavere opløsning til deling fx på sociale medier.</li>
-        <li>Det kan tage op til 10 sekunder.</li>
-        <li>Tryk én gang og vent tålmodigt:)</li>
-      </ul>
+      <p>Lavere opløsning til deling fx på sociale medier.</p>
     </div>
     <div class="col-xs-12 text-center">
-      <div class="alert alert-info" role="alert" id="pngInProgress">Generering af billede startet - vent venligst. Denne besked forsvinder automatisk.</div>
+      <div class="alert alert-info" role="alert" id="pngInProgress">
+        Din browser genererer nu billedet.<br>
+        Det kan tage op til 10 sek afhængig af din browser.<br>
+        Billedet loader automatisk, når den er færdig.<br>
+      </div>
       <button id="<?php if ($type == 'card') : ?>pngPostcardButton<?php elseif ($type == 'poster') : ?>pngPosterButton<?php endif; ?>" type="button" class="btn btn-primary btn-lg disabled" title="Save png"><i class="fa fa-picture-o"></i><?php if ($type == 'card') : ?> Gem postkortforside<?php elseif ($type == 'poster') : ?> Billede<?php endif; ?></button>
       <?php if ($type == 'card') : ?>
       <?php endif ?>
