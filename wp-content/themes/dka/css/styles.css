@@ -4978,6 +4978,10 @@ ul.row.listview .thumb {
 .search-results-top .search-result-listing .btn {
   padding-left: 12px;
   padding-right: 12px;
+  height: 40px;
+}
+.search-results-top .search-result-listing .btn [class^="icon-"] {
+  line-height: 28px;
 }
 .search-results-top .search-result-listing .dropdown-toggle [class^="icon-"] {
   margin-top: 0;
