@@ -23,7 +23,7 @@ function theme_instructions_dashboard_widgets() {
 
   wp_add_dashboard_widget(
                  'theme_instructions',         // Widget slug.
-                 'Tilføje parallax element til forside',         // Title.
+                 'Vejledning: Tilføj nyt parallax element til forside',         // Title.
                  'theme_instructions_widget_function' // Display function.
         );
 }
@@ -32,9 +32,10 @@ add_action( 'wp_dashboard_setup', 'theme_instructions_dashboard_widgets' );
 function theme_instructions_widget_function() {
   echo "
   <style>ul > ul {padding-left: 1em}ul > li{padding:3px 0}ul > ul > li{padding:0}</style>
+  <h2>1</h2>
   <ul>
     <li>
-      Hover over <b>Parallax Scroll</b> til venstre og klik <b>Add New</b>
+      Hover over <b>Parallax Scroll</b> i menuen og klik <b>Add New</b>
     </li>
     <li>
       Indtast titel og tekst
@@ -43,7 +44,7 @@ function theme_instructions_widget_function() {
       Klik på <b>Vælg udvalgt billede</b> til højre og vælg/upload et billede
     </li>
     <li>
-      <b>Vigtigt: </b>Vælg kun følgende <b>Parallax Scroll Options</b>
+      Vælg <u>kun</u> følgende <b>Parallax Scroll Options</b>
     </li>
     <ul>
       <li>
@@ -59,6 +60,9 @@ function theme_instructions_widget_function() {
         Vertical Position: Middle
       </li>
     </ul>
+  </ul>
+  <h2>2</h2>
+  <ul>
     <li>
       Klik <b>Udgiv</b>
     </li>
@@ -66,17 +70,20 @@ function theme_instructions_widget_function() {
       Klik <b>Parallax Scroll</b> i menuen til venstre
     </li>
     <li>
-      Kopier <b>Shortcode</b> - fx <code>[parallax-scroll id=</b>665</b>]</code>
-    </li>
-    <li>
-      Rediger forsiden - <a href=\"http://www.danskkulturarv.dk/wp-admin/post.php?post=787&action=edit\">klik her</a>
-    </li>
-    <li>
-      Rediger den første <b>Tekst</b> widget, indsæt den kopierede shortcode og <b>Opdater</b> siden
+      Kopier <b>Shortcode</b> - på det nyoprettede element fx <code>[parallax-scroll id=</b>665</b>]</code>
     </li>
   </ul>
-  <hr>
-  <span style=\"color:#999\">
+  <h2>3</h2>
+  <ul>
+    <li>
+      Rediger forsiden
+    </li>
+    <li>
+      Rediger den første widget, indsæt den kopierede shortcode og <b>Opdater</b> siden
+    </li>
+  </ul>
+  <span style=\"color:#666\">
+  <h2>NB</h2>
   <ul>
     <li>
       Du kan også indsætte <code>[parallax-scroll id=</b>665</b>]</code> på almindelige sider.
