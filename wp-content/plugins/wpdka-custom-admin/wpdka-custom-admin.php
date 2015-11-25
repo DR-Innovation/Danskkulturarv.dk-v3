@@ -82,11 +82,11 @@ function theme_instructions_widget_function() {
       Rediger den første widget, indsæt den kopierede shortcode og <b>Opdater</b> siden
     </li>
   </ul>
-  <span style=\"color:#666\">
-  <h2>NB</h2>
-  <ul>
+  <hr>
+  <h2 style=\"color:#666\">NB</h2>
+  <ul style=\"color:#666\">
     <li>
-      Du kan også indsætte <code>[parallax-scroll id=</b>665</b>]</code> på almindelige sider.
+      Du kan også indsætte shortcode fx <code>[parallax-scroll id=</b>665</b>]</code> på almindelige sider.
     </li>
     <li>
       Du kan redigere i eksisterende parallax elementer under <b>Parallax Scroll</b>
