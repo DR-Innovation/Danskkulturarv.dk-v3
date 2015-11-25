@@ -9,22 +9,69 @@ License: MIT
 */
 
 
-function remove_dashboard_meta() {
-  remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
-  remove_meta_box( 'dashboard_recent_drafts', 'dashboard', 'side' );
-  remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
-  remove_meta_box( 'dashboard_activity', 'dashboard', 'normal');
-  remove_action('welcome_panel', 'wp_welcome_panel');
-}
-add_action( 'admin_init', 'remove_dashboard_meta' );
+/************
+Admin cleanup
+************/
 
+add_action('admin_head', 'custom_admin_style');
+function custom_admin_style()
+{
+    echo '<style>
+   #menu-comments, 
+   #menu-posts {
+     display: none;
+   }
+   #activity-widget #latest-comments {
+     display: none;
+   }
+   #collapse-menu {
+     display: none;
+   }
+   #adminmenu li.wp-menu-separator {
+     height: 14px;
+   }
+ </style>';
+}
+
+// Admin bar cleanup
+add_action('wp_before_admin_bar_render', 'remove_admin_bar_links');
+function remove_admin_bar_links()
+{
+    global $wp_admin_bar;
+    $wp_admin_bar->remove_menu('wp-logo');          // Remove the WordPress logo
+    $wp_admin_bar->remove_menu('about');            // Remove the about WordPress link
+    $wp_admin_bar->remove_menu('wporg');            // Remove the WordPress.org link
+    $wp_admin_bar->remove_menu('documentation');    // Remove the WordPress documentation link
+    $wp_admin_bar->remove_menu('support-forums');   // Remove the support forums link
+    $wp_admin_bar->remove_menu('feedback');         // Remove the feedback link
+    $wp_admin_bar->remove_menu('updates');          // Remove the updates link
+    $wp_admin_bar->remove_menu('comments');         // Remove the comments link
+}
+
+// Dashboard cleanup
+remove_action('welcome_panel', 'wp_welcome_panel');
+add_action('wp_dashboard_setup', 'my_custom_dashboard_widgets');
+function my_custom_dashboard_widgets()
+{
+    global $wp_meta_boxes;
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments']);
+    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins']);
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_primary']);
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']);
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']);
+    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_recent_drafts']);
+}
+
+/******************
+Parallax Vejledning
+******************/
 
 function theme_instructions_dashboard_widgets() {
 
   wp_add_dashboard_widget(
-                 'theme_instructions',         // Widget slug.
-                 'Vejledning: Tilføj nyt parallax element til forside',         // Title.
-                 'theme_instructions_widget_function' // Display function.
+                 'theme_instructions',
+                 'Vejledning: Tilføj nyt parallax element til forside',
+                 'theme_instructions_widget_function'
         );
 }
 add_action( 'wp_dashboard_setup', 'theme_instructions_dashboard_widgets' );
