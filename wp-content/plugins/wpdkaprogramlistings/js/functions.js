@@ -259,4 +259,10 @@ $(function() {
     $('.modal-ok').click(function() {
       $('.modal').modal('hide');
     });
+
+    $('.fake-link').click(function(e){
+      e.preventDefault;
+      var href = $(this).attr('data-href');
+      window.open(href);
+    });
 });
