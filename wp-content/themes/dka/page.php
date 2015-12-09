@@ -6,8 +6,14 @@
 get_header(); ?>
 
 
-<div class="container body-container">
+<div class="fluid-container body-container">
+  <div class="dark-search no-show">
+    <div class="search row"><?php dynamic_sidebar('Top'); ?></div>
+  </div>
+</div>
 
+
+<div class="container">
 
 <div class="row">
   <?php while ( have_posts() ) : the_post(); ?>

@@ -5,7 +5,13 @@
  */
 get_header(); ?>
 
-<div class="container body-container">
+<div class="fluid-container body-container">
+  <div class="dark-search">
+    <div class="search row"><?php dynamic_sidebar('Top'); ?></div>
+  </div>
+</div>
+
+<div class="container">
 
       <?php while ( have_posts() ) : the_post(); ?>
         <div class="row">
