@@ -14,13 +14,13 @@ $views = array(
   array(
     'title' => __('View as List','wpchaossearch'),
     'view' => 'listview',
-    'class' => 'icon-th-list',
+    'class' => 'icon-th-list icon-large',
     'link' => 'liste'
     ),
   array(
     'title' => __('View as Gallery','wpchaossearch'),
     'view' => 'thumbnails',
-    'class' => 'icon-th',
+    'class' => 'icon-th icon-large',
     'link' => null
     ),
   );
