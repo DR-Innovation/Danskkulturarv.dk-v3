@@ -74,7 +74,8 @@ class WPDKAProgramListings
    */
   public function loadJsCss()
   {
-    wp_enqueue_style('dka-programlisting-style', plugins_url('css/style.css', __FILE__));
+    // CSS is now DKA theme instead
+    // wp_enqueue_style('dka-programlisting-style', plugins_url('css/style.css', __FILE__));
     wp_enqueue_script('dka-programlisting-script', plugins_url('js/functions.js', __FILE__), array(
       'jquery'
     ));
