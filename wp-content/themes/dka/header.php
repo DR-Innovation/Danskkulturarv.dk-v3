@@ -47,6 +47,9 @@
                   'walker' => new wp_bootstrap_navwalker(), )
               );
           ?>
+          <div class="search-toggle">
+            <a href="#"><i class="icon-search icon-large"></i></a>
+          </div>
         </div><!--/.nav-collapse -->
       </div>
       <!--[if IE]>
