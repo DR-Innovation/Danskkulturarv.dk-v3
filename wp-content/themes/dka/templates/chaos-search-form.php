@@ -98,7 +98,54 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? ' 
     </div>
 
 
+    <div class="col-xs-12 col-md-4 col-sm-6 date-pick">
+      <div class="filter-title">
+        Startdato
+      </div>
+      <div class="btn-group btn-group-justified">
+        <div class="btn-group dka-select" role="group">
+          <select name="pl-year" class="btn btn-default">
+            <option value="" disabled="" selected="">År</option>
+            <option>1986</option>
+          </select>
+        </div>
+        <div class="btn-group dka-select" role="group">
+          <select name="pl-year" class="btn btn-default">
+            <option value="" disabled="" selected="">Måned</option>
+            <option>Januar</option>
+          </select>
+        </div>
+        <div class="btn-group dka-select" role="group">
+          <select name="pl-year" class="btn btn-default">
+            <option value="" disabled="" selected="">Dag</option>
+            <option>14</option>
+          </select>
+        </div>
+      </div>
+    </div>
 
+    <div class="col-xs-12 col-md-4 col-sm-6 date-pick">
+      <div class="filter-title">
+        Slutdato
+      </div>
+      <div class="btn-group btn-group-justified">
+        <div class="btn-group dka-select" role="group">
+          <select name="pl-year" class="btn btn-default">
+            <option value="" disabled="" selected="">År</option>
+          </select>
+        </div>
+        <div class="btn-group dka-select" role="group">
+          <select name="pl-year" class="btn btn-default">
+            <option value="" disabled="" selected="">Måned</option>
+          </select>
+        </div>
+        <div class="btn-group dka-select" role="group">
+          <select name="pl-year" class="btn btn-default">
+            <option value="" disabled="" selected="">Dag</option>
+          </select>
+        </div>
+      </div>
+    </div>
 
   </div>
 </form>
