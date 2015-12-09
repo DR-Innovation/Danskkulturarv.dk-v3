@@ -77,17 +77,17 @@ class WPDKAObject {
 
   public static $format_types = array(
     WPDKAObject::TYPE_AUDIO => array(
-      'class' => 'icon-volume-up',
+      'class' => 'icon-volume-up icon-large',
       'title' => 'Lyd',
       'chaos-value' => 'audio'
       ),
     WPDKAObject::TYPE_IMAGE_AUDIO => array(
-      'class' => 'icon-picture-sound',
+      'class' => 'icon-picture-sound icon-large',
       'title' => 'Billeder og lyd',
       'chaos-value' => 'unknown'
     ),
     WPDKAObject::TYPE_VIDEO => array(
-      'class' => 'icon-film',
+      'class' => 'icon-film icon-large',
       'title' => 'Video',
       'chaos-value' => 'video'
     ),
@@ -97,12 +97,12 @@ class WPDKAObject {
     //	'title' => 'Dokumenter',
     //),
     WPDKAObject::TYPE_IMAGE => array(
-      'class' => 'icon-picture',
+      'class' => 'icon-picture icon-large',
       'title' => 'Billeder',
       'chaos-value' => 'image'
     ),
     WPDKAObject::TYPE_UNKNOWN => array(
-      'class' => 'icon-circle-blank',
+      'class' => 'icon-circle-blank icon-large',
       'title' => 'Materiale',
       'chaos-value' => ''
       ),
