@@ -26,10 +26,27 @@ body,
 }
 
 .adamrob_pcontainer {
+  font-size: 1.4em;
   > div:first-child {
     padding-top   : 180px !important;
   }
   > div:last-child {
     padding-bottom: 180px !important;
   }
+  > div {
+    max-width: 70%;
+  }
+}
+
+
+.responsive-selector() {
+  &:before,
+  &:after {
+    right: 12px;
+  }
+}
+.programlisting-year,
+.programlisting-month,
+.programlisting-day {
+  .responsive-selector();
 }

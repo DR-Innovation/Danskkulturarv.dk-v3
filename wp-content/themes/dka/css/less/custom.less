@@ -1,13 +1,92 @@
 // out: ../styles.css, sourcemap: true, compress: false
-@import url(https://fonts.googleapis.com/css?family=Roboto:900,700italic,700,400italic,400);
-@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:700);
 @import "bootstrap/bootstrap";
-@header-color: @text-color;
-@header-bg: white;
+@header-color: white;
+@header-bg: @brand-primary;
 @regular-weight: 400;
 @orange: #ff7e21;
 @max-width: 1170px;
-@focus-shadow: 0 0 8px fade(@brand-primary, 40%);
+@DKA-border-color: @gray-lighte;
+@DKA-thumb-height: 244px;
+@DKA-hover-color: white;
+
+// @brand-primary: hsl(25, 90%, 45%);
+@DKA-link-color: hsl(25, 100%, 38%);
+@DKA-active-bg-color: hsl(25, 100%, 25%);
+@DKA-primary: hsl(25, 95%, 46%);
+@DKA-active-color: white;
+@DKA-search-bg-color: @gray-lighter;
+@DKA-no-shadow: none;
+
+
+// --------------------------------------------------
+// MIXINS
+// --------------------------------------------------
+.social-color(@color) {
+  color           : white;
+  background-color: @color;
+  &:hover {
+    background-color: darken(@color,10%);
+  }
+}
+.DKA-nav-shadow(@opacity) {
+  box-shadow: 0 0 1px rgba(0, 0, 0, @opacity*5), 0 0 5px rgba(0, 0, 0, @opacity), 0 0 10px rgba(0, 0, 0, @opacity), 0 0 20px rgba(0, 0, 0, @opacity), 0 0 40px rgba(0, 0, 0, @opacity);
+}
+.DKA-hover-shadow(@color: rgba(0, 0, 0, 0.10)) {
+  box-shadow: 0 0 1px @color, 0 0 2px @color, 0 1px 5px @color, 0 2px 10px @color, 0 2px 20px @color;
+}
+.DKA-inset-shadow(@color: rgba(0, 0, 0, 0.10)) {
+  box-shadow: 0 0 1px @color inset, 0 0 2px @color inset, 0 1px 5px @color inset, 0 2px 10px @color inset, 0 2px 20px @color inset;
+}
+.DKA-active() {
+  background-color: @DKA-active-bg-color;
+  border-color    : @DKA-active-bg-color;
+  color           : @DKA-active-color;
+  box-shadow      : @DKA-no-shadow;
+}
+.DKA-focus(@color: @DKA-active-color) {
+  background-color: @color;
+  border-color    : @color;
+  color           : @DKA-link-color;
+}
+.DKA-select() {
+  position: relative;
+  &:before,
+  &:after {
+    font-family: FontAwesome;
+    position   : absolute;
+    font-size  : 1.4rem;
+    right      : 6px;
+    color      : @DKA-link-color;
+    z-index    : 10;
+  }
+  &:before {
+    top      : 50%;
+    transform: translateY(-68%);
+    content  : "\f0d8";
+  }
+  &:after {
+    content  : "\f0d7";
+    bottom   : 50%;
+    transform: translateY(68%);
+  }
+  &:active {
+    &:before,
+    &:after {
+      color: white;
+    }
+  }
+  select {
+    width         : 100%;
+    vertical-align: middle;
+    display       : inline-block;
+    outline       : none;
+    text-align    : left;
+  }
+}
+
+// --------------------------------------------------
+// CUSTOM STYLING
+// --------------------------------------------------
 @import "custom/header";
 @import "custom/footer";
 @import "custom/parallax";
@@ -20,15 +99,11 @@
 @import "flexslider";
 
 // --------------------------------------------------
-// MIXINS
+// Plugin styling
 // --------------------------------------------------
-.social-color(@color) {
-  color           : white;
-  background-color: @color;
-  &:hover {
-    background-color: darken(@color,10%);
-  }
-}
+
+@import "custom/program-listings";
+@import "custom/collections";
 
 // --------------------------------------------------
 // GENERAL
@@ -59,12 +134,17 @@ blockquote {
   font-style: italic;
   font-size : 1em;
 }
+a {
+  color: @DKA-link-color;
+  &:hover {
+    color: @DKA-active-bg-color;
+  }
+}
 body,
 .btn,
 .form-control,
-.dropdown-menu,
-select {
-  font-size: @font-size-base;
+.dropdown-menu {
+  font-size : @font-size-base;
   box-shadow: none;
 }
 .dropdown-menu {
@@ -73,12 +153,21 @@ select {
     text-decoration: none !important;
   }
 }
-.form-control:focus {
-  box-shadow: @focus-shadow;
+.form-control {
+  &:hover {
+    .DKA-hover-shadow(fade(@brand-primary,25%));
+    &:focus {
+      .DKA-hover-shadow(fade(@brand-primary,15%));
+    }
+  }
+  &:focus {
+    border    : 1px solid @brand-primary !important;
+    box-shadow: @DKA-no-shadow;
+  }
 }
 .form-control,
 select {
-  border          : 1px solid @gray-lighter;
+  border          : 1px solid @DKA-border-color;
   background-color: white;
   box-shadow      : none;
   font-weight     : @regular-weight;
@@ -86,6 +175,9 @@ select {
 }
 select {
   cursor: pointer;
+}
+.dka-select {
+  .DKA-select()
 }
 .btn-link {
   font-weight: @regular-weight;
@@ -122,22 +214,95 @@ textarea,
 input[type="text"] {
   -webkit-appearance: none;
 }
+.flex-control-paging li a {
+  border: 1px solid transparent;
+}
 
 // --------------------------------------------------
 // Buttons
 // --------------------------------------------------
-.btn-default {
-  box-shadow      : none !important;
-  background-color: white;
-  border-color    : @gray-lighte;
-  &:hover {
-    background-color: @gray-lightest;
-    border-color    : @gray-lighte;
+.btn,
+.tag {
+  transition : 0.2s ease;
+  font-weight: 700;
+  &:hover,
+  &:focus {
+    .DKA-hover-shadow();
   }
   &.active,
   &:active {
-    background-color: @gray-lighter;
-    border-color    : @gray-lighte;
+    box-shadow: @DKA-no-shadow;
+    .blue {
+      color: @DKA-link-color;
+    }
+  }
+  &.active {
+    &:hover,
+    &:focus {
+      .DKA-hover-shadow(rgba(0, 0, 0, 0.18));
+    }
+  }
+  &:active {
+    transition: none;
+    &:hover,
+    &:focus {
+      box-shadow: @DKA-no-shadow;
+    }
+  }
+}
+.btn-default,
+select {
+  background-color: white;
+  color           : @DKA-link-color;
+  border-color    : @DKA-border-color;
+  &:before,
+  &:after {
+    color: @DKA-link-color;
+  }
+  &:hover,
+  &:focus {
+    .DKA-focus();
+  }
+  &.active,
+  &:active {
+    .DKA-active();
+  }
+  &.active {
+    &:hover,
+    &:focus {
+      background-color: @DKA-active-bg-color;
+    }
+  }
+}
+select,
+* {
+  -webkit-appearance: none !important;
+  &:focus {
+    outline: none !important;
+  }
+  &:-moz-focusring {
+    color      : transparent !important;
+    text-shadow: 0 0 0 #000 !important;
+  }
+}
+.btn-group.open .dropdown-toggle {
+  background-color          : @DKA-active-bg-color;
+  color                     : @DKA-active-color;
+  box-shadow                : @DKA-no-shadow;
+  border-color              : transparent;
+  border-bottom-left-radius : 0;
+  border-bottom-right-radius: 0;
+}
+.btn-primary {
+  background-color: @DKA-primary;
+  border-color    : @DKA-primary;
+  &:hover,
+  &:focus {
+    &:extend(.btn-primary);
+    .DKA-hover-shadow(rgba(0,0,0,0.18));
+  }
+  &:active {
+    .DKA-active();
   }
 }
 
@@ -171,11 +336,6 @@ input[type="text"] {
 .icon-picture-sound:after {
   content    : "\F03E\0000a0\0000a0\F028";
   font-family: FontAwesome;
-}
-
-// results
-.blue {
-  color: @brand-primary;
 }
 
 // thumbs
