@@ -84,6 +84,7 @@ $views = array(
 
       endif;
       WPChaosClient::set_object($object);
+      $chaos_object = WPChaosClient::get_object();
       $thumbnail = (WPChaosClient::get_object()->thumbnail ? ' style="background-image: url(\''.WPChaosClient::get_object()->thumbnail.'\')!important;"' : '');
       $url = WPChaosClient::get_object()->url;
       $caption = WPChaosClient::get_object()->caption;
@@ -115,7 +116,7 @@ $views = array(
           <h2 class="title"><?php echo $title; ?></h2>
           <p class="organization"><?php echo $organization; ?></p>
           <?php if(WPChaosClient::get_object()->published && $collection_obj == null) : ?>
-            <p class="date"><?php echo ltrim(get_chaos(published), "Året"); ?></p>
+            <p class="date"><?php echo ltrim($chaos_object->published, "Året"); ?></p>
           <?php endif; ?>
           <div class="media-type-container">
             <i title="<?php echo WPChaosClient::get_object()->type_title; ?>" class="<?php echo WPChaosClient::get_object()->type_class; ?>"></i>
