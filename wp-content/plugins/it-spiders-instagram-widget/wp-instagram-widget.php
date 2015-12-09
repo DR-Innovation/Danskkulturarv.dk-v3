@@ -26,7 +26,7 @@ GNU General Public License for more details.
 if( !defined( 'style' ) ){
   define ( 'style', plugin_dir_url( __FILE__ ) . 'assets' );
 }
- wp_enqueue_style( 'style', style.'/style.css', '', ITSL_VERSION );
+ // wp_enqueue_style( 'style', style.'/style.css', '', ITSL_VERSION );
 function wpiw_init() {
 
   // define some constants

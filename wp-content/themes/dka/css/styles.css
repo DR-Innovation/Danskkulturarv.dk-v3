@@ -5171,6 +5171,11 @@ a.usertag {
 .widget_null-instagram-feed .folow-insta {
   display: none;
 }
+.widget_null-instagram-feed ul.instagram-pics {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
 .widget_null-instagram-feed ul.instagram-pics li {
   width: 32%;
   display: inline-block;
