@@ -50,7 +50,9 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'tags', function($value, \WPCHAOS
 		$value .= '<a class="tag" href="'.$link.'" title="'.esc_attr($tag).'">'.$tag.'</a>'."\n";
 	}
 	if(empty($tags)) {
-		$value .= '<span class="no-tag">'.__('No tags','wpdka').'</span>'."\n";
+    // We want to return nothing instead
+    // $value .= '<span class="no-tag">'.__('No tags','wpdka').'</span>'."\n";
+    $value = "";
 	}
 	return $value;
 }, 10, 2);

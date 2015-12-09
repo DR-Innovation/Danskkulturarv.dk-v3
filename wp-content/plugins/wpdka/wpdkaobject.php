@@ -186,7 +186,7 @@ class WPDKAObject {
 
       );
 
-      $value .= "<dl>\n";
+      $value .= "<dl>";
       foreach($creators as $creator) {
         $role = strtolower(strval($creator['Role']));
         $role = (isset($role_i18n[$role]) ? $role_i18n[$role] : ucfirst($creator['Role']));
@@ -197,7 +197,7 @@ class WPDKAObject {
           $value .= "<dd>".strval($creator)."</dd>\n";
         }
       }
-      $value .= "</dl>\n";
+      $value .= "</dl>";
     } else {
       $value .= "";
     }
