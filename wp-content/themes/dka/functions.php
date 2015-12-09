@@ -551,16 +551,4 @@ function dka_social_share($args = array()) {
 
 }
 
-function echo_chaos($chaosObjectOne)
-{
-    echo WPChaosClient::get_object()->$chaosObjectOne;
-}
-
-
-function get_chaos($chaosObjectTwo)
-{
-    return WPChaosClient::get_object()->$chaosObjectTwo;
-}
-
-
 //eol
