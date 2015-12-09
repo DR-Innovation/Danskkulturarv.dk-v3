@@ -24,15 +24,18 @@
   <?php if (get_chaos(published)) : ?>
     <i class="icon-calendar"></i><?php echo ltrim(get_chaos(published), "Året"); ?>
   <?php endif; ?>
-  <?php if (get_chaos(rights)) : ?>
-    <span><?php str_replace("Copyright © Det Danske Filminstitut","",get_chaos(rights));; ?></span>
+  <!-- Dont display DFI copyright -->
+  <?php if (get_chaos(rights) !== "Copyright © Det Danske Filminstitut") : ?>
+    <span><?php echo_chaos(rights) ?></span>
   <?php endif; ?>
 </div>
 
+<?php if (get_chaos(description)) : ?>
 <div class="description">
   <h3>Beskrivelse</h3>
   <?php echo_chaos(description); ?>
 </div>
+<?php endif; ?>
 
 <?php if (get_chaos(creator)) : ?>
 <div class="colofon">
@@ -53,36 +56,39 @@
 </div>
 
 
-<hr>
 
 <div class="social hidden-md hidden-lg">
   <h3>Del</h3>
   <?php dka_social_share(array('link' => get_chaos(url))); ?>
 </div>
 
-<div class="row">
-  <div class="col-sm-6 col-xs-12">
-    <h3><?php _e('Tags', 'dka'); ?></h3>
-    <?php echo_chaos(tags); ?>
-  </div>
-  <?php if (class_exists('WPDKATags') && intval(get_option('wpdkatags-status', 0)) > 0) : //iff status is active or frozen ?>
-  <div class="col-sm-6 col-xs-12">
-    <h3>
-      <?php _e('User Tags', 'wpdkatags'); ?>
-      <?php if (current_user_can(WPDKATags::CAPABILITY)) : ?>
-      <button style="padding:2px 5px;" class="btn btn-sm btn-default" id="object-taggable"
-        data-dka-taggable="<?php echo !get_chaos(taggable); ?>">
-        <?php get_chaos(taggable) ? _e('Disable', 'dka') : _e('Enable', 'dka'); ?>
-      </button>
-      <?php endif; ?>
-    </h3>
-    <div class="usertags-wrap">
-      <?php echo_chaos(usertags); ?>
-    </div>
-  </div>
-  <?php endif; ?>
-</div>
 
+<?php if (intval(get_option('wpdkatags-status', 0)) > 0 || get_chaos(tags)) : ?>
+  <div class="row">
+    <?php if(get_chaos(tags)) : ?>
+      <div class="col-sm-6 col-xs-12">
+        <h3><?php _e('Tags', 'dka'); ?></h3>
+        <?php echo_chaos(tags); ?>
+      </div>
+    <?php endif; ?>
+    <?php if (class_exists('WPDKATags') && intval(get_option('wpdkatags-status', 0)) > 0) : //iff status is active or frozen ?>
+      <div class="col-sm-6 col-xs-12">
+        <h3>
+          <?php _e('User Tags', 'wpdkatags'); ?>
+          <?php if (current_user_can(WPDKATags::CAPABILITY)) : ?>
+          <button style="padding:2px 5px;" class="btn btn-sm btn-default" id="object-taggable"
+            data-dka-taggable="<?php echo !get_chaos(taggable); ?>">
+            <?php get_chaos(taggable) ? _e('Disable', 'dka') : _e('Enable', 'dka'); ?>
+          </button>
+          <?php endif; ?>
+        </h3>
+        <div class="usertags-wrap">
+          <?php echo_chaos(usertags); ?>
+        </div>
+      </div>
+    <?php endif; ?>
+  </div>
+<?php endif; ?>
 
 <?php if (class_exists('WPDKACollections') && current_user_can('edit_posts') && count(get_chaos(collections_raw)) > 0): ?>
 <div class="collection-container">
