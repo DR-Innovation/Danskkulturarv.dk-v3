@@ -13,6 +13,11 @@
   <title><?php wp_title('|', true, 'right'); ?></title>
   <link rel="profile" href="http://gmpg.org/xfn/11" />
   <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
+  <!--[if lt IE 9]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/2.3.0/es5-shim.js"></script>
+  <![endif]-->
   <?php wp_head(); ?>
 </head>
 <body>

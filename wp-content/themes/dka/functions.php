@@ -258,9 +258,13 @@ add_action('dequeue_all_styles', 'dka_dequeue_all_styles');
 
 function dka_scripts_styles() {
 
+  // Remove unused styles
+  // Instagram css
+  wp_dequeue_style('style');
+
   wp_register_style( 'font-awesome', '//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css' );
-  //wp_register_style('asap', 'http://fonts.googleapis.com/css?family=Asap:400,700,400italic');
-  wp_register_style( 'dka-style', get_template_directory_uri() . '/css/styles.css', array('font-awesome'/*,'asap'*/) );
+  wp_register_style( 'google-fonts', 'https://fonts.googleapis.com/css?family=Roboto:700i,700,400i,400|Roboto+Condensed:700)' );
+  wp_register_style( 'dka-style', get_template_directory_uri() . '/css/styles.css', array(/*'font-awesome',*/'google-fonts') );
   wp_register_style( 'dka-embed-style', get_template_directory_uri() . '/css/embed-style.css');
 
   wp_enqueue_style( 'dka-style' );
@@ -268,33 +272,20 @@ function dka_scripts_styles() {
   //Use Google CDN instead
   wp_deregister_script('jquery');
   wp_register_script('jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js', false, '1.11.0', false);
-
-  wp_register_script( 'html5shiv', get_template_directory_uri() . '/js/html5shiv.js', array(), ' 1.0', true );
-  wp_register_script( 'respond-js', get_template_directory_uri() . '/js/respond.min.js', array(), ' 1.0', true );
   wp_register_script( 'jwplayer', get_template_directory_uri() . '/lib/jwplayer/jwplayer.js', array('jquery'), '1', true );
   wp_register_script( 'flexslider', get_template_directory_uri() . '/js/jquery.flexslider-min.js', array('jquery'), '2.1', true );
 
-  wp_enqueue_script('html5shiv' );
-  wp_enqueue_script('respond-js' );
-
-  $bootstrap_scripts = array(
-    'transition', //modal
-    //'alert',
-    'button',
-    //'carousel',
-    'collapse', //search
-    'dropdown', //menu
-    'modal', //used by collection and tags
-    //'scrollspy',
-    //'tab',
-    'tooltip', // Used by the /api page.
-    'popover', // Used by the /api page.
-    //'affix'
-  );
-  foreach($bootstrap_scripts as $bootscript) {
-    wp_register_script( $bootscript, get_template_directory_uri() . '/js/bootstrap/'.$bootscript.'.js', array('jquery'), '3.0.0', true );
-    wp_enqueue_script( $bootscript );
-  }
+  // Combine bootstrap scripts in one file
+  wp_register_script( 'bootstrap-min', get_template_directory_uri() . '/js/bootstrap.min.js', array('jquery'), '3.0.0', true );
+  wp_enqueue_script( 'bootstrap-min' );
+  // We are using (generated online builder with the config.json file in the js/bootstrap folder)
+  // 'transition', //modal
+  // 'button',
+  // 'collapse', //search
+  // 'dropdown', //menu
+  // 'modal', //used by collection and tags
+  // 'tooltip', // Used by the /api page.
+  // 'popover', // Used by the /api page.
 
   wp_enqueue_script( 'custom-functions', get_template_directory_uri() . '/js/custom-functions.js', array('jquery'), '1', true );
   wp_localize_script( 'custom-functions', 'dka', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'query_key_freetext' => WPChaosSearch::QUERY_KEY_FREETEXT ) );
