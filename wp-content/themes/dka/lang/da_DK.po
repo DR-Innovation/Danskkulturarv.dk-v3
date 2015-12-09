@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dansk Kulturarv\n"
 "POT-Creation-Date: 2015-11-24 12:11+0100\n"
-"PO-Revision-Date: 2015-11-24 12:11+0100\n"
+"PO-Revision-Date: 2015-12-06 16:56+0100\n"
 "Last-Translator: \n"
 "Language-Team: Joachim Jensen <jj@bitblueprint.com>\n"
 "Language: da_DK\n"
@@ -205,15 +205,15 @@ msgstr "Søg"
 
 #: ../templates/chaos-search-form.php:59
 msgid "Options"
-msgstr "Filtrér"
+msgstr "Filtre"
 
 #: ../templates/chaos-search-form.php:66
 msgid "All Formats"
-msgstr "Alle medieformater"
+msgstr "Alle"
 
 #: ../templates/chaos-search-form.php:78
 msgid "All Organizations"
-msgstr "Alle institutioner"
+msgstr "Alle"
 
 #: ../templates/chaos-search-results.php:15
 msgid "View as List"
