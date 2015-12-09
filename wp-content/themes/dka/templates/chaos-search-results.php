@@ -48,7 +48,7 @@ $views = array(
       </div>
       <div class="col-xs-12 search-result-listing">
         <div class="btn-group">
-           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><?php _e('Sort by:','dka'); ?> <span class="blue"><?php echo $current_sort; ?></span>
+           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><?php _e('Sort by:','dka'); ?> <?php echo $current_sort; ?>
            </button>
            <ul class="dropdown-menu">
           <?php foreach(WPDKASearch::$sorts as $sort) : ?>
