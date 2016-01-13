@@ -1,7 +1,7 @@
 // out: ../styles.css, sourcemap: true, compress: false
 @import "bootstrap/bootstrap";
-@header-color: white;
-@header-bg: @brand-primary;
+@header-color: @brand-primary;
+@header-bg: white;
 @regular-weight: 400;
 @orange: #ff7e21;
 @max-width: 1170px;
@@ -216,6 +216,15 @@ input[type="text"] {
 }
 .flex-control-paging li a {
   border: 1px solid transparent;
+}
+.row.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+}
+.row.no-gutters > [class^="col-"],
+.row.no-gutters > [class*=" col-"] {
+  padding-right: 0;
+  padding-left: 0;
 }
 
 // --------------------------------------------------

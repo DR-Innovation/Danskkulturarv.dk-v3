@@ -138,12 +138,22 @@
   width    : 100%;
   max-width: 1170px;
 }
+.thumbnails {
+  padding: 0;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
 .search-object {
-  height: @DKA-thumb-height;
+  list-style-type: none;
+  // height: @DKA-thumb-height;
   a.thumbnail {
-    height       : @DKA-thumb-height;
+    // height       : @DKA-thumb-height;
     color        : @text-color;
     border-radius: 0;
+    border-width: 0;
+    padding: 0;
+    position: relative;
+    margin-bottom: 0;
   }
   .thumb {
     height             : 145px;
@@ -154,12 +164,26 @@
     margin-bottom      : 0;
     .caption {
       color           : #fff;
-      background-color: rgba(0, 0, 0, 0.4);
+      background-color: rgba(0, 0, 0, 0.3);
       position        : absolute;
       bottom          : 0;
       right           : 0;
       padding         : 3px 4px 0;
     }
+  }
+  img {
+    background-color: @gray-light;
+    min-height: 100px;
+  }
+  .over-img {
+    // background-color: fade(darken(@brand-primary, 20%), 60%);
+    background-color: rgba(0,0,0,70%);
+    padding: 5px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: white;
   }
   a:hover {
     text-decoration: none;
@@ -267,13 +291,6 @@ ul.row.listview {
     overflow     : hidden;
     text-overflow: ellipsis;
     font-size    : 1.6em;
-  }
-}
-.thumbnails {
-  padding: 0;
-  li {
-    margin-bottom  : 20px;
-    list-style-type: none;
   }
 }
 .pagination-div {

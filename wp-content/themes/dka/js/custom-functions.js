@@ -293,4 +293,13 @@
     $(this).removeClass('in');
   });
 
+  var placeholders = ['Alice','Bob','Charles'];
+
+  (function cycle() {
+      var placeholder = placeholders.shift();
+      $('input').attr('placeholder',placeholder);
+      placeholders.push(placeholder);
+      setTimeout(cycle,2000);
+  })();
+
 })(jQuery);

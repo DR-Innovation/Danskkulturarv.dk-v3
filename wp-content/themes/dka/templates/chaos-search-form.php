@@ -98,7 +98,7 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? ' 
     </div>
 
 
-    <div class="col-xs-12 col-md-4 col-sm-6 date-pick">
+    <!-- <div class="col-xs-12 col-md-4 col-sm-6 date-pick">
       <div class="filter-title">
         Startdato
       </div>
@@ -145,7 +145,7 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? ' 
           </select>
         </div>
       </div>
-    </div>
+    </div> -->
 
   </div>
 </form>

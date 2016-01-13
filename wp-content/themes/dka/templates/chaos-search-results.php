@@ -68,7 +68,7 @@ $views = array(
         <?php endif; ?>
       </div>
     </div>
-  <ul class="row <?php echo $current_view; ?>">
+  <ul class="row no-gutters <?php echo $current_view; ?>">
 
     <?php
     //Consider using a action/filter to print single result
@@ -85,6 +85,7 @@ $views = array(
       endif;
       WPChaosClient::set_object($object);
       $thumbnail = (WPChaosClient::get_object()->thumbnail ? ' style="background-image: url(\''.WPChaosClient::get_object()->thumbnail.'\')!important;"' : '');
+      $thumbimg = '<img src="'.WPChaosClient::get_object()->thumbnail.'">';
       $url = WPChaosClient::get_object()->url;
       $caption = WPChaosClient::get_object()->caption;
       $title = WPChaosClient::get_object()->title;
@@ -104,24 +105,27 @@ $views = array(
       <li class="search-object col-xs-6 col-sm-4 col-lg-3<?php echo $class ?><?php echo $publish; ?>">
         <a class="thumbnail" href="<?php echo $url; ?>" id="<?php echo WPChaosClient::get_object()->GUID; ?>">
 
-          <div class="thumb format-<?php echo WPChaosClient::get_object()->type; ?>"<?php echo $thumbnail; ?>>
+          <!-- <div class="thumb format-<?php echo WPChaosClient::get_object()->type; ?>"<?php echo $thumbnail; ?>>
             <?php  if($caption):?>
               <div class="caption"><?php echo $caption ?></div>
             <?php endif;?>
           <?php if(class_exists('WPDKACollections') && current_user_can(WPDKACollections::CAPABILITY) && !$collection_obj) : ?>
             <button type="button" class="add-to-collection btn"><span class="icon-plus"></span></button>
           <?php endif; ?>
-          </div>
-          <h2 class="title"><?php echo $title; ?></h2>
-          <p class="organization"><?php echo $organization; ?></p>
-          <?php if(WPChaosClient::get_object()->published && $collection_obj == null) : ?>
-            <p class="date"><?php echo ltrim(get_chaos(published), "Året"); ?></p>
-          <?php endif; ?>
-          <div class="media-type-container">
-            <i title="<?php echo WPChaosClient::get_object()->type_title; ?>" class="<?php echo WPChaosClient::get_object()->type_class; ?>"></i>
-            <?php if(0 && $views) : ?>
-            <i class="icon-eye-open"> <?php echo $views; ?></i>
+          </div> -->
+          <?php echo $thumbimg; ?>
+          <div class="over-img">
+            <h2 class="title"><?php echo $title; ?></h2>
+            <p class="organization"><?php echo $organization; ?></p>
+            <?php if(WPChaosClient::get_object()->published && $collection_obj == null) : ?>
+              <p class="date"><?php echo ltrim(get_chaos(published), "Året"); ?></p>
             <?php endif; ?>
+            <!-- <div class="media-type-container">
+              <i title="<?php echo WPChaosClient::get_object()->type_title; ?>" class="<?php echo WPChaosClient::get_object()->type_class; ?>"></i>
+              <?php if(0 && $views) : ?>
+              <i class="icon-eye-open"> <?php echo $views; ?></i>
+              <?php endif; ?>
+            </div> -->
           </div>
         </a>
       </li>

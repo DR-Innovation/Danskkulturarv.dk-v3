@@ -3,10 +3,10 @@
 // HEADER
 // --------------------------------------------------
 .navbar {
-  background-color: @header-bg;
+  background-color: fade(@header-bg, 95%);
   font-weight     : bold;
   margin          : 0;
-  .DKA-nav-shadow(0.15);
+  .DKA-nav-shadow(0.02);
   &.navbar-fixed-top {
     border-width: 0;
   }
@@ -42,7 +42,7 @@
     border-color: @header-bg;
     box-shadow: @DKA-no-shadow;
     a {
-      color: @DKA-active-color;
+      color: @header-color;
       &:hover, &:focus, &:active {
         color: @DKA-active-color;
         background-color: @DKA-active-bg-color;
