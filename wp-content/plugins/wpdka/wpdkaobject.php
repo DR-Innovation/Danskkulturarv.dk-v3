@@ -6,7 +6,7 @@
 
 /**
  * Class that manages CHAOS data specific to
- * Dansk Kulturarv 
+ * Dansk Kulturarv
  */
 class WPDKAObject {
 
@@ -18,18 +18,18 @@ class WPDKAObject {
 	const DKA_CROWD_TAGS_SCHEMA_GUID = '00000000-0000-0000-0000-000067c30000';
 	const METADATA_LANGUAGE = 'da';
 	const SESSION_PREFIX = __CLASS__;
-	
+
 	const DKA_CROWD_SLUG_SOLR_FIELD = 'DKA-Crowd-Slug_string';
-	
+
 	public static $FREETEXT_SCHEMA_GUIDS = array(self::DKA_SCHEMA_GUID, self::DKA2_SCHEMA_GUID);
 	public static $FREETEXT_LANGUAGE = array(self::METADATA_LANGUAGE);
-	
+
 	// TODO: Consider moving this back into the harvester.
 	public static $DERIVED_FILES = array(
 		'|^(?P<streamer>rtmp://vod-bonanza\.gss\.dr\.dk/bonanza)/mp4:bonanza/(?P<filename>.+\.mp4)$|i' => 'http://vod-kulturarv.dr.dk/bonanza/mp4:bonanza/bonanza/{$matches["filename"]}/Playlist.m3u8',
 		'|^(?P<streamer>rtmp://vod-kulturarv\.dr\.dk/bonanza)/mp4:bonanza/(?P<filename>.+\.mp4)$|i' => 'http://vod-kulturarv.dr.dk/bonanza/mp4:bonanza/bonanza/{$matches["filename"]}/Playlist.m3u8'
 	);
-	
+
 	public static $KNOWN_STREAMERS = array(
 		'rtmp://vod-bonanza.gss.dr.dk/bonanza/',
 		'rtmp://vod-kulturarv.dr.dk/bonanza/',
@@ -40,12 +40,12 @@ class WPDKAObject {
 	 * Construct
 	 */
 	public function __construct() {
-		
+
 		// Define a filter for object creation.
 		$this->define_object_construction_filters();
-		
+
 		$this->define_single_object_page();
-		
+
 		// Restrict chaos query to this object type.
 		// $objectTypeConstraints = array();
 		// foreach(self::$OBJECT_TYPE_IDS as $id) {
@@ -62,13 +62,13 @@ class WPDKAObject {
 
 	const IMAGE_MAX_WIDTH = 800;
 	const IMAGE_MAX_HEIGHT = 400;
-	
+
 	/**
 	 * How many seconds should we wait for the CHAOS service to realize the slug has changed?
 	 * @var integer
 	 */
 	const RESET_TIMEOUT_S = 30; // 10 seconds.
-	
+
 	/**
 	 * How many milliseconds delay between checking the service for the object to become searchable on the slug.
 	 * @var integer
@@ -136,19 +136,19 @@ class WPDKAObject {
 	/**
 	 * Determine type of a CHAOS object based
 	 * on the included file formats
-	 * @param  WPChaosObject $object 
+	 * @param  WPChaosObject $object
 	 * @return string
 	 */
 	public static function determine_type($object) {
 
 		$format_types = array();
-		
+
 		foreach($object->Files as $file) {
 			//FormatID = 10 is thumbnai format. We do not want that here.
 			if($file->FormatID != 10) {
 				$format_types[$file->FormatType] = 1;
 			}
-			
+
 		}
 
 		//Video format
@@ -162,7 +162,7 @@ class WPDKAObject {
 			//Audio format
 			return self::TYPE_AUDIO;
 		}
-		
+
 		//Image format
 		if(isset($format_types['Image']))
 			return self::TYPE_IMAGE;
@@ -172,7 +172,7 @@ class WPDKAObject {
 	}
 
 	public static function get_creator_attributes($creators) {
-		$value = "";	
+		$value = "";
 		if($creators) {
 			//Some roles are in English, gettext cannot translate variables, thus this whitelist
 			$role_i18n = array(
@@ -213,7 +213,7 @@ class WPDKAObject {
 	public static function replace_url_with_link($text) {
 		return preg_replace("#((http|https|ftp)://(\S*?\.\S*?))(\s|\;|\)|\]|\[|\{|\}|,|\"|'|:|\<|$|\.\s)#i", '<a href="$1" target="_blank">$3</a>$4', $text);
 	}
-	
+
 	public function define_single_object_page() {
 		// Ensure the DKA Crowd metadata schema is present, and redirect to the slug URL if needed.
 		add_action(WPChaosClient::GET_OBJECT_PAGE_BEFORE_TEMPLATE_ACTION, function(\WPChaosObject $object) {
@@ -239,7 +239,7 @@ class WPDKAObject {
 				exit;
 			}
 		});
-		
+
 		add_action(WPChaosClient::GET_OBJECT_PAGE_BEFORE_TEMPLATE_ACTION, function(\WPChaosObject $object) {
 			// Make sure no tags is present in the metadata.
 			$crowd_metadata = $object->get_metadata(WPDKAObject::DKA_CROWD_SCHEMA_GUID);
@@ -268,9 +268,9 @@ class WPDKAObject {
 					// Use the session to make sure that the same user is not just refreshing the view counter by refreshing.
 					$_SESSION[$viewed_session_name] = "viewed";
 				}
-			}, 12);			
+			}, 12);
 		}
-		
+
 		// Make sure objects are identified if they are there.
 		add_filter(WPChaosClient::GENERATE_SINGLE_OBJECT_SOLR_QUERY, function($query) {
 			if(is_string($query)) {
@@ -287,7 +287,7 @@ class WPDKAObject {
 			if(is_page() && get_query_var('page')) {
 				global $wpdb;
 				$result = $wpdb->get_col("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'chaos_organization'");
-				$result[] = get_option('wpdka-default-organization-page');	
+				$result[] = get_option('wpdka-default-organization-page');
 				$array = array_unique($result);
 				if(in_array(get_the_ID(),$result)) {
 					$chaos_material_slug = get_query_var('page');
@@ -304,7 +304,7 @@ class WPDKAObject {
 				//<blog url>/<institution>/<slug>(/<embed>)
 				//We need to use blog url as suffix, because it might not be root and therefore a part of request_uri
 				preg_match('|^'.get_home_url().'/([^/]+)/([^/]+)(?:/(embed)?)?(/\?.*)?$|', $http.'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $matches);
-				
+
 				//$matches[2] is slug
 				if(isset($matches[2])) {
 
@@ -319,20 +319,20 @@ class WPDKAObject {
 						}
 						return $template;
 					});
-				}				
+				}
 			}
 
 			if($chaos_material_slug) {
 				$query[] = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':"'. $chaos_material_slug .'"';
 			}
-			
-				
-		
+
+
+
 			return implode("+OR+", $query);
 		});
 	}
-	
-	
+
+
 	public function define_object_construction_filters() {
 		/*
 		add_action(WPChaosObject::CHAOS_OBJECT_CONSTRUCTION_ACTION, function(WPChaosObject $object) {
@@ -365,12 +365,12 @@ class WPDKAObject {
 			foreach($originalObject->Files as &$file) {
 				// We're not interested in anything but a video.
 				if($file->FormatType != 'Video') continue;
-				
+
 				$file->Streamer = null;
 				foreach(WPDKAObject::$KNOWN_STREAMERS as $streamer) {
 					if(strstr($file->URL, $streamer) !== false) {
 						$file->Streamer = $streamer;
-						
+
 						// Check if the file URL contains the (flv|mp4|mp3): part, just after the streamers URL.
 						$matches = array();
 						$streamer_regexp_escaped = $streamer;
@@ -390,11 +390,11 @@ class WPDKAObject {
 			return $object;
 		}, 10, 1);
 	}
-	
+
 	public static function ensure_crowd_metadata(\WPChaosObject $object, $ensureObjectIsReachableFromSlug = false) {
 		// Is this the admin force resetting from URL?
 		$forceReset = WP_DEBUG && array_key_exists('reset-crowd-metadata', $_GET) && current_user_can('edit_posts');
-		
+
 		if($forceReset || !$object->has_metadata(WPDKAObject::DKA_CROWD_SCHEMA_GUID)) {
 			$object = self::reset_crowd_metadata($object, true);
 			$slug = $object->slug;
@@ -402,7 +402,7 @@ class WPDKAObject {
 			// If the metadata is present, we can extract the slug from there.
 			$slug = $object->slug;
 		}
-		
+
 		// If needed, a loop is performed until the object is reachable or a timeout is reached and an exception is thrown.
 		if($ensureObjectIsReachableFromSlug) {
 			// Make sure the object is reachable on the slug, by performing multiple requests for the object until its returned.
@@ -416,21 +416,21 @@ class WPDKAObject {
 				usleep(self::RESET_DELAY_MS * 1000);
 			};
 		}
-		
+
 		if($forceReset) {
 			$link = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 			$link = str_replace('reset-crowd-metadata', '', $link);
 			$link = "<a href='$link'>Click to get back</a>";
 			wp_die("Crowd Metadata was reset: $link");
 		}
-		
+
 		return $object;
 	}
-	
+
 	public static function reset_crowd_metadata(\WPChaosObject $object, $forceNewSlug = false, $fetchSocialCounts = false) {
 		$existingMetadata = $object->has_metadata(WPDKAObject::DKA_CROWD_SCHEMA_GUID);
 		$revisionID = $existingMetadata != false ? $existingMetadata->RevisionID : null;
-		
+
 		// The object has not been extended with the crowd matadata schema.
 		$objectGUID = $object->GUID;
 		$metadataXML = new SimpleXMLElement("<?xml version='1.0' encoding='UTF-8' standalone='yes'?><dkac:DKACrowd xmlns:dkac='http://www.danskkulturarv.dk/DKA-Crowd.xsd'></dkac:DKACrowd>");
@@ -446,20 +446,20 @@ class WPDKAObject {
 		$metadataXML->addChild('AccumulatedRate', '0');
 		$slug = WPDKAObject::generateSlug($object, $forceNewSlug);
 		$metadataXML->addChild('Slug', $slug);
-		
+
 		//Taggable by default
-		$metadataXML->addChild('Taggable', 'true'); 
-		
+		$metadataXML->addChild('Taggable', 'true');
+
 		$successfulValidation = $object->set_metadata(WPChaosClient::instance(), WPDKAObject::DKA_CROWD_SCHEMA_GUID, $metadataXML, WPDKAObject::METADATA_LANGUAGE, $revisionID);
-		
+
 		if($successfulValidation === false) {
 			wp_die("Error validating the Crowd Schema");
 		}
 		$object->clear_cache();
-		
+
 		return $object;
 	}
-	
+
 	/**
 	 * Generate a slug from a chaos object.
 	 * Using a bisection algorithm, first determining an upper bound and then bisecting until the next free postfix is found.
@@ -475,7 +475,7 @@ class WPDKAObject {
 				return $object->slug;
 			}
 		}
-		
+
 		// If not - lets generate another one.
 		$title = $object->title;
 		// We need to urldecode, as special chars are encoded to octets.
@@ -487,7 +487,7 @@ class WPDKAObject {
 		if(self::isSlugFree($slug_base)) {
 			return $slug_base;
 		}
-		
+
 		$postfix = null;
 		$lower_postfix = 1;
 		$upper_postfix = 1;
@@ -495,7 +495,7 @@ class WPDKAObject {
 		while(self::isSlugFree("$slug_base-$upper_postfix") === false) {
 			$upper_postfix *= 2;
 		}
-		
+
 		while($upper_postfix - $lower_postfix > 1) {
 			$middle_postfix = floor(($upper_postfix-$lower_postfix)/2) + $lower_postfix;
 			$slug_candidate = "$slug_base-$middle_postfix";
@@ -508,7 +508,7 @@ class WPDKAObject {
 		// Return the slug of the upper_postfix.
 		return "$slug_base-$upper_postfix";
 	}
-	
+
 	/**
 	 * Tests if a slug is free.
 	 * @param string $slug_candidate
@@ -521,44 +521,44 @@ class WPDKAObject {
 			return true;
 		} else {
 			return false;
-		} 
+		}
 	}
-	
+
 	const FACEBOOK_STATS_URL = 'https://graph.facebook.com/fql';
-	
+
 	public static function get_facebook_stats($url) {
 		$fql_query = "SELECT total_count FROM link_stat WHERE url = '$url'";
 		$response = json_decode(file_get_contents(self::FACEBOOK_STATS_URL . '?q=' . urlencode($fql_query)));
 		return $response->data[0]->total_count;
 	}
-	
+
 	const TWITTER_STATS_URL = 'https://cdn.api.twitter.com/1/urls/count.json';
-	
+
 	public static function get_twitter_stats($url) {
 		$response = json_decode(file_get_contents(self::TWITTER_STATS_URL . '?url=' . urlencode($url)));
 		return $response->count;
 	}
-	
+
 	const GOOGLE_PLUS_STATS_URL = 'https://apis.google.com/u/0/_/+1/sharebutton';
-	
+
 	public static function get_google_plus_stats($url) {
 		$query = http_build_query(array( 'url' => $url ));
 		$url = self::GOOGLE_PLUS_STATS_URL . '?' . $query;
-		
+
 		$ch = curl_init();
 		curl_setopt_array($ch, array(
 			CURLOPT_URL => $url,
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_HTTPHEADER => array( 'accept-language: en-GB,da;q=0.8,en-US;q=0.6' )
 		));
-		
+
 		$content = curl_exec($ch);
 		curl_close($ch);
-		
+
 		if($content === false) {
 			throw new \RuntimeException("Couldn't connect to the Google Plus API, it might have changed.");
 		}
-		
+
 		$count_matches = array();
 		if(preg_match('|id="aggregateCount".*?>([^<]+)<|', $content, $count_matches) == 1) {
 			if(strstr($count_matches[1], 'K') !== false) {
@@ -578,41 +578,41 @@ class WPDKAObject {
 		$url = $object->url;
 		// What would the legacy url be?
 		$legacyURL = 'http://www.danskkulturarv.dk/chaos_post/' . $object->GUID;
-	
+
 		$facebook_total_count = self::get_facebook_stats($url);
 		$facebook_total_count += self::get_facebook_stats($legacyURL);
-	
+
 		$twitter_total_count = self::get_twitter_stats($url);
 		$twitter_total_count += self::get_twitter_stats($legacyURL);
-	
+
 		$google_plus_total_count = self::get_google_plus_stats($url);
 		$google_plus_total_count = self::get_google_plus_stats($legacyURL);
-	
+
 		if($update_metadata) {
 			// Update the metadata.
 			$object->set_metadata_field(WPDKAObject::DKA_CROWD_SCHEMA_GUID, WPDKAObject::METADATA_LANGUAGE, '/dkac:DKACrowd/dkac:Shares/text()', $facebook_total_count + $twitter_total_count + $google_plus_total_count, array('shares'));
 		}
-	
+
 		return array(
 			'facebook_total_count' => $facebook_total_count,
 			'twitter_total_count' => $twitter_total_count,
 			'google_plus_total_count' => $google_plus_total_count
 		);
 	}
-	
+
 	/**
 	 * Gets an object from the CHAOS Service from an alphanummeric, lowercase slug.
 	 * @param string $slug The slug to search for.
 	 * @param boolean $returnMultiple Makes the function return an array of objects, a single element array if only one object is found.
 	 * @throws \RuntimeException If an error occurs in the service.
-	 * @return NULL|\WPChaosObject|\WPChaosObject[] The object(s) matching the slug - multiple if 
+	 * @return NULL|\WPChaosObject|\WPChaosObject[] The object(s) matching the slug - multiple if
 	 */
 	public static function getObjectFromSlug($slug, $returnMultiple = false) {
 		// TODO: Use this instead, when DKA-Slug is added to the index.
 		// $response = WPChaosClient::instance()->Object()->Get("DKA-Slug:'$slug'");
 		$query = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':"' . $slug . '"';
 		// die($query);
-		$response = WPChaosClient::instance()->Object()->Get($query, null, null, 0, 1, true);
+		$response = WPChaosClient::instance()->Object()->Get($query, null, false, 0, 1, true);
 		if(!$response->WasSuccess()) {
 			throw new \RuntimeException("Couldn't get object from slug: ".$response->Error()->Message());
 		} elseif (!$response->MCM()->WasSuccess()) {
@@ -634,10 +634,10 @@ class WPDKAObject {
 			}
 		}
 	}
-	
+
 	protected static $legacy_views = array();
 	protected static $legacy_views_file = 'views.csv';
-	
+
 	public static function restore_views($guid) {
 		if(count(self::$legacy_views) == 0) {
 			$legacy_views_file = realpath(__DIR__ . DIRECTORY_SEPARATOR . self::$legacy_views_file);
