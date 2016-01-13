@@ -616,7 +616,7 @@ class WPDKAObject {
     // $response = WPChaosClient::instance()->Object()->Get("DKA-Slug:'$slug'");
     $query = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':"' . $slug . '"';
     // die($query);
-    $response = WPChaosClient::instance()->Object()->Get($query, null, null, 0, 1, true);
+    $response = WPChaosClient::instance()->Object()->Get($query, null, false, 0, 1, true);
     if(!$response->WasSuccess()) {
       throw new \RuntimeException("Couldn't get object from slug: ".$response->Error()->Message());
     } elseif (!$response->MCM()->WasSuccess()) {
