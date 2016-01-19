@@ -1,2 +1,30 @@
-.body-container {width: 100%}
-iframe {border: 0px solid white;}
+.search.row {
+  display: none;
+}
+.body-container {
+  width: 100%;
+  border-width: 0px;
+  padding-top: 68px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.body-container > .row {
+  margin: 0;
+}
+.body-container > .row > .col-xs-12 {
+  padding: 0;
+}
+iframe {
+  border: 0px solid white;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+h1 {
+  display: block;
+  margin: 20px auto 0;
+  max-width: 1170px;
+}
+body, html {
+  height: 100%;
+}
