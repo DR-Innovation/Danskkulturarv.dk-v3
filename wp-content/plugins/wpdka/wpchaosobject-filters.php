@@ -41,7 +41,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'tags', function($value, \WPCHAOS
 	$tags = $object->tags_raw;
 	foreach($tags as $key => &$tag) {
 				//Remove tag if empty
-		if(!$tag) {	
+		if(!$tag) {
 			unset($tags[$key]);
 			continue;
 		}
@@ -63,7 +63,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'creator', function($value, \WPCH
 		null
 		);
 	return $value . WPDKAObject::get_creator_attributes($creators);
-}, 10, 2);	
+}, 10, 2);
 
 		//object->contributor
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'contributor', function($value, \WPCHAOSObject $object) {
@@ -166,7 +166,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'published', function($value, \WP
 	}
 
 	return $value . $time;
-}, 10, 2);	
+}, 10, 2);
 
 //object->rights
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'rights', function($value, $object) {
@@ -287,7 +287,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'caption', function($value, $obje
 //object->is_embeddable
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'is_embeddable', function($value, $object) {
 	// Pages who are allowed to embed.
-	$pages = array('danskkulturarv.dk', 'dr.dk');
+	$pages = array('danskkulturarv.dk', 'dr.dk', 'lilleverden.dk');
 
 	if (isset($_SERVER['HTTP_REFERER'])) {
 	    $ar = parse_url($_SERVER['HTTP_REFERER']);
