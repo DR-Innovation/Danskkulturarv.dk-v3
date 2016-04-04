@@ -287,7 +287,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'caption', function($value, $obje
 //object->is_embeddable
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'is_embeddable', function($value, $object) {
 	// Pages who are allowed to embed.
-	$pages = array('danskkulturarv.dk', 'dr.dk', 'lilleverden.dk');
+	$pages = array('danskkulturarv.dk', 'dr.dk', 'lilleverden.dk', 'lazyspinningsparrow.dk');
 
 	if (isset($_SERVER['HTTP_REFERER'])) {
 	    $ar = parse_url($_SERVER['HTTP_REFERER']);
