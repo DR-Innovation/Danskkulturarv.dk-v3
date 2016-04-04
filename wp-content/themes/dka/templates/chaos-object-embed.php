@@ -33,12 +33,12 @@ add_action( 'wp_enqueue_scripts', function() {
 	wp_dequeue_script( 'html5shiv' );
 	wp_dequeue_script( 'dka-collections' );
 
-
+	wp_enqueue_script( 'jwplayer', get_template_directory_uri() . '/lib/jwplayer/jwplayer.js', array('jquery'), '1', true );
 	wp_enqueue_script( 'embed-custom-functions', get_template_directory_uri() . '/js/embed-custom-functions.js', array('jquery'), '1', true );
-	wp_localize_script( 'embed-custom-functions', 'embed', 
-		array( 'html' 			=> esc_html(WPChaosClient::get_object()->embed), 
-			'blogname' 			=> '<a href="' . site_url() .'">' . get_bloginfo('name') . '</a>', 
-			'type' 				=> WPChaosClient::get_object()->type, 
+	wp_localize_script( 'embed-custom-functions', 'embed',
+		array( 'html' 			=> esc_html(WPChaosClient::get_object()->embed),
+			'blogname' 			=> '<a href="' . site_url() .'">' . get_bloginfo('name') . '</a>',
+			'type' 				=> WPChaosClient::get_object()->type,
 			'submit_string' 	=> __('Update', 'dka'),
 			'start_string'		=> __('Start playback', 'dka'),
 			'time_stop_string'	=> __('Stop playback', 'dka'),
@@ -47,8 +47,8 @@ add_action( 'wp_enqueue_scripts', function() {
 			'height_string'		=> __('Height', 'dka'),
 			'autoplay_string' 	=> __('Autoplay', 'dka'),
 			'sizes' 			=> 	array(
-										array('label' => __('Default', 'dka'), 'width' => '480', 'height' => '360'), 
-										array('label' => __('Small', 'dka'), 'width' => '640', 'height' => '360'), 
+										array('label' => __('Default', 'dka'), 'width' => '480', 'height' => '360'),
+										array('label' => __('Small', 'dka'), 'width' => '640', 'height' => '360'),
 										array('label' => __('Medium', 'dka'), 'width' => '853', 'height' => '480'),
 										array('label' => __('Large', 'dka'), 'width' => '100', 'height' => '100'),
 										array('label' => __('Custom', 'dka'), 'width' => '0', 'height' => '0')
@@ -111,10 +111,10 @@ echo '<div class="title pull-right"><a title="' . get_bloginfo('name') . '" href
 					// meta.httpEquiv = "X-Frame-Options";
 					// meta.content = "deny";
 					// document.getElementsByTagName('head')[0].appendChild(meta);
-					document.getElementsByTagName('body')[0].innerHTML = '<div class="noembed">' + 
-					'<a href="<?php echo WPChaosClient::get_object()->url; ?>" target="_blank" rel="bookmark">Dette materiale fra <?php bloginfo('name'); ?> kan ikke embeddes.</a>' + 
-					'<p>Det lader til at du ikke har tilladelse til at embedde materialer fra <a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a>.</p>' + 
-					'<p><a href="mailto:drexdibe@dr.dk">Kontakt os venligst </a> hvis du mener der er sket en fejl.</p>' + 
+					document.getElementsByTagName('body')[0].innerHTML = '<div class="noembed">' +
+					'<a href="<?php echo WPChaosClient::get_object()->url; ?>" target="_blank" rel="bookmark">Dette materiale fra <?php bloginfo('name'); ?> kan ikke embeddes.</a>' +
+					'<p>Det lader til at du ikke har tilladelse til at embedde materialer fra <a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a>.</p>' +
+					'<p><a href="mailto:drexdibe@dr.dk">Kontakt os venligst </a> hvis du mener der er sket en fejl.</p>' +
 					'</div>';
 		        }
 		    } catch (e) {
