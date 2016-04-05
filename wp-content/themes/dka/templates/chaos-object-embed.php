@@ -20,8 +20,8 @@ add_action( 'wp_enqueue_scripts', function() {
 		'modal', //used by collection and tags
 		'scrollspy',
 		'tab',
-		'tooltip', // Used by the /api page.
-		'popover', // Used by the /api page.
+		// 'tooltip', // Used by the /api page.
+		// 'popover', // Used by the /api page.
 		'affix'
 	);
 	foreach($bootstrap_scripts as $bootscript) {
@@ -33,7 +33,6 @@ add_action( 'wp_enqueue_scripts', function() {
 	wp_dequeue_script( 'html5shiv' );
 	wp_dequeue_script( 'dka-collections' );
 
-	wp_enqueue_script( 'jwplayer', get_template_directory_uri() . '/lib/jwplayer/jwplayer.js', array('jquery'), '1', true );
 	wp_enqueue_script( 'embed-custom-functions', get_template_directory_uri() . '/js/embed-custom-functions.js', array('jquery'), '1', true );
 	wp_localize_script( 'embed-custom-functions', 'embed',
 		array( 'html' 			=> esc_html(WPChaosClient::get_object()->embed),
