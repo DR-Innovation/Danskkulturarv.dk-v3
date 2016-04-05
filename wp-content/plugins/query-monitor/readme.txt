@@ -1,18 +1,18 @@
 === Query Monitor ===
 Contributors: johnbillion
-Tags: debug, debugging, development, developer, performance, profiler, profiling, queries, query monitor
-Requires at least: 3.5
-Tested up to: 3.9
-Stable tag: 2.6.8
+Tags: ajax, debug, debug-bar, debugging, development, developer, performance, profiler, profiling, queries, query monitor, rest-api
+Requires at least: 3.7
+Tested up to: 4.5
+Stable tag: 2.10.0
 License: GPLv2 or later
 
-View debugging and performance information on database queries, hooks, conditionals, HTTP requests, redirects and more.	
+View debugging and performance information on database queries, hooks, conditionals, HTTP requests, redirects and more.
 
 == Description ==
 
-Query Monitor is a debugging plugin for anyone developing with WordPress. It has some advanced features not available in other debugging plugins, including automatic AJAX debugging and the ability to narrow down things by plugin or theme.
+Query Monitor is a debugging plugin for anyone developing with WordPress. It has some advanced features not available in other debugging plugins, including automatic AJAX debugging, REST API debugging, and the ability to narrow down things by plugin or theme.
 
-For complete information, please see [the Query Monitor home page](https://querymonitor.com/) or [Query Monitor's GitHub repo](https://github.com/johnbillion/QueryMonitor).
+For complete information, please see [Query Monitor's GitHub repo](https://github.com/johnbillion/query-monitor).
 
 Here's an overview of what's shown:
 
@@ -20,18 +20,18 @@ Here's an overview of what's shown:
 
  * Shows all database queries performed on the current page
  * Shows **affected rows** and time for all queries
- * Show notifications for **slow queries** and **queries with errors**
+ * Shows notifications for **slow queries**, **duplicate queries**, and **queries with errors**
  * Filter queries by **query type** (`SELECT`, `UPDATE`, `DELETE`, etc)
  * Filter queries by **component** (WordPress core, Plugin X, Plugin Y, theme)
  * Filter queries by **calling function**
  * View **aggregate query information** grouped by component, calling function, and type
- * Super advanced: Supports **multiple instances of wpdb** on one page
+ * Super advanced: Supports **multiple instances of wpdb** on one page (more info in the FAQ)
 
 Filtering queries by component or calling function makes it easy to see which plugins, themes, or functions on your site are making the most (or the slowest) database queries.
 
 = Hooks =
 
- * Shows all hooks fired on the current page, along with hooked actions and their priorities
+ * Shows all hooks fired on the current page, along with hooked actions, their priorities, and their components
  * Filter hooks by **part of their name**
  * Filter actions by **component** (WordPress core, Plugin X, Plugin Y, theme)
 
@@ -39,7 +39,7 @@ Filtering queries by component or calling function makes it easy to see which pl
 
  * Shows the **template filename** for the current page
  * Shows the available **body classes** for the current page
- * Shows the active parent and child theme name
+ * Shows the active theme name
 
 = PHP Errors =
 
@@ -50,27 +50,46 @@ Filtering queries by component or calling function makes it easy to see which pl
 
  * Shows **matched rewrite rules** and associated query strings
  * Shows **query vars** for the current request, and highlights **custom query vars**
- * Shows the **queried object** details (collapsed by default)
+ * Shows the **queried object** details
+ * Shows details of the **current blog** (multisite only) and **current site** (multi-network only)
+
+= Rewrite Rules =
+
+ * Shows **all matching rewrite rules** for a given request
+
+= Scripts & Styles =
+
+ * Shows all **enqueued scripts and styles** on the current page, along with their URL and version
+ * Shows their **dependencies and dependents**, and alerts you to any **broken dependencies**
+
+= Languages =
+
+ * Shows you **language settings** and text domains
+ * Shows you the **MO files** for each text domain and which ones were loaded or not
 
 = HTTP Requests =
 
  * Shows all HTTP requests performed on the current page (as long as they use WordPress' HTTP API)
- * Shows the response code, call stack, transport, timeout, and time taken
+ * Shows the response code, call stack, transport, component, timeout, and time taken
  * Highlights **erroneous responses**, such as failed requests and anything without a `200` response code
 
 = Redirects =
 
- * Whenever a redirect occurs, Query Monitor adds an `X-QM-Redirect` HTTP header containing the call stack, so you can use your favourite HTTP inspector to easily trace where a redirect has come from
+ * Whenever a redirect occurs, Query Monitor adds an `X-QM-Redirect` HTTP header containing the call stack, so you can use your favourite HTTP inspector or browser developer tools to easily trace where a redirect has come from
 
 = AJAX =
 
-The response from any jQuery AJAX request on the page will contain various debugging information in its header that gets output to the developer console. **No hooking required**.
+The response from any jQuery AJAX request on the page will contain various debugging information in its headers. Any errors also get output to the developer console. **No hooking required**.
 
-AJAX debugging is in its early stages. Currently it only includes PHP errors, but this will be built upon in future versions.
+Currently this includes PHP errors and some overview information such as memory usage, but this will be built upon in future versions.
+
+= REST API =
+
+The response from an authenticated WordPress REST API (v2 or later) request will contain various debugging information in its headers, as long as the authenticated user has permission to view Query Monitor's output.
+
+Currently this includes PHP errors and some overview information such as memory usage, but this will be built upon in future versions.
 
 = Admin Screen =
-
-Hands up who can remember the correct names for the filters and actions for custom admin screen columns?
 
  * Shows the correct names for **custom column filters and actions** on all admin screens that have a listing table
  * Shows the state of `get_current_screen()` and a few variables
@@ -88,7 +107,7 @@ Hands up who can remember the correct names for the filters and actions for cust
 
  * Shows any **transients that were set**, along with their timeout, component, and call stack
  * Shows all **WordPress conditionals** on the current page, highlighted nicely
- * Shows an overview including page generation time and memory limit as absolute values and as % of their respective limits
+ * Shows an overview at the top, including page generation time and memory limit as absolute values and as % of their respective limits
 
 = Authentication =
 
@@ -98,14 +117,9 @@ In addition to this, you can set an authentication cookie which allows you to vi
 
 == Installation ==
 
-You can install this plugin directly from your WordPress dashboard:
+Install Query Monitor just like any other plugin.
 
-1. Go to the *Plugins* menu and click *Add New*.
-2. Search for *Query Monitor*.
-3. Click *Install Now* next to the Query Monitor plugin.
-4. Activate the plugin.
-
-Alternatively, see the guide to [Manually Installing Plugins](http://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
+If you don't know how to do that, then Query Monitor is not for you.
 
 == Screenshots ==
 
@@ -135,22 +149,138 @@ On pages that have an especially high number of database queries (in the hundred
 
 = Are there any add-on plugins for Query Monitor? =
 
-Yep, the first one was released recently: [Query Monitor bbPress & BuddyPress Conditionals](https://wordpress.org/plugins/query-monitor-bbpress-buddypress-conditionals/) by Stephen Edgar.
+[A list of add-on plugins for Query Monitor can be found here.](https://github.com/johnbillion/query-monitor/wiki/Query-Monitor-Add-on-Plugins)
+
+In addition, Query Monitor transparently supports add-ons for the Debug Bar plugin. If you have any Debug Bar add-ons installed, just deactivate Debug Bar and the add-ons will show up in Query Monitor's menu.
 
 = Where can I suggest a new feature or report a bug? =
 
-Please use [the issue tracker on Query Monitor's GitHub repo](https://github.com/johnbillion/QueryMonitor/issues) as it's easier to keep track of issues there, rather than on the wordpress.org support forums.
+Please use [the issue tracker on Query Monitor's GitHub repo](https://github.com/johnbillion/query-monitor/issues) as it's easier to keep track of issues there, rather than on the wordpress.org support forums.
+
+= Is Query Monitor available on WordPress.com VIP Go? =
+
+Yep! You just need to add `define( 'WPCOM_VIP_QM_ENABLE', true );` to your `vip-config/vip-config.php` file.
+
+(It's not available on standard WordPress.com VIP though.)
+
+= I'm using multiple instances of `wpdb`. How do I get my additional instances to show up in Query Monitor? =
+
+You'll need to hook into the `qm/collect/db_objects` filter and add an item to the array with your connection name as the key and the `wpdb` instance as the value. Your `wpdb` instance will then show up as a separate panel, and the query time and query count will show up separately in the admin toolbar menu. Aggregate information (queries by caller and component) will not be separated.
 
 = Do you accept donations? =
 
-No, I do not accept donations. If you like the plugin, I'd love for you to [leave a review](http://wordpress.org/support/view/plugin-reviews/query-monitor). Tell all your friends about the plugin too!
-
-== Upgrade Notice ==
-
-= 2.6.8 =
-* Misc minor bugfixes. Nothing to get excited about.
+No, I do not accept donations. If you like the plugin, I'd love for you to [leave a review](https://wordpress.org/support/view/plugin-reviews/query-monitor). Tell all your friends about the plugin too!
 
 == Changelog ==
+
+= 2.10.0 =
+
+* Add a new panel which lists duplicated database queries.
+* Add support for displaying QM's output when viewing an embed.
+* Differentiate regular plugins from mu-plugins when displaying components.
+* Ensure early errors are always reported regardless of system level error reporting.
+* Ensure that script and style dependency highlighting is restricted to the scripts and styles tables, respectively.
+* Rearrange the Environment section output a little.
+* Various minor tweaks.
+
+= 2.9.1 =
+
+* Query callers and query components can now be clicked to filter the main query list by that caller or component.
+* Add support for pausing Jetpack's Infinite Scroll module when viewing QM output in the footer.
+* Add support for WordPress.com VIP Go shared plugins as an explicit component.
+* Send nocache headers when QM is active.
+* Various minor tweaks.
+
+= 2.9.0 =
+
+* Introduce a new panel which displays all matching rewrite rules for the current request.
+* Remove the deprecated `is_comments_popup()` from the list of conditionals.
+* Improve the display of scripts and styles which are blocked by Airplane Mode (0.1.4 and later).
+* Gracefully handle enqueued assets which are deregistered late without being unenqueued.
+* Add a filter to hide the extended query information prompt.
+* Various minor bugfixes and code quality tweaks.
+
+= 2.8.1 =
+* Correctly detect the file name and line number responsible for loading translation files in plugins which use `load_textdomain()`.
+* Correct the visibility of the `before_output()` method in the REST dispatcher.
+* Load the languages collector early so it catches plugins which load their translation files when they initialise.
+* Remove an erroneous double quote.
+* Remove connection as param in `mysqli_get_client_version()`.
+* Various CSS fixes.
+
+= 2.8.0 =
+* A new Languages component for debugging languages and text domains. Thanks, @MPolleke!
+* REST API debugging in the form of HTTP headers when performing an authenticated REST API request. Shows PHP errors when relevant, along with an overview of memory usage, processing time, database query number, and database query time.
+* Various visual improvements, including displaying the relevant file name below stack trace functions, and a more visible stack trace expansion toggle.
+* Add `is_embed()`, `is_comment_feed()`, and `is_user_admin()` to the list of conditional functions.
+* Add HHVM, SAPI, and MySQL client info to the Environment component.
+* QM is now not loaded at all on the CLI.
+* Avoid an issue with the CloudFlare Flexible SSL plugin.
+* Improve the output of Multisite's `$current_blog` and `$current_site` in the Request component.
+* Fully handle Windows paths when detecting a file component.
+* Don't display the symlink warning when using a secondary instance of WPDB.
+* Whole bunch of internal structure refactoring, escaping, and other misc tweaks.
+
+= 2.7.4 =
+* An unknown component now gets marked as such, not as Core.
+* Support for invokable objects in action and filter callbacks.
+* Fix fatal error when activating Debug Bar plugin after Query Monitor has already been activated.
+* Implement escaping inside `QM_Output_Html::format_url()` which can deal with unsafe output. Thanks to Stephen Harris for the responsible disclosure.
+
+= 2.7.3 =
+* Improvements to the shutdown handler for PHP errors, so it handles syntax and compilation errors too.
+
+= 2.7.2 =
+* Implement a shutdown handler for PHP errors to avoid fatals being unintentionally hidden when `display_errors` is on.
+* Don't attempt to do anything with scripts and styles if a corresponding header action hasn't fired.
+* Don't sort the enqueued scripts and styles, so they're output in the order in which they're enqueued.
+* For the time being, let's not load QM when using the CLI because we've no persistent storage and no means of outputting collected data on the CLI.
+* Call static methods using their class name, not a variable. Fixes compatibility with PHP 5.2.
+
+= 2.7.1 =
+* Display a warning (rather than triggering a fatal error) for scripts and style dependencies which have gone missing during the duration of the page load.
+* Tweak some more Debug Bar add-on styles.
+* Ensure erroneous non-SELECT queries are also highlighted in red.
+* Further tweaks to QM's output if JavaScript isn't available for any reason.
+* Add PHP4-style constructors to the Debug Bar classes to avoid fatals with Debug Bar add-ons which are explicitly using them.
+* In the event that QM's JavaScript doesn't get enqueued, force the QM output to display so users can at least debug the issue.
+* Remove the abstract `output()` methods from abstract classes which implement `QM_Output` to avoid PHP bug #43200.
+* Fixing a notice in the admin component when `get_current_screen()` isn't an object.
+
+= 2.7.0 =
+* Detect broken dependencies for scripts and styles.
+* Calculate and output the dependents of scripts and styles.
+* Add transparent support for Debug Bar add-on panels.
+* Add support for WordPress.com VIP plugins in the component detection.
+* Sortable and filterable columns for HTTP requests.
+* Display a warning when something's hooked onto the `all` action.
+* Clearer output for the template file and component names when a child theme is in use.
+* Move the current blog information to the Request component. Display current site information if we're running a multi-network.
+* Allow default error handlers, such as error logging, to continue to function as expected.
+* Don't skip outputting the calling function name in the database error list.
+* New namespaced filter names for a bunch of filterable things.
+* Add a `qm/process` filter to allow users to disable QM's processing and output.
+* Display the value of `WP_HTTP_BLOCK_EXTERNAL` and `WP_ACCESSIBLE_HOSTS` in the HTTP component.
+* New storage and registration mechanisms for collectors, dispatchers, and output handlers.
+* CSS tweaks to better match wp-admin styles.
+
+= 2.6.10 =
+* Add compatibility with PHP 5.3.6 and lower. `DirectoryIterator::getExtension()` isn't available on this version (and also as it's part of SPL it can be disabled).
+* Simplify the admin CSS to avoid QM's output being covered by the admin menu.
+* Add support for footer styles in the scripts and styles component.
+* Update the authentication JavaScript so it works cross-protocol.
+
+= 2.6.9 =
+* New Scripts & Styles component
+* Support for the new `is_customize_preview()` conditional
+* More robust handling of HTTP requests short-circuited with `pre_http_request`
+* Introduce a `query_monitor_silent_http_error_codes` filter to allow certain `WP_Error` codes to be silenced in HTTP requests
+* Split SQL queries on LEFT, OUTER, and RIGHT too
+* Gracefully avoid fatal errors if a site is moved and the db.php symlink is no longer pointing to the correct location
+* Pause Infinite Scroll when Query Monitor is viewed
+* Support the new admin menu behaviour in WP 4.1
+* Fix the positioning of output when using the Twenty Fifteen theme
+* Switch to an AJAX call for setting and clearing QM's authentication cookie
 
 = 2.6.8 =
 * RTL layout tweaks

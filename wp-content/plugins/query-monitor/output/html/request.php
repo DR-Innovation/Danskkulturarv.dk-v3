@@ -1,7 +1,6 @@
 <?php
 /*
-
-Copyright 2014 John Blackbourn
+Copyright 2009-2016 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,14 +18,14 @@ class QM_Output_Html_Request extends QM_Output_Html {
 
 	public function __construct( QM_Collector $collector ) {
 		parent::__construct( $collector );
-		add_filter( 'query_monitor_menus', array( $this, 'admin_menu' ), 50 );
+		add_filter( 'qm/output/menus', array( $this, 'admin_menu' ), 50 );
 	}
 
 	public function output() {
 
 		$data = $this->collector->get_data();
 
-		echo '<div class="qm qm-half" id="' . $this->collector->id() . '">';
+		echo '<div class="qm qm-half" id="' . esc_attr( $this->collector->id() ) . '">';
 		echo '<table cellspacing="0">';
 		echo '<tbody>';
 
@@ -37,29 +36,30 @@ class QM_Output_Html_Request extends QM_Output_Html {
 			'query_string'  => __( 'Query String', 'query-monitor' ),
 		) as $item => $name ) {
 
-			if ( !isset( $data['request'][$item] ) )
+			if ( !isset( $data['request'][$item] ) ) {
 				continue;
+			}
 
 			if ( ! empty( $data['request'][$item] ) ) {
-				if ( in_array( $item, array( 'request', 'matched_query', 'query_string' ) ) ) {
+				if ( in_array( $item, array( 'request', 'matched_query', 'query_string' ), true ) ) {
 					$value = self::format_url( $data['request'][$item] );
 				} else {
 					$value = esc_html( $data['request'][$item] );
 				}
 			} else {
-				$value = '<em>' . __( 'none', 'query-monitor' ) . '</em>';
+				$value = '<em>' . esc_html__( 'none', 'query-monitor' ) . '</em>';
 			}
 
 			echo '<tr>';
-			echo '<td valign="top">' . $name . '</td>';
-			echo '<td valign="top" colspan="2">' . $value . '</td>';
+			echo '<td>' . esc_html( $name ) . '</td>';
+			echo '<td colspan="2">' . $value . '</td>'; // WPCS: XSS ok.
 			echo '</tr>';
 		}
 
 		$rowspan = isset( $data['qvars'] ) ? count( $data['qvars'] ) : 1;
 
 		echo '<tr>';
-		echo '<td rowspan="' . $rowspan . '">' . __( 'Query Vars', 'query-monitor' ) . '</td>';
+		echo '<td rowspan="' . absint( $rowspan ) . '">' . esc_html__( 'Query Vars', 'query-monitor' ) . '</td>';
 
 		if ( !empty( $data['qvars'] ) ) {
 
@@ -67,21 +67,22 @@ class QM_Output_Html_Request extends QM_Output_Html {
 
 			foreach( $data['qvars'] as $var => $value ) {
 
-				if ( !$first )
+				if ( !$first ) {
 					echo '<tr>';
+				}
 
-				if ( isset( $data['plugin_qvars'][$var] ) )
-					echo "<td valign='top'><span class='qm-current'>{$var}</span></td>";
-				else
-					echo "<td valign='top'>{$var}</td>";
+				if ( isset( $data['plugin_qvars'][$var] ) ) {
+					echo '<td><span class="qm-current">' . esc_html( $var ) . '</span></td>';
+				} else {
+					echo '<td>' . esc_html( $var ) . '</td>';
+				}
 
 				if ( is_array( $value ) or is_object( $value ) ) {
-					echo '<td valign="top"><pre>';
-					print_r( $value );
+					echo '<td><pre>';
+					echo esc_html( print_r( $value, true ) );
 					echo '</pre></td>';
 				} else {
-					$value = esc_html( $value );
-					echo "<td valign='top'>{$value}</td>";
+					echo '<td>' . esc_html( $value ) . '</td>';
 				}
 
 				echo '</tr>';
@@ -92,27 +93,63 @@ class QM_Output_Html_Request extends QM_Output_Html {
 
 		} else {
 
-			echo '<td colspan="2"><em>' . __( 'none', 'query-monitor' ) . '</em></td>';
+			echo '<td colspan="2"><em>' . esc_html__( 'none', 'query-monitor' ) . '</em></td>';
 			echo '</tr>';
 
 		}
 
-		if ( !empty( $data['queried_object'] ) ) {
-
-			$vars = get_object_vars( $data['queried_object'] );
+		if ( ! empty( $data['queried_object'] ) ) {
 
 			echo '<tr>';
-			echo '<td valign="top">' . __( 'Queried Object', 'query-monitor' ) . '</td>';
-			echo '<td valign="top" colspan="2" class="qm-has-inner">';
-			echo '<div class="qm-inner-toggle">' . $data['queried_object_title'] . ' (' . get_class( $data['queried_object'] ) . ' object) (<a href="#" class="qm-toggle" data-on="' . esc_attr__( 'Show', 'query-monitor' ) . '" data-off="' . esc_attr__( 'Hide', 'query-monitor' ) . '">' . __( 'Show', 'query-monitor' ) . '</a>)</div>';
+			echo '<td>' . esc_html__( 'Queried Object', 'query-monitor' ) . '</td>';
+			echo '<td colspan="2" class="qm-has-inner qm-has-toggle"><div class="qm-toggler">';
+
+			printf(
+				'<div class="qm-inner-toggle">%1$s (%2$s) <a href="#" class="qm-toggle" data-on="+" data-off="-">+</a></div>',
+				esc_html( $data['queried_object']['title'] ),
+				esc_html( get_class( $data['queried_object']['data'] ) )
+			);
 
 			echo '<div class="qm-toggled">';
-			self::output_inner( $vars );
+			self::output_inner( $data['queried_object']['data'] );
 			echo '</div>';
 
-			echo '</td>';
+			echo '</div></td>';
 			echo '</tr>';
 
+		}
+
+		if ( !empty( $data['multisite'] ) ) {
+
+			$rowspan = count( $data['multisite'] );
+
+			echo '<tr>';
+			echo '<td rowspan="' . absint( $rowspan ) . '">' . esc_html__( 'Multisite', 'query-monitor' ) . '</td>';
+
+			$first = true;
+
+			foreach( $data['multisite'] as $var => $value ) {
+
+				if ( !$first ) {
+					echo '<tr>';
+				}
+
+				echo '<td colspan="2" class="qm-has-inner qm-has-toggle"><div class="qm-toggler">';
+
+				printf(
+					'<div class="qm-inner-toggle">%1$s <a href="#" class="qm-toggle" data-on="+" data-off="-">+</a></div>',
+					esc_html( $value['title'] )
+				);
+
+				echo '<div class="qm-toggled">';
+				self::output_inner( $value['data'] );
+				echo '</div>';
+
+				echo '</div></td>';
+
+				$first = false;
+
+			}
 		}
 
 		echo '</tbody>';
@@ -131,7 +168,10 @@ class QM_Output_Html_Request extends QM_Output_Html {
 			: __( 'Request (+%s)', 'query-monitor' );
 
 		$menu[] = $this->menu( array(
-			'title' => sprintf( $title, number_format_i18n( $count ) )
+			'title' => esc_html( sprintf(
+				$title,
+				number_format_i18n( $count )
+			) ),
 		) );
 		return $menu;
 
@@ -139,8 +179,11 @@ class QM_Output_Html_Request extends QM_Output_Html {
 
 }
 
-function register_qm_output_html_request( QM_Output $output = null, QM_Collector $collector ) {
-	return new QM_Output_Html_Request( $collector );
+function register_qm_output_html_request( array $output, QM_Collectors $collectors ) {
+	if ( $collector = QM_Collectors::get( 'request' ) ) {
+		$output['request'] = new QM_Output_Html_Request( $collector );
+	}
+	return $output;
 }
 
-add_filter( 'query_monitor_output_html_request', 'register_qm_output_html_request', 10, 2 );
+add_filter( 'qm/outputter/html', 'register_qm_output_html_request', 60, 2 );

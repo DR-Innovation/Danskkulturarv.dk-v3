@@ -1,7 +1,6 @@
 <?php
 /*
-
-Copyright 2014 John Blackbourn
+Copyright 2009-2016 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,23 +16,27 @@ GNU General Public License for more details.
 
 class QM_Output_Headers_Redirects extends QM_Output_Headers {
 
-	public function output() {
+	public function get_output() {
 
 		$data = $this->collector->get_data();
+		$headers = array();
 
-		if ( empty( $data ) )
-			return;
+		if ( empty( $data['trace'] ) ) {
+			return array();
+		}
 
-		header( sprintf( 'X-QM-Redirect-Trace: %s',
-			implode( ', ', $data['trace']->get_stack() )
-		) );
+		$headers['Redirect-Trace'] = implode( ', ', $data['trace']->get_stack() );
+		return $headers;
 
 	}
 
 }
 
-function register_qm_output_headers_redirects( QM_Output $output = null, QM_Collector $collector ) {
-	return new QM_Output_Headers_Redirects( $collector );
+function register_qm_output_headers_redirects( array $output, QM_Collectors $collectors ) {
+	if ( $collector = QM_Collectors::get( 'redirects' ) ) {
+		$output['redirects'] = new QM_Output_Headers_Redirects( $collector );
+	}
+	return $output;
 }
 
-add_filter( 'query_monitor_output_headers_redirects', 'register_qm_output_headers_redirects', 10, 2 );
+add_filter( 'qm/outputter/headers', 'register_qm_output_headers_redirects', 140, 2 );

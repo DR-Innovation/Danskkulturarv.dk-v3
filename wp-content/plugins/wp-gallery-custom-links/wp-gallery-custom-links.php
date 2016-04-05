@@ -2,8 +2,9 @@
 /*
 Plugin Name: WP Gallery Custom Links
 Plugin URI: http://www.fourlightsweb.com/wordpress-plugins/wp-gallery-custom-links/
+Text Domain: wp-gallery-custom-links
 Description: Specify custom links for WordPress gallery images (instead of attachment or file only).
-Version: 1.10.1
+Version: 1.11
 Author: Four Lights Web Development
 Author URI: http://www.fourlightsweb.com
 License: GPL2
@@ -25,6 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 add_action( 'init', array( 'WPGalleryCustomLinks', 'init' ) );
+add_action( 'plugins_loaded', array( 'WPGalleryCustomLinks', 'loadPluginTextDomain' ) );
 
 class WPGalleryCustomLinks {
 	// We will always be "replacing" the gallery shortcode function
@@ -41,10 +43,9 @@ class WPGalleryCustomLinks {
 	//				return same content passed in to this second recursive call 
 	//			return "filter" $output with replaced links to original $GLOBALS['shortcode_tags']['gallery'] call
 	private static $first_call = true;
-	private static $textdomain_id = 'wp-gallery-custom-links';
 	private static $class_name = 'WPGalleryCustomLinks';
 	
-	public static function init() {	
+	public static function init() {
 		// Add the filter for editing the custom url field
 		add_filter( 'attachment_fields_to_edit', array( self::$class_name, 'apply_filter_attachment_fields_to_edit' ), null, 2 );
 		
@@ -58,8 +59,13 @@ class WPGalleryCustomLinks {
 		add_action( 'wp_enqueue_scripts', array( self::$class_name, 'do_action_wp_enqueue_scripts' ) );
 		
 		// Load translations
-		load_plugin_textdomain( self::$textdomain_id, false, basename( dirname( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain( 'wp-gallery-custom-links', false, basename( dirname( __FILE__ ) ) . '/languages' );
 	} // End function init()
+
+	public static function loadPluginTextDomain() {
+		// The codex says this is needed to load plugin language files
+		load_plugin_textdomain( 'wp-gallery-custom-links', false, basename( dirname( __FILE__ ) ) . '/languages' );
+	}
 	
 	public static function do_action_wp_enqueue_scripts() {
 		wp_enqueue_script(
@@ -72,14 +78,14 @@ class WPGalleryCustomLinks {
 	}
 	
 	public static function apply_filter_attachment_fields_to_edit( $form_fields, $post ) {
-		$help_css = 'display:none;position:absolute;background-color:#ffffe0;text-align:left;border:1px solid #dfdfdf;padding:10px;width:75%;font-weight:normal;border-radius:3px;';
+		$help_css = 'z-index:999;display:none;position:absolute;margin-top:-100px;background-color:#ffffe0;text-align:left;border:1px solid #dfdfdf;padding:10px;width:75%;font-weight:normal;border-radius:3px;';
 	
 		// Gallery Link URL field
 		$form_fields['gallery_link_url'] = array(
-			'label' => __( 'Gallery Link URL', self::$textdomain_id ) .
-				' <a href="#" onclick="jQuery(\'#wpgcl_gallery_link_url_help\').show(); return false;" onblur="jQuery(\'#wpgcl_gallery_link_url_help\').hide();">[?]</a>' . 
-				'<div id="wpgcl_gallery_link_url_help" style="'.$help_css.'">' .
-				__( 'Will replace "Image File" or "Attachment Page" link for this image in galleries. Use [none] to remove the link from this image in galleries.', self::$textdomain_id ) .
+			'label' => __( 'Gallery Link URL', 'wp-gallery-custom-links' ) .
+				' <a href="#" onclick="jQuery(\'.wpgcl_gallery_link_help\').hide();jQuery(\'#wpgcl_gallery_link_url_help\').show(); return false;" onblur="jQuery(\'#wpgcl_gallery_link_url_help\').hide();">[?]</a>' .
+				'<div id="wpgcl_gallery_link_url_help" style="'.$help_css.'" class="wpgcl_gallery_link_help">' .
+				__( 'Will replace "Image File" or "Attachment Page" link for this image in galleries. Use [none] to remove the link from this image in galleries.', 'wp-gallery-custom-links' ) .
 				' <a href="#" onclick="jQuery(\'#wpgcl_gallery_link_url_help\').hide(); return false;">[X]</a>' .
 				'</div>',
 			'input' => 'text',
@@ -88,41 +94,42 @@ class WPGalleryCustomLinks {
 		// Gallery Link Target field
 		$target_value = get_post_meta( $post->ID, '_gallery_link_target', true );
 		$form_fields['gallery_link_target'] = array(
-			'label' => __( 'Gallery Link Target', self::$textdomain_id ) .
-				' <a href="#" onclick="jQuery(\'#wpgcl_gallery_link_target_help\').show(); return false;" onblur="jQuery(\'#wpgcl_gallery_link_target_help\').hide();">[?]</a>' . 
-				'<div id="wpgcl_gallery_link_target_help" style="'.$help_css.'">' .
-				__( 'This setting will be applied to this image in galleries regardless of whether or not a Gallery Link URL has been specified.', self::$textdomain_id ) .
+			'label' => __( 'Gallery Link Target', 'wp-gallery-custom-links' ) .
+				' <a href="#" onclick="jQuery(\'.wpgcl_gallery_link_help\').hide();jQuery(\'#wpgcl_gallery_link_target_help\').show(); return false;" onblur="jQuery(\'#wpgcl_gallery_link_target_help\').hide();">[?]</a>' .
+				'<div id="wpgcl_gallery_link_target_help" style="'.$help_css.'" class="wpgcl_gallery_link_help">' .
+				__( 'This setting will be applied to this image in galleries regardless of whether or not a Gallery Link URL has been specified.', 'wp-gallery-custom-links' ) .
 				' <a href="#" onclick="jQuery(\'#wpgcl_gallery_link_target_help\').hide(); return false;">[X]</a>' .
 				'</div>',
 			'input'	=> 'html',
 			'html'	=> '
 				<select name="attachments['.$post->ID.'][gallery_link_target]" id="attachments['.$post->ID.'][gallery_link_target]">
-					<option value="">'.__( 'Same Window', self::$textdomain_id ).'</option>
-					<option value="_blank"'.($target_value == '_blank' ? ' selected="selected"' : '').'>'.__( 'New Window', self::$textdomain_id ).'</option>
+					<option value="">'.__( 'Do Not Change', 'wp-gallery-custom-links' ).'</option>
+					<option value="_self"'.($target_value == '_self' ? ' selected="selected"' : '').'>'.__( 'Same Window', 'wp-gallery-custom-links' ).'</option>
+					<option value="_blank"'.($target_value == '_blank' ? ' selected="selected"' : '').'>'.__( 'New Window', 'wp-gallery-custom-links' ).'</option>
 				</select>'
 		);
 		// Gallery Link OnClick Effect field
 		$preserve_click_value = get_post_meta( $post->ID, '_gallery_link_preserve_click', true );
 		$form_fields['gallery_link_preserve_click'] = array(
-			'label' => __( 'Gallery Link OnClick Effect', self::$textdomain_id ) .
-				' <a href="#" onclick="jQuery(\'#wpgcl_gallery_link_preserve_click_help\').show(); return false;" onblur="jQuery(\'#wpgcl_gallery_link_preserve_click_help\').hide();">[?]</a>' . 
-				'<div id="wpgcl_gallery_link_preserve_click_help" style="'.$help_css.'">' .
-				__( 'Lightbox and other OnClick events are removed by default from this image in galleries. This setting will only be applied to this image in galleries if this image has a Gallery Link URL specified.', self::$textdomain_id ) .
+			'label' => __( 'Gallery Link OnClick Effect', 'wp-gallery-custom-links' ) .
+				' <a href="#" onclick="jQuery(\'.wpgcl_gallery_link_help\').hide();jQuery(\'#wpgcl_gallery_link_preserve_click_help\').show(); return false;" onblur="jQuery(\'#wpgcl_gallery_link_preserve_click_help\').hide();">[?]</a>' .
+				'<div id="wpgcl_gallery_link_preserve_click_help" style="'.$help_css.'" class="wpgcl_gallery_link_help">' .
+				__( 'Lightbox and other OnClick events are removed by default from this image in galleries. This setting will only be applied to this image in galleries if this image has a Gallery Link URL specified.', 'wp-gallery-custom-links' ) .
 				' <a href="#" onclick="jQuery(\'#wpgcl_gallery_link_preserve_click_help\').hide(); return false;">[X]</a>' .
 				'</div>',
 			'input'	=> 'html',
 			'html'	=> '
 				<select name="attachments['.$post->ID.'][gallery_link_preserve_click]" id="attachments['.$post->ID.'][gallery_link_preserve_click]">
-					<option value="remove">'.__( 'Remove', self::$textdomain_id ).'</option>
-					<option value="preserve"'.($preserve_click_value == 'preserve' ? ' selected="selected"' : '').'>'.__( 'Keep', self::$textdomain_id ).'</option>
+					<option value="remove">'.__( 'Remove', 'wp-gallery-custom-links' ).'</option>
+					<option value="preserve"'.($preserve_click_value == 'preserve' ? ' selected="selected"' : '').'>'.__( 'Keep', 'wp-gallery-custom-links' ).'</option>
 				</select>'
 		);
 		// Gallery Link additional css classes field
 		$form_fields['gallery_link_additional_css_classes'] = array(
-			'label' => __( 'Gallery Link Additional CSS Classes', self::$textdomain_id ) .
-				' <a href="#" onclick="jQuery(\'#wpgcl_gallery_link_additional_css_classes_help\').show(); return false;" onblur="jQuery(\'#wpgcl_gallery_link_additional_css_classes_help\').hide();">[?]</a>' . 
-				'<div id="wpgcl_gallery_link_additional_css_classes_help" style="'.$help_css.'">' .
-				__( 'Additional CSS classes specified here will be applied to the <strong><em>link</em></strong> around this image in galleries regardless of whether or not a Gallery Link URL has been specified.', self::$textdomain_id ) .
+			'label' => __( 'Gallery Link Additional CSS Classes', 'wp-gallery-custom-links' ) .
+				' <a href="#" onclick="jQuery(\'.wpgcl_gallery_link_help\').hide();jQuery(\'#wpgcl_gallery_link_additional_css_classes_help\').show(); return false;" onblur="jQuery(\'#wpgcl_gallery_link_additional_css_classes_help\').hide();">[?]</a>' .
+				'<div id="wpgcl_gallery_link_additional_css_classes_help" style="'.$help_css.'" class="wpgcl_gallery_link_help">' .
+				__( 'Additional CSS classes specified here will be applied to the <strong><em>link</em></strong> around this image in galleries regardless of whether or not a Gallery Link URL has been specified.', 'wp-gallery-custom-links' ) .
 				' <a href="#" onclick="jQuery(\'#wpgcl_gallery_link_additional_css_classes_help\').hide(); return false;">[X]</a>' .
 				'</div>',
 			'input' => 'text',
@@ -216,6 +223,7 @@ class WPGalleryCustomLinks {
 		foreach ( $attachment_ids as $attachment_id ) {
 			$link = '';
 			$target = '';
+			$rel = '';
 			$preserve_click = '';
 			$remove_link = false;
 			$additional_css_classes = '';
@@ -235,20 +243,6 @@ class WPGalleryCustomLinks {
 			if( $attachment_meta ) {
 				$target = $attachment_meta;
 			}
-			if( trim( $target ) == '' ) {
-				// If empty string ("Same Window") is selected, set target to _self
-				$target = '_self';
-				// ^^ I'm still a little iffy on the above:
-				// Most people's galleries open things in the same window, except that one lady's theme,
-				// but if I default empty string ("Same Window") to mean "same window" instead of "whatever it normally does" then
-				// she'd have to override every gallery if she wanted to keep her theme's normal behavior.
-				// Shouldn't it be the other way around?  But if I leave it the way it is, the alternative
-				// is she'd have to modify her theme to default to new window in order to open in the same
-				// window at all, and most people don't have that skill level.  But I also don't want
-				// the text "Same Window" to be misleading if it really means "just do what you normally do."
-				// Am I thinking too hard about this? I guess this is what happens when you don't distinguish
-				// between "default" and "separate override option."
-			}
 			if( isset( $attr['open_all_in_new_window'] ) && strtolower( trim( $attr['open_all_in_new_window'] ) ) === 'true' ) {
 				// Override setting if the gallery shortcode says to open everything in a new window
 				// This should accommodate both "3000 images in new window" guy (to some extent) and allow _blank
@@ -259,6 +253,11 @@ class WPGalleryCustomLinks {
 				// Override setting if the gallery shortcode says to open everything in the same window
 				// This should allow _blank by default lady to set her gallery to _self at once
 				$target = '_self';
+			}
+			// See if we have a rel for this link
+			if( isset( $attr['rel'] ) ) {
+				// Add a rel property to this image link with the specified value
+				$rel = $attr['rel']; // Note: this is escaped before being dropped in
 			}
 			// See if we have additional css classes for this attachment image
 			$attachment_meta = get_post_meta( $attachment_id, '_gallery_link_additional_css_classes', true );
@@ -281,14 +280,14 @@ class WPGalleryCustomLinks {
 				$remove_link = true;
 			}
 			
-			if( $link != '' || $target != '' || $remove_link || $additional_css_classes != '' ) {
+			if( $link != '' || $target != '' || $rel != '' || $remove_link || $additional_css_classes != '' ) {
 				// Replace the attachment href
 				$needle = get_attachment_link( $attachment_id );
-				$output = self::replace_link( $needle, $link, $target, $preserve_click, $remove_link, $additional_css_classes, $output );
+				$output = self::replace_link( $needle, $link, $target, $rel, $preserve_click, $remove_link, $additional_css_classes, $output );
 
 				// Replace the file href
 				list( $needle ) = wp_get_attachment_image_src( $attachment_id, '' );
-				$output = self::replace_link( $needle, $link, $target, $preserve_click, $remove_link, $additional_css_classes, $output );
+				$output = self::replace_link( $needle, $link, $target, $rel, $preserve_click, $remove_link, $additional_css_classes, $output );
 				// Also, in case of jetpack photon with tiled galleries...
 				if( function_exists( 'jetpack_photon_url' ) ) {
 					// The CDN url currently is generated with "$subdomain = rand( 0, 2 );",
@@ -301,10 +300,10 @@ class WPGalleryCustomLinks {
 					for( $j = 0; $j < 10; $j++ ) {
 						$needle_parts = explode( '.wp.com', jetpack_photon_url( $needle ) );
 						if( count( $needle_parts ) == 2 ) {
-							$needle_part_1 = preg_replace( '/\d+$/', '', $needle_parts[0] );
+							$needle_part_1 = preg_replace( '/\d+$/U', '', $needle_parts[0] );
 							$needle_part_2 = '.wp.com' . $needle_parts[1];
 							$needle_reassembled = $needle_part_1 . $j . $needle_part_2;
-							$output = self::replace_link( $needle_reassembled, $link, $target, $preserve_click, $remove_link, $additional_css_classes, $output );
+							$output = self::replace_link( $needle_reassembled, $link, $target, $rel, $preserve_click, $remove_link, $additional_css_classes, $output );
 						}
 					}
 				}
@@ -317,7 +316,7 @@ class WPGalleryCustomLinks {
 					if( is_array( $attachment_sizes ) && count( $attachment_sizes ) > 0 ) {
 						foreach( $attachment_sizes as $attachment_size => $attachment_info ) {
 							list( $needle ) = wp_get_attachment_image_src( $attachment_id, $attachment_size );
-							$output = self::replace_link( $needle, $link, $target, $preserve_click, $remove_link, $additional_css_classes, $output );
+							$output = self::replace_link( $needle, $link, $target, $rel, $preserve_click, $remove_link, $additional_css_classes, $output );
 						} // End of foreach attachment size
 					} // End if we have attachment sizes
 				} // End if we have attachment metadata (specifically sizes)
@@ -327,11 +326,11 @@ class WPGalleryCustomLinks {
 		return $output;
 	} // End function apply_filter_post_gallery()
 	
-	private static function replace_link( $default_link, $custom_link, $target, $preserve_click, $remove_link, $additional_css_classes, $output ) {
+	private static function replace_link( $default_link, $custom_link, $target, $rel, $preserve_click, $remove_link, $additional_css_classes, $output ) {
 		// Build the regex for matching/replacing
 		$needle = preg_quote( $default_link );
 		$needle = str_replace( '/', '\/', $needle );
-		$needle = '/href\s*=\s*["\']' . $needle . '["\']/';
+		$needle = '/href\s*=\s*["\']' . $needle . '["\']/U';
 		if( preg_match( $needle, $output ) > 0 ) {
 			if( $additional_css_classes != '' ) {
 				$classes_to_add = $additional_css_classes . ' ';
@@ -383,7 +382,7 @@ class WPGalleryCustomLinks {
 			// Custom Target
 			if( $target != '' && ! $remove_link ) {
 				// Replace the link target
-				$output = self::add_target( $default_link, $target, $output );
+				$output = self::add_property( $default_link, 'target', $target, $output );
 				
 				// Add a class to the link so we can manipulate it with
 				// javascript later (only if we're opening it in a new window -
@@ -391,6 +390,12 @@ class WPGalleryCustomLinks {
 				if( $target == '_blank' ) {
 					$classes_to_add .= 'set-target ';
 				}
+			}
+
+			// Custom Rel
+			if( $rel != '' && ! $remove_link ) {
+				// Replace the link rel
+				$output = self::add_property( $default_link, 'rel', $rel, $output );
 			}
 			
 			// Pre-custom link class
@@ -425,41 +430,48 @@ class WPGalleryCustomLinks {
 		// Clean up our needle for regexing
 		$needle = preg_quote( $needle );
 		$needle = str_replace( '/', '\/', $needle );
+
+		// Clean property values a bit
+		$class = esc_attr( $class );
 		
 		// Add a class to the link so we can manipulate it with
 		// javascript later
 		if( preg_match( '/<a[^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*class\s*=\s*["\'][^"\']*["\'][^>]*>/', $output ) > 0 ) {
 			// href comes before class
-			$output = preg_replace( '/(<a[^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*class\s*=\s*["\'][^"\']*)(["\'][^>]*>)/', '$1 '.$class.'$2', $output );
+			$output = preg_replace( '/(<a[^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*class\s*=\s*["\'][^"\']*)(["\'][^>]*>)/U', '$1 '.$class.'$2', $output );
 		} elseif( preg_match( '/<a[^>]*class\s*=\s*["\'][^"\']*["\'][^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*>/', $output ) > 0 ) {
 			// href comes after class
-			$output = preg_replace( '/(<a[^>]*class\s*=\s*["\'][^"\']*)(["\'][^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*>)/', '$1 '.$class.'$2', $output );
+			$output = preg_replace( '/(<a[^>]*class\s*=\s*["\'][^"\']*)(["\'][^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*>)/U', '$1 '.$class.'$2', $output );
 		} else {
 			// No previous class
-			$output = preg_replace( '/(<a[^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*)(>)/', '$1 class="'.$class.'"$2', $output );
+			$output = preg_replace( '/(<a[^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*)(>)/U', '$1 class="'.$class.'"$2', $output );
 		} // End if we have a class on the a tag or not
 		
 		return $output;
 	} // End function add_class()
 	
-	private static function add_target( $needle, $target, $output ) {
+	private static function add_property( $needle, $property_name, $property_value, $output ) {
 		// Clean up our needle for regexing
 		$needle = preg_quote( $needle );
 		$needle = str_replace( '/', '\/', $needle );
+
+		// Clean property values a bit
+		$property_name = esc_attr( $property_name );
+		$property_value = esc_attr( $property_value );
 		
-		// Add a target to the link (or overwrite what's there)
-		if( preg_match( '/<a[^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*target\s*=\s*["\'][^"\']*["\'][^>]*>/', $output ) > 0 ) {
-			// href comes before target
-			$output = preg_replace( '/(<a[^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*target\s*=\s*["\'])[^"\']*(["\'][^>]*>)/', '$1'.$target.'$2', $output );
-		} elseif( preg_match( '/<a[^>]*target\s*=\s*["\'][^"\']*["\'][^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*>/', $output ) > 0 ) {
-			// href comes after target
-			$output = preg_replace( '/(<a[^>]*target\s*=\s*["\'])[^"\']*(["\'][^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*>)/', '$1'.$target.'$2', $output );
+		// Add a property to the link (or overwrite what's there)
+		if( preg_match( '/<a[^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*'.$property_name.'\s*=\s*["\'][^"\']*["\'][^>]*>/', $output ) > 0 ) {
+			// href comes before property
+			$output = preg_replace( '/(<a[^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*'.$property_name.'\s*=\s*["\'])[^"\']*(["\'][^>]*>)/U', '$1'.$property_value.'$2', $output );
+		} elseif( preg_match( '/<a[^>]*'.$property_name.'\s*=\s*["\'][^"\']*["\'][^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*>/', $output ) > 0 ) {
+			// href comes after property
+			$output = preg_replace( '/(<a[^>]*'.$property_name.'\s*=\s*["\'])[^"\']*(["\'][^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*>)/U', '$1'.$property_value.'$2', $output );
 		} else {
-			// No previous target
-			$output = preg_replace( '/(<a[^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*)(>)/', '$1 target="'.$target.'"$2', $output );
+			// No previous property
+			$output = preg_replace( '/(<a[^>]*href\s*=\s*["\']' . $needle . '["\'][^>]*)(>)/U', '$1 '.$property_name.'="'.$property_value.'"$2', $output );
 		} // End if we have a class on the a tag or not
 		
 		return $output;
-	} // End function add_target()
+	} // End function add_property()
 	
 } // End class WPGalleryCustomLinks

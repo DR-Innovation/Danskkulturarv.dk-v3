@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Google Analyticator
- * Version: 6.4.9.4
+ * Version: 6.4.9.7
  * Plugin URI: http://www.videousermanuals.com/google-analyticator/?utm_campaign=analyticator&utm_medium=plugin&utm_source=readme-txt
  * Description: Adds the necessary JavaScript code to enable <a href="http://www.google.com/analytics/">Google's Analytics</a>. After enabling this plugin you need to authenticate with Google, then select your domain and you're set.
  * Author: SumoMe
@@ -125,9 +125,9 @@ function  ganalyticator_stats_init(){
 }
 // Initialize the options
 function ga_admin_init() {
-	
+
 	ga_get_active_addons();
-	
+
 	# Load the localization information
 	$plugin_dir = basename(dirname(__FILE__));
 	load_plugin_textdomain('google-analyticator', 'wp-content/plugins/' . $plugin_dir . '/localizations', $plugin_dir . '/localizations');
@@ -154,9 +154,10 @@ function add_ga_option_page() {
 		//$plugin_page = add_options_page(__('Google Analyticator Settings', 'google-analyticator'), 'Google Analytics', 'manage_options', basename(__FILE__), 'ga_settings_page');
 		//add_action('load-'.$plugin_page, 'ga_pre_load' );
 	}
-	   $activate_page = add_submenu_page( null, 'Activation', 'Google Analytics', 'manage_options', 'ga_activate' , 'ga_activate');
-	   $reset_page = add_submenu_page(null, 'Reset', 'Reset', 'activate_plugins', 'ga_reset', 'ga_reset' );
-        add_action('load-'.$reset_page, 'ga_do_reset' );
+
+	$activate_page = add_submenu_page( null, 'Activation', 'Google Analytics', 'manage_options', 'ga_activate' , 'ga_activate');
+	$reset_page = add_submenu_page(null, 'Reset', 'Reset', 'activate_plugins', 'ga_reset', 'ga_reset' );
+	add_action('load-'.$reset_page, 'ga_do_reset' );
 
 }
 
@@ -177,7 +178,6 @@ function ga_pre_load()
         // Update GA Token
         update_option('ga_google_token', $_POST['key_ga_google_token']);
 
-
     endif;
 
     if( get_option('ga_defaults') == 'yes' ):
@@ -186,8 +186,7 @@ function ga_pre_load()
         exit;
 
     endif;
-    
-    
+
     /** Action to trancate Analyticator db cache   **/
     if(isset($_GET['pageaction']) && $_GET['pageaction'] == 'ga_clear_cache'){
 	    global $wpdb;
@@ -375,7 +374,7 @@ function ga_options_page() {
 		if ($ga_admin_disable_DimentionIndex == '')
 			$ga_admin_disable_DimentionIndex = ga_admin_disable_DimentionIndex_default;
 			
-		update_option(key_ga_admin_disable_DimentionIndex, wp_filter_kses( $ga_admin_disable_DimentionIndex ) );
+		update_option(key_ga_admin_disable_DimentionIndex, sanitize_text_field( $ga_admin_disable_DimentionIndex ) );
 		
 		// Update the admin disable setting
 		$ga_admin_disable = wp_filter_kses( $_POST[key_ga_admin_disable] );
@@ -410,7 +409,7 @@ function ga_options_page() {
 
 		// Update the adsense key
 		$ga_adsense = $_POST[key_ga_adsense];
-		update_option(key_ga_adsense, wp_filter_kses( $ga_adsense ) );
+		update_option(key_ga_adsense, sanitize_text_field( $ga_adsense ) );
 
 		// Update the event tracking
 		$ga_event = $_POST[key_ga_event];
@@ -428,11 +427,11 @@ function ga_options_page() {
 		$ga_outbound_prefix = $_POST[key_ga_outbound_prefix];
 		if ($ga_outbound_prefix == '')
 			$ga_outbound_prefix = ga_outbound_prefix_default;
-			update_option(key_ga_outbound_prefix, wp_filter_kses( $ga_outbound_prefix) );
+			update_option(key_ga_outbound_prefix, sanitize_text_field( $ga_outbound_prefix) );
 
 			// Update the download tracking code
 			$ga_downloads = $_POST[key_ga_downloads];
-			update_option(key_ga_downloads, wp_filter_kses( $ga_downloads ) );
+			update_option(key_ga_downloads, sanitize_text_field( $ga_downloads ) );
 
 		// Update the Enhanced Link Attribution
 		$ga_enhanced_link_attr = $_POST[key_ga_enhanced_link_attr];
@@ -444,7 +443,7 @@ function ga_options_page() {
 		$ga_downloads_prefix = $_POST[key_ga_downloads_prefix];
 		if ($ga_downloads_prefix == '')
 			$ga_downloads_prefix = ga_downloads_prefix_default;
-			update_option(key_ga_downloads_prefix, wp_filter_kses( $ga_downloads_prefix) );
+			update_option(key_ga_downloads_prefix, sanitize_text_field( $ga_downloads_prefix) );
 
 		// Update the widgets option
 		$ga_widgets = $_POST[key_ga_widgets];
@@ -475,14 +474,17 @@ function ga_options_page() {
 		
 	?>
 <div class="wrap">
-    <style type="text/css">
+	<?php if (get_option('ga_analyticator_global_notification') == 1): ?>
+		<style type="text/css">
             #ga_analyticator_global_notification a.button:active {vertical-align:baseline;}
-    </style>
-    <div id="ga_analyticator_global_notification" class="updated" style="border:3px solid #317A96;position:relative;background:##3c9cc2;background-color:#3c9cc2;color:#ffffff;height:70px;">
-        <p style="font-size:16px;line-height:50px;">
-                <?php _e('Grow your site faster!'); ?> &nbsp;<a style="background-color: #6267BE;border-color: #3C3F76;" href="<?php echo admin_url('plugin-install.php?tab=plugin-information&plugin=sumome&TB_iframe=true&width=743&height=500'); ?>" class="thickbox button button-primary">Get SumoMe WordPress Plugin</a>
-        </p>
-    </div>
+	    </style>
+	    <div id="ga_analyticator_global_notification" class="updated" style="border:3px solid #317A96;position:relative;background:##3c9cc2;background-color:#3c9cc2;color:#ffffff;height:70px;">
+	        <a class="notice-dismiss" href="<?php echo admin_url('admin.php?page=google-analyticator&ga_analyticator_global_notification=0'); ?>" style="right:10px;top:0;"></a>
+	        <p style="font-size:16px;line-height:50px;">
+	                <?php _e('Grow your site faster!'); ?> &nbsp;<a style="background-color: #6267BE;border-color: #3C3F76;" href="<?php echo admin_url('plugin-install.php?tab=plugin-information&plugin=sumome&TB_iframe=true&width=743&height=500'); ?>" class="thickbox button button-primary">Get SumoMe WordPress Plugin</a>
+	        </p>
+	    </div>
+	<?php endif ?>
   <form method="post" action="<?php echo ga_analyticator_setting_url();?>">
     <?php
 			# Add a nonce
@@ -1389,7 +1391,7 @@ function ga_analyticator_global_notice() {
 		<?php
 	}
 }
-add_action( 'admin_notices', 'ga_analyticator_global_notice' );
+//add_action( 'admin_notices', 'ga_analyticator_global_notice' );
 
 function ga_analyticator_deactivate() {
 	delete_option('ga_analyticator_global_notification');

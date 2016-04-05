@@ -1,7 +1,6 @@
 <?php
 /*
-
-Copyright 2014 John Blackbourn
+Copyright 2009-2016 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,47 +18,51 @@ class QM_Output_Html_Conditionals extends QM_Output_Html {
 
 	public function __construct( QM_Collector $collector ) {
 		parent::__construct( $collector );
-		add_filter( 'query_monitor_menus', array( $this, 'admin_menu' ), 120 );
+		add_filter( 'qm/output/menus', array( $this, 'admin_menu' ), 1000 );
 	}
 
 	public function output() {
 
 		$data = $this->collector->get_data();
 
-		$cols = 5;
+		$cols = 6;
 		$i = 0;
 		$w = floor( 100 / $cols );
 
-		echo '<div class="qm" id="' . $this->collector->id() . '">';
+		echo '<div class="qm" id="' . esc_attr( $this->collector->id() ) . '">';
 		echo '<table cellspacing="0">';
 		echo '<thead>';
 		echo '<tr>';
-		echo '<th colspan="' . $cols . '">' . $this->collector->name() . '</th>';
+		echo '<th colspan="' . absint( $cols ) . '">' . esc_html( $this->collector->name() ) . '</th>';
 		echo '</tr>';
 		echo '</thead>';
 		echo '<tbody>';
 
 		foreach ( $data['conds']['true'] as $cond ) {
 			$i++;
-			if ( 1 === $i%$cols )
+			if ( 1 === $i % $cols ) {
 				echo '<tr>';
-			echo '<td class="qm-ltr qm-true" width="' . $w . '%">' . $cond . '()</td>';
-			if ( 0 === $i%$cols )
+			}
+			echo '<td class="qm-ltr qm-true" width="' . absint( $w ) . '%">' . esc_html( $cond ) . '()&nbsp;&#x2713;</td>';
+			if ( 0 === $i % $cols ) {
 				echo '</tr>';
+			}
 		}
 
 		foreach ( $data['conds']['false'] as $cond ) {
 			$i++;
-			if ( 1 === $i%$cols )
+			if ( 1 === $i % $cols ) {
 				echo '<tr>';
-			echo '<td class="qm-ltr qm-false" width="' . $w . '%">' . $cond . '()</td>';
-			if ( 0 === $i%$cols )
+			}
+			echo '<td class="qm-ltr qm-false" width="' . absint( $w ) . '%">' . esc_html( $cond ) . '()</td>';
+			if ( 0 === $i % $cols ) {
 				echo '</tr>';
+			}
 		}
 
 		$fill = ( $cols - ( $i % $cols ) );
-		if ( $fill and ( $fill != $cols ) ) {
-			echo '<td colspan="' . $fill . '">&nbsp;</td>';
+		if ( $fill && ( $fill !== $cols ) ) {
+			echo '<td colspan="' . absint( $fill ) . '">&nbsp;</td>';
 			echo '</tr>';
 		}
 
@@ -75,8 +78,8 @@ class QM_Output_Html_Conditionals extends QM_Output_Html {
 
 		foreach ( $data['conds']['true'] as $cond ) {
 			$menu[] = $this->menu( array(
-				'title' => $cond . '()',
-				'id'    => 'query-monitor-' . $cond,
+				'title' => esc_html( $cond . '()' ),
+				'id'    => 'query-monitor-conditionals-' . esc_attr( $cond ),
 				'meta'  => array( 'classname' => 'qm-true qm-ltr' )
 			) );
 		}
@@ -87,8 +90,11 @@ class QM_Output_Html_Conditionals extends QM_Output_Html {
 
 }
 
-function register_qm_output_html_conditionals( QM_Output $output = null, QM_Collector $collector ) {
-	return new QM_Output_Html_Conditionals( $collector );
+function register_qm_output_html_conditionals( array $output, QM_Collectors $collectors ) {
+	if ( $collector = QM_Collectors::get( 'conditionals' ) ) {
+		$output['conditionals'] = new QM_Output_Html_Conditionals( $collector );
+	}
+	return $output;
 }
 
-add_filter( 'query_monitor_output_html_conditionals', 'register_qm_output_html_conditionals', 10, 2 );
+add_filter( 'qm/outputter/html', 'register_qm_output_html_conditionals', 50, 2 );

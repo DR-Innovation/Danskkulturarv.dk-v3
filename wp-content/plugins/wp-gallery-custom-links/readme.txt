@@ -3,8 +3,8 @@ Contributors: fourlightsweb
 Donate link: http://www.fourlightsweb.com/wordpress-plugins/wp-gallery-custom-links/#donate
 Tags: gallery links, gallery link, gallery
 Requires at least: 3.3.1
-Tested up to: 3.9.1
-Stable tag: 1.10.1
+Tested up to: 4.4.0
+Stable tag: 1.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,6 +40,7 @@ will be removed to allow them to function as regular links.
 * Use `[gallery open_all_in_new_window="true"]` and `[gallery open_all_in_same_window="true"]` to open all images in an entire gallery in a new window/the same window, respectively.
 * Use `[gallery preserve_click_events="true"]` to keep Lightbox or other onClick events on all custom-linked images in an entire gallery.
 * Use `[gallery remove_links="true"]` to remove links on all images in an entire gallery.
+* Use `[gallery rel="nofollow"]` to set a rel attribute with value "nofollow" on all links in an entire gallery.
 
 = Hooks =
 
@@ -133,13 +134,39 @@ doesn't alter layout or styling - that's something you'd need to change in your 
 plugin you may be using to display the gallery.  Note: if you're using [none] to remove links from gallery
 images, it may affect the styling, depending on whether your stylesheet is expecting all gallery images
  to have `<a>` tags around them, in which case you would need to modify your stylesheet to also apply
-the same styles to `<img>` tags without a link around them. 
+the same styles to `<img>` tags without a link around them.
+
+= #8) I have a lightbox/carousel set up when a user clicks an image, and I would like to make the image in the lightbox/carousel window link to the custom link.  How can I accomplish this? =
+
+Unfortunately those images are placed in those locations via your particular lightbox/carousel javascript library,
+which this plugin isn't able to hook into to modify.  You would need to modify your javascript library or theme to
+accomplish this, which is outside the scope of this plugin.
 
 == Screenshots ==
 
 1. The additional WP Gallery Custom Link fields.
 
 == Changelog ==
+
+= 1.11 =
+* By popular demand, added the ability to set a "rel" property on all images in a gallery (e.g. nofollow)
+* Tested with WordPress 4.4
+
+= 1.10.5 =
+* Changed translation text domain from a variable to strings, because apparently a variable doesn't universally work no matter how smart it makes me feel.
+
+= 1.10.4 =
+* Updated some text domain settings to be in accordance with the translate.wordpress.org translation system.
+* Polished up some of the help message styles to make them easier to read
+* Tested with WordPress 4.3
+
+= 1.10.3 =
+* Added a "Do Not Change" default target option to improve performance by reducing the number of regexes to apply "_self" on every gallery item. If your theme opens all gallery items in a new window by default and you prefer to keep them in the same window, you will need to add open_all_in_same_window="true" to your gallery shortcode.
+
+= 1.10.2 =
+* Added a translation for Portuguese, courtesy of Carlos Jordão (thanks!)
+* Added the U ungreedy modifier to regular expressions to attempt to resolve occasional not-easily-reproduced blank page issues
+* Tested with WordPress 4.2
 
 = 1.10.1 =
 * Changed javascript to queue in wp_enqueue_scripts hook instead of the all-encompassing init.
@@ -240,6 +267,26 @@ directly attached to the post.
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.11 =
+* By popular demand, added the ability to set a "rel" property on all images in a gallery (e.g. nofollow)
+* Tested with WordPress 4.4
+
+= 1.10.5 =
+* Changed translation text domain from a variable to strings, because apparently a variable doesn't universally work no matter how smart it makes me feel.
+
+= 1.10.4 =
+* Updated some text domain settings to be in accordance with the translate.wordpress.org translation system.
+* Polished up some of the help message styles to make them easier to read
+* Tested with WordPress 4.3
+
+= 1.10.3 =
+* Added a "Do Not Change" default target option to improve performance by reducing the number of regexes to apply "_self" on every gallery item. If your theme opens all gallery items in a new window by default and you prefer to keep them in the same window, you will need to add open_all_in_same_window="true" to your gallery shortcode.
+
+= 1.10.2 =
+* Added a translation for Portuguese, courtesy of Carlos Jordão (thanks!)
+* Added the U ungreedy modifier to regular expressions to attempt to resolve occasional not-easily-reproduced blank page issues
+* Tested with WordPress 4.2
 
 = 1.10.1 =
 * Changed javascript to queue in wp_enqueue_scripts hook instead of the all-encompassing init.

@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2014 John Blackbourn
+Copyright 2009-2016 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,14 +36,15 @@ class QM_Collector_Environment extends QM_Collector {
 
 		parent::__construct();
 
-		# If QueryMonitorDB is in place then we'll use the values which were
+		# If QM_DB is in place then we'll use the values which were
 		# caught early before any plugins had a chance to alter them
 
 		foreach ( $this->php_vars as $setting ) {
-			if ( isset( $wpdb->qm_php_vars ) and isset( $wpdb->qm_php_vars[$setting] ) )
+			if ( isset( $wpdb->qm_php_vars ) and isset( $wpdb->qm_php_vars[$setting] ) ) {
 				$val = $wpdb->qm_php_vars[$setting];
-			else
+			} else {
 				$val = ini_get( $setting );
+			}
 			$this->data['php']['variables'][$setting]['before'] = $val;
 		}
 
@@ -75,8 +76,9 @@ class QM_Collector_Environment extends QM_Collector {
 		foreach ( $constants as $level ) {
 			if ( defined( $level ) ) {
 				$c = constant( $level );
-				if ( $error_reporting & $c ) 
+				if ( $error_reporting & $c ) {
 					$levels[$c] = $level;
+				}
 			}
 		}
 
@@ -86,7 +88,7 @@ class QM_Collector_Environment extends QM_Collector {
 
 	public function process() {
 
-		global $wp_version, $blog_id;
+		global $wp_version;
 
 		$mysql_vars = array(
 			'key_buffer_size'    => true,  # Key cache size limit
@@ -97,12 +99,9 @@ class QM_Collector_Environment extends QM_Collector {
 			'query_cache_type'   => 'ON'   # Query cache on or off
 		);
 
-		if ( $dbq = QueryMonitor::get_collector( 'db_queries' ) ) {
+		if ( $dbq = QM_Collectors::get( 'db_queries' ) ) {
 
 			foreach ( $dbq->db_objects as $id => $db ) {
-
-				if ( !is_a( $db, 'wpdb' ) )
-					continue;
 
 				$variables = $db->get_results( "
 					SHOW VARIABLES
@@ -110,28 +109,50 @@ class QM_Collector_Environment extends QM_Collector {
 				" );
 
 				if ( is_resource( $db->dbh ) ) {
-					# Standard mysql extension
-					$driver = 'mysql';
+					# Old mysql extension
+					$extension = 'mysql';
 				} else if ( is_object( $db->dbh ) ) {
 					# mysqli or PDO
-					$driver = get_class( $db->dbh );
+					$extension = get_class( $db->dbh );
 				} else {
 					# Who knows?
-					$driver = '<span class="qm-warn">' . __( 'Unknown', 'query-monitor' ) . '</span>';
+					$extension = null;
 				}
 
 				if ( method_exists( $db, 'db_version' ) ) {
-					$version = $db->db_version();
+					$server = $db->db_version();
 				} else {
-					$version = '<span class="qm-warn">' . __( 'Unknown', 'query-monitor' ) . '</span>';
+					$server = null;
 				}
 
+				if ( isset( $db->use_mysqli ) && $db->use_mysqli ) {
+					$client = mysqli_get_client_version();
+				} else {
+					if ( preg_match( '|[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}|', mysql_get_client_info(), $matches ) ) {
+						$client = $matches[0];
+					} else {
+						$client = null;
+					}
+				}
+
+				if ( $client ) {
+					$client_version = implode( '.', QM_Util::get_client_version( $client ) );
+					$client_version = sprintf( '%s (%s)', $client, $client_version );
+				} else {
+					$client_version = null;
+				}
+
+				$info = array(
+					'extension'      => $extension,
+					'server version' => $server,
+					'client version' => $client_version,
+					'user'           => $db->dbuser,
+					'host'           => $db->dbhost,
+					'database'       => $db->dbname,
+				);
+
 				$this->data['db'][$id] = array(
-					'version'   => $version,
-					'driver'    => $driver,
-					'user'      => $db->dbuser,
-					'host'      => $db->dbhost,
-					'name'      => $db->dbname,
+					'info'      => $info,
 					'vars'      => $mysql_vars,
 					'variables' => $variables
 				);
@@ -141,10 +162,16 @@ class QM_Collector_Environment extends QM_Collector {
 		}
 
 		$this->data['php']['version'] = phpversion();
+		$this->data['php']['sapi']    = php_sapi_name();
 		$this->data['php']['user']    = self::get_current_user();
 
-		foreach ( $this->php_vars as $setting )
+		if ( defined( 'HHVM_VERSION' ) ) {
+			$this->data['php']['hhvm'] = HHVM_VERSION;
+		}
+
+		foreach ( $this->php_vars as $setting ) {
 			$this->data['php']['variables'][$setting]['after'] = ini_get( $setting );
+		}
 
 		$this->data['php']['error_reporting'] = error_reporting();
 
@@ -154,27 +181,31 @@ class QM_Collector_Environment extends QM_Collector {
 			'WP_DEBUG_DISPLAY'    => self::format_bool_constant( 'WP_DEBUG_DISPLAY' ),
 			'WP_DEBUG_LOG'        => self::format_bool_constant( 'WP_DEBUG_LOG' ),
 			'SCRIPT_DEBUG'        => self::format_bool_constant( 'SCRIPT_DEBUG' ),
+			'WP_CACHE'            => self::format_bool_constant( 'WP_CACHE' ),
 			'CONCATENATE_SCRIPTS' => self::format_bool_constant( 'CONCATENATE_SCRIPTS' ),
 			'COMPRESS_SCRIPTS'    => self::format_bool_constant( 'COMPRESS_SCRIPTS' ),
 			'COMPRESS_CSS'        => self::format_bool_constant( 'COMPRESS_CSS' ),
 			'WP_LOCAL_DEV'        => self::format_bool_constant( 'WP_LOCAL_DEV' ),
 		);
 
-		if ( is_multisite() )
-			$this->data['wp']['blog_id'] = $blog_id;
+		if ( is_multisite() ) {
+			$this->data['wp']['SUNRISE'] = self::format_bool_constant( 'SUNRISE' );
+		}
 
 		$server = explode( ' ', $_SERVER['SERVER_SOFTWARE'] );
 		$server = explode( '/', reset( $server ) );
 
-		if ( isset( $server[1] ) )
+		if ( isset( $server[1] ) ) {
 			$server_version = $server[1];
-		else
+		} else {
 			$server_version = null;
+		}
 
-		if ( isset( $_SERVER['SERVER_ADDR'] ) )
+		if ( isset( $_SERVER['SERVER_ADDR'] ) ) {
 			$address = $_SERVER['SERVER_ADDR'];
-		else
+		} else {
 			$address = null;
+		}
 
 		$this->data['server'] = array(
 			'name'    => $server[0],
@@ -220,9 +251,9 @@ class QM_Collector_Environment extends QM_Collector {
 
 }
 
-function register_qm_collector_environment( array $qm ) {
-	$qm['environment'] = new QM_Collector_Environment;
-	return $qm;
+function register_qm_collector_environment( array $collectors, QueryMonitor $qm ) {
+	$collectors['environment'] = new QM_Collector_Environment;
+	return $collectors;
 }
 
-add_filter( 'query_monitor_collectors', 'register_qm_collector_environment', 120 );
+add_filter( 'qm/collectors', 'register_qm_collector_environment', 20, 2 );
