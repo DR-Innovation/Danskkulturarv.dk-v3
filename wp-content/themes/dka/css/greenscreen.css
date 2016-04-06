@@ -102,3 +102,7 @@ footer {
   background-color: inherit;
   border-top: 0;
 }
+
+footer .nav-footer {
+	display: none;
+}
