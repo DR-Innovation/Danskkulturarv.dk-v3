@@ -6,14 +6,63 @@
 /*
 Template Name: Greenscreen
 */
-
-
 add_action( 'wp_enqueue_scripts', function() {
 	wp_enqueue_style( 'greenscreen-style', get_stylesheet_directory_uri().'/css/greenscreen.css' );
 });
 
+$sessionUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSession.php?settingsID=2&sessionCode=';
+$videoUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSessionVideo.php?settingsID=2&sessionVideoCode=';
+$error = true;
+$title = '';
+$pageThumbnail = '';
+$sessionCode = '';
+$videoCode = '';
+$pageVideo = '';
 
-get_header(); ?>
+if (isset($_GET["session"])) {
+	$sessionCode = htmlspecialchars($_GET["session"]);
+	$jsonUrl = $sessionUrl . $sessionCode;
+	$jsonContent = file_get_contents($jsonUrl);
+	$jsonObject = json_decode($jsonContent, true);
+
+	if ($jsonObject['errorMessage']) {
+
+	} else {
+		$title = $jsonObject['title'];
+		$pageThumbnail = $jsonObject['videos'][0]['thumbnailPath'];
+		$error = false;
+	}
+}
+
+if (isset($_GET["video"])) {
+	$videoCode = htmlspecialchars($_GET["video"]);
+	$jsonUrl = $videoUrl . $videoCode;
+	$jsonContent = file_get_contents($jsonUrl);
+	$jsonObject = json_decode($jsonContent, true);
+
+	echo $jsonObject['errorMessage'];
+
+	if ($jsonObject['errorMessage']) {
+
+	} else {
+		$pageThumbnail = $jsonObject['thumbnailPath'];
+		$pageVideo = $jsonObject['videoPath'];
+		$error = false;
+	}
+}
+
+if ($pageThumbnail) {
+	add_filter('wpchaos-head-meta',function($metadatas) {
+		global $pageThumbnail;
+		$metadatas['og:image']['content'] = $pageThumbnail;
+		$metadatas['twitter:image']['content'] = $pageThumbnail;
+		return $metadatas;
+	});
+}
+
+get_header();
+
+?>
 
 
 <?php while ( have_posts() ) : the_post(); ?>
@@ -25,35 +74,47 @@ get_header(); ?>
 			<p>
 				<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'dka' ) ); ?>
 			</p>
-			<form method="get" action="http://www.danskkulturarv.dk/dr-greenscreen/">
-				<input type="text" name="session" value="" />
-				<input type="submit" value="session" />
-			</form>
+			<?php if (!$sessionCode && !$videoCode) : ;?>
+				<form method="get" action="http://www.danskkulturarv.dk/dr-greenscreen/">
+					<input type="text" name="session" value="" placeholder="Indtast din kode her" />
+					<input type="submit" value="load videoer" />
+				</form>
+			<?php endif; ?>
 		</article>
 	</div>
 <?php endwhile; ?>
 
 <?php
-	$sessionCode = htmlspecialchars($_GET["session"]);
-	$sessionUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSession.php?settingsID=2&sessionCode=';
+	if ($error != true) {
 
-	if ($sessionCode) {
-		$jsonUrl = $sessionUrl . $sessionCode;
-		$jsonContent = file_get_contents($jsonUrl);
-		$jsonObject = json_decode($jsonContent, true);
+		if ($sessionCode) {
+			echo '<h2>' . $title . '</h2>';
 
-		$title = $jsonObject['title'];
-		echo '<h2>' . $title . '</h2>';
+			if($jsonObject['videos']) {
 
-		foreach ($jsonObject['videos'] as $key=>$val) {
+				foreach ($jsonObject['videos'] as $key=>$val) {
+					$video = $val['videoPath'];
+					$thumbnail = $val['thumbnailPath'];
+					$videoCode = $val['sessionVideoCode'];
+					echo '
+						<video controls src="' . $video . '" poster="' . $thumbnail . '">
+							Din browser understøtter desværre ikke disse videoformater.
+							Skift venligst til en nyere.
+						</video>';
+					echo '<pre>' . $videoCode . '</pre>';
+					echo 'Her skal der være nogle deleknapper';
+				}
+			}
+
+		} else if ($videoCode) {
 			echo '
-				<video controls src="' . $val['videoPath'] . '" poster="' . $val['thumbnailPath'] . '">
+				<video controls src="' . $pageVideo . '" poster="' . $pageThumbnail . '">
 					Din browser understøtter desværre ikke disse videoformater.
 					Skift venligst til en nyere.
 				</video>';
+			echo '<pre>' . $videoCode . '</pre>';
 		}
 	}
 ?>
 
-<?php get_sidebar(); ?>
 <?php get_footer(); ?>
