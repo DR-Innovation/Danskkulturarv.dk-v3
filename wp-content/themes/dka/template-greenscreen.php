@@ -12,7 +12,7 @@ add_action( 'wp_enqueue_scripts', function() {
 
 $sessionUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSession.php?settingsID=2&sessionCode=';
 $videoUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSessionVideo.php?settingsID=2&sessionVideoCode=';
-$rootUrl = strtok($_SERVER["REQUEST_URI"],'?');
+$rootUrl = $_SERVER["HTTP_HOST"] . strtok($_SERVER["REQUEST_URI"],'?');
 
 $shareTwitterText = 'Her+skal+der+stå+noget+andet+';
 $shareTwitter = 'https://twitter.com/intent/tweet?text=' . $shareTwitterText;
@@ -103,15 +103,15 @@ get_header();
 					$thumbnail = $val['thumbnailPath'];
 					$videoCode = $val['sessionVideoCode'];
 					$shareUrl = $rootUrl . '?video=' . $videoCode;
-					$twitterUrl = $shareTwitter . $shareUrl;
-					$facebookUrl = $shareFacebook . $shareUrl;
+					$twitterUrl = $shareTwitter . 'http://' . $shareUrl;
+					$facebookUrl = $shareFacebook . 'http://' . $shareUrl;
 					echo '
 						<video controls data-src="' . $video . '" poster="' . $thumbnail . '">
 							Din browser understøtter desværre ikke disse videoformater.
 							Skift venligst til en nyere.
 						</video>
 						<h3>Del denne video</h3>
-						<a href="'. $shareUrl .'" class="share-url">'. $shareUrl .'</p>
+						<a href="http://'. $shareUrl .'" class="share-url">'. $shareUrl .'</p>
 						<a href="'. $facebookUrl .'"><i class="icon-facebook"></i></a>
 						<a href="'. $twitterUrl .'"><i class="icon-twitter"></i></a>
 					';
@@ -128,7 +128,7 @@ get_header();
 					Skift venligst til en nyere.
 				</video>
 				<h3>Del denne video</h3>
-				<a href="'. $shareUrl .'" class="share-url">'. $shareUrl .'</p>
+				<a href="http://'. $shareUrl .'" class="share-url">'. $shareUrl .'</p>
 				<a href="'. $facebookUrl .'"><i class="icon-facebook"></i></a>
 				<a href="'. $twitterUrl .'"><i class="icon-twitter"></i></a>
 				';
