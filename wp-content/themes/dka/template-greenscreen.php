@@ -12,6 +12,7 @@ add_action( 'wp_enqueue_scripts', function() {
 
 $sessionUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSession.php?settingsID=2&sessionCode=';
 $videoUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSessionVideo.php?settingsID=2&sessionVideoCode=';
+$rootUrl = strtok($_SERVER["REQUEST_URI"],'?');
 $error = true;
 $title = '';
 $pageThumbnail = '';
@@ -77,7 +78,7 @@ get_header();
 			<?php if (!$sessionCode && !$videoCode) : ;?>
 				<form method="get" action="http://www.danskkulturarv.dk/dr-greenscreen/">
 					<input type="text" name="session" value="" placeholder="Indtast din kode her" />
-					<input type="submit" value="load videoer" />
+					<input type="submit" value="Se videoer" />
 				</form>
 			<?php endif; ?>
 		</article>
@@ -103,6 +104,7 @@ get_header();
 						</video>';
 					echo '<pre>' . $videoCode . '</pre>';
 					echo 'Her skal der være nogle deleknapper';
+					echo '<a href="' . $rootUrl . '?video=' . $videoCode . '">Link til video</a>';
 				}
 			}
 
