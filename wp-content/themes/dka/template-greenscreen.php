@@ -13,6 +13,11 @@ add_action( 'wp_enqueue_scripts', function() {
 $sessionUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSession.php?settingsID=2&sessionCode=';
 $videoUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSessionVideo.php?settingsID=2&sessionVideoCode=';
 $rootUrl = strtok($_SERVER["REQUEST_URI"],'?');
+
+$shareTwitterText = 'Her+skal+der+stå+noget+andet+';
+$shareTwitter = 'https://twitter.com/intent/tweet?text=' . $shareTwitterText;
+$shareFacebook = 'https://www.facebook.com/sharer/sharer.php?url%5D=';
+
 $error = true;
 $title = '';
 $pageThumbnail = '';
@@ -76,7 +81,7 @@ get_header();
 				<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'dka' ) ); ?>
 			</p>
 			<?php if (!$sessionCode && !$videoCode) : ;?>
-				<form method="get" action="http://www.danskkulturarv.dk/dr-greenscreen/">
+				<form method="get" action="<?php echo $rootUrl ?>">
 					<input type="text" name="session" value="" placeholder="Indtast din kode her" />
 					<input type="submit" value="Se videoer" />
 				</form>
@@ -97,24 +102,36 @@ get_header();
 					$video = $val['videoPath'];
 					$thumbnail = $val['thumbnailPath'];
 					$videoCode = $val['sessionVideoCode'];
+					$shareUrl = $rootUrl . '?video=' . $videoCode;
+					$twitterUrl = $shareTwitter . $shareUrl;
+					$facebookUrl = $shareFacebook . $shareUrl;
 					echo '
-						<video controls src="' . $video . '" poster="' . $thumbnail . '">
+						<video controls data-src="' . $video . '" poster="' . $thumbnail . '">
 							Din browser understøtter desværre ikke disse videoformater.
 							Skift venligst til en nyere.
-						</video>';
-					echo '<pre>' . $videoCode . '</pre>';
-					echo 'Her skal der være nogle deleknapper';
-					echo '<a href="' . $rootUrl . '?video=' . $videoCode . '">Link til video</a>';
+						</video>
+						<h3>Del denne video</h3>
+						<a href="'. $shareUrl .'" class="share-url">'. $shareUrl .'</p>
+						<a href="'. $facebookUrl .'"><i class="icon-facebook"></i></a>
+						<a href="'. $twitterUrl .'"><i class="icon-twitter"></i></a>
+					';
 				}
 			}
 
 		} else if ($videoCode) {
+			$shareUrl = $rootUrl . '?video=' . $videoCode;
+			$twitterUrl = $shareTwitter . $shareUrl;
+			$facebookUrl = $shareFacebook . $shareUrl;
 			echo '
 				<video controls src="' . $pageVideo . '" poster="' . $pageThumbnail . '">
 					Din browser understøtter desværre ikke disse videoformater.
 					Skift venligst til en nyere.
-				</video>';
-			echo '<pre>' . $videoCode . '</pre>';
+				</video>
+				<h3>Del denne video</h3>
+				<a href="'. $shareUrl .'" class="share-url">'. $shareUrl .'</p>
+				<a href="'. $facebookUrl .'"><i class="icon-facebook"></i></a>
+				<a href="'. $twitterUrl .'"><i class="icon-twitter"></i></a>
+				';
 		}
 	}
 ?>
