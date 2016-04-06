@@ -86,6 +86,11 @@ h3 {
 	text-decoration: none !important;
 }
 
+form {
+	margin-top: 3rem;
+	display: block;
+}
+
 input {
 	padding: .5em 1em;
 	background-color: white;
