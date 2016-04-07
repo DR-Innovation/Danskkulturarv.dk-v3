@@ -495,10 +495,6 @@ function dka_wp_head() {
 			'property' => 'og:image',
 			'content' => ''
 		);
-		$metadatas['og:image:url'] = array(
-			'property' => 'og:image:url',
-			'content' => ''
-		);
 
 		wp_reset_postdata();
 	}
