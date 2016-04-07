@@ -25,6 +25,7 @@ $pageThumbnail = '';
 $sessionCode = '';
 $videoCode = '';
 $pageVideo = '';
+$errorMessage = '';
 
 if (isset($_GET["session"])) {
 	$sessionCode = htmlspecialchars($_GET["session"]);
@@ -33,7 +34,7 @@ if (isset($_GET["session"])) {
 	$jsonObject = json_decode($jsonContent, true);
 
 	if ($jsonObject['errorMessage']) {
-
+		$errorMessage = $jsonObject['errorMessage'];
 	} else {
 		$title = $jsonObject['title'];
 		$pageThumbnail = $jsonObject['videos'][0]['thumbnailPath'];
@@ -47,10 +48,8 @@ if (isset($_GET["video"])) {
 	$jsonContent = file_get_contents($jsonUrl);
 	$jsonObject = json_decode($jsonContent, true);
 
-	echo $jsonObject['errorMessage'];
-
 	if ($jsonObject['errorMessage']) {
-
+		$errorMessage = $jsonObject['errorMessage'];
 	} else {
 		$pageThumbnail = $jsonObject['thumbnailPath'];
 		$pageVideo = $jsonObject['videoPath'];
@@ -135,6 +134,16 @@ get_header();
 				<a href="'. $twitterUrl .'"><i class="icon-twitter"></i></a>
 				';
 		}
+	} else if ($errorMessage) {
+		echo '
+		<h3>Ups, der skete en fejl</h3>
+		<p>'. $errorMessage .'</p>
+		';
+	} else {
+		echo '
+		<h3>Ups, der skete en fejl</h3>
+		<p>Det ligner vi har serverproblemer, prøv venligst igen senere.</p>
+		';
 	}
 ?>
 
