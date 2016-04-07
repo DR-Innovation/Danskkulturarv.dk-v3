@@ -14,7 +14,7 @@ $sessionUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSession.php?se
 $videoUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSessionVideo.php?settingsID=2&sessionVideoCode=';
 $rootUrl = strtok($_SERVER["REQUEST_URI"],'?');
 $pageUrl = $_SERVER["HTTP_HOST"] . strtok($_SERVER["REQUEST_URI"],'?');
-$canonicalUrl = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+$canonicalUrl = $_SERVER["REQUEST_URI"];
 
 $shareTwitterText = 'Her+skal+der+stå+noget+andet+';
 $shareTwitter = 'https://twitter.com/intent/tweet?text=' . $shareTwitterText;
@@ -74,18 +74,19 @@ add_filter('wpchaos-head-meta',function($metadatas) {
 		$metadatas['twitter:player:stream']['content'] = $pageVideo;
 		$metadatas['og:type']['content'] = 'video.other';
 		$metadatas['og:video:type']['content'] = 'video/mp4';
+		$metadatas['og:video:url']['content'] = $pageVideo;
 		$metadatas['og:video:secure_url']['content'] = $pageVideo;
 	}
 	return $metadatas;
 });
 
 
-function custom_canonical() {
-	global $canonicalUrl;
-	echo '<link rel="canonical" href="'. $canonicalUrl .'">';
-}
+// function custom_canonical() {
+// 	global $canonicalUrl;
+// 	echo '<link rel="canonical" href="'. $canonicalUrl .'">';
+// }
 remove_action( 'wp_head', 'rel_canonical' );
-add_action( 'wp_head', 'custom_canonical' );
+// add_action( 'wp_head', 'custom_canonical' );
 
 get_header();
 

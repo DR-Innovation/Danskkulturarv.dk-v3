@@ -503,6 +503,10 @@ function dka_wp_head() {
 			'name' => 'twitter:player:stream:content_type',
 			'content' => ''
 		);
+		$metadatas['og:video:url'] = array(
+			'property' => 'og:video:url',
+			'content' => ''
+		);
 		$metadatas['og:video:secure_url'] = array(
 			'property' => 'og:video:secure_url',
 			'content' => ''
