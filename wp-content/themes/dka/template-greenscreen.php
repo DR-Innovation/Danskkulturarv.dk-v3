@@ -62,6 +62,7 @@ if ($pageThumbnail) {
 	add_filter('wpchaos-head-meta',function($metadatas) {
 		global $pageThumbnail;
 		$metadatas['og:image']['content'] = $pageThumbnail;
+		$metadatas['og:image:url']['content'] = $pageThumbnail;
 		$metadatas['twitter:image']['content'] = $pageThumbnail;
 		return $metadatas;
 	});
