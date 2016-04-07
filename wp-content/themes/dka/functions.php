@@ -495,6 +495,23 @@ function dka_wp_head() {
 			'property' => 'og:image',
 			'content' => ''
 		);
+		$metadatas['twitter:player:stream'] = array(
+			'name' => 'twitter:player:stream',
+			'content' => ''
+		);
+		$metadatas['twitter:player:stream:content_type'] = array(
+			'name' => 'twitter:player:stream:content_type',
+			'content' => ''
+		);
+		$metadatas['og:video:secure_url'] = array(
+			'property' => 'og:video:secure_url',
+			'content' => ''
+		);
+		$metadatas['og:video:type'] = array(
+			'property' => 'og:video:type',
+			'content' => ''
+		);
+
 
 		wp_reset_postdata();
 	}

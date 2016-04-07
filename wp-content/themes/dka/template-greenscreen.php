@@ -43,7 +43,6 @@ if (isset($_GET["session"])) {
 		$pageThumbnail = $jsonObject['videos'][0]['thumbnailPath'];
 		$error = false;
 	}
-
 	$inSession = true;
 }
 
@@ -60,18 +59,26 @@ if (isset($_GET["video"])) {
 		$pageVideo = $jsonObject['videoPath'];
 		$error = false;
 	}
-
 	$inSession = true;
 }
 
-if ($pageThumbnail) {
-	add_filter('wpchaos-head-meta',function($metadatas) {
-		global $pageThumbnail;
+add_filter('wpchaos-head-meta',function($metadatas) {
+	global $pageThumbnail, $pageVideo;
+	if ($pageThumbnail) {
 		$metadatas['og:image']['content'] = $pageThumbnail;
 		$metadatas['twitter:image']['content'] = $pageThumbnail;
-		return $metadatas;
-	});
-}
+	}
+	if ($pageVideo) {
+		$metadatas['twitter:card']['content'] = 'player';
+		$metadatas['twitter:player:stream:content_type']['content'] = 'video/mp4';
+		$metadatas['twitter:player:stream']['content'] = $pageVideo;
+		$metadatas['og:type']['content'] = 'video.other';
+		$metadatas['og:video:type']['content'] = 'video/mp4';
+		$metadatas['og:video:secure_url']['content'] = $pageVideo;
+	}
+	return $metadatas;
+});
+
 
 function custom_canonical() {
 	global $canonicalUrl;
@@ -91,13 +98,17 @@ get_header();
 			<h1 class="entry-title">
 				<?php the_title(); ?>
 			</h1>
-			<p>
-				<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'dka' ) ); ?>
-			</p>
+			<?php if ($inSession === false) : ;?>
+				<p>
+					Her finder du din historiske video. Glæd dig, nyd den eller krum dine tær – og del på Facebook.
+					<br />
+					Indtast din personlige kode herunder, som du finder på dit postkort.
+				</p>
+			<?php endif; ?>
 			<?php if (($inSession === false) || boolval($errorMessage)) : ;?>
 				<form method="get" action="<?php echo $rootUrl ?>">
-					<input type="text" name="session" value="" placeholder="Indtast din kode her" />
-					<input type="submit" value="Se videoer" />
+					<input type="text" name="session" value="" placeholder="Indtast din kode" />
+					<input type="submit" value="Se din video" />
 				</form>
 			<?php endif; ?>
 		</article>
@@ -108,7 +119,11 @@ get_header();
 	if ($error != true) {
 
 		if ($sessionCode) {
-			echo '<h2>' . $title . '</h2>';
+			echo '<h2>' . $title . '</h2>
+			<p>Her kan du se dig selv i historien.</p>
+			<p>Del din video på Facebook og like DR Historie på Facebook – så deltager du i konkurrencen om dagens bedste historiske video. Vinderen offentliggøres på DR Historie på Facebook, og præmieres med et par ”Historien om Danmark” fold-selv VR-briller.</p>
+			<p>Andre kan ikke se din film før du selv vælger at dele den på Facebook.</p>
+			';
 
 			if($jsonObject['videos']) {
 
