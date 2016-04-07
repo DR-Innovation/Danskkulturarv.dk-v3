@@ -12,7 +12,8 @@ add_action( 'wp_enqueue_scripts', function() {
 
 $sessionUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSession.php?settingsID=2&sessionCode=';
 $videoUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSessionVideo.php?settingsID=2&sessionVideoCode=';
-$rootUrl = $_SERVER["HTTP_HOST"] . strtok($_SERVER["REQUEST_URI"],'?');
+$rootUrl = strtok($_SERVER["REQUEST_URI"],'?');
+$pageUrl = $_SERVER["HTTP_HOST"] . strtok($_SERVER["REQUEST_URI"],'?');
 
 $shareTwitterText = 'Her+skal+der+stå+noget+andet+';
 $shareTwitter = 'https://twitter.com/intent/tweet?text=' . $shareTwitterText;
@@ -102,11 +103,11 @@ get_header();
 					$video = $val['videoPath'];
 					$thumbnail = $val['thumbnailPath'];
 					$videoCode = $val['sessionVideoCode'];
-					$shareUrl = $rootUrl . '?video=' . $videoCode;
+					$shareUrl = $pageUrl . '?video=' . $videoCode;
 					$twitterUrl = $shareTwitter . 'http://' . $shareUrl;
 					$facebookUrl = $shareFacebook . 'http://' . $shareUrl;
 					echo '
-						<video controls data-src="' . $video . '" poster="' . $thumbnail . '">
+						<video controls src="' . $video . '" poster="' . $thumbnail . '">
 							Din browser understøtter desværre ikke disse videoformater.
 							Skift venligst til en nyere.
 						</video>
@@ -119,7 +120,7 @@ get_header();
 			}
 
 		} else if ($videoCode) {
-			$shareUrl = $rootUrl . '?video=' . $videoCode;
+			$shareUrl = $pageUrl . '?video=' . $videoCode;
 			$twitterUrl = $shareTwitter . $shareUrl;
 			$facebookUrl = $shareFacebook . $shareUrl;
 			echo '
