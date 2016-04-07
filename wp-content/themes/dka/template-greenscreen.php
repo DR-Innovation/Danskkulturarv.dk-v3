@@ -27,6 +27,8 @@ $sessionCode = '';
 $videoCode = '';
 $pageVideo = '';
 $errorMessage = '';
+$inSession = false;
+
 
 if (isset($_GET["session"])) {
 	$sessionCode = htmlspecialchars($_GET["session"]);
@@ -41,6 +43,8 @@ if (isset($_GET["session"])) {
 		$pageThumbnail = $jsonObject['videos'][0]['thumbnailPath'];
 		$error = false;
 	}
+
+	$inSession = true;
 }
 
 if (isset($_GET["video"])) {
@@ -56,6 +60,8 @@ if (isset($_GET["video"])) {
 		$pageVideo = $jsonObject['videoPath'];
 		$error = false;
 	}
+
+	$inSession = true;
 }
 
 if ($pageThumbnail) {
@@ -88,7 +94,7 @@ get_header();
 			<p>
 				<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'dka' ) ); ?>
 			</p>
-			<?php if (!$sessionCode && !$videoCode) : ;?>
+			<?php if (($inSession === false) || boolval($errorMessage)) : ;?>
 				<form method="get" action="<?php echo $rootUrl ?>">
 					<input type="text" name="session" value="" placeholder="Indtast din kode her" />
 					<input type="submit" value="Se videoer" />
@@ -143,13 +149,17 @@ get_header();
 		}
 	} else if ($errorMessage) {
 		echo '
-		<h3>Ups, der skete en fejl</h3>
-		<p>'. $errorMessage .'</p>
+		<div class="error">
+			<h3>Ups, der skete en fejl</h3>
+			<p>'. $errorMessage .'</p>
+		</div>
 		';
-	} else {
+	} else if (isset($_GET["video"]) || isset($_GET["session"])){
 		echo '
-		<h3>Ups, der skete en fejl</h3>
-		<p>Det ligner vi har serverproblemer, prøv venligst igen senere.</p>
+		<div class="error">
+			<h3>Ups, der skete en fejl</h3>
+			<p>Det ligner vi har serverproblemer, prøv venligst igen senere.</p>
+		</div>
 		';
 	}
 ?>
