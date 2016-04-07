@@ -18,7 +18,8 @@ $canonicalUrl = $_SERVER["REQUEST_URI"];
 
 $shareTwitterText = 'Her+skal+der+stå+noget+andet+';
 $shareTwitter = 'https://twitter.com/intent/tweet?text=' . $shareTwitterText;
-$shareFacebook = 'https://www.facebook.com/sharer/sharer.php?url%5D=';
+$shareFacebook = 'https://www.facebook.com/sharer/sharer.php?s=100&url%5D=';
+$shareFaceV2 = 'https://www.facebook.com/v2.5/dialog/share?redirect_uri=http%3A%2F%2Fwww.facebook.com%2Fdialog%2Freturn%2Fclose&display=popup&client_id=919834428127076&href=';
 
 $error = true;
 $title = '';
@@ -133,8 +134,8 @@ get_header();
 					$thumbnail = $val['thumbnailPath'];
 					$videoCode = $val['sessionVideoCode'];
 					$shareUrl = $pageUrl . '?video=' . $videoCode;
-					$twitterUrl = $shareTwitter . 'http://' . $shareUrl;
-					$facebookUrl = $shareFacebook . 'http://' . $shareUrl;
+					$twitterUrl = $shareTwitter . urlencode('http://' . $shareUrl);
+					$facebookUrl = $shareFaceV2 . urlencode('http://' . $shareUrl);
 					echo '
 						<video controls src="' . $video . '" poster="' . $thumbnail . '">
 							Din browser understøtter desværre ikke disse videoformater.
@@ -143,15 +144,15 @@ get_header();
 						<h3>Del denne video</h3>
 						<a href="http://'. $shareUrl .'" class="share-url">'. $shareUrl .'</p>
 						<a href="'. $facebookUrl .'"><i class="icon-facebook"></i></a>
-						<a href="'. $twitterUrl .'"><i class="icon-twitter"></i></a>
 					';
+					// <a href="'. $twitterUrl .'"><i class="icon-twitter"></i></a>
 				}
 			}
 
 		} else if ($videoCode) {
 			$shareUrl = $pageUrl . '?video=' . $videoCode;
-			$twitterUrl = $shareTwitter . $shareUrl;
-			$facebookUrl = $shareFacebook . $shareUrl;
+			$twitterUrl = $shareTwitter . urlencode('http://' . $shareUrl);
+			$facebookUrl = $shareFaceV2 . urlencode('http://' . $shareUrl);
 			echo '
 				<video controls src="' . $pageVideo . '" poster="' . $pageThumbnail . '">
 					Din browser understøtter desværre ikke disse videoformater.
@@ -160,8 +161,8 @@ get_header();
 				<h3>Del denne video</h3>
 				<a href="http://'. $shareUrl .'" class="share-url">'. $shareUrl .'</p>
 				<a href="'. $facebookUrl .'"><i class="icon-facebook"></i></a>
-				<a href="'. $twitterUrl .'"><i class="icon-twitter"></i></a>
 				';
+				// <a href="'. $twitterUrl .'"><i class="icon-twitter"></i></a>
 		}
 	} else if ($errorMessage) {
 		echo '
