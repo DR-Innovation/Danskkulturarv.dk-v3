@@ -8,6 +8,7 @@ Template Name: Greenscreen
 */
 add_action( 'wp_enqueue_scripts', function() {
 	wp_enqueue_style( 'greenscreen-style', get_stylesheet_directory_uri().'/css/greenscreen.css' );
+	wp_enqueue_script( 'greenscreen-script', get_template_directory_uri() . '/js/greenscreen.js' );
 });
 
 $sessionUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSession.php?settingsID=2&sessionCode=';
@@ -143,7 +144,7 @@ get_header();
 						</video>
 						<h3>Del denne video</h3>
 						<a href="http://'. $shareUrl .'" class="share-url">'. $shareUrl .'</p>
-						<a href="'. $facebookUrl .'"><i class="icon-facebook"></i></a>
+						<a class="fb-share" href="'. $facebookUrl .'"><i class="icon-facebook"></i></a>
 					';
 					// <a href="'. $twitterUrl .'"><i class="icon-twitter"></i></a>
 				}
@@ -160,7 +161,7 @@ get_header();
 				</video>
 				<h3>Del denne video</h3>
 				<a href="http://'. $shareUrl .'" class="share-url">'. $shareUrl .'</p>
-				<a href="'. $facebookUrl .'"><i class="icon-facebook"></i></a>
+				<a class="fb-share" href="'. $facebookUrl .'"><i class="icon-facebook"></i></a>
 				';
 				// <a href="'. $twitterUrl .'"><i class="icon-twitter"></i></a>
 		}
