@@ -131,21 +131,31 @@ get_header();
 			if($jsonObject['videos']) {
 
 				foreach ($jsonObject['videos'] as $key=>$val) {
-					$video = $val['videoPath'];
-					$thumbnail = $val['thumbnailPath'];
-					$videoCode = $val['sessionVideoCode'];
-					$shareUrl = $pageUrl . '?video=' . $videoCode;
-					$twitterUrl = $shareTwitter . urlencode('http://' . $shareUrl);
-					$facebookUrl = $shareFaceV2 . urlencode('http://' . $shareUrl);
-					echo '
-						<video controls src="' . $video . '" poster="' . $thumbnail . '">
-							Din browser understøtter desværre ikke disse videoformater.
-							Skift venligst til en nyere.
-						</video>
-						<h3>Del denne video</h3>
-						<a href="http://'. $shareUrl .'" class="share-url">'. $shareUrl .'</p>
-						<a class="fb-share" href="'. $facebookUrl .'"><i class="icon-facebook"></i></a>
-					';
+					$uploadStatus = $val['isUploaded'];
+					if($uploadStatus === '1') {
+						$video = $val['videoPath'];
+						$thumbnail = $val['thumbnailPath'];
+						$videoCode = $val['sessionVideoCode'];
+						$shareUrl = $pageUrl . '?video=' . $videoCode;
+						$twitterUrl = $shareTwitter . urlencode('http://' . $shareUrl);
+						$facebookUrl = $shareFaceV2 . urlencode('http://' . $shareUrl);
+						echo '
+							<video controls src="' . $video . '" poster="' . $thumbnail . '">
+								Din browser understøtter desværre ikke disse videoformater.
+								Skift venligst til en nyere.
+							</video>
+							<h3>Del denne video</h3>
+							<a href="http://'. $shareUrl .'" class="share-url">'. $shareUrl .'</p>
+							<a class="fb-share" href="'. $facebookUrl .'"><i class="icon-facebook"></i></a>
+						';
+					} else {
+						echo '
+							<p class="error">
+								Din video er ved at blive uploadet, og er derfor ikke tilgængelig i øjeblikket.
+								Forsøg igen senere.
+							</p>
+						';
+					}
 					// <a href="'. $twitterUrl .'"><i class="icon-twitter"></i></a>
 				}
 			}

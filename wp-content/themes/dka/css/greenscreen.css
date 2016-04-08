@@ -110,6 +110,6 @@ footer .nav-footer {
 .error {
   padding-top: 2rem;
 }
-.error h3, .error p {
+.error, .error h3, .error p {
   color: hsl(299, 94%, 38%);
 }
