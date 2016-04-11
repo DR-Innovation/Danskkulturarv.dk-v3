@@ -2,8 +2,8 @@
 Contributors: whiteshadow
 Tags: posts, formatting, javascript, html, css, code, disable
 Requires at least: 2.8
-Tested up to: 4.2
-Stable tag: 1.4.15
+Tested up to: 4.5
+Stable tag: 1.4.16
 
 Lets you use raw HTML or any other code in your posts. You can also disable smart quotes and other automatic formatting on a per-post basis.
 
@@ -71,6 +71,9 @@ Open to the post editor and click the "Screen Options" button in the top-right p
 
 
 == Changelog ==
+
+= 1.4.16 = 
+* Tested with WP 4.5.
 
 = 1.4.15 = 
 * Tested with WP 4.2.

@@ -4,7 +4,7 @@
 	Filter inline blocks of raw HTML
 ***********************************************/
 global $wsh_raw_parts;
-$wsh_raw_parts=array();
+$wsh_raw_parts = array();
 
 /**
  * Extract content surrounded by [raw] or other supported tags 
@@ -158,7 +158,10 @@ function wsh_insert_exclusions_for_editor($text){
 
 function wsh_insertion_callback_for_editor($matches){
 	$code = wsh_get_block_from_matches($matches);
-	return htmlspecialchars($code, ENT_NOQUOTES);
+	if ( !function_exists('format_for_editor') || has_filter('the_editor_content', 'format_for_editor') ) {
+		$code = htmlspecialchars($code, ENT_NOQUOTES);
+	}
+	return $code;
 }
 
 add_filter('the_editor_content', 'wsh_extract_exclusions_for_editor', 2);
