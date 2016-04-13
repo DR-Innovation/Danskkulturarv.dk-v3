@@ -375,8 +375,8 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'metafield_creators_raw', functio
   return null;
 }, 10, 2);
 
-//object->metafield_actors_raw
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'metafield_actors_raw', function($value, \WPCHAOSObject $object) {
+//object->metafield_contributor_raw
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'metafield_contributor_raw', function($value, \WPCHAOSObject $object) {
   $metafields = $object->metadata(
     array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
     array('/dka2:DKA/dka2:Metafield','/DKA/Metafield'),
