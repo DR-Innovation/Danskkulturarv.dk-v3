@@ -17,8 +17,10 @@
     <?php else : ?>
       <?php echo $chaos_object->organization; ?>
     <?php endif; ?>
-  <?php if ($chaos_object->externalurl) : ?>
-    - <a target="_blank" href="<?php echo $chaos_object->externalurl; ?>" title="<?php printf(__('Link to the material at %s', 'dka'), $chaos_object->organization); ?>"><?php _e('Link to the material', 'dka') ?></a>
+  <?php if ($chaos_object->organization !== 'DR') : ?>
+    <?php if ($chaos_object->externalurl) : ?>
+      - <a target="_blank" href="<?php echo $chaos_object->externalurl; ?>" title="<?php printf(__('Link to the material at %s', 'dka'), $chaos_object->organization); ?>"><?php _e('Link to the material', 'dka') ?></a>
+    <?php endif; ?>
   <?php endif; ?>
   </strong>
 </div>

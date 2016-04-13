@@ -2,8 +2,8 @@ jQuery(window).bind('load', function() {
     jQuery('.loader').hide();
 });
 jQuery(document).ready(function () {
-	appid       	=	vars.app_id;
-	select_lng		=	vars.select_lng;
+	appid       	=	milapfbwidgetvars.app_id;
+	select_lng		=	milapfbwidgetvars.select_lng;
     if(select_lng	== '') {
         select_lng	=	'en_US';
     }

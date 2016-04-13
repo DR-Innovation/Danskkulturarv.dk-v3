@@ -1,15 +1,16 @@
 <?php
 /**
  * @package Facebook Widget
- * @version 3.1
+ * @version 4.0
  */
 /*
 Plugin Name: Facebook Widget
 Plugin URI: http://patelmilap.wordpress.com/
 Description: This widget adds a Simple Facebook Page Like Widget into your wordpress website sidebar within few minutes.
 Author: Milap Patel
-Version: 3.1
+Version: 4.0
 Author URI: http://patelmilap.wordpress.com/
+Text Domain: facebook-pagelike-widget
 */
 function fbwidget_activate() {}
 register_activation_hook( __FILE__, 'fbwidget_activate' );
@@ -23,6 +24,11 @@ function fbwidget_deactivate() {
 }
 register_deactivation_hook( __FILE__, 'fbwidget_deactivate' );
 
+function LoadFbtextDomain() {
+    load_plugin_textdomain( 'facebook-pagelike-widget',false, basename( dirname( __FILE__ ) ) );
+}
+add_action( 'init', 'LoadFbtextDomain' );
+
 $widget_facebook_widget = get_option('widget_fbw_id');
 
 if(empty($widget_facebook_widget)) {
@@ -34,7 +40,7 @@ function fb_admin_notice() {
     $user_id 	=	$current_user->ID;
 	if ( ! get_user_meta($user_id, 'fb_ignore_notice') ) {
         echo '<div class="updated"><p>'; 
-        printf(__('Please configure awesome widget <a href="widgets.php">here</a> | <a href="%1$s">Hide Notice</a>'), '?fb_nag_ignore=0');
+            printf(__( 'Please configure awesome widget <a href="widgets.php">here</a> | <a href="%1$s">Hide Notice</a>'), '?fb_nag_ignore=0', 'facebook-pagelike-widget' );
         echo "</p></div>";
 	}
 }
