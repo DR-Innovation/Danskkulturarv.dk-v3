@@ -39,17 +39,21 @@
 </div>
 <?php endif; ?>
 
-<?php if ($chaos_object->creator) : ?>
+<?php $creator = ($chaos_object->creator ? $chaos_object->creator :
+  $chaos_object->metafield_creators_raw); ?>
+<?php if ($creator) : ?>
 <div class="colofon">
   <h3>Kolofon</h3>
-  <?php echo $chaos_object->creator; ?>
+  <?php echo $creator; ?>
 </div>
 <?php endif; ?>
 
-<?php if ($chaos_object->contributor) : ?>
+<?php $contributor = ($chaos_object->contributor ? $chaos_object->contributor :
+  $chaos_object->metafield_contributor_raw); ?>
+<?php if ($contributor) : ?>
 <div class="contributors">
   <h3>Medvirkende</h3>
-  <?php echo $chaos_object->contributor; ?>
+  <?php echo $contributor; ?>
 </div>
 <?php endif; ?>
 

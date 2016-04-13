@@ -357,4 +357,40 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'og_tags', function($value, $obje
   return $metadatas;
 }, 10, 2);
 
+//object->metafield_creators_raw
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'metafield_creators_raw', function($value, \WPCHAOSObject $object) {
+  $metafields = $object->metadata(
+    array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
+    array('/dka2:DKA/dka2:Metafield','/DKA/Metafield'),
+    null
+  );
+
+  if (!$metafields) { return null; }
+
+  foreach($metafields as $field) {
+    if ($field->Key == "CreatorsRaw") {
+      return $field->Value;
+    }
+  }
+  return null;
+}, 10, 2);
+
+//object->metafield_actors_raw
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'metafield_actors_raw', function($value, \WPCHAOSObject $object) {
+  $metafields = $object->metadata(
+    array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
+    array('/dka2:DKA/dka2:Metafield','/DKA/Metafield'),
+    null
+  );
+
+  if (!$metafields) { return null; }
+
+  foreach($metafields as $field) {
+    if ($field->Key == "ActorsRaw") {
+      return $field->Value;
+    }
+  }
+  return null;
+}, 10, 2);
+
 //
