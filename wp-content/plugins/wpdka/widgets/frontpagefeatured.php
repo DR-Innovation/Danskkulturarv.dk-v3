@@ -48,13 +48,16 @@ class WPDKAFrontpageFeaturedWidget extends WP_Widget {
     $query = trim($instance['query']);
     $max_results = intval(trim($instance['max_results']));
     $result = $this->get_featured($query, $max_results);
+    echo '<div data-columns>';
     foreach( $result as $item ) {
-      $thumbnail = ($item->thumbnail ? 'background-image: url(\''.$item->thumbnail.'\');' : '');
-    ?>
-      <div style="<?php echo $thumbnail; ?>"><?php echo $item->title ?></div>
-
-    <?php
+      $thumbnail = ($item->thumbnail ? '<img class="column-item__img" src="'.$item->thumbnail.'" />' : '');
+      $linkUrl = '';
+      echo '<div class="column-item"><a class="column-item__link" href="' . $linkUrl . '">';
+      echo $thumbnail;
+      echo '<div class="column-item__title">' . $item->title . '</div>';
+      echo '</a></div>';
     }
+    echo '</div>';
 
     echo $args['after_widget'];
   }
@@ -89,4 +92,3 @@ class WPDKAFrontpageFeaturedWidget extends WP_Widget {
     return $updated_instance;
   }
 }
-

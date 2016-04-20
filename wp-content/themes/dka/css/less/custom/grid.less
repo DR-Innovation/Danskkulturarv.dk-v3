@@ -1,0 +1,64 @@
+// main: ../custom.less
+
+[data-columns] {
+  max-width: @max-width;
+  margin   : 0 auto;
+
+  &::before {
+    content: '1 .column.size-1of1';
+  }
+}
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  [data-columns]::before {
+    content: '2 .column.size-1of2';
+  }
+}
+@media screen and (min-width: 769px) {
+  [data-columns]::before {
+    content: '3 .column.size-1of3';
+  }
+}
+
+.column {
+  float  : left;
+  padding: 15px;
+}
+
+.size-1of1 {
+  width: 100%;
+}
+
+.size-1of2 {
+  width: 50%;
+}
+
+.size-1of3 {
+  width: 33.333%;
+}
+
+.column-item {
+  background-color: fade(@text-color, 80%);
+  padding         : 10px;
+  margin-bottom   : 30px;
+  transition      : 300ms ease;
+
+  &__title {
+    color          : white;
+    padding        : 15px 0 5px;
+    text-decoration: none !important;
+  }
+
+  &__img {
+    filter: grayscale(100%);
+    width: 100%;
+  }
+
+  &:focus,
+  &:hover {
+    background-color: @text-color;
+
+    .column-item__img {
+      filter: grayscale(0%);
+    }
+  }
+}
