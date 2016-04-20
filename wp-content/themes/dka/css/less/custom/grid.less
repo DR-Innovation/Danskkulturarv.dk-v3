@@ -3,6 +3,7 @@
 [data-columns] {
   max-width: @max-width;
   margin   : 0 auto;
+  padding  : 5px;
 
   &::before {
     content: '1 .column.size-1of1';
@@ -21,7 +22,7 @@
 
 .column {
   float  : left;
-  padding: 15px;
+  padding: 10px;
 }
 
 .size-1of1 {
@@ -37,28 +38,56 @@
 }
 
 .column-item {
-  background-color: fade(@text-color, 80%);
-  padding         : 10px;
-  margin-bottom   : 30px;
-  transition      : 300ms ease;
+  display           : block;
+  position          : relative;
+  margin-bottom     : 30px;
+  -webkit-transition: 300ms ease;
+  transition        : 300ms ease;
+  text-decoration   : none !important;
 
   &__title {
-    color          : white;
-    padding        : 15px 0 5px;
-    text-decoration: none !important;
+    background-color: fade(@dka-primary-color, 70%);
+    color           : white;
+    display         : none;
+    font-size       : inherit;
+    letter-spacing  : .01em;
+    margin          : 0;
+    padding         : 5px;
+    position        : absolute;
+    bottom          : 0;
+    left            : 0;
+    right           : 0;
+    z-index         : 2;
   }
 
   &__img {
-    filter: grayscale(100%);
     width: 100%;
   }
 
   &:focus,
   &:hover {
-    background-color: @text-color;
+    background-blend-mode: screen;
 
     .column-item__img {
+      -webkit-filter: grayscale(0%);
       filter: grayscale(0%);
+    }
+
+    .column-item__title {
+      display: block;
+
+    }
+
+    &::before {
+      content              : '';
+      position             : absolute;
+      top                  : 0;
+      left                 : 0;
+      right                : 0;
+      bottom               : 0;
+      background-color     : fade(@dka-primary-color, 30%);
+      background-blend-mode: multiply;
+      z-index              : 1;
     }
   }
 }

@@ -5,7 +5,7 @@
 @header-color: @text-color;
 @header-bg: white;
 @regular-weight: 400;
-@orange: #ff7e21;
+@dka-primary-color: @brand-primary;
 @max-width: 1170px;
 @focus-shadow: 0 0 8px fade(@brand-primary, 40%);
 @import "custom/header";
@@ -43,13 +43,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 h1,
-h2,
-h3,
-h4,
-h5 {
-  letter-spacing: 0;
-  font-weight   : 700;
-  font-family   : 'Roboto Condensed', sans-serif;
+h2 {
+  letter-spacing: -0.03em;
+  margin-left   : -1px;
 }
 h3,
 h4,
@@ -184,7 +180,7 @@ input[type="text"] {
   width: 100%;
 }
 .orange {
-  color: @orange;
+  color: @dka-primary-color;
 }
 
 //

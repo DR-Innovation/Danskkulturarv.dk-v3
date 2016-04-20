@@ -52,10 +52,10 @@ class WPDKAFrontpageFeaturedWidget extends WP_Widget {
     foreach( $result as $item ) {
       $thumbnail = ($item->thumbnail ? '<img class="column-item__img" src="'.$item->thumbnail.'" />' : '');
       $linkUrl = '';
-      echo '<div class="column-item"><a class="column-item__link" href="' . $linkUrl . '">';
+      echo '<a class="column-item" href="' . $linkUrl . '">';
       echo $thumbnail;
-      echo '<div class="column-item__title">' . $item->title . '</div>';
-      echo '</a></div>';
+      echo '<h2 class="column-item__title">' . $item->title . '</h2>';
+      echo '</a>';
     }
     echo '</div>';
 
