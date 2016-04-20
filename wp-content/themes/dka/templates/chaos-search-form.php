@@ -24,7 +24,15 @@ function get_facet_count($field, $values) {
 }
 $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " in" : "");
 ?>
+<?php $dates = WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_DATE_RANGE); ?>
 <form method="GET" action="<?php echo $page; ?>">
+  <input type="date" name="<?php echo WPDKASearch::QUERY_KEY_DATE_RANGE; ?>['from']"
+    placeholder="fx 24-12-1849"
+    value="<?php echo isset($dates[0]) ? $dates[0] : ''; ?>">
+  <input type="date" name="<?php echo WPDKASearch::QUERY_KEY_DATE_RANGE; ?>['to']"
+    placeholder="fx 24-12-1945"
+    value="<?php echo isset($dates[1]) ? $dates[1] : ''; ?>">
+
   <div class="col-sm-7 col-md-8 col-xs-9">
     <div class="input-group">
       <input class="form-control input-lg" maxlength="100" id="appendedInputButton" type="text" name="<?php echo WPChaosSearch::QUERY_KEY_FREETEXT; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" placeholder="<?php echo $freetext_placeholder; ?>" />

@@ -14,6 +14,7 @@ class WPDKASearch {
 
   const QUERY_KEY_TYPE = 'med';
   const QUERY_KEY_ORGANIZATION = 'fra';
+  const QUERY_KEY_DATE_RANGE = 'mellem';
 
   /**
    * List of organizations from the WordPress site

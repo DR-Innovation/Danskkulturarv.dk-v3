@@ -2,6 +2,16 @@
  * Custom functions goes here
  * ============================================================ */
 
+function checkDateInput() {
+  var input = document.createElement('input');
+  input.setAttribute('type', 'date');
+
+  var notADateValue = 'not-a-date';
+  input.setAttribute('value', notADateValue);
+
+  return (input.value !== notADateValue);
+}
+
 (function($) {
 
     /**
@@ -188,5 +198,12 @@
     $(".btn-advanced-search").click(function(){
       $(this).removeClass('in');
     });
+
+
+    if (checkDateInput() === false) {
+      $('input[type="date"]').formatter({
+        pattern: '{{99}}-{{99}}-{{9999}}'
+      });
+    }
 
 })(jQuery);
