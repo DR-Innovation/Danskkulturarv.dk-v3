@@ -602,6 +602,7 @@ class WPDKA {
    */
   public function register_widgets() {
     register_widget( 'WPDKAObjectPlayerWidget' );
+    register_widget( 'WPDKAFrontpageFeaturedWidget' );
   }
 
   /**
@@ -638,6 +639,7 @@ class WPDKA {
     require_once('wpdkasearch.php');
     require_once('wpdkasitemap.php');
     require_once('widgets/player.php');
+    require_once('widgets/frontpagefeatured.php');
     require("shortcodes.php");
     require("wpchaosobject-filters.php");
   }
