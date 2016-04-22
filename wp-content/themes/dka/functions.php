@@ -550,7 +550,6 @@ function dka_social_share($args = array()) {
 
   echo '<a class="social-share icon-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer.php?u='.$link.'" title="'.sprintf(__('Share on %s','dka'),'Facebook').'"></a>'."\n";
   echo '<a class="social-share icon-twitter" target="_blank" rel="nofollow" href="https://twitter.com/home?status='.$link.'+%23kulturarv" title="'.sprintf(__('Share on %s','dka'),'Twitter').'"></a>'."\n";
-  echo '<a class="social-share icon-google-plus" target="_blank" rel="nofollow" href="https://plus.google.com/share?url='.$link.'" title="'.sprintf(__('Share on %s','dka'),'Google Plus').'"></a>'."\n";
   echo '<a class="social-share icon-envelope" target="_blank" rel="nofollow" href="mailto:?subject='.rawurlencode(get_bloginfo('title')).'&amp;body='.$link.'" title="'.__('Send as e-mail','dka').'"></a>'."\n";
 
 }
