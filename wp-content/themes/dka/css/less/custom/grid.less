@@ -40,7 +40,7 @@
 .column-item {
   display           : block;
   position          : relative;
-  margin-bottom     : 30px;
+  margin-bottom     : 20px;
   -webkit-transition: 300ms ease;
   transition        : 300ms ease;
   text-decoration   : none !important;
@@ -60,6 +60,19 @@
     z-index         : 2;
   }
 
+  &__icon {
+    color     : white;
+    position  : absolute;
+    visibility: hidden;
+    z-index   : 2;
+    left      : 0;
+    right     : 0;
+    font-size : 6rem !important;
+    text-align: center;
+    top       : 50%;
+    transform : translateY(-50%);
+  }
+
   &__img {
     width: 100%;
   }
@@ -73,9 +86,10 @@
       filter: grayscale(0%);
     }
 
+    .column-item__icon,
     .column-item__title {
-      display: block;
-
+      display   : block;
+      visibility: visible;
     }
 
     &::before {
