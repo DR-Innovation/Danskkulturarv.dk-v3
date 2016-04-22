@@ -23,11 +23,15 @@ class WPDKAProgramListings
   const QUERY_KEY_DAY = 'pl-day';
   const QUERY_KEY_MONTH = 'pl-month';
   const QUERY_KEY_YEAR = 'pl-year'; // day, month, year are reserved to Wordpress
-  const QUERY_LIMIT = 500; // Max 500 results
+  const QUERY_KEY_PAGE = 'side';
   const QUERY_DEFAULT_POST_SEPERATOR = '/';
   const QUERY_PREFIX_CHAR = '/';
 
+  const DEFAULT_PAGE_COUNT = 20;
+
   public static $search_results;
+  public static $search_total;
+  public static $page_size = self::DEFAULT_PAGE_COUNT;
   /**
    * Constructor
    */
@@ -60,10 +64,20 @@ class WPDKAProgramListings
       &$this,
       'loadJsCss'
     ));
-    self::register_search_query_variable(1, self::QUERY_KEY_YEAR, '\d{4}', false, null, '');
-    self::register_search_query_variable(2, self::QUERY_KEY_MONTH, '\d{1,2}', false, null, '');
-    self::register_search_query_variable(3, self::QUERY_KEY_DAY, '\d{1,2}', false, null, '');
-    self::register_search_query_variable(4, self::QUERY_KEY_FREETEXT, '[^/&]+?', false, null, '', '/');
+    self::register_search_query_variable(1, self::QUERY_KEY_YEAR, '\d{4}',
+      false, null, '');
+    self::register_search_query_variable(2, self::QUERY_KEY_MONTH, '\d{1,2}',
+      false, null, '');
+    self::register_search_query_variable(3, self::QUERY_KEY_DAY, '\d{1,2}',
+      false, null, '');
+    self::register_search_query_variable(4, self::QUERY_KEY_FREETEXT, '[^/&]+?',
+      false, null, '', '/');
+    self::register_search_query_variable(5, self::QUERY_KEY_PAGE, '\d+?',
+      true, null, '1', '-');
+
+    self::$page_size = get_option("wpchaos-searchsize",
+      self::DEFAULT_PAGE_COUNT);
+
     add_action('init', array(
       'WPDKAProgramListings',
       'handle_rewrite_rules'
@@ -231,6 +245,7 @@ class WPDKAProgramListings
       //Change GET params to nice url
       $this->programlisting_query_prettify();
       $this->generate_programlisting_results();
+
       //set title and meta
       global $wp_query;
       $day   = self::get_programlisting_var(self::QUERY_KEY_DAY, 'esc_html');
@@ -267,7 +282,9 @@ class WPDKAProgramListings
     }
   }
   public static $search_query_variables = array();
-  public static function register_search_query_variable($position, $key, $regexp, $prefix_key = false, $multivalue_seperator = null, $default_value = null, $post_seperator = self::QUERY_DEFAULT_POST_SEPERATOR)
+  public static function register_search_query_variable($position, $key, $regexp,
+    $prefix_key = false, $multivalue_seperator = null, $default_value = null,
+    $post_seperator = self::QUERY_DEFAULT_POST_SEPERATOR)
   {
     self::$search_query_variables[$position] = array(
       'key' => $key,
@@ -321,6 +338,7 @@ class WPDKAProgramListings
       add_rewrite_rule($regex, $redirect, 'top');
     }
   }
+
   public static function programlisting_query_prettify()
   {
     foreach (self::$search_query_variables as $variable) {
@@ -331,6 +349,7 @@ class WPDKAProgramListings
       }
     }
   }
+
   public static function generate_pretty_search_url($variables = array())
   {
     $variables           = array_merge(self::get_programlisting_vars(), $variables);
@@ -404,6 +423,7 @@ class WPDKAProgramListings
     $year        = $search_vars[self::QUERY_KEY_YEAR];
     $month       = $search_vars[self::QUERY_KEY_MONTH];
     $day         = $search_vars[self::QUERY_KEY_DAY];
+    $page        = $search_vars[self::QUERY_KEY_PAGE];
     $text        = self::get_programlisting_var(self::QUERY_KEY_FREETEXT, 'trim');
     if (empty($year) || empty($month) || empty($day)) {
       if (empty($text)) {
@@ -419,7 +439,13 @@ class WPDKAProgramListings
     $client                       = new Elasticsearch\Client($params);
     $searchParams['index']        = self::ES_INDEX;
     $searchParams['type']         = self::ES_TYPE;
-    $searchParams['body']['size'] = self::QUERY_LIMIT;
+    $searchParams['body']['size'] = self::$page_size;
+
+    if (!empty($page)) {
+      $from = (intval($page) - 1) * self::$page_size;
+      $searchParams['body']['from'] = $from;
+    }
+
     if (empty($text)) {
       $searchParams['body']['query']['match']['date'] = sprintf("%s-%s-%s", $year, $month, $day);
       $searchParams['body']['sort']['type']['order']  = 'DESC';
@@ -436,7 +462,10 @@ class WPDKAProgramListings
     catch (\Exception $e) {
       return;
     }
+
+
     // Sort by filename - elasticsearch can't do this when it is in _source
+    $total = $queryResponse['hits']['total'];
     $ret_hits = $hits = $queryResponse['hits']['hits'];
     $ret_hits = array();
     foreach ($hits as $hit) {
@@ -445,6 +474,7 @@ class WPDKAProgramListings
     }
     ksort($ret_hits);
     self::$search_results = $ret_hits;
+    self::$search_total = $total;
   }
   public static function get_programlisting_search_type()
   {
@@ -459,6 +489,114 @@ class WPDKAProgramListings
   {
     self::$search_results = apply_filters(self::FILTER_PREPARE_RESULTS, $search_results);
   }
+  public static function get_programlisting_total() {
+    return self::$search_total;
+  }
+
+
+  /**
+   * Pagination for search results
+   * @param  array  $args Arguments can be passed for specific behaviour
+   * @return string
+   **/
+  public static function paginate($args = array()) {
+    // Grab args or defaults
+    $args = wp_parse_args($args, array(
+      'before' 			=> '<ul>',
+      'after' 			=> '</ul>',
+      'before_link' 		=> '<li class="%s">',
+      'after_link' 		=> '</li>',
+      'link_class' 		=> '',
+      'class_disabled' 	=> 'hidden',
+      'class_active' 		=> 'active',
+      'count' 			=> 5,
+      'previous' 			=> '&laquo;',
+      'next' 				=> '&raquo;',
+      'echo' 				=> true
+    ));
+    extract($args, EXTR_SKIP);
+
+    //Get current page number
+    $page = intval(self::get_programlisting_var(self::QUERY_KEY_PAGE, false,
+      true, '1'));
+    //Get max page number
+    $max_page = ceil(self::$search_total/self::$page_size);
+
+    $result = $before;
+
+    //Current page should optimally be in the center
+    $start = $page-(ceil($count/2))+1;
+    //When reaching the end, push start to the left such that current page is pushed to the right
+    $start = min($start,($max_page+1)-$count);
+    //Start can minimum be 1
+    $start = max(1,$start);
+    //Set end according to start
+    $end = $start+$count;
+
+    //Is prevous wanted
+    if($previous) {
+      $result .= self::paginate_page($before_link,$after_link,$page-1,$start,$max_page,$page,$link_class,$class_active,$class_disabled,$previous);
+    }
+
+    //Set enumeration
+    for($i = $start; $i < $end; $i++) {
+      $result .= self::paginate_page($before_link,$after_link,$i,$start,$max_page,$page,$link_class,$class_active,$class_disabled);
+    }
+
+    //Is next wanted
+    if($next) {
+      $result .= self::paginate_page($before_link,$after_link,$page+1,$start,$max_page,$page,$link_class,$class_active,$class_disabled,$next);
+    }
+
+    $result .= $after;
+
+    //Is echo wanted automatically
+    if($echo) {
+      echo $result;
+    }
+
+    return $result;
+  }
+
+  /**
+   * Helper function for pagination.
+   * Sets the class, link and text for each element
+   *
+   * @param  string $before_link
+   * @param  string $after_link
+   * @param  int $page
+   * @param  int $min
+   * @param  int $max
+   * @param  int $current
+   * @param  string $link_class
+   * @param  string $class_active
+   * @param  string $class_disabled
+   * @param  string $title
+   * @return string
+   */
+  public static function paginate_page($before_link, $after_link, $page, $min,
+    $max, $current, $link_class, $class_active, $class_disabled, $title = "") {
+    if(!$title) {
+      $link_class = ' class="'.$link_class.'"';
+    } else {
+      $link_class = '';
+    }
+    if($page > $max || $page < $min) {
+      $class = $class_disabled;
+      $result = '<span'.$link_class.'>'.($title?:$page).'</span>';
+    } else if(!$title && $page == $current) {
+      $class = $class_active;
+      $result = '<span>'.$page.'</span>';
+    } else {
+      $class = "";
+      $result = '<a'.$link_class.' href="'.
+        self::generate_pretty_search_url(
+          array(self::QUERY_KEY_PAGE => $page)) .'">'
+        .($title?:$page).'</a>';
+    }
+    return sprintf($before_link,$class).$result.$after_link."\n";
+  }
+
 }
 register_activation_hook(__FILE__, array(
   'WPDKAProgramListings',

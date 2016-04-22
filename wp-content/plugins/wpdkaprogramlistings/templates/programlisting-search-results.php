@@ -1,6 +1,7 @@
 <?php get_header(); ?>
 <?php
     $results = WPDKAProgramListings::get_programlisting_results();
+    $results_total = WPDKAProgramListings::get_programlisting_total();
     $search_text = WPDKAProgramListings::get_programlisting_search_type() === WPDKAProgramListings::QUERY_KEY_FREETEXT;
 ?>
 
@@ -124,10 +125,10 @@
           <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
               <?php if (isset($results)): ?>
                   <p class="results-count">
-                      <?php if (count($results) == 500): ?>
-                        <?php {_e('There are more results than the 500 we show here. Try being more precise. Press the "i" button for hints.', WPDKAProgramListings::DOMAIN);} ?>
-                      <?php else: ?>
-                        <?php printf(_n('%d result', '%d results', count($results), WPDKAProgramListings::DOMAIN), count($results)); ?>
+                      <?php printf(__('Showing %d', WPDKAProgramListings::DOMAIN), count($results)); ?>
+                      <?php printf(_n('out of %d result.', 'out of %d results.', $results_total, WPDKAProgramListings::DOMAIN), $results_total); ?>
+                      <?php if ($results_total >= 500): ?>
+                        <?php printf(_e('Try being more precise. Press the "i" button for hints.', WPDKAProgramListings::DOMAIN), $results_total); ?>
                       <?php endif; ?>
                   </p>
                   <?php if (!empty($results)): ?>
@@ -165,6 +166,13 @@
     <?php endif; ?>
   </div>
 
+  <div class="row">
+    <div class="col-xs-12 text-center pagination-div">
+      <ul class="pagination">
+        <?php echo $pagination = WPDKAProgramListings::paginate('echo=0&before=&after=&count=5'); ?>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <?php get_footer(); ?>
