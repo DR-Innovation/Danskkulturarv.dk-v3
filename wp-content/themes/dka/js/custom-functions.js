@@ -206,4 +206,16 @@ function checkDateInput() {
       });
     }
 
+  //animate the navbar
+  var $navbar = $(".navbar");
+  $(window).scroll(function() {
+    var scroll = $(window).scrollTop();
+
+    if (scroll >= 40) {
+      $navbar.addClass("navbar--slim");
+    } else {
+      $navbar.removeClass("navbar--slim");
+    }
+  });
+
 })(jQuery);
