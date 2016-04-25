@@ -60,7 +60,7 @@ class WPDKAProgramListingsFeaturedWidget extends WP_Widget {
     echo '<div class="programlisting-search">';
     // echo $args['before_title'];
     // echo '<img src="' . plugins_url( '../images/logo.png' , __FILE__ ) . '" alt="' . $title . '" />';
-    echo '<h3 class="widget-title">TV og radio gennem tiden</h3>';
+    echo '<h3 class="widget-title">TV & radio gennem tiden</h3>';
     // echo $args['after_title'];
     echo '<p>' . $instance['description'] . '</p>';
     echo '<form method="GET" action="' . get_permalink(get_option('wpdkaprogramlistings-page')) . '" class="row">';

@@ -17,42 +17,52 @@
 footer {
   height: 136px;
 }
+
 footer {
   text-align: center;
+
   .container {
     margin-top: 25px;
   }
+
   .nav-footer {
     margin-left  : 0;
     padding-left : 0;
     display      : inline-block;
-    font-weight  : 700;
+    font-family  : @bold-family;
     margin-bottom: 2px;
     line-height  : 20px;
+
     a {
       color: @gray-dark !important;
     }
+
     a:hover {
       background     : none!important;
       color          : @gray-light!important;
       text-decoration: none;
     }
+
     > li+li {
       padding-left: 10px;
     }
+
     > li {
       display    : inline-block;
       list-style : none;
       line-height: 16px;
     }
   }
+
   .social {
     font-size  : @font-size-large;
     line-height: 12px;
+
     &:nth-child(n+2) {
       padding-left: 10px;
     }
   }
+
   .copyright,
   .copyright a {
     margin-top: 6px;

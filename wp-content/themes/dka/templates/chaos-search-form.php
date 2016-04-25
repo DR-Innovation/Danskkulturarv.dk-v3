@@ -29,9 +29,9 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
   <div class="row">
     <div class="form-group col-xs-9 col-sm-7 col-md-12">
       <div class="input-group">
-        <input class="form-control input-lg" maxlength="100" id="appendedInputButton" type="text" name="<?php echo WPChaosSearch::QUERY_KEY_FREETEXT; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" placeholder="<?php echo $freetext_placeholder; ?>" />
+        <input class="form-control search-bar" maxlength="100" id="appendedInputButton" type="text" name="<?php echo WPChaosSearch::QUERY_KEY_FREETEXT; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" placeholder="<?php echo $freetext_placeholder; ?>" />
         <span class="input-group-btn">
-          <button type="submit" class="btn btn-primary btn-search btn-lg" id="searchsubmit"><?php _ex('Search','verb','dka'); ?></button>
+          <button type="submit" class="btn btn-primary btn-search" id="searchsubmit"><?php _ex('Search','verb','dka'); ?></button>
         </span>
       </div>
       <input type="hidden" name="<?php echo WPChaosSearch::QUERY_KEY_VIEW; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_VIEW, 'esc_attr'); ?>">
@@ -67,7 +67,7 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
         $active = in_array($format_type,(array)$types);
 
       ?>
-            <label class="btn btn-default btn-lg<?php echo ($active ?
+            <label class="btn btn-default<?php echo ($active ?
             ' active' : ''); ?>" title="<?php echo $args['title']; ?>">
               <input type="checkbox" name="<?php echo WPDKASearch::QUERY_KEY_TYPE; ?>['<?php echo $format_type; ?>']" value="<?php echo $format_type; ?>" <?php checked($active); ?>>
               <i class="<?php echo $args['class']; ?>"></i>
