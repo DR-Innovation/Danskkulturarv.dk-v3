@@ -4,7 +4,6 @@
 // --------------------------------------------------
 .navbar {
   background-color: @header-bg;
-  font-weight     : bold;
   box-shadow      : 0 0 1px rgba(0, 0, 0, 0.5), 0 0 5px rgba(0, 0, 0, 0.05), 0 0 10px rgba(0, 0, 0, 0.05), 0 0 20px rgba(0, 0, 0, 0.05), 0 0 40px rgba(0, 0, 0, 0.02);
   margin          : 0;
 
@@ -12,7 +11,7 @@
     margin     : 0 auto;
     max-width  : 1170px;
     height     : 10rem;
-    padding-top: 2.5rem;
+    padding-top: 2.3rem;
   }
 
   .navbar-toggle {
@@ -25,7 +24,7 @@
   }
 
   .navbar-right {
-    margin-top: 1rem;
+    margin-top: 1.2rem;
   }
 
   .navbar-responsive-collapse {
@@ -46,6 +45,7 @@
   // Top logo
   .navbar-brand {
     font-size     : 4rem;
+    font-family   : @bold-family;
     text-transform: uppercase;
     color         : @header-color;
   }
@@ -68,7 +68,8 @@
     }
 
     .navbar-brand {
-      font-size: 2.5rem;
+      font-size : 3rem;
+      margin-top: -1px;
     }
 
     .navbar-right {

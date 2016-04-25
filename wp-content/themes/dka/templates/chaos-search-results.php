@@ -26,7 +26,7 @@ $views = array(
   );
   ?>
 
-<div class="fluid-container body-container">
+<div class="fluid-container body-container search-page">
   <div class="row search-results-top">
     <div class="col-xs-12 col-sm-6 search-count">
       <?php
@@ -60,7 +60,7 @@ $views = array(
     </div>
   </div>
   <div class="search row">
-    <div class="col-md-3">
+    <div class="col-md-3 no-right-padding">
       <?php dynamic_sidebar('Top'); ?>
     </div>
     <article class="col-md-8 col-md-offset-1 search-results">

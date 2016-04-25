@@ -47,13 +47,13 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
     </div>
     <div class="advanced_search_wrapper">
       <div id="advanced-search-container" class="visible-md visible-lg collapse<?php echo $advanced_search_expanded; ?>">
-        <div class="form-group col-xs-12 col-md-6">
+        <div class="form-group col-xs-6 padding-right-half">
           <label>Fra dato</label>
           <input class="form-control" type="date" name="<?php echo WPDKASearch::QUERY_KEY_DATE_RANGE; ?>['from']"
             placeholder="fx 24-12-1849"
             value="<?php echo isset($dates[0]) ? $dates[0] : ''; ?>">
         </div>
-        <div class="form-group col-xs-12 col-md-6">
+        <div class="form-group col-xs-6 padding-left-half">
           <label>Til dato</label>
           <input class="form-control" type="date" name="<?php echo WPDKASearch::QUERY_KEY_DATE_RANGE; ?>['to']"
             placeholder="fx 24-12-1945"
@@ -61,7 +61,7 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
         </div>
         <div class="col-sm-3 col-md-12 form-group">
           <label>Medietype</label>
-          <div class="btn-group btn-group-justified btn-group-media-type" data-toggle="buttons">
+          <div class="btn-group btn-group-media-type" data-toggle="buttons">
       <?php foreach(WPDKAObject::$format_types as $format_type => $args) : if($format_type == WPDKAObject::TYPE_IMAGE_AUDIO || $format_type == WPDKAObject::TYPE_UNKNOWN) continue;
 
         $active = in_array($format_type,(array)$types);
@@ -78,17 +78,17 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
         <div class="col-xs-12 filter-container filter-organizations">
           <label>Institutioner</label>
           <div>
-            <label class="btn filter-btn filter-btn-all"><i class="icon-ok"></i><?php _e('All Organizations','dka'); ?></label>
+            <button class="btn btn-default btn-xs filter-btn filter-btn-all"><i class="icon-ok"></i><?php _e('All Organizations','dka'); ?></button>
       <?php
       $current_organization_id = 0;
       foreach(WPDKASearch::get_organizations_merged() as $id => $organization) :
       $count = get_facet_count(WPDKASearch::QUERY_KEY_ORGANIZATION, $organization['chaos_titles']);
 
       ?>
-            <label for="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" class="btn filter-btn filter-btn-single">
+            <button for="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" class="btn btn-default btn-xs filter-btn filter-btn-single">
               <input type="checkbox" class="chaos-filter" name="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION; ?>[]" value="<?php echo $organization['slug']; ?>" id="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" <?php checked(in_array($organization['slug'],(array)$organizations)); ?>>
               <i class="icon-remove-sign"></i><?php echo $organization['title']; ?> (<?php echo $count ?>)
-            </label>
+            </button>
       <?php endforeach; ?>
           </div>
         </div>

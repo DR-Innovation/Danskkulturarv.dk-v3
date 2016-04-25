@@ -5,7 +5,7 @@
     $search_text = WPDKAProgramListings::get_programlisting_search_type() === WPDKAProgramListings::QUERY_KEY_FREETEXT;
 ?>
 
-<div class="fluid-container body-container">
+<div class="fluid-container body-container search-container">
   <div class="dark-search">
     <div class="search row"><?php dynamic_sidebar('Top'); ?></div>
     <div class="programlisting-search-results search row">
@@ -96,7 +96,6 @@
     <!-- END SEARCH BAR -->
   </div>
 </div>
-
 
 <!-- Search results -->
 <div class="container">

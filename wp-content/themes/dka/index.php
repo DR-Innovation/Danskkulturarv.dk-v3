@@ -5,7 +5,7 @@
  */
 get_header(); ?>
 
-<div class="fluid-container body-container">
+<div class="fluid-container body-container search-container simple-search">
   <div class="dark-search">
     <div class="search row"><?php dynamic_sidebar('Top'); ?></div>
   </div>
