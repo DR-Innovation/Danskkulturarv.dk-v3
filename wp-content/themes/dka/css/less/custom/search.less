@@ -202,11 +202,6 @@
   margin-top   : @top-margin;
   white-space  : nowrap;
 
-  > div {
-    line-height: 40px;
-    height     : 40px;
-  }
-
   .search-result-listing {
     text-align : right;
     line-height: 40px;
@@ -230,6 +225,11 @@
     overflow     : hidden;
     text-overflow: ellipsis;
     font-size    : 1.6em;
+    margin-bottom: 20px;
+    @media (min-width: @screen-md-min) {
+      overflow: visible;
+      text-overflow: none;
+    }
   }
 }
 

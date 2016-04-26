@@ -4988,10 +4988,6 @@ footer .copyright a {
   margin-top: 30px;
   white-space: nowrap;
 }
-.search-results-top > div {
-  line-height: 40px;
-  height: 40px;
-}
 .search-results-top .search-result-listing {
   text-align: right;
   line-height: 40px;
@@ -5011,6 +5007,13 @@ footer .copyright a {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1.6em;
+  margin-bottom: 20px;
+}
+@media (min-width: 992px) {
+  .search-results-top .search-count {
+    overflow: visible;
+    text-overflow: none;
+  }
 }
 .thumbnails {
   padding: 0;
@@ -5654,7 +5657,7 @@ select {
   font-weight: 400;
 }
 .body-container {
-  padding-top: 50px;
+  padding-top: 60px;
 }
 .body-container.front-page {
   padding-left: 0;
