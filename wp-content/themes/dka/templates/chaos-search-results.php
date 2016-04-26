@@ -60,10 +60,10 @@ $views = array(
     </div>
   </div>
   <div class="search row">
-    <div class="col-md-3 no-right-padding">
+    <div class="col-xs-12 col-md-3 no-right-padding">
       <?php dynamic_sidebar('Top'); ?>
     </div>
-    <article class="col-md-8 col-md-offset-1 search-results">
+    <article class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-1 search-results">
       <ul class="row <?php echo $current_view; ?>">
         <?php
         //Consider using a action/filter to print single result

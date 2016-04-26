@@ -10,8 +10,8 @@
   .container-fluid {
     margin     : 0 auto;
     max-width  : 1170px;
-    height     : 10rem;
-    padding-top: 2.3rem;
+    padding-top: .5rem;
+    height     : 6rem;
   }
 
   .navbar-toggle {
@@ -21,10 +21,6 @@
     .icon-bar {
       background-color: @text-color;
     }
-  }
-
-  .navbar-right {
-    margin-top: 1.2rem;
   }
 
   .navbar-responsive-collapse {
@@ -44,10 +40,32 @@
 
   // Top logo
   .navbar-brand {
-    font-size     : 4rem;
+    font-size : 3rem;
+    margin-top: -1px;
     font-family   : @bold-family;
     text-transform: uppercase;
     color         : @header-color;
+  }
+
+  .navbar-right {
+    margin-top: 1rem;
+  }
+
+  @media (min-width: @screen-sm-min) {
+    &:not(.navbar--slim) {
+      .container-fluid {
+        height     : 10rem;
+        padding-top: 2.3rem;
+      }
+
+      .navbar-brand {
+        font-size     : 4rem;
+      }
+
+      .navbar-right {
+        margin-top: 1.2rem;
+      }
+    }
   }
 
   .navbar-responsive-collapse {
@@ -61,21 +79,6 @@
     }
   }
 
-  &.navbar--slim {
-    .container-fluid {
-      padding-top: .5rem;
-      height     : 6rem;
-    }
-
-    .navbar-brand {
-      font-size : 3rem;
-      margin-top: -1px;
-    }
-
-    .navbar-right {
-      margin-top: 1rem;
-    }
-  }
 }
 
 .dropdown-header {

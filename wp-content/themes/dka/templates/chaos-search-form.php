@@ -27,7 +27,7 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
 <?php $dates = WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_DATE_RANGE); ?>
 <form method="GET" action="<?php echo $page; ?>">
   <div class="row">
-    <div class="form-group col-xs-9 col-sm-7 col-md-12">
+    <div class="form-group col-xs-12">
       <div class="input-group">
         <input class="form-control search-bar" maxlength="100" id="appendedInputButton" type="text" name="<?php echo WPChaosSearch::QUERY_KEY_FREETEXT; ?>" value="<?php echo WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" placeholder="<?php echo $freetext_placeholder; ?>" />
         <span class="input-group-btn">
@@ -41,26 +41,26 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
       <?php endif; ?>
     </div>
     <div class="hidden-md hidden-lg btn-advanced-search-container">
-      <button class="btn btn-default btn-lg btn-advanced-search collapsed dropdown-toggle btn-block <?php echo $advanced_search_expanded; ?>" type="button" data-toggle="collapse" data-target="#advanced-search-container">
-        <span class="hidden-xs"><?php _e('Options','dka'); ?></span> <i class="icon-caret-down"></i>
+      <button class="btn btn-default btn-lg btn-advanced-search collapsed dropdown-toggle <?php echo $advanced_search_expanded; ?>" type="button" data-toggle="collapse" data-target="#advanced-search-container">
+        <?php _e('Options','dka'); ?> <i class="icon-caret-down"></i>
       </button>
     </div>
     <div class="advanced_search_wrapper">
       <div id="advanced-search-container" class="visible-md visible-lg collapse<?php echo $advanced_search_expanded; ?>">
         <div class="form-group col-xs-6 padding-right-half">
-          <label>Fra dato</label>
+          <label class="input-label">Fra dato</label>
           <input class="form-control" type="date" name="<?php echo WPDKASearch::QUERY_KEY_DATE_RANGE; ?>['from']"
             placeholder="fx 24-12-1849"
             value="<?php echo isset($dates[0]) ? $dates[0] : ''; ?>">
         </div>
         <div class="form-group col-xs-6 padding-left-half">
-          <label>Til dato</label>
+          <label class="input-label">Til dato</label>
           <input class="form-control" type="date" name="<?php echo WPDKASearch::QUERY_KEY_DATE_RANGE; ?>['to']"
             placeholder="fx 24-12-1945"
             value="<?php echo isset($dates[1]) ? $dates[1] : ''; ?>">
         </div>
         <div class="col-sm-3 col-md-12 form-group">
-          <label>Medietype</label>
+          <label class="input-label">Medietype</label>
           <div class="btn-group btn-group-media-type" data-toggle="buttons">
       <?php foreach(WPDKAObject::$format_types as $format_type => $args) : if($format_type == WPDKAObject::TYPE_IMAGE_AUDIO || $format_type == WPDKAObject::TYPE_UNKNOWN) continue;
 
@@ -76,7 +76,7 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
           </div>
         </div>
         <div class="col-xs-12 filter-container filter-organizations">
-          <label>Institutioner</label>
+          <label class="input-label">Institutioner</label>
           <div>
             <button class="btn btn-default btn-xs filter-btn filter-btn-all"><i class="icon-ok"></i><?php _e('All Organizations','dka'); ?></button>
       <?php

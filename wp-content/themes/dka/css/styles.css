@@ -4536,8 +4536,8 @@ button.close {
 .navbar .container-fluid {
   margin: 0 auto;
   max-width: 1170px;
-  height: 10rem;
-  padding-top: 2.3rem;
+  padding-top: .5rem;
+  height: 6rem;
 }
 .navbar .navbar-toggle {
   border: none;
@@ -4545,9 +4545,6 @@ button.close {
 }
 .navbar .navbar-toggle .icon-bar {
   background-color: #292b2d;
-}
-.navbar .navbar-right {
-  margin-top: 1.2rem;
 }
 .navbar .navbar-responsive-collapse li a {
   margin-bottom: 0;
@@ -4560,10 +4557,26 @@ button.close {
   border-radius: 0;
 }
 .navbar .navbar-brand {
-  font-size: 4rem;
+  font-size: 3rem;
+  margin-top: -1px;
   font-family: "clear_sans_mediumregular", sans-serif;
   text-transform: uppercase;
   color: #292b2d;
+}
+.navbar .navbar-right {
+  margin-top: 1rem;
+}
+@media (min-width: 768px) {
+  .navbar:not(.navbar--slim) .container-fluid {
+    height: 10rem;
+    padding-top: 2.3rem;
+  }
+  .navbar:not(.navbar--slim) .navbar-brand {
+    font-size: 4rem;
+  }
+  .navbar:not(.navbar--slim) .navbar-right {
+    margin-top: 1.2rem;
+  }
 }
 .navbar .navbar-responsive-collapse .navbar-nav.navbar-right:last-child {
   margin-right: 0;
@@ -4571,17 +4584,6 @@ button.close {
 .navbar .navbar-responsive-collapse .navbar-nav.navbar-right:last-child li.menu-item {
   margin-right: 0 !important;
   margin-left: 10px !important;
-}
-.navbar.navbar--slim .container-fluid {
-  padding-top: .5rem;
-  height: 6rem;
-}
-.navbar.navbar--slim .navbar-brand {
-  font-size: 3rem;
-  margin-top: -1px;
-}
-.navbar.navbar--slim .navbar-right {
-  margin-top: 1rem;
 }
 .dropdown-header {
   color: #292b2d;
@@ -4843,15 +4845,17 @@ footer .copyright a {
 .front-page .dark-search .search {
   max-width: 600px;
 }
+.front-page .btn-advanced-search-container {
+  display: none;
+}
 .widget_chaos-search p {
   margin-bottom: 5px;
 }
-.widget_chaos-search .btn-group-media-type {
+.widget_chaos-search .input-label {
   display: block;
 }
 .widget_chaos-search .btn-search,
-.widget_chaos-search input,
-.widget_chaos-search .btn-group-media-type .btn {
+.widget_chaos-search input {
   height: 40px !important;
   line-height: 1.2;
 }
@@ -4860,17 +4864,14 @@ footer .copyright a {
   margin-left: 0 !important;
 }
 .widget_chaos-search .search-bar {
-  border-right-width: 0px;
+  border-right-width: 0;
 }
 .widget_chaos-search .form-control:focus {
   border-color: #3e8c98;
 }
-.widget_chaos-search [class^="icon-"],
-.widget_chaos-search [class*=" icon-"] {
+.widget_chaos-search [class*=" icon-"],
+.widget_chaos-search [class^="icon-"] {
   margin-left: 0;
-}
-.advanced_search_wrapper {
-  display: none;
 }
 .search-page .advanced_search_wrapper {
   display: block;
@@ -4904,6 +4905,9 @@ footer .copyright a {
 .btn-advanced-search-container .btn {
   background-color: #cbcccd;
   color: #377b86;
+  display: block;
+  padding: 6px 12px;
+  margin: 0 auto 20px;
 }
 .btn-advanced-search-container .btn:hover {
   background-color: #d8d9da;
@@ -4933,17 +4937,25 @@ footer .copyright a {
   transform: rotate(180deg);
   transition: transform .5s ease;
 }
+.advanced_search_wrapper {
+  display: none;
+}
+.advanced_search_wrapper .collapse.in {
+  display: block !important;
+}
+.filter-container {
+  padding-bottom: 20px;
+}
 .filter-container .chaos-filter {
   display: none;
 }
 .filter-container .btn {
-  display: block;
   font-family: inherit;
   font-weight: normal;
+  margin-bottom: 5px;
 }
 .filter-container .btn:not(:last-child) {
   margin-right: 2px;
-  margin-bottom: 5px;
 }
 .filter-container .btn.active {
   font-family: "clear_sans_mediumregular", sans-serif;
@@ -4951,6 +4963,11 @@ footer .copyright a {
 .filter-container .btn.active i.icon-ok,
 .filter-container .btn.active i.icon-remove-sign {
   display: inline-block;
+}
+@media (min-width: 992px) {
+  .filter-container .btn {
+    display: block;
+  }
 }
 .filter-container .btn i {
   line-height: inherit;
@@ -4995,11 +5012,14 @@ footer .copyright a {
   text-overflow: ellipsis;
   font-size: 1.6em;
 }
+.thumbnails {
+  padding: 0;
+}
 .search-object {
   height: 220px;
   margin-bottom: 30px;
 }
-.search-object a.thumbnail {
+.search-object .thumbnail {
   height: 220px;
   color: #292b2d;
   border-radius: 0;
@@ -5837,8 +5857,10 @@ footer {
     width: 100% !important;
   }
 }
-.no-right-padding {
-  padding-right: 0;
+@media (min-width: 992px) {
+  .no-right-padding {
+    padding-right: 0;
+  }
 }
 .padding-left-half {
   padding-left: 7px;
@@ -5888,9 +5910,6 @@ upon your base.less styles.
   .colorbox h3,
   .colorbox .h3 {
     margin: 0;
-  }
-  .btn {
-    padding: 6px;
   }
 }
 @media only screen and (min-width: 768px) {
