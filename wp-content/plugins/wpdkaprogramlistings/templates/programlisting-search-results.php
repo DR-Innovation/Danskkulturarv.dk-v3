@@ -130,6 +130,9 @@
                         <?php printf(_e('Try being more precise. Press the "i" button for hints.', WPDKAProgramListings::DOMAIN), $results_total); ?>
                       <?php endif; ?>
                   </p>
+                  <p class="programlisting-instructions">
+                    Bemærk at det er sendeplaner fra 1925-1983, der er tilgængelige for søgning. Ønsker du en mere avanceret søgning kan du bruge <a href="http://www.larm.fm">larm.fm</a>
+                  </p>
                   <?php if (!empty($results)): ?>
                       <ul class="list-unstyled search-overview">
                           <li class="row">

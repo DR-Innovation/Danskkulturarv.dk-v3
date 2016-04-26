@@ -7,7 +7,7 @@
   padding: 5px;
   width: 100%;
   box-shadow: none;
-  background: #ffffff url(../images/arrows.png) no-repeat 95% 50%;
+  background: #fff url(../images/arrows.png) no-repeat 95% 50%;
   -webkit-appearance: none;
 }
 .programlisting-year select:focus {
@@ -26,7 +26,7 @@
   padding: 5px;
   width: 100%;
   box-shadow: none;
-  background: #ffffff url(../images/arrows.png) no-repeat 95% 50%;
+  background: #fff url(../images/arrows.png) no-repeat 95% 50%;
   -webkit-appearance: none;
 }
 .programlisting-month select:focus {
@@ -45,7 +45,7 @@
   padding: 5px;
   width: 100%;
   box-shadow: none;
-  background: #ffffff url(../images/arrows.png) no-repeat 95% 50%;
+  background: #fff url(../images/arrows.png) no-repeat 95% 50%;
   -webkit-appearance: none;
 }
 .programlisting-day select:focus {
@@ -135,6 +135,10 @@
   -webkit-box-shadow: none;
   height: 35px;
   margin-bottom: 6px;
+}
+.programlisting-instructions {
+  padding: 0 10px;
+  text-align: left;
 }
 .programlisting-results {
   margin: 30px auto 0;
