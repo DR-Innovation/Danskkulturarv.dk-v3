@@ -17,7 +17,7 @@ add_action('admin_head', 'custom_admin_style');
 function custom_admin_style()
 {
     echo '<style>
-   #menu-comments, 
+   #menu-comments,
    #menu-posts {
      display: none;
    }
@@ -74,7 +74,6 @@ function theme_instructions_dashboard_widgets() {
                  'theme_instructions_widget_function'
         );
 }
-add_action( 'wp_dashboard_setup', 'theme_instructions_dashboard_widgets' );
 
 function theme_instructions_widget_function() {
   echo "
@@ -142,5 +141,7 @@ function theme_instructions_widget_function() {
   </span>
   ";
 }
+
+// add_action( 'wp_dashboard_setup', 'theme_instructions_dashboard_widgets' );
 
 ?>
