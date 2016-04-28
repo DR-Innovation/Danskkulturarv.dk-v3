@@ -213,6 +213,7 @@
     @media (min-width: @screen-md-min) {
       overflow     : visible;
       text-overflow: none;
+      white-space: nowrap;
     }
   }
 
@@ -280,7 +281,10 @@
   .media-type-container,
   .organization,
   .title {
-    line-height: 2.1rem;
+    line-height  : 2.1rem;
+    white-space  : nowrap;
+    text-overflow: ellipsis;
+    overflow     : hidden;
   }
 
   .date {

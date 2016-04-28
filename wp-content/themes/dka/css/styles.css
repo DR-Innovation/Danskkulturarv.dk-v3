@@ -4561,7 +4561,7 @@ button.close {
   color: #292b2d;
   font-size: 3rem;
   margin-top: -1px !important;
-  margin-left: 15px !important;
+  margin-left: 0 !important;
   font-family: "clear_sans_mediumregular", sans-serif;
   text-transform: uppercase;
   transform-origin: left;
@@ -5008,6 +5008,7 @@ footer .copyright a {
   .search-results-top .search-count {
     overflow: visible;
     text-overflow: none;
+    white-space: nowrap;
   }
 }
 .search-results-top .show-mode {
@@ -5062,6 +5063,9 @@ footer .copyright a {
 .search-object .organization,
 .search-object .title {
   line-height: 2.1rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .search-object .date {
   color: #575252;
