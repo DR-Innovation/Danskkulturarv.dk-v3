@@ -4993,7 +4993,6 @@ footer .copyright a {
 .search-results-top {
   margin-bottom: 20px;
   margin-top: 30px;
-  white-space: nowrap;
 }
 .search-results-top .dropdown-toggle {
   cursor: pointer;
