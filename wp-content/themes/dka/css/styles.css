@@ -4988,17 +4988,6 @@ footer .copyright a {
   margin-top: 30px;
   white-space: nowrap;
 }
-.search-results-top .search-result-listing {
-  text-align: right;
-  line-height: 40px;
-}
-.search-results-top .search-result-listing > :not(.btn-group) {
-  padding-left: 10px;
-  text-decoration: none;
-}
-.search-results-top .search-result-listing > :not(.btn-group):not(.active):not(:hover) {
-  opacity: .5;
-}
 .search-results-top .dropdown-toggle {
   cursor: pointer;
   box-shadow: none !important;
@@ -5014,6 +5003,22 @@ footer .copyright a {
     overflow: visible;
     text-overflow: none;
   }
+}
+.search-results-top .show-mode {
+  margin-right: -5px;
+  vertical-align: bottom;
+  opacity: 1;
+}
+.search-result-listing {
+  text-align: right;
+  line-height: 40px;
+}
+.search-result-listing > :not(.btn-group) {
+  padding-left: 10px;
+  text-decoration: none;
+}
+.search-result-listing a:not(.active):not(:hover) {
+  opacity: .5;
 }
 .thumbnails {
   padding: 0;
@@ -5062,9 +5067,7 @@ footer .copyright a {
 .search-object .organization,
 .search-object .title {
   width: auto;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
   margin-bottom: 0;
   margin-top: 0;
 }
