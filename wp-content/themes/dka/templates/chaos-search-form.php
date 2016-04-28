@@ -59,7 +59,7 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
             placeholder="fx 24-12-1945"
             value="<?php echo isset($dates[1]) ? $dates[1] : ''; ?>">
         </div>
-        <div class="col-sm-3 col-md-12 form-group">
+        <div class="col-xs-12 form-group">
           <label class="input-label">Medietype</label>
           <div class="btn-group btn-group-media-type" data-toggle="buttons">
       <?php foreach(WPDKAObject::$format_types as $format_type => $args) : if($format_type == WPDKAObject::TYPE_IMAGE_AUDIO || $format_type == WPDKAObject::TYPE_UNKNOWN) continue;

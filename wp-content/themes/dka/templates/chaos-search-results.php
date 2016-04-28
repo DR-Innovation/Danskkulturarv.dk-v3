@@ -54,6 +54,7 @@ $views = array(
             <?php endforeach; ?>
              </ul>
           </div>
+          <span class="show-mode">Visning:</span>
             <?php foreach($views as $view) :
             echo '<a class="'.($view['view'] == $current_view ? ' active' : '').'" href="'.WPChaosSearch::generate_pretty_search_url(array(WPChaosSearch::QUERY_KEY_VIEW => $view['link'])).'" title="'.$view['title'].'"><i class="'.$view['class'].'"></i></a>';
             endforeach; ?>

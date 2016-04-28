@@ -152,12 +152,12 @@
   }
 
   .btn {
-    font-family: inherit;
-    font-weight: normal;
+    font-family  : inherit;
+    font-weight  : normal;
     margin-bottom: 5px;
 
     &:not(:last-child) {
-      margin-right : 2px;
+      margin-right: 2px;
     }
 
     &.active {
@@ -170,7 +170,6 @@
         }
       }
     }
-
     @media (min-width: @screen-md-min) {
       display: block;
     }
@@ -202,20 +201,6 @@
   margin-top   : @top-margin;
   white-space  : nowrap;
 
-  .search-result-listing {
-    text-align : right;
-    line-height: 40px;
-
-    > :not(.btn-group) {
-      padding-left   : 10px;
-      text-decoration: none;
-
-      &:not(.active):not(:hover) {
-        opacity: .5;
-      }
-    }
-  }
-
   .dropdown-toggle {
     cursor    : pointer;
     box-shadow: none !important;
@@ -227,9 +212,29 @@
     font-size    : 1.6em;
     margin-bottom: 20px;
     @media (min-width: @screen-md-min) {
-      overflow: visible;
+      overflow     : visible;
       text-overflow: none;
     }
+  }
+
+  .show-mode {
+    margin-right  : -5px;
+    vertical-align: bottom;
+    opacity       : 1;
+  }
+}
+
+.search-result-listing {
+  text-align : right;
+  line-height: 40px;
+
+  > :not(.btn-group) {
+    padding-left   : 10px;
+    text-decoration: none;
+  }
+
+  a:not(.active):not(:hover) {
+    opacity: .5;
   }
 }
 
@@ -291,9 +296,7 @@
   .organization,
   .title {
     width        : auto;
-    white-space  : nowrap;
     overflow     : hidden;
-    text-overflow: ellipsis;
     margin-bottom: 0;
     margin-top   : 0;
   }
