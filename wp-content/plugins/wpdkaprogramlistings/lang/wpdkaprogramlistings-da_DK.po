@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPDKAProgramListings\n"
-"POT-Creation-Date: 2015-11-22 20:03+0100\n"
-"PO-Revision-Date: 2015-11-23 00:17+0100\n"
+"POT-Creation-Date: 2016-04-28 16:32+0200\n"
+"PO-Revision-Date: 2016-04-28 16:33+0200\n"
 "Last-Translator: \n"
 "Language-Team: Mads Lundt <mads@socialsquare.dk>\n"
 "Language: da_DK\n"
@@ -53,32 +53,32 @@ msgstr "Annuller"
 msgid "OK"
 msgstr "OK"
 
-#: ../templates/programlisting-search-results.php:11
+#: ../templates/programlisting-search-results.php:12
 msgid "or choose a date:"
 msgstr "eller vælg en dato:"
 
-#: ../templates/programlisting-search-results.php:17
-#: ../templates/programlisting-search-results.php:54 ../widgets/featured.php:67
+#: ../templates/programlisting-search-results.php:18
+#: ../templates/programlisting-search-results.php:55 ../widgets/featured.php:67
 msgid "Year"
 msgstr "År"
 
-#: ../templates/programlisting-search-results.php:27
-#: ../templates/programlisting-search-results.php:64 ../widgets/featured.php:73
+#: ../templates/programlisting-search-results.php:28
+#: ../templates/programlisting-search-results.php:65 ../widgets/featured.php:73
 msgid "Month"
 msgstr "Måned"
 
-#: ../templates/programlisting-search-results.php:37
-#: ../templates/programlisting-search-results.php:74 ../widgets/featured.php:78
+#: ../templates/programlisting-search-results.php:38
+#: ../templates/programlisting-search-results.php:75 ../widgets/featured.php:78
 msgid "Day"
 msgstr "Dag"
 
-#: ../templates/programlisting-search-results.php:45
-#: ../templates/programlisting-search-results.php:82
-#: ../templates/programlisting-search-results.php:90
+#: ../templates/programlisting-search-results.php:46
+#: ../templates/programlisting-search-results.php:83
+#: ../templates/programlisting-search-results.php:91
 msgid "Search on date"
 msgstr "Se dato"
 
-#: ../templates/programlisting-search-results.php:87
+#: ../templates/programlisting-search-results.php:88
 msgid "Search in program listings"
 msgstr "Søg i programoversigter"
 
@@ -91,29 +91,31 @@ msgstr ""
 msgid "Download program listing"
 msgstr "Hent programoversigt"
 
+#: ../templates/programlisting-search-results.php:127
+#, php-format
+msgid "Showing %d"
+msgstr "Viser %d"
+
 #: ../templates/programlisting-search-results.php:128
-msgid ""
-"There are more results than the 500 we show here. Try being more precise. "
-"Press the \"i\" button for hints."
-msgstr ""
-"Viser kun de første 500 resultater. Tryk på “i” knappen for søge-hints."
+#, php-format
+msgid "out of %d results."
+msgid_plural "out of %d results."
+msgstr[0] "ud af %d resultater."
+msgstr[1] "ud af %d resultater."
 
 #: ../templates/programlisting-search-results.php:130
-#, php-format
-msgid "%d result"
-msgid_plural "%d results"
-msgstr[0] "%d sendeplan"
-msgstr[1] "%d sendeplaner"
+msgid "Try being more precise. Press the \"i\" button for hints."
+msgstr "Prøv at præcisere din søgning. Tryk på “i” knappen for hjælp."
 
-#: ../templates/programlisting-search-results.php:136
+#: ../templates/programlisting-search-results.php:139
 msgid "Date"
 msgstr "Dato"
 
-#: ../templates/programlisting-search-results.php:137
+#: ../templates/programlisting-search-results.php:140
 msgid "- click to open preview"
 msgstr "- klik for at se preview"
 
-#: ../templates/programlisting-search-results.php:139
+#: ../templates/programlisting-search-results.php:142
 msgid "Type"
 msgstr "Type"
 
@@ -125,7 +127,7 @@ msgstr "DKA Programoversigter"
 msgid "Search for program listings"
 msgstr "Søg efter programoversigter"
 
-#: ../widgets/featured.php:25 ../wpdkaprogramlistings.php:146
+#: ../widgets/featured.php:25 ../wpdkaprogramlistings.php:160
 msgid "Program Listings"
 msgstr "Programoversigter"
 
@@ -170,74 +172,85 @@ msgstr "DKA Søg i sendeplanerne"
 msgid "Search for words"
 msgstr "Søg"
 
-#: ../wpdkaprogramlistings.php:122
+#: ../wpdkaprogramlistings.php:136
 msgid "WordPress program listing"
 msgstr "WordPress sendeplaner"
 
-#: ../wpdkaprogramlistings.php:122
+#: ../wpdkaprogramlistings.php:136
 msgid "Rewrite rules flushed .."
 msgstr "Rewrite rules nulstillet .."
 
-#: ../wpdkaprogramlistings.php:151
+#: ../wpdkaprogramlistings.php:165
 msgid "Page for program listing results"
 msgstr "Side til programoversigt søgeresultater"
 
-#: ../wpdkaprogramlistings.php:157
+#: ../wpdkaprogramlistings.php:171
 msgid "Permalinks must be enabled for program listings search to work properly"
 msgstr ""
 "Permalinks skal være aktiveret for at søgning i programoversigter fungerer "
 "korrekt"
 
-#: ../wpdkaprogramlistings.php:244
+#: ../wpdkaprogramlistings.php:259
 #, php-format
 msgid "%s program listing %s"
 msgstr "%s programoversigt %s"
 
-#: ../wpdkaprogramlistings.php:246
+#: ../wpdkaprogramlistings.php:261
 #, php-format
 msgid "%s program listing search results %s"
 msgstr "%s sendeplaner søgeresultater %s"
 
-#: ../wpdkaprogramlistings.php:369
+#: ../wpdkaprogramlistings.php:388
 #, php-format
 msgid "Use %s, %s, or %s keywords."
 msgstr "Benyt %s, %s eller %s som nøgleord."
 
-#: ../wpdkaprogramlistings.php:371
+#: ../wpdkaprogramlistings.php:390
 #, php-format
 msgid "%s is used to include both words."
 msgstr "%s bruges hvis søgningen skal indeholde begge ord."
 
-#: ../wpdkaprogramlistings.php:373
+#: ../wpdkaprogramlistings.php:392
 #, php-format
 msgid "%s is used to include atleast one of the words."
 msgstr "%s bruges hvis søgningen skal indeholde mindst ét af ordene."
 
-#: ../wpdkaprogramlistings.php:375
+#: ../wpdkaprogramlistings.php:394
 #, php-format
 msgid "%s is used if it should not include the following word."
 msgstr "%s bruges hvis et ord skal udelukkes fra søgningen."
 
-#: ../wpdkaprogramlistings.php:377
+#: ../wpdkaprogramlistings.php:396
 #, php-format
 msgid "If nothing has been specified it is by default %s."
 msgstr "Hvis ingenting er specificeret vil der blive brugt %s."
 
-#: ../wpdkaprogramlistings.php:379
+#: ../wpdkaprogramlistings.php:398
 msgid "Put words or phrase in quotes to get more specific search results."
 msgstr ""
 "Indsæt ord eller sætninger i anførselstegn for at få mere specifikke "
 "søgeresultater."
 
-#: ../wpdkaprogramlistings.php:381
+#: ../wpdkaprogramlistings.php:400
 #, php-format
 msgid "Use %s to replace a single character."
 msgstr "Benyt %s for at erstatte én enkelt karaktér."
 
-#: ../wpdkaprogramlistings.php:383
+#: ../wpdkaprogramlistings.php:402
 #, php-format
 msgid "Use %s to replace zero or more characters."
 msgstr "Benyt %s for at erstatte nul eller flere karakterer."
+
+#~ msgid ""
+#~ "There are more results than the 500 we show here. Try being more precise. "
+#~ "Press the \"i\" button for hints."
+#~ msgstr ""
+#~ "Viser kun de første 500 resultater. Tryk på “i” knappen for søge-hints."
+
+#~ msgid "%d result"
+#~ msgid_plural "%d results"
+#~ msgstr[0] "%d sendeplan"
+#~ msgstr[1] "%d sendeplaner"
 
 #~ msgid ""
 #~ "There are more results than the 100 we show here. Try being more precise. "
