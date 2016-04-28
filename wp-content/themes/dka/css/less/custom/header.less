@@ -12,6 +12,7 @@
     max-width  : 1170px;
     padding-top: .5rem;
     height     : 6rem;
+    transition : .2s;
   }
 
   .navbar-toggle {
@@ -40,17 +41,21 @@
 
   // Top logo
   .navbar-brand {
-    font-size : 3rem;
-    margin-top: -1px;
-    font-family   : @bold-family;
-    text-transform: uppercase;
-    color         : @header-color;
+    color           : @header-color;
+    font-size       : 3rem;
+    margin-top      : -1px !important;
+    margin-left     : 15px !important;
+    font-family     : @bold-family;
+    text-transform  : uppercase;
+    transform-origin: left;
+    transform       : scale3d(.8, .8, 1);
+    transition      : .2s;
+    padding-left    : 0;
   }
 
   .navbar-right {
     margin-top: 1rem;
   }
-
   @media (min-width: @screen-sm-min) {
     &:not(.navbar--slim) {
       .container-fluid {
@@ -59,7 +64,8 @@
       }
 
       .navbar-brand {
-        font-size     : 4rem;
+        font-size: 4rem;
+        transform: scale(1);
       }
 
       .navbar-right {
