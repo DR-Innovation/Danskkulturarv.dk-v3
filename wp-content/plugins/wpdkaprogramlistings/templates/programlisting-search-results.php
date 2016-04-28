@@ -124,8 +124,8 @@
           <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
               <?php if (isset($results)): ?>
                   <p class="results-count">
-                      <?php printf(__('Viser %d', WPDKAProgramListings::DOMAIN), count($results)); ?>
-                      <?php printf(_n('ud af %d resultater.', 'ud af %d resultater.', $results_total, WPDKAProgramListings::DOMAIN), $results_total); ?>
+                      <?php printf(__('Showing %d', WPDKAProgramListings::DOMAIN), count($results)); ?>
+                      <?php printf(_n('out of %d results.', 'out of %d results.', $results_total, WPDKAProgramListings::DOMAIN), $results_total); ?>
                       <?php if ($results_total >= 500): ?>
                         <?php printf(_e('Try being more precise. Press the "i" button for hints.', WPDKAProgramListings::DOMAIN), $results_total); ?>
                       <?php endif; ?>
