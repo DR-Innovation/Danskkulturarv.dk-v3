@@ -27,7 +27,7 @@ class WPDKAProgramListings
   const QUERY_DEFAULT_POST_SEPERATOR = '/';
   const QUERY_PREFIX_CHAR = '/';
 
-  const DEFAULT_PAGE_COUNT = 20;
+  const DEFAULT_PAGE_COUNT = 50;
 
   public static $search_results;
   public static $search_total;
@@ -75,8 +75,7 @@ class WPDKAProgramListings
     self::register_search_query_variable(5, self::QUERY_KEY_PAGE, '\d+?',
       true, null, '1', '-');
 
-    self::$page_size = get_option("wpchaos-searchsize",
-      self::DEFAULT_PAGE_COUNT);
+    self::$page_size = self::DEFAULT_PAGE_COUNT;
 
     add_action('init', array(
       'WPDKAProgramListings',
