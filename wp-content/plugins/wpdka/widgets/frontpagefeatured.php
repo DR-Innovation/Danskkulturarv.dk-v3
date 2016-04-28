@@ -51,10 +51,11 @@ class WPDKAFrontpageFeaturedWidget extends WP_Widget {
     echo '<div data-columns>';
     foreach( $result as $item ) {
       $thumbnail = ($item->thumbnail ? '<img class="column-item__img" src="'.$item->thumbnail.'" />' : '');
-      //  TODO this should only be shown if it's a video
-      $playIcon = '<i class="column-item__icon icon-play-sign"></i>';
-      //  TODO we need a link
-      $linkUrl = '';
+      $playIcon = '';
+      if ($item->type == 'video') {
+        $playIcon = '<i class="column-item__icon icon-play-sign"></i>';
+      }
+      $linkUrl = $item->url;
       echo '<a class="column-item" href="' . $linkUrl . '">';
       echo $thumbnail;
       echo '<h2 class="column-item__title">' . $item->title . '</h2>';
