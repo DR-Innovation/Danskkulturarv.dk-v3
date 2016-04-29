@@ -85,10 +85,10 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
       $count = get_facet_count(WPDKASearch::QUERY_KEY_ORGANIZATION, $organization['chaos_titles']);
 
       ?>
-            <button for="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" class="btn btn-default btn-xs filter-btn filter-btn-single">
+            <label for="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" class="btn btn-default btn-xs filter-btn filter-btn-single">
               <input type="checkbox" class="chaos-filter" name="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION; ?>[]" value="<?php echo $organization['slug']; ?>" id="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" <?php checked(in_array($organization['slug'],(array)$organizations)); ?>>
               <i class="icon-remove-sign"></i><?php echo $organization['title']; ?> (<?php echo $count ?>)
-            </button>
+            </label>
       <?php endforeach; ?>
           </div>
         </div>
