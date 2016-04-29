@@ -133,6 +133,7 @@ class WPDKASearch {
       return implode(" AND ", $query);
     }, 9, 2);
 
+
     // Free text search.
     add_filter('wpchaos-solr-query', function($query, $query_vars) {
       if($query) {
@@ -212,6 +213,27 @@ class WPDKASearch {
       }
       return implode(" AND ", $query);
     }, 12, 2);
+
+    /* Add Date filtering to the search criteria */
+    add_filter('wpchaos-solr-query', function($query, $query_vars) {
+      if($query) {
+        $query = array($query);
+      } else {
+        $query = array();
+      }
+
+      $dates = $query_vars[WPDKASearch::QUERY_KEY_DATE_RANGE];
+
+      if(array_key_exists(WPDKASearch::QUERY_KEY_DATE_RANGE, $query_vars) &&
+        count($dates) === 2) {
+        $date_from = ensure_ymd_format($dates[0]) . 'T00:00:00Z';
+        $date_to = ensure_ymd_format($dates[1]) . 'T00:00:00Z';
+        $query[] = '(DKA-FirstPublishedDate_date:['. $date_from .
+          ' TO ' . $date_to . '])';
+      }
+
+      return implode(" AND ", $query);
+    }, 21, 2); // Has to be exercuted after tags are added
   }
 
   public function map_chaos_sorting($sort,$query_vars) {
