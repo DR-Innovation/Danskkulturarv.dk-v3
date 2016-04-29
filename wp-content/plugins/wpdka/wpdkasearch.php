@@ -222,10 +222,10 @@ class WPDKASearch {
         $query = array();
       }
 
-      $dates = $query_vars[WPDKASearch::QUERY_KEY_DATE_RANGE];
 
       if(array_key_exists(WPDKASearch::QUERY_KEY_DATE_RANGE, $query_vars) &&
-        count($dates) === 2) {
+        count($query_vars[WPDKASearch::QUERY_KEY_DATE_RANGE]) === 2) {
+        $dates = $query_vars[WPDKASearch::QUERY_KEY_DATE_RANGE];
         $date_from = ensure_ymd_format($dates[0]) . 'T00:00:00Z';
         $date_to = ensure_ymd_format($dates[1]) . 'T00:00:00Z';
         $query[] = '(DKA-FirstPublishedDate_date:['. $date_from .
