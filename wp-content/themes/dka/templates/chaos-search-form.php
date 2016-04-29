@@ -47,13 +47,13 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
     </div>
     <div class="advanced_search_wrapper">
       <div id="advanced-search-container" class="visible-md visible-lg collapse<?php echo $advanced_search_expanded; ?>">
-        <div class="form-group col-xs-6 padding-right-half">
+        <div class="form-group col-xs-6 col-md-12">
           <label class="input-label">Fra dato</label>
           <input class="form-control" type="date" name="<?php echo WPDKASearch::QUERY_KEY_DATE_RANGE; ?>['from']"
             placeholder="fx 24-12-1849"
             value="<?php echo isset($dates[0]) ? $dates[0] : ''; ?>">
         </div>
-        <div class="form-group col-xs-6 padding-left-half">
+        <div class="form-group col-xs-6 col-md-12">
           <label class="input-label">Til dato</label>
           <input class="form-control" type="date" name="<?php echo WPDKASearch::QUERY_KEY_DATE_RANGE; ?>['to']"
             placeholder="fx 24-12-1945"
