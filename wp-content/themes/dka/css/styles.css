@@ -4834,6 +4834,9 @@ footer .copyright a {
 #post-front h1 {
   font-size: 3em;
 }
+#post-front .widget_dka_frontpage_featured_widget {
+  margin-top: 2rem;
+}
 #post-front .widget_dka-program-listing-featured-widget,
 #post-front .widget_fbw_id,
 #post-front .widget_null-instagram-feed {
