@@ -4,7 +4,8 @@
  * @subpackage DKA
  */
 
- $chaos_object = WPChaosClient::get_object();
+  $chaos_object = WPChaosClient::get_object();
+  $related = $chaos_object->get_related(10);
 
 ?>
 <h1><?php echo $chaos_object->title; ?></h1>
@@ -92,6 +93,13 @@
   </div>
   <?php endif; ?>
 </div>
+
+
+<?php foreach($related as $object) : ?>
+  <div style="background: url(<?php echo $object->thumbnail; ?>)">
+    <?php echo $object->title; ?></div>
+
+<?php endforeach; ?>
 
 
 <?php if (class_exists('WPDKACollections') && current_user_can('edit_posts') && count($chaos_object->collections_raw) > 0): ?>
