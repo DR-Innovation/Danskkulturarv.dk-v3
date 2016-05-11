@@ -4,7 +4,7 @@ Danskkulturarv.dk-v3
 The third version of the danskkulturarv.dk website
 
 
-# Frontpage query
+### Frontpage query
 
 To edit what's displayed on the frontpage simple edit and/or add a `DKA Frontpage Featured` widget
 ![screen shot 5](https://cloud.githubusercontent.com/assets/3859425/15181911/05ab771c-178a-11e6-9ca7-0c4194f42eb5.png)
