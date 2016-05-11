@@ -4956,6 +4956,14 @@ footer .copyright a {
 .filter-container .chaos-filter {
   display: none;
 }
+.filter-container .line-break {
+  display: none;
+}
+@media (min-width: 992px) {
+  .filter-container .line-break {
+    display: block;
+  }
+}
 .filter-container .btn {
   font-family: inherit;
   font-weight: normal;
@@ -4970,11 +4978,6 @@ footer .copyright a {
 .filter-container .btn.active i.icon-ok,
 .filter-container .btn.active i.icon-remove-sign {
   display: inline-block;
-}
-@media (min-width: 992px) {
-  .filter-container .btn {
-    display: block;
-  }
 }
 .filter-container .btn i {
   line-height: inherit;
