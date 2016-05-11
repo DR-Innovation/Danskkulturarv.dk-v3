@@ -94,13 +94,17 @@
   <?php endif; ?>
 </div>
 
-
-<?php foreach($related as $object) : ?>
-  <div style="background: url(<?php echo $object->thumbnail; ?>)">
-    <?php echo $object->title; ?></div>
-
-<?php endforeach; ?>
-
+<?php if ($related) : ?>
+  <h3>Relaterede emner</h3>
+  <div class="related-items row">
+  <?php foreach($related as $object) :
+    echo '<div class="col-md-6">';
+    echo '<a style="background: url(' . $object->thumbnail .')" href="' . $object->url . '">';
+    echo '</a>';
+    echo '</div>';
+  endforeach; ?>
+  </div>
+<?php endif; ?>
 
 <?php if (class_exists('WPDKACollections') && current_user_can('edit_posts') && count($chaos_object->collections_raw) > 0): ?>
 <div class="collection-container">
@@ -110,7 +114,6 @@
 
 
 <?php if (current_user_can(WPDKA::PUBLISH_STATE_CAPABILITY)): ?> <!--Makes sure the user has the capability to unpublish or republish-->
-<hr>
 <div class="publish">
   <h3>Publicer/afpublicer</h3>
  <?php if (!$chaos_object->isPublished): ?> <!--Material is not published (no accesspoint)-->
