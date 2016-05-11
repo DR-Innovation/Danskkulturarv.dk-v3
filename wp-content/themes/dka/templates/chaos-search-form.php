@@ -77,20 +77,19 @@ $advanced_search_expanded = ((/*!empty($types) ||*/ !empty($organizations)) ? " 
         </div>
         <div class="col-xs-12 filter-container filter-organizations">
           <label class="input-label">Institutioner</label>
-          <div>
-            <button class="btn btn-default btn-xs filter-btn filter-btn-all"><i class="icon-ok"></i><?php _e('All Organizations','dka'); ?></button>
-      <?php
-      $current_organization_id = 0;
-      foreach(WPDKASearch::get_organizations_merged() as $id => $organization) :
-      $count = get_facet_count(WPDKASearch::QUERY_KEY_ORGANIZATION, $organization['chaos_titles']);
+          <button class="btn btn-default btn-xs filter-btn filter-btn-all"><i class="icon-ok"></i><?php _e('All Organizations','dka'); ?></button>
+    <?php
+    $current_organization_id = 0;
+    foreach(WPDKASearch::get_organizations_merged() as $id => $organization) :
+    $count = get_facet_count(WPDKASearch::QUERY_KEY_ORGANIZATION, $organization['chaos_titles']);
 
-      ?>
-            <label for="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" class="btn btn-default btn-xs filter-btn filter-btn-single">
-              <input type="checkbox" class="chaos-filter" name="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION; ?>[]" value="<?php echo $organization['slug']; ?>" id="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" <?php checked(in_array($organization['slug'],(array)$organizations)); ?>>
-              <i class="icon-remove-sign"></i><?php echo $organization['title']; ?> (<?php echo $count ?>)
-            </label>
-      <?php endforeach; ?>
-          </div>
+    ?>
+          <div class="line-break"></div>
+          <label for="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" class="btn btn-default btn-xs filter-btn filter-btn-single">
+            <input type="checkbox" class="chaos-filter" name="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION; ?>[]" value="<?php echo $organization['slug']; ?>" id="<?php echo WPDKASearch::QUERY_KEY_ORGANIZATION .'-'. $organization['slug']; ?>" <?php checked(in_array($organization['slug'],(array)$organizations)); ?>>
+            <i class="icon-remove-sign"></i><?php echo $organization['title']; ?> (<?php echo $count ?>)
+          </label>
+    <?php endforeach; ?>
         </div>
       </div>
     </div>

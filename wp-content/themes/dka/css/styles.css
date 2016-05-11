@@ -4834,6 +4834,9 @@ footer .copyright a {
 #post-front h1 {
   font-size: 3em;
 }
+#post-front .widget_dka_frontpage_featured_widget {
+  margin-top: 2rem;
+}
 #post-front .widget_dka-program-listing-featured-widget,
 #post-front .widget_fbw_id,
 #post-front .widget_null-instagram-feed {
@@ -4956,6 +4959,14 @@ footer .copyright a {
 .filter-container .chaos-filter {
   display: none;
 }
+.filter-container .line-break {
+  display: none;
+}
+@media (min-width: 992px) {
+  .filter-container .line-break {
+    display: block;
+  }
+}
 .filter-container .btn {
   font-family: inherit;
   font-weight: normal;
@@ -4970,11 +4981,6 @@ footer .copyright a {
 .filter-container .btn.active i.icon-ok,
 .filter-container .btn.active i.icon-remove-sign {
   display: inline-block;
-}
-@media (min-width: 992px) {
-  .filter-container .btn {
-    display: block;
-  }
 }
 .filter-container .btn i {
   line-height: inherit;
@@ -6076,6 +6082,9 @@ on larger screens.
     padding-bottom: 220px !important;
   }
   .widget_dka-program-listing-featured-widget .programlisting-search {
+    min-height: 412px !important;
+  }
+  .widget_null-instagram-feed {
     min-height: 412px !important;
   }
 }
