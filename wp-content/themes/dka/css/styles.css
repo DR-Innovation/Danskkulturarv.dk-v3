@@ -4540,6 +4540,9 @@ button.close {
   height: 6rem;
   transition: .2s;
 }
+.navbar .container-fluid > .navbar-header {
+  margin-left: 0;
+}
 .navbar .navbar-toggle {
   border: none;
   margin-right: 0;
@@ -4547,8 +4550,8 @@ button.close {
 .navbar .navbar-toggle .icon-bar {
   background-color: #292b2d;
 }
-.navbar .navbar-responsive-collapse li a {
-  margin-bottom: 0;
+.navbar .navbar-responsive-collapse {
+  background-color: white;
 }
 .navbar #old-browser-btn {
   position: absolute;
