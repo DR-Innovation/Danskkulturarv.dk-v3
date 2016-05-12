@@ -98,9 +98,10 @@
   <h3>Relaterede emner</h3>
   <div class="related-items row">
   <?php foreach($related as $object) :
-    echo '<div class="col-md-6">';
-    echo '<a style="background: url(' . $object->thumbnail .')" href="' . $object->url . '">';
-    echo '</a>';
+    echo '<div class="col-md-3 col-sm-4 col-xs-6">';
+      echo '<a href="' . $object->url . '" class="related-item" style="background-image: url(' . $object->thumbnail .')" >';
+        echo '<div class="related-item__title">' . $object->title . '</div>';
+      echo '</a>';
     echo '</div>';
   endforeach; ?>
   </div>

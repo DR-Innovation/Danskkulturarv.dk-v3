@@ -5267,10 +5267,31 @@ footer .copyright a {
   padding: 5px;
   margin-bottom: 10px;
 }
-.related-items a {
-  min-height: 200px;
+.related-item {
+  background-color: #3e8c98;
+  background-size: cover;
+  background-position: center center;
   display: block;
+  min-height: 180px;
   margin-bottom: 3rem;
+  position: relative;
+}
+.related-item:hover {
+  background-blend-mode: soft-light;
+}
+.related-item:hover__title {
+  background-color: rgba(62, 140, 152, 0.1);
+}
+.related-item__title {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 2px 4px  ;
+  text-decoration: none;
+  font-family: "clear_sans_mediumregular", sans-serif;
+  color: white;
+  background-color: rgba(62, 140, 152, 0.5);
 }
 a.tag {
   position: relative;

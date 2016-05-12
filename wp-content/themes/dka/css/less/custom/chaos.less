@@ -100,12 +100,33 @@
     margin-bottom: 10px;
   }
 }
+.related-item {
+  background-color: @dka-primary-color;
+  background-size: cover;
+  background-position: center center;
+  display: block;
+  min-height: 180px;
+  margin-bottom: 3rem;
+  position: relative;
 
-.related-items {
-  a {
-    min-height: 200px;
-    display: block;
-    margin-bottom: 3rem;
+  &:hover {
+    background-blend-mode: soft-light;
+
+    &__title {
+      background-color: fade(@dka-primary-color, 10%);
+    }
+  }
+
+  &__title {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 2px 4px  ;
+    text-decoration: none;
+    font-family: @bold-family;
+    color: white;
+    background-color: fade(@dka-primary-color, 50%);
   }
 }
 
