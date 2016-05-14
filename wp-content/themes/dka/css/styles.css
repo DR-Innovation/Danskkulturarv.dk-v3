@@ -4889,10 +4889,10 @@ footer .copyright a {
 .search-page .advanced_search_wrapper {
   display: block;
 }
-.simple-search .widget {
+.simple-search .dark-search .widget {
   padding: 0 15px;
 }
-.simple-search .form-group {
+.simple-search .dark-search .form-group {
   margin-bottom: 0;
 }
 .dark-search {
