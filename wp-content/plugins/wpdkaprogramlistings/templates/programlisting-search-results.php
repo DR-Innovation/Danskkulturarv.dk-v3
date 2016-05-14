@@ -101,9 +101,13 @@
 <div class="container">
   <div class="row programlisting-results">
     <?php if (!isset($results) && !$search_text): ?>
-      <p class="text-left">
-        <?php _e('Search for a word or select a date to find a program schedule.', WPDKAProgramListings::DOMAIN); ?>
-      </p>
+      <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <p class="text-left">
+          <?php _e('Search for a word or select a date to find a program schedule.', WPDKAProgramListings::DOMAIN); ?>
+          <br />
+          Bemærk at det er sendeplaner fra 1925-1983, der er tilgængelige for søgning. Ønsker du en mere avanceret søgning kan du bruge <a href="http://www.larm.fm">larm.fm</a>
+        </p>
+      </div>
     <?php elseif (isset($results) && !$search_text): ?>
   <!-- LOOP through pdf previews -->
       <?php foreach ($results as $r): ?>
