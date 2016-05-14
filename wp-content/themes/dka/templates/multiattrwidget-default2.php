@@ -98,9 +98,11 @@
   <h3>Relaterede emner</h3>
   <div class="related-items row">
   <?php foreach($related as $object) :
+    $title = $object->title;
+    $title = (strlen($title) > 40) ? substr($title,0,37).'...' : $title;
     echo '<div class="col-md-3 col-sm-4 col-xs-6">';
       echo '<a href="' . $object->url . '" class="related-item" style="background-image: url(' . $object->thumbnail .')" >';
-        echo '<div class="related-item__title">' . $object->title . '</div>';
+        echo '<div class="related-item__title">' . $title . '</div>';
       echo '</a>';
     echo '</div>';
   endforeach; ?>
