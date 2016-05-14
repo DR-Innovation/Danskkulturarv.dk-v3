@@ -5,7 +5,7 @@
  */
 
   $chaos_object = WPChaosClient::get_object();
-  $related = $chaos_object->get_related(10);
+  $related = $chaos_object->get_related(8);
 
 ?>
 <h1><?php echo $chaos_object->title; ?></h1>
