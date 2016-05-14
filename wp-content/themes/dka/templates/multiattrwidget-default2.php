@@ -100,7 +100,7 @@
   <?php foreach($related as $object) :
     $title = $object->title;
     $title = (strlen($title) > 40) ? substr($title,0,37).'...' : $title;
-    echo '<div class="col-md-3 col-sm-4 col-xs-6">';
+    echo '<div class="col-sm-3 col-xs-6">';
       echo '<a href="' . $object->url . '" class="related-item" style="background-image: url(' . $object->thumbnail .')" >';
         echo '<div class="related-item__title">' . $title . '</div>';
       echo '</a>';

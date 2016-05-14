@@ -5962,6 +5962,18 @@ upon your base.less styles.
   .colorbox .h3 {
     margin: 0;
   }
+  h1 {
+    font-size: 20px;
+  }
+  h2 {
+    font-size: 17px;
+  }
+  h3 {
+    font-size: 15px;
+  }
+  .navbar-brand {
+    position: absolute;
+  }
 }
 @media only screen and (min-width: 768px) {
   /* main: ../custom.less*/
