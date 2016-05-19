@@ -3,7 +3,6 @@ Danskkulturarv.dk-v3
 
 The third version of the danskkulturarv.dk website
 
-
 ### Frontpage query
 
 To edit what's displayed on the frontpage simple edit and/or add a `DKA Frontpage Featured` widget
