@@ -15,13 +15,13 @@ add_filter( 'pre_site_transient_update_core', function($a) { return null; } );
  * Make post class compatible with Bootstrap
  */
 add_filter('post_class', function($classes) {
-  if(is_singular(array('post','page')) && is_active_sidebar('sidebar-1')) {
-    $classes[] = 'col-lg-9';
-  } else {
-    $classes[] = 'col-xs-12';
-  }
+	if(is_singular(array('post','page')) && is_active_sidebar('sidebar-1')) {
+		$classes[] = 'col-lg-9';
+	} else {
+		$classes[] = 'col-xs-12';
+	}
 
-  return $classes;
+	return $classes;
 });
 
 /**
@@ -190,29 +190,29 @@ add_filter('siteorigin_panels_row_styles', 'col2_style_page_builder');
  * Paragraphs in editor
  */
 add_filter('tiny_mce_before_init', function($arr) {
-  $arr['theme_advanced_blockformats'] = 'p,h2,h3,h4,h5,h6,address,pre';
-  $style_formats = array(
-    array(
-      'title' => __('Text-box', 'dka'),
-      'block' => 'div',
-      'classes' => 'colorbox',
-      'wrapper' => true
-    ),
-    array(
-      'title' => __('Image-box', 'dka'),
-      'block' => 'div',
-      'classes' => 'imgbox',
-      'wrapper' => true
-    ),
-    array(
-      'title' => __('Box', 'dka'),
-      'block' => 'div',
-      'classes' => 'frontbox',
-      'wrapper' => true
-    )
-  );
-  $arr['style_formats'] = json_encode( $style_formats );
-  return $arr;
+	$arr['theme_advanced_blockformats'] = 'p,h2,h3,h4,h5,h6,address,pre';
+	$style_formats = array(
+		array(
+			'title' => __('Text-box', 'dka'),
+			'block' => 'div',
+			'classes' => 'colorbox',
+			'wrapper' => true
+		),
+		array(
+			'title' => __('Image-box', 'dka'),
+			'block' => 'div',
+			'classes' => 'imgbox',
+			'wrapper' => true
+		),
+		array(
+			'title' => __('Box', 'dka'),
+			'block' => 'div',
+			'classes' => 'frontbox',
+			'wrapper' => true
+		)
+	);
+	$arr['style_formats'] = json_encode( $style_formats );
+	return $arr;
 });
 
 /**
@@ -220,8 +220,8 @@ add_filter('tiny_mce_before_init', function($arr) {
  */
 add_filter( 'mce_buttons_2', 'tuts_mce_editor_buttons' );
 function tuts_mce_editor_buttons( $buttons ) {
-  array_unshift( $buttons, 'styleselect' );
-  return $buttons;
+	array_unshift( $buttons, 'styleselect' );
+	return $buttons;
 }
 
 
@@ -258,58 +258,58 @@ add_action('dequeue_all_styles', 'dka_dequeue_all_styles');
 
 function dka_scripts_styles() {
 
-  wp_register_style( 'font-awesome', '//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css' );
-  //wp_register_style('asap', 'http://fonts.googleapis.com/css?family=Asap:400,700,400italic');
-  wp_register_style( 'dka-style', get_template_directory_uri() . '/css/styles.css', array('font-awesome'/*,'asap'*/) );
-  wp_register_style( 'dka-embed-style', get_template_directory_uri() . '/css/embed-style.css');
+	wp_register_style( 'font-awesome', '//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css' );
+	//wp_register_style('asap', 'http://fonts.googleapis.com/css?family=Asap:400,700,400italic');
+	wp_register_style( 'dka-style', get_template_directory_uri() . '/css/styles.css', array('font-awesome'/*,'asap'*/) );
+	wp_register_style( 'dka-embed-style', get_template_directory_uri() . '/css/embed-style.css');
 
-  wp_enqueue_style( 'dka-style' );
+	wp_enqueue_style( 'dka-style' );
 
-  //Use Google CDN instead
-  wp_deregister_script('jquery');
-  wp_register_script('jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js', false, '1.11.0', false);
+	//Use Google CDN instead
+	wp_deregister_script('jquery');
+	wp_register_script('jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js', false, '1.11.0', false);
 
   wp_register_script( 'formatter', get_template_directory_uri() . '/js/jquery.formatter.min.js', array(), ' 1.0', true );
 
-  wp_register_script( 'html5shiv', get_template_directory_uri() . '/js/html5shiv.js', array(), ' 1.0', true );
-  wp_register_script( 'respond-js', get_template_directory_uri() . '/js/respond.min.js', array(), ' 1.0', true );
-  wp_register_script( 'jwplayer', get_template_directory_uri() . '/lib/jwplayer/jwplayer.js', array('jquery'), '1', true );
-  wp_register_script( 'flexslider', get_template_directory_uri() . '/js/jquery.flexslider-min.js', array('jquery'), '2.1', true );
+	wp_register_script( 'html5shiv', get_template_directory_uri() . '/js/html5shiv.js', array(), ' 1.0', true );
+	wp_register_script( 'respond-js', get_template_directory_uri() . '/js/respond.min.js', array(), ' 1.0', true );
+	wp_register_script( 'jwplayer', get_template_directory_uri() . '/lib/jwplayer/jwplayer.js', array('jquery'), '1', true );
+	wp_register_script( 'flexslider', get_template_directory_uri() . '/js/jquery.flexslider-min.js', array('jquery'), '2.1', true );
   wp_register_script( 'grid', get_template_directory_uri() . '/js/grid.js', array('jquery'), '2.1', true );
 
-  wp_enqueue_script( 'html5shiv' );
-  wp_enqueue_script( 'respond-js' );
+	wp_enqueue_script('html5shiv' );
+	wp_enqueue_script('respond-js' );
   wp_enqueue_script( 'grid' );
 
-  $bootstrap_scripts = array(
-    'transition', //modal
-    //'alert',
-    'button',
-    //'carousel',
-    'collapse', //search
-    'dropdown', //menu
-    'modal', //used by collection and tags
-    //'scrollspy',
-    //'tab',
-    'tooltip', // Used by the /api page.
-    'popover', // Used by the /api page.
-    //'affix'
-  );
-  foreach($bootstrap_scripts as $bootscript) {
-    wp_register_script( $bootscript, get_template_directory_uri() . '/js/bootstrap/'.$bootscript.'.js', array('jquery'), '3.0.0', true );
-    wp_enqueue_script( $bootscript );
-  }
+	$bootstrap_scripts = array(
+		'transition', //modal
+		//'alert',
+		'button',
+		//'carousel',
+		'collapse', //search
+		'dropdown', //menu
+		'modal', //used by collection and tags
+		//'scrollspy',
+		//'tab',
+		'tooltip', // Used by the /api page.
+		'popover', // Used by the /api page.
+		//'affix'
+	);
+	foreach($bootstrap_scripts as $bootscript) {
+		wp_register_script( $bootscript, get_template_directory_uri() . '/js/bootstrap/'.$bootscript.'.js', array('jquery'), '3.0.0', true );
+		wp_enqueue_script( $bootscript );
+	}
 
   wp_enqueue_script( 'custom-functions', get_template_directory_uri() . '/js/custom-functions.js', array('jquery', 'formatter'), '1', true );
-  wp_localize_script( 'custom-functions', 'dka', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'query_key_freetext' => WPChaosSearch::QUERY_KEY_FREETEXT ) );
+	wp_localize_script( 'custom-functions', 'dka', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'query_key_freetext' => WPChaosSearch::QUERY_KEY_FREETEXT ) );
 
 }
 add_action( 'wp_enqueue_scripts', 'dka_scripts_styles' );
 
 add_action('wp_head',function() {
-  if(is_user_logged_in()) {
-    echo '<style>.navbar-fixed-top {margin-top:32px;} @media screen and ( max-width: 782px ) { .navbar-fixed-top {margin-top:46px;}}</style>';
-  }
+	if(is_user_logged_in()) {
+		echo '<style>.navbar-fixed-top {margin-top:32px;} @media screen and ( max-width: 782px ) { .navbar-fixed-top {margin-top:46px;}}</style>';
+	}
 });
 
 function dka_widgets_init() {
@@ -441,63 +441,105 @@ add_filter( 'wp_title', 'dka_wp_title', 10, 2 );
 
 function dka_wp_head() {
 
-  $metadatas = array();
+	$metadatas = array();
 
-  $metadatas['og:site_name'] = array(
-    'property' => 'og:site_name',
-    'content' => get_bloginfo('title')
-  );
-  $metadatas['og:locale'] = array(
-    'property' => 'og:locale',
-    'content' => get_locale()
-  );
-  $metadatas['og:type'] = array(
-    'property' => 'og:type',
-    'content' => 'website'
-  );
-  $metadatas['twitter:site'] = array(
-    'name' => 'twitter:site',
-    'content' => '@danskkulturarv'
-  );
+	$metadatas['og:site_name'] = array(
+		'property' => 'og:site_name',
+		'content' => get_bloginfo('title')
+	);
+	$metadatas['og:locale'] = array(
+		'property' => 'og:locale',
+		'content' => get_locale()
+	);
+	$metadatas['og:type'] = array(
+		'property' => 'og:type',
+		'content' => 'website'
+	);
+	$metadatas['twitter:site'] = array(
+		'name' => 'twitter:site',
+		'content' => '@danskkulturarv'
+	);
+	$metadatas['twitter:card'] = array(
+		'name' => 'twitter:card',
+		'content' => 'summary'
+	);
 
-  if(is_singular()) {
-    global $post;
-    setup_postdata($post);
 
-    $excerpt = dka_custom_excerpt(20);
+	if(is_singular()) {
+		global $post;
+		setup_postdata($post);
 
-    $metadatas['description'] = array(
-      'name' => 'description',
-      'content' => $excerpt
-    );
-    $metadatas['og:title'] = array(
-      'property' => 'og:title',
-      'content' => get_the_title()
-    );
-    $metadatas['og:description'] = array(
-      'property' => 'og:description',
-      'content' => $excerpt
-    );
+		$excerpt = dka_custom_excerpt(20);
 
-    wp_reset_postdata();
-  }
+		$metadatas['description'] = array(
+			'name' => 'description',
+			'content' => $excerpt
+		);
+		$metadatas['og:title'] = array(
+			'property' => 'og:title',
+			'content' => get_the_title()
+		);
+		$metadatas['og:description'] = array(
+			'property' => 'og:description',
+			'content' => $excerpt
+		);
+		$metadatas['twitter:title'] = array(
+			'name' => 'twitter:title',
+			'content' => get_the_title()
+		);
+		$metadatas['twitter:description'] = array(
+			'name' => 'twitter:description',
+			'content' => $excerpt
+		);
+		$metadatas['twitter:image'] = array(
+			'name' => 'twitter:image',
+			'content' => ''
+		);
+		$metadatas['og:image'] = array(
+			'property' => 'og:image',
+			'content' => ''
+		);
+		$metadatas['twitter:player:stream'] = array(
+			'name' => 'twitter:player:stream',
+			'content' => ''
+		);
+		$metadatas['twitter:player:stream:content_type'] = array(
+			'name' => 'twitter:player:stream:content_type',
+			'content' => ''
+		);
+		$metadatas['og:video:url'] = array(
+			'property' => 'og:video:url',
+			'content' => ''
+		);
+		$metadatas['og:video:secure_url'] = array(
+			'property' => 'og:video:secure_url',
+			'content' => ''
+		);
+		$metadatas['og:video:type'] = array(
+			'property' => 'og:video:type',
+			'content' => ''
+		);
 
-  if(WPChaosClient::get_object()) {
-    $metadatas = array_merge($metadatas,WPChaosClient::get_object()->og_tags);
-  }
 
-  $metadatas = apply_filters('wpchaos-head-meta',$metadatas);
-  ksort($metadatas);
-  //Loop over metadata
-  foreach($metadatas as $metadata) {
-    $fields = array();
-    //Loop over each metadata attribute
-    foreach($metadata as $key => $value) {
-      $fields[] = $key.'="'.esc_attr(strip_tags($value)).'"';
-    }
-    //Insert attributes in meta node and print
-    echo "<meta ".implode(" ", $fields).">\n";
-  }
+		wp_reset_postdata();
+	}
+
+	if(WPChaosClient::get_object()) {
+		$metadatas = array_merge($metadatas,WPChaosClient::get_object()->og_tags);
+	}
+
+	$metadatas = apply_filters('wpchaos-head-meta',$metadatas);
+	ksort($metadatas);
+	//Loop over metadata
+	foreach($metadatas as $metadata) {
+		$fields = array();
+		//Loop over each metadata attribute
+		foreach($metadata as $key => $value) {
+			$fields[] = $key.'="'.esc_attr(strip_tags($value)).'"';
+		}
+		//Insert attributes in meta node and print
+		echo "<meta ".implode(" ", $fields).">\n";
+	}
 
 }
 

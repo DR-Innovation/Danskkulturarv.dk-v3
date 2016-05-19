@@ -65,7 +65,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'creator', function($value, \WPCH
   return $value . WPDKAObject::get_creator_attributes($creators);
 }, 10, 2);
 
-    //object->contributor
+//object->contributor
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'contributor', function($value, \WPCHAOSObject $object) {
   $contributors = $object->metadata(
     array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
@@ -286,21 +286,21 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'caption', function($value, $obje
 
 //object->is_embeddable
 add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'is_embeddable', function($value, $object) {
-  // Pages who are allowed to embed.
-  $pages = array('danskkulturarv.dk', 'dr.dk');
+	// Pages who are allowed to embed.
+	$pages = array('danskkulturarv.dk', 'dr.dk', 'lilleverden.dk', 'lazyspinningsparrow.dk');
 
-  if (isset($_SERVER['HTTP_REFERER'])) {
-      $ar = parse_url($_SERVER['HTTP_REFERER']);
-      // Remove http(s)://www. from urls to compare easier.
-      $ar = preg_replace('/(?:https?:\/\/)?(?:www\.)?(.*)\/?$/i', '$1', $ar);
-      if (isset($ar['host']) && in_array($ar['host'], $pages)) {
-        return true;
-      } else {
-        return false;
-      }
-  }
+	if (isset($_SERVER['HTTP_REFERER'])) {
+	    $ar = parse_url($_SERVER['HTTP_REFERER']);
+	    // Remove http(s)://www. from urls to compare easier.
+	    $ar = preg_replace('/(?:https?:\/\/)?(?:www\.)?(.*)\/?$/i', '$1', $ar);
+	    if (isset($ar['host']) && in_array($ar['host'], $pages)) {
+	    	return true;
+	    } else {
+	    	return false;
+	    }
+	}
 
-  return true; // If HTTP_REFERER is not set, it will return true and let JavaScript handle an iFrame error.
+	return true; // If HTTP_REFERER is not set, it will return true and let JavaScript handle an iFrame error.
 }, 10, 2);
 
 //object->embed
