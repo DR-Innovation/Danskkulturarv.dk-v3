@@ -1,5 +1,7 @@
+.panel .programlisting-search .btn {
+  margin-top: 10px;
+}
 .programlisting-year {
-  margin-bottom: 5px;
   overflow: hidden;
   font-weight: 700;
 }
@@ -18,7 +20,6 @@
   text-shadow: 0 0 0 #000;
 }
 .programlisting-month {
-  margin-bottom: 5px;
   overflow: hidden;
   font-weight: 700;
 }
@@ -37,7 +38,6 @@
   text-shadow: 0 0 0 #000;
 }
 .programlisting-day {
-  margin-bottom: 5px;
   overflow: hidden;
   font-weight: 700;
 }
@@ -90,7 +90,7 @@
   margin-top: 10px;
 }
 .js-free-text-search-content .search-field {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 .js-free-text-search-content .search-field .input-group-addon {
   color: white;
@@ -101,10 +101,7 @@
   font-size: 24px;
 }
 .programlisting-search-results {
-  min-height: 43px;
-  padding-top: 0 !important;
-  margin-top: -15px !important;
-  padding-bottom: 15px !important;
+  padding: 0 15px;
 }
 .programlisting-search-results .hover-info {
   border-color: #ddd;
