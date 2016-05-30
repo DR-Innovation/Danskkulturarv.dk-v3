@@ -5,97 +5,14 @@
     $search_text = WPDKAProgramListings::get_programlisting_search_type() === WPDKAProgramListings::QUERY_KEY_FREETEXT;
 ?>
 
+<!-- START SEARCH BAR -->
+<br />
+<br />
+<br />
 <div class="fluid-container body-container search-container">
-  <div class="dark-search">
-    <div class="search row"><?php dynamic_sidebar('Top'); ?></div>
-    <div class="programlisting-search-results search row">
-      <p class="text-center"><?php _e('or choose a date:', WPDKAProgramListings::DOMAIN); ?></p>
-        <div class="js-date-search-content">
-          <form method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
-            <div class="col-xs-4 col-sm-2 col-sm-offset-2">
-              <div class="programlisting-year">
-                <select name="<?php echo WPDKAProgramListings::QUERY_KEY_YEAR; ?>">
-                  <option value=""><?php _e('Year', WPDKAProgramListings::DOMAIN); ?></option>
-              <?php for ($y = WPDKAProgramListings::START_YEAR; $y <= WPDKAProgramListings::END_YEAR; ++$y): ?>
-                  <option value="<?php echo $y; ?>" <?php selected($year, $y); ?>><?php echo $y; ?></option>
-              <?php endfor; ?>
-                </select>
-              </div>
-            </div>
-            <div class="col-xs-4 col-sm-2">
-              <div class="programlisting-month">
-                <select name="<?php echo WPDKAProgramListings::QUERY_KEY_MONTH; ?>">
-                  <option value=""><?php _e('Month', WPDKAProgramListings::DOMAIN); ?></option>
-              <?php for ($m = 1; $m <= 12; ++$m): ?>
-                  <option value="<?php echo $m; ?>" <?php selected($month, $m); ?>><?php echo ucfirst(__(date('F', mktime(0, 0, 0, $m, 1)))); ?></option>
-              <?php endfor; ?>
-                </select>
-              </div>
-            </div>
-            <div class="col-xs-4 col-sm-2">
-              <div class="programlisting-day">
-                <select name="<?php echo WPDKAProgramListings::QUERY_KEY_DAY; ?>">
-                  <option value=""><?php _e('Day', WPDKAProgramListings::DOMAIN); ?></option>
-              <?php for ($d = 1; $d <= 31; ++$d): ?>
-                  <option value="<?php echo $d; ?>" <?php selected($day, $d); ?>><?php echo $d; ?></option>
-              <?php endfor; ?>
-                </select>
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-2">
-              <button type="submit" class="btn btn-primary btn-block"><?php _e('Search on date', WPDKAProgramListings::DOMAIN); ?></button>
-            </div>
-          </form>
-        </div>
-        <noscript>
-            <form method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
-                <div class="col-xs-4 col-sm-2 col-sm-offset-2">
-                    <div class="programlisting-year">
-                        <select name="<?php echo WPDKAProgramListings::QUERY_KEY_YEAR; ?>">
-                            <option value=""><?php _e('Year', WPDKAProgramListings::DOMAIN); ?></option>
-                    <?php for ($y = WPDKAProgramListings::START_YEAR; $y <= WPDKAProgramListings::END_YEAR; ++$y): ?>
-                            <option value="<?php echo $y; ?>" <?php selected($year, $y); ?>><?php echo $y; ?></option>
-                    <?php endfor; ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-2">
-                    <div class="programlisting-month">
-                        <select name="<?php echo WPDKAProgramListings::QUERY_KEY_MONTH; ?>">
-                            <option value=""><?php _e('Month', WPDKAProgramListings::DOMAIN); ?></option>
-                    <?php for ($m = 1; $m <= 12; ++$m): ?>
-                            <option value="<?php echo $m; ?>" <?php selected($month, $m); ?>><?php echo ucfirst(__(date('F', mktime(0, 0, 0, $m, 1)))); ?></option>
-                    <?php endfor; ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-2">
-                    <div class="programlisting-day">
-                        <select name="<?php echo WPDKAProgramListings::QUERY_KEY_DAY; ?>">
-                            <option value=""><?php _e('Day', WPDKAProgramListings::DOMAIN); ?></option>
-                    <?php for ($d = 1; $d <= 31; ++$d): ?>
-                            <option value="<?php echo $d; ?>" <?php selected($day, $d); ?>><?php echo $d; ?></option>
-                    <?php endfor; ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-2">
-                    <button type="submit" class="btn btn-primary btn-block"><?php _e('Search on date', WPDKAProgramListings::DOMAIN); ?></button>
-                </div>
-            </form>
-            <form class="free-text-search>" method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
-                <div class="col-xs-12 col-lg-6 col-sm-9 col-lg-offset-3 col-md-offset-0">
-                    <input type="text" class="programlistings-search-text" name="<?php echo WPDKAProgramListings::QUERY_KEY_FREETEXT; ?>" class="form-control" placeholder="<?php _e('Search in program listings', WPDKAProgramListings::DOMAIN); ?>" value="<?php echo WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim'); ?>" />
-                </div>
-                <div class="col-xs-12 col-lg-2 col-sm-3">
-                    <button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit"><?php _e('Search on date', WPDKAProgramListings::DOMAIN); ?></button>
-                </div>
-            </form>
-        </noscript>
-    </div>
-    <!-- END SEARCH BAR -->
-  </div>
+<?php dynamic_sidebar('Top'); ?>
 </div>
+<!-- END SEARCH BAR -->
 
 <!-- Search results -->
 <div class="container">
