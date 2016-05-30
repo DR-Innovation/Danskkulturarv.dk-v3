@@ -411,8 +411,69 @@ class WPDKAProgramListings
     $string  = str_replace($match, $replace, $string);
     return $string;
   }
+
   /**
-   * Generate data and include template for search results
+   * Builds ElasticSearch filter for date field.
+   * "From date" is incluseve and "to date" is exclusive.
+   * 
+   * @returns array
+   */
+  public function build_date_filter($year, $month, $day)
+  {
+    if (!empty($month) && !empty($month) && !empty($day)){
+      $from_year = $year;
+      $from_month = $month;
+      $from_day = $day;
+      
+      $from_date_str = sprintf("%s-%s-%s", $from_year,
+        str_pad($from_month, 2, '0', STR_PAD_LEFT),
+        str_pad($from_day, 2, '0', STR_PAD_LEFT));
+      $next_day_str = date('Y-m-d', strtotime('+1 day',
+          strtotime($from_date_str)));
+      list($to_year, $to_month, $to_day) = array_map('intval',
+          explode('-', $next_day_str));
+    } else if (empty($month) && empty($day)){
+      $from_year = $year;
+      $from_month = 1;
+      $from_day = 1;
+
+      $to_year = $year + 1;
+      $to_month = 1;
+      $to_day = 1;
+    } else if (!empty($month) && empty($day)) {
+      $from_year = $year;
+      $from_month = $month;
+      $from_day = 1;
+
+      $to_year = $year;
+      $to_day = 1;
+      if ($month === 12){
+        $to_year = $year + 1;
+        $to_month = 1;
+      } else {
+        $to_month = $month + 1;
+      } 
+    } else {
+      return array();
+    }
+    $filter = array();
+    $gte = sprintf("%s-%s-%s", $from_year,
+        str_pad($from_month, 2, '0', STR_PAD_LEFT),
+        str_pad($from_day, 2, '0', STR_PAD_LEFT));
+    $lt = sprintf("%s-%s-%s", $to_year,
+        str_pad($to_month, 2, '0', STR_PAD_LEFT),
+        str_pad($to_day, 2, '0', STR_PAD_LEFT));
+    $filter['range']['date']['format'] = 'yyy-MM-dd';
+    $filter['range']['date']['gte'] = $gte;
+    $filter['range']['date']['lt'] = $lt;
+    return $filter;
+  }
+
+
+  /**
+   * Generate data and include template for search results.
+   * There are three search modes: text only, date only, text with date filter.
+   * 
    * @param  array $args
    * @return string The markup generated.
    */
@@ -424,12 +485,19 @@ class WPDKAProgramListings
     $day         = $search_vars[self::QUERY_KEY_DAY];
     $page        = $search_vars[self::QUERY_KEY_PAGE];
     $text        = self::get_programlisting_var(self::QUERY_KEY_FREETEXT, 'trim');
-    if (empty($year) || empty($month) || empty($day)) {
-      if (empty($text)) {
+    if (empty($text)) {
+      if (empty($year) || empty($month) || empty($day)) {
+        return;
+      }
+    } else {
+      if (empty($year) && !empty($month)) {
+        return;
+      }
+      if (empty($month) && !empty($day)) {
         return;
       }
     }
-    // Test results
+
     require(plugin_dir_path(__FILE__) . '/elasticsearch/autoload.php');
     $params                       = array();
     $params['hosts']              = array(
@@ -444,21 +512,33 @@ class WPDKAProgramListings
       $from = (intval($page) - 1) * self::$page_size;
       $searchParams['body']['from'] = $from;
     }
-
-    if (empty($text)) {
-      $searchParams['body']['query']['match']['date'] = sprintf("%s-%s-%s", $year, $month, $day);
-      $searchParams['body']['sort']['type']['order']  = 'DESC';
+    if (empty ($text)) {
+      $searchParams['body']['query']['match']['date'] = sprintf("%s-%s-%s",
+          $year, $month, $day);
+      $searchParams['body']['sort']['type']['order'] = 'DESC';
     } else {
-      $text                                                              = self::escapeSearchValue($text);
-      $searchParams['body']['query']['query_string']['default_field']    = 'allText';
-      $searchParams['body']['query']['query_string']['query']            = $text;
-      $searchParams['body']['query']['query_string']['default_operator'] = 'AND';
-      $searchParams['body']['sort']['date']['order']                     = 'ASC';
+      $text = self::escapeSearchValue($text);
+      if (empty ($year) && empty ($month) && empty ($day)) {
+        $searchParams['body']['query']['query_string']['default_field'] = 'allText';
+        $searchParams['body']['query']['query_string']['query'] = $text;
+        $searchParams['body']['query']['query_string']['default_operator'] = 'AND';
+        $searchParams['body']['sort']['date']['order'] = 'ASC';
+      } else {
+        $filter = self::build_date_filter($year, $month, $day);
+        if (! $filter) {
+          return;
+        }
+        $searchParams['body']['query']['query_string']['default_field'] = 'allText';
+        $searchParams['body']['query']['query_string']['query'] = $text;
+        $searchParams['body']['query']['query_string']['default_operator'] = 'AND';
+        $searchParams['body']['sort']['date']['order'] = 'ASC';
+        $searchParams['body']['filter'] = $filter;
+      }
     }
     try {
       $queryResponse = $client->search($searchParams);
-    }
-    catch (\Exception $e) {
+    } catch (Exception $e) {
+      #error_log("generate_programlisting_results() Exception: $e");
       return;
     }
 
@@ -475,6 +555,7 @@ class WPDKAProgramListings
     self::$search_results = $ret_hits;
     self::$search_total = $total;
   }
+
   public static function get_programlisting_search_type()
   {
     $search_vars = self::get_programlisting_vars();

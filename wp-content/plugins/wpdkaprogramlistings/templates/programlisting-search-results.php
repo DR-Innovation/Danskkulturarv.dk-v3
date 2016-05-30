@@ -9,10 +9,31 @@
   <div class="dark-search">
     <div class="search row"><?php dynamic_sidebar('Top'); ?></div>
     <div class="programlisting-search-results search row">
-      <p class="text-center"><?php _e('or choose a date:', WPDKAProgramListings::DOMAIN); ?></p>
-        <div class="js-date-search-content">
-          <form method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
-            <div class="col-xs-4 col-sm-2 col-sm-offset-2">
+
+    <form method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
+
+    <div class="js-free-text-search-content schedule-free-text-search row">
+     <div class="col-xs-8 col-sm-6 col-sm-offset-2 search-field">
+      <div class="input-group">
+          <input type="text"
+           name="<?=WPDKAProgramListings::QUERY_KEY_FREETEXT?>" 
+           class="form-control programlistings-search-text" 
+           placeholder="<?php _e('Search program schedule', WPDKAProgramListings::DOMAIN) ?>"
+           value="<?=WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim')?>" 
+           data-original-title="" title="" />
+         <div class="input-group-addon hover-info" data-html="true" 
+           data-container="body" data-toggle="popover" 
+           data-placement="bottom" data-trigger="hover" 
+           data-content="<?=WPDKAProgramListings::print_search_info_text() ?>">
+           <i class="icon icon-info-sign"></i>
+         </div>
+      </div>
+      </div>
+      <div class="col-xs-1 col-sm-1">&nbsp;</div>
+    </div>
+    <br />
+    <div class="js-date-search-content row">
+      <div class="col-xs-4 col-sm-2 col-sm-offset-2">
               <div class="programlisting-year">
                 <select name="<?php echo WPDKAProgramListings::QUERY_KEY_YEAR; ?>">
                   <option value=""><?php _e('Year', WPDKAProgramListings::DOMAIN); ?></option>
@@ -45,6 +66,7 @@
             <div class="col-xs-12 col-sm-2">
               <button type="submit" class="btn btn-primary btn-block"><?php _e('Search on date', WPDKAProgramListings::DOMAIN); ?></button>
             </div>
+          </div>
           </form>
         </div>
         <noscript>
