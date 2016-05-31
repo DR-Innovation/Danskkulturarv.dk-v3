@@ -55,7 +55,7 @@
                           </div>
                           <div class="col-xs-8 col-sm-4 col-lg-5 right type"><?php echo $r['_source']['type'] == 'Program' ? 'Programoversigt' : 'Rettelse til programoversigt'; ?></div>
                           <div class="col-xs-12 col-sm-6 col-lg-5 right">
-                            <?php echo do_shortcode('[no-pdfjs-viewer url='.$r['_source']['url'].' viewer_width=600px viewer_height=700px fullscreen=true download=true print=true openfile=false]'); ?>
+                            <?php echo do_shortcode('[embed-pdf-viewer url='.$r['_source']['url'].' viewer_width=600px viewer_height=700px fullscreen=true download=true print=true openfile=false]'); ?>
                           </div>
                       </li>
                     <?php endforeach; ?>

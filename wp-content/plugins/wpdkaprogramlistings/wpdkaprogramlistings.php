@@ -27,7 +27,7 @@ class WPDKAProgramListings
   const QUERY_DEFAULT_POST_SEPERATOR = '/';
   const QUERY_PREFIX_CHAR = '/';
 
-  const DEFAULT_PAGE_COUNT = 50;
+  const DEFAULT_PAGE_COUNT = 10;
 
   public static $search_results;
   public static $search_total;
@@ -415,7 +415,7 @@ class WPDKAProgramListings
   /**
    * Builds ElasticSearch filter for date field.
    * "From date" is incluseve and "to date" is exclusive.
-   * 
+   *
    * @returns array
    */
   public function build_date_filter($year, $month, $day)
@@ -424,7 +424,7 @@ class WPDKAProgramListings
       $from_year = $year;
       $from_month = $month;
       $from_day = $day;
-      
+
       $from_date_str = sprintf("%s-%s-%s", $from_year,
         str_pad($from_month, 2, '0', STR_PAD_LEFT),
         str_pad($from_day, 2, '0', STR_PAD_LEFT));
@@ -452,7 +452,7 @@ class WPDKAProgramListings
         $to_month = 1;
       } else {
         $to_month = $month + 1;
-      } 
+      }
     } else {
       return array();
     }
@@ -473,7 +473,7 @@ class WPDKAProgramListings
   /**
    * Generate data and include template for search results.
    * There are three search modes: text only, date only, text with date filter.
-   * 
+   *
    * @param  array $args
    * @return string The markup generated.
    */

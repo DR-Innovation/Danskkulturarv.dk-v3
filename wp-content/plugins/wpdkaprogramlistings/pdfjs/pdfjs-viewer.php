@@ -3,6 +3,7 @@
 //tell wordpress to register the pdfjs-viewer shortcode
 add_shortcode('pdfjs-viewer', 'pdfjs_handler');
 add_shortcode('no-pdfjs-viewer', 'pdf_handler');
+add_shortcode('embed-pdf-viewer', 'embed_pdf_handler');
 
 function pdfjs_handler($args)
 {
@@ -16,6 +17,7 @@ function pdfjs_handler($args)
     'print' => 'true',
     'openfile' => 'false',
     'iframe' => 'true',
+    'embed' => 'false',
   ), $args);
   //run function that actually does the work of the plugin
   $pdfjs_output = pdfjs_function($args);
@@ -35,6 +37,7 @@ function pdf_handler($args)
     'print' => 'true',
     'openfile' => 'false',
     'iframe' => 'false',
+    'embed' => 'false',
   ), $args);
   //run function that actually does the work of the plugin
   $pdfjs_output = pdfjs_function($args);
@@ -42,6 +45,25 @@ function pdf_handler($args)
   return $pdfjs_output;
 }
 
+function embed_pdf_handler($args)
+{
+    //set defaults
+  $args = shortcode_atts(array(
+    'url' => 'bad-url.pdf',
+    'viewer_height' => '1360px',
+    'viewer_width' => '100%',
+    'fullscreen' => 'false',
+    'download' => 'true',
+    'print' => 'true',
+    'openfile' => 'false',
+    'iframe' => 'false',
+    'embed' => 'true',
+  ), $args);
+  //run function that actually does the work of the plugin
+  $pdfjs_output = pdfjs_function($args);
+  //send back text to replace shortcode in post
+  return $pdfjs_output;
+}
 
 function pdfjs_function($incomingfromhandler)
 {
@@ -59,6 +81,7 @@ function pdfjs_function($incomingfromhandler)
     $print = $incomingfromhandler['print'];
     $openfile = $incomingfromhandler['openfile'];
     $iframe = $incomingfromhandler['iframe'];
+    $embed = $incomingfromhandler['embed'];
 
     if ($download != 'true') {
         $download = 'false';
@@ -122,11 +145,16 @@ function pdfjs_function($incomingfromhandler)
          </div>';
     }
 
+    $embed_code = '';
+    if ($embed == 'true') {
+        $embed_code = '<embed src="'.$file_name.'" class="embed-pdf" type="application/pdf">';
+    }
+
     $iframe_code = '';
     if ($iframe == 'true') {
         $iframe_code = '<iframe width="'.$viewer_width.';" height="'.$viewer_height.';" src="'.$final_url.'"></iframe> ';
     }
 
 
-    return $buttons_start.$downloads.$buttons_end.$postcard_link.$poster_link.$iframe_code;
+    return $embed_code.$buttons_start.$downloads.$buttons_end.$postcard_link.$poster_link.$iframe_code;
 }
