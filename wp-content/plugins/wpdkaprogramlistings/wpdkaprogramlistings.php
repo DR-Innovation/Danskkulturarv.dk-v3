@@ -27,7 +27,7 @@ class WPDKAProgramListings
   const QUERY_DEFAULT_POST_SEPERATOR = '/';
   const QUERY_PREFIX_CHAR = '/';
 
-  const DEFAULT_PAGE_COUNT = 10;
+  const DEFAULT_PAGE_COUNT = 50;
 
   public static $search_results;
   public static $search_total;

@@ -4798,6 +4798,7 @@ footer .copyright a {
   text-align: center;
   top: 50%;
   transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
 }
 .column-item__img {
   width: 100%;
@@ -5290,8 +5291,8 @@ a.usertag {
 .social.big-screen .social-share {
   display: block;
   padding: 5px 15px;
-  width: auto;
-  margin: 0;
+  width: auto !important;
+  margin: 0 !important;
   line-height: 1.4;
 }
 .social-share {

@@ -20,16 +20,17 @@
     <div class="row single-pdf">
       <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
         <h1>Sendeplan</h1>
-        <?php echo $larm_notice; ?>
-        <br /><br />
-        <?php
-          $this_page = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-          dka_social_share(array('link' => $this_page)); ?>
-        <br />
         <?php
           $pdf_slug = htmlspecialchars($_GET["pdf"]);
           echo do_shortcode('[pdfjs-viewer download=true social=true url=http://files.danskkulturarv.dk/'.$pdf_slug.'.pdf]');
         ?>
+        <br />
+        <br />
+        <?php
+          $this_page = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+          dka_social_share(array('link' => $this_page)); ?>
+        <br />
+        <?php echo $larm_notice; ?>
       </div>
     </div>
   <?php else: ?>
@@ -45,16 +46,22 @@
       <?php else: ?>
         <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
             <?php if (isset($results)): ?>
-                <p class="results-count">
-                    <?php printf(__('Showing %d', WPDKAProgramListings::DOMAIN), count($results)); ?>
-                    <?php printf(_n('out of %d results.', 'out of %d results.', $results_total, WPDKAProgramListings::DOMAIN), $results_total); ?>
-                    <?php if ($results_total >= 500): ?>
-                      <?php printf(_e('Try being more precise. Press the "i" button for hints.', WPDKAProgramListings::DOMAIN), $results_total); ?>
-                    <?php endif; ?>
-                </p>
-                <p class="programlisting-instructions">
-                  <?php echo $larm_notice; ?>
-                </p>
+              <div class="row">
+                <div class="col-md-5 col-md-push-7">
+                  <p class="programlisting-instructions">
+                    <small><?php echo $larm_notice; ?></small>
+                  </p>
+                </div>
+                <div class="col-md-7 col-md-pull-5">
+                  <p class="results-count">
+                      <?php printf(__('Showing %d', WPDKAProgramListings::DOMAIN), count($results)); ?>
+                      <?php printf(_n('out of %d results.', 'out of %d results.', $results_total, WPDKAProgramListings::DOMAIN), $results_total); ?>
+                      <?php if ($results_total >= 500): ?>
+                        <?php printf(_e('Try being more precise. Press the "i" button for hints.', WPDKAProgramListings::DOMAIN), $results_total); ?>
+                      <?php endif; ?>
+                  </p>
+                </div>
+              </div>
                 <?php if (!empty($results)): ?>
                     <ul class="list-unstyled search-overview">
                         <li class="row">
