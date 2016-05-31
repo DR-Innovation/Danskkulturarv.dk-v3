@@ -29,7 +29,7 @@
       <div class="col-xs-4 col-sm-2 col-sm-offset-2">
         <div class="programlisting-year">
           <select name="<?= WPDKAProgramListings::QUERY_KEY_YEAR ?>">
-            <option value=""><?php _e('Year', WPDKAProgramListings::DOMAIN); ?></option>
+            <option value=""><?php _e('All years', WPDKAProgramListings::DOMAIN); ?></option>
         <?php for ($y = WPDKAProgramListings::START_YEAR; $y <= WPDKAProgramListings::END_YEAR; ++$y): ?>
             <option value="<?php echo $y; ?>" <?php selected($year, $y); ?>><?php echo $y; ?></option>
         <?php endfor; ?>
@@ -39,7 +39,7 @@
       <div class="col-xs-4 col-sm-2">
         <div class="programlisting-month">
           <select name="<?= WPDKAProgramListings::QUERY_KEY_MONTH ?>">
-            <option value=""><?php _e('Month', WPDKAProgramListings::DOMAIN); ?></option>
+            <option value=""><?php _e('All months', WPDKAProgramListings::DOMAIN); ?></option>
         <?php for ($m = 1; $m <= 12; ++$m): ?>
             <option value="<?php echo $m; ?>" <?php selected($month, $m); ?>><?php echo ucfirst(__(date('F', mktime(0, 0, 0, $m, 1)))); ?></option>
         <?php endfor; ?>
@@ -49,7 +49,7 @@
       <div class="col-xs-4 col-sm-2">
         <div class="programlisting-day">
           <select name="<?= WPDKAProgramListings::QUERY_KEY_DAY ?>">
-            <option value=""><?php _e('Day', WPDKAProgramListings::DOMAIN); ?></option>
+            <option value=""><?php _e('All days', WPDKAProgramListings::DOMAIN); ?></option>
         <?php for ($d = 1; $d <= 31; ++$d): ?>
             <option value="<?php echo $d; ?>" <?php selected($day, $d); ?>><?php echo $d; ?></option>
         <?php endfor; ?>
