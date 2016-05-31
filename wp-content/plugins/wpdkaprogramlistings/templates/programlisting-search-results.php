@@ -3,6 +3,7 @@
     $results = WPDKAProgramListings::get_programlisting_results();
     $results_total = WPDKAProgramListings::get_programlisting_total();
     $search_text = WPDKAProgramListings::get_programlisting_search_type() === WPDKAProgramListings::QUERY_KEY_FREETEXT;
+    $larm_notice = 'Bemærk at det er sendeplaner fra 1925-1983, der er tilgængelige for søgning. Ønsker du en mere avanceret søgning kan du bruge <a href="http://www.larm.fm">larm.fm</a>'
 ?>
 
 <div class="fluid-container body-container search-container">
@@ -20,7 +21,7 @@
         <p class="text-left">
           <?php _e('Search for a word or select a date to find a program schedule.', WPDKAProgramListings::DOMAIN); ?>
           <br />
-          Bemærk at det er sendeplaner fra 1925-1983, der er tilgængelige for søgning. Ønsker du en mere avanceret søgning kan du bruge <a href="http://www.larm.fm">larm.fm</a>
+          <?php echo $larm_notice; ?>
         </p>
       </div>
     <?php else: ?>
@@ -34,32 +35,26 @@
                   <?php endif; ?>
               </p>
               <p class="programlisting-instructions">
-                Bemærk at det er sendeplaner fra 1925-1983, der er tilgængelige for søgning. Ønsker du en mere avanceret søgning kan du bruge <a href="http://www.larm.fm">larm.fm</a>
+                <?php echo $larm_notice; ?>
               </p>
               <?php if (!empty($results)): ?>
                   <ul class="list-unstyled search-overview">
                       <li class="row">
                           <div class="col-xs-8 col-sm-4 col-lg-4"><strong><?php _e('Date', WPDKAProgramListings::DOMAIN); ?></strong>
-                            <?php _e('- click to open preview', WPDKAProgramListings::DOMAIN); ?>
                           </div>
                           <div class="col-xs-4 col-sm-2 col-lg-2 right"><strong><?php _e('Type'); ?></strong></div>
                       </li>
                     <?php foreach ($results as $r): ?>
                       <li class="row">
-                          <div class="col-xs-4 col-sm-2 col-lg-1">
-                              <form method="GET" action="<?php echo get_permalink(get_option('wpdkaprogramlistings-page')); ?>">
-                                  <?php
-                                      $date = date(WPDKAProgramListings::DATE_FORMAT, strtotime($r['_source']['date']));
-                                      $date_explode = explode('-', $date);
-                                  ?>
-                                  <input type="hidden" value="<?php echo $date_explode[2]; ?>" name="<?php echo WPDKAProgramListings::QUERY_KEY_YEAR; ?>" />
-                                  <input type="hidden" value="<?php echo $date_explode[1]; ?>" name="<?php echo WPDKAProgramListings::QUERY_KEY_MONTH; ?>" />
-                                  <input type="hidden" value="<?php echo $date_explode[0]; ?>" name="<?php echo WPDKAProgramListings::QUERY_KEY_DAY; ?>" />
-                                  <button type="submit" class="btn btn-link"><?php echo str_replace('1056', '1956', $date); ?></button>
-                              </form>
+                          <div class="col-xs-4 col-sm-2 col-lg-2 type">
+                              <?php
+                                  $date = date(WPDKAProgramListings::DATE_FORMAT, strtotime($r['_source']['date']));
+                                  $date_explode = explode('-', $date);
+                                  echo str_replace('1056', '1956', $date);
+                              ?>
                           </div>
                           <div class="col-xs-8 col-sm-4 col-lg-5 right type"><?php echo $r['_source']['type'] == 'Program' ? 'Programoversigt' : 'Rettelse til programoversigt'; ?></div>
-                          <div class="col-xs-12 col-sm-6 col-lg-6 right">
+                          <div class="col-xs-12 col-sm-6 col-lg-5 right">
                             <?php echo do_shortcode('[no-pdfjs-viewer url='.$r['_source']['url'].' viewer_width=600px viewer_height=700px fullscreen=true download=true print=true openfile=false]'); ?>
                           </div>
                       </li>
