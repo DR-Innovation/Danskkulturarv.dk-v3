@@ -23,6 +23,9 @@
         <?php echo $larm_notice; ?>
         <br /><br />
         <?php
+          $this_page = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+          dka_social_share(array('link' => $this_page)); ?>
+        <?php
           $pdf_slug = htmlspecialchars($_GET["pdf"]);
           echo do_shortcode('[pdfjs-viewer download=true social=true url=http://files.danskkulturarv.dk/'.$pdf_slug.'.pdf]');
         ?>
