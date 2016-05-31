@@ -23,7 +23,7 @@
         <div class="a4-wrap">
           <?php
             $pdf_slug = htmlspecialchars($_GET["pdf"]);
-            echo '<embed src="http://files.danskkulturarv.dk/'.$pdf_slug.'.pdf" type="application/pdf">';
+            echo '<iframe width="100%" height="100%" src="'.site_url().'/wp-content/plugins/wpdkaprogramlistings/pdfjs/web/viewer.php?file=http://files.danskkulturarv.dk/'.$pdf_slug.'.pdf"></iframe>';
           ?>
         </div>
       </div>
@@ -69,7 +69,7 @@
                             </div>
                             <div class="col-xs-8 col-sm-4 col-lg-5 right type"><?php echo $r['_source']['type'] == 'Program' ? 'Programoversigt' : 'Rettelse til programoversigt'; ?></div>
                             <div class="col-xs-12 col-sm-6 col-lg-5 right">
-                              <?php echo do_shortcode('[pdf-buttons url='.$r['_source']['url'].']'); ?>
+                              <?php echo do_shortcode('[pdfbuttons-viewer url='.$r['_source']['url'].']'); ?>
                             </div>
                         </li>
                       <?php endforeach; ?>

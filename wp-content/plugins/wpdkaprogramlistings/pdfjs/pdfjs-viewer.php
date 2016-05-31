@@ -2,22 +2,21 @@
 
 //tell wordpress to register the pdfjs-viewer shortcode
 add_shortcode('pdfjs-viewer', 'pdfjs_handler');
-add_shortcode('pdf-buttons', 'pdf_handler');
-add_shortcode('embed-pdf-viewer', 'embed_pdf_handler');
+add_shortcode('pdfbuttons-viewer', 'pdfbuttons_handler');
+add_shortcode('pdfembed-viewer', 'pdfembed_handler');
 
 function pdfjs_handler($args)
 {
     //set defaults
   $args = shortcode_atts(array(
     'url' => 'bad-url.pdf',
-    'viewer_height' => '1360px',
-    'viewer_width' => '100%',
     'fullscreen' => 'false',
-    'download' => 'true',
-    'print' => 'true',
+    'download' => 'false',
+    'print' => 'false',
     'openfile' => 'false',
     'iframe' => 'true',
     'embed' => 'false',
+    'share' => 'false'
   ), $args);
   //run function that actually does the work of the plugin
   $pdfjs_output = pdfjs_function($args);
@@ -25,19 +24,18 @@ function pdfjs_handler($args)
   return $pdfjs_output;
 }
 
-function pdf_handler($args)
+function pdfbuttons_handler($args)
 {
     //set defaults
   $args = shortcode_atts(array(
     'url' => 'bad-url.pdf',
-    'viewer_height' => '1360px',
-    'viewer_width' => '100%',
     'fullscreen' => 'false',
     'download' => 'true',
     'print' => 'true',
     'openfile' => 'false',
     'iframe' => 'false',
     'embed' => 'false',
+    'share' => 'true'
   ), $args);
   //run function that actually does the work of the plugin
   $pdfjs_output = pdfjs_function($args);
@@ -45,19 +43,18 @@ function pdf_handler($args)
   return $pdfjs_output;
 }
 
-function embed_pdf_handler($args)
+function pdfembed_handler($args)
 {
     //set defaults
   $args = shortcode_atts(array(
     'url' => 'bad-url.pdf',
-    'viewer_height' => '1360px',
-    'viewer_width' => '100%',
     'fullscreen' => 'false',
-    'download' => 'true',
+    'download' => 'false',
     'print' => 'true',
     'openfile' => 'false',
     'iframe' => 'false',
     'embed' => 'true',
+    'share' => 'false'
   ), $args);
   //run function that actually does the work of the plugin
   $pdfjs_output = pdfjs_function($args);
@@ -74,14 +71,13 @@ function pdfjs_function($incomingfromhandler)
     $viewer_base_url = plugins_url('web/viewer.php', __FILE__);
 
     $file_name = $incomingfromhandler['url'];
-    $viewer_height = $incomingfromhandler['viewer_height'];
-    $viewer_width = $incomingfromhandler['viewer_width'];
     $fullscreen = $incomingfromhandler['fullscreen'];
     $download = $incomingfromhandler['download'];
     $print = $incomingfromhandler['print'];
     $openfile = $incomingfromhandler['openfile'];
     $iframe = $incomingfromhandler['iframe'];
     $embed = $incomingfromhandler['embed'];
+    $share = $incomingfromhandler['share'];
 
     if ($download != 'true') {
         $download = 'false';
@@ -130,11 +126,14 @@ function pdfjs_function($incomingfromhandler)
 
     }
 
-    $share_page = '<a '.$button_class.' href="'.$root_url.$whitepage_slug.'?pdf='.$shorter_name.'">Preview + del</a>';
+    $share_page = '';
+    if ($share == 'true') {
+      $share_page = '<a '.$button_class.' href="'.$root_url.$whitepage_slug.'?pdf='.$shorter_name.'">Preview + del</a>';
+    }
 
     $downloads = '';
     if ($download == 'true') {
-        $downloads = $dropdown_start.__('Download', wpdkaprogramlistings::DOMAIN).$dropdown_end.'<ul class="dropdown-menu pull-right">
+        $downloads = $buttons_start.$dropdown_start.__('Download', wpdkaprogramlistings::DOMAIN).$dropdown_end.'<ul class="dropdown-menu pull-right">
            <li><a href="'.$file_name.' "target="_blank">'.__('Document (PDF)', wpdkaprogramlistings::DOMAIN).'</a></li>
            <li><a href="#" data-toggle="modal" data-target="#pdf'.$shorter_name.'">'.__('Convert to image (JPG)', wpdkaprogramlistings::DOMAIN).'</a></li>
          </ul>
@@ -150,7 +149,7 @@ function pdfjs_function($incomingfromhandler)
                 </div>
              </div>
            </div>
-         </div>';
+         </div>'.$buttons_end;
     }
 
     $embed_code = '';
@@ -160,8 +159,8 @@ function pdfjs_function($incomingfromhandler)
 
     $iframe_code = '';
     if ($iframe == 'true') {
-        $iframe_code = '<iframe width="'.$viewer_width.';" height="'.$viewer_height.';" src="'.$final_url.'"></iframe> ';
+        $iframe_code = '<iframe src="'.$final_url.'"></iframe> ';
     }
 
-    return $embed_code.$share_page.$buttons_start.$downloads.$buttons_end.$postcard_link.$poster_link.$iframe_code;
+    return $embed_code.$share_page.$downloads.$postcard_link.$poster_link.$iframe_code;
 }
