@@ -1695,3 +1695,21 @@ html[dir='ltr'] #toolbarContainer .innerCenter{
 #print {
   display: block !important;
 }
+
+
+/*No chrome*/
+.toolbar {
+  display: none;
+}
+
+#viewerContainer {
+  top: 5px;
+}
+
+body {
+  background: none;
+}
+
+.page {
+  border-image: none;
+}

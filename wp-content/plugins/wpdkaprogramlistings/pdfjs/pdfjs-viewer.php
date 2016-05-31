@@ -159,7 +159,7 @@ function pdfjs_function($incomingfromhandler)
 
     $iframe_code = '';
     if ($iframe == 'true') {
-        $iframe_code = '<iframe src="'.$final_url.'"></iframe> ';
+        $iframe_code = '<div class="a4-wrap"><iframe class="pdf-viewer" src="'.$final_url.'"></iframe></div>';
     }
 
     return $embed_code.$share_page.$downloads.$postcard_link.$poster_link.$iframe_code;

@@ -19,13 +19,13 @@
   <?php if (isset($_GET["pdf"])): ?>
     <div class="row single-pdf">
       <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <h1>Sendeplan</h1>
         <?php echo $larm_notice; ?>
-        <div class="a4-wrap">
-          <?php
-            $pdf_slug = htmlspecialchars($_GET["pdf"]);
-            echo '<iframe width="100%" height="100%" src="'.site_url().'/wp-content/plugins/wpdkaprogramlistings/pdfjs/web/viewer.php?file=http://files.danskkulturarv.dk/'.$pdf_slug.'.pdf"></iframe>';
-          ?>
-        </div>
+        <br /><br />
+        <?php
+          $pdf_slug = htmlspecialchars($_GET["pdf"]);
+          echo do_shortcode('[pdfjs-viewer download=true social=true url=http://files.danskkulturarv.dk/'.$pdf_slug.'.pdf]');
+        ?>
       </div>
     </div>
   <?php else: ?>
