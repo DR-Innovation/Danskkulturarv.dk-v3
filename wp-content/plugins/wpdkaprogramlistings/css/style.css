@@ -89,9 +89,6 @@
 .programlisting-search .widget-promo-image {
   margin-top: 10px;
 }
-.js-free-text-search-content .search-field {
-  margin-bottom: 15px;
-}
 .js-free-text-search-content .search-field .input-group-addon {
   color: white;
   background-color: #646464;
@@ -195,6 +192,9 @@
   padding-top: 6px;
   padding-bottom: 6px;
 }
+.programlisting-results .search-overview > li .btn.margin-right {
+  margin-right: 10px;
+}
 .programlisting-results .search-overview .btn-link {
   color: inherit;
 }
@@ -211,7 +211,22 @@
   letter-spacing: -0.01em;
   margin-bottom: 20px;
 }
+.js-date-search-content > div {
+  margin-top: 15px;
+}
 .embed-pdf {
   width: 100%;
   height: 400px;
+}
+.a4-wrap {
+  height: 0;
+  padding-bottom: 155%;
+  margin-top: 30px;
+}
+.single-pdf {
+  margin-top: 3rem;
+}
+.single-pdf embed {
+  width: 100%;
+  height: 100%;
 }

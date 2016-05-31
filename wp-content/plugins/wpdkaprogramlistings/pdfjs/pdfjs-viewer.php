@@ -2,7 +2,7 @@
 
 //tell wordpress to register the pdfjs-viewer shortcode
 add_shortcode('pdfjs-viewer', 'pdfjs_handler');
-add_shortcode('no-pdfjs-viewer', 'pdf_handler');
+add_shortcode('pdf-buttons', 'pdf_handler');
 add_shortcode('embed-pdf-viewer', 'embed_pdf_handler');
 
 function pdfjs_handler($args)
@@ -101,6 +101,12 @@ function pdfjs_function($incomingfromhandler)
     }
 
     $final_url = $viewer_base_url.'?file='.$file_name.'&download='.$download.'&print='.$print.'&openfile='.$openfile;
+    $root_url = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
+    $page_url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    $parsed = parse_url($page_url);
+    $path = $parsed['path'];
+    $path_parts = explode('/', $path);
+    $whitepage_slug = $path_parts[1];
     $short_name = preg_replace('/http\:\/\/files\.danskkulturarv\.dk\//', '', $file_name);
     $shorter_name = preg_replace('/\.pdf/', '', $short_name);
     $image_url = $plugin_url.'image-print/pdftopng.php?pdf='.$shorter_name;
@@ -108,7 +114,7 @@ function pdfjs_function($incomingfromhandler)
     $poster_url = $plugin_url.'image-print/?type=poster&pdf='.$shorter_name;
     $buttons_start = '<div class="btn-group" role="group" aria-label="Do more">';
     $buttons_end = '</div> ';
-    $button_class = 'type="button" class="btn btn-default"';
+    $button_class = 'type="button" class="btn btn-default margin-right"';
     $button_ok_class = 'type="button" class="btn btn-default modal-ok"';
     $dropdown_start = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
     $dropdown_end = ' <span class="caret"></span></button>';
@@ -123,6 +129,8 @@ function pdfjs_function($incomingfromhandler)
         $poster_link = '<a '.$button_class.' target="_blank" href="'.$poster_url.'">'.__('Create poster', wpdkaprogramlistings::DOMAIN).'</a>';
 
     }
+
+    $share_page = '<a '.$button_class.' href="'.$root_url.$whitepage_slug.'?pdf='.$shorter_name.'">Preview + del</a>';
 
     $downloads = '';
     if ($download == 'true') {
@@ -155,6 +163,5 @@ function pdfjs_function($incomingfromhandler)
         $iframe_code = '<iframe width="'.$viewer_width.';" height="'.$viewer_height.';" src="'.$final_url.'"></iframe> ';
     }
 
-
-    return $embed_code.$buttons_start.$downloads.$buttons_end.$postcard_link.$poster_link.$iframe_code;
+    return $embed_code.$share_page.$buttons_start.$downloads.$buttons_end.$postcard_link.$poster_link.$iframe_code;
 }
