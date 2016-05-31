@@ -220,11 +220,15 @@
   margin-top: 3rem;
 }
 .single-pdf .a4-wrap {
-  margin-top: 30px;
+  margin-top: 15px;
 }
 .single-pdf .pdf-viewer {
   width: 100%;
   height: 100%;
+}
+.single-pdf .social-share {
+  border-radius: 4px;
+  margin-bottom: 10px;
 }
 .pdf-viewer {
   border: 0px;

@@ -131,9 +131,14 @@ function pdfjs_function($incomingfromhandler)
       $share_page = '<a '.$button_class.' href="'.$root_url.$whitepage_slug.'?pdf='.$shorter_name.'">Preview + del</a>';
     }
 
+    $pull_right = '';
+    if ($iframe == 'false') {
+      $pull_right = 'pull-right';
+    }
+
     $downloads = '';
     if ($download == 'true') {
-        $downloads = $buttons_start.$dropdown_start.__('Download', wpdkaprogramlistings::DOMAIN).$dropdown_end.'<ul class="dropdown-menu pull-right">
+        $downloads = $buttons_start.$dropdown_start.__('Download', wpdkaprogramlistings::DOMAIN).$dropdown_end.'<ul class="dropdown-menu '.$pull_right.'">
            <li><a href="'.$file_name.' "target="_blank">'.__('Document (PDF)', wpdkaprogramlistings::DOMAIN).'</a></li>
            <li><a href="#" data-toggle="modal" data-target="#pdf'.$shorter_name.'">'.__('Convert to image (JPG)', wpdkaprogramlistings::DOMAIN).'</a></li>
          </ul>
