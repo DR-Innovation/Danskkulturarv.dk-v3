@@ -91,19 +91,19 @@ function pdfjs_function($incomingfromhandler)
     $dropdown_end = ' <span class="caret"></span></button>';
 
     $postcard_link = '';
-    if ($print == 'true') {
+    if ($print == 'true' && is_user_logged_in()) {
         $postcard_link = '<a '.$button_class.' target="_blank" href="'.$card_url.'">'.__('Create postcard', wpdkaprogramlistings::DOMAIN).'</a> ';
     }
 
     $poster_link = '';
-    if ($print == 'true') {
+    if ($print == 'true' && is_user_logged_in()) {
         $poster_link = '<a '.$button_class.' target="_blank" href="'.$poster_url.'">'.__('Create poster', wpdkaprogramlistings::DOMAIN).'</a>';
 
     }
 
     $downloads = '';
     if ($download == 'true') {
-        $downloads = $dropdown_start.__('Download', wpdkaprogramlistings::DOMAIN).$dropdown_end.'<ul class="dropdown-menu">
+        $downloads = $dropdown_start.__('Download', wpdkaprogramlistings::DOMAIN).$dropdown_end.'<ul class="dropdown-menu pull-right">
            <li><a href="'.$file_name.' "target="_blank">'.__('Document (PDF)', wpdkaprogramlistings::DOMAIN).'</a></li>
            <li><a href="#" data-toggle="modal" data-target="#pdf'.$shorter_name.'">'.__('Convert to image (JPG)', wpdkaprogramlistings::DOMAIN).'</a></li>
          </ul>
