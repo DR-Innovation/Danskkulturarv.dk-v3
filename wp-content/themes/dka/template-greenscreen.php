@@ -11,8 +11,8 @@ add_action( 'wp_enqueue_scripts', function() {
 	wp_enqueue_script( 'greenscreen-script', get_template_directory_uri() . '/js/greenscreen.js' );
 });
 
-$sessionUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSession.php?settingsID=2&sessionCode=';
-$videoUrl = 'http://54.93.75.39/dr/drgreenscreenweb/services/getSessionVideo.php?settingsID=2&sessionVideoCode=';
+$sessionUrl = 'http://52.58.235.41/dr/drgreenscreenweb/services/getSession.php?settingsID=2&sessionCode=';
+$videoUrl = 'http://52.58.235.41/dr/drgreenscreenweb/services/getSessionVideo.php?settingsID=2&sessionVideoCode=';
 $rootUrl = strtok($_SERVER["REQUEST_URI"],'?');
 $pageUrl = $_SERVER["HTTP_HOST"] . strtok($_SERVER["REQUEST_URI"],'?');
 $canonicalUrl = $_SERVER["REQUEST_URI"];
