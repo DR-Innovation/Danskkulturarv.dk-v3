@@ -1,11 +1,29 @@
-<?php get_header(); ?>
 <?php
-    $results = WPDKAProgramListings::get_programlisting_results();
-    $results_total = WPDKAProgramListings::get_programlisting_total();
-    $search_text = WPDKAProgramListings::get_programlisting_search_type() === WPDKAProgramListings::QUERY_KEY_FREETEXT;
-    $larm_notice = 'Bemærk at det er sendeplaner fra 1925-1983, der er tilgængelige for søgning. Ønsker du en mere avanceret søgning kan du bruge <a href="http://www.larm.fm">larm.fm</a>'
-?>
+$results = WPDKAProgramListings::get_programlisting_results();
+$results_total = WPDKAProgramListings::get_programlisting_total();
+$search_text = WPDKAProgramListings::get_programlisting_search_type() === WPDKAProgramListings::QUERY_KEY_FREETEXT;
+$larm_notice = 'Bemærk at det er sendeplaner fra 1925-1983, der er tilgængelige for søgning. Ønsker du en mere avanceret søgning kan du bruge <a href="http://www.larm.fm">larm.fm</a>';
 
+add_filter('wpchaos-head-meta',function($metadatas) {
+  $socialDescription = 'På danskkulturarv.dk/programoversigt/ kan du finde alle DRs programoversigter fra perioden 1925-1984. Tag et kig på hvad der blev sendt i radioen under krigen eller hvad kom i fjernsynet på din fødselsdag.';
+  $metadatas['description']['content'] = $socialDescription;
+  $metadatas['og:description']['content'] = $socialDescription;
+  $metadatas['twitter:description']['content'] = $socialDescription;
+
+  $socialTitle = 'DR sendeplan';
+  $metadatas['og:title']['content'] = $socialTitle;
+  $metadatas['twitter:title']['content'] = $socialTitle;
+
+  $pageThumbnail = get_template_directory() . '/img/programoversigt.png';
+  $metadatas['og:image']['content'] = $pageThumbnail;
+  $metadatas['twitter:image']['content'] = $pageThumbnail;
+
+  $metadatas['twitter:image']['content'] = $pageThumbnail;
+  return $metadatas;
+});
+
+get_header();
+?>
 
 <div class="fluid-container body-container search-container">
   <div class="dark-search">
