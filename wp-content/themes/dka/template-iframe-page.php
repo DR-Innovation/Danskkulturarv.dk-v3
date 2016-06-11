@@ -15,7 +15,7 @@ get_header(); ?>
 <div class="row">
   <?php while ( have_posts() ) : the_post(); ?>
 
-  <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+  <article class="col-xs-12">
 
     <div class="entry-content">
       <?php the_content(); ?>
