@@ -40,6 +40,12 @@ class WPDKAProgramListingsSearchWidget extends WP_Widget {
   public function upload_styles() {
     wp_enqueue_style('thickbox');
   }
+  
+  public function widget_search_form(){
+    ob_start();
+    require 'search_form.php';
+    return ob_get_clean();
+  }
 
   /**
    * GUI for widget content
@@ -52,22 +58,7 @@ class WPDKAProgramListingsSearchWidget extends WP_Widget {
     $title = apply_filters( 'widget_title', $instance['title'] );
     $image = $instance['image'];
     echo $args['before_widget'];
-
-        echo '<div class="schedule-free-text-search ">';
-        echo '<div class="js-free-text-search-content">';
-        echo '<form method="GET" action="' . get_permalink(get_option('wpdkaprogramlistings-page'))  . '">';
-        echo '<div class="col-xs-8 col-sm-6 col-sm-offset-2 search-field">';
-        echo '<div class="input-group">';
-        echo '<input type="text" name="' . WPDKAProgramListings::QUERY_KEY_FREETEXT . '" class="form-control programlistings-search-text" placeholder="' . __('Search program schedule', WPDKAProgramListings::DOMAIN) . '" value="' . WPDKAProgramListings::get_programlisting_var(WPDKAProgramListings::QUERY_KEY_FREETEXT, 'esc_attr,trim') . '" data-original-title="" title="" />';
-        echo '<div class="input-group-addon hover-info" data-html="true" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="';
-        WPDKAProgramListings::print_search_info_text();
-        echo '"><i class="icon icon-info-sign"></i>';
-        echo '</div></div></div>';
-        echo '<div class="col-xs-4 col-sm-2">';
-        echo '<button type="submit" class="btn btn-primary btn-search btn-block" id="searchsubmit">' . __('Search for words', WPDKAProgramListings::DOMAIN) . '</button>';
-        echo '</div></form>';
-        echo '</div></div>';
-
+    echo self::widget_search_form();
     echo $args['after_widget'];
   }
 

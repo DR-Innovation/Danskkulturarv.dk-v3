@@ -11,13 +11,17 @@ var imageEdit = window.imageEdit = {
 		return f | 0;
 	},
 
-	setDisabled : function(el, s) {
+	setDisabled : function( el, s ) {
+		/*
+		 * `el` can be a single form element or a fieldset. Before #28864, the disabled state on
+		 * some text fields  was handled targeting $('input', el). Now we need to handle the
+		 * disabled state on buttons too so we can just target `el` regardless if it's a single
+		 * element or a fieldset because when a fieldset is disabled, its descendants are disabled too.
+		 */
 		if ( s ) {
-			el.removeClass('disabled');
-			$('input', el).removeAttr('disabled');
+			el.removeClass( 'disabled' ).prop( 'disabled', false );
 		} else {
-			el.addClass('disabled');
-			$('input', el).prop('disabled', true);
+			el.addClass( 'disabled' ).prop( 'disabled', true );
 		}
 	},
 
@@ -56,14 +60,18 @@ var imageEdit = window.imageEdit = {
 		var wait = $('#imgedit-wait-' + postid);
 
 		if ( toggle ) {
-			wait.height( $('#imgedit-panel-' + postid).height() ).fadeIn('fast');
+			wait.fadeIn( 'fast' );
 		} else {
 			wait.fadeOut('fast');
 		}
 	},
 
 	toggleHelp : function(el) {
-		$( el ).parents( '.imgedit-group-top' ).toggleClass( 'imgedit-help-toggled' ).find( '.imgedit-help' ).slideToggle( 'fast' );
+		var $el = $( el );
+		$el
+			.attr( 'aria-expanded', 'false' === $el.attr( 'aria-expanded' ) ? 'true' : 'false' )
+			.parents( '.imgedit-group-top' ).toggleClass( 'imgedit-help-toggled' ).find( '.imgedit-help' ).slideToggle( 'fast' );
+
 		return false;
 	},
 
@@ -165,9 +173,26 @@ var imageEdit = window.imageEdit = {
 			'rand': t.intval(Math.random() * 1000000)
 		};
 
-		img = $('<img id="image-preview-' + postid + '" />')
-			.on('load', function() {
-				var max1, max2, parent = $('#imgedit-crop-' + postid), t = imageEdit;
+		img = $( '<img id="image-preview-' + postid + '" alt="" />' )
+			.on( 'load', { history: data.history }, function( event ) {
+				var max1, max2,
+					parent = $( '#imgedit-crop-' + postid ),
+					t = imageEdit,
+					historyObj;
+
+				if ( '' !== event.data.history ) {
+					historyObj = JSON.parse( event.data.history );
+					// If last executed action in history is a crop action.
+					if ( historyObj[historyObj.length - 1].hasOwnProperty( 'c' ) ) {
+						/*
+						 * A crop action has completed and the crop button gets disabled
+						 * ensure the undo button is enabled.
+						 */
+						t.setDisabled( $( '#image-undo-' + postid) , true );
+						// Move focus to the undo button to avoid a focus loss.
+						$( '#image-undo-' + postid ).focus();
+					}
+				}
 
 				parent.empty().append(img);
 
@@ -274,7 +299,7 @@ var imageEdit = window.imageEdit = {
 			var ret = JSON.parse(r);
 
 			if ( ret.error ) {
-				$('#imgedit-response-' + postid).html('<div class="error"><p>' + ret.error + '</p><div>');
+				$('#imgedit-response-' + postid).html('<div class="error"><p>' + ret.error + '</p></div>');
 				imageEdit.close(postid);
 				return;
 			}
@@ -302,11 +327,18 @@ var imageEdit = window.imageEdit = {
 	open : function( postid, nonce, view ) {
 		this._view = view;
 
-		var data, elem = $('#image-editor-' + postid), head = $('#media-head-' + postid),
+		var dfd, data, elem = $('#image-editor-' + postid), head = $('#media-head-' + postid),
 			btn = $('#imgedit-open-btn-' + postid), spin = btn.siblings('.spinner');
 
-		btn.prop('disabled', true);
-		spin.show();
+		/*
+		 * Instead of disabling the button, which causes a focus loss and makes screen
+		 * readers announce "unavailable", return if the button was already clicked.
+		 */
+		if ( btn.hasClass( 'button-activated' ) ) {
+			return;
+		}
+
+		spin.addClass( 'is-active' );
 
 		data = {
 			'action': 'image-editor',
@@ -315,13 +347,23 @@ var imageEdit = window.imageEdit = {
 			'do': 'open'
 		};
 
-		elem.load(ajaxurl, data, function() {
-			elem.fadeIn('fast');
+		dfd = $.ajax({
+			url:  ajaxurl,
+			type: 'post',
+			data: data,
+			beforeSend: function() {
+				btn.addClass( 'button-activated' );
+			}
+		}).done(function( html ) {
+			elem.html( html );
 			head.fadeOut('fast', function(){
-				btn.removeAttr('disabled');
-				spin.hide();
+				elem.fadeIn('fast');
+				btn.removeClass( 'button-activated' );
+				spin.removeClass( 'is-active' );
 			});
 		});
+
+		return dfd;
 	},
 
 	imgLoaded : function(postid) {
@@ -330,6 +372,8 @@ var imageEdit = window.imageEdit = {
 		this.initCrop(postid, img, parent);
 		this.setCropSelection(postid, 0);
 		this.toggleEditor(postid, 0);
+		// Editor is ready, move focus to the first focusable element.
+		$( '.imgedit-wrap .imgedit-help-toggle' ).eq( 0 ).focus();
 	},
 
 	initCrop : function(postid, image, parent) {
@@ -385,22 +429,15 @@ var imageEdit = window.imageEdit = {
 	},
 
 	setCropSelection : function(postid, c) {
-		var sel, min = $('#imgedit-minthumb-' + postid).val() || '128:128',
-			sizer = this.hold.sizer;
-			min = min.split(':');
-			c = c || 0;
+		var sel;
+
+		c = c || 0;
 
 		if ( !c || ( c.width < 3 && c.height < 3 ) ) {
 			this.setDisabled($('.imgedit-crop', '#imgedit-panel-' + postid), 0);
 			this.setDisabled($('#imgedit-crop-sel-' + postid), 0);
 			$('#imgedit-sel-width-' + postid).val('');
 			$('#imgedit-sel-height-' + postid).val('');
-			$('#imgedit-selection-' + postid).val('');
-			return false;
-		}
-
-		if ( c.width < (min[0] * sizer) && c.height < (min[1] * sizer) ) {
-			this.setDisabled($('.imgedit-crop', '#imgedit-panel-' + postid), 0);
 			$('#imgedit-selection-' + postid).val('');
 			return false;
 		}
@@ -429,7 +466,10 @@ var imageEdit = window.imageEdit = {
 		// In case we are not accessing the image editor in the context of a View, close the editor the old-skool way
 		else {
 			$('#image-editor-' + postid).fadeOut('fast', function() {
-				$('#media-head-' + postid).fadeIn('fast');
+				$( '#media-head-' + postid ).fadeIn( 'fast', function() {
+					// Move focus back to the Edit Image button. Runs also when saving.
+					$( '#imgedit-open-btn-' + postid ).focus();
+				});
 				$(this).empty();
 			});
 		}
@@ -453,9 +493,9 @@ var imageEdit = window.imageEdit = {
 
 	addStep : function(op, postid, nonce) {
 		var t = this, elem = $('#imgedit-history-' + postid),
-		history = ( elem.val() !== '' ) ? JSON.parse( elem.val() ) : [],
-		undone = $('#imgedit-undone-' + postid),
-		pop = t.intval(undone.val());
+			history = ( elem.val() !== '' ) ? JSON.parse( elem.val() ) : [],
+			undone = $( '#imgedit-undone-' + postid ),
+			pop = t.intval( undone.val() );
 
 		while ( pop > 0 ) {
 			history.pop();
@@ -516,10 +556,14 @@ var imageEdit = window.imageEdit = {
 		elem.val(pop);
 		t.refreshEditor(postid, nonce, function() {
 			var elem = $('#imgedit-history-' + postid),
-			history = ( elem.val() !== '' ) ? JSON.parse( elem.val() ) : [];
+				history = ( elem.val() !== '' ) ? JSON.parse( elem.val() ) : [];
 
 			t.setDisabled($('#image-redo-' + postid), true);
 			t.setDisabled(button, pop < history.length);
+			// When undo gets disabled, move focus to the redo button to avoid a focus loss.
+			if ( history.length === pop ) {
+				$( '#image-redo-' + postid ).focus();
+			}
 		});
 	},
 
@@ -535,6 +579,10 @@ var imageEdit = window.imageEdit = {
 		t.refreshEditor(postid, nonce, function() {
 			t.setDisabled($('#image-undo-' + postid), true);
 			t.setDisabled(button, pop > 0);
+			// When redo gets disabled, move focus to the undo button to avoid a focus loss.
+			if ( 0 === pop ) {
+				$( '#image-undo-' + postid ).focus();
+			}
 		});
 	},
 

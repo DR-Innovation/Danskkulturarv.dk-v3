@@ -1,6 +1,15 @@
 // out: style.css, sourcemap: false, compress: false
+
+// Frontpage stuff
+.panel {
+  .programlisting-search {
+    .btn {
+      margin-top: 10px;
+    }
+  }
+}
+
 .selector() {
-  margin-bottom: 5px;
   overflow     : hidden;
   font-weight  : 700;
   select {
@@ -18,6 +27,7 @@
     }
   }
 }
+
 .programlisting-year {
   .selector();
 }
@@ -63,7 +73,6 @@
 }
 .js-free-text-search-content {
   .search-field {
-    margin-bottom: 5px;
     .input-group-addon {
       color           : white;
       background-color: #646464;
@@ -75,10 +84,7 @@
   }
 }
 .programlisting-search-results {
-  min-height : 43px;
-  padding-top: 0 !important;
-  margin-top : -15px !important;
-  padding-bottom: 15px !important;
+  padding: 0 15px;
   .hover-info {
     border-color: #ddd;
     &:hover {
@@ -111,20 +117,21 @@
   }
 }
 .programlisting-instructions {
-  padding: 0 10px;
   text-align: left;
 }
 .programlisting-results {
   margin    : 30px auto 0;
   text-align: center;
   > .col-xs-12 {
-    padding-left : 5px;
-    padding-right: 5px;
+    padding-left : 0px;
+    padding-right: 0px;
+    > .row {
+      margin-left: 0px;
+      margin-right: 0px;
+    }
   }
   iframe {
     border       : 0;
-    margin-top   : 10px;
-    border-bottom: 1px solid #404040;
   }
   .btn-group {
     margin-bottom: 0;
@@ -171,6 +178,9 @@
         padding-top   : 6px;
         padding-bottom: 6px;
       }
+      .btn.margin-right {
+        margin-right: 10px;
+      }
     }
     .btn-link {
       color: inherit;
@@ -185,8 +195,50 @@
   .results-count {
     text-align    : left;
     font-size     : 1.6em;
-    padding-left  : 10px;
     letter-spacing: -0.01em;
     margin-bottom : 20px;
+  }
+}
+
+.js-date-search-content {
+  > div {
+    margin-top: 15px;
+  }
+}
+
+.a4-wrap {
+  height: 0;
+  padding-bottom: 154%;
+}
+.single-pdf {
+  margin-top: 3rem;
+
+  .a4-wrap {
+    margin-top: 15px;
+  }
+
+  .pdf-viewer {
+    width: 100%;
+    height: 100%;
+  }
+
+  .social-share {
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+}
+
+.pdf-viewer {
+  border: 0px;
+}
+
+.programlisting-search-results__actions {
+  text-align: right;
+}
+
+
+.so-panel.widget_dka-program-listing-featured-widget {
+  .btn-block {
+    margin-top: 10px;
   }
 }

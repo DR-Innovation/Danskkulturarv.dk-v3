@@ -26,44 +26,6 @@
       padding-right: 3px;
     }
   }
-  .social {
-    &.big-screen {
-      position                  : fixed;
-      left                      : 0;
-      top                       : 50%;
-      transform                 : translate(0,-50%);
-      border-top-right-radius   : 5px;
-      border-bottom-right-radius: 5px;
-      overflow                  : hidden;
-      .social-share {
-        display    : block;
-        padding    : 5px 15px;
-        width      : auto;
-        margin     : 0;
-        line-height: 1.4;
-      }
-    }
-  }
-  .social-share {
-    font-size      : 2.5rem;
-    width          : 3.5rem;
-    text-align     : center;
-    margin-top     : -5px;
-    margin-left    : 1px;
-    text-decoration: none !important;
-    &.icon-facebook {
-      .social-color(#3B5998);
-    }
-    &.icon-twitter {
-      .social-color(#55ACEE);
-    }
-    &.icon-google-plus {
-      .social-color(#dd4b39);
-    }
-    &.icon-envelope {
-      .social-color(@gray-light);
-    }
-  }
   .description {
     a {
       display: block;
@@ -164,4 +126,44 @@ a.usertag {
   padding   : 0;
   background: none;
   color     : @gray-semi-light;
+}
+
+
+.social {
+  &.big-screen {
+    position                  : fixed;
+    left                      : 0;
+    top                       : 50%;
+    transform                 : translate(0,-50%);
+    border-top-right-radius   : 5px;
+    border-bottom-right-radius: 5px;
+    overflow                  : hidden;
+    .social-share {
+      display    : block;
+      padding    : 5px 15px;
+      width      : auto !important;
+      margin     : 0 !important;
+      line-height: 1.4;
+    }
+  }
+}
+.social-share {
+  font-size      : 2.5rem !important;
+  width          : 3.5rem !important;
+  text-align     : center;
+  margin-top     : -5px;
+  margin-left    : 1px !important;
+  text-decoration: none !important;
+  &.icon-facebook {
+    .social-color(#3B5998);
+  }
+  &.icon-twitter {
+    .social-color(#55ACEE);
+  }
+  &.icon-google-plus {
+    .social-color(#dd4b39);
+  }
+  &.icon-envelope {
+    .social-color(@gray-light);
+  }
 }

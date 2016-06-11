@@ -11,7 +11,7 @@ License:
 class WPDKAProgramListings
 {
   const DOMAIN = 'wpdkaprogramlistings';
-  const ES_INDEX = 'programoversigter';
+  const ES_INDEX = 'programoversigter-updated';
   const ES_TYPE = 'programoversigt';
   const ES_URL = 'files.danskkulturarv.dk:80/api'; // previously: 54.72.221.2:80/api (404)
   const ES_UUID = 'universally-unique-identifier';
@@ -64,16 +64,47 @@ class WPDKAProgramListings
       &$this,
       'loadJsCss'
     ));
-    self::register_search_query_variable(1, self::QUERY_KEY_YEAR, '\d{4}',
-      false, null, '');
-    self::register_search_query_variable(2, self::QUERY_KEY_MONTH, '\d{1,2}',
-      false, null, '');
-    self::register_search_query_variable(3, self::QUERY_KEY_DAY, '\d{1,2}',
-      false, null, '');
-    self::register_search_query_variable(4, self::QUERY_KEY_FREETEXT, '[^/&]+?',
-      false, null, '', '/');
-    self::register_search_query_variable(5, self::QUERY_KEY_PAGE, '\d+?',
-      true, null, '1', '-');
+    self::register_search_query_variable(
+      1,
+      self::QUERY_KEY_YEAR,
+      '\d{4}',
+      true,
+      null,
+      ''
+    );
+    self::register_search_query_variable(
+      2,
+      self::QUERY_KEY_MONTH,
+      '\d{1,2}',
+      true,
+      null,
+      ''
+    );
+    self::register_search_query_variable(
+      3,
+      self::QUERY_KEY_DAY,
+      '\d{1,2}',
+      true,
+      null,
+      ''
+    );
+    self::register_search_query_variable(
+      4,
+      self::QUERY_KEY_FREETEXT,
+      '[^/&]+?',
+      false,
+      null,
+      ''
+    );
+    self::register_search_query_variable(
+      5,
+      self::QUERY_KEY_PAGE,
+      '\d+?',
+      true,
+      null,
+      '1',
+      '-'
+    );
 
     self::$page_size = self::DEFAULT_PAGE_COUNT;
 
@@ -411,8 +442,11 @@ class WPDKAProgramListings
     $string  = str_replace($match, $replace, $string);
     return $string;
   }
+
   /**
-   * Generate data and include template for search results
+   * Generate data and include template for search results.
+   * There are three search modes: text only, date only, text with date filter.
+   *
    * @param  array $args
    * @return string The markup generated.
    */
@@ -424,41 +458,59 @@ class WPDKAProgramListings
     $day         = $search_vars[self::QUERY_KEY_DAY];
     $page        = $search_vars[self::QUERY_KEY_PAGE];
     $text        = self::get_programlisting_var(self::QUERY_KEY_FREETEXT, 'trim');
-    if (empty($year) || empty($month) || empty($day)) {
-      if (empty($text)) {
-        return;
-      }
-    }
-    // Test results
-    require(plugin_dir_path(__FILE__) . '/elasticsearch/autoload.php');
-    $params                       = array();
-    $params['hosts']              = array(
-      self::ES_URL
+
+    $day = empty($day) ? "*" : str_pad($day, 2, '0', STR_PAD_LEFT);
+    $month = empty($month) ? "*" : str_pad($month, 2, '0', STR_PAD_LEFT);
+    $year = empty($year) ? "*" : $year;
+    $text = empty($text) ? "*" : $text;
+
+    $queryString = array(
+      "default_field" => "allText",
+      "default_operator" => "AND",
+      "query" => $text
     );
-    $client                       = new Elasticsearch\Client($params);
-    $searchParams['index']        = self::ES_INDEX;
-    $searchParams['type']         = self::ES_TYPE;
-    $searchParams['body']['size'] = self::$page_size;
 
-    if (!empty($page)) {
-      $from = (intval($page) - 1) * self::$page_size;
-      $searchParams['body']['from'] = $from;
-    }
+    $query = array(
+      "bool" => array(
+        "must" => array(
+          array(
+            "query_string" => $queryString
+          ),
+          array(
+            "wildcard" => array(
+              "date.verbatim" => "$year-$month-$day"
+            )
+          )
+        )
+      )
+    );
 
-    if (empty($text)) {
-      $searchParams['body']['query']['match']['date'] = sprintf("%s-%s-%s", $year, $month, $day);
-      $searchParams['body']['sort']['type']['order']  = 'DESC';
-    } else {
-      $text                                                              = self::escapeSearchValue($text);
-      $searchParams['body']['query']['query_string']['default_field']    = 'allText';
-      $searchParams['body']['query']['query_string']['query']            = $text;
-      $searchParams['body']['query']['query_string']['default_operator'] = 'AND';
-      $searchParams['body']['sort']['date']['order']                     = 'ASC';
-    }
+    $searchParams = array(
+      "index" => self::ES_INDEX,
+      "type" => self::ES_TYPE,
+      "body" => array(
+        "size" => self::$page_size,
+        "sort" => array(
+          "date" => array(
+            "order" => "ASC"
+          )
+        ),
+        "query" => $query
+      )
+    );
+
+    require(plugin_dir_path(__FILE__) . '/elasticsearch/autoload.php');
+    $params = array(
+      "hosts" => array(
+        self::ES_URL
+      )
+    );
+    $client = new Elasticsearch\Client($params);
+
     try {
       $queryResponse = $client->search($searchParams);
-    }
-    catch (\Exception $e) {
+    } catch (Exception $e) {
+      #error_log("generate_programlisting_results() Exception: $e");
       return;
     }
 
@@ -475,6 +527,7 @@ class WPDKAProgramListings
     self::$search_results = $ret_hits;
     self::$search_total = $total;
   }
+
   public static function get_programlisting_search_type()
   {
     $search_vars = self::get_programlisting_vars();

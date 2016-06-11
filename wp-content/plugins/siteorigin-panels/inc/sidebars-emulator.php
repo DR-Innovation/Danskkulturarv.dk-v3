@@ -6,7 +6,7 @@ class SiteOrigin_Panels_Sidebars_Emulator {
 
 	function __construct() {
 		$this->all_posts_widgets = array();
-		add_action( 'widgets_init', array( $this, 'register_widgets' ), 99 );
+		add_action( 'init', array( $this, 'register_widgets' ), 15 );
 		add_filter( 'sidebars_widgets', array( $this, 'add_widgets_to_sidebars' ) );
 	}
 
@@ -66,9 +66,11 @@ class SiteOrigin_Panels_Sidebars_Emulator {
 		$post_id = url_to_postid( add_query_arg( false, false ) );
 		if( empty($post_id) ) {
 			// Maybe this is the home page
-			$home_url_parts = parse_url( trailingslashit( home_url() ) );
-			if( add_query_arg( false, false ) === $home_url_parts['path'] && get_option('page_on_front') != 0 ) {
-				$post_id = get_option( 'page_on_front' );
+			$current_url_path = parse_url( add_query_arg( false, false ), PHP_URL_PATH );
+			$home_url_path    = parse_url( trailingslashit( home_url() ), PHP_URL_PATH );
+
+			if( $current_url_path === $home_url_path && get_option('page_on_front') != 0 ) {
+				$post_id = absint( get_option( 'page_on_front' ) );
 			}
 		}
 		if( empty($post_id) ) return;
