@@ -11,7 +11,7 @@ License:
 class WPDKAProgramListings
 {
   const DOMAIN = 'wpdkaprogramlistings';
-  const ES_INDEX = 'programoversigter';
+  const ES_INDEX = 'programoversigter-updated';
   const ES_TYPE = 'programoversigt';
   const ES_URL = 'files.danskkulturarv.dk:80/api'; // previously: 54.72.221.2:80/api (404)
   const ES_UUID = 'universally-unique-identifier';
@@ -64,16 +64,47 @@ class WPDKAProgramListings
       &$this,
       'loadJsCss'
     ));
-    self::register_search_query_variable(1, self::QUERY_KEY_YEAR, '\d{4}',
-      false, null, '');
-    self::register_search_query_variable(2, self::QUERY_KEY_MONTH, '\d{1,2}',
-      false, null, '');
-    self::register_search_query_variable(3, self::QUERY_KEY_DAY, '\d{1,2}',
-      false, null, '');
-    self::register_search_query_variable(4, self::QUERY_KEY_FREETEXT, '[^/&]+?',
-      false, null, '', '/');
-    self::register_search_query_variable(5, self::QUERY_KEY_PAGE, '\d+?',
-      true, null, '1', '-');
+    self::register_search_query_variable(
+      1,
+      self::QUERY_KEY_YEAR,
+      '\d{4}',
+      true,
+      null,
+      ''
+    );
+    self::register_search_query_variable(
+      2,
+      self::QUERY_KEY_MONTH,
+      '\d{1,2}',
+      true,
+      null,
+      ''
+    );
+    self::register_search_query_variable(
+      3,
+      self::QUERY_KEY_DAY,
+      '\d{1,2}',
+      true,
+      null,
+      ''
+    );
+    self::register_search_query_variable(
+      4,
+      self::QUERY_KEY_FREETEXT,
+      '[^/&]+?',
+      false,
+      null,
+      ''
+    );
+    self::register_search_query_variable(
+      5,
+      self::QUERY_KEY_PAGE,
+      '\d+?',
+      true,
+      null,
+      '1',
+      '-'
+    );
 
     self::$page_size = self::DEFAULT_PAGE_COUNT;
 
@@ -413,64 +444,6 @@ class WPDKAProgramListings
   }
 
   /**
-   * Builds ElasticSearch filter for date field.
-   * "From date" is incluseve and "to date" is exclusive.
-   *
-   * @returns array
-   */
-  public function build_date_filter($year, $month, $day)
-  {
-    if (!empty($month) && !empty($month) && !empty($day)){
-      $from_year = $year;
-      $from_month = $month;
-      $from_day = $day;
-
-      $from_date_str = sprintf("%s-%s-%s", $from_year,
-        str_pad($from_month, 2, '0', STR_PAD_LEFT),
-        str_pad($from_day, 2, '0', STR_PAD_LEFT));
-      $next_day_str = date('Y-m-d', strtotime('+1 day',
-          strtotime($from_date_str)));
-      list($to_year, $to_month, $to_day) = array_map('intval',
-          explode('-', $next_day_str));
-    } else if (empty($month) && empty($day)){
-      $from_year = $year;
-      $from_month = 1;
-      $from_day = 1;
-
-      $to_year = $year + 1;
-      $to_month = 1;
-      $to_day = 1;
-    } else if (!empty($month) && empty($day)) {
-      $from_year = $year;
-      $from_month = $month;
-      $from_day = 1;
-
-      $to_year = $year;
-      $to_day = 1;
-      if ($month === 12){
-        $to_year = $year + 1;
-        $to_month = 1;
-      } else {
-        $to_month = $month + 1;
-      }
-    } else {
-      return array();
-    }
-    $filter = array();
-    $gte = sprintf("%s-%s-%s", $from_year,
-        str_pad($from_month, 2, '0', STR_PAD_LEFT),
-        str_pad($from_day, 2, '0', STR_PAD_LEFT));
-    $lt = sprintf("%s-%s-%s", $to_year,
-        str_pad($to_month, 2, '0', STR_PAD_LEFT),
-        str_pad($to_day, 2, '0', STR_PAD_LEFT));
-    $filter['range']['date']['format'] = 'yyy-MM-dd';
-    $filter['range']['date']['gte'] = $gte;
-    $filter['range']['date']['lt'] = $lt;
-    return $filter;
-  }
-
-
-  /**
    * Generate data and include template for search results.
    * There are three search modes: text only, date only, text with date filter.
    *
@@ -485,56 +458,55 @@ class WPDKAProgramListings
     $day         = $search_vars[self::QUERY_KEY_DAY];
     $page        = $search_vars[self::QUERY_KEY_PAGE];
     $text        = self::get_programlisting_var(self::QUERY_KEY_FREETEXT, 'trim');
-    if (empty($text)) {
-      if (empty($year) || empty($month) || empty($day)) {
-        return;
-      }
-    } else {
-      if (empty($year) && !empty($month)) {
-        return;
-      }
-      if (empty($month) && !empty($day)) {
-        return;
-      }
-    }
+
+    $day = empty($day) ? "*" : str_pad($day, 2, '0', STR_PAD_LEFT);
+    $month = empty($month) ? "*" : str_pad($month, 2, '0', STR_PAD_LEFT);
+    $year = empty($year) ? "*" : $year;
+    $text = empty($text) ? "*" : $text;
+
+    $queryString = array(
+      "default_field" => "allText",
+      "default_operator" => "AND",
+      "query" => $text
+    );
+
+    $query = array(
+      "bool" => array(
+        "must" => array(
+          array(
+            "query_string" => $queryString
+          ),
+          array(
+            "wildcard" => array(
+              "date.verbatim" => "$year-$month-$day"
+            )
+          )
+        )
+      )
+    );
+
+    $searchParams = array(
+      "index" => self::ES_INDEX,
+      "type" => self::ES_TYPE,
+      "body" => array(
+        "size" => self::$page_size,
+        "sort" => array(
+          "date" => array(
+            "order" => "ASC"
+          )
+        ),
+        "query" => $query
+      )
+    );
 
     require(plugin_dir_path(__FILE__) . '/elasticsearch/autoload.php');
-    $params                       = array();
-    $params['hosts']              = array(
-      self::ES_URL
+    $params = array(
+      "hosts" => array(
+        self::ES_URL
+      )
     );
-    $client                       = new Elasticsearch\Client($params);
-    $searchParams['index']        = self::ES_INDEX;
-    $searchParams['type']         = self::ES_TYPE;
-    $searchParams['body']['size'] = self::$page_size;
+    $client = new Elasticsearch\Client($params);
 
-    if (!empty($page)) {
-      $from = (intval($page) - 1) * self::$page_size;
-      $searchParams['body']['from'] = $from;
-    }
-    if (empty ($text)) {
-      $searchParams['body']['query']['match']['date'] = sprintf("%s-%s-%s",
-          $year, $month, $day);
-      $searchParams['body']['sort']['type']['order'] = 'DESC';
-    } else {
-      $text = self::escapeSearchValue($text);
-      if (empty ($year) && empty ($month) && empty ($day)) {
-        $searchParams['body']['query']['query_string']['default_field'] = 'allText';
-        $searchParams['body']['query']['query_string']['query'] = $text;
-        $searchParams['body']['query']['query_string']['default_operator'] = 'AND';
-        $searchParams['body']['sort']['date']['order'] = 'ASC';
-      } else {
-        $filter = self::build_date_filter($year, $month, $day);
-        if (! $filter) {
-          return;
-        }
-        $searchParams['body']['query']['query_string']['default_field'] = 'allText';
-        $searchParams['body']['query']['query_string']['query'] = $text;
-        $searchParams['body']['query']['query_string']['default_operator'] = 'AND';
-        $searchParams['body']['sort']['date']['order'] = 'ASC';
-        $searchParams['body']['filter'] = $filter;
-      }
-    }
     try {
       $queryResponse = $client->search($searchParams);
     } catch (Exception $e) {
