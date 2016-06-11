@@ -65,12 +65,12 @@ get_header();
         <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
             <?php if (isset($results)): ?>
               <div class="row">
-                <div class="col-md-5 col-md-push-7">
+                <div class="col-xs-12 col-md-5 col-md-push-7">
                   <p class="programlisting-instructions">
                     <small><?php echo $larm_notice; ?></small>
                   </p>
                 </div>
-                <div class="col-md-7 col-md-pull-5">
+                <div class="col-xs-12 col-md-7 col-md-pull-5">
                   <p class="results-count">
                       <?php printf(__('Showing %d', WPDKAProgramListings::DOMAIN), count($results)); ?>
                       <?php printf(_n('out of %d results.', 'out of %d results.', $results_total, WPDKAProgramListings::DOMAIN), $results_total); ?>
@@ -83,21 +83,21 @@ get_header();
                 <?php if (!empty($results)): ?>
                     <ul class="list-unstyled search-overview">
                         <li class="row">
-                            <div class="col-xs-8 col-sm-4 col-lg-4"><strong><?php _e('Date', WPDKAProgramListings::DOMAIN); ?></strong>
+                            <div class="col-xs-12 col-sm-3"><strong><?php _e('Date', WPDKAProgramListings::DOMAIN); ?></strong>
                             </div>
-                            <div class="col-xs-4 col-sm-2 col-lg-2 right"><strong><?php _e('Type'); ?></strong></div>
+                            <div class="hidden-xs col-sm-4"><strong><?php _e('Type'); ?></strong></div>
                         </li>
                       <?php foreach ($results as $r): ?>
                         <li class="row">
-                            <div class="col-xs-4 col-sm-2 col-lg-2 type">
+                            <div class="col-xs-4 col-sm-3 type">
                                 <?php
                                     $date = date(WPDKAProgramListings::DATE_FORMAT, strtotime($r['_source']['date']));
                                     $date_explode = explode('-', $date);
                                     echo str_replace('1056', '1956', $date);
                                 ?>
                             </div>
-                            <div class="col-xs-8 col-sm-4 col-lg-5 right type"><?php echo $r['_source']['type'] == 'Program' ? 'Programoversigt' : 'Rettelse til programoversigt'; ?></div>
-                            <div class="col-xs-12 col-sm-6 col-lg-5 right">
+                            <div class="hidden-xs col-sm-4 type"><?php echo $r['_source']['type'] == 'Program' ? 'Programoversigt' : 'Rettelse til programoversigt'; ?></div>
+                            <div class="col-xs-8 col-sm-5 programlisting-search-results__actions">
                               <?php echo do_shortcode('[pdfbuttons-viewer url='.$r['_source']['url'].']'); ?>
                             </div>
                         </li>

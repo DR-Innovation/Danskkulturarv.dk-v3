@@ -117,15 +117,18 @@
   }
 }
 .programlisting-instructions {
-  padding: 0 10px;
   text-align: left;
 }
 .programlisting-results {
   margin    : 30px auto 0;
   text-align: center;
   > .col-xs-12 {
-    padding-left : 5px;
-    padding-right: 5px;
+    padding-left : 0px;
+    padding-right: 0px;
+    > .row {
+      margin-left: 0px;
+      margin-right: 0px;
+    }
   }
   iframe {
     border       : 0;
@@ -192,7 +195,6 @@
   .results-count {
     text-align    : left;
     font-size     : 1.6em;
-    padding-left  : 10px;
     letter-spacing: -0.01em;
     margin-bottom : 20px;
   }
@@ -228,4 +230,8 @@
 
 .pdf-viewer {
   border: 0px;
+}
+
+.programlisting-search-results__actions {
+  text-align: right;
 }
