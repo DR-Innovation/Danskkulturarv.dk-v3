@@ -14,7 +14,7 @@ add_filter('wpchaos-head-meta',function($metadatas) {
   $metadatas['og:title']['content'] = $socialTitle;
   $metadatas['twitter:title']['content'] = $socialTitle;
 
-  $pageThumbnail = get_template_directory_uri() . '/img/programoversigt.png';
+  $pageThumbnail = get_template_directory_uri() . '/img/programoversigt.jpg';
   $metadatas['og:image']['content'] = $pageThumbnail;
   $metadatas['twitter:image']['content'] = $pageThumbnail;
 
