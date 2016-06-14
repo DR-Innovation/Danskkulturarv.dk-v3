@@ -9,22 +9,14 @@
 get_header(); ?>
 
 
-<div class="container body-container">
+<div class="container body-container full-width">
 
+<?php while ( have_posts() ) : the_post(); ?>
 
-<div class="row">
-  <?php while ( have_posts() ) : the_post(); ?>
+  <div class="entry-content">
+    <?php the_content(); ?>
+  </div>
 
-  <article class="col-xs-12">
+<?php endwhile; ?>
 
-    <div class="entry-content">
-      <?php the_content(); ?>
-    </div>
-
-  </article><!-- #post -->
-
-<?php endwhile; // end of the loop. ?>
-
-<?php get_sidebar(); ?>
-</div>
 <?php get_footer(); ?>
