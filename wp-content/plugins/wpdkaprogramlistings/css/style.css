@@ -132,14 +132,11 @@
 }
 .programlisting-instructions {
   text-align: left;
+  margin-top: 10px;
 }
 .programlisting-results {
   margin: 30px auto 0;
   text-align: center;
-}
-.programlisting-results > .col-xs-12 {
-  padding-left: 0px;
-  padding-right: 0px;
 }
 .programlisting-results iframe {
   border: 0;
