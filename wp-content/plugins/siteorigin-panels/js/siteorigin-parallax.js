@@ -58,7 +58,7 @@
 						limitMotion = (-0.00017 * ( windowHeight - 720 ) ) + 0.55;
 					}
 				} else {
-					limitMotion = options.limitMotion;
+					limitMotion = parseFloat( options.limitMotion );
 				}
 
 				// What percent is this through a screen cycle
@@ -137,6 +137,10 @@
 		$( window ).on( 'resize', setupParallax );
 		$( window ).on( 'panelsStretchRows', setupParallax );
 		$$.on( 'refreshParallax', setupParallax );
+		// Ensure that the parallax has run on inital load.
+		setTimeout( function () {
+			setupParallax();
+		}, 100 );
 	};
 
 }( jQuery ) );

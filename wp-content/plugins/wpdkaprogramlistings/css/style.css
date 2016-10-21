@@ -132,18 +132,11 @@
 }
 .programlisting-instructions {
   text-align: left;
+  margin-top: 10px;
 }
 .programlisting-results {
   margin: 30px auto 0;
   text-align: center;
-}
-.programlisting-results > .col-xs-12 {
-  padding-left: 0px;
-  padding-right: 0px;
-}
-.programlisting-results > .col-xs-12 > .row {
-  margin-left: 0px;
-  margin-right: 0px;
 }
 .programlisting-results iframe {
   border: 0;
@@ -167,12 +160,9 @@
 .programlisting-results .modal-footer {
   margin-top: 0;
 }
-.programlisting-results .search-overview {
-  overflow-x: hidden;
-}
 .programlisting-results .search-overview > li {
   text-align: left;
-  padding: 10px;
+  padding: 10px 0;
 }
 .programlisting-results .search-overview > li:nth-child(even) {
   background-color: #eee;

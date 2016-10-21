@@ -83,7 +83,8 @@ get_header();
                 <?php if (!empty($results)): ?>
                     <ul class="list-unstyled search-overview">
                         <li class="row">
-                            <div class="col-xs-12 col-sm-3"><strong><?php _e('Date', WPDKAProgramListings::DOMAIN); ?></strong>
+                            <div class="col-xs-12 col-sm-3">
+                                <strong><?php _e('Date', WPDKAProgramListings::DOMAIN); ?></strong>
                             </div>
                             <div class="hidden-xs col-sm-4"><strong><?php _e('Type'); ?></strong></div>
                         </li>

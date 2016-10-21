@@ -3,7 +3,7 @@
 Plugin Name: Page Builder by SiteOrigin
 Plugin URI: https://siteorigin.com/page-builder/
 Description: A drag and drop, responsive page builder that simplifies building your website.
-Version: 2.4.9
+Version: 2.4.17
 Author: SiteOrigin
 Author URI: https://siteorigin.com
 License: GPL3
@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: http://siteorigin.com/page-builder/#donate
 */
 
-define('SITEORIGIN_PANELS_VERSION', '2.4.9');
+define('SITEORIGIN_PANELS_VERSION', '2.4.17');
 if ( ! defined('SITEORIGIN_PANELS_JS_SUFFIX' ) ) {
 	define('SITEORIGIN_PANELS_JS_SUFFIX', '.min');
 }
@@ -32,7 +32,6 @@ require_once plugin_dir_path(__FILE__) . 'inc/default-styles.php';
 require_once plugin_dir_path(__FILE__) . 'inc/widgets.php';
 require_once plugin_dir_path(__FILE__) . 'inc/plugin-activation.php';
 require_once plugin_dir_path(__FILE__) . 'inc/admin-actions.php';
-require_once plugin_dir_path(__FILE__) . 'inc/sidebars-emulator.php';
 
 if( defined('SITEORIGIN_PANELS_DEV') && SITEORIGIN_PANELS_DEV ) include plugin_dir_path(__FILE__).'inc/debug.php';
 
@@ -48,12 +47,22 @@ register_activation_hook(__FILE__, 'siteorigin_panels_activate');
  * Initialize the Page Builder.
  */
 function siteorigin_panels_init(){
-	$bundled = siteorigin_panels_setting('bundled-widgets');
-	if( !$bundled ) return;
-
-	if( !defined('SITEORIGIN_PANELS_LEGACY_WIDGETS_ACTIVE') && ( !is_admin() || basename($_SERVER["SCRIPT_FILENAME"]) != 'plugins.php') ) {
+	if(
+		siteorigin_panels_setting('bundled-widgets') &&
+		! defined('SITEORIGIN_PANELS_LEGACY_WIDGETS_ACTIVE') &&
+		( ! is_admin() || basename( $_SERVER["SCRIPT_FILENAME"] ) != 'plugins.php' )
+	) {
 		// Include the bundled widgets if the Legacy Widgets plugin isn't active.
 		include plugin_dir_path(__FILE__).'widgets/widgets.php';
+	}
+
+	if(
+		! is_admin() &&
+		siteorigin_panels_setting( 'sidebars-emulator' ) &&
+		( ! get_option('permalink_structure') || get_option('rewrite_rules') )
+	) {
+		// Include the sidebars emulator
+		require_once plugin_dir_path(__FILE__) . 'inc/sidebars-emulator.php';
 	}
 }
 add_action('plugins_loaded', 'siteorigin_panels_init');
@@ -645,7 +654,10 @@ function siteorigin_panels_process_raw_widgets($widgets) {
 		if( !empty($info['raw']) ) {
 			if ( isset( $wp_widget_factory->widgets[ $info['class'] ] ) && method_exists( $info['class'], 'update' ) ) {
 				$the_widget = $wp_widget_factory->widgets[ $info['class'] ];
-				$widgets[$i] = $the_widget->update( $widgets[$i], $widgets[$i] );
+				$instance = $the_widget->update( $widgets[$i], $widgets[$i] );
+				$instance = apply_filters ( 'widget_update_callback', $instance, $widgets[$i], $widgets[$i], $the_widget );
+
+				$widgets[$i] = $instance;
 				unset($info['raw']);
 			}
 		}
@@ -810,6 +822,14 @@ function siteorigin_panels_generate_css($post_id, $panels_data = false){
 		}
 	}
 
+	// Add the bottom margins
+	$css->add_cell_css($post_id, false, false, '.so-panel', array(
+		'margin-bottom' => apply_filters('siteorigin_panels_css_cell_margin_bottom', $panels_margin_bottom.'px', $grid, $gi, $panels_data, $post_id)
+	));
+	$css->add_cell_css($post_id, false, false, '.so-panel:last-child', array(
+		'margin-bottom' => apply_filters('siteorigin_panels_css_cell_last_margin_bottom', '0px', $grid, $gi, $panels_data, $post_id)
+	));
+
 	if( $settings['responsive'] ) {
 		// Add CSS to prevent overflow on mobile resolution.
 		$css->add_row_css($post_id, false, '', array(
@@ -820,15 +840,17 @@ function siteorigin_panels_generate_css($post_id, $panels_data = false){
 		$css->add_cell_css($post_id, false, false, '', array(
 			'padding' => 0,
 		), $panels_mobile_width);
-	}
 
-	// Add the bottom margins
-	$css->add_cell_css($post_id, false, false, '.so-panel', array(
-		'margin-bottom' => apply_filters('siteorigin_panels_css_cell_margin_bottom', $panels_margin_bottom.'px', $grid, $gi, $panels_data, $post_id)
-	));
-	$css->add_cell_css($post_id, false, false, '.so-panel:last-child', array(
-		'margin-bottom' => apply_filters('siteorigin_panels_css_cell_last_margin_bottom', '0px', $grid, $gi, $panels_data, $post_id)
-	));
+		// Hide empty cells on mobile
+		$css->add_row_css($post_id, false, '.panel-grid-cell-empty', array(
+			'display' => 'none',
+		), $panels_mobile_width);
+
+		// Hide empty cells on mobile
+		$css->add_row_css($post_id, false, '.panel-grid-cell-mobile-last', array(
+			'margin-bottom' => '0px',
+		), $panels_mobile_width);
+	}
 
 	// Let other plugins customize various aspects of the rows (grids)
 	foreach ( $panels_data['grids'] as $gi => $grid ) {
@@ -1046,7 +1068,7 @@ function siteorigin_panels_render( $post_id = false, $enqueue_css = true, $panel
 
 	foreach ( $grids as $gi => $cells ) {
 
-		$grid_classes = apply_filters( 'siteorigin_panels_row_classes', array('panel-grid'), $panels_data['grids'][$gi] );
+		$grid_classes = apply_filters( 'siteorigin_panels_row_classes', array( 'panel-grid' ), $panels_data['grids'][$gi] );
 		$grid_id = !empty($panels_data['grids'][$gi]['style']['id']) ? sanitize_html_class( $panels_data['grids'][$gi]['style']['id'] ) : false;
 
 		$grid_attributes = apply_filters( 'siteorigin_panels_row_attributes', array(
@@ -1079,8 +1101,15 @@ function siteorigin_panels_render( $post_id = false, $enqueue_css = true, $panel
 		}
 
 		foreach ( $cells as $ci => $widgets ) {
+			$cell_classes = array('panel-grid-cell');
+			if( empty( $widgets ) ) {
+				$cell_classes[] = 'panel-grid-cell-empty';
+			}
+			if( $ci == count( $cells ) - 2 && count( $cells[ $ci + 1 ] ) == 0 ) {
+				$cell_classes[] = 'panel-grid-cell-mobile-last';
+			}
 			// Themes can add their own styles to cells
-			$cell_classes = apply_filters( 'siteorigin_panels_row_cell_classes', array('panel-grid-cell'), $panels_data );
+			$cell_classes = apply_filters( 'siteorigin_panels_row_cell_classes', $cell_classes, $panels_data );
 			$cell_attributes = apply_filters( 'siteorigin_panels_row_cell_attributes', array(
 				'class' => implode( ' ', $cell_classes ),
 				'id' => 'pgc-' . $post_id . '-' . ( !empty($grid_id) ? $grid_id : $gi )  . '-' . $ci
@@ -1100,7 +1129,6 @@ function siteorigin_panels_render( $post_id = false, $enqueue_css = true, $panel
 				$widget_style_wrapper = siteorigin_panels_start_style_wrapper( 'widget', array(), !empty( $widget_info['panels_info']['style'] ) ? $widget_info['panels_info']['style'] : array() );
 				siteorigin_panels_the_widget( $widget_info['panels_info'], $widget_info, $gi, $ci, $pi, $pi == 0, $pi == count( $widgets ) - 1, $post_id, $widget_style_wrapper );
 			}
-			if ( empty( $widgets ) ) echo '&nbsp;';
 
 			if( !empty($cell_style_wrapper) ) echo '</div>';
 			echo '</div>';
@@ -1453,7 +1481,12 @@ add_action('plugin_action_links_' . plugin_basename(__FILE__), 'siteorigin_panel
 
 function siteorigin_panels_live_edit_link( $wp_admin_bar ){
 	// Add a Live Edit link if this is a Page Builder page that the user can edit
-	if( is_singular() && current_user_can( 'edit_post', get_the_ID() ) && get_post_meta( get_the_ID(), 'panels_data', true ) ) {
+	if(
+		siteorigin_panels_setting( 'live-editor-quick-link' ) &&
+		is_singular() &&
+		current_user_can( 'edit_post', get_the_ID() ) &&
+		get_post_meta( get_the_ID(), 'panels_data', true )
+	) {
 		$wp_admin_bar->add_node( array(
 			'id'    => 'so_live_editor',
 			'title' => __( 'Live Editor', 'siteorigin-panels' ),
@@ -1576,6 +1609,24 @@ function siteorigin_panels_process_panels_data( $panels_data ){
 	return $panels_data;
 }
 add_filter( 'siteorigin_panels_data', 'siteorigin_panels_process_panels_data', 5 );
+
+function siteorigin_panels_display_premium_teaser(){
+	return
+		siteorigin_panels_setting( 'display-teaser' ) &&
+		apply_filters( 'siteorigin_premium_upgrade_teaser', true ) &&
+		! defined( 'SITEORIGIN_PREMIUM_VERSION' );
+}
+
+function siteorigin_panels_premium_url() {
+	$ref = apply_filters( 'siteorigin_premium_affiliate_id', '' );
+	$url = 'https://siteorigin.com/downloads/premium/?featured_plugin=siteorigin-panels';
+
+	if( $ref ) {
+		$url = add_query_arg( 'ref', urlencode( $ref ), $url );
+	}
+
+	return $url;
+}
 
 // Include the live editor file if we're in live editor mode.
 if( !empty($_GET['siteorigin_panels_live_editor']) ) require_once plugin_dir_path(__FILE__) . 'inc/live-editor.php';

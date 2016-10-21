@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Google Analyticator
- * Version: 6.4.9.7
+ * Version: 6.5.0.0
  * Plugin URI: http://www.videousermanuals.com/google-analyticator/?utm_campaign=analyticator&utm_medium=plugin&utm_source=readme-txt
  * Description: Adds the necessary JavaScript code to enable <a href="http://www.google.com/analytics/">Google's Analytics</a>. After enabling this plugin you need to authenticate with Google, then select your domain and you're set.
  * Author: SumoMe
@@ -12,7 +12,7 @@
 //error_reporting(E_ALL);
 //ini_set('display_errors', '1');
 
-define('GOOGLE_ANALYTICATOR_VERSION', '6.4.9');
+define('GOOGLE_ANALYTICATOR_VERSION', '6.5.0');
 
 define('GOOGLE_ANALYTICATOR_CLIENTID', '1007949979410.apps.googleusercontent.com');
 define('GOOGLE_ANALYTICATOR_CLIENTSECRET', 'q06U41XDXtzaXD14E-KO1hti'); //don't worry - this don't need to be secret in our case
@@ -94,8 +94,8 @@ add_option('ga_defaults', 'yes' );
 add_option('ga_google_token', '', '');
 
  $useAuth = ( get_option( 'ga_google_token' ) == '' ? false : true );
-
-
+ 
+ 
 # Check if we have a version of WordPress greater than 2.8
 if ( function_exists('register_widget') ) {
 
@@ -192,8 +192,8 @@ function ga_pre_load()
 	    global $wpdb;
 			delete_transient('google_stats_uniques' );
 			delete_transient('ga_admin_stats_widget');
-			$wpdb->query( "delete from $wpdb->options where `option_name` like 'google_stats_visitsGraph_%'");
-		    $wpdb->query( "delete from $wpdb->options where `option_name` like '%ga_admin_dashboard%'");
+			$wpdb->query( "delete from $wpdb->options where `option_name` like 'google_stats_visitsGraph_%'"); 
+		    $wpdb->query( "delete from $wpdb->options where `option_name` like '%ga_admin_dashboard%'");   
     }
 }
 
@@ -299,7 +299,7 @@ function ga_do_reset()
     delete_option('ga_profileid');
     delete_transient('ga_admin_stats_widget');
 
-    // Need to remove cached items from GA widgets
+    // Need to remove cached items from GA widgets 
     $wpdb->query( "delete from $wpdb->options where `option_name` like 'google_stats_visitsGraph_%'");
 
     wp_redirect( admin_url( 'options-general.php?page=ga_activate' ) );
@@ -320,19 +320,19 @@ function ga_options_page() {
 
 	// If we are a postback, store the options
 	if (isset($_POST['info_update'])) {
-
+		
 		# Verify nonce
 		check_admin_referer('google-analyticator-update_settings');
 
                 update_option('ga_defaults', 'no');
-
+				
 				if(isset( $_POST['ga_domain_names'])){
 					// Get our domains array, and match the UID to the value
 					$domains = stripslashes( $_POST['ga_domain_names'] );
 					$all_domains = unserialize( $domains );
 					update_option( 'ga_domain_name', $all_domains[ $_POST[key_ga_uid] ] );
 				}
-
+        
         // Update the status
 		$ga_status = wp_filter_kses( $_POST[key_ga_status] );
 		if (($ga_status != ga_enabled) && ($ga_status != ga_disabled))
@@ -341,22 +341,22 @@ function ga_options_page() {
 
 		// Update Hiding UID (if set)
                 if( isset( $_POST[key_ga_disable_gasites] ) ) {
-
+                    
                     $ga_disable_gasites = wp_filter_kses( $_POST[key_ga_disable_gasites] );
-
+	
                     if (!$ga_disable_gasites)
 						$ga_disable_gasites = ga_disable_gasites_default;
-
+	
                     update_option(key_ga_disable_gasites, $ga_disable_gasites);
                 }
-
+		
 		// Update the Analytic Snippet
 		//define("key_ga_analytic_snippet", "ga_analytic_snippet", true);
 		$ga_analytic_snippet = wp_filter_kses( $_POST[key_ga_analytic_snippet] );
 		if (($ga_analytic_snippet != ga_enabled) && ($ga_analytic_snippet != ga_disabled))
 			$ga_analytic_snippet = ga_analytic_snippet;
 		update_option(key_ga_analytic_snippet, $ga_analytic_snippet);
-
+		
 		// Update the UID
 		$ga_uid = wp_filter_kses( $_POST[key_ga_uid] );
 		if ($ga_uid == '')
@@ -373,9 +373,9 @@ function ga_options_page() {
 		$ga_admin_disable_DimentionIndex = $_POST[key_ga_admin_disable_DimentionIndex];
 		if ($ga_admin_disable_DimentionIndex == '')
 			$ga_admin_disable_DimentionIndex = ga_admin_disable_DimentionIndex_default;
-
+			
 		update_option(key_ga_admin_disable_DimentionIndex, sanitize_text_field( $ga_admin_disable_DimentionIndex ) );
-
+		
 		// Update the admin disable setting
 		$ga_admin_disable = wp_filter_kses( $_POST[key_ga_admin_disable] );
 		if ( $ga_admin_disable == '' )
@@ -438,7 +438,7 @@ function ga_options_page() {
 		if ($ga_enhanced_link_attr == '')
 			$ga_enhanced_link_attr = ga_enhanced_link_attr_default;
 			update_option(key_ga_enhanced_link_attr, wp_filter_kses( $ga_enhanced_link_attr) );
-
+			
 		// Update the download prefix
 		$ga_downloads_prefix = $_POST[key_ga_downloads_prefix];
 		if ($ga_downloads_prefix == '')
@@ -451,27 +451,27 @@ function ga_options_page() {
 
 				$ga_widgets = ga_widgets_default;
 				update_option(key_ga_widgets, wp_filter_kses( $ga_widgets ) );
-
+		
 						// Update the widgets option
 				update_option(key_ga_annon, wp_filter_kses( $_POST[key_ga_annon] ) );
-
+                
                 // Update enable remarketing
                 update_option(key_ga_remarketing, wp_filter_kses( $_POST[key_ga_remarketing] ) );
 
                 // Update key_ga_hide_ad
                 update_option(key_ga_show_ad, wp_filter_kses( $_POST[key_ga_show_ad] ) );
                 // Update enable tracking login
-                update_option(key_ga_track_login, wp_filter_kses( $_POST[key_ga_track_login] ) );
-
+                update_option(key_ga_track_login, wp_filter_kses( $_POST[key_ga_track_login] ) );           
+		
 		do_action("ga_experiment_setting_save");
-
+		
 		// Give an updated message
 		echo "<div class='updated fade'><p><strong>" . __('Google Analyticator settings saved.', 'google-analyticator') . "</strong></p></div>";
 	}
         // Are we using the auth system?
         $useAuth = ( get_option( 'ga_google_token' ) == '' ? false : true );
 		// Output the options page
-
+		
 	?>
 <div class="wrap">
 	<?php if (get_option('ga_analyticator_global_notification') == 1): ?>
@@ -504,10 +504,10 @@ function ga_options_page() {
     <?php
 $addons = get_option("gapro_addons");
 if(!$addons){?>
-    <div id="vumga-sidebar" style="position: absolute; top: 40px; right: 0; width: 250px; border: 1px solid #ccc; padding: 20px; background:#FFFFFF">
+    <div id="vumga-sidebar" style="position: absolute; top: 40px; right: 0; width: 250px; border: 1px solid #ccc; padding: 20px; background:#FFFFFF"> 
 		<h3 style="text-align:center">Support us</h3>
 		<p>1- Check out our <a target="_blank" href="https://wordpress.org/plugins/sumome">SumoMe plugin</a></p>
-		<p>2- <a target="_blank" href="https://wordpress.org/support/view/plugin-reviews/google-analyticator">Leave a :) Review</a></p>
+		<p>2- <a target="_blank" href="https://wordpress.org/support/view/plugin-reviews/google-analyticator">Leave a :) Review</a></p>	
 		<p>3- Have a great day!</p>
 		<h3 style="text-align:center">Show off your analytics</h3>
 		<p>Use short code <b>[analytics]</b> anywhere on your site to show your analytics publicly.</p>
@@ -521,7 +521,7 @@ if(!$addons){?>
             <?php _e('Basic Settings', 'google-analyticator'); ?>
           </h3></td>
       </tr>
-
+      
       <tr>
         <th width="35%" valign="top" style="padding-top: 10px;"> <label for="<?php echo key_ga_status ?>">
             <?php _e('Google Analytics logging is', 'google-analyticator'); ?>:</label>
@@ -542,19 +542,19 @@ if(!$addons){?>
 
 						echo "</select>\n";
 						?>
-
+       
        </td>
       </tr>
       <tr id="ga_ajax_accounts">
         <th valign="top" style="padding-top: 10px;"> <label for="<?php echo key_ga_uid; ?>"><?php _e('Analytics Account', 'google-analyticator'); ?>:</label>
         </th>
         <td>
-
+		
 		<?php if (get_option(key_ga_disable_gasites) == ga_disabled){?>
 		<?php
 
                         if( $useAuth ):
-
+                            
                             $uids = ga_get_analytics_accounts();
 
                             echo "<select name='".key_ga_uid."'> ";
@@ -571,12 +571,12 @@ if(!$addons){?>
 	                                echo '>'.$domain.'</option>';
 
 	                            endforeach;
-
+	                            
                             echo '</select>';
 
                             // Need a copy of the array, so we can store the domain name too (for visual purposes)
                             echo '<input type="hidden" name="ga_domain_names" value=\'' . serialize( $uids ) . '\' />';
-
+                            
                         else:
 
                             echo '<input type="text" name="'.key_ga_uid.'" value="'. get_option( key_ga_uid ) .'" />';
@@ -588,7 +588,7 @@ if(!$addons){?>
 			?><?php echo get_option( 'ga_domain_name' ); ?> - To change this, you must <a href="<?php echo admin_url('/options-general.php?page=ga_reset'); ?>">deauthorize and reset the plugin</a>
 			 <input type="hidden" name="<?php echo key_ga_disable_gasites?>" value="<?php echo ga_enabled?>" /><input type="hidden" name="<?php echo key_ga_uid?>" value="<?php echo get_option(key_ga_uid)?>" />
 			<?php
-			}?>
+			}?>               
          </td>
       </tr>
       <tr>
@@ -760,13 +760,13 @@ if(!$addons){?>
 							echo" selected='selected'";
 						echo ">" . __('No', 'google-analyticator') . "</option>\n";
 
-
+                                                
 						echo "<option value='1'";
 						if(get_option(key_ga_remarketing) == '1' )
 							echo " selected='selected'";
 						echo ">" . __('Yes', 'google-analyticator') . "</option>\n";
 
-
+						
 						echo "</select>\n";
 
 						?>
@@ -1021,7 +1021,7 @@ if(!$addons){?>
       <input type="submit" class="button button-primary" name="info_update" value="<?php _e('Save Changes', 'google-analyticator'); ?>" />
     </p>
     <a href="<?php echo ga_analyticator_setting_url(). '&pageaction=ga_clear_cache' ?>"><?php _e('Clear Analyticator Cache', 'google-analyticator'); ?></a> |  <a href="<?php echo admin_url('/options-general.php?page=ga_reset'); ?>">
-    <?php _e('Deauthorize &amp; Reset Google Analyticator.', 'google-analyticator'); ?></a>
+    <?php _e('Deauthorize &amp; Reset Google Analyticator.', 'google-analyticator'); ?></a>   
   </form>
 </div>
 </div>
@@ -1107,13 +1107,13 @@ function add_google_analytics()
 	# Determine if the GA is enabled and contains a valid UID
 	if ( ( get_option(key_ga_status) != ga_disabled ) && ( $uid != "XX-XXXXX-X" ) )
 	{
-
+	
 		# Determine if the user is an admin, and should see the tracking code
-
+		
 		#first check if its tracking is enabled but current user is not in the list
 		# Or check if tracking is enabled but its in the list but the method is not remove
-		if ( (get_option(key_ga_admin) == ga_enabled  &&  !ga_current_user_is(get_option(key_ga_admin_role) ) ) ||
-			 (get_option(key_ga_admin) == ga_enabled && ga_current_user_is(get_option(key_ga_admin_role) ) && get_option(key_ga_admin_disable) != 'remove' )
+		if ( (get_option(key_ga_admin) == ga_enabled  &&  !ga_current_user_is(get_option(key_ga_admin_role) ) ) || 
+			 (get_option(key_ga_admin) == ga_enabled && ga_current_user_is(get_option(key_ga_admin_role) ) && get_option(key_ga_admin_disable) != 'remove' ) 
 			 || !is_user_logged_in())
 		{
 			# Disable the tracking code on the post preview page
@@ -1158,7 +1158,7 @@ function add_google_analytics()
 <?php if(get_option(key_ga_enhanced_link_attr) == ga_enabled): ?>
 	var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
 	_gaq.push(['_require', 'inpage_linkid', pluginUrl]);
-<?php endif; ?>
+<?php endif; ?>  
 	_gaq.push(['_setAccount', '<?php echo $uid; ?>']);
     _gaq.push(['_addDevId', 'i9k95']); // Google Analyticator App ID with Google
 <?php if ($need_to_annon == '1' ): ?>
@@ -1212,7 +1212,7 @@ function add_google_analytics()
 <?php if ($need_to_annon == '1' ): ?>
 
 	ga('set', 'anonymizeIp', true);
-<?php endif; ?>
+<?php endif; ?> 
 <?php
     # Add any tracking code before the trackPageview
     do_action('google_analyticator_extra_js_before');
@@ -1224,7 +1224,7 @@ function add_google_analytics()
       echo "	ga('set', 'dimension". $dimentionKeyVal ."', 'admin');\n";
 ?>
 	ga('send', 'pageview');
-<?php
+<?php		
     # Add any tracking code after the trackPageview
     do_action('google_analyticator_extra_js_after');
     if ( '' != $extra_after )
@@ -1285,7 +1285,7 @@ function ga_current_user_is($roles)
 	if ( !$roles ) return false;
 
 	global $current_user;
-	wp_get_current_user();
+	get_currentuserinfo();
 	$user_id = intval( $current_user->ID );
 
 	if ( !$user_id ) {
@@ -1304,12 +1304,12 @@ function ga_analyticator_setting_url(){
 }
 
 function ga_get_active_addons(){
-
-	$gapro_addons =	get_option("gapro_addons");
+	
+	$gapro_addons =	get_option("gapro_addons");	
 	if($gapro_addons && is_array($gapro_addons)){
 		return $gapro_addons;
 	}else{
-		return false;
+		return false;	
 	}
 }
 function add_ga_admin_footer(){
@@ -1320,19 +1320,19 @@ function add_ga_admin_footer(){
 							jQuery(".newtrackingnote").show();
 						else
 							jQuery(".newtrackingnote").hide();
-
+						
 						jQuery("#ga_admin_disable").trigger("change");
 					});
-
+					
 					jQuery("#ga_admin_disable").change(function(){
 						if((jQuery("#ga_analytic_snippet option:selected").val() == "disabled") && (jQuery("#ga_admin_disable option:selected").val() == "admin")){
 							jQuery(".ga_admin_disable_DimentionIndex_span").show();
 						}else
 						{
-							jQuery(".ga_admin_disable_DimentionIndex_span").hide();
+							jQuery(".ga_admin_disable_DimentionIndex_span").hide();	
 						}
 					});
-
+					
 					jQuery( "#ga_analytic_snippet" ).trigger("change");
 					jQuery("#ga_admin_disable").trigger("change");
 			})';
