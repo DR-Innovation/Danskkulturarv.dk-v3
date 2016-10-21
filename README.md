@@ -1,6 +1,8 @@
 Danskkulturarv.dk-v3
 ====================
 
+<a href="https://www.statuscake.com" title="Website Uptime Monitoring"><img src="https://app.statuscake.com/button/index.php?Track=Bzj9GSgakq&Days=30&Design=6" /></a>
+
 The third version of the danskkulturarv.dk website
 
 ### Frontpage query
