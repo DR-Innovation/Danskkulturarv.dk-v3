@@ -5780,6 +5780,9 @@ iframe {
 .video-js {
   width: 100%!important;
 }
+.jwplayer.jw-flag-media-audio .jw-aspect.jw-reset {
+  padding-top: 40px !important;
+}
 .jwplayer .jw-rightclick {
   display: none !important;
 }

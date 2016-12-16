@@ -252,8 +252,17 @@ iframe {
   width: 100%!important;
 }
 
-.jwplayer .jw-rightclick {
-  display: none !important;
+.jwplayer {
+
+  &.jw-flag-media-audio {
+    .jw-aspect.jw-reset {
+      padding-top: 40px !important;
+    }
+  }
+
+  .jw-rightclick {
+    display: none !important;
+  }
 }
 
 .icon-picture-sound:after {

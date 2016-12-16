@@ -82,8 +82,6 @@ foreach($object->Files as $file) {
 $sharing_link = site_url($_SERVER["REQUEST_URI"]);
 
 $options = array(
-    "width" => "100%",
-    "height" => 24,
     "abouttext" => sprintf(__("About %s",'wpdka'),get_bloginfo('title')),
     "aboutlink" => site_url('om'),
     "playlist" => array(array(
