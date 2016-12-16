@@ -86,11 +86,6 @@ class WPDKA {
   }
 
   public function loadJsCss() {
-    add_action( 'wp_footer', function() {
-      echo '<script type="text/javascript">if (typeof jwplayer !== "undefined") {
-        jwplayer.key="'. get_option('wpdka-jwplayer-api-key') .'";
-      }</script>';
-    }, 99);
     wp_enqueue_script('wpdka-publish',plugins_url( 'js/publish.js' , __FILE__ ),array('jquery'),'1.0',true);
     $translation_array = array(
       'ajaxurl' => admin_url( 'admin-ajax.php' ),
@@ -141,20 +136,6 @@ class WPDKA {
           'type' => 'select',
           'list' => $pages,
         ),
-      )
-    ),array(
-      /*Sections*/
-      'name'		=> 'jwplayer',
-      'title'		=> __('JW Player Settings','wpdka'),
-      'fields'	=> array(
-        /*Section fields*/
-        array(
-          'name' => 'wpdka-jwplayer-api-key',
-          'title' => __('JW Player API key','wpdka'),
-          'type' => 'text',
-          'val' => '',
-          'class' => 'regular-text'
-        )
       )
     ));
     return array_merge($settings,$new_settings);
