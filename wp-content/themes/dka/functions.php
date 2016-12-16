@@ -273,7 +273,7 @@ function dka_scripts_styles() {
 
 	wp_register_script( 'html5shiv', get_template_directory_uri() . '/js/html5shiv.js', array(), ' 1.0', true );
 	wp_register_script( 'respond-js', get_template_directory_uri() . '/js/respond.min.js', array(), ' 1.0', true );
-	wp_register_script( 'jwplayer', 'https://content.jwplatform.com/libraries/iEjtq0pr.js', array('jquery'), '1', true );
+	wp_register_script( 'jwplayer', 'https://content.jwplatform.com/libraries/iEjtq0pr.js', array('jquery'), null, true );
 	wp_register_script( 'flexslider', get_template_directory_uri() . '/js/jquery.flexslider-min.js', array('jquery'), '2.1', true );
   wp_register_script( 'grid', get_template_directory_uri() . '/js/grid.js', array('jquery'), '2.1', true );
 
