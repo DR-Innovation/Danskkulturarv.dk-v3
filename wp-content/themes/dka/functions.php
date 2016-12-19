@@ -154,10 +154,9 @@ function dka_gallery_markup($output, $attr) {
 add_filter( 'post_gallery', 'dka_gallery_markup', 11, 2 );
 
 function cookie_policy_popup() {
-  if (!is_user_logged_in() && !isset($_COOKIE['cookie_policy_seen'])):
+  if (!is_user_logged_in()):
     ?>
-
-      <div class="footer_cookie_policy row">
+      <div class="footer_cookie_policy hidden row">
         <div class="col-xs-12 col-sm-offset-2 col-sm-8">
           <h4><img class="pull-left" src="http://www.dr.dk/assets/img/cookie-icon.png">Cookie- og privatlivspolitik på <?php bloginfo( 'name' ); ?>.</h4>
           <p>

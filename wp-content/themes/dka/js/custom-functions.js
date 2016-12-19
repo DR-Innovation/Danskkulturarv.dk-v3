@@ -224,6 +224,16 @@ function checkDateInput() {
     });
   }
 
+  // Cookie notice handling
+  function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+  }
+  if (!getCookie('cookie_policy_seen')) {
+    $('.footer_cookie_policy').removeClass('hidden');
+  }
+
   //animate the navbar
   var $navbar = $(".navbar");
   $(window).scroll(function() {
