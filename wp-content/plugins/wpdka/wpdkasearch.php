@@ -145,17 +145,16 @@ class WPDKASearch {
       if(array_key_exists(WPChaosSearch::QUERY_KEY_FREETEXT, $query_vars)) {
         // For each known metadata schema, loop and add freetext search on this.
         $freetext = $query_vars[WPChaosSearch::QUERY_KEY_FREETEXT];
-        if(empty($freetext)) {
-          $freetext = ' ';
-        }
-        $freetext = WPChaosClient::escapeSolrValue($freetext);
-        $searches = array();
-        foreach(WPDKAObject::$FREETEXT_SCHEMA_GUIDS as $schemaGUID) {
-          foreach(WPDKAObject::$FREETEXT_LANGUAGE as $language) {
-            $searches[] = sprintf("(m%s_%s_all:(%s))", $schemaGUID, $language, $freetext);
+        if(!empty($freetext)) {
+          $freetext = WPChaosClient::escapeSolrValue($freetext);
+          $searches = array();
+          foreach(WPDKAObject::$FREETEXT_SCHEMA_GUIDS as $schemaGUID) {
+            foreach(WPDKAObject::$FREETEXT_LANGUAGE as $language) {
+              $searches[] = sprintf("(m%s_%s_all:(%s))", $schemaGUID, $language, $freetext);
+            }
           }
+          $query[] = '(' . implode(" OR ", $searches) . ')';
         }
-        $query[] = '(' . implode(" OR ", $searches) . ')';
       }
       return implode(" AND ", $query);
     }, 10, 2);
