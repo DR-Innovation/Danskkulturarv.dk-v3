@@ -754,10 +754,10 @@ final class WPDKATags {
 
 				//Prepare relevant strings for query (avoid empty ones)
 				foreach($freetext as $tag) {
-					if($tag != "" && !isset($tags[$tag])) {
-						$tags[$tag] = WPChaosClient::escapeSolrValue($tag)."*";
+					if($tag != "" && $tag != "AND" && $tag != "OR" && !isset($tags[$tag])) {
+						$tags[$tag] = '*' . WPChaosClient::escapeSolrValue($tag) . '*';
 					}
-					
+
 				}
 
 				if(!empty($tags)) {
