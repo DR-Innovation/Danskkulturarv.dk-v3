@@ -19,9 +19,7 @@ Clone the repository and initialize + update it's submodules and their submodule
 
 `cd Danskkulturarv.dk-v3`
 
-`git submodule update --init`
-
-`git submodule foreach --recursive git submodule update --init`
+`git submodule update --recursive --init`
 
 Setup an Apache site that serves the project-files on ex _local.danskkulturarv.dk_ (assumed from now on) and consider modifying your machines /etc/hosts or equivalent to point that domain to your loopback IP address (127.0.0.1).
 
