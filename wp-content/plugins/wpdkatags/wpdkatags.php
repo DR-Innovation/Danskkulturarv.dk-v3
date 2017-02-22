@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: WP DKA Tags
-Plugin URI: 
+Plugin URI:
 Description: Manage user generated tags for CHAOS
 Version: 1.0
 Author: Joachim Jensen
-Author URI: 
-License: 
+Author URI:
+License:
 */
 final class WPDKATags {
 
@@ -118,7 +118,7 @@ final class WPDKATags {
 	/**
 	 * Add some setting keys to CHAOS settings
 	 * @param  array    $settings
-	 * @return array 
+	 * @return array
 	 */
 	public function add_chaos_settings($settings) {
 		$new_settings = array(
@@ -174,7 +174,7 @@ final class WPDKATags {
 			}
 
 			//TODO: nonce check here
-			
+
 			$tags = $_REQUEST[WPDKATagObjects_List_Table::NAME_SINGULAR];
 			if(!is_array($tags)) {
 				$tags = array($tags);
@@ -281,7 +281,7 @@ final class WPDKATags {
 			<?php
 
 			$this->render_list_table($renderTable);
-			
+
 			?>
 		</div>
 		<?php
@@ -293,7 +293,7 @@ final class WPDKATags {
 	 * @return WPDKATags_List_Table
 	 */
 	private function render_list_table(WPDKATags_List_Table $table) {
-		$table->prepare_items();   
+		$table->prepare_items();
 		?>
 		<h2><?php $table->get_title(); ?></h2>
 
@@ -308,7 +308,7 @@ final class WPDKATags {
 			<?php $table->views(); ?>
 			<?php $table->display(); ?>
 		</form>
-		
+
 		<?php
 		return $table;
 	}
@@ -354,7 +354,7 @@ final class WPDKATags {
 				);
 		} else {
 			_e('Tag could not be renamed.',self::DOMAIN);
-			throw new \RuntimeException("Tag could not be renamed");  
+			throw new \RuntimeException("Tag could not be renamed");
 		}
 
 		echo json_encode($response);
@@ -367,7 +367,7 @@ final class WPDKATags {
 	 * @return void
 	 */
 	public function ajax_flag_tag() {
-		
+
 		//iff status == active
 		if(get_option('wpdkatags-status',0) != '2') {
 			_e('Unauthorized request.',self::DOMAIN);
@@ -390,19 +390,19 @@ final class WPDKATags {
 			_e('Tag could not be found in CHAOS.',self::DOMAIN);
 			throw new \RuntimeException("Invalid tag");
 		}
-		
+
 		if(self::change_tag_state($tag, self::TAG_STATE_FLAGGED)) {
 			$response = array(
 				__('Tag was flagged successfully!',self::DOMAIN)
 			);
 		} else {
 			_e('Tag could not be flagged.',self::DOMAIN);
-			throw new \RuntimeException("Tag could not be flagged");  
+			throw new \RuntimeException("Tag could not be flagged");
 		}
 
 		echo json_encode($response);
 		die();
-		
+
 	}
 
 	/**
@@ -410,7 +410,7 @@ final class WPDKATags {
 	 * @return void
 	 */
 	public function ajax_taggable() {
-		
+
 		//iff status == active
 		if(get_option('wpdkatags-status',0) != '2' || !current_user_can(WPDKATags::CAPABILITY)) {
 			_e('Unauthorized request.',self::DOMAIN);
@@ -423,26 +423,26 @@ final class WPDKATags {
 		}
 
 		$object = self::get_object_by_guid($_POST['object_guid']);
-		
+
 		if($object == null) {
 			_e('Object could not be found in CHAOS.',self::DOMAIN);
 			throw new \RuntimeException("Object could not be found");
 		}
 
 		$taggable = isset($_POST['taggable']) ? (bool)$_POST['taggable'] : 0;
-		
+
 		if($this->_change_object_taggable($object, $taggable)) {
 			$response = array(
 				sprintf(__('Object now %s for user tags',self::DOMAIN),($taggable ? __('open',self::DOMAIN) : __('closed',self::DOMAIN)))
 			);
 		} else {
 			_e('Could not toggle taggable state of object.',self::DOMAIN);
-			throw new \RuntimeException("Something went wrong toggling taggable state");  
+			throw new \RuntimeException("Something went wrong toggling taggable state");
 		}
 
 		echo json_encode($response);
 		die();
-		
+
 	}
 
 	/**
@@ -475,7 +475,7 @@ final class WPDKATags {
 		}
 
 		$object = self::get_object_by_guid($_POST['object_guid']);
-		
+
 		if($object == null || !$object->taggable) {
 			_e('Tag could not be added.',self::DOMAIN);
 			throw new \RuntimeException("Object could not be found");
@@ -499,7 +499,7 @@ final class WPDKATags {
 			_e('Tag could not be added.',self::DOMAIN);
 			throw new \RuntimeException("Tag could not be added to CHAOS");
 		}
-		
+
 		echo json_encode($response);
 		die();
 	}
@@ -541,7 +541,7 @@ final class WPDKATags {
 			//date seems 2 hours behind gmt1 and daylight saving time. using gmt0?
 			$metadataXML->addAttribute('created', date('c', time()));
 			$metadataXML->addAttribute('status', self::TAG_STATE_UNAPPROVED);
-			
+
 			//Set metadata but do not refresh client
 			$tag->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false);
 
@@ -573,13 +573,13 @@ final class WPDKATags {
 			$node[0]->Taggable = ($taggable ? 'true' : 'false');
 
 			$object->set_metadata(WPChaosClient::instance(),WPDKAObject::DKA_CROWD_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE);
-		
+
 			return true;
-				
+
 			} catch(\Exception $e) {
 				error_log('CHAOS Error when changing object taggable: '.$e->getMessage());
 			}
-		
+
 		return false;
 	}
 
@@ -595,9 +595,9 @@ final class WPDKATags {
 			try {
 
 				$metadataXML = $tag_object->get_metadata(self::METADATA_SCHEMA_GUID);
-				
+
 				if($metadataXML['status'] != $new_state) {
-					
+
 					$metadataXML['status'] = $new_state;
 
 					//Set metadata but do not refresh client
@@ -607,7 +607,7 @@ final class WPDKATags {
 				}
 
 				return false;
-				
+
 			} catch(\Exception $e) {
 				error_log('CHAOS Error when changing tag state: '.$e->getMessage());
 			}
@@ -622,7 +622,7 @@ final class WPDKATags {
 	 * @return boolean
 	 */
 	public static function change_tag_value(WPChaosObject $tag_object,$new_value) {
-		
+
 		try {
 
 			$metadataXML = $tag_object->get_metadata(self::METADATA_SCHEMA_GUID);
@@ -633,8 +633,8 @@ final class WPDKATags {
 				$tag_object->set_metadata(WPChaosClient::instance(),self::METADATA_SCHEMA_GUID,$metadataXML,WPDKAObject::METADATA_LANGUAGE,null,false);
 				return true;
 			}
-			
-			
+
+
 			return false;
 		} catch(\Exception $e) {
 			error_log('CHAOS Error when changing tag value: '.$e->getMessage());
@@ -676,7 +676,7 @@ final class WPDKATags {
 			$response = WPChaosClient::instance()->Object()->Get(
 				WPChaosClient::escapeSolrValue($guid),   // Search query
 				null,   // Sort
-				$accesspoint, 
+				$accesspoint,
 				0,      // pageIndex
 				1,      // pageSize
 				true,   // includeMetadata
@@ -706,13 +706,13 @@ final class WPDKATags {
 		foreach($facetsResponse->Index()->Results() as $facetResult) {
 			foreach($facetResult->FacetFieldsResult as $fieldResult) {
 				foreach($fieldResult->Facets as $facet) {
-					$facets[$facet->Value] = $facet->Count; 
+					$facets[$facet->Value] = $facet->Count;
 					$total_count += $facet->Count;
 				}
 			}
 		}
 
-		function dashboard_entry($text,$num,$status = null) {	
+		function dashboard_entry($text,$num,$status = null) {
 			$admin_url = 'admin.php?page=wpdkatags';
 			$num = number_format_i18n($num);
 
@@ -787,7 +787,7 @@ final class WPDKATags {
 								$relation_guids[$relation->Object1GUID] = $relation->Object1GUID;
 							}
 						}
-						
+
 						//Append found object guids to search query
 						if(!empty($relation_guids)) {
 							$query[] = "(GUID:(".implode(" OR ", $relation_guids)."))";
@@ -800,8 +800,8 @@ final class WPDKATags {
 
 			}
 		}
-		
-		return implode("+OR+", $query);        
+
+		return implode("+OR+", $query);
 	}
 
 	/**
@@ -815,7 +815,7 @@ final class WPDKATags {
 				require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 			}
 			require_once("wpdkatags-list-table.php");
-			require_once("wpdkatagobjects-list-table.php");			
+			require_once("wpdkatagobjects-list-table.php");
 		}
 		require_once("wpchaosobject-filters.php");
 
@@ -824,8 +824,8 @@ final class WPDKATags {
 
 	/**
 	 * Check if dependent plugins are active
-	 * 
-	 * @return void 
+	 *
+	 * @return void
 	 */
 	public static function check_chaosclient() {
 		//$plugin = plugin_basename( __FILE__ );
@@ -838,7 +838,7 @@ final class WPDKATags {
 		}
 		if(!empty($dep)) {
 				//deactivate_plugins(array($plugin));
-			add_action( 'admin_notices', function() use (&$dep) { 
+			add_action( 'admin_notices', function() use (&$dep) {
 				echo '<div class="error"><p><strong>'.__('WordPress DKA Tags','wpdka').'</strong> '.sprintf(__('needs %s to be activated.','wpdka'),'<strong>'.implode('</strong>, </strong>',$dep).'</strong>').'</p></div>';
 			},10);
 			return false;
