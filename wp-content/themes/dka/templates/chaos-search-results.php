@@ -129,6 +129,18 @@ $views = array(
           </ul>
         </article>
       </div>
+    <?php else: ?>
+      <div class="alert alert-danger">
+        <p>Der skete en fejl under søgningen</p>
+        <?php
+        $search_error = WPChaosSearch::$search_error;
+        if($search_error && strpos($search_error->getMessage(), 'Bad Request') !== false) {
+          ?>
+          <p>Dine søgekriterier kunne desværre ikke forstås.</p>
+          <?php
+        }
+        ?>
+      </div>
     <?php endif; ?>
     </div>
   </div>
