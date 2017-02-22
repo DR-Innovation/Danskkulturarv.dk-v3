@@ -109,8 +109,17 @@ class WPDKASearch {
 
       }
 
-      $metadatas['description']['content'] =
-      $metadatas['og:description']['content'] = sprintf(__('%s contains %s materials about %s.','wpdka'),get_bloginfo('title'),WPChaosSearch::get_search_results()->MCM()->TotalCount(),WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html')).$extra_description;
+      $search_results = WPChaosSearch::get_search_results();
+      if($search_results) {
+        $title = get_bloginfo('title');
+        $count = $search_results->MCM()->TotalCount();
+        $freetext = WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html');
+
+        $content = sprintf(__('%s contains %s materials about %s.','wpdka'), $title, $count, $freetext) . $extra_description;
+
+        $metadatas['description']['content'] = $content;
+        $metadatas['og:description']['content'] = $content;
+      }
 
     }
     return $metadatas;

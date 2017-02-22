@@ -9,6 +9,7 @@
 $current_view = (WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_VIEW) ? 'listview' : 'thumbnails');
 $current_sort = isset(WPDKASearch::$sorts[WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_SORT)]) ? WPDKASearch::$sorts[WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_SORT)]['title'] : WPDKASearch::$sorts[null]['title'];
 $only_published_objects = WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_ONLY_PUBLISHED) == 'publicerede';
+$search_results = WPChaosSearch::get_search_results();
 
 $views = array(
   array(
@@ -31,7 +32,7 @@ $views = array(
     <div class="col-md-3 no-right-padding">
       <div class="search-count">
         <?php
-          $total_count = WPChaosSearch::get_search_results()->MCM()->TotalCount();
+          $total_count = $search_results ? $search_results->MCM()->TotalCount() : 0;
           $search_string = WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_FREETEXT, 'esc_html');
           if ($search_string){
             echo $result_count = sprintf(__('The search gave %s results for "%s"','dka'),number_format_i18n($total_count),'<strong>'.$search_string.'</strong>');
@@ -43,6 +44,7 @@ $views = array(
       <?php dynamic_sidebar('Top'); ?>
     </div>
     <div class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-1 ">
+      <?php if($search_results): ?>
       <div class="row">
         <div class="col-xs-12 search-result-listing">
           <div class="btn-group">
@@ -68,7 +70,7 @@ $views = array(
           <ul class="row <?php echo $current_view; ?>">
             <?php
             //Consider using a action/filter to print single result
-            foreach(WPChaosSearch::get_search_results()->MCM()->Results() as $object) :
+            foreach($search_results->MCM()->Results() as $object) :
               $collection_obj = null;
               if(class_exists('WPDKACollections') && $object->ObjectTypeID == WPDKACollections::COLLECTIONS_TYPE_ID) :
                 $collection_obj = new WPChaosObject($object,WPDKACollections::OBJECT_FILTER_PREFIX);
@@ -127,6 +129,19 @@ $views = array(
           </ul>
         </article>
       </div>
+    <?php else: ?>
+      <div class="alert alert-danger">
+        <p>Der skete en fejl under søgningen</p>
+        <?php
+        $search_error = WPChaosSearch::$search_error;
+        if($search_error && strpos($search_error->getMessage(), 'Bad Request') !== false) {
+          ?>
+          <p>Dine søgekriterier kunne desværre ikke forstås.</p>
+          <?php
+        }
+        ?>
+      </div>
+    <?php endif; ?>
     </div>
   </div>
 

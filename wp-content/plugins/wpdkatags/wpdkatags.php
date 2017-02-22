@@ -755,14 +755,14 @@ final class WPDKATags {
 				//Prepare relevant strings for query (avoid empty ones)
 				foreach($freetext as $tag) {
 					if($tag != "" && $tag != "AND" && $tag != "OR" && !isset($tags[$tag])) {
-						$tags[$tag] = '*' . WPChaosClient::escapeSolrValue($tag) . '*';
+						$tags[$tag] = WPChaosClient::escapeSolrValue($tag) . '*';
 					}
 
 				}
 
 				if(!empty($tags)) {
 					//Get tags by typeid, folderid and status not flagged
-					$tag_query = '('.self::FACET_KEY_VALUE.':(' . implode(" OR ", $tags) . ')) AND (ObjectTypeID:'.self::TAG_TYPE_ID.') AND (FolderID:'.self::TAGS_FOLDER_ID.') AND !('.self::FACET_KEY_STATUS.':'.self::TAG_STATE_FLAGGED.')';
+					$tag_query = '('.self::FACET_KEY_VALUE.':(' . implode(" AND ", $tags) . ')) AND (ObjectTypeID:'.self::TAG_TYPE_ID.') AND (FolderID:'.self::TAGS_FOLDER_ID.') AND !('.self::FACET_KEY_STATUS.':'.self::TAG_STATE_FLAGGED.')';
 					try {
 						$relation_guids = array();
 
