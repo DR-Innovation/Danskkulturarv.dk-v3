@@ -220,7 +220,7 @@ class WPDKASearch {
         }
       }
       return implode(" AND ", $query);
-    }, 12, 2);
+    }, 21, 2);
 
     /* Add Date filtering to the search criteria */
     add_filter('wpchaos-solr-query', function($query, $query_vars) {
@@ -241,7 +241,7 @@ class WPDKASearch {
       }
 
       return implode(" AND ", $query);
-    }, 21, 2); // Has to be exercuted after tags are added
+    }, 22, 2); // Has to be exercuted after tags are added
   }
 
   public function map_chaos_sorting($sort,$query_vars) {
