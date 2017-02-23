@@ -749,6 +749,8 @@ final class WPDKATags {
 			$freetext = $query_vars[WPChaosSearch::QUERY_KEY_FREETEXT];
 			//$freetext = preg_replace('/\s+/', ' ', $query_vars[WPChaosSearch::QUERY_KEY_FREETEXT]);
 			if($freetext) {
+				// Quotes mess up the searching
+				$freetext = str_replace('"', '', $freetext);
 				$freetext = explode(" ", $freetext);
 				$tags = array();
 
