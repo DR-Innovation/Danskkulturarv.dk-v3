@@ -803,7 +803,7 @@ final class WPDKATags {
 			}
 		}
 
-		return implode("+OR+", $query);
+		return implode(" OR ", $query);
 	}
 
 	/**
