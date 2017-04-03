@@ -98,9 +98,7 @@ final class WPDKATags {
 				add_action('dashboard_glance_items', array(&$this,'add_usertag_counts'));
 
 			} else {
-
-				add_filter('wpchaos-solr-query',array(&$this,'add_tag_search_to_query'),20,2);
-
+				add_filter('wpchaos-solr-query',array(&$this,'add_tag_search_to_query'), 12, 2);
 			}
 
 			add_action('plugins_loaded',array(&$this,'load_textdomain'));
@@ -739,7 +737,7 @@ final class WPDKATags {
 	public function add_tag_search_to_query($query, $query_vars) {
 		//We use an OR, so encapsulate everything prior
 		if($query) {
-			$query = array("(".$query.")");
+			$query = array($query);
 		} else {
 			$query = array();
 		}
@@ -803,7 +801,7 @@ final class WPDKATags {
 			}
 		}
 
-		return implode(" OR ", $query);
+		return '(' . implode(" OR ", $query) . ')';
 	}
 
 	/**

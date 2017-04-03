@@ -139,7 +139,7 @@ class WPDKASearch {
       }
 
       $query[] = '(ObjectTypeID:(' . implode(" OR ", WPDKAObject::$OBJECT_TYPE_IDS) . '))';
-      return implode(" AND ", $query);
+      return '(' . implode(" AND ", $query) . ')';
     }, 9, 2);
 
 
@@ -165,7 +165,7 @@ class WPDKASearch {
           $query[] = '(' . implode(" OR ", $searches) . ')';
         }
       }
-      return implode(" AND ", $query);
+  		return '(' . implode(" AND ", $query) . ')';
     }, 10, 2);
 
     // File format types
@@ -192,7 +192,7 @@ class WPDKASearch {
         }
       }
 
-      return implode(" AND ", $query);
+      return '(' . implode(" AND ", $query) . ')';
     }, 11, 2);
 
     // Organizations
@@ -219,7 +219,7 @@ class WPDKASearch {
           $query[] = '(DKA-Organization:(' . implode(" OR ", $searches) . '))';
         }
       }
-      return implode(" AND ", $query);
+      return '(' . implode(" AND ", $query) . ')';
     }, 21, 2);
 
     /* Add Date filtering to the search criteria */
@@ -240,7 +240,7 @@ class WPDKASearch {
           ' TO ' . $date_to . '])';
       }
 
-      return implode(" AND ", $query);
+      return '(' . implode(" AND ", $query) . ')';
     }, 22, 2); // Has to be exercuted after tags are added
   }
 
