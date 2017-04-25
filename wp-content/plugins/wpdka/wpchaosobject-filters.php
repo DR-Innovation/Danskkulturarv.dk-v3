@@ -157,11 +157,14 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'published', function($value, \WP
 
   if($time) {
     $time = strtotime($time);
+    // Add the gmt offeset - this is what get_date_from_gmt does anyway
+    // @see https://codex.wordpress.org/Function_Reference/get_date_from_gmt
+    $time += get_option('gmt_offset') * 60 * 60; // * 60 * 60 sec/hour
     //If january 1st, only print year, else get format from WordPress
-    if(date("d-m",$time) == "01-01") {
-      $time = __('Year ','wpdka').date_i18n('Y',$time);
+    if(date("d-m", $time) == "01-01") {
+      $time = __('Year ', 'wpdka').date_i18n('Y', $time);
     } else {
-      $time = date_i18n(get_option('date_format'),$time);
+      $time = date_i18n(get_option('date_format'), $time);
     }
   }
 
