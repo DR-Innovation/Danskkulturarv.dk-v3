@@ -464,6 +464,9 @@ class WPDKAProgramListings
     $year = empty($year) ? "*" : $year;
     $text = empty($text) ? "*" : $text;
 
+    // Calculate search offset from page number. Default is offset 0.
+    $from = empty($page) ? 0 : (($page-1) * self::$page_size);
+
     $queryString = array(
       "default_field" => "allText",
       "default_operator" => "AND",
@@ -490,6 +493,7 @@ class WPDKAProgramListings
       "type" => self::ES_TYPE,
       "body" => array(
         "size" => self::$page_size,
+        "from" => $from,
         "sort" => array(
           "date" => array(
             "order" => "ASC"
