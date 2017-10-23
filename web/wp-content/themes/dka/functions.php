@@ -158,7 +158,7 @@ function cookie_policy_popup() {
     ?>
       <div class="footer_cookie_policy hidden row">
         <div class="col-xs-12 col-sm-offset-2 col-sm-8">
-          <h4><img class="pull-left" src="http://www.dr.dk/assets/img/cookie-icon.png">Cookie- og privatlivspolitik på <?php bloginfo( 'name' ); ?>.</h4>
+          <h4><img class="pull-left" src="https://www.dr.dk/assets/img/cookie-icon.png">Cookie- og privatlivspolitik på <?php bloginfo( 'name' ); ?>.</h4>
           <p>
             Vi bruger cookies for at forbedre din oplevelse, vurdere brugen af de enkelte elementer på <?php bloginfo( 'name' ); ?> og til at støtte markedsføringen af vores services. Ved at klikke videre på <?php bloginfo( 'name' ); ?> accepterer du vores brug af cookies.
             <a class="dr-link" href="http://www.dr.dk/service/privatlivspolitik/">Læs mere</a>
@@ -552,7 +552,7 @@ function dka_gemius_tracking() {
   function gemius_pending(i) { window[i] = window[i] || function() {var x = window[i+'_pdata'] = window[i+'_pdata'] || []; x[x.length]=arguments;};};
   gemius_pending('gemius_hit'); gemius_pending('gemius_event'); gemius_pending('pp_gemius_hit'); gemius_pending('pp_gemius_event');
   (function(d,t) {try {var gt=d.createElement(t),s=d.getElementsByTagName(t)[0]; gt.setAttribute('async','async'); gt.setAttribute('defer','defer');
-   gt.src='http://gadk.hit.gemius.pl/xgemius.js'; s.parentNode.insertBefore(gt,s);} catch (e) {}})(document,'script');
+   gt.src='https://gadk.hit.gemius.pl/xgemius.js'; s.parentNode.insertBefore(gt,s);} catch (e) {}})(document,'script');
   //--><!]]>
   </script>
 HTML;

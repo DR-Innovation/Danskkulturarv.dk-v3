@@ -50,7 +50,8 @@ class WPDKAFrontpageFeaturedWidget extends WP_Widget {
     $result = $this->get_featured($query, $max_results);
     echo '<div data-columns>';
     foreach( $result as $item ) {
-      $thumbnail = ($item->thumbnail ? '<img class="column-item__img" src="'.$item->thumbnail.'" />' : '');
+      $thumbnailUrl = preg_replace('|^http://|', 'https://', $item->thumbnail);
+      $thumbnail = ($item->thumbnail ? '<img class="column-item__img" src="'.$thumbnailUrl.'" />' : '');
       $playIcon = '';
       if ($item->type == 'video') {
         $playIcon = '<i class="column-item__icon icon-play-sign"></i>';

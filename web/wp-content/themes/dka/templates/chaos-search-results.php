@@ -99,6 +99,8 @@ $views = array(
                 $views = null;
                 $class = ' collection-result';
               }
+              $url = preg_replace('|^http://|', 'https://', $url);
+              $thumbnail = preg_replace('|^http://|', 'https://', $thumbnail);
               ?>
             <li class="search-object col-xs-6 col-sm-4<?php echo $class ?><?php echo $publish; ?>">
               <a class="thumbnail" href="<?php echo $url; ?>" id="<?php echo WPChaosClient::get_object()->GUID; ?>">
