@@ -5,6 +5,7 @@ web:
     - '443/tcp'
   volumes:
     - './web:/var/www/html'
+    - './docker/wp-config-docker.php:/var/www/html/wp-config-docker.php'
   links:
     - db
   environment:
@@ -20,6 +21,7 @@ wp-cli:
   image: tatemz/wp-cli
   volumes:
     - './web:/var/www/html'
+    - './docker/wp-config-docker.php:/var/www/html/wp-config-docker.php'
   links:
     - db
   environment:

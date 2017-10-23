@@ -20,4 +20,5 @@ web/wp-content/plugins/rewrite-rules-inspector
 web/.htaccess
 .DS_Store
 /docker-compose.override.yml
-/docker/
+/docker/initdb.d/
+/web/wp-config-docker.php
