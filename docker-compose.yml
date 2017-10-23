@@ -4,7 +4,7 @@ web:
     - '80/tcp'
     - '443/tcp'
   volumes:
-    - '.:/var/www/html'
+    - './web:/var/www/html'
   links:
     - db
   environment:
@@ -19,7 +19,7 @@ web:
 wp-cli:
   image: tatemz/wp-cli
   volumes:
-    - '.:/var/www/html'
+    - './web:/var/www/html'
   links:
     - db
   environment:
