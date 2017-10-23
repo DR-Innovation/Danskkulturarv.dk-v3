@@ -19,3 +19,5 @@ sitemap.xml.gz
 wp-content/plugins/rewrite-rules-inspector
 .htaccess
 .DS_Store
+/docker-compose.override.yml
+/docker/

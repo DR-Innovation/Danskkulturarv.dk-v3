@@ -1,0 +1,42 @@
+web:
+  image: reload/drupal-apache-ssl
+  ports:
+    - '80/tcp'
+    - '443/tcp'
+  volumes:
+    - '.:/var/www/html'
+  links:
+    - db
+  environment:
+    # You need to `export UID` in your shell / .profile for this to
+    # work. If exported Apache/PHP will run with the UID on your
+    # host/mac. I.e. this will avoid files being owned by root when
+    # regenerating features from inside Drupal. If not exported
+    # Apache/PHP will run with whatever UID the ww-data user was
+    # assigned (as before; usually uid 33).
+    WWW_DATA_UID: ${UID}
+
+wp-cli:
+  image: tatemz/wp-cli
+  volumes:
+    - '.:/var/www/html'
+  links:
+    - db
+  environment:
+    WORDPRESS_DB_PASSWORD: db
+    WORDPRESS_DB_NAME: db
+    WORDPRESS_DB_HOST: db
+    WORDPRESS_DB_USER: db
+  command: wp search-replace http://www.danskkulturarv.dk http://danskkulturarv.docker --recurse-objects --allow-root
+
+db:
+  image: mariadb
+  ports:
+    - '3306/tcp'
+  volumes:
+    - './docker/initdb.d:/docker-entrypoint-initdb.d:ro'
+  environment:
+    MYSQL_ROOT_PASSWORD: db
+    MYSQL_DATABASE: db
+    MYSQL_USER: db
+    MYSQL_PASSWORD: db
