@@ -136,7 +136,8 @@ class facebook_widget extends WP_Widget {
             <input size="5" id="<?php echo $this->get_field_id('height'); ?>" name="<?php echo $this->get_field_name('height'); ?>" type="text" value="<?php echo $height; ?>" />
         </p>
         <?php
-        $filename = "http://www.facebook.com/translations/FacebookLocales.xml";
+        // $filename = "http://www.facebook.com/translations/FacebookLocales.xml";
+	$filename = __DIR__ . "/FacebookLocales.xml";
         if (ini_get('allow_url_fopen')) {
             $langs = file_get_contents($filename);
             $xmlcont = new SimpleXMLElement($langs);
