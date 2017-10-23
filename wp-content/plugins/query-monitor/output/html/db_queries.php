@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2009-2016 John Blackbourn
+Copyright 2009-2017 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -163,7 +163,7 @@ class QM_Output_Html_DB_Queries extends QM_Output_Html {
 			 */
 			if ( apply_filters( 'qm/show_extended_query_prompt', true ) && ! $db->has_trace && ( '$wpdb' === $name ) ) {
 				echo '<tr>';
-				echo '<td colspan="' . absint( $span ) . '" class="qm-warn">';
+				echo '<td colspan="' . absint( $span ) . '" class="qm-warn"><span class="dashicons dashicons-warning"></span>';
 				if ( file_exists( WP_CONTENT_DIR . '/db.php' ) ) {
 					/* translators: 1: Symlink file name, 2: URL to wiki page */
 					$message = __( 'Extended query information such as the component and affected rows is not available. A conflicting %1$s file is present. <a href="%2$s" target="_blank">See this wiki page for more information.</a>', 'query-monitor' );
@@ -193,7 +193,17 @@ class QM_Output_Html_DB_Queries extends QM_Output_Html {
 			echo $this->build_filter( 'type', array_keys( $db->types ), __( 'Query', 'query-monitor' ) ); // WPCS: XSS ok;
 			echo '</th>';
 			echo '<th scope="col">';
-			echo $this->build_filter( 'caller', wp_list_pluck( $data['times'], 'caller' ), __( 'Caller', 'query-monitor' ) ); // WPCS: XSS ok;
+
+			$prepend = array();
+
+			if ( $db->has_main_query ) {
+				$prepend['qm-main-query'] = __( 'Main Query', 'query-monitor' );
+			}
+
+			$args = array(
+				'prepend' => $prepend,
+			);
+			echo $this->build_filter( 'caller', wp_list_pluck( $data['times'], 'caller' ), __( 'Caller', 'query-monitor' ), $args ); // WPCS: XSS ok.
 			echo '</th>';
 
 			if ( $db->has_trace ) {
@@ -303,8 +313,8 @@ class QM_Output_Html_DB_Queries extends QM_Output_Html {
 			$caller         = $row['trace']->get_caller();
 			$caller_name    = self::output_filename( $row['caller'], $caller['calling_file'], $caller['calling_line'] );
 			$stack          = array();
-			$filtered_trace = $row['trace']->get_filtered_trace();
-			array_shift( $filtered_trace );
+			$filtered_trace = $row['trace']->get_display_trace();
+			array_pop( $filtered_trace );
 
 			foreach ( $filtered_trace as $item ) {
 				$stack[] = self::output_filename( $item['display'], $item['calling_file'], $item['calling_line'] );
@@ -333,6 +343,11 @@ class QM_Output_Html_DB_Queries extends QM_Output_Html {
 		}
 		if ( isset( $cols['caller'] ) ) {
 			$row_attr['data-qm-caller'] = $row['caller_name'];
+
+			if ( $row['is_main_query'] ) {
+				$row_attr['data-qm-caller'] .= ' qm-main-query';
+			}
+
 		}
 		if ( isset( $cols['time'] ) ) {
 			$row_attr['data-qm-time'] = $row['ltime'];
@@ -358,16 +373,23 @@ class QM_Output_Html_DB_Queries extends QM_Output_Html {
 		}
 
 		if ( isset( $cols['caller'] ) ) {
-			echo "<td class='qm-row-caller qm-ltr qm-has-toggle qm-nowrap'><ol class='qm-toggler'>";
-
-			echo "<li>{$caller_name}</li>"; // WPCS: XSS ok.
+			echo "<td class='qm-row-caller qm-ltr qm-has-toggle qm-nowrap'><ol class='qm-toggler qm-numbered'>";
 
 			if ( ! empty( $stack ) ) {
 				echo '<button class="qm-toggle" data-on="+" data-off="-">+</button>';
 				echo '<div class="qm-toggled"><li>' . implode( '</li><li>', $stack ) . '</li></div>'; // WPCS: XSS ok.
 			}
 
-			echo '</ol></td>';
+			echo "<li>{$caller_name}</li>"; // WPCS: XSS ok.
+
+			echo '</ol>';
+			if ( $row['is_main_query'] ) {
+				printf(
+					'<p>%s</p>',
+					esc_html__( 'Main Query', 'query-monitor' )
+				);
+			}
+			echo '</td>';
 		}
 
 		if ( isset( $cols['stack'] ) ) {

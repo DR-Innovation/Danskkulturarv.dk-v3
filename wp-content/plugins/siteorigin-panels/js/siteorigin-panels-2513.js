@@ -20,20 +20,6 @@ module.exports = Backbone.Collection.extend( {
 		return totalWeight;
 	},
 
-	visualSortComparator: function ( item ) {
-		if ( ! _.isNull( item.indexes ) ) {
-			return item.indexes.builder;
-		} else {
-			return null;
-		}
-	},
-
-	visualSort: function(){
-		var oldComparator = this.comparator;
-		this.comparator = this.visualSortComparator;
-		this.sort();
-		this.comparator = oldComparator;
-	}
 } );
 
 },{}],2:[function(require,module,exports){
@@ -126,22 +112,8 @@ module.exports = Backbone.Collection.extend( {
 
 			model.destroy();
 		} while ( true );
-	},
-
-	visualSortComparator: function ( item ) {
-		if ( ! _.isNull( item.indexes ) ) {
-			return item.indexes.builder;
-		} else {
-			return null;
-		}
-	},
-
-	visualSort: function(){
-		var oldComparator = this.comparator;
-		this.comparator = this.visualSortComparator;
-		this.sort();
-		this.comparator = oldComparator;
 	}
+
 } );
 
 },{}],4:[function(require,module,exports){
@@ -152,21 +124,6 @@ module.exports = Backbone.Collection.extend( {
 
 	initialize: function () {
 
-	},
-
-	visualSortComparator: function ( item ) {
-		if ( ! _.isNull( item.indexes ) ) {
-			return item.indexes.builder;
-		} else {
-			return null;
-		}
-	},
-
-	visualSort: function(){
-		var oldComparator = this.comparator;
-		this.comparator = this.visualSortComparator;
-		this.sort();
-		this.comparator = oldComparator;
 	}
 
 } );
@@ -200,7 +157,7 @@ var panels = window.panels, $ = jQuery;
 
 module.exports = panels.view.dialog.extend( {
 
-	historyEntryTemplate: _.template( $( '#siteorigin-panels-dialog-history-entry' ).html().panelsProcessTemplate() ),
+	historyEntryTemplate: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-dialog-history-entry' ).html() ) ),
 
 	entries: {},
 	currentEntry: null,
@@ -210,6 +167,7 @@ module.exports = panels.view.dialog.extend( {
 	previewScrollTop: null,
 
 	dialogClass: 'so-panels-dialog-history',
+	dialogIcon: 'history',
 
 	events: {
 		'click .so-close': 'closeDialog',
@@ -330,6 +288,7 @@ module.exports = panels.view.dialog.extend( {
 		this.previewScrollTop = iframe.contents().scrollTop();
 
 		this.$( 'form.history-form input[name="live_editor_panels_data"]' ).val( entry.get( 'data' ) );
+		this.$( 'form.history-form input[name="live_editor_post_ID"]' ).val( this.builder.config.postId );
 		this.$( 'form.history-form' ).submit();
 	},
 
@@ -428,10 +387,11 @@ var panels = window.panels, $ = jQuery;
 
 module.exports = panels.view.dialog.extend( {
 
-	directoryTemplate: _.template( $( '#siteorigin-panels-directory-items' ).html().panelsProcessTemplate() ),
+	directoryTemplate: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-directory-items' ).html() ) ),
 
 	builder: null,
 	dialogClass: 'so-panels-dialog-prebuilt-layouts',
+	dialogIcon: 'layouts',
 
 	layoutCache: {},
 	currentTab: false,
@@ -606,10 +566,10 @@ module.exports = panels.view.dialog.extend( {
 			page = 1;
 		}
 		if ( type === undefined ) {
-			type = 'directory';
+			type = 'directory-siteorigin';
 		}
 
-		if ( type === 'directory' && ! panelsOptions.directory_enabled ) {
+		if ( type.match('^directory-') && ! panelsOptions.directory_enabled ) {
 			// Display the button to enable the prebuilt layout
 			c.removeClass( 'so-panels-loading' ).html( $( '#siteorigin-panels-directory-enable' ).html() );
 			c.find( '.so-panels-enable-directory' ).click( function ( e ) {
@@ -626,7 +586,7 @@ module.exports = panels.view.dialog.extend( {
 				// Enable the layout directory
 				panelsOptions.directory_enabled = true;
 				c.addClass( 'so-panels-loading' );
-				thisView.displayLayoutDirectory( search, page );
+				thisView.displayLayoutDirectory( search, page, type );
 			} );
 			return;
 		}
@@ -673,9 +633,7 @@ module.exports = panels.view.dialog.extend( {
 				// Handle nice preloading of the screenshots
 				c.find( '.so-screenshot' ).each( function () {
 					var $$ = $( this ), $a = $$.find( '.so-screenshot-wrapper' );
-					$a.css( 'height', (
-					                  $a.width() / 4 * 3
-					                  ) + 'px' ).addClass( 'so-loading' );
+					$a.css( 'height', ( $a.width() / 4 * 3 ) + 'px' ).addClass( 'so-loading' );
 
 					if ( $$.data( 'src' ) !== '' ) {
 						// Set the initial height
@@ -753,8 +711,8 @@ module.exports = panels.view.dialog.extend( {
 
 	canAddLayout: function () {
 		return (
-		       this.selectedLayoutItem || this.uploadedLayout
-		       ) && ! this.addingLayout;
+			   this.selectedLayoutItem || this.uploadedLayout
+			   ) && ! this.addingLayout;
 	},
 
 	/**
@@ -820,9 +778,11 @@ module.exports = panels.view.dialog.extend( {
 },{}],8:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
-module.exports = panels.view.dialog.extend( {
+module.exports = panels.view.dialog.extend({
 
-	cellPreviewTemplate: _.template( $( '#siteorigin-panels-dialog-row-cell-preview' ).html().panelsProcessTemplate() ),
+	cellPreviewTemplate: _.template( panels.helpers.utils.processTemplate( $('#siteorigin-panels-dialog-row-cell-preview').html() ) ),
+
+	editableLabel: true,
 
 	events: {
 		'click .so-close': 'closeDialog',
@@ -835,9 +795,10 @@ module.exports = panels.view.dialog.extend( {
 
 		// Changing the row
 		'change .row-set-form > *': 'setCellsFromForm',
-		'click .row-set-form button.set-row': 'setCellsFromForm'
+		'click .row-set-form button.set-row': 'setCellsFromForm',
 	},
 
+	dialogIcon: 'add-row',
 	dialogClass: 'so-panels-dialog-row-edit',
 	styleType: 'row',
 
@@ -847,99 +808,123 @@ module.exports = panels.view.dialog.extend( {
 	 * The current settings, not yet saved to the model
 	 */
 	row: {
-		// This is just the cell weights, cell content is not edited by this dialog
-		cells: [],
+		// This will be a clone of cells collection.
+		cells: null,
 		// The style settings of the row
 		style: {}
 	},
 
+	cellStylesCache: [],
+
 	initializeDialog: function () {
-		this.on( 'open_dialog', function () {
-			if ( ! _.isUndefined( this.model ) && ! _.isEmpty( this.model.cells ) ) {
-				this.setRowModel( this.model );
+		this.on('open_dialog', function () {
+			if (!_.isUndefined(this.model) && !_.isEmpty(this.model.get('cells'))) {
+				this.setRowModel(this.model);
 			} else {
-				this.setRowModel( null );
+				this.setRowModel(null);
 			}
 
 			this.regenerateRowPreview();
-		}, this );
+		}, this);
 
 		// This is the default row layout
 		this.row = {
-			cells: [0.5, 0.5],
+			cells: new panels.collection.cells([{weight: 0.5}, {weight: 0.5}]),
 			style: {}
 		};
 
 		// Refresh panels data after both dialog form components are loaded
 		this.dialogFormsLoaded = 0;
 		var thisView = this;
-		this.on( 'form_loaded styles_loaded', function () {
-			this.dialogFormsLoaded ++;
-			if ( this.dialogFormsLoaded === 2 ) {
-				thisView.updateModel( {
+		this.on('form_loaded styles_loaded', function () {
+			this.dialogFormsLoaded++;
+			if (this.dialogFormsLoaded === 2) {
+				thisView.updateModel({
 					refreshArgs: {
 						silent: true
 					}
-				} );
+				});
 			}
-		} );
+		});
+
+		this.on('close_dialog', this.closeHandler);
+
+		this.on( 'edit_label', function ( text ) {
+			// If text is set to default values, just clear it.
+			if ( text === panelsOptions.loc.row.add || text === panelsOptions.loc.row.edit ) {
+				text = '';
+			}
+			this.model.set( 'label', text );
+			if ( _.isEmpty( text ) ) {
+				var title = this.dialogType === 'create' ? panelsOptions.loc.row.add : panelsOptions.loc.row.edit;
+				this.$( '.so-title').text( title );
+			}
+		}.bind( this ) );
 	},
 
 	/**
 	 *
 	 * @param dialogType Either "edit" or "create"
 	 */
-	setRowDialogType: function ( dialogType ) {
+	setRowDialogType: function (dialogType) {
 		this.dialogType = dialogType;
 	},
 
 	/**
 	 * Render the new row dialog
 	 */
-	render: function ( dialogType ) {
-		this.renderDialog( this.parseDialogContent( $( '#siteorigin-panels-dialog-row' ).html(), {dialogType: this.dialogType} ) );
+	render: function () {
+		var title = this.dialogType === 'create' ? panelsOptions.loc.row.add : panelsOptions.loc.row.edit;
+		this.renderDialog( this.parseDialogContent( $( '#siteorigin-panels-dialog-row' ).html(), {
+			title: title,
+			dialogType: this.dialogType
+		} ) );
 
-		if ( this.dialogType === 'edit' ) {
-			// Now we need to attach the style window
-			this.styles = new panels.view.styles();
-			this.styles.model = this.model;
-			this.styles.render( 'row', this.builder.config.postId, {
-				builderType: this.builder.config.builderType,
-				dialog: this
-			} );
+		var titleElt = this.$( '.so-title' );
 
-			if( ! this.builder.supports( 'addRow' ) ) {
-				this.$( '.so-buttons .so-duplicate' ).remove();
-			}
-			if( ! this.builder.supports( 'deleteRow' ) ) {
-				this.$( '.so-buttons .so-delete' ).remove();
-			}
+		if ( this.model.has( 'label' ) && ! _.isEmpty( this.model.get( 'label' ) ) ) {
+			titleElt.text( this.model.get( 'label' ) );
+		}
+		this.$( '.so-edit-title' ).val( titleElt.text() );
 
-			var $rightSidebar = this.$( '.so-sidebar.so-right-sidebar' );
-			this.styles.attach( $rightSidebar );
+		// Now we need to attach the style window
+		this.styles = new panels.view.styles();
+		this.styles.model = this.model;
+		this.styles.render('row', this.builder.config.postId, {
+			builderType: this.builder.config.builderType,
+			dialog: this
+		});
 
-			// Handle the loading class
-			this.styles.on( 'styles_loaded', function ( hasStyles ) {
-				// If we have styles remove the loading spinner, else remove the whole empty sidebar.
-				if ( hasStyles ) {
-					$rightSidebar.removeClass( 'so-panels-loading' );
-				} else {
-					$rightSidebar.closest( '.so-panels-dialog' ).removeClass( 'so-panels-dialog-has-right-sidebar' );
-					$rightSidebar.remove();
-				}
-			}, this );
-			$rightSidebar.addClass( 'so-panels-loading' );
+		if (!this.builder.supports('addRow')) {
+			this.$('.so-buttons .so-duplicate').remove();
+		}
+		if (!this.builder.supports('deleteRow')) {
+			this.$('.so-buttons .so-delete').remove();
 		}
 
-		if ( ! _.isUndefined( this.model ) ) {
+		var $rightSidebar = this.$('.so-sidebar.so-right-sidebar');
+		this.styles.attach($rightSidebar);
+
+		// Handle the loading class
+		this.styles.on('styles_loaded', function (hasStyles) {
+			// If we have styles remove the loading spinner, else remove the whole empty sidebar.
+			if (hasStyles) {
+				$rightSidebar.removeClass('so-panels-loading');
+			} else {
+				$rightSidebar.closest('.so-panels-dialog').removeClass('so-panels-dialog-has-right-sidebar');
+				$rightSidebar.remove();
+			}
+		}, this);
+		$rightSidebar.addClass('so-panels-loading');
+
+		if (!_.isUndefined(this.model)) {
 			// Set the initial value of the
-			this.$( 'input.so-row-field' ).val( this.model.cells.length );
+			this.$('input.so-row-field').val(this.model.get('cells').length);
 		}
 
-		var thisView = this;
-		this.$( 'input.so-row-field' ).keyup( function () {
-			$( this ).trigger( 'change' );
-		} );
+		this.$('input.so-row-field').keyup(function () {
+			$(this).trigger('change');
+		});
 
 		return this;
 	},
@@ -949,23 +934,23 @@ module.exports = panels.view.dialog.extend( {
 	 *
 	 * @param model
 	 */
-	setRowModel: function ( model ) {
+	setRowModel: function (model) {
 		this.model = model;
 
-		if ( _.isEmpty( this.model ) ) {
+		if (_.isEmpty(this.model)) {
 			return this;
 		}
 
 		// Set the rows to be a copy of the model
 		this.row = {
-			cells: this.model.cells.map( function ( cell ) {
-				return cell.get( 'weight' );
-			} ),
+			cells: this.model.get('cells').clone(),
 			style: {}
 		};
 
 		// Set the initial value of the cell field.
-		this.$( 'input.so-row-field' ).val( this.model.cells.length );
+		this.$('input.so-row-field').val(this.model.get('cells').length);
+
+		this.clearCellStylesCache();
 
 		return this;
 	},
@@ -975,159 +960,186 @@ module.exports = panels.view.dialog.extend( {
 	 */
 	regenerateRowPreview: function () {
 		var thisDialog = this;
-		var rowPreview = this.$( '.row-preview' );
+		var rowPreview = this.$('.row-preview');
+
+		// If no selected cell, select the first cell.
+		var selectedIndex = this.getSelectedCellIndex();
 
 		rowPreview.empty();
 
 		var timeout;
 
 		// Represent the cells
-		_.each( this.row.cells, function ( cell, i ) {
-			var newCell = $( this.cellPreviewTemplate( {weight: cell} ) );
-			rowPreview.append( newCell );
+		this.row.cells.each(function (cellModel, i) {
+			var newCell = $(this.cellPreviewTemplate({weight: cellModel.get('weight')}));
+			rowPreview.append(newCell);
+
+			if(i == selectedIndex) {
+				newCell.find('.preview-cell-in').addClass('cell-selected');
+			}
 
 			var prevCell = newCell.prev();
 			var handle;
 
-			if ( prevCell.length ) {
-				handle = $( '<div class="resize-handle"></div>' );
+			if (prevCell.length) {
+				handle = $('<div class="resize-handle"></div>');
 				handle
-					.appendTo( newCell )
-					.dblclick( function () {
-						var t = thisDialog.row.cells[i] + thisDialog.row.cells[i - 1];
-						thisDialog.row.cells[i] = thisDialog.row.cells[i - 1] = t / 2;
+					.appendTo(newCell)
+					.dblclick(function () {
+						var prevCellModel = thisDialog.row.cells.at(i - 1);
+						var t = cellModel.get('weight') + prevCellModel.get('weight');
+						cellModel.set('weight', t / 2);
+						prevCellModel.set('weight', t / 2);
 						thisDialog.scaleRowWidths();
-					} );
+					});
 
-				handle.draggable( {
+				handle.draggable({
 					axis: 'x',
 					containment: rowPreview,
-					start: function ( e, ui ) {
+					start: function (e, ui) {
 
 						// Create the clone for the current cell
-						var newCellClone = newCell.clone().appendTo( ui.helper ).css( {
+						var newCellClone = newCell.clone().appendTo(ui.helper).css({
 							position: 'absolute',
 							top: '0',
 							width: newCell.outerWidth(),
 							left: 6,
 							height: newCell.outerHeight()
-						} );
-						newCellClone.find( '.resize-handle' ).remove();
+						});
+						newCellClone.find('.resize-handle').remove();
 
 						// Create the clone for the previous cell
-						var prevCellClone = prevCell.clone().appendTo( ui.helper ).css( {
+						var prevCellClone = prevCell.clone().appendTo(ui.helper).css({
 							position: 'absolute',
 							top: '0',
 							width: prevCell.outerWidth(),
 							right: 6,
 							height: prevCell.outerHeight()
-						} );
-						prevCellClone.find( '.resize-handle' ).remove();
+						});
+						prevCellClone.find('.resize-handle').remove();
 
-						$( this ).data( {
+						$(this).data({
 							'newCellClone': newCellClone,
 							'prevCellClone': prevCellClone
-						} );
+						});
 
 						// Hide the
-						newCell.find( '> .preview-cell-in' ).css( 'visibility', 'hidden' );
-						prevCell.find( '> .preview-cell-in' ).css( 'visibility', 'hidden' );
+						newCell.find('> .preview-cell-in').css('visibility', 'hidden');
+						prevCell.find('> .preview-cell-in').css('visibility', 'hidden');
 					},
-					drag: function ( e, ui ) {
+					drag: function (e, ui) {
 						// Calculate the new cell and previous cell widths as a percent
-						var ncw = thisDialog.row.cells[i] - (
-							(
-							ui.position.left + 6
-							) / rowPreview.width()
+						var cellWeight = thisDialog.row.cells.at(i).get('weight');
+						var prevCellWeight = thisDialog.row.cells.at(i - 1).get('weight');
+						var ncw = cellWeight - (
+								(
+									ui.position.left + 6
+								) / rowPreview.width()
 							);
-						var pcw = thisDialog.row.cells[i - 1] + (
-							(
-							ui.position.left + 6
-							) / rowPreview.width()
+						var pcw = prevCellWeight + (
+								(
+									ui.position.left + 6
+								) / rowPreview.width()
 							);
 
 						var helperLeft = ui.helper.offset().left - rowPreview.offset().left - 6;
 
-						$( this ).data( 'newCellClone' ).css( 'width', rowPreview.width() * ncw )
-							.find( '.preview-cell-weight' ).html( Math.round( ncw * 1000 ) / 10 );
+						$(this).data('newCellClone').css('width', rowPreview.width() * ncw)
+							.find('.preview-cell-weight').html(Math.round(ncw * 1000) / 10);
 
-						$( this ).data( 'prevCellClone' ).css( 'width', rowPreview.width() * pcw )
-							.find( '.preview-cell-weight' ).html( Math.round( pcw * 1000 ) / 10 );
+						$(this).data('prevCellClone').css('width', rowPreview.width() * pcw)
+							.find('.preview-cell-weight').html(Math.round(pcw * 1000) / 10);
 					},
-					stop: function ( e, ui ) {
+					stop: function (e, ui) {
 						// Remove the clones
-						$( this ).data( 'newCellClone' ).remove();
-						$( this ).data( 'prevCellClone' ).remove();
+						$(this).data('newCellClone').remove();
+						$(this).data('prevCellClone').remove();
 
 						// Reshow the main cells
-						newCell.find( '.preview-cell-in' ).css( 'visibility', 'visible' );
-						prevCell.find( '.preview-cell-in' ).css( 'visibility', 'visible' );
+						newCell.find('.preview-cell-in').css('visibility', 'visible');
+						prevCell.find('.preview-cell-in').css('visibility', 'visible');
 
 						// Calculate the new cell weights
 						var offset = ui.position.left + 6;
 						var percent = offset / rowPreview.width();
 
 						// Ignore this if any of the cells are below 2% in width.
-						if ( thisDialog.row.cells[i] - percent > 0.02 && thisDialog.row.cells[i - 1] + percent > 0.02 ) {
-							thisDialog.row.cells[i] -= percent;
-							thisDialog.row.cells[i - 1] += percent;
+						var cellModel = thisDialog.row.cells.at(i);
+						var prevCellModel = thisDialog.row.cells.at(i - 1);
+						if (cellModel.get('weight') - percent > 0.02 && prevCellModel.get('weight') + percent > 0.02) {
+							cellModel.set('weight', cellModel.get('weight') - percent);
+							prevCellModel.set('weight', prevCellModel.get('weight') + percent);
 						}
 
 						thisDialog.scaleRowWidths();
-						ui.helper.css( 'left', - 6 );
+						ui.helper.css('left', -6);
 					}
-				} );
+				});
 			}
 
+			newCell.click(function (event) {
+
+				if ( ! ( $(event.target).is('.preview-cell') || $(event.target).is('.preview-cell-in') ) ) {
+					return;
+				}
+
+				var cell = $(event.target);
+				cell.closest('.row-preview').find('.preview-cell .preview-cell-in').removeClass('cell-selected');
+				cell.addClass('cell-selected');
+
+				this.openSelectedCellStyles();
+
+			}.bind(this));
+
 			// Make this row weight click editable
-			newCell.find( '.preview-cell-weight' ).click( function ( ci ) {
+			newCell.find('.preview-cell-weight').click(function (ci) {
 
 				// Disable the draggable while entering values
-				thisDialog.$( '.resize-handle' ).css( 'pointer-event', 'none' ).draggable( 'disable' );
+				thisDialog.$('.resize-handle').css('pointer-event', 'none').draggable('disable');
 
-				rowPreview.find( '.preview-cell-weight' ).each( function () {
-					var $$ = jQuery( this ).hide();
-					$( '<input type="text" class="preview-cell-weight-input no-user-interacted" />' )
-						.val( parseFloat( $$.html() ) ).insertAfter( $$ )
-						.focus( function () {
-							clearTimeout( timeout );
-						} )
-						.keyup( function ( e ) {
-							if ( e.keyCode !== 9 ) {
+				rowPreview.find('.preview-cell-weight').each(function () {
+					var $$ = jQuery(this).hide();
+					$('<input type="text" class="preview-cell-weight-input no-user-interacted" />')
+						.val(parseFloat($$.html())).insertAfter($$)
+						.focus(function () {
+							clearTimeout(timeout);
+						})
+						.keyup(function (e) {
+							if (e.keyCode !== 9) {
 								// Only register the interaction if the user didn't press tab
-								$( this ).removeClass( 'no-user-interacted' );
+								$(this).removeClass('no-user-interacted');
 							}
 
 							// Enter is clicked
-							if ( e.keyCode === 13 ) {
+							if (e.keyCode === 13) {
 								e.preventDefault();
-								$( this ).blur();
+								$(this).blur();
 							}
-						} )
-						.keydown( function ( e ) {
-							if ( e.keyCode === 9 ) {
+						})
+						.keydown(function (e) {
+							if (e.keyCode === 9) {
 								e.preventDefault();
 
 								// Tab will always cycle around the row inputs
-								var inputs = rowPreview.find( '.preview-cell-weight-input' );
-								var i = inputs.index( $( this ) );
-								if ( i === inputs.length - 1 ) {
-									inputs.eq( 0 ).focus().select();
+								var inputs = rowPreview.find('.preview-cell-weight-input');
+								var i = inputs.index($(this));
+								if (i === inputs.length - 1) {
+									inputs.eq(0).focus().select();
 								} else {
-									inputs.eq( i + 1 ).focus().select();
+									inputs.eq(i + 1).focus().select();
 								}
 							}
-						} )
-						.blur( function () {
-							rowPreview.find( '.preview-cell-weight-input' ).each( function ( i, el ) {
-								if ( isNaN( parseFloat( $( el ).val() ) ) ) {
-									$( el ).val( Math.floor( thisDialog.row.cells[i] * 1000 ) / 10 );
+						})
+						.blur(function () {
+							rowPreview.find('.preview-cell-weight-input').each(function (i, el) {
+								if (isNaN(parseFloat($(el).val()))) {
+									$(el).val(Math.floor(thisDialog.row.cells.at(i).get('weight') * 1000) / 10);
 								}
-							} );
+							});
 
-							timeout = setTimeout( function () {
+							timeout = setTimeout(function () {
 								// If there are no weight inputs, then skip this
-								if ( rowPreview.find( '.preview-cell-weight-input' ).legnth === 0 ) {
+								if (rowPreview.find('.preview-cell-weight-input').length === 0) {
 									return false;
 								}
 
@@ -1137,82 +1149,155 @@ module.exports = panels.view.dialog.extend( {
 									changedSum = 0,
 									unchangedSum = 0;
 
-								rowPreview.find( '.preview-cell-weight-input' ).each( function ( i, el ) {
-									var val = parseFloat( $( el ).val() );
-									if ( isNaN( val ) ) {
+								rowPreview.find('.preview-cell-weight-input').each(function (i, el) {
+									var val = parseFloat($(el).val());
+									if (isNaN(val)) {
 										val = 1 / thisDialog.row.cells.length;
 									} else {
-										val = Math.round( val * 10 ) / 1000;
+										val = Math.round(val * 10) / 1000;
 									}
 
 									// Check within 3 decimal points
-									var changed = ! $( el ).hasClass( 'no-user-interacted' );
+									var changed = !$(el).hasClass('no-user-interacted');
 
-									rowWeights.push( val );
-									rowChanged.push( changed );
+									rowWeights.push(val);
+									rowChanged.push(changed);
 
-									if ( changed ) {
+									if (changed) {
 										changedSum += val;
 									} else {
 										unchangedSum += val;
 									}
-								} );
+								});
 
-								if ( changedSum > 0 && unchangedSum > 0 && (
-								                                           1 - changedSum
-								                                           ) > 0 ) {
+								if (changedSum > 0 && unchangedSum > 0 && (
+										1 - changedSum
+									) > 0) {
 									// Balance out the unchanged rows to occupy the weight left over by the changed sum
-									for ( var i = 0; i < rowWeights.length; i ++ ) {
-										if ( ! rowChanged[i] ) {
+									for (var i = 0; i < rowWeights.length; i++) {
+										if (!rowChanged[i]) {
 											rowWeights[i] = (
-											                rowWeights[i] / unchangedSum
-											                ) * (
-											                1 - changedSum
-											                );
+													rowWeights[i] / unchangedSum
+												) * (
+													1 - changedSum
+												);
 										}
 									}
 								}
 
 								// Last check to ensure total weight is 1
-								var sum = _.reduce( rowWeights, function ( memo, num ) {
+								var sum = _.reduce(rowWeights, function (memo, num) {
 									return memo + num;
-								} );
-								rowWeights = rowWeights.map( function ( w ) {
+								});
+								rowWeights = rowWeights.map(function (w) {
 									return w / sum;
-								} );
+								});
 
 								// Set the new cell weights and regenerate the preview.
-								if ( Math.min.apply( Math, rowWeights ) > 0.01 ) {
-									thisDialog.row.cells = rowWeights;
+								if (Math.min.apply(Math, rowWeights) > 0.01) {
+									thisDialog.row.cells.each(function (cell, i) {
+										cell.set('weight', rowWeights[i]);
+									});
 								}
 
 								// Now lets animate the cells into their new widths
-								rowPreview.find( '.preview-cell' ).each( function ( i, el ) {
-									$( el ).animate( {'width': Math.round( thisDialog.row.cells[i] * 1000 ) / 10 + "%"}, 250 );
-									$( el ).find( '.preview-cell-weight-input' ).val( Math.round( thisDialog.row.cells[i] * 1000 ) / 10 );
-								} );
+								rowPreview.find('.preview-cell').each(function (i, el) {
+									var cellWeight = thisDialog.row.cells.at(i).get('weight');
+									$(el).animate({'width': Math.round(cellWeight * 1000) / 10 + "%"}, 250);
+									$(el).find('.preview-cell-weight-input').val(Math.round(cellWeight * 1000) / 10);
+								});
 
 								// So the draggable handle is not hidden.
-								rowPreview.find( '.preview-cell' ).css( 'overflow', 'visible' );
+								rowPreview.find('.preview-cell').css('overflow', 'visible');
 
-								setTimeout( function () {
+								setTimeout(function () {
 									thisDialog.regenerateRowPreview();
-								}, 260 );
+								}, 260);
 
-							}, 100 );
-						} )
-						.click( function () {
-							$( this ).select();
-						} );
+							}, 100);
+						})
+						.click(function () {
+							$(this).select();
+						});
+				});
+
+				$(this).siblings('.preview-cell-weight-input').select();
+
+			});
+
+		}, this);
+
+		this.openSelectedCellStyles();
+
+		this.trigger('form_loaded', this);
+	},
+
+	getSelectedCellIndex: function() {
+		var selectedIndex = -1;
+		this.$('.preview-cell .preview-cell-in').each(function(index, el) {
+			if($(el).is('.cell-selected')) {
+				selectedIndex = index;
+			}
+		});
+		return selectedIndex;
+	},
+
+	openSelectedCellStyles: function() {
+		if (!_.isUndefined(this.cellStyles)) {
+			if (this.cellStyles.stylesLoaded) {
+				var style = {};
+				try {
+					style = this.getFormValues('.so-sidebar .so-visual-styles.so-cell-styles').style;
+				}
+				catch (err) {
+					console.log('Error retrieving cell styles - ' + err.message);
+				}
+
+				this.cellStyles.model.set('style', style);
+			}
+			this.cellStyles.detach();
+		}
+
+		this.cellStyles = this.getSelectedCellStyles();
+
+		if ( this.cellStyles ) {
+			var $rightSidebar = this.$( '.so-sidebar.so-right-sidebar' );
+			this.cellStyles.attach( $rightSidebar );
+
+			if ( !this.cellStyles.stylesLoaded ) {
+				this.cellStyles.on( 'styles_loaded', function () {
+					$rightSidebar.removeClass( 'so-panels-loading' );
+				}, this );
+				$rightSidebar.addClass( 'so-panels-loading' );
+			}
+		}
+	},
+
+	getSelectedCellStyles: function () {
+		var cellIndex = this.getSelectedCellIndex();
+		if ( cellIndex > -1 ) {
+			var cellStyles = this.cellStylesCache[cellIndex];
+			if ( !cellStyles ) {
+				cellStyles = new panels.view.styles();
+				cellStyles.model = this.row.cells.at( cellIndex );
+				cellStyles.render( 'cell', this.builder.config.postId, {
+					builderType: this.builder.config.builderType,
+					dialog: this,
+					index: cellIndex,
 				} );
+				this.cellStylesCache[cellIndex] = cellStyles;
+			}
+		}
 
-				$( this ).siblings( '.preview-cell-weight-input' ).select();
+		return cellStyles;
+	},
 
-			} );
-
-		}, this );
-
-		this.trigger( 'form_loaded', this );
+	clearCellStylesCache: function () {
+		// Call remove() on all cell styles to remove data, event listeners etc.
+		this.cellStylesCache.forEach(function (cellStyles) {
+			cellStyles.remove();
+		});
+		this.cellStylesCache = [];
 	},
 
 	/**
@@ -1220,11 +1305,12 @@ module.exports = panels.view.dialog.extend( {
 	 */
 	scaleRowWidths: function () {
 		var thisDialog = this;
-		this.$( '.row-preview .preview-cell' ).each( function ( i, el ) {
-			$( el )
-				.css( 'width', thisDialog.row.cells[i] * 100 + "%" )
-				.find( '.preview-cell-weight' ).html( Math.round( thisDialog.row.cells[i] * 1000 ) / 10 );
-		} );
+		this.$('.row-preview .preview-cell').each(function (i, el) {
+			var cell = thisDialog.row.cells.at(i);
+			$(el)
+				.css('width', cell.get('weight') * 100 + "%")
+				.find('.preview-cell-weight').html(Math.round(cell.get('weight') * 1000) / 10);
+		});
 	},
 
 	/**
@@ -1234,27 +1320,27 @@ module.exports = panels.view.dialog.extend( {
 
 		try {
 			var f = {
-				'cells': parseInt( this.$( '.row-set-form input[name="cells"]' ).val() ),
-				'ratio': parseFloat( this.$( '.row-set-form select[name="ratio"]' ).val() ),
-				'direction': this.$( '.row-set-form select[name="ratio_direction"]' ).val()
+				'cells': parseInt(this.$('.row-set-form input[name="cells"]').val()),
+				'ratio': parseFloat(this.$('.row-set-form select[name="ratio"]').val()),
+				'direction': this.$('.row-set-form select[name="ratio_direction"]').val()
 			};
 
-			if ( _.isNaN( f.cells ) ) {
+			if (_.isNaN(f.cells)) {
 				f.cells = 1;
 			}
-			if ( isNaN( f.ratio ) ) {
+			if (isNaN(f.ratio)) {
 				f.ratio = 1;
 			}
-			if ( f.cells < 1 ) {
+			if (f.cells < 1) {
 				f.cells = 1;
-				this.$( '.row-set-form input[name="cells"]' ).val( f.cells );
+				this.$('.row-set-form input[name="cells"]').val(f.cells);
 			}
-			else if ( f.cells > 10 ) {
-				f.cells = 10;
-				this.$( '.row-set-form input[name="cells"]' ).val( f.cells );
+			else if (f.cells > 12) {
+				f.cells = 12;
+				this.$('.row-set-form input[name="cells"]').val(f.cells);
 			}
 
-			this.$( '.row-set-form input[name="ratio"]' ).val( f.ratio );
+			this.$('.row-set-form input[name="ratio"]').val(f.ratio);
 
 			var cells = [];
 			var cellCountChanged = (
@@ -1263,100 +1349,126 @@ module.exports = panels.view.dialog.extend( {
 
 			// Now, lets create some cells
 			var currentWeight = 1;
-			for ( var i = 0; i < f.cells; i ++ ) {
-				cells.push( currentWeight );
+			for (var i = 0; i < f.cells; i++) {
+				cells.push(currentWeight);
 				currentWeight *= f.ratio;
 			}
 
 			// Now lets make sure that the row weights add up to 1
 
-			var totalRowWeight = _.reduce( cells, function ( memo, weight ) {
+			var totalRowWeight = _.reduce(cells, function (memo, weight) {
 				return memo + weight;
-			} );
-			cells = _.map( cells, function ( cell ) {
+			});
+			cells = _.map(cells, function (cell) {
 				return cell / totalRowWeight;
-			} );
+			});
 
 			// Don't return cells that are too small
-			cells = _.filter( cells, function ( cell ) {
+			cells = _.filter(cells, function (cell) {
 				return cell > 0.01;
-			} );
+			});
 
-			if ( f.direction === 'left' ) {
+			if (f.direction === 'left') {
 				cells = cells.reverse();
 			}
 
-			this.row.cells = cells;
+			// Discard deleted cells.
+			this.row.cells = new panels.collection.cells(this.row.cells.first(cells.length));
 
-			if ( cellCountChanged ) {
+			_.each(cells, function (cellWeight, index) {
+				var cell = this.row.cells.at(index);
+				if (!cell) {
+					cell = new panels.model.cell({weight: cellWeight, row: this.model});
+					this.row.cells.add(cell);
+				} else {
+					cell.set('weight', cellWeight);
+				}
+			}.bind(this));
+
+			if (cellCountChanged) {
 				this.regenerateRowPreview();
 			} else {
 				var thisDialog = this;
 
 				// Now lets animate the cells into their new widths
-				this.$( '.preview-cell' ).each( function ( i, el ) {
-					$( el ).animate( {'width': Math.round( thisDialog.row.cells[i] * 1000 ) / 10 + "%"}, 250 );
-					$( el ).find( '.preview-cell-weight' ).html( Math.round( thisDialog.row.cells[i] * 1000 ) / 10 );
-				} );
+				this.$('.preview-cell').each(function (i, el) {
+					var cellWeight = thisDialog.row.cells.at(i).get('weight');
+					$(el).animate({'width': Math.round(cellWeight * 1000) / 10 + "%"}, 250);
+					$(el).find('.preview-cell-weight').html(Math.round(cellWeight * 1000) / 10);
+				});
 
 				// So the draggable handle is not hidden.
-				this.$( '.preview-cell' ).css( 'overflow', 'visible' );
+				this.$('.preview-cell').css('overflow', 'visible');
 
-				setTimeout( function () {
+				setTimeout(function () {
 					thisDialog.regenerateRowPreview();
-				}, 260 );
+				}, 260);
 			}
 		}
 		catch (err) {
-			console.log( 'Error setting cells - ' + err.message );
+			console.log('Error setting cells - ' + err.message);
 		}
 
 
 		// Remove the button primary class
-		this.$( '.row-set-form .so-button-row-set' ).removeClass( 'button-primary' );
+		this.$('.row-set-form .so-button-row-set').removeClass('button-primary');
 	},
 
 	/**
 	 * Handle a click on the dialog left bar tab
 	 */
-	tabClickHandler: function ( $t ) {
-		if ( $t.attr( 'href' ) === '#row-layout' ) {
-			this.$( '.so-panels-dialog' ).addClass( 'so-panels-dialog-has-right-sidebar' );
+	tabClickHandler: function ($t) {
+		if ($t.attr('href') === '#row-layout') {
+			this.$('.so-panels-dialog').addClass('so-panels-dialog-has-right-sidebar');
 		} else {
-			this.$( '.so-panels-dialog' ).removeClass( 'so-panels-dialog-has-right-sidebar' );
+			this.$('.so-panels-dialog').removeClass('so-panels-dialog-has-right-sidebar');
 		}
 	},
 
 	/**
 	 * Update the current model with what we have in the dialog
 	 */
-	updateModel: function ( args ) {
-		args = _.extend( {
+	updateModel: function (args) {
+		args = _.extend({
 			refresh: true,
 			refreshArgs: null
-		}, args );
+		}, args);
 
 		// Set the cells
-		if( ! _.isEmpty( this.model ) ) {
-			this.model.setCells( this.row.cells );
+		if (!_.isEmpty(this.model)) {
+			this.model.setCells(this.row.cells);
 		}
 
-		// Update the styles if they've loaded
-		if ( ! _.isUndefined( this.styles ) && this.styles.stylesLoaded ) {
+		// Update the row styles if they've loaded
+		if (!_.isUndefined(this.styles) && this.styles.stylesLoaded) {
 			// This is an edit dialog, so there are styles
 			var style = {};
 			try {
-				style = this.getFormValues( '.so-sidebar .so-visual-styles' ).style;
+				style = this.getFormValues('.so-sidebar .so-visual-styles.so-row-styles').style;
 			}
-			catch ( err ) {
-				console.log( 'Error retrieving styles - ' + err.message );
+			catch (err) {
+				console.log('Error retrieving row styles - ' + err.message);
 			}
 
-			this.model.set( 'style', style );
+			this.model.set('style', style);
 		}
 
-		if ( args.refresh ) {
-			this.builder.model.refreshPanelsData( args.refreshArgs );
+		// Update the cell styles if any are showing.
+		if (!_.isUndefined(this.cellStyles) && this.cellStyles.stylesLoaded) {
+
+			var style = {};
+			try {
+				style = this.getFormValues('.so-sidebar .so-visual-styles.so-cell-styles').style;
+			}
+			catch (err) {
+				console.log('Error retrieving cell styles - ' + err.message);
+			}
+
+			this.cellStyles.model.set('style', style);
+		}
+
+		if (args.refresh) {
+			this.builder.model.refreshPanelsData(args.refreshArgs);
 		}
 	},
 
@@ -1364,24 +1476,22 @@ module.exports = panels.view.dialog.extend( {
 	 * Insert the new row
 	 */
 	insertHandler: function () {
-		this.builder.addHistoryEntry( 'row_added' );
+		this.builder.addHistoryEntry('row_added');
 
-		this.model = new panels.model.row();
 		this.updateModel();
 
-		var activeCell = this.builder.getActiveCell( {
+		var activeCell = this.builder.getActiveCell({
 			createCell: false,
-			defaultPosition: 'last'
-		} );
+		});
 
 		var options = {};
-		if ( activeCell !== null ) {
-			options.at = this.builder.model.rows.indexOf( activeCell.row ) + 1;
+		if (activeCell !== null) {
+			options.at = this.builder.model.get('rows').indexOf(activeCell.row) + 1;
 		}
 
 		// Set up the model and add it to the builder
-		this.model.collection = this.builder.model.rows;
-		this.builder.model.rows.add( this.model, options );
+		this.model.collection = this.builder.model.get('rows');
+		this.builder.model.get('rows').add(this.model, options);
 
 		this.closeDialog();
 
@@ -1394,7 +1504,7 @@ module.exports = panels.view.dialog.extend( {
 	 * We'll just save this model and close the dialog
 	 */
 	saveHandler: function () {
-		this.builder.addHistoryEntry( 'row_edited' );
+		this.builder.addHistoryEntry('row_edited');
 		this.updateModel();
 		this.closeDialog();
 
@@ -1408,8 +1518,8 @@ module.exports = panels.view.dialog.extend( {
 	 */
 	deleteHandler: function () {
 		// Trigger a destroy on the model that will happen with a visual indication to the user
-		this.model.trigger( 'visual_destroy' );
-		this.closeDialog( {silent: true} );
+		this.model.trigger('visual_destroy');
+		this.closeDialog({silent: true});
 
 		return false;
 	},
@@ -1418,31 +1528,43 @@ module.exports = panels.view.dialog.extend( {
 	 * Duplicate this row
 	 */
 	duplicateHandler: function () {
-		this.builder.addHistoryEntry( 'row_duplicated' );
+		this.builder.addHistoryEntry('row_duplicated');
 
-		var duplicateRow = this.model.clone( this.builder.model );
+		var duplicateRow = this.model.clone(this.builder.model);
 
-		this.builder.model.rows.add( duplicateRow, {
-			at: this.builder.model.rows.indexOf( this.model ) + 1
+		this.builder.model.get('rows').add( duplicateRow, {
+			at: this.builder.model.get('rows').indexOf(this.model) + 1
 		} );
 
-		this.closeDialog( {silent: true} );
+		this.closeDialog({silent: true});
 
 		return false;
-	}
+	},
 
-} );
+	closeHandler: function() {
+		this.clearCellStylesCache();
+		if( ! _.isUndefined(this.cellStyles) ) {
+			this.cellStyles = undefined;
+		}
+	},
+
+});
 
 },{}],9:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
+var jsWidget = require( '../view/widgets/js-widget' );
 
 module.exports = panels.view.dialog.extend( {
 
 	builder: null,
-	sidebarWidgetTemplate: _.template( $( '#siteorigin-panels-dialog-widget-sidebar-widget' ).html().panelsProcessTemplate() ),
+	sidebarWidgetTemplate: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-dialog-widget-sidebar-widget' ).html() ) ),
+
 	dialogClass: 'so-panels-dialog-edit-widget',
+    dialogIcon: 'add-widget',
+
 	widgetView: false,
 	savingWidget: false,
+	editableLabel: true,
 
 	events: {
 		'click .so-close': 'saveHandler',
@@ -1471,6 +1593,17 @@ module.exports = panels.view.dialog.extend( {
 				} );
 			}
 		} );
+
+		this.on( 'edit_label', function ( text ) {
+			// If text is set to default value, just clear it.
+			if ( text === panelsOptions.widgets[ this.model.get( 'class' ) ][ 'title' ] ) {
+				text = '';
+			}
+			this.model.set( 'label', text );
+			if ( _.isEmpty( text ) ) {
+				this.$( '.so-title' ).text( this.model.getWidgetField( 'title' ) );
+			}
+		}.bind( this ) );
 	},
 
 	/**
@@ -1481,11 +1614,9 @@ module.exports = panels.view.dialog.extend( {
 		this.renderDialog( this.parseDialogContent( $( '#siteorigin-panels-dialog-widget' ).html(), {} ) );
 		this.loadForm();
 
-		if ( ! _.isUndefined( panelsOptions.widgets[this.model.get( 'class' )] ) ) {
-			this.$( '.so-title .widget-name' ).html( panelsOptions.widgets[this.model.get( 'class' )].title );
-		} else {
-			this.$( '.so-title .widget-name' ).html( panelsOptions.loc.missing_widget.title );
-		}
+		var title = this.model.getWidgetField( 'title' );
+		this.$( '.so-title .widget-name' ).html( title );
+		this.$( '.so-edit-title' ).val( title );
 
 		if( ! this.builder.supports( 'addWidget' ) ) {
 			this.$( '.so-buttons .so-duplicate' ).remove();
@@ -1579,7 +1710,6 @@ module.exports = panels.view.dialog.extend( {
 			return;
 		}
 
-		var thisView = this;
 		this.$( '.so-content' ).addClass( 'so-panels-loading' );
 
 		var data = {
@@ -1594,22 +1724,31 @@ module.exports = panels.view.dialog.extend( {
 			data,
 			function ( result ) {
 				// Add in the CID of the widget model
-				var html = result.replace( /{\$id}/g, thisView.model.cid );
+				var html = result.replace( /{\$id}/g, this.model.cid );
 
 				// Load this content into the form
-				thisView.$( '.so-content' )
+				var $soContent = this.$( '.so-content' );
+				$soContent
 					.removeClass( 'so-panels-loading' )
 					.html( html );
 
 				// Trigger all the necessary events
-				thisView.trigger( 'form_loaded', thisView );
+				this.trigger( 'form_loaded', this );
 
 				// For legacy compatibility, trigger a panelsopen event
-				thisView.$( '.panel-dialog' ).trigger( 'panelsopen' );
+				this.$( '.panel-dialog' ).trigger( 'panelsopen' );
 
 				// If the main dialog is closed from this point on, save the widget content
-				thisView.on( 'close_dialog', thisView.updateModel, thisView );
-			},
+				this.on( 'close_dialog', this.updateModel, this );
+
+				var widgetContent = $soContent.find( '> .widget-content' );
+				// If there's a widget content wrapper, this is one of the new widgets in WP 4.8 which need some special
+				// handling in JS.
+				if ( widgetContent.length > 0 ) {
+					jsWidget.addWidget( $soContent, this.model.widget_id );
+				}
+
+			}.bind( this ),
 			'html'
 		);
 	},
@@ -1701,16 +1840,17 @@ module.exports = panels.view.dialog.extend( {
 
 } );
 
-},{}],10:[function(require,module,exports){
+},{"../view/widgets/js-widget":30}],10:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = panels.view.dialog.extend( {
 
 	builder: null,
-	widgetTemplate: _.template( $( '#siteorigin-panels-dialog-widgets-widget' ).html().panelsProcessTemplate() ),
+	widgetTemplate: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-dialog-widgets-widget' ).html() ) ),
 	filter: {},
 
 	dialogClass: 'so-panels-dialog-add-widget',
+	dialogIcon: 'add-widget',
 
 	events: {
 		'click .so-close': 'closeDialog',
@@ -1800,8 +1940,16 @@ module.exports = panels.view.dialog.extend( {
 	 * Handle changes to the search value
 	 */
 	searchHandler: function ( e ) {
-		this.filter.search = $( e.target ).val();
-		this.filterWidgets( this.filter );
+		if( e.which === 13 ) {
+			var visibleWidgets = this.$( '.widget-type-list .widget-type:visible' );
+			if( visibleWidgets.length === 1 ) {
+				visibleWidgets.click();
+			}
+		}
+		else {
+			this.filter.search = $( e.target ).val().trim();
+			this.filterWidgets( this.filter );
+		}
 	},
 
 	/**
@@ -1876,7 +2024,7 @@ module.exports = panels.view.dialog.extend( {
 
 		// Add the widget to the cell model
 		widget.cell = this.builder.getActiveCell();
-		widget.cell.widgets.add( widget );
+		widget.cell.get('widgets').add( widget );
 
 		this.closeDialog();
 		this.builder.model.refreshPanelsData();
@@ -1931,6 +2079,261 @@ module.exports = panels.view.dialog.extend( {
 } );
 
 },{}],11:[function(require,module,exports){
+module.exports = {
+	/**
+	 * Check if we have copy paste available.
+	 * @returns {boolean|*}
+	 */
+	canCopyPaste: function(){
+		return typeof(Storage) !== "undefined" && panelsOptions.user;
+	},
+
+	/**
+	 * Set the model that we're going to store in the clipboard
+	 */
+	setModel: function( model ){
+		if( ! this.canCopyPaste() ) {
+			return false;
+		}
+
+		var serial = panels.helpers.serialize.serialize( model );
+		if( model instanceof  panels.model.row ) {
+			serial.thingType = 'row-model';
+		} else if( model instanceof  panels.model.widget ) {
+			serial.thingType = 'widget-model';
+		}
+
+		// Store this in local storage
+		localStorage[ 'panels_clipboard_' + panelsOptions.user ] = JSON.stringify( serial );
+		return true;
+	},
+
+	/**
+	 * Check if the current model stored in the clipboard is the expected type
+	 */
+	isModel: function( expected ){
+		if( ! this.canCopyPaste() ) {
+			return false;
+		}
+
+		var clipboardObject = localStorage[ 'panels_clipboard_' + panelsOptions.user ];
+		if( clipboardObject !== undefined ) {
+			clipboardObject = JSON.parse(clipboardObject);
+			return clipboardObject.thingType && clipboardObject.thingType === expected;
+		}
+
+		return false;
+	},
+
+	/**
+	 * Get the model currently stored in the clipboard
+	 */
+	getModel: function( expected ){
+		if( ! this.canCopyPaste() ) {
+			return null;
+		}
+
+		var clipboardObject = localStorage[ 'panels_clipboard_' + panelsOptions.user ];
+		if( clipboardObject !== undefined ) {
+			clipboardObject = JSON.parse( clipboardObject );
+			if( clipboardObject.thingType && clipboardObject.thingType === expected ) {
+				return panels.helpers.serialize.unserialize( clipboardObject, clipboardObject.thingType, null );
+			}
+		}
+
+		return null;
+	},
+};
+
+},{}],12:[function(require,module,exports){
+module.exports = {
+	/**
+	 * Lock window scrolling for the main overlay
+	 */
+	lock: function () {
+		if ( jQuery( 'body' ).css( 'overflow' ) === 'hidden' ) {
+			return;
+		}
+
+		// lock scroll position, but retain settings for later
+		var scrollPosition = [
+			self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
+			self.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+		];
+
+		jQuery( 'body' )
+			.data( {
+				'scroll-position': scrollPosition
+			} )
+			.css( 'overflow', 'hidden' );
+
+		if( ! _.isUndefined( scrollPosition ) ) {
+			window.scrollTo( scrollPosition[0], scrollPosition[1] );
+		}
+	},
+
+	/**
+	 * Unlock window scrolling
+	 */
+	unlock: function () {
+		if ( jQuery( 'body' ).css( 'overflow' ) !== 'hidden' ) {
+			return;
+		}
+
+		// Check that there are no more dialogs or a live editor
+		if ( ! jQuery( '.so-panels-dialog-wrapper' ).is( ':visible' ) && ! jQuery( '.so-panels-live-editor' ).is( ':visible' ) ) {
+			jQuery( 'body' ).css( 'overflow', 'visible' );
+			var scrollPosition = jQuery( 'body' ).data( 'scroll-position' );
+
+			if( ! _.isUndefined( scrollPosition ) ) {
+				window.scrollTo( scrollPosition[0], scrollPosition[1] );
+			}
+		}
+	},
+};
+
+},{}],13:[function(require,module,exports){
+/*
+This is a modified version of https://github.com/underdogio/backbone-serialize/
+*/
+
+/* global Backbone, module, panels */
+
+module.exports = {
+	serialize: function( thing ){
+		var val;
+
+		if( thing instanceof Backbone.Model ) {
+			var retObj = {};
+			for ( var key in thing.attributes ) {
+				if (thing.attributes.hasOwnProperty( key ) ) {
+					// Skip these to avoid recursion
+					if( key === 'builder' || key === 'collection' ) { continue; }
+
+					// If the value is a Model or a Collection, then serialize them as well
+					val = thing.attributes[key];
+					if ( val instanceof Backbone.Model || val instanceof Backbone.Collection ) {
+						retObj[key] = this.serialize( val );
+					} else {
+						// Otherwise, save the original value
+						retObj[key] = val;
+					}
+				}
+			}
+			return retObj;
+		}
+		else if( thing instanceof Backbone.Collection ) {
+			// Walk over all of our models
+			var retArr = [];
+
+			for ( var i = 0; i < thing.models.length; i++ ) {
+				// If the model is serializable, then serialize it
+				val = thing.models[i];
+
+				if ( val instanceof Backbone.Model || val instanceof Backbone.Collection ) {
+					retArr.push( this.serialize( val ) );
+				} else {
+					// Otherwise (it is an object), return it in its current form
+					retArr.push( val );
+				}
+			}
+
+			// Return the serialized models
+			return retArr;
+		}
+	},
+
+	unserialize: function( thing, thingType, parent ) {
+		var retObj;
+
+		switch( thingType ) {
+			case 'row-model' :
+				retObj = new panels.model.row();
+				retObj.builder = parent;
+				retObj.set( 'style', thing.style );
+				retObj.setCells( this.unserialize( thing.cells, 'cell-collection', retObj ) );
+				break;
+
+			case 'cell-model' :
+				retObj = new panels.model.cell();
+				retObj.row = parent;
+				retObj.set( 'weight', thing.weight );
+				retObj.set( 'style', thing.style );
+				retObj.set( 'widgets', this.unserialize( thing.widgets, 'widget-collection', retObj ) );
+				break;
+
+			case 'widget-model' :
+				retObj = new panels.model.widget();
+				retObj.cell = parent;
+				for ( var key in thing ) {
+					if ( thing.hasOwnProperty( key ) ) {
+						retObj.set( key, thing[key] );
+					}
+				}
+				retObj.set( 'widget_id', panels.helpers.utils.generateUUID() );
+				break;
+
+			case 'cell-collection':
+				retObj = new panels.collection.cells();
+				for( var i = 0; i < thing.length; i++ ) {
+					retObj.push( this.unserialize( thing[i], 'cell-model', parent ) );
+				}
+				break;
+
+			case 'widget-collection':
+				retObj = new panels.collection.widgets();
+				for( var i = 0; i < thing.length; i++ ) {
+					retObj.push( this.unserialize( thing[i], 'widget-model', parent ) );
+				}
+				break;
+
+			default:
+				console.log( 'Unknown Thing - ' + thingType );
+				break;
+		}
+
+		return retObj;
+	}
+};
+
+},{}],14:[function(require,module,exports){
+module.exports = {
+
+	generateUUID: function(){
+		var d = new Date().getTime();
+		if( window.performance && typeof window.performance.now === "function" ){
+			d += performance.now(); //use high-precision timer if available
+		}
+		var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace( /[xy]/g, function(c) {
+			var r = (d + Math.random()*16)%16 | 0;
+			d = Math.floor(d/16);
+			return ( c == 'x' ? r : (r&0x3|0x8) ).toString(16);
+		} );
+		return uuid;
+	},
+
+	processTemplate: function ( s ) {
+		if ( _.isUndefined( s ) || _.isNull( s ) ) {
+			return '';
+		}
+		s = s.replace( /{{%/g, '<%' );
+		s = s.replace( /%}}/g, '%>' );
+		s = s.trim();
+		return s;
+	},
+
+	// From this SO post: http://stackoverflow.com/questions/6139107/programmatically-select-text-in-a-contenteditable-html-element
+	selectElementContents: function( element ) {
+		var range = document.createRange();
+		range.selectNodeContents( element );
+		var sel = window.getSelection();
+		sel.removeAllRanges();
+		sel.addRange( range );
+	},
+
+}
+
+},{}],15:[function(require,module,exports){
 /* global _, jQuery, panels */
 
 var panels = window.panels, $ = jQuery;
@@ -2007,7 +2410,7 @@ module.exports = function ( config ) {
 	} );
 };
 
-},{}],12:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  * Everything we need for SiteOrigin Page Builder.
  *
@@ -2017,25 +2420,18 @@ module.exports = function ( config ) {
 
 /* global Backbone, _, jQuery, tinyMCE, panelsOptions, plupload, confirm, console, require */
 
-/**
- * Convert template into something compatible with Underscore.js templates
- *
- * @param s
- * @return {*}
- */
-String.prototype.panelsProcessTemplate = function () {
-	var s = this;
-	s = s.replace( /{{%/g, '<%' );
-	s = s.replace( /%}}/g, '%>' );
-	s = s.trim();
-	return s;
-};
-
 var panels = {};
 
 // Store everything globally
 window.panels = panels;
 window.siteoriginPanels = panels;
+
+// Helpers
+panels.helpers = {};
+panels.helpers.clipboard = require( './helpers/clipboard' );
+panels.helpers.utils = require( './helpers/utils' );
+panels.helpers.serialize = require( './helpers/serialize' );
+panels.helpers.pageScroll = require( './helpers/page-scroll' );
 
 // The models
 panels.model = {};
@@ -2094,11 +2490,12 @@ jQuery( function ( $ ) {
 		form = $( 'form#post' );
 
 		builderConfig = {
-			editorType: 'tinymce',
+			editorType: 'tinyMCE',
 			postId: $( '#post_ID' ).val(),
 			editorId: '#content',
 			builderType: $( '#siteorigin-panels-metabox' ).data( 'builder-type' ),
 			builderSupports: $( '#siteorigin-panels-metabox' ).data( 'builder-supports' ),
+			loadOnAttach: panelsOptions.loadOnAttach && $( '#auto_draft' ).val() == 1,
 			loadLiveEditor: $( '#siteorigin-panels-metabox' ).data('live-editor') == 1,
 			liveEditorPreview: container.data('preview-url')
 		};
@@ -2169,8 +2566,8 @@ jQuery( function ( $ ) {
 	}
 } );
 
-},{"./collection/cells":1,"./collection/history-entries":2,"./collection/rows":3,"./collection/widgets":4,"./dialog/builder":5,"./dialog/history":6,"./dialog/prebuilt":7,"./dialog/row":8,"./dialog/widget":9,"./dialog/widgets":10,"./jquery/setup-builder-widget":11,"./model/builder":13,"./model/cell":14,"./model/history-entry":15,"./model/row":16,"./model/widget":17,"./utils/menu":18,"./view/builder":19,"./view/cell":20,"./view/dialog":21,"./view/live-editor":22,"./view/row":23,"./view/styles":24,"./view/widget":25}],13:[function(require,module,exports){
-module.exports = Backbone.Model.extend( {
+},{"./collection/cells":1,"./collection/history-entries":2,"./collection/rows":3,"./collection/widgets":4,"./dialog/builder":5,"./dialog/history":6,"./dialog/prebuilt":7,"./dialog/row":8,"./dialog/widget":9,"./dialog/widgets":10,"./helpers/clipboard":11,"./helpers/page-scroll":12,"./helpers/serialize":13,"./helpers/utils":14,"./jquery/setup-builder-widget":15,"./model/builder":17,"./model/cell":18,"./model/history-entry":19,"./model/row":20,"./model/widget":21,"./utils/menu":22,"./view/builder":23,"./view/cell":24,"./view/dialog":25,"./view/live-editor":26,"./view/row":27,"./view/styles":28,"./view/widget":29}],17:[function(require,module,exports){
+module.exports = Backbone.Model.extend({
 	layoutPosition: {
 		BEFORE: 'before',
 		AFTER: 'after',
@@ -2189,27 +2586,33 @@ module.exports = Backbone.Model.extend( {
 
 	initialize: function () {
 		// These are the main rows in the interface
-		this.rows = new panels.collection.rows();
+		this.set( 'rows', new panels.collection.rows() );
 	},
 
 	/**
 	 * Add a new row to this builder.
 	 *
-	 * @param weights
+	 * @param attrs
+	 * @param cells
+	 * @param options
 	 */
-	addRow: function ( weights, options ) {
-		options = _.extend( {
+	addRow: function (attrs, cells, options) {
+		options = _.extend({
 			noAnimate: false
-		}, options );
-		// Create the actual row
-		var row = new panels.model.row( {
-			collection: this.rows
-		} );
+		}, options);
 
-		row.setCells( weights );
+		var cellCollection = new panels.collection.cells(cells);
+
+		attrs = _.extend({
+			collection: this.get('rows'),
+			cells: cellCollection,
+		}, attrs);
+
+		// Create the actual row
+		var row = new panels.model.row(attrs);
 		row.builder = this;
 
-		this.rows.add( row, options );
+		this.get('rows').add( row, options );
 
 		return row;
 	},
@@ -2219,7 +2622,7 @@ module.exports = Backbone.Model.extend( {
 	 *
 	 * @param data Object the layout and widgets data to load.
 	 * @param position string Where to place the new layout. Allowed options are 'before', 'after'. Anything else will
-	 *                          cause the new layout to replace the old one.
+	 *						  cause the new layout to replace the old one.
 	 */
 	loadPanelsData: function ( data, position ) {
 		try {
@@ -2250,17 +2653,26 @@ module.exports = Backbone.Model.extend( {
 					rows[gi] = [];
 				}
 
-				rows[gi].push( parseFloat( data.grid_cells[ci].weight ) );
+				rows[gi].push( data.grid_cells[ci] );
 			}
 
 			var builderModel = this;
 			_.each( rows, function ( row, i ) {
-				// This will create and add the row model and its cells
-				var newRow = builderModel.addRow( row, {noAnimate: true} );
+				var rowAttrs = {};
 
 				if ( ! _.isUndefined( data.grids[i].style ) ) {
-					newRow.set( 'style', data.grids[i].style );
+					rowAttrs.style = data.grids[i].style;
 				}
+
+				if ( ! _.isUndefined( data.grids[i].color_label) ) {
+					rowAttrs.color_label = data.grids[i].color_label;
+				}
+
+				if ( ! _.isUndefined( data.grids[i].label) ) {
+					rowAttrs.label = data.grids[i].label;
+				}
+				// This will create and add the row model and its cells
+				builderModel.addRow(rowAttrs, row, {noAnimate: true} );
 			} );
 
 
@@ -2279,8 +2691,8 @@ module.exports = Backbone.Model.extend( {
 					delete widgetData.info;
 				}
 
-				var row = builderModel.rows.at( parseInt( panels_info.grid ) );
-				var cell = row.cells.at( parseInt( panels_info.cell ) );
+				var row = builderModel.get('rows').at( parseInt( panels_info.grid ) );
+				var cell = row.get('cells').at( parseInt( panels_info.cell ) );
 
 				var newWidget = new panels.model.widget( {
 					class: panels_info.class,
@@ -2298,11 +2710,15 @@ module.exports = Backbone.Model.extend( {
 					newWidget.set( 'widget_id', panels_info.widget_id );
 				}
 				else {
-					newWidget.set( 'widget_id', builderModel.generateUUID() );
+					newWidget.set( 'widget_id', panels.helpers.utils.generateUUID() );
+				}
+
+				if ( ! _.isUndefined( panels_info.label ) ) {
+					newWidget.set( 'label', panels_info.label );
 				}
 
 				newWidget.cell = cell;
-				cell.widgets.add( newWidget, { noAnimate: true } );
+				cell.get('widgets').add( newWidget, { noAnimate: true } );
 			} );
 
 			this.trigger( 'load_panels_data' );
@@ -2320,7 +2736,7 @@ module.exports = Backbone.Model.extend( {
 	concatPanelsData: function ( panelsDataA, panelsDataB ) {
 
 		if ( _.isUndefined( panelsDataB ) || _.isUndefined( panelsDataB.grids ) || _.isEmpty( panelsDataB.grids ) ||
-		     _.isUndefined( panelsDataB.grid_cells ) || _.isEmpty( panelsDataB.grid_cells ) ) {
+			 _.isUndefined( panelsDataB.grid_cells ) || _.isEmpty( panelsDataB.grid_cells ) ) {
 			return panelsDataA;
 		}
 
@@ -2378,11 +2794,11 @@ module.exports = Backbone.Model.extend( {
 		};
 		var widgetId = 0;
 
-		this.rows.each( function ( row, ri ) {
+		this.get('rows').each( function ( row, ri ) {
 
-			row.cells.each( function ( cell, ci ) {
+			row.get('cells').each( function ( cell, ci ) {
 
-				cell.widgets.each( function ( widget, wi ) {
+				cell.get('widgets').each( function ( widget, wi ) {
 					// Add the data for the widget, including the panels_info field.
 					var panels_info = {
 						class: widget.get( 'class' ),
@@ -2392,11 +2808,12 @@ module.exports = Backbone.Model.extend( {
 						// Strictly this should be an index
 						id: widgetId ++,
 						widget_id: widget.get( 'widget_id' ),
-						style: widget.get( 'style' )
+						style: widget.get( 'style' ),
+						label: widget.get( 'label' ),
 					};
 
 					if( _.isEmpty( panels_info.widget_id ) ) {
-						panels_info.widget_id = builder.generateUUID();
+						panels_info.widget_id = panels.helpers.utils.generateUUID();
 					}
 
 					var values = _.extend( _.clone( widget.get( 'values' ) ), {
@@ -2408,14 +2825,18 @@ module.exports = Backbone.Model.extend( {
 				// Add the cell info
 				data.grid_cells.push( {
 					grid: ri,
-					weight: cell.get( 'weight' )
+					index: ci,
+					weight: cell.get( 'weight' ),
+					style: cell.get( 'style' ),
 				} );
 
 			} );
 
 			data.grids.push( {
-				cells: row.cells.length,
-				style: row.get( 'style' )
+				cells: row.get('cells').length,
+				style: row.get( 'style' ),
+				color_label: row.get( 'color_label' ),
+				label: row.get( 'label' ),
 			} );
 
 		} );
@@ -2448,34 +2869,234 @@ module.exports = Backbone.Model.extend( {
 	 * Empty all the rows and the cells/widgets they contain.
 	 */
 	emptyRows: function () {
-		_.invoke( this.rows.toArray(), 'destroy' );
-		this.rows.reset();
+		_.invoke( this.get('rows').toArray(), 'destroy' );
+		this.get('rows').reset();
 
 		return this;
 	},
 
 	isValidLayoutPosition: function ( position ) {
 		return position === this.layoutPosition.BEFORE ||
-		       position === this.layoutPosition.AFTER ||
-		       position === this.layoutPosition.REPLACE;
+			   position === this.layoutPosition.AFTER ||
+			   position === this.layoutPosition.REPLACE;
 	},
 
-	generateUUID: function(){
-		var d = new Date().getTime();
-		if( window.performance && typeof window.performance.now === "function" ){
-			d += performance.now(); //use high-precision timer if available
-		}
-		var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace( /[xy]/g, function(c) {
-			var r = (d + Math.random()*16)%16 | 0;
-			d = Math.floor(d/16);
-			return ( c == 'x' ? r : (r&0x3|0x8) ).toString(16);
-		} );
-		return uuid;
-	}
+	/**
+	 * Convert HTML into Panels Data
+	 * @param html
+	 */
+	getPanelsDataFromHtml: function( html, editorClass ){
+		var thisModel = this;
+		var $html = jQuery( '<div id="wrapper">' + html + '</div>' );
 
+		if( $html.find('.panel-layout .panel-grid').length ) {
+			// This looks like Page Builder html, lets try parse it
+			var panels_data = {
+				grids: [],
+				grid_cells: [],
+				widgets: [],
+			};
+
+			// The Regex object that'll match SiteOrigin widgets
+			var re = new RegExp( panelsOptions.siteoriginWidgetRegex , "i" );
+			var decodeEntities = (function() {
+				// this prevents any overhead from creating the object each time
+				var element = document.createElement('div');
+
+				function decodeHTMLEntities (str) {
+					if(str && typeof str === 'string') {
+						// strip script/html tags
+						str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+						str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+						element.innerHTML = str;
+						str = element.textContent;
+						element.textContent = '';
+					}
+
+					return str;
+				}
+
+				return decodeHTMLEntities;
+			})();
+
+			// Remove all wrapping divs from a widget to get its html
+			var getTextWidgetContents = function( $el ){
+				var $divs = $el.find( 'div' );
+				if( ! $divs.length ) {
+					return $el.html();
+				}
+
+				var i;
+				for( i = 0; i < $divs.length - 1; i++ ) {
+					if( jQuery.trim( $divs.eq(i).text() ) != jQuery.trim( $divs.eq(i+1).text() ) ) {
+						break;
+					}
+				}
+
+				var title = $divs.eq( i ).find( '.widget-title:header' ),
+					titleText = '';
+
+				if( title.length ) {
+					titleText = title.html();
+					title.remove();
+				}
+
+				return {
+					title: titleText,
+					text: $divs.eq(i).html(),
+				};
+			};
+
+			var $layout = $html.find( '.panel-layout' ).eq(0);
+			var filterNestedLayout = function( i, el ){
+				return jQuery( el ).closest( '.panel-layout' ).is( $layout );
+			};
+
+			$html.find('> .panel-layout > .panel-grid').filter( filterNestedLayout ).each( function( ri, el ){
+				var $row = jQuery( el ),
+					$cells = $row.find( '.panel-grid-cell' ).filter( filterNestedLayout );
+
+				panels_data.grids.push( {
+					cells: $cells.length,
+					style: $row.data( 'style' ),
+					color_label: $row.data( 'color-label' ),
+					label: $row.data( 'label' ),
+				} );
+
+				$cells.each( function( ci, el ){
+					var $cell = jQuery( el ),
+						$widgets = $cell.find( '.so-panel' ).filter( filterNestedLayout );
+
+					panels_data.grid_cells.push( {
+						grid: ri,
+						weight: ! _.isUndefined( $cell.data( 'weight' ) ) ? parseFloat( $cell.data( 'weight' ) ) : 1,
+						style: $cell.data( 'style' ),
+					} );
+
+					$widgets.each( function( wi, el ){
+						var $widget = jQuery(el),
+							widgetContent = $widget.find('.panel-widget-style').length ? $widget.find('.panel-widget-style').html() : $widget.html(),
+							panels_info = {
+								grid: ri,
+								cell: ci,
+								style: $widget.data( 'style' ),
+								raw: false,
+								label: $widget.data( 'label' )
+							};
+
+						widgetContent = widgetContent.trim();
+
+						// Check if this is a SiteOrigin Widget
+						var match = re.exec( widgetContent );
+						if( ! _.isNull( match ) && widgetContent.replace( re, '' ).trim() === '' ) {
+							try {
+								var classMatch = /class="(.*?)"/.exec( match[3] ),
+									dataInput = jQuery( match[5] ),
+									data = JSON.parse( decodeEntities( dataInput.val( ) ) ),
+									newWidget = data.instance;
+
+								panels_info.class = classMatch[1].replace( /\\\\+/g, '\\' );
+								panels_info.raw = false;
+
+								newWidget.panels_info = panels_info;
+								panels_data.widgets.push( newWidget );
+							}
+							catch ( err ) {
+								// There was a problem, so treat this as a standard editor widget
+								panels_info.class = editorClass;
+								panels_data.widgets.push( _.extend( getTextWidgetContents( $widget ), {
+									filter: "1",
+									type: "visual",
+									panels_info: panels_info
+								} ) );
+							}
+
+							// Continue
+							return true;
+						}
+						else if( widgetContent.indexOf( 'panel-layout' ) !== -1 ) {
+							// Check if this is a layout widget
+							var $widgetContent = jQuery( '<div>' + widgetContent + '</div>' );
+							if( $widgetContent.find('.panel-layout .panel-grid').length ) {
+								// This is a standard editor class widget
+								panels_info.class = 'SiteOrigin_Panels_Widgets_Layout';
+								panels_data.widgets.push( {
+									panels_data: thisModel.getPanelsDataFromHtml( widgetContent, editorClass ),
+									panels_info: panels_info
+								} );
+
+								// continue
+								return true;
+							}
+						}
+
+						// This is a standard editor class widget
+						panels_info.class = editorClass;
+						panels_data.widgets.push( _.extend( getTextWidgetContents( $widget ), {
+							filter: "1",
+							type: "visual",
+							panels_info: panels_info
+						} ) );
+						return true;
+					} );
+				} );
+			} );
+
+			// Remove all the Page Builder content
+			$html.find('.panel-layout').remove();
+			$html.find('style[data-panels-style-for-post]').remove();
+
+			// If there's anything left, add it to an editor widget at the end of panels_data
+			if( $html.html().replace(/^\s+|\s+$/gm,'').length ) {
+				panels_data.grids.push( {
+					cells: 1,
+					style: {},
+				} );
+				panels_data.grid_cells.push( {
+					grid: panels_data.grids.length - 1,
+					weight: 1,
+				} );
+				panels_data.widgets.push( {
+					filter: "1",
+					text: $html.html().replace(/^\s+|\s+$/gm,''),
+					title: "",
+					type: "visual",
+					panels_info: {
+						class: editorClass,
+						raw: false,
+						grid: panels_data.grids.length - 1,
+						cell: 0
+					}
+				} );
+			}
+
+			return panels_data;
+		}
+		else {
+			// This is probably just old school post content
+			return {
+				grid_cells: [ { grid: 0, weight: 1 } ],
+				grids: [ { cells: 1 } ],
+				widgets: [
+					{
+						filter: "1",
+						text: html,
+						title: "",
+						type: "visual",
+						panels_info: {
+							class: editorClass,
+							raw: false,
+							grid: 0,
+							cell: 0
+						}
+					}
+				]
+			};
+		}
+	}
 } );
 
-},{}],14:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 module.exports = Backbone.Model.extend( {
 	/* A collection of widgets */
 	widgets: {},
@@ -2484,7 +3105,8 @@ module.exports = Backbone.Model.extend( {
 	row: null,
 
 	defaults: {
-		weight: 0
+		weight: 0,
+		style: {}
 	},
 
 	indexes: null,
@@ -2493,7 +3115,7 @@ module.exports = Backbone.Model.extend( {
 	 * Set up the cell model
 	 */
 	initialize: function () {
-		this.widgets = new panels.collection.widgets();
+		this.set( 'widgets', new panels.collection.widgets() );
 		this.on( 'destroy', this.onDestroy, this );
 	},
 
@@ -2501,8 +3123,9 @@ module.exports = Backbone.Model.extend( {
 	 * Triggered when we destroy a cell
 	 */
 	onDestroy: function () {
-		_.invoke( this.widgets.toArray(), 'destroy' );
-		this.widgets.reset();
+		// Destroy all the widgets
+		_.invoke( this.get('widgets').toArray(), 'destroy' );
+		this.get('widgets').reset();
 	},
 
 	/**
@@ -2515,13 +3138,13 @@ module.exports = Backbone.Model.extend( {
 		cloneOptions = _.extend( {cloneWidgets: true}, cloneOptions );
 
 		var clone = new this.constructor( this.attributes );
-		clone.set( 'collection', row.cells, {silent: true} );
+		clone.set( 'collection', row.get('cells'), {silent: true} );
 		clone.row = row;
 
 		if ( cloneOptions.cloneWidgets ) {
 			// Now we're going add all the widgets that belong to this, to the clone
-			this.widgets.each( function ( widget ) {
-				clone.widgets.add( widget.clone( clone, cloneOptions ), {silent: true} );
+			this.get('widgets').each( function ( widget ) {
+				clone.get('widgets').add( widget.clone( clone, cloneOptions ), {silent: true} );
 			} );
 		}
 
@@ -2530,7 +3153,7 @@ module.exports = Backbone.Model.extend( {
 
 } );
 
-},{}],15:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 module.exports = Backbone.Model.extend( {
 	defaults: {
 		text: '',
@@ -2540,11 +3163,8 @@ module.exports = Backbone.Model.extend( {
 	}
 } );
 
-},{}],16:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = Backbone.Model.extend( {
-	/* A collection of the cells in this row */
-	cells: {},
-
 	/* The builder model */
 	builder: null,
 
@@ -2558,62 +3178,55 @@ module.exports = Backbone.Model.extend( {
 	 * Initialize the row model
 	 */
 	initialize: function () {
-		this.cells = new panels.collection.cells();
+		if ( _.isEmpty(this.get('cells') ) ) {
+			this.set('cells', new panels.collection.cells());
+		}
+		else {
+			// Make sure that the cells have this row set as their parent
+			this.get('cells').each( function( cell ){
+				cell.row = this;
+			}.bind( this ) );
+		}
 		this.on( 'destroy', this.onDestroy, this );
 	},
 
 	/**
 	 * Add cells to the model row
 	 *
-	 * @param cells an array of cells, where each object in the array has a weight value
+	 * @param newCells the updated collection of cell models
 	 */
-	setCells: function ( cells ) {
-		var thisModel = this;
+	setCells: function ( newCells ) {
+		var currentCells = this.get('cells') || new panels.collection.cells();
+		var cellsToRemove = [];
 
-		if ( _.isEmpty( this.cells ) ) {
-			// We're adding the initial cells
-			_.each( cells, function ( cellWeight ) {
-				// Add the new cell to the row
-				var cell = new panels.model.cell( {
-					weight: cellWeight,
-					collection: thisModel.cells
-				} );
-				cell.row = thisModel;
-				thisModel.cells.add( cell );
-			} );
-		} else {
+		currentCells.each(function (cell, i) {
+			var newCell = newCells.at(i);
+			if(newCell) {
+				cell.set('weight', newCell.get('weight'));
+			} else {
+				var newParentCell = currentCells.at( newCells.length - 1 );
 
-			if ( cells.length > this.cells.length ) {
-				// We need to add cells
-				for ( var i = this.cells.length; i < cells.length; i ++ ) {
-					var cell = new panels.model.cell( {
-						weight: cells[cells.length + i],
-						collection: thisModel.cells
-					} );
-					cell.row = this;
-					thisModel.cells.add( cell );
+				// First move all the widgets to the new cell
+				var widgetsToMove = cell.get('widgets').models.slice();
+				for ( var j = 0; j < widgetsToMove.length; j++ ) {
+					widgetsToMove[j].moveToCell( newParentCell, { silent: false } );
 				}
 
+				cellsToRemove.push(cell);
 			}
-			else if ( cells.length < this.cells.length ) {
-				var newParentCell = this.cells.at( cells.length - 1 );
+		});
 
-				// We need to remove cells
-				_.each( this.cells.slice( cells.length, this.cells.length ), function ( cell ) {
-					var widgetsToMove = cell.widgets.models.slice( 0 );
-					for ( var i = 0; i < widgetsToMove.length; i ++ ) {
-						widgetsToMove[i].moveToCell( newParentCell, {silent: false} );
-					}
+		_.each(cellsToRemove, function(cell) {
+			currentCells.remove(cell);
+		});
 
-					// First move all the widgets to the new cell
-					cell.destroy();
-				} );
-			}
-
-			// Now we need to change the weights of all the cells
-			this.cells.each( function ( cell, i ) {
-				cell.set( 'weight', cells[i] );
-			} );
+		if( newCells.length > currentCells.length) {
+			_.each(newCells.slice(currentCells.length, newCells.length), function (newCell) {
+				// TODO: make sure row and collection is set correctly when cell is created then we can just add new cells
+				newCell.set({collection: currentCells});
+				newCell.row = this;
+				currentCells.add(newCell);
+			}.bind(this));
 		}
 
 		// Rescale the cells when we add or remove
@@ -2625,11 +3238,12 @@ module.exports = Backbone.Model.extend( {
 	 */
 	reweightCells: function () {
 		var totalWeight = 0;
-		this.cells.each( function ( cell ) {
+		var cells = this.get('cells');
+		cells.each( function ( cell ) {
 			totalWeight += cell.get( 'weight' );
 		} );
 
-		this.cells.each( function ( cell ) {
+		cells.each( function ( cell ) {
 			cell.set( 'weight', cell.get( 'weight' ) / totalWeight );
 		} );
 
@@ -2642,8 +3256,8 @@ module.exports = Backbone.Model.extend( {
 	 */
 	onDestroy: function () {
 		// Also destroy all the cells
-		_.invoke( this.cells.toArray(), 'destroy' );
-		this.cells.reset();
+		_.invoke( this.get('cells').toArray(), 'destroy' );
+		this.get('cells').reset();
 	},
 
 	/**
@@ -2653,28 +3267,27 @@ module.exports = Backbone.Model.extend( {
 	 *
 	 * @return {panels.model.row} The cloned row.
 	 */
-	clone: function ( builder, cloneOptions ) {
+	clone: function ( builder ) {
 		if ( _.isUndefined( builder ) ) {
 			builder = this.builder;
 		}
-		cloneOptions = _.extend( {cloneCells: true}, cloneOptions );
 
 		var clone = new this.constructor( this.attributes );
-		clone.set( 'collection', builder.rows, {silent: true} );
+		clone.set( 'collection', builder.get('rows'), {silent: true} );
 		clone.builder = builder;
 
-		if ( cloneOptions.cloneCells ) {
-			// Clone all the rows
-			this.cells.each( function ( cell ) {
-				clone.cells.add( cell.clone( clone, cloneOptions ), {silent: true} );
-			} );
-		}
+		var cellClones = new panels.collection.cells();
+		this.get('cells').each( function ( cell ) {
+			cellClones.add( cell.clone( clone ), {silent: true} );
+		} );
+
+		clone.set( 'cells', cellClones );
 
 		return clone;
 	}
 } );
 
-},{}],17:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /**
  * Model for an instance of a widget
  */
@@ -2722,8 +3335,11 @@ module.exports = Backbone.Model.extend( {
 			} else {
 				return '';
 			}
+		} else if ( this.has( 'label' ) && ! _.isEmpty( this.get( 'label' ) ) ) {
+			// Use the label instead of the actual widget title
+			return this.get( 'label' );
 		} else {
-			return panelsOptions.widgets[this.get( 'class' )][field];
+			return panelsOptions.widgets[ this.get( 'class' ) ][ field ];
 		}
 	},
 
@@ -2731,23 +3347,25 @@ module.exports = Backbone.Model.extend( {
 	 * Move this widget model to a new cell. Called by the views.
 	 *
 	 * @param panels.model.cell newCell
+	 * @param object options The options passed to the
 	 *
-	 * @return bool Indicating if the widget was moved into a different cell
+	 * @return boolean Indicating if the widget was moved into a different cell
 	 */
-	moveToCell: function ( newCell, options ) {
+	moveToCell: function ( newCell, options, at ) {
 		options = _.extend( {
-			silent: true
+			silent: true,
 		}, options );
-
-		if ( this.cell.cid === newCell.cid ) {
-			return false;
-		}
 
 		this.cell = newCell;
 		this.collection.remove( this, options );
-		newCell.widgets.add( this, options );
+		newCell.get('widgets').add( this, _.extend( {
+			at: at
+		}, options ) );
 
-		return true;
+		// This should be used by views to reposition everything.
+		this.trigger( 'move_to_cell', newCell, at );
+
+		return this;
 	},
 
 	/**
@@ -2819,8 +3437,9 @@ module.exports = Backbone.Model.extend( {
 			cloneValues.builder_id = Math.random().toString( 36 ).substr( 2 );
 		}
 
+		clone.set( 'widget_id', '' );
 		clone.set( 'values', cloneValues, {silent: true} );
-		clone.set( 'collection', cell.widgets, {silent: true} );
+		clone.set( 'collection', cell.get('widgets'), {silent: true} );
 		clone.cell = cell;
 
 		// This is used to force a form reload later on
@@ -2880,12 +3499,12 @@ module.exports = Backbone.Model.extend( {
 
 } );
 
-},{}],18:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
-	wrapperTemplate: _.template( $( '#siteorigin-panels-context-menu' ).html().panelsProcessTemplate() ),
-	sectionTemplate: _.template( $( '#siteorigin-panels-context-menu-section' ).html().panelsProcessTemplate() ),
+	wrapperTemplate: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-context-menu' ).html() ) ),
+	sectionTemplate: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-context-menu-section' ).html() ) ),
 
 	contexts: [],
 	active: false,
@@ -3027,7 +3646,7 @@ module.exports = Backbone.View.extend( {
 	 * @param items
 	 * @param callback
 	 */
-	addSection: function ( settings, items, callback ) {
+	addSection: function ( id, settings, items, callback ) {
 		var thisView = this;
 		settings = _.extend( {
 			display: 5,
@@ -3046,7 +3665,7 @@ module.exports = Backbone.View.extend( {
 		var section = $( this.sectionTemplate( {
 			settings: settings,
 			items: items
-		} ) );
+		} ) ).attr( 'id', 'panels-menu-section-' + id );
 		this.$el.append( section );
 
 		section.find( '.so-item:not(.so-confirm)' ).click( function () {
@@ -3078,6 +3697,16 @@ module.exports = Backbone.View.extend( {
 		section.data( 'settings', settings ).find( '.so-search-wrapper input' ).trigger( 'keyup' );
 
 		this.active = true;
+	},
+
+	/**
+	 * Check if a section exists in the current menu.
+	 *
+	 * @param id
+	 * @returns {boolean}
+	 */
+	hasSection: function( id ){
+		return this.$el.find( '#panels-menu-section-' + id  ).length > 0;
 	},
 
 	/**
@@ -3191,7 +3820,7 @@ module.exports = Backbone.View.extend( {
 
 } );
 
-},{}],19:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
@@ -3199,15 +3828,18 @@ module.exports = Backbone.View.extend( {
 	// Config options
 	config: {},
 
-	template: _.template( $( '#siteorigin-panels-builder' ).html().panelsProcessTemplate() ),
+	template: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-builder' ).html() ) ),
 	dialogs: {},
 	rowsSortable: null,
 	dataField: false,
 	currentData: '',
 
 	attachedToEditor: false,
+	attachedVisible: false,
 	liveEditor: undefined,
 	menu: false,
+
+	activeCell: null,
 
 	events: {
 		'click .so-tool-button.so-widget-add': 'displayAddWidgetDialog',
@@ -3231,6 +3863,7 @@ module.exports = Backbone.View.extend( {
 			builderSupports : {}
 		}, options.config);
 
+		// These are the actions that a user can perform in the builder
 		this.config.builderSupports = _.extend( {
 			addRow: true,
 			editRow: true,
@@ -3268,7 +3901,7 @@ module.exports = Backbone.View.extend( {
 		this.dialogs.row.setRowDialogType( 'create' );
 
 		// This handles a new row being added to the collection - we'll display it in the interface
-		this.model.rows.on( 'add', this.onAddRow, this );
+		this.model.get('rows').on( 'add', this.onAddRow, this );
 
 		// Reflow the entire builder when ever the
 		$( window ).resize( function ( e ) {
@@ -3283,12 +3916,22 @@ module.exports = Backbone.View.extend( {
 		// Handle a content change
 		this.on( 'content_change', this.handleContentChange, this );
 		this.on( 'display_builder', this.handleDisplayBuilder, this );
+		this.on( 'hide_builder', this.handleHideBuilder, this );
 		this.on( 'builder_rendered builder_resize', this.handleBuilderSizing, this );
 		this.model.on( 'change:data load_panels_data', this.toggleWelcomeDisplay, this );
+
+		this.on( 'display_builder', this.wrapEditorExpandAdjust, this );
 
 		// Create the context menu for this builder
 		this.menu = new panels.utils.menu( {} );
 		this.menu.on( 'activate_context', this.activateContextMenu, this );
+
+		if( this.config.loadOnAttach ) {
+			this.on( 'builder_attached_to_editor', function(){
+				this.displayAttachedBuilder( { confirm: false } );
+			}, this );
+		}
+
 
 		return this;
 	},
@@ -3306,19 +3949,6 @@ module.exports = Backbone.View.extend( {
 			.addClass( 'so-builder-container' );
 
 		this.trigger( 'builder_rendered' );
-
-		this.$( '.so-tip-wrapper a' ).click( function( e ){
-			e.preventDefault();
-			var $$ = $(this).blur();
-			var newwindow = window.open(
-				$$.attr('href'),
-				'signup-window',
-				'height=450,width=650,toolbar=false'
-			);
-			if ( window.focus ) {
-				newwindow.focus();
-			}
-		} );
 
 		return this;
 	},
@@ -3380,7 +4010,7 @@ module.exports = Backbone.View.extend( {
 	 * @returns {panels.view.builder}
 	 */
 	attachToEditor: function () {
-		if ( this.config.editorType !== 'tinymce' ) {
+		if ( this.config.editorType !== 'tinyMCE' ) {
 			return this;
 		}
 
@@ -3393,34 +4023,23 @@ module.exports = Backbone.View.extend( {
 			.find( '.wp-switch-editor' )
 			.click( function ( e ) {
 				e.preventDefault();
-				$( '#wp-content-editor-container, #post-status-info' ).show();
+				$( '#wp-content-editor-container' ).show();
+
 				// metabox.hide();
 				$( '#wp-content-wrap' ).removeClass( 'panels-active' );
 				$( '#content-resize-handle' ).show();
+
+				// Make sure the word count is visible
 				thisView.trigger( 'hide_builder' );
 			} ).end()
 			.append(
-			$( '<a id="content-panels" class="hide-if-no-js wp-switch-editor switch-panels">' + metabox.find( '.hndle span' ).html() + '</a>' )
-				.click( function ( e ) {
-					// Switch to the Page Builder interface
-					e.preventDefault();
-
-					var $$ = jQuery( this );
-
-					// Hide the standard content editor
-					$( '#wp-content-wrap, #post-status-info' ).hide();
-
-					// Show page builder and the inside div
-					metabox.show().find( '> .inside' ).show();
-
-					// Triggers full refresh
-					$( window ).resize();
-					$( document ).scroll();
-
-					thisView.trigger( 'display_builder' );
-
-				} )
-		);
+				$( '<a id="content-panels" class="hide-if-no-js wp-switch-editor switch-panels">' + metabox.find( '.hndle span' ).html() + '</a>' )
+					.click( function ( e ) {
+						if ( thisView.displayAttachedBuilder( { confirm: true } ) ) {
+							e.preventDefault();
+						}
+					} )
+			);
 
 		// Switch back to the standard editor
 		if( this.supports( 'revertToEditor' ) ) {
@@ -3436,11 +4055,14 @@ module.exports = Backbone.View.extend( {
 				thisView.model.loadPanelsData( false );
 
 				// Switch back to the standard editor
-				$( '#wp-content-wrap, #post-status-info' ).show();
+				$( '#wp-content-wrap' ).show();
 				metabox.hide();
 
 				// Resize to trigger reflow of WordPress editor stuff
 				$( window ).resize();
+
+                thisView.attachedVisible = false;
+				thisView.trigger( 'hide_builder' );
 			} ).show();
 		}
 
@@ -3449,12 +4071,8 @@ module.exports = Backbone.View.extend( {
 
 		// Switch to the Page Builder interface as soon as we load the page if there are widgets
 		var data = this.model.get( 'data' );
-		if ( (
-			     ! _.isEmpty( data.widgets )
-		     ) || (
-			     ! _.isEmpty( data.grids )
-		     ) ) {
-			$( '#content-panels.switch-panels' ).click();
+		if ( ! _.isEmpty( data.widgets ) || ! _.isEmpty( data.grids ) ) {
+			this.displayAttachedBuilder( { confirm: false } );
 		}
 
 		// We will also make this sticky if its attached to an editor.
@@ -3517,6 +4135,49 @@ module.exports = Backbone.View.extend( {
 	},
 
 	/**
+	 * Display the builder interface when attached to a WordPress editor
+	 */
+	displayAttachedBuilder: function( options ){
+		options = _.extend( {
+			confirm: true
+		}, options );
+
+		// Switch to the Page Builder interface
+
+		if( options.confirm ) {
+			var editor = typeof tinyMCE !== 'undefined' ? tinyMCE.get( 'content' ) : false;
+			var editorContent = ( editor && _.isFunction( editor.getContent ) ) ? editor.getContent() : $( 'textarea#content' ).val();
+
+			if ( editorContent !== '' && ! confirm( panelsOptions.loc.confirm_use_builder ) ) {
+				return false;
+			}
+		}
+
+		// Hide the standard content editor
+		$( '#wp-content-wrap' ).hide();
+
+
+		$( '#editor-expand-toggle' ).on( 'change.editor-expand', function () {
+			if ( ! $( this ).prop( 'checked' ) ) {
+				$( '#wp-content-wrap' ).hide();
+			}
+		} );
+
+		// Show page builder and the inside div
+		this.metabox.show().find( '> .inside' ).show();
+
+		// Triggers full refresh
+		$( window ).resize();
+		$( document ).scroll();
+
+		// Make sure the word count is visible
+		this.attachedVisible = true;
+		this.trigger( 'display_builder' );
+
+		return true;
+	},
+
+	/**
 	 * Initialize the row sortables
 	 */
 	initSortable: function () {
@@ -3534,11 +4195,23 @@ module.exports = Backbone.View.extend( {
 			axis: 'y',
 			tolerance: 'pointer',
 			scroll: false,
-			stop: function ( e ) {
+			stop: function ( e, ui ) {
 				builderView.addHistoryEntry( 'row_moved' );
 
-				// Sort the rows collection after updating all the indexes.
-				builderView.sortCollections();
+				var $$ =  $( ui.item ),
+					row = $$.data( 'view' );
+
+				builderView.model.get('rows').remove( row.model, {
+					'silent' : true
+				} );
+				builderView.model.get('rows').add( row.model, {
+					'silent' : true,
+					'at' : $$.index()
+				} );
+
+				row.trigger( 'move', $$.index() );
+
+				builderView.model.refreshPanelsData();
 			}
 		} );
 
@@ -3579,7 +4252,6 @@ module.exports = Backbone.View.extend( {
 			this.model.loadPanelsData( data );
 			this.currentData = data;
 			this.toggleWelcomeDisplay();
-			this.sortCollections();
 		}
 
 		return this;
@@ -3643,12 +4315,18 @@ module.exports = Backbone.View.extend( {
 
 	/**
 	 * Display the dialog to add a new row.
-	 *
-	 * @returns {boolean}
 	 */
 	displayAddRowDialog: function () {
+		var row = new panels.model.row();
+		var cells = new panels.collection.cells([{weight: 0.5}, {weight: 0.5}]);
+		cells.each(function (cell) {
+			cell.row = row;
+		});
+		row.set('cells', cells);
+		row.builder = this.model;
+
+		this.dialogs.row.setRowModel(row);
 		this.dialogs.row.openDialog();
-		this.dialogs.row.setRowModel(); // Set this to an empty row model
 	},
 
 	/**
@@ -3670,82 +4348,46 @@ module.exports = Backbone.View.extend( {
 	},
 
 	/**
+	 * Handle pasting a row into the builder.
+	 */
+	pasteRowHandler: function(){
+		var pastedModel = panels.helpers.clipboard.getModel( 'row-model' );
+
+		if( ! _.isEmpty( pastedModel ) && pastedModel instanceof panels.model.row ) {
+			this.addHistoryEntry( 'row_pasted' );
+			pastedModel.builder = this.model;
+			this.model.get('rows').add( pastedModel, {
+				at: this.model.get('rows').indexOf( this.model ) + 1
+			} );
+			this.model.refreshPanelsData();
+		}
+	},
+
+	/**
 	 * Get the model for the currently selected cell
 	 */
 	getActiveCell: function ( options ) {
 		options = _.extend( {
 			createCell: true,
-			defaultPosition: 'first'
 		}, options );
 
-		if ( this.$( '.so-cells .cell' ).length === 0 ) {
-
+		if( ! this.model.get('rows').length ) {
+			// There aren't any rows yet
 			if ( options.createCell ) {
 				// Create a row with a single cell
-				this.model.addRow( [1], {noAnimate: true} );
+				this.model.addRow( {}, [{ weight: 1 }], { noAnimate: true } );
 			} else {
 				return null;
 			}
-
 		}
 
-		var activeCell = this.$( '.so-cells .cell.cell-selected' );
-
-		if ( activeCell.length === 0 ) {
-			if ( options.defaultPosition === 'last' ) {
-				activeCell = this.$( '.so-cells .cell' ).first();
-			} else {
-				activeCell = this.$( '.so-cells .cell' ).last();
-			}
+		// Make sure the active cell isn't empty, and it's in a row that exists
+		var activeCell = this.activeCell;
+		if( _.isEmpty( activeCell ) || this.model.get('rows').indexOf( activeCell.model.row ) === -1 ) {
+			return this.model.get('rows').last().get('cells').first();
+		} else {
+			return activeCell.model;
 		}
-
-		return activeCell.data( 'view' ).model;
-	},
-
-	/**
-	 * Sort all widget and row collections based on their dom position
-	 */
-	sortCollections: function () {
-
-		// Give the widgets their indexes
-		this.$( '.so-widget' ).each( function ( i ) {
-			var $$ = $( this );
-			$$.data( 'view' ).model.indexes = {
-				builder: i,
-				cell: $$.index()
-			};
-		} );
-
-		// Give the cells their indexes
-		this.$( '.so-cells .cell' ).each( function ( i ) {
-			var $$ = $( this );
-			$$.data( 'view' ).model.indexes = {
-				builder: i,
-				row: $$.index()
-			};
-		} );
-
-		// Give the rows their indexes
-		this.$( '.so-row-container' ).each( function ( i ) {
-			var $$ = $( this );
-			$$.data( 'view' ).model.indexes = {
-				builder: i,
-			};
-		} );
-
-
-		// Sort the rows by their visual index
-		this.model.rows.visualSort();
-
-		// Sort the widget collections by their visual index
-		this.model.rows.each( function ( row ) {
-			row.cells.each( function ( cell ) {
-				cell.widgets.visualSort();
-			} );
-		} );
-
-		// Update the builder model to reflect the newly ordered data.
-		this.model.refreshPanelsData();
 	},
 
 	/**
@@ -3854,19 +4496,6 @@ module.exports = Backbone.View.extend( {
 						post_id: this.config.postId
 					},
 					function ( content ) {
-
-						// Strip all the known layout divs
-						var t = $( '<div />' ).html( content );
-						t.find( 'div' ).each( function () {
-							var c = $( this ).contents();
-							$( this ).replaceWith( c );
-						} );
-
-						content = t.html()
-							.replace( /[\r\n]+/g, "\n" )
-							.replace( /\n\s+/g, "\n" )
-							.trim();
-
 						if( content !== '' ) {
 							this.updateEditorContent( content );
 						}
@@ -3927,17 +4556,8 @@ module.exports = Backbone.View.extend( {
 	 * Handle displaying the builder
 	 */
 	handleDisplayBuilder: function () {
-		var editorContent = '';
-		var editor;
-
-		if ( typeof tinyMCE !== 'undefined' ) {
-			editor = tinyMCE.get( 'content' );
-		}
-		if ( editor && _.isFunction( editor.getContent ) ) {
-			editorContent = editor.getContent();
-		} else {
-			editorContent = $( 'textarea#content' ).val();
-		}
+		var editor = typeof tinyMCE !== 'undefined' ? tinyMCE.get( 'content' ) : false;
+		var editorContent = ( editor && _.isFunction( editor.getContent ) ) ? editor.getContent() : $( 'textarea#content' ).val();
 
 		if (
 			(
@@ -3946,48 +4566,56 @@ module.exports = Backbone.View.extend( {
 			) &&
 			editorContent !== ''
 		) {
-			// Confirm that the user wants to copy their content to Page Builder.
-			if ( ! confirm( panelsOptions.loc.confirm_use_builder ) ) {
-				return;
-			}
-
-			var widgetClass = '';
+			var editorClass = panelsOptions.text_widget;
 			// There is a small chance a theme will have removed this, so check
-			if ( ! _.isUndefined( panelsOptions.widgets.SiteOrigin_Widget_Editor_Widget ) ) {
-				widgetClass = 'SiteOrigin_Widget_Editor_Widget';
-			}
-			else if ( ! _.isUndefined( panelsOptions.widgets.WP_Widget_Text ) ) {
-				widgetClass = 'WP_Widget_Text';
-			}
-
-			if ( widgetClass === '' ) {
+			if ( _.isEmpty( editorClass ) ) {
 				return;
 			}
 
 			// Create the existing page content in a single widget
-			this.model.loadPanelsData( {
-				grid_cells: [{grid: 0, weight: 1}],
-				grids: [{cells: 1}],
-				widgets: [
-					{
-						filter: "1",
-						text: editorContent,
-						title: "",
-						type: "visual",
-						panels_info: {
-							class: widgetClass,
-							raw: false,
-							grid: 0,
-							cell: 0
-						}
-					}
-				]
-			} );
+			this.model.loadPanelsData( this.model.getPanelsDataFromHtml( editorContent, editorClass ) );
 			this.model.trigger( 'change' );
 			this.model.trigger( 'change:data' );
 		}
+
+		$('#post-status-info').addClass( 'for-siteorigin-panels' );
 	},
 
+	handleHideBuilder: function(){
+		$('#post-status-info').show().removeClass( 'for-siteorigin-panels' );
+	},
+
+    wrapEditorExpandAdjust: function( ){
+		try {
+			var events = ( $.hasData( window ) && $._data( window ) ).events.scroll,
+				event;
+
+			for( var i = 0; i < events.length; i++ ) {
+				if( events[i].namespace === 'editor-expand' ) {
+                    event = events[i];
+
+                    // Wrap the call
+					$( window ).unbind( 'scroll', event.handler );
+					$( window ).bind( 'scroll', function( e ){
+						if( ! this.attachedVisible ) {
+                            event.handler( e );
+						}
+					}.bind( this ) );
+
+					break;
+				}
+			}
+		}
+		catch( e ){
+			// We tried, we failed
+			return;
+		}
+	},
+
+	/**
+	 * Either add or remove the narrow class
+	 * @returns {exports}
+	 */
 	handleBuilderSizing: function () {
 		var width = this.$el.width();
 
@@ -4001,6 +4629,7 @@ module.exports = Backbone.View.extend( {
 			this.$el.removeClass( 'so-display-narrow' );
 		}
 
+		return this;
 	},
 
 	/**
@@ -4024,13 +4653,18 @@ module.exports = Backbone.View.extend( {
 	 * This shows or hides the welcome display depending on whether there are any rows in the collection.
 	 */
 	toggleWelcomeDisplay: function () {
-		if ( ! this.model.rows.isEmpty() ) {
+		if ( ! this.model.get('rows').isEmpty() ) {
 			this.$( '.so-panels-welcome-message' ).hide();
 		} else {
 			this.$( '.so-panels-welcome-message' ).show();
 		}
 	},
 
+	/**
+	 * Activate the contextual menu
+	 * @param e
+	 * @param menu
+	 */
 	activateContextMenu: function ( e, menu ) {
 		var builder = this;
 
@@ -4059,6 +4693,7 @@ module.exports = Backbone.View.extend( {
 		) {
 			// Get the element we're currently hovering over
 			var over = $( [] )
+				.add( builder.$( '.so-panels-welcome-message:visible' ) )
 				.add( builder.$( '.so-rows-container > .so-row-container' ) )
 				.add( builder.$( '.so-cells > .cell' ) )
 				.add( builder.$( '.cell-wrapper > .so-widget' ) )
@@ -4071,60 +4706,58 @@ module.exports = Backbone.View.extend( {
 				// We'll pass this to the current active view so it can popular the contextual menu
 				activeView.buildContextualMenu( e, menu );
 			}
-		}
-	},
-
-	/**
-	 * Lock window scrolling for the main overlay
-	 */
-	lockPageScroll: function () {
-		if ( $( 'body' ).css( 'overflow' ) === 'hidden' ) {
-			return;
-		}
-
-		// lock scroll position, but retain settings for later
-		var scrollPosition = [
-			self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
-			self.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-		];
-
-		$( 'body' )
-			.data( {
-				'scroll-position': scrollPosition
-			} )
-			.css( 'overflow', 'hidden' );
-
-		if( ! _.isUndefined( scrollPosition ) ) {
-			window.scrollTo( scrollPosition[0], scrollPosition[1] );
-		}
-	},
-
-	/**
-	 * Unlock window scrolling
-	 */
-	unlockPageScroll: function () {
-		if ( $( 'body' ).css( 'overflow' ) !== 'hidden' ) {
-			return;
-		}
-
-		// Check that there are no more dialogs or a live editor
-		if ( ! $( '.so-panels-dialog-wrapper' ).is( ':visible' ) && ! $( '.so-panels-live-editor' ).is( ':visible' ) ) {
-			$( 'body' ).css( 'overflow', 'visible' );
-			var scrollPosition = $( 'body' ).data( 'scroll-position' );
-
-			if( ! _.isUndefined( scrollPosition ) ) {
-				window.scrollTo( scrollPosition[0], scrollPosition[1] );
+			else if( over.last().hasClass( 'so-panels-welcome-message' ) ) {
+				// The user opened the contextual menu on the welcome message
+				this.buildContextualMenu( e, menu );
 			}
 		}
-	}
+	},
 
+	/**
+	 * Build the contextual menu for the main builder - before any content has been added.
+	 */
+	buildContextualMenu: function( e, menu ){
+		var actions = {};
+
+		if( this.supports( 'addRow' ) ) {
+			actions.add_row = { title: panelsOptions.loc.contextual.add_row };
+		}
+
+		if ( panels.helpers.clipboard.canCopyPaste() ) {
+			if( panels.helpers.clipboard.isModel( 'row-model' ) && this.supports( 'addRow' ) ) {
+				actions.paste_row = { title: panelsOptions.loc.contextual.row_paste };
+			}
+		}
+
+		if( ! _.isEmpty( actions ) ) {
+			menu.addSection(
+				'builder-actions',
+				{
+					sectionTitle: panelsOptions.loc.contextual.row_actions,
+					search: false,
+				},
+				actions,
+				function ( c ) {
+					switch ( c ) {
+						case 'add_row':
+							this.displayAddRowDialog();
+							break;
+
+						case 'paste_row':
+							this.pasteRowHandler();
+							break;
+					}
+				}.bind( this )
+			);
+		}
+	},
 } );
 
-},{}],20:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
-	template: _.template( $( '#siteorigin-panels-builder-cell' ).html().panelsProcessTemplate() ),
+	template: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-builder-cell' ).html() ) ),
 	events: {
 		'click .cell-wrapper': 'handleCellClick'
 	},
@@ -4134,7 +4767,7 @@ module.exports = Backbone.View.extend( {
 	widgetSortable: null,
 
 	initialize: function () {
-		this.model.widgets.on( 'add', this.onAddWidget, this );
+		this.model.get('widgets').on( 'add', this.onAddWidget, this );
 	},
 
 	/**
@@ -4143,7 +4776,7 @@ module.exports = Backbone.View.extend( {
 	render: function () {
 		var templateArgs = {
 			weight: this.model.get( 'weight' ),
-			totalWeight: this.row.model.cells.totalWeight()
+			totalWeight: this.row.model.get('cells').totalWeight()
 		};
 
 		this.setElement( this.template( templateArgs ) );
@@ -4151,7 +4784,7 @@ module.exports = Backbone.View.extend( {
 
 		// Now lets render any widgets that are currently in the row
 		var thisView = this;
-		this.model.widgets.each( function ( widget ) {
+		this.model.get('widgets').each( function ( widget ) {
 			var widgetView = new panels.view.widget( {model: widget} );
 			widgetView.cell = thisView;
 			widgetView.render();
@@ -4191,14 +4824,15 @@ module.exports = Backbone.View.extend( {
 			stop: function ( e, ui ) {
 				cellView.row.builder.addHistoryEntry( 'widget_moved' );
 
-				var widget = $( ui.item ).data( 'view' );
-				var targetCell = $( ui.item ).closest( '.cell' ).data( 'view' );
+				var $$ =  $( ui.item ),
+					widget = $$.data( 'view' ),
+					targetCell = $$.closest( '.cell' ).data( 'view' );
 
 				// Move the model and the view to the new cell
-				widget.model.moveToCell( targetCell.model );
+				widget.model.moveToCell( targetCell.model, {}, $$.index() );
 				widget.cell = targetCell;
 
-				cellView.row.builder.sortCollections();
+				widget.cell.row.builder.model.refreshPanelsData();
 			},
 			helper: function ( e, el ) {
 				var helper = el.clone()
@@ -4389,8 +5023,30 @@ module.exports = Backbone.View.extend( {
 	 * @returns {boolean}
 	 */
 	handleCellClick: function ( e ) {
-		var cells = this.$el.closest( '.so-rows-container' ).find( '.so-cells .cell' ).removeClass( 'cell-selected' );
-		$( e.target ).parent().addClass( 'cell-selected' );
+		// Remove all existing selected cell indication for this builder
+		this.row.builder.$el.find( '.so-cells .cell' ).removeClass( 'cell-selected' );
+
+		if( this.row.builder.activeCell === this && ! this.model.get('widgets').length ) {
+			// This is a click on an empty cell
+			this.row.builder.activeCell = null;
+		}
+		else {
+			this.$el.addClass( 'cell-selected' );
+			this.row.builder.activeCell = this;
+		}
+	},
+
+	/**
+	 * Insert a widget from the clipboard
+	 */
+	pasteHandler: function(){
+		var pastedModel = panels.helpers.clipboard.getModel( 'widget-model' );
+		if( ! _.isEmpty( pastedModel ) && pastedModel instanceof panels.model.widget ) {
+			this.row.builder.addHistoryEntry( 'widget_pasted' );
+			pastedModel.cell = this.model;
+			this.model.get('widgets').add( pastedModel );
+			this.row.builder.model.refreshPanelsData();
+		}
 	},
 
 	/**
@@ -4401,51 +5057,83 @@ module.exports = Backbone.View.extend( {
 	 */
 	buildContextualMenu: function ( e, menu ) {
 		var thisView = this;
-		menu.addSection(
-			{
-				sectionTitle: panelsOptions.loc.contextual.add_widget_cell,
-				searchPlaceholder: panelsOptions.loc.contextual.search_widgets,
-				defaultDisplay: panelsOptions.contextual.default_widgets
-			},
-			panelsOptions.widgets,
-			function ( c ) {
-				thisView.row.builder.addHistoryEntry( 'widget_added' );
 
-				var widget = new panels.model.widget( {
-					class: c
-				} );
+		if( ! menu.hasSection( 'add-widget-below' ) ) {
+			menu.addSection(
+				'add-widget-cell',
+				{
+					sectionTitle: panelsOptions.loc.contextual.add_widget_cell,
+					searchPlaceholder: panelsOptions.loc.contextual.search_widgets,
+					defaultDisplay: panelsOptions.contextual.default_widgets
+				},
+				panelsOptions.widgets,
+				function ( c ) {
+					thisView.row.builder.addHistoryEntry( 'widget_added' );
 
-				// Add the widget to the cell model
-				widget.cell = thisView.model;
-				widget.cell.widgets.add( widget );
+					var widget = new panels.model.widget( {
+						class: c
+					} );
 
-				thisView.row.builder.model.refreshPanelsData();
-			}
-		);
+					// Add the widget to the cell model
+					widget.cell = thisView.model;
+					widget.cell.get('widgets').add( widget );
 
+					thisView.row.builder.model.refreshPanelsData();
+				}
+			);
+		}
+
+		var actions = {};
+		if ( this.row.builder.supports('addWidget') && panels.helpers.clipboard.isModel( 'widget-model' ) ) {
+			actions.paste = {title: panelsOptions.loc.contextual.cell_paste_widget};
+		}
+
+		if( ! _.isEmpty( actions ) ) {
+			menu.addSection(
+				'cell-actions',
+				{
+					sectionTitle: panelsOptions.loc.contextual.cell_actions,
+					search: false,
+				},
+				actions,
+				function ( c ) {
+					switch ( c ) {
+						case 'paste':
+							this.pasteHandler();
+							break;
+					}
+
+					this.row.builder.model.refreshPanelsData();
+				}.bind( this )
+			);
+		}
+
+		// Add the contextual menu for the parent row
 		this.row.buildContextualMenu( e, menu );
 	}
 } );
 
-},{}],21:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
-	dialogTemplate: _.template( $( '#siteorigin-panels-dialog' ).html().panelsProcessTemplate() ),
-	dialogTabTemplate: _.template( $( '#siteorigin-panels-dialog-tab' ).html().panelsProcessTemplate() ),
+	dialogTemplate: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-dialog' ).html() ) ),
+	dialogTabTemplate: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-dialog-tab' ).html() ) ),
 
 	tabbed: false,
 	rendered: false,
 	builder: false,
 	className: 'so-panels-dialog-wrapper',
 	dialogClass: '',
+	dialogIcon: '',
 	parentDialog: false,
 	dialogOpen: false,
+	editableLabel: false,
 
 	events: {
 		'click .so-close': 'closeDialog',
 		'click .so-nav.so-previous': 'navToPrevious',
-		'click .so-nav.so-next': 'navToNext'
+		'click .so-nav.so-next': 'navToNext',
 	},
 
 	initialize: function () {
@@ -4520,7 +5208,7 @@ module.exports = Backbone.View.extend( {
 
 
 		var c = $( (
-			_.template( html.panelsProcessTemplate() )
+			_.template( panels.helpers.utils.processTemplate( html ) )
 		)( args ) );
 		var r = {
 			title: c.find( '.title' ).html(),
@@ -4547,6 +5235,11 @@ module.exports = Backbone.View.extend( {
 	 * @returns {panels.view.dialog}
 	 */
 	renderDialog: function ( attributes ) {
+		attributes = _.extend( {
+			editableLabel: this.editableLabel,
+			dialogIcon: this.dialogIcon,
+		}, attributes );
+
 		this.$el.html( this.dialogTemplate( attributes ) ).hide();
 		this.$el.data( 'view', this );
 		this.$el.addClass( 'so-panels-dialog-wrapper' );
@@ -4561,6 +5254,11 @@ module.exports = Backbone.View.extend( {
 				thisDialog.parentDialog.openDialog();
 			} );
 			this.$( '.so-title-bar' ).prepend( dialogParent );
+		}
+
+		if( this.$( '.so-title-bar .so-title-editable' ).length ) {
+			// Added here because .so-edit-title is only available after the template has been rendered.
+			this.initEditableLabel();
 		}
 
 		return this;
@@ -4632,15 +5330,50 @@ module.exports = Backbone.View.extend( {
 			this.$( '.so-dropdown-links-wrapper' ).not( '.hidden' ).each( function ( index, el ) {
 				var $dropdownList = $( el );
 				var $trgt = $( e.target );
-				if ( $trgt.length === 0 || ! (
-				     (
-				     $trgt.is( '.so-needs-confirm' ) && ! $trgt.is( '.so-confirmed' )
-				     ) || $trgt.is( '.so-dropdown-button' )
+				if ( $trgt.length === 0 || !(
+						(
+							$trgt.is('.so-needs-confirm') && !$trgt.is('.so-confirmed')
+						) || $trgt.is('.so-dropdown-button')
 					) ) {
-					$dropdownList.addClass( 'hidden' );
+					$dropdownList.addClass('hidden');
 				}
 			} );
 		}.bind( this ) );
+	},
+
+	/**
+	 * Initialize the editable dialog title
+	 */
+	initEditableLabel: function(){
+		var $editElt = this.$( '.so-title-bar .so-title-editable' );
+
+		$editElt.keypress( function ( event ) {
+			var enterPressed = event.type === 'keypress' && event.keyCode === 13;
+			if ( enterPressed ) {
+				// Need to make sure tab focus is on another element, otherwise pressing enter multiple times refocuses
+				// the element and allows newlines.
+				var tabbables = $( ':tabbable' );
+				var curTabIndex = tabbables.index( $editElt );
+				tabbables.eq( curTabIndex + 1 ).focus();
+				// After the above, we're somehow left with the first letter of text selected,
+				// so this removes the selection.
+				window.getSelection().removeAllRanges();
+			}
+			return !enterPressed;
+		} ).blur( function () {
+			var newValue = $editElt.text().replace( /^\s+|\s+$/gm, '' );
+			var oldValue = $editElt.data( 'original-value' ).replace( /^\s+|\s+$/gm, '' );
+			if ( newValue !== oldValue ) {
+				$editElt.text( newValue );
+				this.trigger( 'edit_label', newValue );
+			}
+
+		}.bind( this ) );
+
+		$editElt.focus( function() {
+			$editElt.data( 'original-value', $editElt.text() );
+			panels.helpers.utils.selectElementContents( this );
+		} );
 	},
 
 	/**
@@ -4696,7 +5429,7 @@ module.exports = Backbone.View.extend( {
 		this.refreshDialogNav();
 
 		// Stop scrolling for the main body
-		this.builder.lockPageScroll();
+		panels.helpers.pageScroll.lock();
 
 		// Start listen for keyboard keypresses.
 		$( window ).on( 'keyup', this.keyboardListen );
@@ -4707,6 +5440,7 @@ module.exports = Backbone.View.extend( {
 			// This triggers once everything is visible
 			this.trigger( 'open_dialog_complete' );
 			this.builder.trigger( 'open_dialog', this );
+			$( document ).trigger( 'open_dialog', this );
 		}
 	},
 
@@ -4728,7 +5462,7 @@ module.exports = Backbone.View.extend( {
 		this.dialogOpen = false;
 
 		this.$el.hide();
-		this.builder.unlockPageScroll();
+		panels.helpers.pageScroll.unlock();
 
 		// Stop listen for keyboard keypresses.
 		$( window ).off( 'keyup', this.keyboardListen );
@@ -4936,15 +5670,16 @@ module.exports = Backbone.View.extend( {
 	}
 } );
 
-},{}],22:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
-	template: _.template( $( '#siteorigin-panels-live-editor' ).html().panelsProcessTemplate() ),
+	template: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-live-editor' ).html() ) ),
 
 	previewScrollTop: 0,
 	loadTimes: [],
 	previewFrameId: 1,
+
 	previewUrl: null,
 	previewIframe: null,
 
@@ -4990,9 +5725,9 @@ module.exports = Backbone.View.extend( {
 			} );
 
 		// Handle highlighting the relevant widget in the live editor preview
-		thisView.$el.on( 'mouseenter', '.so-widget-wrapper', function () {
+		this.$el.on( 'mouseenter', '.so-widget-wrapper', function () {
 			var $$ = $( this ),
-				previewWidget = $( this ).data( 'live-editor-preview-widget' );
+				previewWidget = $$.data( 'live-editor-preview-widget' );
 
 			if ( ! isMouseDown && previewWidget !== undefined && previewWidget.length && ! thisView.$( '.so-preview-overlay' ).is( ':visible' ) ) {
 				thisView.highlightElement( previewWidget );
@@ -5030,7 +5765,7 @@ module.exports = Backbone.View.extend( {
 		}
 
 		// Disable page scrolling
-		this.builder.lockPageScroll();
+		panels.helpers.pageScroll.lock();
 
 		if ( this.$el.is( ':visible' ) ) {
 			return this;
@@ -5040,6 +5775,7 @@ module.exports = Backbone.View.extend( {
 		this.$el.show();
 		this.refreshPreview( this.builder.model.getPanelsData() );
 
+		// Move the builder view into the Live Editor
 		this.originalContainer = this.builder.$el.parent();
 		this.builder.$el.appendTo( this.$( '.so-live-editor-builder' ) );
 		this.builder.$( '.so-tool-button.so-live-editor' ).hide();
@@ -5074,7 +5810,7 @@ module.exports = Backbone.View.extend( {
 		}
 
 		this.$el.hide();
-		this.builder.unlockPageScroll();
+		panels.helpers.pageScroll.unlock();
 
 		// Move the builder back to its original container
 		this.builder.$el.appendTo( this.originalContainer );
@@ -5181,7 +5917,8 @@ module.exports = Backbone.View.extend( {
 
 		this.postToIframe(
 			{
-				live_editor_panels_data: JSON.stringify( data )
+				live_editor_panels_data: JSON.stringify( data ),
+				live_editor_post_ID: this.builder.config.postId
 			},
 			this.previewUrl,
 			this.$('.so-preview')
@@ -5243,6 +5980,10 @@ module.exports = Backbone.View.extend( {
 		return this.previewIframe;
 	},
 
+	/**
+	 * Do all the basic setup for the preview Iframe element
+	 * @param iframe
+	 */
 	setupPreviewFrame: function( iframe ){
 		var thisView = this;
 		iframe
@@ -5272,16 +6013,17 @@ module.exports = Backbone.View.extend( {
 					thisView.$( '.so-preview-overlay' ).hide();
 				}, 100 );
 
+
 				// Lets find all the first level grids. This is to account for the Page Builder layout widget.
-				$iframeContents.find( '.panel-grid .panel-grid-cell .so-panel' )
+				var layoutWrapper = $iframeContents.find( '#pl-' + thisView.builder.config.postId );
+				layoutWrapper.find( '.panel-grid .panel-grid-cell .so-panel' )
 					.filter( function () {
 						// Filter to only include non nested
-						return $( this ).parents( '.so-panel' ).length === 0;
+						return $( this ).closest( '.panel-layout' ).is( layoutWrapper );
 					} )
 					.each( function ( i, el ) {
 						var $$ = $( el );
 						var widgetEdit = thisView.$( '.so-live-editor-builder .so-widget-wrapper' ).eq( $$.data( 'index' ) );
-
 						widgetEdit.data( 'live-editor-preview-widget', $$ );
 
 						$$
@@ -5303,7 +6045,7 @@ module.exports = Backbone.View.extend( {
 							} );
 					} );
 
-				// Prevent default clicks
+				// Prevent default clicks inside the preview iframe
 				$iframeContents.find( "a" ).css( {'pointer-events': 'none'} ).click( function ( e ) {
 					e.preventDefault();
 				} );
@@ -5311,7 +6053,7 @@ module.exports = Backbone.View.extend( {
 			} )
 			.on( 'load', function(){
 				var $$ = $( this );
-				if( ! $$.data( 'iframeready' )  ) {
+				if( ! $$.data( 'iframeready' ) ) {
 					$$.trigger('iframeready');
 				}
 			} );
@@ -5325,6 +6067,10 @@ module.exports = Backbone.View.extend( {
 		return this.$( 'form.live-editor-form' ).attr( 'action' ) !== '';
 	},
 
+	/**
+	 * Toggle the size of the preview iframe to simulate mobile devices.
+	 * @param e
+	 */
 	mobileToggle: function( e ){
 		var button = $( e.currentTarget );
 		this.$('.live-editor-mode' ).not( button ).removeClass('so-active');
@@ -5337,16 +6083,17 @@ module.exports = Backbone.View.extend( {
 	}
 } );
 
-},{}],23:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
-	template: _.template( $( '#siteorigin-panels-builder-row' ).html().panelsProcessTemplate() ),
+	template: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-builder-row' ).html() ) ),
 
 	events: {
 		'click .so-row-settings': 'editSettingsHandler',
 		'click .so-row-duplicate': 'duplicateHandler',
-		'click .so-row-delete': 'confirmedDeleteHandler'
+		'click .so-row-delete': 'confirmedDeleteHandler',
+		'click .so-row-color': 'rowColorChangeHandler',
 	},
 
 	builder: null,
@@ -5357,23 +6104,25 @@ module.exports = Backbone.View.extend( {
 	 */
 	initialize: function () {
 
-		this.model.cells.on( 'add', this.handleCellAdd, this );
-		this.model.cells.on( 'remove', this.handleCellRemove, this );
+		var rowCells = this.model.get('cells');
+		rowCells.on( 'add', this.handleCellAdd, this );
+		rowCells.on( 'remove', this.handleCellRemove, this );
 		this.model.on( 'reweight_cells', this.resize, this );
 
 		this.model.on( 'destroy', this.onModelDestroy, this );
 		this.model.on( 'visual_destroy', this.visualDestroyModel, this );
 
 		var thisView = this;
-		this.model.cells.each( function ( cell ) {
-			thisView.listenTo( cell.widgets, 'add', thisView.resize );
+		rowCells.each( function ( cell ) {
+			thisView.listenTo( cell.get('widgets'), 'add', thisView.resize );
 		} );
 
 		// When ever a new cell is added, listen to it for new widgets
-		this.model.cells.on( 'add', function ( cell ) {
-			thisView.listenTo( cell.widgets, 'add', thisView.resize );
+		rowCells.on( 'add', function ( cell ) {
+			thisView.listenTo( cell.get('widgets'), 'add', thisView.resize );
 		}, this );
 
+		this.model.on( 'change:label', this.onLabelChange, this );
 	},
 
 	/**
@@ -5382,12 +6131,14 @@ module.exports = Backbone.View.extend( {
 	 * @returns {panels.view.row}
 	 */
 	render: function () {
-		this.setElement( this.template() );
+		var rowColorLabel = this.model.has( 'color_label' ) ? this.model.get( 'color_label' ) : 1;
+		var rowLabel = this.model.has( 'label' ) ? this.model.get( 'label' ) : '';
+		this.setElement( this.template( { rowColorLabel: rowColorLabel, rowLabel: rowLabel } ) );
 		this.$el.data( 'view', this );
 
 		// Create views for the cells in this row
 		var thisView = this;
-		this.model.cells.each( function ( cell ) {
+		this.model.get('cells').each( function ( cell ) {
 			var cellView = new panels.view.cell( {
 				model: cell
 			} );
@@ -5452,6 +6203,7 @@ module.exports = Backbone.View.extend( {
 
 		// Reset everything to have an automatic height
 		this.$( '.so-cells .cell-wrapper' ).css( 'min-height', 0 );
+		this.$( '.so-cells .resize-handle' ).css( 'height', 0 );
 
 		// We'll tie the values to the row view, to prevent issue with values going to different rows
 		var height = 0;
@@ -5468,7 +6220,8 @@ module.exports = Backbone.View.extend( {
 		} );
 
 		// Resize all the grids and cell wrappers
-		this.$( '.so-cells .cell-wrapper' ).css( 'min-height', Math.max( height, 64 ) );
+		this.$( '.so-cells .cell-wrapper' ).css( 'min-height', Math.max( height, 63 ) );
+		this.$( '.so-cells .resize-handle' ).css( 'height', this.$( '.so-cells .cell-wrapper' ).outerHeight() );
 	},
 
 	/**
@@ -5490,6 +6243,14 @@ module.exports = Backbone.View.extend( {
 		} );
 	},
 
+	onLabelChange: function( model, text ) {
+		if ( this.$('.so-row-label').length == 0 ) {
+			this.$( '.so-row-toolbar' ).prepend( '<h3 class="so-row-label">' + text + '</h3>' );
+		} else {
+			this.$('.so-row-label').text( text );
+		}
+	},
+
 	/**
 	 * Duplicate this row.
 	 *
@@ -5500,11 +6261,34 @@ module.exports = Backbone.View.extend( {
 
 		var duplicateRow = this.model.clone( this.builder.model );
 
-		this.builder.model.rows.add( duplicateRow, {
-			at: this.builder.model.rows.indexOf( this.model ) + 1
+		this.builder.model.get('rows').add( duplicateRow, {
+			at: this.builder.model.get('rows').indexOf( this.model ) + 1
 		} );
 
 		this.builder.model.refreshPanelsData();
+	},
+
+	/**
+	 * Copy the row to a localStorage
+	 */
+	copyHandler: function(){
+		panels.helpers.clipboard.setModel( this.model );
+	},
+
+	/**
+	 * Create a new row and insert it
+	 */
+	pasteHandler: function(){
+		var pastedModel = panels.helpers.clipboard.getModel( 'row-model' );
+
+		if( ! _.isEmpty( pastedModel ) && pastedModel instanceof panels.model.row ) {
+			this.builder.addHistoryEntry( 'row_pasted' );
+			pastedModel.builder = this.builder.model;
+			this.builder.model.get('rows').add( pastedModel, {
+				at: this.builder.model.get('rows').indexOf( this.model ) + 1
+			} );
+			this.builder.model.refreshPanelsData();
+		}
 	},
 
 	/**
@@ -5558,6 +6342,20 @@ module.exports = Backbone.View.extend( {
 	},
 
 	/**
+	 * Change the row background color.
+	 */
+	rowColorChangeHandler: function ( event ) {
+		this.$( '.so-row-color' ).removeClass( 'so-row-color-selected' );
+		var clickedColorElem = $( event.target );
+		var newColorLabel = clickedColorElem.data( 'color-label' );
+		var oldColorLabel = this.model.has( 'color_label' ) ? this.model.get( 'color_label' ) : 1;
+		clickedColorElem.addClass( 'so-row-color-selected' );
+		this.$el.removeClass( 'so-row-color-' + oldColorLabel );
+		this.$el.addClass( 'so-row-color-' + newColorLabel );
+		this.model.set( 'color_label', newColorLabel );
+	},
+
+	/**
 	 * Handle a new cell being added to this row view. For now we'll assume the new cell is always last
 	 */
 	handleCellAdd: function ( cell ) {
@@ -5594,8 +6392,6 @@ module.exports = Backbone.View.extend( {
 	 * @param menu
 	 */
 	buildContextualMenu: function ( e, menu ) {
-		var thisView = this;
-
 		var options = [];
 		for ( var i = 1; i < 5; i ++ ) {
 			options.push( {
@@ -5605,51 +6401,67 @@ module.exports = Backbone.View.extend( {
 
 		if( this.builder.supports( 'addRow' ) ) {
 			menu.addSection(
+				'add-row',
 				{
 					sectionTitle: panelsOptions.loc.contextual.add_row,
 					search: false
 				},
 				options,
 				function ( c ) {
-					thisView.builder.addHistoryEntry( 'row_added' );
+					this.builder.addHistoryEntry( 'row_added' );
 
 					var columns = Number( c ) + 1;
 					var weights = [];
 					for ( var i = 0; i < columns; i ++ ) {
-						weights.push( 100 / columns );
+						weights.push( {weight: 100 / columns } );
 					}
 
 					// Create the actual row
 					var newRow = new panels.model.row( {
-						collection: thisView.collection
+						collection: this.collection
 					} );
 
-					newRow.setCells( weights );
-					newRow.builder = thisView.builder;
+					var cells = new panels.collection.cells(weights);
+					cells.each(function (cell) {
+						cell.row = newRow;
+					});
+					newRow.setCells(cells);
+					newRow.builder = this.builder.model;
 
-					thisView.builder.model.rows.add( newRow, {
-						at: thisView.builder.model.rows.indexOf( thisView.model ) + 1
+					this.builder.model.get('rows').add( newRow, {
+						at: this.builder.model.get('rows').indexOf( this.model ) + 1
 					} );
 
-					thisView.builder.model.refreshPanelsData();
-				}
+					this.builder.model.refreshPanelsData();
+				}.bind( this )
 			);
 		}
 
-		actions = {};
+		var actions = {};
 
 		if( this.builder.supports( 'editRow' ) ) {
 			actions.edit = { title: panelsOptions.loc.contextual.row_edit };
 		}
+
+		// Copy and paste functions
+		if ( panels.helpers.clipboard.canCopyPaste() ) {
+			actions.copy = { title: panelsOptions.loc.contextual.row_copy };
+			if ( this.builder.supports( 'addRow' ) && panels.helpers.clipboard.isModel( 'row-model' ) ) {
+				actions.paste = { title: panelsOptions.loc.contextual.row_paste };
+			}
+		}
+
 		if( this.builder.supports( 'addRow' ) ) {
 			actions.duplicate = { title: panelsOptions.loc.contextual.row_duplicate };
 		}
+
 		if( this.builder.supports( 'deleteRow' ) ) {
 			actions.delete = { title: panelsOptions.loc.contextual.row_delete, confirm: true };
 		}
 
 		if( ! _.isEmpty( actions ) ) {
 			menu.addSection(
+				'row-actions',
 				{
 					sectionTitle: panelsOptions.loc.contextual.row_actions,
 					search: false,
@@ -5658,23 +6470,28 @@ module.exports = Backbone.View.extend( {
 				function ( c ) {
 					switch ( c ) {
 						case 'edit':
-							thisView.editSettingsHandler();
+							this.editSettingsHandler();
+							break;
+						case 'copy':
+							this.copyHandler();
+							break;
+						case 'paste':
+							this.pasteHandler();
 							break;
 						case 'duplicate':
-							thisView.duplicateHandler();
+							this.duplicateHandler();
 							break;
 						case 'delete':
-							thisView.visualDestroyModel();
+							this.visualDestroyModel();
 							break;
 					}
-				}
+				}.bind( this )
 			);
 		}
-	}
-
+	},
 } );
 
-},{}],24:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
@@ -5702,30 +6519,35 @@ module.exports = Backbone.View.extend( {
 			dialog: null
 		}, args );
 
-		this.$el.addClass( 'so-visual-styles' );
+		this.$el.addClass( 'so-visual-styles so-' + stylesType + '-styles' );
+
+		var postArgs = {
+			builderType: args.builderType
+		};
+
+		if ( stylesType === 'cell') {
+			postArgs.index = args.index;
+		}
 
 		// Load the form
-		var thisView = this;
 		$.post(
 			panelsOptions.ajaxurl,
 			{
 				action: 'so_panels_style_form',
 				type: stylesType,
 				style: this.model.get( 'style' ),
-				args: JSON.stringify( {
-					builderType: args.builderType
-				} ),
+				args: JSON.stringify( postArgs ),
 				postId: postId
 			},
 			function ( response ) {
-				thisView.$el.html( response );
-				thisView.setupFields();
-				thisView.stylesLoaded = true;
-				thisView.trigger( 'styles_loaded', ! _.isEmpty( response ) );
+				this.$el.html( response );
+				this.setupFields();
+				this.stylesLoaded = true;
+				this.trigger( 'styles_loaded', ! _.isEmpty( response ) );
 				if ( ! _.isNull( args.dialog ) ) {
 					args.dialog.trigger( 'styles_loaded', ! _.isEmpty( response ) );
 				}
-			}
+			}.bind(this)
 		);
 
 		return this;
@@ -5846,13 +6668,13 @@ module.exports = Backbone.View.extend( {
 			/**
 			 * Load value into the visible input fields.
 			 * @param value
-             */
+			 */
 			var loadValue = function( value ) {
 				if( value === '' ) {
 					return;
 				}
 
-				var re = /(?:([0-9\.,]+)(.*))+/;
+				var re = /(?:([0-9\.,\-]+)(.*))+/;
 				var valueList = hidden.val().split( ' ' );
 				var valueListValue = [];
 				for ( var i in valueList ) {
@@ -5949,11 +6771,11 @@ module.exports = Backbone.View.extend( {
 
 } );
 
-},{}],25:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
-	template: _.template( $( '#siteorigin-panels-builder-widget' ).html().panelsProcessTemplate() ),
+	template: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-builder-widget' ).html() ) ),
 
 	// The cell view that this widget belongs to
 	cell: null,
@@ -5972,13 +6794,13 @@ module.exports = Backbone.View.extend( {
 	 * Initialize the widget
 	 */
 	initialize: function () {
-		// The 2 user actions on the model that this view will handle.
-		this.model.on( 'user_edit', this.editHandler, this );                 // When a user wants to edit the widget model
-		this.model.on( 'user_duplicate', this.duplicateHandler, this );       // When a user wants to duplicate the widget model
+		this.model.on( 'user_edit', this.editHandler, this );				 // When a user wants to edit the widget model
+		this.model.on( 'user_duplicate', this.duplicateHandler, this );	   // When a user wants to duplicate the widget model
 		this.model.on( 'destroy', this.onModelDestroy, this );
 		this.model.on( 'visual_destroy', this.visualDestroyModel, this );
 
 		this.model.on( 'change:values', this.onModelChange, this );
+		this.model.on( 'change:label', this.onLabelChange, this );
 	},
 
 	/**
@@ -6065,11 +6887,10 @@ module.exports = Backbone.View.extend( {
 	editHandler: function () {
 		// Create a new dialog for editing this
 		this.getEditDialog().openDialog();
-		return this;
 	},
 
-	titleClickHandler: function(){
-		if( ! this.cell.row.builder.supports( 'editWidget' ) || this.model.get( 'read_only' ) ) {
+	titleClickHandler: function( event ){
+		if ( ! this.cell.row.builder.supports( 'editWidget' ) || this.model.get( 'read_only' ) ) {
 			return this;
 		}
 		this.editHandler();
@@ -6088,13 +6909,20 @@ module.exports = Backbone.View.extend( {
 		// Create the new widget and connect it to the widget collection for the current row
 		var newWidget = this.model.clone( this.model.cell );
 
-		this.cell.model.widgets.add( newWidget, {
+		this.cell.model.get('widgets').add( newWidget, {
 			// Add this after the existing model
 			at: this.model.collection.indexOf( this.model ) + 1
 		} );
 
 		this.cell.row.builder.model.refreshPanelsData();
 		return this;
+	},
+
+	/**
+	 * Copy the row to a cookie based clipboard
+	 */
+	copyHandler: function(){
+		panels.helpers.clipboard.setModel( this.model );
 	},
 
 	/**
@@ -6110,6 +6938,10 @@ module.exports = Backbone.View.extend( {
 	onModelChange: function () {
 		// Update the description when ever the model changes
 		this.$( '.description' ).html( this.model.getTitle() );
+	},
+
+	onLabelChange: function( model ) {
+		this.$( '.title > h4' ).text( model.getWidgetField( 'title' ) );
 	},
 
 	/**
@@ -6144,10 +6976,9 @@ module.exports = Backbone.View.extend( {
 	 * @param menu
 	 */
 	buildContextualMenu: function ( e, menu ) {
-		var thisView = this;
-
 		if( this.cell.row.builder.supports( 'addWidget' ) ) {
 			menu.addSection(
+				'add-widget-below',
 				{
 					sectionTitle: panelsOptions.loc.contextual.add_widget_below,
 					searchPlaceholder: panelsOptions.loc.contextual.search_widgets,
@@ -6155,37 +6986,46 @@ module.exports = Backbone.View.extend( {
 				},
 				panelsOptions.widgets,
 				function ( c ) {
-					thisView.cell.row.builder.addHistoryEntry( 'widget_added' );
+					this.cell.row.builder.addHistoryEntry( 'widget_added' );
 
 					var widget = new panels.model.widget( {
 						class: c
 					} );
-					widget.cell = thisView.cell.model;
+					widget.cell = this.cell.model;
 
 					// Insert the new widget below
-					thisView.cell.model.widgets.add( widget, {
+					this.cell.model.get('widgets').add( widget, {
 						// Add this after the existing model
-						at: thisView.model.collection.indexOf( thisView.model ) + 1
+						at: this.model.collection.indexOf( this.model ) + 1
 					} );
 
-					thisView.cell.row.builder.model.refreshPanelsData();
-				}
+					this.cell.row.builder.model.refreshPanelsData();
+				}.bind( this )
 			);
 		}
 
 		var actions = {};
+
 		if( this.cell.row.builder.supports( 'editWidget' ) && ! this.model.get( 'read_only' ) ) {
 			actions.edit = { title: panelsOptions.loc.contextual.widget_edit };
 		}
+
+		// Copy and paste functions
+		if ( panels.helpers.clipboard.canCopyPaste() ) {
+			actions.copy = {title: panelsOptions.loc.contextual.widget_copy};
+		}
+
 		if( this.cell.row.builder.supports( 'addWidget' ) ) {
 			actions.duplicate = { title: panelsOptions.loc.contextual.widget_duplicate };
 		}
+
 		if( this.cell.row.builder.supports( 'deleteWidget' ) ) {
 			actions.delete = { title: panelsOptions.loc.contextual.widget_delete, confirm: true };
 		}
 
 		if( ! _.isEmpty( actions ) ) {
 			menu.addSection(
+				'widget-actions',
 				{
 					sectionTitle: panelsOptions.loc.contextual.widget_actions,
 					search: false,
@@ -6194,25 +7034,135 @@ module.exports = Backbone.View.extend( {
 				function ( c ) {
 					switch ( c ) {
 						case 'edit':
-							thisView.editHandler();
+							this.editHandler();
+							break;
+						case 'copy':
+							this.copyHandler();
 							break;
 						case 'duplicate':
-							thisView.duplicateHandler();
+							this.duplicateHandler();
 							break;
 						case 'delete':
-							thisView.visualDestroyModel();
+							this.visualDestroyModel();
 							break;
 					}
-
-					thisView.cell.row.builder.model.refreshPanelsData();
-				}
+				}.bind( this )
 			);
 		}
 
 		// Lets also add the contextual menu for the entire row
-		this.cell.row.buildContextualMenu( e, menu );
+		this.cell.buildContextualMenu( e, menu );
 	}
 
 } );
 
-},{}]},{},[12]);
+},{}],30:[function(require,module,exports){
+var mediaWidget = require( './media-widget' );
+var textWidget = require( './text-widget' );
+
+var jsWidget = {
+	MEDIA_AUDIO: 'media_audio',
+	MEDIA_IMAGE: 'media_image',
+	MEDIA_VIDEO: 'media_video',
+	TEXT: 'text',
+
+	addWidget: function( widgetContainer, widgetId ) {
+		var idBase = widgetContainer.find( '> .id_base' ).val();
+		var widget;
+
+		switch ( idBase ) {
+			case this.MEDIA_AUDIO:
+			case this.MEDIA_IMAGE:
+			case this.MEDIA_VIDEO:
+				widget = mediaWidget;
+				break;
+			case this.TEXT:
+				widget = textWidget;
+				break
+		}
+
+		widget.addWidget( idBase, widgetContainer, widgetId );
+	},
+};
+
+module.exports = jsWidget;
+
+},{"./media-widget":31,"./text-widget":32}],31:[function(require,module,exports){
+var $ = jQuery;
+
+var mediaWidget = {
+	addWidget: function( idBase, widgetContainer, widgetId ) {
+		var component = wp.mediaWidgets;
+
+		var ControlConstructor = component.controlConstructors[ idBase ];
+		if ( ! ControlConstructor ) {
+			return;
+		}
+
+		var ModelConstructor = component.modelConstructors[ idBase ] || component.MediaWidgetModel;
+		var syncContainer = widgetContainer.find( '> .widget-content' );
+		var controlContainer = $( '<div class="media-widget-control"></div>' );
+		syncContainer.before( controlContainer );
+
+		var modelAttributes = {};
+		syncContainer.find( '.media-widget-instance-property' ).each( function() {
+			var input = $( this );
+			modelAttributes[ input.data( 'property' ) ] = input.val();
+		});
+		modelAttributes.widget_id = widgetId;
+
+		var widgetModel = new ModelConstructor( modelAttributes );
+
+		var widgetControl = new ControlConstructor({
+			el: controlContainer,
+			syncContainer: syncContainer,
+			model: widgetModel,
+		});
+
+		widgetControl.render();
+
+		return widgetControl;
+	}
+};
+
+module.exports = mediaWidget;
+
+},{}],32:[function(require,module,exports){
+var $ = jQuery;
+
+var textWidget = {
+	addWidget: function( idBase, widgetContainer, widgetId ) {
+		var component = wp.textWidgets;
+
+		var options = {};
+		var visualField = widgetContainer.find( '.visual' );
+		// 'visual' field and syncContainer were introduced together in 4.8.1
+		if ( visualField.length > 0 ) {
+			// If 'visual' field has no value it's a legacy text widget.
+			if ( ! visualField.val() ) {
+				return null;
+			}
+
+			var fieldContainer = $( '<div></div>' );
+			var syncContainer = widgetContainer.find( '.widget-content:first' );
+			syncContainer.before( fieldContainer );
+
+			options = {
+				el: fieldContainer,
+				syncContainer: syncContainer,
+			};
+		} else {
+			options = { el: widgetContainer };
+		}
+
+		var widgetControl = new component.TextWidgetControl( options );
+
+		widgetControl.initializeEditor();
+
+		return widgetControl;
+	}
+};
+
+module.exports = textWidget;
+
+},{}]},{},[16]);

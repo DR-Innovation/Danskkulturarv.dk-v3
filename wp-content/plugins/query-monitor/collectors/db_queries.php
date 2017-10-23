@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2009-2016 John Blackbourn
+Copyright 2009-2017 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -99,7 +99,7 @@ class QM_Collector_DB_Queries extends QM_Collector {
 	}
 
 	public function process_db_object( $id, wpdb $db ) {
-		global $EZSQL_ERROR;
+		global $EZSQL_ERROR, $wp_the_query;
 
 		$rows       = array();
 		$types      = array();
@@ -176,7 +176,9 @@ class QM_Collector_DB_Queries extends QM_Collector {
 				$types[$type]['callers'][$caller]++;
 			}
 
-			$row = compact( 'caller', 'caller_name', 'stack', 'sql', 'ltime', 'result', 'type', 'component', 'trace' );
+			$is_main_query = ( $sql === trim( $wp_the_query->request ) && ( false !== strpos( $stack, ' WP->main,' ) ) );
+
+			$row = compact( 'caller', 'caller_name', 'stack', 'sql', 'ltime', 'result', 'type', 'component', 'trace', 'is_main_query' );
 
 			if ( is_wp_error( $result ) ) {
 				$this->data['errors'][] = $row;
@@ -195,8 +197,8 @@ class QM_Collector_DB_Queries extends QM_Collector {
 			// Fallback for displaying database errors when wp-content/db.php isn't in place
 			foreach ( $EZSQL_ERROR as $error ) {
 				$row = array(
-					'caller'      => 'Unknown',
-					'caller_name' => 'Unknown',
+					'caller'      => __( 'Unknown', 'query-monitor' ),
+					'caller_name' => __( 'Unknown', 'query-monitor' ),
 					'stack'       => '',
 					'sql'         => $error['query'],
 					'result'      => new WP_Error( 'qmdb', $error['error_str'] ),
@@ -213,9 +215,13 @@ class QM_Collector_DB_Queries extends QM_Collector {
 		$this->data['total_qs'] += $total_qs;
 		$this->data['total_time'] += $total_time;
 
+		$has_main_query = wp_list_filter( $rows, array(
+			'is_main_query' => true,
+		) );
+
 		# @TODO put errors in here too:
 		# @TODO proper class instead of (object)
-		$this->data['dbs'][$id] = (object) compact( 'rows', 'types', 'has_result', 'has_trace', 'total_time', 'total_qs' );
+		$this->data['dbs'][$id] = (object) compact( 'rows', 'types', 'has_result', 'has_trace', 'total_time', 'total_qs', 'has_main_query' );
 
 	}
 

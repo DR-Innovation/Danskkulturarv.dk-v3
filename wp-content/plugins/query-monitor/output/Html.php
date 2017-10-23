@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2009-2016 John Blackbourn
+Copyright 2009-2017 John Blackbourn
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -74,22 +74,42 @@ abstract class QM_Output_Html extends QM_Output {
 	 * @param  string $name      The name for the `data-` attributes that get filtered by this control.
 	 * @param  array  $values    Possible values for this control.
 	 * @param  string $label     Label text for the filter control.
-	 * @param  string $highlight Optional. The name for the `data-` attributes that get highlighted by this control.
+	 * @param  array  $args {
+	 *     @type string $highlihgt The name for the `data-` attributes that get highlighted by this control.
+	 *     @type array  $prepend   Associative array of options to prepend to the list of values.
+	 * }
 	 * @return string            Markup for the table filter controls.
 	 */
-	protected function build_filter( $name, array $values, $label, $highlight = '' ) {
+	protected function build_filter( $name, array $values, $label, $args = array() ) {
 
 		if ( empty( $values ) ) {
 			return esc_html( $label ); // Return label text, without being marked up as a label element.
 		}
 
+		if ( ! is_array( $args ) ) {
+			$args = array(
+				'highlight' => $args,
+			);
+		}
+
+		$args = array_merge( array(
+			'highlight' => '',
+			'prepend'   => array(),
+		), $args );
+
 		usort( $values, 'strcasecmp' );
 
 		$filter_id = 'qm-filter-' . $this->collector->id . '-' . $name;
 
-		$out = '<label for="' . esc_attr( $filter_id ) .'">' . esc_html( $label ) . '</label>';
-		$out .= '<select id="' . esc_attr( $filter_id ) . '" class="qm-filter" data-filter="' . esc_attr( $name ) . '" data-highlight="' . esc_attr( $highlight ) . '">';
+		$out = '<label for="' . esc_attr( $filter_id ) . '">' . esc_html( $label ) . '</label>';
+		$out .= '<select id="' . esc_attr( $filter_id ) . '" class="qm-filter" data-filter="' . esc_attr( $name ) . '" data-highlight="' . esc_attr( $args['highlight'] ) . '">';
 		$out .= '<option value="">' . esc_html_x( 'All', '"All" option for filters', 'query-monitor' ) . '</option>';
+
+		if ( ! empty( $args['prepend'] ) ) {
+			foreach ( $args['prepend'] as $value => $label ) {
+				$out .= '<option value="' . esc_attr( $value ) . '">' . esc_html( $label ) . '</option>';
+			}
+		}
 
 		foreach ( $values as $value ) {
 			$out .= '<option value="' . esc_attr( $value ) . '">' . esc_html( $value ) . '</option>';
@@ -157,13 +177,31 @@ abstract class QM_Output_Html extends QM_Output {
 	/**
 	 * Returns a file path, name, and line number. Safe for output.
 	 *
-	 * If clickable file links are enabled, a link such as this is returned:
+	 * If clickable file links are enabled via the `xdebug.file_link_format` setting in the PHP configuration,
+	 * a link such as this is returned:
 	 *
 	 *     <a href="subl://open/?line={line}&url={file}">{text}</a>
 	 *
 	 * Otherwise, the display text and file details such as this is returned:
 	 *
 	 *     {text}<br>{file}:{line}
+	 *
+	 * Further information on clickable stack traces for your editor:
+	 *
+	 * PhpStorm: (support is built in)
+	 * `phpstorm://open?file=%f&line=%l`
+	 *
+	 * Visual Studio Code: (support is built in)
+	 * `vscode://file/%f:%l`
+	 *
+	 * Sublime Text: https://github.com/corysimmons/subl-handler
+	 * `subl://open/?url=file://%f&line=%l`
+	 *
+	 * Atom: https://github.com/WizardOfOgz/atom-handler
+	 * `atm://open/?url=file://%f&line=%l`
+	 *
+	 * Netbeans: http://simonwheatley.co.uk/2012/08/clickable-stack-traces-with-netbeans/
+	 * `nbopen://%f:%l`
 	 *
 	 * @param  string $text The display text, such as a function name or file name.
 	 * @param  string $file The full file path and name.
@@ -175,10 +213,6 @@ abstract class QM_Output_Html extends QM_Output {
 		if ( empty( $file ) ) {
 			return esc_html( $text );
 		}
-
-		# Further reading:
-		# http://simonwheatley.co.uk/2012/07/clickable-stack-traces/
-		# https://github.com/grych/subl-handler
 
 		$link_line = ( $line ) ? $line : 1;
 
@@ -199,7 +233,7 @@ abstract class QM_Output_Html extends QM_Output {
 			}
 			$return = esc_html( $text );
 			if ( $fallback !== $text ) {
-				$return .= '<br><span class="qm-info">&nbsp;' . esc_html( $fallback ) . '</span>';
+				$return .= '<br><span class="qm-info qm-supplemental">' . esc_html( $fallback ) . '</span>';
 			}
 			return $return;
 		}
