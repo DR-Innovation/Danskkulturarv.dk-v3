@@ -3,7 +3,7 @@
 	url = https://github.com/kraenhansen/git-revision-widget.git
 [submodule "wp-content/plugins/wpchaosclient"]
 	path = wp-content/plugins/wpchaosclient
-	url = git@github.com:DR-Innovation/wpchaosclient.git
+	url = https://github.com/DR-Innovation/wpchaosclient.git
 [submodule "wp-content/plugins/wpchaossearch"]
 	path = wp-content/plugins/wpchaossearch
-	url = git@github.com:DR-Innovation/wpchaossearch.git
+	url = https://github.com/DR-Innovation/wpchaossearch.git
