@@ -20,16 +20,22 @@ class WPDKAFrontpageFeaturedWidget extends WP_Widget {
   }
 
   protected function get_featured($query, $max) {
-    $response = WPChaosClient::instance()->Object()->Get(
-      $query, // Search query
-      null,   // Sort
-      null,
-      0,      // pageIndex
-      $max,   // pageSize
-      true,   // includeMetadata
-      true,  // includeFiles
-      false   // includeObjectRelations
-    );
+    try {
+      $response = WPChaosClient::instance()->Object()->Get(
+        $query, // Search query
+        null,   // Sort
+        null,
+        0,      // pageIndex
+        $max,   // pageSize
+        true,   // includeMetadata
+        true,  // includeFiles
+        false   // includeObjectRelations
+      );
+    } catch (\Exception $e) {
+      echo '<!-- ' . $e->getMessage() . ' -->';
+
+      return array();
+    }
 
     $return = array();
     $items = WPChaosObject::parseResponse($response);
