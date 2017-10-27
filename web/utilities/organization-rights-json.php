@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL & ~E_NOTICE);
+
 header('Content-Type: application/json; charset=utf-8');
 $url = 'https://docs.google.com/spreadsheet/pub?key=0AhhyYX-BXbrFdGlHRGY0NGdxazdHMXR2SjJ6aXBXR1E&output=csv';
 $content = file_get_contents($url);
