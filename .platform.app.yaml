@@ -47,3 +47,13 @@ web:
             expires: 600
             scripts: true
             allow: true
+
+hooks:
+  deploy: |
+    if [ "${PLATFORM_ENVIRONMENT}" = "master" ]; then
+        exit 0;
+    fi
+
+    cd "${PLATFORM_DOCUMENT_ROOT}" || exit 1
+
+    wp search-replace https://www.danskkulturarv.dk "https://www---${PLATFORM_ENVIRONMENT}-${PLATFORM_PROJECT}.eu.platform.sh" --recurse-objects
