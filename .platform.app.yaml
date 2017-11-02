@@ -50,7 +50,7 @@ web:
 
 hooks:
   deploy: |
-    if [ "${PLATFORM_ENVIRONMENT}" = "master" ]; then
+    if [ "${PLATFORM_BRANCH}" = "master" ]; then
         exit 0;
     fi
 
