@@ -159,6 +159,15 @@ jQuery( function($) {
 			hilite = $(this).attr('data-highlight'),
 			time   = 0;
 
+		if ( window.localStorage ) {
+			key = $(this).attr('id');
+			if ( val ) {
+				localStorage.setItem( key, val );
+			} else {
+				localStorage.removeItem( key );
+			}
+		}
+
 		if ( hilite ) {
 			table.find('tr').removeClass('qm-highlight');
 		}
@@ -186,6 +195,16 @@ jQuery( function($) {
 		results.find('.qm-items-number').text( QM_i18n.number_format( matches.length, 0 ) );
 		results.find('.qm-items-time').text(time);
 	});
+
+	if ( window.localStorage ) {
+		$('#qm').find('.qm-filter').each(function () {
+			var key = $(this).attr('id');
+			var value = localStorage.getItem( key );
+			if ( value !== null && $(this).find('option[value="' + value + '"]').length ) {
+				$(this).val(value).change();
+			}
+		});
+	}
 
 	$('#qm').find('.qm-filter-trigger').on('click',function(e){
 		var filter = $(this).data('qm-filter'),
