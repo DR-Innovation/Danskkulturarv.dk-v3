@@ -17,7 +17,7 @@ web:
     # assigned (as before; usually uid 33).
     WWW_DATA_UID: ${UID}
 
-wp-cli:
+wp:
   image: tatemz/wp-cli
   volumes:
     - './web:/var/www/html'
@@ -29,7 +29,7 @@ wp-cli:
     WORDPRESS_DB_NAME: db
     WORDPRESS_DB_HOST: db
     WORDPRESS_DB_USER: db
-  command: wp search-replace http://www.danskkulturarv.dk http://danskkulturarv.docker --recurse-objects --allow-root
+  entrypoint: wp
 
 db:
   image: mariadb
