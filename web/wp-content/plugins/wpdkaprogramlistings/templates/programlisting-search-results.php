@@ -40,7 +40,7 @@ get_header();
         <h1>Sendeplan</h1>
         <?php
           $pdf_slug = htmlspecialchars($_GET["pdf"]);
-          echo do_shortcode('[pdfjs-viewer download=true social=true url=http://files.danskkulturarv.dk/'.$pdf_slug.'.pdf]');
+          echo do_shortcode('[pdfjs-viewer download=true social=true url=https://files.danskkulturarv.dk/'.$pdf_slug.'.pdf]');
         ?>
         <br />
         <br />
