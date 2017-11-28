@@ -48,6 +48,10 @@ web:
             scripts: true
             allow: true
 
+variables:
+  php:
+    memory_limit: 384M
+
 hooks:
   deploy: |
     if [ "${PLATFORM_BRANCH}" = "master" ]; then
