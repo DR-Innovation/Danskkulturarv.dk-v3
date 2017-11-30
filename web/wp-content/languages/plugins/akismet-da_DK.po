@@ -1,5 +1,5 @@
-# Translation of Plugins - Akismet - Stable (latest release) in Danish
-# This file is distributed under the same license as the Plugins - Akismet - Stable (latest release) package.
+# Translation of Plugins - Akismet Anti-Spam - Stable (latest release) in Danish
+# This file is distributed under the same license as the Plugins - Akismet Anti-Spam - Stable (latest release) package.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2016-11-04 05:59:28+0000\n"
@@ -9,9 +9,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: da_DK\n"
-"Project-Id-Version: Plugins - Akismet - Stable (latest release)\n"
+"Project-Id-Version: Plugins - Akismet Anti-Spam - Stable (latest release)\n"
 
-#: class.akismet.php:451
+#: class.akismet.php:452
 msgid "Comment not found."
 msgstr "Kommentar ikke fundet"
 
@@ -128,10 +128,6 @@ msgstr "URL fjernet"
 #: class.akismet-admin.php:128
 msgid "Removing..."
 msgstr "Fjerner..."
-
-#: class.akismet-admin.php:95 class.akismet-admin.php:98
-msgid "Akismet"
-msgstr "Akismet"
 
 #: class.akismet-admin.php:88 class.akismet-admin.php:220
 #: class.akismet-admin.php:633 views/config.php:60
@@ -386,11 +382,11 @@ msgstr "Akismet fangede denne kommentar som spam ved et automatisk ekstra tjek."
 msgid "Akismet cleared this comment during an automatic retry."
 msgstr "Ved et automatisk ekstra tjek af denne kommentar, blev den godkendt af Akismet."
 
-#: class.akismet.php:1176
+#: class.akismet.php:1202
 msgid "Please <a href=\"%1$s\">upgrade WordPress</a> to a current version, or <a href=\"%2$s\">downgrade to version 2.4 of the Akismet plugin</a>."
 msgstr "Du skal venligst <a href=\"%1$s\">opgradere WordPress</a> til den nuværende version, eller <a href=\"%2$s\">nedgradere til version 2.4 af Akismet pluginet</a>."
 
-#: class.akismet.php:1176
+#: class.akismet.php:1202
 msgid "Akismet %s requires WordPress %s or higher."
 msgstr "Akismet %s kræver WordPress %s eller højere."
 

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Twenty Seventeen package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-01-11 13:46:24+0000\n"
+"PO-Revision-Date: 2017-11-28 16:13:23+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,11 +13,23 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid "Twenty Seventeen brings your site to life with header video and immersive featured images. With a focus on business sites, it features multiple sections on the front page as well as widgets, navigation and social menus, a logo, and more. Personalize its asymmetrical grid with a custom color scheme and showcase your multimedia content with post formats. Our default theme for 2017 works great in many languages, for any abilities, and on any device."
-msgstr "Twenty Seventeen skaber liv på dit site med header-video og fremhævede billeder til at fordybe sig i. Med fokus på forretningssites giver dette tema mulighed for flere sektioner på forsiden så vel som widget, navigation og sociale menuer, et logo m.m. Tilpas dets asymmetriske opbygning med dine egne farveskemaer og udstil dit multimedieindhold med indlægsformater. Vores standardtema for 2017 fungerer fint på mange sprog, for alle uanset erfaring og på alle enheder."
+msgstr "Twenty Seventeen skaber liv på dit websted med header-video og fremhævede billeder til at fordybe sig i. Med fokus på virksomhedswebsteder giver dette tema mulighed for flere sektioner på forsiden så vel som widgets, navigation og sociale menuer, et logo m.m. Tilpas dets asymmetriske opbygning med dine egne farveskemaer og udstil dit multimedieindhold med indlægsformater. Vores standardtema for 2017 fungerer fint på mange sprog, for alle uanset erfaring og på alle enheder."
 
 #. Theme Name of the plugin/theme
 msgid "Twenty Seventeen"
 msgstr "Twenty Seventeen"
+
+#: template-parts/footer/footer-widgets.php:18
+msgid "Footer"
+msgstr "Footer"
+
+#: functions.php:317
+msgid "Add widgets here to appear in your sidebar on blog posts and archive pages."
+msgstr "Tilføj widgets her der skal optræde i din sidebar ved blogindlæg og på arkivsider."
+
+#: functions.php:315 sidebar.php:18
+msgid "Blog Sidebar"
+msgstr "Blog sidebar"
 
 #: template-parts/header/site-branding.php:34
 #: template-parts/navigation/navigation-top.php:27
@@ -39,17 +51,21 @@ msgctxt "Theme starter content"
 msgid "Espresso"
 msgstr "Espresso"
 
-#: inc/custom-header.php:119
+#: inc/custom-header.php:120
 msgid "Pause background video"
 msgstr "Sæt baggrundsvideo på pause"
 
-#: inc/custom-header.php:118
+#: inc/custom-header.php:119
 msgid "Play background video"
 msgstr "Afspil baggrundsvideo"
 
 #: inc/template-tags.php:150
 msgid "Front Page Section %1$s Placeholder"
-msgstr "Forside Sektion %1$s-pladsholder"
+msgstr "Forsidesektion %1$s-pladsholder"
+
+#: inc/customizer.php:80
+msgid "When the two-column layout is assigned, the page title is in one column and content is in the other."
+msgstr "Når layoutet med to kolonner anvendes, er side titlen i den ene kolonne og indholdet i den anden."
 
 #: single.php:32
 msgid "Next Post"
@@ -97,7 +113,7 @@ msgstr "Vælg sider, der skal fremhæves i hvert område fra dropdown-menuerne. 
 #. translators: %d is the front page section number
 #: inc/customizer.php:107
 msgid "Front Page Section %d Content"
-msgstr "Forside Sektion %d-indhold"
+msgstr "Forsidesektion %d-indhold"
 
 #: inc/customizer.php:83 inc/customizer.php:132
 msgid "Two Column"
@@ -162,7 +178,7 @@ msgstr "Svar"
 
 #: template-parts/post/content-none.php:27
 msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
-msgstr "Vi kan vist ikke finde, hvad du leder efter. Måske vil en søgning hjælpe?"
+msgstr "Vi kan vist ikke finde, hvad du leder efter. Måske en søgning vil hjælpe?"
 
 #: search.php:50
 msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
@@ -209,7 +225,7 @@ msgstr "Søgeresultater for: %s"
 
 #. translators: %s: Name of current post
 #: functions.php:363 template-parts/page/content-front-page-panels.php:43
-#: template-parts/page/content-front-page.php:44
+#: template-parts/page/content-front-page.php:40
 #: template-parts/post/content-audio.php:83
 #: template-parts/post/content-gallery.php:70
 #: template-parts/post/content-image.php:59
@@ -262,7 +278,7 @@ msgstr "Menu til sociale links"
 msgid "Proudly powered by %s"
 msgstr "Drevet af %s"
 
-#. #-#-#-#-#  twentyseventeen.pot (Twenty Seventeen 1.3)  #-#-#-#-#
+#. #-#-#-#-#  twentyseventeen.pot (Twenty Seventeen 1.4)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: template-parts/footer/site-info.php:13
 msgid "https://wordpress.org/"
@@ -270,7 +286,7 @@ msgstr "https://wordpress.org/"
 
 #: footer.php:25
 msgid "Footer Social Links Menu"
-msgstr "Footer, Sociale Links Menu"
+msgstr "Footer, Menu til sociale links"
 
 #: comments.php:75
 msgid "Comments are closed."
@@ -300,7 +316,7 @@ msgstr "Hov! Den side findes ikke."
 
 #: 404.php:24
 msgid "It looks like nothing was found at this location. Maybe try a search?"
-msgstr "Det ser ud til, at vi ikke kan finde det, du leder efter. Måske vil en søgning hjælpe."
+msgstr "Det ser ud til, at vi ikke kan finde det, du leder efter. Måske en søgning vil hjælpe?"
 
 #: archive.php:45 index.php:50 search.php:43
 msgid "Previous page"
@@ -316,4 +332,4 @@ msgstr "WordPress-holdet"
 
 #. Theme URI of the plugin/theme
 msgid "https://wordpress.org/themes/twentyseventeen/"
-msgstr "https://wordpress.org/themes/twentyseventeen/"
+msgstr "https://da.wordpress.org/themes/twentyseventeen/"
