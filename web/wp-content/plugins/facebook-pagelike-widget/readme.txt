@@ -3,7 +3,7 @@ Contributors: Milap
 Tags: facebook, facebook like box, facebook simple like, facebook fan pages, facebook like button, facebook button share, facebook social bookmarking, facebook feeds, facebook feed widget, social share, wordpress social share, socialmedia, social media widget, social media sharing, social media icon 
 Donate link: https://www.paypal.com/cgi-bin/webscr?business=cemilap.88@gmail.com&cmd=_xclick¤cy_code=USD&amount=5&item_name=Offer%20me%20coffee
 Requires at least: 3.0.1
-Tested up to: 4.8
+Tested up to: 4.9
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,7 +12,7 @@ This plugin adds a Simple Facebook page Like Widget into your WordPress sidebar,
 
 == Description ==
 
-One of the most popular & lightweight plugin for Facebook page feeds widget with over 5,55,000 downloads and 1,00,000+ active installs.
+One of the most popular & lightweight plugin for Facebook page feeds widget with over 6,10,000 downloads and 1,00,000+ active installs.
 
 An inside look:
 
@@ -82,6 +82,10 @@ You can use more parameters like below.
 
 
 == Changelog ==
+
+= Version 4.2.2 =
+* Solved Shortcode issue with attributes.
+* Code Optimization.
 
 = Version 4.2.1 =
 * Updated few default values for Widget.
