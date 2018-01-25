@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Page Builder by SiteOrigin - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2016-12-02 11:13:50+0000\n"
+"PO-Revision-Date: 2017-11-30 20:20:50+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,7 +21,7 @@ msgstr "SiteOrigin"
 
 #. Description of the plugin/theme
 msgid "A drag and drop, responsive page builder that simplifies building your website."
-msgstr "A drag and drop, responsive page builder that simplifies building your website."
+msgstr "Et 'Træk og Slip', responsiv side design plugin, der forenkler opbygningen af din hjemmeside."
 
 #. Plugin URI of the plugin/theme
 msgid "https://siteorigin.com/page-builder/"
@@ -61,7 +61,7 @@ msgstr "Video"
 
 #: widgets/widgets.php:842
 msgid "Embeds a video."
-msgstr "Indlejrer en video"
+msgstr "Indlejrer en video."
 
 #: widgets/widgets.php:840
 msgid "Embedded Video (PB)"
@@ -117,11 +117,11 @@ msgstr "Billede størrelse"
 
 #: widgets/widgets.php:738
 msgid "Comma separated attachment IDs. Defaults to all current page's attachments."
-msgstr "Komma separeret vedhæftningsID. Alle nuværende siders vedhæftninger indstilles."
+msgstr "Komma separeret vedhæftnings ID. Alle nuværende siders vedhæftninger indstilles."
 
 #: widgets/widgets.php:734
 msgid "edit gallery"
-msgstr "Rediger galleri"
+msgstr "rediger galleri"
 
 #: widgets/widgets.php:733
 msgid "Gallery Images"
@@ -129,7 +129,7 @@ msgstr "Galleri billeder"
 
 #: widgets/widgets.php:694
 msgid "Displays a gallery."
-msgstr "Vises som et galleri"
+msgstr "Vises som et galleri."
 
 #: widgets/widgets.php:692
 msgid "Gallery (PB)"
@@ -162,11 +162,11 @@ msgstr "Beliggenhed"
 
 #: widgets/widgets/testimonial/testimonial.php:8
 msgid "Displays a bullet list of points"
-msgstr "Viser en punktopstillet liste som point."
+msgstr "Viser en punktopstillet liste som punkter"
 
 #: widgets/widgets/testimonial/testimonial.php:6
 msgid "Testimonial (PB)"
-msgstr "Testimonial (PB)"
+msgstr "Vidnesbyrd (PB)"
 
 #: widgets/widgets/price-box/price-box.php:50
 msgid "Feature List"
@@ -202,7 +202,7 @@ msgstr "Viser en liste opsat i punkter"
 
 #: widgets/widgets/list/list.php:6
 msgid "List (PB)"
-msgstr "Lis (PB)"
+msgstr "Vis (PB)"
 
 #: widgets/widgets/call-to-action/call-to-action.php:37
 #: widgets/widgets/price-box/price-box.php:49
@@ -313,7 +313,7 @@ msgstr "Yderligere forespørgsel argumenter. Se 1 {query_posts}."
 
 #: widgets/basic.php:470
 msgid "Additional "
-msgstr "Ekstra"
+msgstr "Ekstra "
 
 #: widgets/basic.php:465 widgets/widgets.php:625
 msgid "Only Sticky"
@@ -407,7 +407,7 @@ msgstr "Hvis skabelonen tillader det, så afkort indholdet og vis et læs mere l
 
 #: widgets/basic.php:384
 msgid "More Link "
-msgstr "Mere Link␣"
+msgstr "Mere Link "
 
 #: widgets/basic.php:368
 msgid "Template"
@@ -415,11 +415,11 @@ msgstr "Skabelon"
 
 #: widgets/basic.php:358
 msgid "Your theme doesn't have any post loops."
-msgstr "Dit tema har ingen indholdsløkker"
+msgstr "Dit tema har ingen indholdsløkker."
 
 #: widgets/basic.php:159
 msgid "Displays a post loop."
-msgstr "Vis en indholdsløkke"
+msgstr "Vis en indholdsløkke."
 
 #: widgets/basic.php:157
 msgid "Post Loop"
@@ -446,7 +446,7 @@ msgstr "Ingen"
 
 #: widgets/basic.php:84
 msgid "Displays content from the current post."
-msgstr "Viser indhold fra det aktuelle indlæg. "
+msgstr "Viser indhold fra det aktuelle indlæg."
 
 #: widgets/basic.php:82
 msgid "Post Content"
@@ -475,7 +475,7 @@ msgstr "Cellers side margin"
 
 #: tpl/options.php:58
 msgid "Should the layout collapse for mobile devices."
-msgstr "Skal layoutet tilpasses automatisk på mobile enheder?"
+msgstr "Skal layoutet tilpasses automatisk på mobile enheder."
 
 #: tpl/options.php:48
 msgid "Display"
@@ -483,7 +483,7 @@ msgstr "Vis"
 
 #: tpl/options.php:40
 msgid "Include the bundled widgets."
-msgstr "Inkluder medfølgende Widegts"
+msgstr "Inkluder de medfølgende widgets."
 
 #: tpl/options.php:39
 msgid "Bundled Widgets"
@@ -619,7 +619,7 @@ msgstr "Tilføj ny Widget %s"
 
 #: tpl/js-templates.php:169 tpl/js-templates.php:234
 msgid "Done"
-msgstr "udført"
+msgstr "Udført"
 
 #: tpl/js-templates.php:115 tpl/js-templates.php:230 tpl/js-templates.php:321
 msgid "Delete"
@@ -769,7 +769,7 @@ msgstr "Tilføj Widget nedenunder"
 
 #: siteorigin-panels.php:377
 msgid "Search Results For: "
-msgstr "Søgeresultater for:"
+msgstr "Søgeresultater for: "
 
 #. TRANSLATORS: A standard confirmation message
 #: siteorigin-panels.php:376 tpl/js-templates.php:85
@@ -874,7 +874,7 @@ msgstr "Nuværende"
 
 #: siteorigin-panels.php:328
 msgid "Now"
-msgstr "nu"
+msgstr "Nu"
 
 #. TRANSLATORS: Time ago - eg. "1 minute before".
 #: siteorigin-panels.php:327
@@ -1094,7 +1094,7 @@ msgstr "Widgets pakke"
 
 #: inc/widgets-bundle.php:68
 msgid "Display your posts as a carousel."
-msgstr "Vis dine indlæg som en karusel"
+msgstr "Vis dine indlæg som en karusel."
 
 #: inc/widgets-bundle.php:67
 msgid "SiteOrigin Post Carousel"
@@ -1102,7 +1102,7 @@ msgstr "SiteOrigin indlægskarusel"
 
 #: inc/widgets-bundle.php:56
 msgid "Display site features as a collection of icons."
-msgstr "Vis sidens muligheder som en samling af ikoner"
+msgstr "Vis sidens muligheder som en samling af ikoner."
 
 #: inc/widgets-bundle.php:55
 msgid "SiteOrigin Features"
@@ -1304,7 +1304,7 @@ msgstr "Gitter afstand"
 
 #: inc/default-styles.php:73
 msgid "Space below the row."
-msgstr "Afstand under denne række"
+msgstr "Afstand under rækken."
 
 #: inc/default-styles.php:70
 msgid "Bottom Margin"
