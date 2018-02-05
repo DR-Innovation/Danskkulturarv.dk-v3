@@ -54,6 +54,10 @@ variables:
     memory_limit: 384M
 
 hooks:
+  # Pull in the platform.sh cli for snapshotting.
+  build: |
+    curl -sS https://platform.sh/cli/installer | php
+
   deploy: |
     if [ "${PLATFORM_BRANCH}" = "master" ]; then
         exit 0;
@@ -62,3 +66,16 @@ hooks:
     cd "${PLATFORM_DOCUMENT_ROOT}" || exit 1
 
     wp search-replace https://www.danskkulturarv.dk "https://${PLATFORM_ENVIRONMENT}-${PLATFORM_PROJECT}.eu.platform.sh" --recurse-objects
+
+# The configuration of scheduled execution.
+crons:
+    snapshot:
+        # Perform a snapshot at some point during the night, we've picked
+        # 00:15 UTC here.
+        # We only snapshot master, add environments via ] || [ ... ] if you need
+        # more.
+        spec: '15 0 * * *'
+        cmd: |
+            if [ "$PLATFORM_BRANCH" = "master" ] then
+                platform snapshot:create --yes --no-wait
+            fi
