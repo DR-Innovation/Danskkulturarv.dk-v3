@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Page Builder by SiteOrigin - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-11-30 20:20:50+0000\n"
+"PO-Revision-Date: 2017-12-17 16:21:42+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -595,7 +595,7 @@ msgstr "Indstil"
 
 #: tpl/js-templates.php:302
 msgid "1{Set row layout}: %1$s columns with a ratio of %2$s going from %3$s"
-msgstr "1{Indstil række layout}: %1$s kolonner med et forhold på %2$s startende fra %3$s"
+msgstr "1{Set row layout}: %1$s kolonner med et forhold på %2$s startende fra %3$s"
 
 #: tpl/js-templates.php:291
 msgid "Right to Left"
@@ -649,7 +649,7 @@ msgstr "Rediger række"
 #. x{...} is used to insert links
 #: tpl/js-templates.php:64
 msgid "Add a 1{widget}, 2{row} or 3{prebuilt layout} to get started. Read our 4{documentation} if you need help."
-msgstr "Tilføj en 1{widget}, 2{række} eller et {allerede eksisterende layout} for at starte. Læs i 4{dokumentationen} hvis du behøver hjælp."
+msgstr "Tilføj en 1{widget}, 2{row} eller et {prebuilt layout} for at starte. Læs i 4{documentation} hvis du behøver hjælp."
 
 #: tpl/js-templates.php:39
 msgid "Switch to Editor"
@@ -673,7 +673,7 @@ msgstr "Tilføj Widget"
 
 #: tpl/help.php:18
 msgid "Read the 1{full documentation} on SiteOrigin. Ask a question on our 2{support forum} if you need help and sign up to 3{our newsletter} to stay up to date with future developments."
-msgstr "Læs den 1{fulde dokumentation} ved SiteOrigin. Stil et spørgsmål i vores 2{support forum} hvis du har brug for hjælp, og tilmeld dig vores 3{nyhedsbrev} for at blive opdateret om fremtidig udvikling."
+msgstr "Læs den 1{full documentation} ved SiteOrigin. Stil et spørgsmål i vores 2{support forum} hvis du har brug for hjælp, og tilmeld dig 3{our newsletter} for at blive opdateret om fremtidig udvikling."
 
 #: tpl/help.php:3
 msgid "The page layouts are responsive and fully customizable."
@@ -693,7 +693,7 @@ msgstr "Gem Hjemmeside"
 
 #: tpl/admin-home-page.php:29
 msgid "Home page updated. 1{View page}."
-msgstr "Hjemmeside opdateret. 1 {Se siden}."
+msgstr "Hjemmeside opdateret. 1 {View page}."
 
 #: tpl/admin-home-page.php:13
 msgid "Custom Home Page"

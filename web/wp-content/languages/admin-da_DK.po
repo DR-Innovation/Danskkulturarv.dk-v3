@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 4.9.x - Development - Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-12-07 17:05:51+0000\n"
+"PO-Revision-Date: 2018-02-02 17:23:42+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,6 +25,10 @@ msgstr "1"
 msgctxt "default GMT offset or timezone string"
 msgid "0"
 msgstr "Europe/Copenhagen"
+
+#: wp-admin/customize.php:80
+msgid "This changeset cannot be further modified."
+msgstr "Dette ændringssæt kan ikke ændres yderligere."
 
 #: wp-admin/about.php:262
 msgid "Improvements to Roles and Capabilities"
@@ -764,10 +768,6 @@ msgstr "https://da.wordpress.org/plugins/"
 #: wp-admin/customize.php:72 wp-admin/customize.php:81
 msgid "Customize New Changes"
 msgstr "Tilpas nye ændringer"
-
-#: wp-admin/customize.php:80
-msgid "This changeset has already been published and cannot be further modified."
-msgstr "Dette ændringssæt er allerede udgivet og kan ikke ændres yderligere."
 
 #: wp-admin/custom-background.php:399 wp-admin/custom-background.php:400
 msgctxt "Background Repeat"
@@ -2644,7 +2644,7 @@ msgid "<a href=\"https://codex.wordpress.org/Managing_Plugins#Plugin_Management\
 msgstr "<a href=\"https://codex.wordpress.org/Managing_Plugins#Plugin_Management\">Dokumentation om håndtering af plugins</a>"
 
 #. translators: %s: the option/setting
-#: wp-admin/options.php:198
+#: wp-admin/options.php:200
 msgid "The %s setting is unregistered. Unregistered settings are deprecated. See https://codex.wordpress.org/Settings_API"
 msgstr "Indstillingen %s er ikke registreret. Uregistrerede indstillinger er under udfasning. Se https://codex.wordpress.org/Settings_API"
 
@@ -6158,7 +6158,7 @@ msgid "Add New"
 msgstr "Tilføj ny"
 
 #: wp-admin/my-sites.php:54 wp-admin/options-head.php:15
-#: wp-admin/options.php:233
+#: wp-admin/options.php:235
 msgid "Settings saved."
 msgstr "Indstillinger gemt."
 
@@ -6545,13 +6545,13 @@ msgstr "Alle rettelser i filer i dette skærmbillede vil slå igennem på alle w
 msgid "The boxes on your Dashboard screen are:"
 msgstr "Boksene i dit Kontrolpanel er:"
 
-#: wp-admin/users.php:32
-msgid "This screen lists all the existing users for your site. Each user has one of five defined roles as set by the site admin: Site Administrator, Editor, Author, Contributor, or Subscriber. Users with roles other than Administrator will see fewer options in the dashboard navigation when they are logged in, based on their role."
-msgstr "Dette skærmbillede viser alle de eksisterende brugere på dit websted. Hver bruger har én ud af fem mulige roller, hvilket er defineret af webstedets administrator: Webstedsadministrator, Redaktør, Forfatter, Bidragyder, eller Abonnent. Brugere med andre roller end Administrator vil se færre muligheder i kontrolpanelet, når de er logget ind. Hvilke muligheder de har kommer helt an på den rolle, de har fået tildelt."
-
 #: wp-admin/plugin-editor.php:129
 msgid "If you want to make changes but don&#8217;t want them to be overwritten when the plugin is updated, you may be ready to think about writing your own plugin. For information on how to edit plugins, write your own from scratch, or just better understand their anatomy, check out the links below."
 msgstr "Hvis du ønsker at foretage ændringer, men ikke ønsker, at de overskrives, når et plugin bliver opdateret, er du måske klar til at skrive dit eget plugin. Hvis du vil vide mere om, hvordan du redigerer plugins, skriver dine egne fra bunden, eller bare bedre at forstå, hvordan de er skruet sammen, så tjek nedenstående links."
+
+#: wp-admin/users.php:32
+msgid "This screen lists all the existing users for your site. Each user has one of five defined roles as set by the site admin: Site Administrator, Editor, Author, Contributor, or Subscriber. Users with roles other than Administrator will see fewer options in the dashboard navigation when they are logged in, based on their role."
+msgstr "Dette skærmbillede viser alle de eksisterende brugere på dit websted. Hver bruger har én ud af fem mulige roller, hvilket er defineret af webstedets administrator: Webstedsadministrator, Redaktør, Forfatter, Bidragyder, eller Abonnent. Brugere med andre roller end Administrator vil se færre muligheder i kontrolpanelet, når de er logget ind. Hvilke muligheder de har kommer helt an på den rolle, de har fået tildelt."
 
 #. translators: Default page slug
 #: wp-admin/includes/upgrade.php:244
@@ -7126,13 +7126,13 @@ msgstr "Du kan bruge Tema-editoren til at redigere de forskellige CSS og PHP fil
 msgid "After typing in your edits, click Update File."
 msgstr "Når du er færdig med dine ændringer, skal du klikke på Opdater fil."
 
-#: wp-admin/widgets.php:55
-msgid "Widgets are independent sections of content that can be placed into any widgetized area provided by your theme (commonly called sidebars). To populate your sidebars/widget areas with individual widgets, drag and drop the title bars into the desired area. By default, only the first widget area is expanded. To populate additional widget areas, click on their title bars to expand them."
-msgstr "Widgets er uafhængige sektioner med indhold, som kan placeres i ethvert widgetklart område (i daglig tale sidebar) i dit tema. For at placere de forskellige widgets i dine widget-områder/sidebarer, kan du trække/slippe widget-titellinjen ind i den valgte sidebar. Som standard er det kun den første sidebar, der er foldet ud. For at placere widgets i andre sidebarer skal du klikke på sidebarens titellinje for at folde dem ud."
-
 #: wp-admin/theme-editor.php:37
 msgid "<strong>Advice:</strong> think very carefully about your site crashing if you are live-editing the theme currently in use."
 msgstr "<strong>Et godt råd:</strong> tænk meget grundigt over, at din side kan gå ned, hvis du redigerer i et tema, der er i aktivt."
+
+#: wp-admin/widgets.php:55
+msgid "Widgets are independent sections of content that can be placed into any widgetized area provided by your theme (commonly called sidebars). To populate your sidebars/widget areas with individual widgets, drag and drop the title bars into the desired area. By default, only the first widget area is expanded. To populate additional widget areas, click on their title bars to expand them."
+msgstr "Widgets er uafhængige sektioner med indhold, som kan placeres i ethvert widgetklart område (i daglig tale sidebar) i dit tema. For at placere de forskellige widgets i dine widget-områder/sidebarer, kan du trække/slippe widget-titellinjen ind i den valgte sidebar. Som standard er det kun den første sidebar, der er foldet ud. For at placere widgets i andre sidebarer skal du klikke på sidebarens titellinje for at folde dem ud."
 
 #: wp-admin/widgets.php:64
 msgid "Enabling Accessibility Mode, via Screen Options, allows you to use Add and Edit buttons instead of using drag and drop."
@@ -8153,7 +8153,7 @@ msgstr "Loginnavn"
 msgid "Update Services"
 msgstr "Opdateringstjenester"
 
-#: wp-admin/options.php:247
+#: wp-admin/options.php:249
 msgid "All Settings"
 msgstr "Alle indstillinger"
 
@@ -10796,7 +10796,7 @@ msgid "Header updated. <a href=\"%s\">Visit your site</a> to see how it looks."
 msgstr "Header opdateret. <a href=\"%s\">Besøg din side</a> for at se hvordan det ser ud."
 
 #: wp-admin/includes/template.php:1994 wp-admin/nav-menus.php:659
-#: wp-admin/options.php:294
+#: wp-admin/options.php:296
 msgid "Save Changes"
 msgstr "Gem ændringer"
 
