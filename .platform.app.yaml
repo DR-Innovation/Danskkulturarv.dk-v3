@@ -7,6 +7,11 @@ name: app
 # The runtime the application uses.
 type: "php:5.6"
 
+# Extensions.
+runtime:
+  extensions:
+    - imagick
+
 dependencies:
     php:
         wp-cli/wp-cli: "^1.1"
