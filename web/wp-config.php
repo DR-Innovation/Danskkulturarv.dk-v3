@@ -21,6 +21,9 @@ if (file_exists($file)) {
  */
 $table_prefix  = 'wp_';
 
+// Limit number of stored revisions to 50.
+define('WP_POST_REVISIONS', 50);
+
 /**
  * WordPress Localized Language, defaults to English.
  *
