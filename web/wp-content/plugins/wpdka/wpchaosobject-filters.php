@@ -345,11 +345,12 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'og_tags', function($value, $obje
     'content' => $object->thumbnail
   );
 
-  // if($object->type == WPDKAObject::TYPE_VIDEO) {
-  // 	$metadatas['og:video'] = array(
-  // 		'property' => 'og:image',
-  // 		'content' => $object->thumbnail
-  // 	);
+  if($object->type == WPDKAObject::TYPE_VIDEO) {
+  	$metadatas['og:video'] = array(
+  		'property' => 'og:image',
+  		'content' => $object->Files[0]->URL
+  	);
+  }
   // } elseif($object->type == WPDKAObject::TYPE_AUDIO) {
   // 	$metadatas['og:audio'] = array(
   // 		'property' => 'og:image',
