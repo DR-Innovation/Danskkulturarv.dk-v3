@@ -345,9 +345,9 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'og_tags', function($value, $obje
     'content' => $object->thumbnail
   );
 
-  if($object->type == WPDKAObject::TYPE_VIDEO) {
+  if ($object->type === WPDKAObject::TYPE_VIDEO) {
   	$metadatas['og:video'] = array(
-  		'property' => 'og:image',
+  		'property' => 'og:video',
   		'content' => $object->Files[0]->URL
   	);
   }
