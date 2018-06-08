@@ -463,12 +463,11 @@ function dka_wp_head() {
 		'content' => 'summary'
 	);
 
-
 	if(is_singular()) {
 		global $post;
 		setup_postdata($post);
 
-		$excerpt = dka_custom_excerpt(20);
+        $excerpt = dka_custom_excerpt(20);
 
 		$metadatas['description'] = array(
 			'name' => 'description',
