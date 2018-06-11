@@ -320,6 +320,11 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'og_tags', function($value, $obje
 
   $description = WPDKAObject::word_limit($object->description);
 
+  $metadatas['fb:app_id'] = array(
+      'name' => 'fb:app_id',
+      'content' => '503595753002055',
+  );
+  
   $metadatas['description'] = array(
     'name' => 'description',
     'content' => $description
