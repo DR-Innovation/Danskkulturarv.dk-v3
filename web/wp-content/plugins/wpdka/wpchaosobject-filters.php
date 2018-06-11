@@ -350,6 +350,10 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'og_tags', function($value, $obje
   		'property' => 'og:video',
   		'content' => $object->Files[0]->URL
   	);
+  	$metadatas['og:video:secure_url'] = array(
+  		'property' => 'og:video:secure_url',
+  		'content' => $object->Files[0]->URL
+  	);
   }
   // } elseif($object->type == WPDKAObject::TYPE_AUDIO) {
   // 	$metadatas['og:audio'] = array(

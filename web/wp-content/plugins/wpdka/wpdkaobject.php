@@ -90,7 +90,7 @@ class WPDKAObject {
     WPDKAObject::TYPE_VIDEO => array(
       'class' => 'icon-film',
       'title' => 'Video',
-      'chaos-value' => 'video',
+      'chaos-value' => 'video.movie',
       'chaos-filter' => '(FormatTypeName:video)'
     ),
     // This is not yet supported by the metadata.
