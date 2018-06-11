@@ -354,6 +354,10 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'og_tags', function($value, $obje
       $metadatas['og:video'] = array(
   		'property' => 'og:video',
   		'content' => $object->Files[0]->URL
+      );
+      $metadatas['og:video:type'] = array(
+  		'property' => 'og:video:type',
+  		'content' => 'application/vnd.apple.mpegurl'
   	);
   }
   // } elseif($object->type == WPDKAObject::TYPE_AUDIO) {
