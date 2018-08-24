@@ -44,4 +44,4 @@ db:
     MYSQL_PASSWORD: db
 
 db-data:
-  image: reload/db-data:danskkulturarv-latest
+  image: eu.gcr.io/reloaddk-data/db-data:danskkulturarv-latest
