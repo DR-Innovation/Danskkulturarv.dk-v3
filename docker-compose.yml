@@ -6,6 +6,7 @@ web:
   volumes:
     - './web:/var/www/html'
     - './docker/wp-config-docker.php:/var/www/html/wp-config-docker.php'
+    - './docker/php-ini.d/99-danskkulturarv.ini:/etc/php/5.6/apache2/conf.d/99-danskkulturarv.ini'
   links:
     - db
   environment:
