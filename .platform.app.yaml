@@ -56,7 +56,7 @@ web:
 
 variables:
   php:
-    memory_limit: 384M
+    memory_limit: 512M
 
 hooks:
   # Pull in the platform.sh cli for snapshotting.
