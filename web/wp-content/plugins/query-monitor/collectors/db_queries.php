@@ -1,18 +1,9 @@
 <?php
-/*
-Copyright 2009-2017 John Blackbourn
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-*/
+/**
+ * Database query collector.
+ *
+ * @package query-monitor
+ */
 
 if ( ! defined( 'SAVEQUERIES' ) ) {
 	define( 'SAVEQUERIES', true );
@@ -27,7 +18,7 @@ if ( SAVEQUERIES && property_exists( $GLOBALS['wpdb'], 'save_queries' ) ) {
 
 class QM_Collector_DB_Queries extends QM_Collector {
 
-	public $id = 'db_queries';
+	public $id         = 'db_queries';
 	public $db_objects = array();
 
 	public function name() {
@@ -62,6 +53,15 @@ class QM_Collector_DB_Queries extends QM_Collector {
 		$this->data['total_time'] = 0;
 		$this->data['errors']     = array();
 
+		/**
+		 * Filters the `wpdb` instances that are exposed to QM.
+		 *
+		 * This allows Query Monitor to display multiple instances of `wpdb` on one page load.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param wpdb[] $db_objects Array of `wpdb` instances, keyed by their name.
+		 */
 		$this->db_objects = apply_filters( 'qm/collect/db_objects', array(
 			'$wpdb' => $GLOBALS['wpdb'],
 		) );
@@ -81,13 +81,11 @@ class QM_Collector_DB_Queries extends QM_Collector {
 		if ( ! isset( $this->data['times'][ $caller ] ) ) {
 			$this->data['times'][ $caller ] = array(
 				'caller' => $caller,
-				'calls' => 0,
-				'ltime' => 0,
-				'types' => array(),
+				'ltime'  => 0,
+				'types'  => array(),
 			);
 		}
 
-		$this->data['times'][ $caller ]['calls']++;
 		$this->data['times'][ $caller ]['ltime'] += $ltime;
 
 		if ( isset( $this->data['times'][ $caller ]['types'][ $type ] ) ) {
@@ -107,6 +105,11 @@ class QM_Collector_DB_Queries extends QM_Collector {
 		$has_result = false;
 		$has_trace  = false;
 		$i          = 0;
+		$request    = trim( $wp_the_query->request );
+
+		if ( method_exists( $db, 'remove_placeholder_escape' ) ) {
+			$request = $db->remove_placeholder_escape( $request );
+		}
 
 		foreach ( (array) $db->queries as $query ) {
 
@@ -115,13 +118,14 @@ class QM_Collector_DB_Queries extends QM_Collector {
 				continue;
 			}
 
-			$sql           = $query[0];
-			$ltime         = $query[1];
-			$stack         = $query[2];
-			$has_trace     = isset( $query['trace'] );
-			$has_result    = isset( $query['result'] );
+			$sql        = $query[0];
+			$ltime      = $query[1];
+			$stack      = $query[2];
+			$has_start  = isset( $query[3] );
+			$has_trace  = isset( $query['trace'] );
+			$has_result = isset( $query['result'] );
 
-			if ( isset( $query['result'] ) ) {
+			if ( $has_result ) {
 				$result = $query['result'];
 			} else {
 				$result = null;
@@ -129,12 +133,12 @@ class QM_Collector_DB_Queries extends QM_Collector {
 
 			$total_time += $ltime;
 
-			if ( isset( $query['trace'] ) ) {
+			if ( $has_trace ) {
 
 				$trace       = $query['trace'];
 				$component   = $query['trace']->get_component();
 				$caller      = $query['trace']->get_caller();
-				$caller_name = $caller['id'];
+				$caller_name = $caller['display'];
 				$caller      = $caller['display'];
 
 			} else {
@@ -175,9 +179,13 @@ class QM_Collector_DB_Queries extends QM_Collector {
 				$types[ $type ]['callers'][ $caller ]++;
 			}
 
-			$is_main_query = ( trim( $wp_the_query->request ) === $sql && ( false !== strpos( $stack, ' WP->main,' ) ) );
+			$is_main_query = ( $request === $sql && ( false !== strpos( $stack, ' WP->main,' ) ) );
 
-			$row = compact( 'caller', 'caller_name', 'stack', 'sql', 'ltime', 'result', 'type', 'component', 'trace', 'is_main_query' );
+			$row = compact( 'caller', 'caller_name', 'sql', 'ltime', 'result', 'type', 'component', 'trace', 'is_main_query' );
+
+			if ( ! isset( $trace ) ) {
+				$row['stack'] = $stack;
+			}
 
 			if ( is_wp_error( $result ) ) {
 				$this->data['errors'][] = $row;
@@ -200,10 +208,12 @@ class QM_Collector_DB_Queries extends QM_Collector {
 					'caller_name' => __( 'Unknown', 'query-monitor' ),
 					'stack'       => '',
 					'sql'         => $error['query'],
+					'ltime'       => 0,
 					'result'      => new WP_Error( 'qmdb', $error['error_str'] ),
 					'type'        => '',
 					'component'   => false,
 					'trace'       => null,
+					'is_main_query' => false,
 				);
 				$this->data['errors'][] = $row;
 			}
@@ -211,7 +221,7 @@ class QM_Collector_DB_Queries extends QM_Collector {
 
 		$total_qs = count( $rows );
 
-		$this->data['total_qs'] += $total_qs;
+		$this->data['total_qs']   += $total_qs;
 		$this->data['total_time'] += $total_time;
 
 		$has_main_query = wp_list_filter( $rows, array(
@@ -227,7 +237,7 @@ class QM_Collector_DB_Queries extends QM_Collector {
 }
 
 function register_qm_collector_db_queries( array $collectors, QueryMonitor $qm ) {
-	$collectors['db_queries'] = new QM_Collector_DB_Queries;
+	$collectors['db_queries'] = new QM_Collector_DB_Queries();
 	return $collectors;
 }
 

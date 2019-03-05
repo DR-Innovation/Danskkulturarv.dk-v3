@@ -1,23 +1,14 @@
 <?php
-/*
-Copyright 2009-2017 John Blackbourn
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-*/
+/**
+ * Container for data collectors.
+ *
+ * @package query-monitor
+ */
 
 if ( ! class_exists( 'QM_Collectors' ) ) {
 class QM_Collectors implements IteratorAggregate {
 
-	private $items = array();
+	private $items     = array();
 	private $processed = false;
 
 	public function getIterator() {
@@ -26,6 +17,7 @@ class QM_Collectors implements IteratorAggregate {
 
 	public static function add( QM_Collector $collector ) {
 		$collectors = self::init();
+
 		$collectors->items[ $collector->id ] = $collector;
 	}
 
@@ -41,7 +33,7 @@ class QM_Collectors implements IteratorAggregate {
 		static $instance;
 
 		if ( ! $instance ) {
-			$instance = new QM_Collectors;
+			$instance = new QM_Collectors();
 		}
 
 		return $instance;
@@ -52,10 +44,23 @@ class QM_Collectors implements IteratorAggregate {
 		if ( $this->processed ) {
 			return;
 		}
+
 		foreach ( $this as $collector ) {
 			$collector->tear_down();
+
+			$timer = new QM_Timer();
+			$timer->start();
+
 			$collector->process();
+			$collector->process_concerns();
+
+			$collector->set_timer( $timer->stop() );
 		}
+
+		foreach ( $this as $collector ) {
+			$collector->post_process();
+		}
+
 		$this->processed = true;
 	}
 
