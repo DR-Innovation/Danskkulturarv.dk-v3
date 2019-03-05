@@ -33,7 +33,7 @@ class facebook_widget extends WP_Widget {
         wp_enqueue_script('milapfbwidgetscript');
         $local_variables = array('app_id' => $app_id, 'select_lng' => $select_lng);
         wp_localize_script('milapfbwidgetscript', 'milapfbwidgetvars', $local_variables);
-        echo '<div class="fb_loader" style="text-align: center !important;"><img src="' . plugins_url() . '/facebook-pagelike-widget/loader.gif" /></div>';
+        echo '<div class="fb_loader" style="text-align: center !important;"><img src="' . plugins_url() . '/facebook-pagelike-widget/loader.gif" alt="Facebook Pagelike Widget" /></div>';
         echo '<div id="fb-root"></div>
         <div class="fb-page" data-href="' . $fb_url . ' " data-width="' . $width . '" data-height="' . $height . '" data-small-header="' . $data_small_header . '" data-adapt-container-width="' . $data_adapt_container_width . '" data-hide-cover="' . $data_hide_cover . '" data-show-facepile="' . $data_show_facepile . '" data-show-posts="' . $data_show_posts . '" style="' . $custom_css . '" hide_cta="false"></div>';
         echo $after_widget; ?>
@@ -169,5 +169,7 @@ class facebook_widget extends WP_Widget {
         <?php
     }
 }
-add_action('widgets_init', create_function('', 'return register_widget("facebook_widget");'));
+add_action('widgets_init', function() {
+    return register_widget("facebook_widget");
+});
 ?>

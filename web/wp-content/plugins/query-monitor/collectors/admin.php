@@ -1,30 +1,48 @@
 <?php
-/*
-Copyright 2009-2017 John Blackbourn
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-*/
+/**
+ * Admin screen collector.
+ *
+ * @package query-monitor
+ */
 
 class QM_Collector_Admin extends QM_Collector {
 
-	public $id = 'admin';
+	public $id = 'response';
 
 	public function name() {
 		return __( 'Admin Screen', 'query-monitor' );
 	}
 
+	public function get_concerned_actions() {
+		$actions = array(
+			'current_screen',
+			'admin_notices',
+			'all_admin_notices',
+			'network_admin_notices',
+			'user_admin_notices',
+		);
+
+		if ( ! empty( $this->data['list_table'] ) ) {
+			$actions[] = $this->data['list_table']['column_action'];
+		}
+
+		return $actions;
+	}
+
+	public function get_concerned_filters() {
+		$filters = array();
+
+		if ( ! empty( $this->data['list_table'] ) ) {
+			$filters[] = $this->data['list_table']['columns_filter'];
+			$filters[] = $this->data['list_table']['sortables_filter'];
+		}
+
+		return $filters;
+	}
+
 	public function process() {
 
-		global $pagenow;
+		global $pagenow, $wp_list_table;
 
 		$current_screen = get_current_screen();
 
@@ -34,7 +52,7 @@ class QM_Collector_Admin extends QM_Collector {
 			$this->data['base'] = $pagenow;
 		}
 
-		$this->data['pagenow'] = $pagenow;
+		$this->data['pagenow']        = $pagenow;
 		$this->data['current_screen'] = ( $current_screen ) ? get_object_vars( $current_screen ) : null;
 
 		$screens = array(
@@ -51,7 +69,7 @@ class QM_Collector_Admin extends QM_Collector {
 			'users-network'   => true,
 		);
 
-		if ( ! empty( $this->data['current_screen'] ) and isset( $screens[ $this->data['current_screen']['base'] ] ) ) {
+		if ( ! empty( $this->data['current_screen'] ) && isset( $screens[ $this->data['current_screen']['base'] ] ) ) {
 
 			$list_table = array();
 
@@ -65,7 +83,7 @@ class QM_Collector_Admin extends QM_Collector {
 				$list_table['column'] = $this->data['current_screen']['base'];
 			}
 
-			if ( ! empty( $this->data['current_screen']['post_type'] ) and empty( $this->data['current_screen']['taxonomy'] ) ) {
+			if ( ! empty( $this->data['current_screen']['post_type'] ) && empty( $this->data['current_screen']['taxonomy'] ) ) {
 				$list_table['columns'] = $this->data['current_screen']['post_type'] . '_posts';
 			} else {
 				$list_table['columns'] = $this->data['current_screen']['id'];
@@ -86,12 +104,10 @@ class QM_Collector_Admin extends QM_Collector {
 				'sortables_filter' => "manage_{$list_table['sortables']}_sortable_columns",
 				'column_action'    => "manage_{$list_table['column']}_custom_column",
 			);
-			$this->data['list_table_markup'] = array(
-				'columns_filter'   => 'manage_<span class="qm-current">' . esc_html( $list_table['columns'] ) . '</span>_columns',
-				'sortables_filter' => 'manage_<span class="qm-current">' . esc_html( $list_table['sortables'] ) . '</span>_sortable_columns',
-				'column_action'    => 'manage_<span class="qm-current">' . esc_html( $list_table['column'] ) . '</span>_custom_column',
-			);
 
+			if ( ! empty( $wp_list_table ) ) {
+				$this->data['list_table']['class_name'] = get_class( $wp_list_table );
+			}
 		}
 
 	}
@@ -99,7 +115,7 @@ class QM_Collector_Admin extends QM_Collector {
 }
 
 function register_qm_collector_admin( array $collectors, QueryMonitor $qm ) {
-	$collectors['admin'] = new QM_Collector_Admin;
+	$collectors['response'] = new QM_Collector_Admin();
 	return $collectors;
 }
 
