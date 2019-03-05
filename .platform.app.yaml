@@ -64,13 +64,13 @@ hooks:
     curl -sS https://platform.sh/cli/installer | php
 
   deploy: |
+    cd "${PLATFORM_DOCUMENT_ROOT}" || exit 1
+
     wp core update-db
 
     if [ "${PLATFORM_BRANCH}" = "master" ]; then
         exit 0;
     fi
-
-    cd "${PLATFORM_DOCUMENT_ROOT}" || exit 1
 
     wp search-replace https://www.danskkulturarv.dk "https://${PLATFORM_ENVIRONMENT}-${PLATFORM_PROJECT}.eu.platform.sh" --recurse-objects
 
