@@ -1,48 +1,76 @@
-web:
-  image: reload/drupal-apache-ssl
-  ports:
-    - '80/tcp'
-    - '443/tcp'
-  volumes:
-    - './web:/var/www/html'
-    - './docker/wp-config-docker.php:/var/www/html/wp-config-docker.php'
-    - './docker/php-ini.d/99-danskkulturarv.ini:/etc/php/5.6/apache2/conf.d/99-danskkulturarv.ini'
-  links:
-    - db
-  environment:
-    # You need to `export UID` in your shell / .profile for this to
-    # work. If exported Apache/PHP will run with the UID on your
-    # host/mac. I.e. this will avoid files being owned by root when
-    # regenerating features from inside Drupal. If not exported
-    # Apache/PHP will run with whatever UID the ww-data user was
-    # assigned (as before; usually uid 33).
-    WWW_DATA_UID: ${UID}
+version: '3'
 
-wp:
-  image: tatemz/wp-cli
-  volumes:
-    - './web:/var/www/html'
-    - './docker/wp-config-docker.php:/var/www/html/wp-config-docker.php'
-  links:
-    - db
-  environment:
-    WORDPRESS_DB_PASSWORD: db
-    WORDPRESS_DB_NAME: db
-    WORDPRESS_DB_HOST: db
-    WORDPRESS_DB_USER: db
-  entrypoint: wp
+services:
+  web:
+    image: reload/drupal-apache-fpm:latest
+    ports:
+      - '80'
+      - '443'
+    depends_on:
+      - fpm
+    volumes:
+      - 'webroot:/var/www/'
+      - '${HOME}/.local/share/mkcert:/mkcert:ro'
+      - '${HOME}/.local/share/dev_certificates:/cert:rw'
+    environment:
+      VIRTUAL_PROTO: https
+      VIRTUAL_HOST: danskkulturarv.docker
 
-db:
-  image: mariadb
-  ports:
-    - '3306/tcp'
-  volumes_from:
-    - db-data
-  environment:
-    MYSQL_ROOT_PASSWORD: db
-    MYSQL_DATABASE: db
-    MYSQL_USER: db
-    MYSQL_PASSWORD: db
+  fpm:
+    image: reload/drupal-php7-fpm:5.6
+    ports:
+      - '9000'
+    depends_on:
+      - db
+    working_dir: /var/www/web
+    labels:
+      org.drush.bin: /var/www/vendor/bin/drush
+    volumes:
+      - 'webroot:/var/www/'
+      - './docker/wp-config-docker.php:/var/www/web/wp-config-docker.php'
+      - './docker/php-ini.d/99-danskkulturarv.ini:/etc/php/5.6/fpm/pool.d/99-danskkulturarv.ini'
+    environment:
+      PATH: '/var/www/vendor/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
-db-data:
-  image: eu.gcr.io/reloaddk-data/db-data:danskkulturarv-latest
+  wp:
+    image: tatemz/wp-cli
+    volumes:
+      - 'webroot:/var/www/'
+      - './docker/wp-config-docker.php:/var/www/web/wp-config-docker.php'
+    working_dir: /var/www/web
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_PASSWORD: db
+      WORDPRESS_DB_NAME: db
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: db
+    entrypoint: wp
+
+  db:
+    image: mariadb:10.3.9
+    ports:
+      - '3306'
+    volumes:
+      - 'db-data:/docker-entrypoint-initdb.d'
+    depends_on:
+      - db-data
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+      MYSQL_USER: db
+      MYSQL_PASSWORD: db
+
+  db-data:
+    image: eu.gcr.io/reloaddk-data/db-data:danskkulturarv-latest
+    volumes:
+      - 'db-data:/docker-entrypoint-initdb.d'
+
+volumes:
+  webroot:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: ":${PWD}"
+  db-data:
