@@ -64,6 +64,8 @@ hooks:
     curl -sS https://platform.sh/cli/installer | php
 
   deploy: |
+    wp core update-db
+
     if [ "${PLATFORM_BRANCH}" = "master" ]; then
         exit 0;
     fi
