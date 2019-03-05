@@ -11,11 +11,11 @@ msgstr ""
 "Language: da_DK\n"
 "Project-Id-Version: Themes - Twenty Seventeen\n"
 
-#. Description of the plugin/theme
+#. Description of the theme
 msgid "Twenty Seventeen brings your site to life with header video and immersive featured images. With a focus on business sites, it features multiple sections on the front page as well as widgets, navigation and social menus, a logo, and more. Personalize its asymmetrical grid with a custom color scheme and showcase your multimedia content with post formats. Our default theme for 2017 works great in many languages, for any abilities, and on any device."
 msgstr "Twenty Seventeen skaber liv på dit websted med header-video og fremhævede billeder til at fordybe sig i. Med fokus på virksomhedswebsteder giver dette tema mulighed for flere sektioner på forsiden så vel som widgets, navigation og sociale menuer, et logo m.m. Tilpas dets asymmetriske opbygning med dine egne farveskemaer og udstil dit multimedieindhold med indlægsformater. Vores standardtema for 2017 fungerer fint på mange sprog, for alle uanset erfaring og på alle enheder."
 
-#. Theme Name of the plugin/theme
+#. Theme Name of the theme
 msgid "Twenty Seventeen"
 msgstr "Twenty Seventeen"
 
@@ -23,39 +23,39 @@ msgstr "Twenty Seventeen"
 msgid "Footer"
 msgstr "Footer"
 
-#: functions.php:326
+#: functions.php:338
 msgid "Add widgets here to appear in your sidebar on blog posts and archive pages."
 msgstr "Tilføj widgets her der skal optræde i din sidebar ved blogindlæg og på arkivsider."
 
-#: functions.php:324 sidebar.php:18
+#: sidebar.php:18 functions.php:336
 msgid "Blog Sidebar"
 msgstr "Blog sidebar"
 
-#: template-parts/header/site-branding.php:34
 #: template-parts/navigation/navigation-top.php:31
+#: template-parts/header/site-branding.php:34
 msgid "Scroll down to content"
 msgstr "Rul ned til indhold"
 
-#: functions.php:167
+#: functions.php:179
 msgctxt "Theme starter content"
 msgid "Coffee"
 msgstr "Kaffe"
 
-#: functions.php:163
+#: functions.php:175
 msgctxt "Theme starter content"
 msgid "Sandwich"
 msgstr "Sandwich"
 
-#: functions.php:159
+#: functions.php:171
 msgctxt "Theme starter content"
 msgid "Espresso"
 msgstr "Espresso"
 
-#: inc/custom-header.php:126
+#: inc/custom-header.php:128
 msgid "Pause background video"
 msgstr "Sæt baggrundsvideo på pause"
 
-#: inc/custom-header.php:125
+#: inc/custom-header.php:127
 msgid "Play background video"
 msgstr "Afspil baggrundsvideo"
 
@@ -63,7 +63,7 @@ msgstr "Afspil baggrundsvideo"
 msgid "Front Page Section %1$s Placeholder"
 msgstr "Forsidesektion %1$s-pladsholder"
 
-#: inc/customizer.php:99
+#: inc/customizer.php:109
 msgid "When the two-column layout is assigned, the page title is in one column and content is in the other."
 msgstr "Når layoutet med to kolonner anvendes, er side titlen i den ene kolonne og indholdet i den anden."
 
@@ -106,69 +106,66 @@ msgstr "Definér venligst et filnavn for SVG-ikonet."
 msgid "Please define default parameters in the form of an array."
 msgstr "Definér venligst standardparametre i form af et array."
 
-#: inc/customizer.php:131
+#: inc/customizer.php:143
 msgid "Select pages to feature in each area from the dropdowns. Add an image to a section by setting a featured image in the page editor. Empty sections will not be displayed."
 msgstr "Vælg sider, der skal fremhæves i hvert område fra dropdown-menuerne. Tilføj et billede til en sektion ved at vælge et fremhævet billede i sideredigering. Tomme sektioner vil ikke blive vist."
 
 #. translators: %d is the front page section number
-#: inc/customizer.php:130
+#: inc/customizer.php:142
 msgid "Front Page Section %d Content"
 msgstr "Forsidesektion %d-indhold"
 
-#: inc/customizer.php:102 inc/customizer.php:158
+#: inc/customizer.php:112 inc/customizer.php:171
 msgid "Two Column"
 msgstr "To kolonner"
 
-#: inc/customizer.php:101 inc/customizer.php:157
+#: inc/customizer.php:111 inc/customizer.php:170
 msgid "One Column"
 msgstr "Én kolonne"
 
-#: inc/customizer.php:96
+#: inc/customizer.php:106
 msgid "Page Layout"
 msgstr "Sidelayout"
 
-#: inc/customizer.php:81
+#: inc/customizer.php:89
 msgid "Theme Options"
 msgstr "Temaindstillinger"
 
-#: inc/customizer.php:59
+#: inc/customizer.php:64
 msgid "Custom"
 msgstr "Brugerdefineret"
 
-#: inc/customizer.php:57
+#: inc/customizer.php:62
 msgid "Light"
 msgstr "Lys"
 
-#: inc/customizer.php:55
+#: inc/customizer.php:60
 msgid "Color Scheme"
 msgstr "Farveskema"
 
-#: inc/custom-header.php:54
+#: inc/custom-header.php:56
 msgid "Default Header Image"
 msgstr "Standard-headerbillede"
 
-#: functions.php:348
+#: functions.php:360
 msgid "Footer 2"
 msgstr "Footer 2"
 
-#: functions.php:338 functions.php:350
+#: functions.php:350 functions.php:362
 msgid "Add widgets here to appear in your footer."
 msgstr "Tilføjet widgets her for at få dem vist i din footer."
 
-#: functions.php:336
+#: functions.php:348
 msgid "Footer 1"
 msgstr "Footer 1"
 
-#. Translators: If there are characters in your language that are not supported
-#. by Libre Franklin, translate this to 'off'. Do not translate into your own
-#. language.
-#: functions.php:277
+#: functions.php:289
 msgctxt "Libre Franklin font: on or off"
 msgid "on"
 msgstr "til"
 
-#: functions.php:64 functions.php:191
-#: template-parts/navigation/navigation-top.php:12
+#: template-parts/navigation/navigation-top.php:12 functions.php:64
+#: functions.php:203
 msgid "Top Menu"
 msgstr "Topmenu"
 
@@ -188,7 +185,7 @@ msgstr "Beklager, men din søgning gav intet resultat. Forsøg igen med andre s�
 msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
 msgstr "Klar til at udgive dit første indlæg? <a href=\"%1$s\">Start her</a>."
 
-#: search.php:21 template-parts/post/content-none.php:17
+#: template-parts/post/content-none.php:17 search.php:21
 msgid "Nothing Found"
 msgstr "Intet fundet"
 
@@ -196,11 +193,11 @@ msgstr "Intet fundet"
 msgid "Previous Post"
 msgstr "Forrige indlæg"
 
-#: comments.php:71 single.php:33
+#: single.php:33 comments.php:71
 msgid "Previous"
 msgstr "Forrige"
 
-#: comments.php:72 single.php:34
+#: single.php:34 comments.php:72
 msgid "Next"
 msgstr "Næste"
 
@@ -219,38 +216,29 @@ msgctxt "label"
 msgid "Search for:"
 msgstr "Søg efter:"
 
-#: search.php:19
-msgid "Search Results for: %s"
-msgstr "Søgeresultater for: %s"
-
 #. translators: %s: Name of current post
-#: functions.php:378 template-parts/page/content-front-page-panels.php:45
+#: template-parts/page/content-front-page-panels.php:45
 #: template-parts/page/content-front-page.php:42
-#: template-parts/post/content-audio.php:84
+#: template-parts/post/content-audio.php:84 template-parts/post/content.php:57
 #: template-parts/post/content-gallery.php:71
-#: template-parts/post/content-image.php:61
-#: template-parts/post/content-video.php:83 template-parts/post/content.php:57
+#: template-parts/post/content-video.php:83
+#: template-parts/post/content-image.php:61 functions.php:390
 msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
 msgstr "Læs videre<span class=\"screen-reader-text\"> \"%s\"</span>"
 
-#: inc/customizer.php:58
+#: inc/customizer.php:63
 msgid "Dark"
 msgstr "Mørk"
 
-#: inc/back-compat.php:39 inc/back-compat.php:52 inc/back-compat.php:68
+#: inc/back-compat.php:39 inc/back-compat.php:52 inc/back-compat.php:70
 msgid "Twenty Seventeen requires at least WordPress version 4.7. You are running version %s. Please upgrade and try again."
 msgstr "Twenty Seventeen behøver minimum WordPress version 4.7. Du anvender version %s. Opgradér venligst og forsøg igen."
 
-#. translators: %s: Name of current post
-#: inc/template-tags.php:117
-msgid "Edit<span class=\"screen-reader-text\"> \"%s\"</span>"
-msgstr "Rediger <span class=\"screen-reader-text\"> \"%s\"</span>"
-
 #: template-parts/page/content-page.php:26
-#: template-parts/post/content-audio.php:91
+#: template-parts/post/content-audio.php:91 template-parts/post/content.php:64
 #: template-parts/post/content-gallery.php:78
+#: template-parts/post/content-video.php:90
 #: template-parts/post/content-image.php:68
-#: template-parts/post/content-video.php:90 template-parts/post/content.php:64
 msgid "Pages:"
 msgstr "Sider:"
 
@@ -262,27 +250,21 @@ msgstr "Menu"
 msgid "Skip to content"
 msgstr "Videre til indhold"
 
-#: functions.php:467
+#: functions.php:482
 msgid "Collapse child menu"
 msgstr "Skjul undermenu"
 
-#: functions.php:466
+#: functions.php:481
 msgid "Expand child menu"
 msgstr "Udvid undermenu"
 
-#: functions.php:65 functions.php:202
+#: functions.php:65 functions.php:214
 msgid "Social Links Menu"
 msgstr "Menu til sociale links"
 
 #: template-parts/footer/site-info.php:19
 msgid "Proudly powered by %s"
 msgstr "Drevet af %s"
-
-#. #-#-#-#-#  twentyseventeen.pot (Twenty Seventeen 1.6)  #-#-#-#-#
-#. Author URI of the plugin/theme
-#: template-parts/footer/site-info.php:18
-msgid "https://wordpress.org/"
-msgstr "https://wordpress.org/"
 
 #: footer.php:26
 msgid "Footer Social Links Menu"
@@ -292,21 +274,7 @@ msgstr "Footer, Menu til sociale links"
 msgid "Comments are closed."
 msgstr "Lukket for kommentarer."
 
-#. translators: 1: number of comments, 2: post title
-#: comments.php:41
-msgctxt "comments title"
-msgid "%1$s Reply to &ldquo;%2$s&rdquo;"
-msgid_plural "%1$s Replies to &ldquo;%2$s&rdquo;"
-msgstr[0] "%1$s kommentar til &ldquo;%2$s&rdquo;"
-msgstr[1] "%1$s kommentarer til &ldquo;%2$s&rdquo;"
-
-#. translators: %s: post title
-#: comments.php:37
-msgctxt "comments title"
-msgid "One Reply to &ldquo;%s&rdquo;"
-msgstr "Én kommentar til &ldquo;%s&rdquo;"
-
-#: archive.php:50 index.php:54 search.php:47
+#: archive.php:50 search.php:47 index.php:54
 msgid "Page"
 msgstr "Side"
 
@@ -318,18 +286,23 @@ msgstr "Hov! Den side findes ikke."
 msgid "It looks like nothing was found at this location. Maybe try a search?"
 msgstr "Det ser ud til, at vi ikke kan finde det, du leder efter. Måske en søgning vil hjælpe?"
 
-#: archive.php:48 index.php:52 search.php:45
+#: archive.php:48 search.php:45 index.php:52
 msgid "Previous page"
 msgstr "Forrige side"
 
-#: archive.php:49 index.php:53 search.php:46
+#: archive.php:49 search.php:46 index.php:53
 msgid "Next page"
 msgstr "Næste side"
 
-#. Author of the plugin/theme
+#. Author of the theme
 msgid "the WordPress team"
 msgstr "WordPress-holdet"
 
-#. Theme URI of the plugin/theme
+#. Theme URI of the theme
 msgid "https://wordpress.org/themes/twentyseventeen/"
 msgstr "https://da.wordpress.org/themes/twentyseventeen/"
+
+#. Author URI of the theme
+#: template-parts/footer/site-info.php:18
+msgid "https://wordpress.org/"
+msgstr "https://wordpress.org/"
