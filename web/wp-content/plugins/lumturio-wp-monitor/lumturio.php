@@ -3,7 +3,7 @@
  * Plugin Name: Lumturio WP Monitor
  * Plugin URI: https://lumturio.com
  * Description: Lumturio offers users powerful and reliable tools to monitor websites.
- * Version: 1.0.3
+ * Version: 1.0.5
  * Author: Team Lumturio
  * Author URI: https://lumturio.com
  * License: GPL2
@@ -117,7 +117,7 @@ function lumturio_system_report($return_json = false) {
 
 
     global $wp_version;
-    $res = array("engine" => "WORDPRESS", "wordpress_version" => $wp_version, "data" => $all_plugins, "status_message" => lumturio_get_update_message(), "last_checked" => lumturio_get_update_data_last_checked());
+    $res = array("php_version" => phpversion(), "engine" => "WORDPRESS", "wordpress_version" => $wp_version, "data" => $all_plugins, "status_message" => lumturio_get_update_message(), "last_checked" => lumturio_get_update_data_last_checked());
 
     if($return_json) {
         header('Content-Type: application/json');
