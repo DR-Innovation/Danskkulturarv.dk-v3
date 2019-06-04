@@ -492,7 +492,7 @@ msgid "<a href=\"https://codex.wordpress.org/Network_Admin_Settings_Screen\">Doc
 msgstr "<a href=\"https://codex.wordpress.org/Network_Admin_Settings_Screen\">Dokumentation om netværksindstillinger</a>"
 
 #. translators: 1: site url, 2: server error message
-#: wp-admin/network/upgrade.php:96
+#: wp-admin/network/upgrade.php:97
 msgid "Warning! Problem updating %1$s. Your server may not be able to connect to sites running on it. Error message: %2$s"
 msgstr "Advarsel! Problem under opdatering af %1$s. Din server er muligvis ikke i stand til at oprette forbindelse til websteder, der bruger det. Fejlmeddelelse: %2$s"
 
@@ -620,11 +620,11 @@ msgid "Welcome to your Network Admin. This area of the Administration Screens is
 msgstr "Velkommen til din netværksadministration. Dette område af administrationen bruges til at håndtere alle dele af dit Multisite-netværk."
 
 #: wp-admin/network/upgrade.php:15 wp-admin/network/upgrade.php:42
-#: wp-admin/network/upgrade.php:141 wp-admin/network/menu.php:34
+#: wp-admin/network/upgrade.php:142 wp-admin/network/menu.php:34
 msgid "Upgrade Network"
 msgstr "Opgrader netværk"
 
-#: wp-admin/network/upgrade.php:137
+#: wp-admin/network/upgrade.php:138
 msgid "WordPress has been updated! Before we send you on your way, we need to individually upgrade the sites in your network."
 msgstr "WordPress er blevet opdateret! Før vi sender dig af sted, så skal vi opdatere alle webstederne i dit netværk individuelt."
 
@@ -1082,7 +1082,7 @@ msgstr "Følgende ord er reserveret til brug af WordPress-funktioner og kan ikke
 msgid "Can&#8217;t create an empty site."
 msgstr "Kan ikke oprette et tomt websted."
 
-#: wp-admin/network/upgrade.php:121
+#: wp-admin/network/upgrade.php:122
 msgid "If your browser doesn&#8217;t start loading the next page automatically, click this link:"
 msgstr "Hvis din browser ikke henter den næste side automatisk, skal du klikke på dette link:"
 
@@ -1182,7 +1182,7 @@ msgstr "Den første kommentar på et nyt websted."
 msgid "The URL for the first comment on a new site."
 msgstr "URL'en for den første kommentar på et nyt websted."
 
-#: wp-admin/network/upgrade.php:72
+#: wp-admin/network/upgrade.php:73
 msgid "All done!"
 msgstr "Helt færdig!"
 
@@ -1230,7 +1230,7 @@ msgstr "Manglende eller ugyldig webstedsadresse."
 msgid "Missing email address."
 msgstr "Manglende e-mailadresse."
 
-#: wp-admin/network/upgrade.php:121
+#: wp-admin/network/upgrade.php:122
 msgid "Next Sites"
 msgstr "Næste websteder"
 

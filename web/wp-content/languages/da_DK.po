@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.1.x - Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-02-28 13:17:54+0000\n"
+"PO-Revision-Date: 2019-03-25 20:10:09+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,6 +36,14 @@ msgstr "."
 msgid "number_format_decimal_point"
 msgstr ","
 
+#: wp-includes/functions.php:6884
+msgid "Update PHP"
+msgstr "Opdater PHP"
+
+#: wp-includes/ms-site.php:67
+msgid "Could not retrieve site data."
+msgstr "Kunne ikke hente data fra websted"
+
 #: wp-includes/js/dist/block-library.js:2253
 msgid "Embed Crowdsignal (formerly Polldaddy) content."
 msgstr "Indlejr Crowdsignal (tidligere Polldaddy) indhold."
@@ -46,9 +54,9 @@ msgid "REST API routes must be registered on the %s action."
 msgstr "REST API routes skal registreres i %s handlingen."
 
 #. translators: used to join last two items in a list with more than 2 times
-#: wp-includes/formatting.php:4907
+#: wp-includes/formatting.php:4909
 msgid "%1$s, and %2$s"
-msgstr "%1$s, og %2$s"
+msgstr "%1$s og %2$s"
 
 #: wp-includes/post.php:417
 msgid "Failed <span class=\"count\">(%s)</span>"
@@ -66,69 +74,69 @@ msgid "Your comment is awaiting moderation. This is a preview, your comment will
 msgstr "Din kommentar afventer bedømmelse. Dette er en forhåndsvisning, din kommentar vil blive synlig, efter at den er blevet godkendt."
 
 #. translators: %s: database table name
-#: wp-includes/ms-site.php:1297
+#: wp-includes/ms-site.php:1315
 msgid "The %s table is not installed. Please run the network database upgrade."
 msgstr "Tabellen %s er ikke installeret. Kør venligst databaseopgraderingen af netværket."
 
-#: wp-includes/ms-site.php:784
+#: wp-includes/ms-site.php:802
 msgid "The site appears to be already uninitialized."
 msgstr "Dette websted ser ud til at være afinitialiseret allerede."
 
 #. translators: %d: site ID
-#: wp-includes/ms-site.php:666
+#: wp-includes/ms-site.php:684
 msgid "Site %d"
 msgstr "Websted %d"
 
-#: wp-includes/ms-site.php:653
+#: wp-includes/ms-site.php:671
 msgid "The site appears to be already initialized."
 msgstr "Dette websted ser ud til at være initialiseret allerede."
 
-#: wp-includes/ms-site.php:649 wp-includes/ms-site.php:780
+#: wp-includes/ms-site.php:667 wp-includes/ms-site.php:798
 msgid "Site with the ID does not exist."
 msgstr "Websted med det ID findes ikke."
 
-#: wp-includes/ms-site.php:593
+#: wp-includes/ms-site.php:611
 msgid "Both registration and last updated dates must be valid dates."
 msgstr "Både registrering og de sidst opdaterede datoer skal være gyldige datoer."
 
-#: wp-includes/ms-site.php:582
+#: wp-includes/ms-site.php:600
 msgid "Both registration and last updated dates must be provided."
 msgstr "Både registrering og sidst opdaterede datoer skal være angivet."
 
-#: wp-includes/ms-site.php:575
+#: wp-includes/ms-site.php:593
 msgid "Site network ID must be provided."
 msgstr "Webstedets netværk-ID skal angives."
 
-#: wp-includes/ms-site.php:570
+#: wp-includes/ms-site.php:588
 msgid "Site path must not be empty."
 msgstr "Webstedets sti kan ikke være tomt."
 
-#: wp-includes/ms-site.php:565
+#: wp-includes/ms-site.php:583
 msgid "Site domain must not be empty."
 msgstr "Websteddomænet må ikke være tomt."
 
-#: wp-includes/ms-site.php:240
+#: wp-includes/ms-site.php:254
 msgid "Could not delete site from the database."
 msgstr "Kunne ikke slette websted fra databasen."
 
-#: wp-includes/ms-site.php:151
+#: wp-includes/ms-site.php:165
 msgid "Could not update site in the database."
 msgstr "Kunne ikke opdatere websted i databasen."
 
-#: wp-includes/ms-site.php:137 wp-includes/ms-site.php:190
+#: wp-includes/ms-site.php:151 wp-includes/ms-site.php:204
 msgid "Site does not exist."
 msgstr "Websted findes ikke."
 
-#: wp-includes/ms-site.php:132 wp-includes/ms-site.php:185
-#: wp-includes/ms-site.php:644 wp-includes/ms-site.php:775
+#: wp-includes/ms-site.php:146 wp-includes/ms-site.php:199
+#: wp-includes/ms-site.php:662 wp-includes/ms-site.php:793
 msgid "Site ID must not be empty."
 msgstr "Webstedets ID kan ikke være tomt."
 
-#: wp-includes/ms-site.php:67
+#: wp-includes/ms-site.php:61
 msgid "Could not insert site into the database."
 msgstr "Kunne ikke indsætte websted i databasen."
 
-#: wp-includes/ms-functions.php:2087
+#: wp-includes/ms-functions.php:2089
 msgid "Unable to submit this form, please try again."
 msgstr "Kan ikke indsende denne formular, prøv venligst igen."
 
@@ -138,7 +146,7 @@ msgid "Formats"
 msgstr "Formater"
 
 #. translators: used to join items in a list with more than 2 items
-#: wp-includes/formatting.php:4905
+#: wp-includes/formatting.php:4907
 msgid "%1$s, %2$s"
 msgstr "%1$s, %2$s"
 
@@ -195,7 +203,7 @@ msgstr "Om denne taksonomi kan lave forespørgsel offentligt."
 msgid "Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users."
 msgstr "Om denne taksonomy skal kunne bruges offentligt enten gennem admin brugerfladen eller af front-end brugere."
 
-#: wp-login.php:337 wp-login.php:360 wp-includes/user.php:2221
+#: wp-login.php:337 wp-login.php:360 wp-includes/user.php:2222
 msgid "<strong>ERROR</strong>: There is no account with that username or email address."
 msgstr "<strong>FEJL</strong>: Der er ingen konto med det brugernavn eller den e-mailadresse."
 
@@ -2691,6 +2699,7 @@ msgstr "Brugerdefineret skriftstørrelse"
 #. translators: accessibility text
 #: wp-includes/widgets/class-wp-widget-custom-html.php:310
 #: wp-includes/customize/class-wp-customize-nav-menu-locations-control.php:59
+#: wp-includes/functions.php:6886
 #: wp-includes/class-wp-customize-manager.php:4270
 #: wp-includes/class-wp-customize-manager.php:5572
 #: wp-includes/class-wp-customize-manager.php:5593
@@ -3144,16 +3153,16 @@ msgstr "Ingen arkiver at vise"
 msgid "The offset number requested is larger than or equal to the number of available revisions."
 msgstr "Den angivne forskydning er større end eller lig med antallet af tilgængelige revisioner."
 
-#: wp-includes/user.php:3516
+#: wp-includes/user.php:3517
 msgid "Unable to send personal data export confirmation email."
 msgstr "Kunne ikke sende e-mail om bekræftelse af eksport af persondata."
 
-#: wp-includes/user.php:3407
+#: wp-includes/user.php:3408
 msgid "Invalid user request."
 msgstr "Ugyldig brugeranmodning."
 
 #. translators: 1: Site name. 2: Name of the confirmed action.
-#: wp-includes/user.php:3091
+#: wp-includes/user.php:3092
 msgid "[%1$s] Action Confirmed: %2$s"
 msgstr "[%1$s] Handling bekræftet: %2$s"
 
@@ -3188,25 +3197,25 @@ msgstr "Du har opbrugt din diskkvote. Slet nogle filer før du kan uploade nye."
 msgid "Not enough space to upload. %s KB needed."
 msgstr "Ikke plads nok til at uploade. Der er brug for %s KB."
 
-#: wp-includes/user.php:3282
+#: wp-includes/user.php:3283
 msgid "The site administrator has been notified. You will receive an email confirmation when they erase your data."
 msgstr "Administratoren af dette websted er blevet informeret. Du vil modtage en bekræftelsesmail, når dine data bliver slettet."
 
-#: wp-includes/user.php:3281
+#: wp-includes/user.php:3282
 msgid "Thanks for confirming your erasure request."
 msgstr "Tak for bekræftelsen af din anmodning om sletning."
 
-#: wp-includes/user.php:3279
+#: wp-includes/user.php:3280
 msgid "The site administrator has been notified. You will receive a link to download your export via email when they fulfill your request."
 msgstr "Administratoren af webstedet er blevet informeret. Du vil modtage et link til download af eksporten via e-mail, når din anmodning udføres."
 
-#: wp-includes/user.php:3278
+#: wp-includes/user.php:3279
 msgid "Thanks for confirming your export request."
 msgstr "Tak for bekræftelsen af eksportanmodning."
 
 #. translators: Do not translate SITENAME, SITEURL, PRIVACY_POLICY_URL; those
 #. are placeholders.
-#: wp-includes/user.php:3206
+#: wp-includes/user.php:3207
 msgid ""
 "Howdy,\n"
 "\n"
@@ -3233,7 +3242,7 @@ msgstr ""
 "###SITEURL###"
 
 #. translators: Do not translate SITENAME, SITEURL; those are placeholders.
-#: wp-includes/user.php:3193
+#: wp-includes/user.php:3194
 msgid ""
 "Howdy,\n"
 "\n"
@@ -3256,13 +3265,13 @@ msgstr ""
 "###SITEURL###"
 
 #. translators: %s: Site name.
-#: wp-includes/user.php:3166
+#: wp-includes/user.php:3167
 msgid "[%s] Erasure Request Fulfilled"
 msgstr "[%s] Anmodning om sletning er gennemført"
 
 #. translators: Do not translate SITENAME, USER_EMAIL, DESCRIPTION, MANAGE_URL,
 #. SITEURL; those are placeholders.
-#: wp-includes/user.php:3037
+#: wp-includes/user.php:3038
 msgid ""
 "Howdy,\n"
 "\n"
@@ -3296,11 +3305,11 @@ msgstr ""
 
 #. translators: Privacy data request subject. 1: Site name, 2: Name of the
 #. action
-#: wp-includes/user.php:3487
+#: wp-includes/user.php:3488
 msgid "[%1$s] Confirm Action: %2$s"
 msgstr "[%1$s] Bekræft handlingen: %2$s"
 
-#: wp-includes/user.php:3373
+#: wp-includes/user.php:3374
 msgid "Erase Personal Data"
 msgstr "Slet Persondata"
 
@@ -3308,51 +3317,51 @@ msgstr "Slet Persondata"
 msgid "Save my name, email, and website in this browser for the next time I comment."
 msgstr "Gem mit navn, mail og websted i denne browser til næste gang jeg kommenterer."
 
-#: wp-includes/user.php:2909
+#: wp-includes/user.php:2910
 msgid "User Description"
 msgstr "Brugerbeskrivelse"
 
-#: wp-includes/user.php:2908
+#: wp-includes/user.php:2909
 msgid "User Last Name"
 msgstr "Brugers efternavn"
 
-#: wp-includes/user.php:2907
+#: wp-includes/user.php:2908
 msgid "User First Name"
 msgstr "Brugers fornavn"
 
-#: wp-includes/user.php:2906
+#: wp-includes/user.php:2907
 msgid "User Nickname"
 msgstr "Brugers kaldenavn"
 
-#: wp-includes/user.php:2905
+#: wp-includes/user.php:2906
 msgid "User Display Name"
 msgstr "Brugers vist navn"
 
-#: wp-includes/user.php:2904
+#: wp-includes/user.php:2905
 msgid "User Registration Date"
 msgstr "Brugers registreringsdato"
 
-#: wp-includes/user.php:2903
+#: wp-includes/user.php:2904
 msgid "User URL"
 msgstr "Brugers URL"
 
-#: wp-includes/user.php:2902
+#: wp-includes/user.php:2903
 msgid "User Email"
 msgstr "Brugers mail"
 
-#: wp-includes/user.php:2901
+#: wp-includes/user.php:2902
 msgid "User Nice Name"
 msgstr "Pænt brugernavn"
 
-#: wp-includes/user.php:2900
+#: wp-includes/user.php:2901
 msgid "User Login Name"
 msgstr "Brugers login-navn"
 
-#: wp-includes/user.php:2899
+#: wp-includes/user.php:2900
 msgid "User ID"
 msgstr "Bruger-ID"
 
-#: wp-includes/user.php:2867
+#: wp-includes/user.php:2868
 msgid "WordPress User"
 msgstr "WordPress bruger"
 
@@ -3372,32 +3381,32 @@ msgstr "Kunne ikke gemme eksportfil med persondata."
 msgid "User action confirmed."
 msgstr "Brugerhandling bekræftet."
 
-#: wp-includes/user.php:3573
+#: wp-includes/user.php:3574
 msgid "This link has expired."
 msgstr "Dette link er udløbet."
 
-#: wp-login.php:855 wp-includes/user.php:3569
+#: wp-login.php:855 wp-includes/user.php:3570
 msgid "Invalid request."
 msgstr "Ugyldig forespørgsel."
 
 #. translators: %s: action name
-#: wp-includes/user.php:3377
+#: wp-includes/user.php:3378
 msgid "Confirm the \"%s\" action"
 msgstr "Bekræft handlingen \"%s\""
 
-#: wp-includes/user.php:3370
+#: wp-includes/user.php:3371
 msgid "Export Personal Data"
 msgstr "Eksporter persondata"
 
-#: wp-includes/user.php:3339
+#: wp-includes/user.php:3340
 msgid "A request for this email address already exists."
 msgstr "Et ønske vedrørende denne email-adresse findes allerede."
 
-#: wp-includes/user.php:3321
+#: wp-includes/user.php:3322
 msgid "Invalid action name."
 msgstr "Ugyldig handlingsnavn."
 
-#: wp-includes/user.php:3274
+#: wp-includes/user.php:3275
 msgid "The site administrator has been notified and will fulfill your request as soon as possible."
 msgstr "Webstedets administrator har fået besked og vil snarest muligt opfylde din anmodning."
 
@@ -3420,25 +3429,25 @@ msgid "[deleted]"
 msgstr "[slettet]"
 
 #. translators: %d: Comment ID
-#: wp-includes/comment.php:3501
+#: wp-includes/comment.php:3503
 msgid "Comment %d contains personal data but could not be anonymized."
 msgstr "Kommentar %d indeholder persondata, men kunne ikke anonymiseres."
 
-#: wp-includes/user.php:3273
+#: wp-includes/user.php:3274
 msgid "Action has been confirmed."
 msgstr "Handlingen er bekræftet."
 
-#: wp-includes/user.php:3611
+#: wp-includes/user.php:3612
 msgid "The confirmation email has expired."
 msgstr "Bekræftelses-mailen er udløbet."
 
-#: wp-includes/user.php:3593
+#: wp-includes/user.php:3594
 msgid "Invalid action"
 msgstr "Ugyldig handling"
 
 #. translators: Do not translate DESCRIPTION, CONFIRM_URL, SITENAME, SITEURL:
 #. those are placeholders.
-#: wp-includes/user.php:3436
+#: wp-includes/user.php:3437
 msgid ""
 "Howdy,\n"
 "\n"
@@ -3524,39 +3533,39 @@ msgctxt "request status"
 msgid "Pending"
 msgstr "Venter"
 
-#: wp-includes/comment.php:3357
+#: wp-includes/comment.php:3359
 msgid "Comment URL"
 msgstr "Kommentar URL"
 
-#: wp-includes/comment.php:3356
+#: wp-includes/comment.php:3358
 msgid "Comment Content"
 msgstr "Kommenter indhold"
 
-#: wp-includes/comment.php:3355
+#: wp-includes/comment.php:3357
 msgid "Comment Date"
 msgstr "Kommentardato"
 
-#: wp-includes/comment.php:3354
+#: wp-includes/comment.php:3356
 msgid "Comment Author User Agent"
 msgstr "Kommentarforfatterens user agent"
 
-#: wp-includes/comment.php:3353
+#: wp-includes/comment.php:3355
 msgid "Comment Author IP"
 msgstr "Kommentarforfatterens IP"
 
-#: wp-includes/comment.php:3352
+#: wp-includes/comment.php:3354
 msgid "Comment Author URL"
 msgstr "Kommentarforfatterens URL"
 
-#: wp-includes/comment.php:3351
+#: wp-includes/comment.php:3353
 msgid "Comment Author Email"
 msgstr "Kommentarforfatterens email"
 
-#: wp-includes/comment.php:3350
+#: wp-includes/comment.php:3352
 msgid "Comment Author"
 msgstr "Kommentarforfatter"
 
-#: wp-includes/comment.php:3315 wp-includes/comment.php:3424
+#: wp-includes/comment.php:3317 wp-includes/comment.php:3426
 msgid "WordPress Comments"
 msgstr "WordPress kommentarer"
 
@@ -3844,17 +3853,17 @@ msgid "Use the Custom HTML widget to add arbitrary HTML code to your widget area
 msgstr "Brug den tilpassede HTML-widget til at tilføje vilkårlig HTML-kode til dine widget-områder."
 
 #. translators: %s: New email address
-#: wp-includes/user.php:2837
+#: wp-includes/user.php:2838
 msgid "Your email address has not been updated yet. Please check your inbox at %s for a confirmation email."
 msgstr "Din e-mailadresse er endnu ikke blevet opdateret.  Tjek venligst din indbakke på %s for en bekræftelsesmail."
 
-#: wp-includes/user.php:2815
+#: wp-includes/user.php:2816
 msgid "[%s] New Email Address"
 msgstr "[%s] Ny e-mailadresse"
 
 #. translators: Do not translate USERNAME, ADMIN_URL, EMAIL, SITENAME, SITEURL:
 #. those are placeholders.
-#: wp-includes/user.php:2768
+#: wp-includes/user.php:2769
 msgid ""
 "Howdy ###USERNAME###,\n"
 "\n"
@@ -3888,7 +3897,7 @@ msgstr ""
 "Alle hos ###SITENAME###\n"
 "###SITEURL###"
 
-#: wp-includes/user.php:2748
+#: wp-includes/user.php:2749
 msgid "<strong>ERROR</strong>: The email address is already used."
 msgstr "<strong>FEJL</strong>: Denne e-mailadresse er allerede i brug."
 
@@ -4279,13 +4288,13 @@ msgstr "Websted: %1$s (IP-adresse: %2$s, %3$s)"
 
 #. translators: Network admin email change notification email subject. %s:
 #. Network title
-#: wp-includes/ms-functions.php:2778
+#: wp-includes/ms-functions.php:2781
 msgid "[%s] Notice of Network Admin Email Change"
 msgstr "[%s] Bemærk at netværksadministratorens e-mail er ændret"
 
 #. translators: Do not translate OLD_EMAIL, NEW_EMAIL, SITENAME, SITEURL: those
 #. are placeholders.
-#: wp-includes/ms-functions.php:2761
+#: wp-includes/ms-functions.php:2764
 msgid ""
 "Hi,\n"
 "\n"
@@ -4311,13 +4320,13 @@ msgstr ""
 "Alle hos ###SITENAME###\n"
 "###SITEURL###"
 
-#: wp-includes/ms-functions.php:2719
+#: wp-includes/ms-functions.php:2722
 msgid "[%s] New Network Admin Email Address"
 msgstr "[%s] Ny e-mailadresse for netværksadministrator"
 
 #. translators: Do not translate USERNAME, ADMIN_URL, EMAIL, SITENAME, SITEURL:
 #. those are placeholders.
-#: wp-includes/ms-functions.php:2671
+#: wp-includes/ms-functions.php:2674
 msgid ""
 "Howdy ###USERNAME###,\n"
 "\n"
@@ -5491,14 +5500,14 @@ msgstr "Af %s"
 
 #. translators: New user notification email subject. 1: Network name, 2: New
 #. user login
-#: wp-includes/ms-functions.php:1083
+#: wp-includes/ms-functions.php:1084
 msgctxt "New user notification email subject"
 msgid "[%1$s] Activate %2$s"
 msgstr "[%1$s] Aktiver %2$s"
 
 #. translators: New site notification email subject. 1: Network name, 2: New
 #. site URL
-#: wp-includes/ms-functions.php:975
+#: wp-includes/ms-functions.php:976
 msgctxt "New site notification email subject"
 msgid "[%1$s] Activate %2$s"
 msgstr "[%1$s] Aktiver %2$s"
@@ -5516,7 +5525,7 @@ msgid "Invalid slug."
 msgstr "Ugyldig korttitel."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php:647
-#: wp-includes/rest-api.php:1200 wp-includes/user.php:3317
+#: wp-includes/rest-api.php:1200 wp-includes/user.php:3318
 msgid "Invalid email address."
 msgstr "Ugyldig e-mailadresse."
 
@@ -6664,7 +6673,7 @@ msgstr "Kan ikke oprette eksisterende kommentar."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php:403
 #: wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php:420
-#: wp-includes/comment.php:3250
+#: wp-includes/comment.php:3252
 msgid "Sorry, you must be logged in to comment."
 msgstr "Beklager, du skal være logget ind for at kommentere."
 
@@ -7449,7 +7458,7 @@ msgstr "En ukendt fejl opstod."
 
 #: wp-includes/script-loader.php:1712
 msgid "Network Activate"
-msgstr "Netværk aktiveret"
+msgstr "Netværksaktivering"
 
 #. translators: %s: Error string for a failed deletion
 #: wp-includes/script-loader.php:1708
@@ -7535,12 +7544,12 @@ msgstr "Adgangskode ændret for bruger: %s"
 msgid "Image crop area preview. Requires mouse interaction."
 msgstr "Forhåndsvisning af billedets beskæringsområde. Kræver interaktion med musen."
 
-#: wp-includes/formatting.php:4665
+#: wp-includes/formatting.php:4667
 msgid "https://codex.wordpress.org/Using_Permalinks#Choosing_your_permalink_structure"
 msgstr "https://codex.wordpress.org/Using_Permalinks#Choosing_your_permalink_structure"
 
 #. translators: %s: Codex URL
-#: wp-includes/formatting.php:4664
+#: wp-includes/formatting.php:4666
 msgid "A structure tag is required when using custom permalinks. <a href=\"%s\">Learn more</a>"
 msgstr "Et strukturtag er krævet når der bruges brugerdefinerede permanente links. <a href=\"%s\">Lær mere</a>"
 
@@ -7651,7 +7660,7 @@ msgid "Your session has expired. Please log in to continue where you left off."
 msgstr "Din session er udløbet. Log ind igen for at fortsætte, hvor du slap."
 
 #. translators: 1: display name, 2: user_login
-#: wp-includes/user.php:1193
+#: wp-includes/user.php:1194
 msgctxt "user dropdown"
 msgid "%1$s (%2$s)"
 msgstr "%1$s (%2$s)"
@@ -7853,7 +7862,7 @@ msgstr "Skift-klik for at redigere dette element."
 msgid "Comment Submission Failure"
 msgstr "Kunne ikke sende kommentar"
 
-#: wp-includes/user.php:2452
+#: wp-includes/user.php:2453
 msgid "<strong>ERROR</strong>: Sorry, that username is not allowed."
 msgstr "<strong>FEJL</strong>: Beklager, dette brugernavn er ikke tilladt."
 
@@ -7873,11 +7882,11 @@ msgctxt "menu"
 msgid "(Currently set to: %s)"
 msgstr "(på nuværende tidspunkt sat til: %s)"
 
-#: wp-includes/ms-load.php:492
+#: wp-includes/ms-load.php:493
 msgid "https://codex.wordpress.org/Debugging_a_WordPress_Network"
 msgstr "https://codex.wordpress.org/Debugging_a_WordPress_Network"
 
-#: wp-includes/ms-load.php:491
+#: wp-includes/ms-load.php:492
 msgid "Read the <a href=\"%s\" target=\"_blank\">bug report</a> page. Some of the guidelines there may help you figure out what went wrong."
 msgstr "Læs <a href=\"%s\" target=\"_blank\">fejlrapporteringssiden</a>.Nogle af retningslinjerne der kan måske hjælpe dig med at finde ud, hvad der er galt."
 
@@ -8008,7 +8017,7 @@ msgctxt "decline months names: on or off"
 msgid "off"
 msgstr "off"
 
-#: wp-includes/embed.php:1079
+#: wp-includes/embed.php:1080
 msgid "Sharing options"
 msgstr "Delingsindstillinger"
 
@@ -8064,7 +8073,7 @@ msgid "Oops! That embed can&#8217;t be found."
 msgstr "Ups! Kunne ikke finde det, der skulle indsættes her."
 
 #. translators: %s: Name of current post
-#: wp-includes/embed.php:883 wp-includes/post-template.php:278
+#: wp-includes/embed.php:884 wp-includes/post-template.php:278
 msgid "Continue reading %s"
 msgstr "Læs resten af %s"
 
@@ -8152,11 +8161,11 @@ msgstr "Kan ikke vælge database"
 msgid "The tag cloud will not be displayed since there are no taxonomies that support the tag cloud widget."
 msgstr "Tag-skyen bliver ikke vist, da der ingen taksonomier er, der understøtter widgetten, der danner tag-skyerne."
 
-#: wp-includes/user.php:2287
+#: wp-includes/user.php:2288
 msgid "Could not save password reset key to database."
 msgstr "Kunne ikke gemme nulstillingsnøgle for adgangskode i databasen."
 
-#: wp-includes/user.php:1593
+#: wp-includes/user.php:1594
 msgid "Nicename may not be longer than 50 characters."
 msgstr "Kaldenavn må ikke være længere end 50 tegn."
 
@@ -8288,17 +8297,17 @@ msgstr "Blogarkiver"
 msgid "Post Type Archive"
 msgstr "Arkiv for indholdstype"
 
-#: wp-includes/ms-functions.php:621
+#: wp-includes/ms-functions.php:622
 msgid "Site names can only contain lowercase letters (a-z) and numbers."
 msgstr "Navne på websted må kun indeholde små bogstaver (a-z) og tal."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php:1140
-#: wp-includes/user.php:1583 wp-includes/ms-functions.php:469
-#: wp-includes/ms-functions.php:476
+#: wp-includes/user.php:1584 wp-includes/ms-functions.php:470
+#: wp-includes/ms-functions.php:477
 msgid "Sorry, that username is not allowed."
 msgstr "Beklager, brugernavnet er ikke tilladt."
 
-#: wp-includes/ms-functions.php:453
+#: wp-includes/ms-functions.php:454
 msgid "Usernames can only contain lowercase letters (a-z) and numbers."
 msgstr "Brugernavne må kun bestå af små bogstaver (a-z) og tal."
 
@@ -8440,31 +8449,31 @@ msgstr "Indlæg udgivet den %s"
 msgid "Use the %s filter instead."
 msgstr "Brug filteret %s i stedet for."
 
-#: wp-includes/embed.php:1106
+#: wp-includes/embed.php:1107
 msgid "Close sharing dialog"
 msgstr "Luk delingsdialog"
 
-#: wp-includes/embed.php:1101
+#: wp-includes/embed.php:1102
 msgid "Copy and paste this code into your site to embed"
 msgstr "Kopier og indsæt denne kode på dit websted for at indlejre"
 
-#: wp-includes/embed.php:1094
+#: wp-includes/embed.php:1095
 msgid "Copy and paste this URL into your WordPress site to embed"
 msgstr "Kopier og indsæt denne URL på dit websted for at indlejre"
 
-#: wp-includes/embed.php:1087
+#: wp-includes/embed.php:1088
 msgid "HTML Embed"
 msgstr "HTML-indlejring"
 
-#: wp-includes/embed.php:1084
+#: wp-includes/embed.php:1085
 msgid "WordPress Embed"
 msgstr "WordPress-indlejring"
 
-#: wp-includes/embed.php:1062
+#: wp-includes/embed.php:1063
 msgid "Open sharing dialog"
 msgstr "Åbn delingsdialog"
 
-#: wp-includes/embed.php:1038
+#: wp-includes/embed.php:1039
 msgid "%s <span class=\"screen-reader-text\">Comment</span>"
 msgid_plural "%s <span class=\"screen-reader-text\">Comments</span>"
 msgstr[0] "%s <span class=\"screen-reader-text\">Kommentar</span>"
@@ -8542,7 +8551,7 @@ msgstr "Skift sektion: %s"
 #. Asian characters), enter 'characters_excluding_spaces' or
 #. 'characters_including_spaces'. Otherwise, enter 'words'. Do not translate
 #. into your own language.
-#: wp-includes/script-loader.php:2091 wp-includes/formatting.php:3751
+#: wp-includes/script-loader.php:2091 wp-includes/formatting.php:3753
 #: wp-includes/js/dist/editor.js:29052
 msgctxt "Word count type. Do not translate!"
 msgid "words"
@@ -8681,7 +8690,7 @@ msgstr "WordPress databasefejl:"
 msgid "To set your password, visit the following address:"
 msgstr "For at indstille din adgangskode, så besøg følgende adresse:"
 
-#: wp-includes/user.php:1566 wp-includes/ms-functions.php:490
+#: wp-includes/user.php:1567 wp-includes/ms-functions.php:491
 msgid "Username may not be longer than 60 characters."
 msgstr "Brugernavn kan ikke indeholde mere end 60 tegn."
 
@@ -8755,13 +8764,13 @@ msgid "Add or remove menu items"
 msgstr "Tilføj eller fjern menupunkter"
 
 #. translators: User email change notification email subject. %s: Site name
-#: wp-includes/user.php:2034
+#: wp-includes/user.php:2035
 msgid "[%s] Notice of Email Change"
 msgstr "[%s] Besked om ændring af e-mail"
 
 #. translators: Do not translate USERNAME, ADMIN_EMAIL, NEW_EMAIL, EMAIL,
 #. SITENAME, SITEURL: those are placeholders.
-#: wp-includes/user.php:2016
+#: wp-includes/user.php:2017
 msgid ""
 "Hi ###USERNAME###,\n"
 "\n"
@@ -8790,13 +8799,13 @@ msgstr ""
 "###SITEURL###"
 
 #. translators: User password change notification email subject. %s: Site name
-#: wp-includes/user.php:1977
+#: wp-includes/user.php:1978
 msgid "[%s] Notice of Password Change"
 msgstr "[%s] Besked om ændring af adgangskode"
 
 #. translators: Do not translate USERNAME, ADMIN_EMAIL, EMAIL, SITENAME,
 #. SITEURL: those are placeholders.
-#: wp-includes/user.php:1959
+#: wp-includes/user.php:1960
 msgid ""
 "Hi ###USERNAME###,\n"
 "\n"
@@ -9297,7 +9306,7 @@ msgstr "Træk og slip for at omorganisere mediefiler."
 
 #. translators: Do not translate USERNAME, SITE_NAME, BLOG_URL, PASSWORD: those
 #. are placeholders.
-#: wp-includes/ms-functions.php:1545
+#: wp-includes/ms-functions.php:1547
 msgid ""
 "Howdy USERNAME,\n"
 "\n"
@@ -9331,7 +9340,7 @@ msgstr ""
 
 #. translators: Do not translate USERNAME, PASSWORD, LOGINLINK, SITE_NAME:
 #. those are placeholders.
-#: wp-includes/ms-functions.php:2276
+#: wp-includes/ms-functions.php:2278
 msgid ""
 "Howdy USERNAME,\n"
 "\n"
@@ -9360,7 +9369,7 @@ msgstr ""
 "--Holdet @ SITE_NAME"
 
 #. translators: %s: table name
-#: wp-includes/ms-load.php:476
+#: wp-includes/ms-load.php:477
 msgid "<strong>Database tables are missing.</strong> This means that MySQL is not running, WordPress was not installed properly, or someone deleted %s. You really should look at your database now."
 msgstr "<strong>Databasetabeller mangler.</strong> Dette betyder, at MySQL ikke kører, at WordPress ikke blev installeret korrekt, eller at %s er blevet slettet. Du bør tilse din database omgående."
 
@@ -9373,7 +9382,7 @@ msgid "Custom Link"
 msgstr "Tilpasset link"
 
 #. translators: 1: site url, 2: table name, 3: database name
-#: wp-includes/ms-load.php:482
+#: wp-includes/ms-load.php:483
 msgid "<strong>Could not find site %1$s.</strong> Searched for table %2$s in database %3$s. Is that right?"
 msgstr "<strong>Kunne ikke finde webstedet %1$s.</strong> Søgte efter tabellen %2$s i databasen %3$s. Er dette korrekt?"
 
@@ -9965,7 +9974,7 @@ msgstr "Widgets er uafhængige sektioner af indhold, der kan placeres i widget-o
 msgid "You are customizing %s"
 msgstr "Du tilpasser %s"
 
-#: wp-includes/comment.php:3299
+#: wp-includes/comment.php:3301
 msgid "<strong>ERROR</strong>: The comment could not be saved. Please try again later."
 msgstr "<strong>FEJL</strong>: Kommentaren kunne ikke gemmes. Prøv venligst igen senere."
 
@@ -10392,7 +10401,7 @@ msgstr "Formater"
 msgid "Add alternate sources for maximum HTML5 playback:"
 msgstr "Tilføj alternative kilder for maksimal HTML5-afspilning:"
 
-#: wp-includes/user.php:2193
+#: wp-includes/user.php:2194
 msgid "Hint: The password should be at least twelve characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! \" ? $ % ^ &amp; )."
 msgstr "Tip: Denne adgangskode bør være på mindst tolv tegn. For at gøre den stærkere kan du bruge store og små bogstaver, tal og symboler såsom !, \", ?, $, %, ^ og )."
 
@@ -11085,7 +11094,7 @@ msgstr "Ugyldig"
 
 #. translators: Time difference between two dates, in years. %s: Number of
 #. years
-#: wp-includes/formatting.php:3652
+#: wp-includes/formatting.php:3654
 msgid "%s year"
 msgid_plural "%s years"
 msgstr[0] "%s år"
@@ -11093,7 +11102,7 @@ msgstr[1] "%s år"
 
 #. translators: Time difference between two dates, in months. %s: Number of
 #. months
-#: wp-includes/formatting.php:3645
+#: wp-includes/formatting.php:3647
 msgid "%s month"
 msgid_plural "%s months"
 msgstr[0] "%s måned"
@@ -11101,7 +11110,7 @@ msgstr[1] "%s måneder"
 
 #. translators: Time difference between two dates, in weeks. %s: Number of
 #. weeks
-#: wp-includes/formatting.php:3638
+#: wp-includes/formatting.php:3640
 msgid "%s week"
 msgid_plural "%s weeks"
 msgstr[0] "%s uge"
@@ -11154,7 +11163,7 @@ msgstr "Login-adresse (URL)"
 msgid "The web browser on your device cannot be used to upload files. You may be able to use the <a href=\"%s\">native app for your device</a> instead."
 msgstr "Webbrowseren på din enhed kan ikke bruges til at uploade filer. Du kan måske bruge den <a href=\"%s\">tilhørende app til din enhed</a> i stedet."
 
-#: wp-includes/user.php:2504
+#: wp-includes/user.php:2505
 msgid "<strong>ERROR</strong>: Couldn&#8217;t register you&hellip; please contact the <a href=\"mailto:%s\">webmaster</a> !"
 msgstr "<strong>FEJL</strong>: Kunne ikke registrere dig &hellip; kontakt venligst <a href=\"mailto:%s\">webmasteren</a>!"
 
@@ -11238,8 +11247,8 @@ msgstr "WordPress-adresse (URL)"
 #: wp-includes/class-wp-xmlrpc-server.php:2626
 #: wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php:362
 #: wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php:641
-#: wp-includes/user.php:1535 wp-includes/user.php:1888
-#: wp-includes/user.php:1894
+#: wp-includes/user.php:1536 wp-includes/user.php:1889
+#: wp-includes/user.php:1895
 msgid "Invalid user ID."
 msgstr "Ugyldigt bruger-ID."
 
@@ -11419,7 +11428,7 @@ msgstr "Indstillinger for galleri"
 msgid "Attachment Display Settings"
 msgstr "Indstillinger for visning af vedhæftning"
 
-#: wp-includes/ms-functions.php:2147
+#: wp-includes/ms-functions.php:2149
 msgid "WordPress &rsaquo; Success"
 msgstr "WordPress &rsaquo; Succes"
 
@@ -11456,7 +11465,7 @@ msgstr "Det er ud til, at WordPress allerede er installeret. For at geninstaller
 msgid "Already Installed"
 msgstr "Allerede installeret"
 
-#: wp-includes/ms-functions.php:1059
+#: wp-includes/ms-functions.php:1060
 msgid ""
 "To activate your user, please click the following link:\n"
 "\n"
@@ -11470,7 +11479,7 @@ msgstr ""
 "\n"
 "Efter du har aktiveret, vil du modtage *endnu en e-mail* med dine loginoplysninger."
 
-#: wp-includes/ms-functions.php:1432
+#: wp-includes/ms-functions.php:1433
 msgid ""
 "New User: %1$s\n"
 "Remote IP address: %2$s\n"
@@ -11482,7 +11491,7 @@ msgstr ""
 "\n"
 "Fjern disse notifikationer: %3$s"
 
-#: wp-includes/ms-functions.php:1379
+#: wp-includes/ms-functions.php:1380
 msgid ""
 "New Site: %1$s\n"
 "URL: %2$s\n"
@@ -11537,11 +11546,11 @@ msgstr "Beskriv denne video&hellip;"
 msgid "Update gallery"
 msgstr "Opdater galleri"
 
-#: wp-includes/user.php:2446
+#: wp-includes/user.php:2447
 msgid "<strong>ERROR</strong>: This username is already registered. Please choose another one."
 msgstr "<strong>FEJL</strong>: Brugernavnet er optaget. Vælg venligst et andet."
 
-#: wp-includes/ms-functions.php:480
+#: wp-includes/ms-functions.php:481
 msgid "Please enter a valid email address."
 msgstr "Indtast venligst en gyldig e-mailadresse."
 
@@ -11589,7 +11598,7 @@ msgid "File doesn&#8217;t exist?"
 msgstr "Fil findes ikke?"
 
 #. translators: 1: first name, 2: last name
-#: wp-includes/user.php:1684
+#: wp-includes/user.php:1685
 msgctxt "Display name based on first name and last name"
 msgid "%1$s %2$s"
 msgstr "%1$s %2$s"
@@ -11751,28 +11760,28 @@ msgstr "Skift tekstretning i editoren"
 msgid "text direction"
 msgstr "tekstretning"
 
-#: wp-includes/ms-functions.php:486
+#: wp-includes/ms-functions.php:487
 msgid "Username must be at least 4 characters."
 msgstr "Brugernavn skal være mindst 4 karakterer langt."
 
-#: wp-includes/ms-functions.php:625
+#: wp-includes/ms-functions.php:626
 msgid "That name is not allowed."
 msgstr "Navnet er ikke tilladt."
 
-#: wp-includes/ms-functions.php:667
+#: wp-includes/ms-functions.php:668
 msgid "Please enter a site title."
 msgstr "Indtast venligst webstedstitel."
 
-#: wp-includes/ms-functions.php:460
+#: wp-includes/ms-functions.php:461
 msgid "Please enter a username."
 msgstr "Angiv venligst et brugernavn."
 
-#: wp-includes/ms-functions.php:617
+#: wp-includes/ms-functions.php:618
 msgid "Please enter a site name."
 msgstr "Indtast venligst webstedsnavn."
 
 #. translators: %s: minimum site name length
-#: wp-includes/ms-functions.php:639
+#: wp-includes/ms-functions.php:640
 msgid "Site name must be at least %s character."
 msgid_plural "Site name must be at least %s characters."
 msgstr[0] "Webstedets navn skal være på mindst %s tegn."
@@ -12128,7 +12137,7 @@ msgid "&#8221;"
 msgstr "&#8221;"
 
 #. translators: opening curly double quote
-#: wp-includes/formatting.php:98 wp-includes/formatting.php:5228
+#: wp-includes/formatting.php:98 wp-includes/formatting.php:5230
 msgctxt "opening curly double quote"
 msgid "&#8220;"
 msgstr "&#8220;"
@@ -12232,15 +12241,15 @@ msgstr "%s overstiger den maksimale uploadstørrelse for dette websted."
 msgid "Feedback"
 msgstr "Feedback"
 
-#: wp-includes/comment.php:3258
+#: wp-includes/comment.php:3260
 msgid "<strong>ERROR</strong>: please fill the required fields (name, email)."
 msgstr "<strong>FEJL</strong>: udfyld de krævede felter (navn, e-mail)."
 
-#: wp-includes/comment.php:3260
+#: wp-includes/comment.php:3262
 msgid "<strong>ERROR</strong>: please enter a valid email address."
 msgstr "<strong>FEJL</strong>: du skal venligst indtaste en gyldig e-mailadresse."
 
-#: wp-includes/comment.php:3285
+#: wp-includes/comment.php:3287
 msgid "<strong>ERROR</strong>: please type a comment."
 msgstr "<strong>FEJL</strong>: Husk at skrive en kommentar."
 
@@ -12264,12 +12273,12 @@ msgstr "Supportfora"
 msgid "Documentation"
 msgstr "Dokumentation"
 
-#: wp-includes/general-template.php:3953 wp-includes/formatting.php:3740
+#: wp-includes/general-template.php:3953 wp-includes/formatting.php:3742
 msgid "&hellip;"
 msgstr "&hellip;"
 
 #: wp-includes/wp-db.php:1658 wp-includes/functions.php:4268
-#: wp-includes/ms-load.php:467
+#: wp-includes/ms-load.php:468
 msgid "Error establishing a database connection"
 msgstr "Fejl ved etablering af databaseforbindelse"
 
@@ -12309,7 +12318,7 @@ msgstr "Tags"
 msgid "Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks."
 msgstr "Scripts og styles bør ikke registreres eller sættes i kø før %1$s, %2$s, eller %3$s hook'ene."
 
-#: wp-includes/ms-functions.php:2147
+#: wp-includes/ms-functions.php:2149
 msgid "You have been added to this site. Please visit the <a href=\"%1$s\">homepage</a> or <a href=\"%2$s\">log in</a> using your username and password."
 msgstr "Du er blevet tilføjet til dette websted. Besøg venligst <a href=\"%1$s\">forsiden</a> eller <a href=\"%2$s\">log ind</a> med dit brugernavn og adgangskode."
 
@@ -12330,7 +12339,7 @@ msgctxt "admin color scheme"
 msgid "Blue"
 msgstr "Blå"
 
-#: wp-includes/formatting.php:4646
+#: wp-includes/formatting.php:4648
 msgid "The timezone you have entered is not valid. Please select a valid timezone."
 msgstr "Den tidszone, du har indtastet, er ikke gyldig. Vælg venligst en gyldig tidszone."
 
@@ -12457,7 +12466,7 @@ msgstr "Indtast URL'en på destinationen"
 msgid "Conditional query tags do not work before the query is run. Before then, they always return false."
 msgstr "Betinget forespørgsels-tags virker ikke før en forespørgsel sættes i gang. Før det vil de altid returnerer false."
 
-#: wp-includes/ms-functions.php:1127
+#: wp-includes/ms-functions.php:1128
 msgid "The user is already active."
 msgstr "Brugeren er allerede aktiv."
 
@@ -12711,7 +12720,7 @@ msgstr "Tilføj ny linkkategori"
 msgid "New Link Category Name"
 msgstr "Nyt Link Kategorinavn"
 
-#: wp-includes/user.php:2945
+#: wp-includes/user.php:2946
 msgid "User"
 msgstr "Bruger"
 
@@ -12751,7 +12760,7 @@ msgid "F, Y"
 msgstr "F Y"
 
 #. translators: used to join items in a list with only 2 items
-#: wp-includes/formatting.php:4909
+#: wp-includes/formatting.php:4911
 msgid "%1$s and %2$s"
 msgstr "%1$s og %2$s"
 
@@ -12881,7 +12890,7 @@ msgstr "Der blev ikke fundet nogen blokke i papirkurven."
 msgid "<strong>Conflicting values for the constants VHOST and SUBDOMAIN_INSTALL.</strong> The value of SUBDOMAIN_INSTALL will be assumed to be your subdomain configuration setting."
 msgstr "<strong>Der er værdier i konflikt for konstanterne VHOST og SUBDOMAIN_INSTALL.</strong> Værdien for SUBDOMAIN_INSTALL antages at være din indstilling for subdomæneopsætning."
 
-#: wp-includes/user.php:2443
+#: wp-includes/user.php:2444
 msgid "<strong>ERROR</strong>: This username is invalid because it uses illegal characters. Please enter a valid username."
 msgstr "<strong>FEJL</strong>: Dette brugernavn er ugyldigt, da der bruges tegn, der ikke er tilladte. Indtast venligst et gyldigt brugernavn."
 
@@ -12943,19 +12952,19 @@ msgstr "Du skal desværre kunne redigere indlæg på dette websted for at kunne 
 msgid "New user registration on your site %s:"
 msgstr "Ny brugerregistrering på dit websted %s:"
 
-#: wp-includes/ms-functions.php:702
+#: wp-includes/ms-functions.php:703
 msgid "That site is currently reserved but may be available in a couple days."
 msgstr "Dette websted (navn) er optaget for øjeblikket, men bliver måske tilgængeligt i løbet af et par dage."
 
-#: wp-includes/ms-functions.php:684
+#: wp-includes/ms-functions.php:685
 msgid "Sorry, that site is reserved!"
 msgstr "Beklager, men det websted er optaget!"
 
-#: wp-includes/ms-functions.php:644
+#: wp-includes/ms-functions.php:645
 msgid "Sorry, you may not use that site name."
 msgstr "Du må desværre ikke bruge det navn til dit websted."
 
-#: wp-includes/ms-functions.php:649
+#: wp-includes/ms-functions.php:650
 msgid "Sorry, site names must have letters too!"
 msgstr "Beklager, navne på websteder skal også indeholde bogstaver!"
 
@@ -12967,21 +12976,21 @@ msgstr "Beklager, navne på websteder skal også indeholde bogstaver!"
 msgid "Sorry, you are not allowed to access details about this site."
 msgstr "Du har desværre ikke tilladelse til at se detaljer for dette websted."
 
-#: wp-includes/ms-functions.php:1129
+#: wp-includes/ms-functions.php:1130
 msgid "The site is already active."
 msgstr "Webstedet er allerede aktiveret."
 
 #. translators: New site notification email subject. 1: Network name, 2: New
 #. site name
-#: wp-includes/ms-functions.php:1601
+#: wp-includes/ms-functions.php:1603
 msgid "New %1$s Site: %2$s"
 msgstr "Nyt %1$s websted: %2$s"
 
-#: wp-includes/ms-functions.php:1401
+#: wp-includes/ms-functions.php:1402
 msgid "New Site Registration: %s"
 msgstr "Ny oprettelse af websted: %s"
 
-#: wp-includes/ms-functions.php:943
+#: wp-includes/ms-functions.php:944
 msgid ""
 "To activate your blog, please click the following link:\n"
 "\n"
@@ -13003,8 +13012,8 @@ msgstr ""
 "\n"
 "%s"
 
-#: wp-includes/ms-functions.php:679 wp-includes/ms-functions.php:1307
-#: wp-includes/ms-site.php:610
+#: wp-includes/ms-functions.php:680 wp-includes/ms-functions.php:1308
+#: wp-includes/ms-site.php:628
 msgid "Sorry, that site already exists!"
 msgstr "Beklager, men det websted findes allerede!"
 
@@ -13020,15 +13029,15 @@ msgstr "Dette websted er blevet arkiveret eller suspenderet."
 msgid "The given object ID is not that of a menu item."
 msgstr "Det angivne objekt-ID hører ikke til et menuelement."
 
-#: wp-includes/formatting.php:4587
+#: wp-includes/formatting.php:4589
 msgid "The Site address you entered did not appear to be a valid URL. Please enter a valid URL."
 msgstr "Den webstedsadresse, du indtastede, er ikke en gyldig URL. Indtast venligst en gyldig URL."
 
-#: wp-includes/formatting.php:4574
+#: wp-includes/formatting.php:4576
 msgid "The WordPress address you entered did not appear to be a valid URL. Please enter a valid URL."
 msgstr "Den WordPress-adresse du anførte, er ikke en gyldig URL. Anfør venligst en gyldig URL."
 
-#: wp-includes/formatting.php:4464
+#: wp-includes/formatting.php:4466
 msgid "The email address entered did not appear to be a valid email address. Please enter a valid email address."
 msgstr "Den indtastede e-mailadresse lader ikke til at være en gyldig e-mailadresse. Indtast venligst en gyldig e-mailadresse."
 
@@ -13036,7 +13045,7 @@ msgstr "Den indtastede e-mailadresse lader ikke til at være en gyldig e-mailadr
 msgid "A term with the name provided already exists with this parent."
 msgstr "En term med det angivne navn findes allerede med denne forælder."
 
-#: wp-includes/ms-functions.php:2144
+#: wp-includes/ms-functions.php:2146
 msgid "An error occurred adding you to this site. Back to the <a href=\"%s\">homepage</a>."
 msgstr "Der opstod en fejl under forsøg på at tilføje dig til dette websted. Gå tilbage til <a href=\"%s\">forsiden</a>."
 
@@ -13060,7 +13069,7 @@ msgid_plural "Completed <span class=\"count\">(%s)</span>"
 msgstr[0] "Afsluttede <span class=\"count\">(%s)</span>"
 msgstr[1] "Afsluttede <span class=\"count\">(%s)</span>"
 
-#: wp-includes/ms-load.php:494
+#: wp-includes/ms-load.php:495
 msgid "If you&#8217;re still stuck with this message, then check that your database contains the following tables:"
 msgstr "Hvis du stadigvæk får denne besked, så tjek, at din database indeholder de følgende tabeller:"
 
@@ -13234,11 +13243,11 @@ msgstr "Nyt pingback til dit indlæg \"%s\""
 msgid "New comment on your post \"%s\""
 msgstr "Ny kommentar til dit indlæg \"%s\""
 
-#: wp-includes/ms-load.php:470
+#: wp-includes/ms-load.php:471
 msgid "If your site does not display, please contact the owner of this network."
 msgstr "Hvis dit websted ikke vises, så kontakt venligst ejeren af dette netværk."
 
-#: wp-includes/ms-load.php:471
+#: wp-includes/ms-load.php:472
 msgid "If you are the owner of this network please check that MySQL is running properly and all tables are error free."
 msgstr "Hvis du er ejeren af dette netværk, så tjek venligst om MySQL kører ordentligt og alle tabeller er uden fejl."
 
@@ -13611,19 +13620,19 @@ msgstr "Få ny adgangskode"
 msgid "Lost Password"
 msgstr "Mistet adgangskode"
 
-#: wp-includes/user.php:2460 wp-includes/user.php:2736
+#: wp-includes/user.php:2461 wp-includes/user.php:2737
 msgid "<strong>ERROR</strong>: The email address isn&#8217;t correct."
 msgstr "<strong>FEJL</strong>: E-mailadressen er ikke korrekt."
 
-#: wp-includes/user.php:2458
+#: wp-includes/user.php:2459
 msgid "<strong>ERROR</strong>: Please type your email address."
 msgstr "<strong>FEJL</strong>: Indtast venligst din e-mailadresse."
 
-#: wp-login.php:864 wp-includes/user.php:2316 wp-includes/user.php:2320
-#: wp-includes/user.php:2325 wp-includes/user.php:2351
-#: wp-includes/user.php:2360 wp-includes/user.php:2364
-#: wp-includes/user.php:2381 wp-includes/user.php:3577
-#: wp-includes/user.php:3589 wp-includes/user.php:3607
+#: wp-login.php:864 wp-includes/user.php:2317 wp-includes/user.php:2321
+#: wp-includes/user.php:2326 wp-includes/user.php:2352
+#: wp-includes/user.php:2361 wp-includes/user.php:2365
+#: wp-includes/user.php:2382 wp-includes/user.php:3578
+#: wp-includes/user.php:3590 wp-includes/user.php:3608
 msgid "Invalid key"
 msgstr "Ugyldig nøgle"
 
@@ -13636,7 +13645,7 @@ msgstr "E-mailen kunne ikke sendes."
 msgid "[%s] Password Reset"
 msgstr "[%s] Nulstilling af adgangskode"
 
-#: wp-includes/user.php:2261
+#: wp-includes/user.php:2262
 msgid "Password reset is not allowed for this user"
 msgstr "Adgangskoden kan ikke nulstilles for denne bruger"
 
@@ -13854,19 +13863,19 @@ msgstr "Luk alle åbne tags"
 msgid "An error has occurred, which probably means the feed is down. Try again later."
 msgstr "Der er opstået en fejl, feedet er sandsynligvis nede. Prøv igen senere."
 
-#: wp-includes/user.php:2155
+#: wp-includes/user.php:2156
 msgid "Jabber / Google Talk"
 msgstr "Jabber / Google Talk"
 
-#: wp-includes/user.php:2154
+#: wp-includes/user.php:2155
 msgid "Yahoo IM"
 msgstr "Yahoo IM"
 
-#: wp-includes/user.php:2153
+#: wp-includes/user.php:2154
 msgid "AIM"
 msgstr "AIM"
 
-#: wp-includes/user.php:1564
+#: wp-includes/user.php:1565
 msgid "Cannot create a user with an empty login name."
 msgstr "Kan ikke oprette en bruger med tomt brugernavn."
 
@@ -14033,63 +14042,63 @@ msgstr "[%1$s] Trackback: \"%2$s\""
 msgid "[%1$s] Comment: \"%2$s\""
 msgstr "[%1$s] Kommentar: \"%2$s\""
 
-#: wp-includes/ms-load.php:488
+#: wp-includes/ms-load.php:489
 msgid "What do I do now?"
 msgstr "Hvad gør jeg nu?"
 
 #. translators: %s: maximum allowed file size in kilobytes
 #: wp-includes/rest-api/endpoints/class-wp-rest-attachments-controller.php:826
-#: wp-includes/ms-functions.php:2056
+#: wp-includes/ms-functions.php:2058
 msgid "This file is too big. Files must be less than %s KB in size."
 msgstr "Filen er for stor. Filer skal være mindre end %s kB."
 
 #. translators: New user notification email subject. 1: Network name, 2: New
 #. user login
-#: wp-includes/ms-functions.php:1692
+#: wp-includes/ms-functions.php:1694
 msgid "New %1$s User: %2$s"
 msgstr "Ny %1$s bruger: %2$s"
 
-#: wp-includes/ms-functions.php:1453
+#: wp-includes/ms-functions.php:1454
 msgid "New User Registration: %s"
 msgstr "Ny brugerregistrering: %s"
 
-#: wp-includes/ms-functions.php:1161
+#: wp-includes/ms-functions.php:1162
 msgid "That username is already activated."
 msgstr "Dette brugernavn er allerede aktiveret."
 
-#: wp-includes/ms-functions.php:1145
+#: wp-includes/ms-functions.php:1146
 msgid "Could not create user"
 msgstr "Bruger kunne ikke oprettes"
 
-#: wp-includes/ms-functions.php:1122
+#: wp-includes/ms-functions.php:1123
 msgid "Invalid activation key."
 msgstr "Ugyldig aktiveringsnøgle."
 
-#: wp-includes/ms-functions.php:538
+#: wp-includes/ms-functions.php:539
 msgid "That email address has already been used. Please check your inbox for an activation email. It will become available in a couple of days if you do nothing."
 msgstr "Denne e-mailadresse er allerede blevet brugt. Tjek venligst din indbakke for en aktiverings-e-mail. Det vil være til rådighed om et par dage, hvis du ikke gør noget."
 
-#: wp-includes/ms-functions.php:527
+#: wp-includes/ms-functions.php:528
 msgid "That username is currently reserved but may be available in a couple of days."
 msgstr "Dette brugernavn er i øjeblikket reserveret, men kan være til rådighed om et par dage."
 
-#: wp-includes/user.php:1644 wp-includes/ms-functions.php:514
+#: wp-includes/user.php:1645 wp-includes/ms-functions.php:515
 msgid "Sorry, that email address is already used!"
 msgstr "Beklager, den e-mailadresse er allerede i brug!"
 
-#: wp-includes/user.php:1570 wp-includes/ms-functions.php:509
+#: wp-includes/user.php:1571 wp-includes/ms-functions.php:510
 msgid "Sorry, that username already exists!"
 msgstr "Beklager, men der er allerede en, der har taget det brugernavn!"
 
-#: wp-includes/ms-functions.php:503
+#: wp-includes/ms-functions.php:504
 msgid "Sorry, that email address is not allowed!"
 msgstr "Beklager, den e-mailadresse er ikke tilladt!"
 
-#: wp-includes/ms-functions.php:495
+#: wp-includes/ms-functions.php:496
 msgid "Sorry, usernames must have letters too!"
 msgstr "Beklager, brugernavne skal også indeholde bogstaver!"
 
-#: wp-includes/ms-functions.php:482
+#: wp-includes/ms-functions.php:483
 msgid "You cannot use that email address to signup. We are having problems with them blocking some of our email. Please use another email provider."
 msgstr "Du kan ikke bruge denne e-mailadresse til tilmelding. Vi har problemer med at den e-mailudbyder blokerer nogle af vores e-mail. Brug venligst en anden e-mailudbyder."
 
@@ -14853,7 +14862,7 @@ msgid ", "
 msgstr ", "
 
 #. translators: Time difference between two dates, in days. %s: Number of days
-#: wp-includes/formatting.php:3631
+#: wp-includes/formatting.php:3633
 msgid "%s day"
 msgid_plural "%s days"
 msgstr[0] "%s dag"
@@ -14862,7 +14871,7 @@ msgstr[1] "%s dage"
 #. translators: Time duration in hour or hours.
 #. translators: Time difference between two dates, in hours. %s: Number of
 #. hours
-#: wp-includes/functions.php:377 wp-includes/formatting.php:3624
+#: wp-includes/functions.php:377 wp-includes/formatting.php:3626
 msgid "%s hour"
 msgid_plural "%s hours"
 msgstr[0] "%s time"
@@ -14870,7 +14879,7 @@ msgstr[1] "%s timer"
 
 #. translators: Time difference between two dates, in minutes (min=minute). %s:
 #. Number of minutes
-#: wp-includes/formatting.php:3617
+#: wp-includes/formatting.php:3619
 msgid "%s min"
 msgid_plural "%s mins"
 msgstr[0] "%s minut"
@@ -15379,11 +15388,11 @@ msgstr "Kontrolpanel"
 msgid "There are no options for this widget."
 msgstr "Der er ingen indstillinger for denne widget."
 
-#: wp-includes/user.php:2463
+#: wp-includes/user.php:2464
 msgid "<strong>ERROR</strong>: This email is already registered, please choose another one."
 msgstr "<strong>FEJL</strong>: E-mailadressen er allerede registreret, vælg venligst en anden."
 
-#: wp-includes/user.php:2441
+#: wp-includes/user.php:2442
 msgid "<strong>ERROR</strong>: Please enter a username."
 msgstr "<strong>FEJL</strong>: Skriv venligst et brugernavn."
 
@@ -15761,7 +15770,7 @@ msgid "Submit"
 msgstr "Send"
 
 #. translators: Name of a comment's author after being anonymized.
-#: wp-includes/comment.php:3470 wp-includes/class-wp-theme.php:835
+#: wp-includes/comment.php:3472 wp-includes/class-wp-theme.php:835
 #: wp-includes/comment-template.php:31
 msgid "Anonymous"
 msgstr "Anonym"
@@ -15875,7 +15884,7 @@ msgstr "Uddrag"
 msgid "Publish"
 msgstr "Udgiv"
 
-#: wp-includes/script-loader.php:1485 wp-includes/comment.php:3400
+#: wp-includes/script-loader.php:1485 wp-includes/comment.php:3402
 msgid "Comments"
 msgstr "Kommentarer"
 
