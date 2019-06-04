@@ -76,6 +76,12 @@ hooks:
 
 # The configuration of scheduled execution.
 crons:
+    wp_cron:
+        spec: '2 * * * *'
+        cmd: |
+          cd "${PLATFORM_DOCUMENT_ROOT}" || exit 1
+          wp cron event run --due-now
+
     snapshot:
         # Perform a snapshot at some point during the night, we've picked
         # 00:15 UTC here.
