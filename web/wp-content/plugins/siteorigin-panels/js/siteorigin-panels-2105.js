@@ -842,6 +842,7 @@ module.exports = panels.view.dialog.extend({
 
 			this.regenerateRowPreview();
 			this.renderStyles();
+			this.openSelectedCellStyles();
 		}, this);
 
 		// This is the default row layout
@@ -1264,8 +1265,6 @@ module.exports = panels.view.dialog.extend({
 
 		}, this);
 
-		this.openSelectedCellStyles();
-
 		this.trigger('form_loaded', this);
 	},
 
@@ -1332,6 +1331,7 @@ module.exports = panels.view.dialog.extend({
 		// Call remove() on all cell styles to remove data, event listeners etc.
 		this.cellStylesCache.forEach(function (cellStyles) {
 			cellStyles.remove();
+			cellStyles.off( 'styles_loaded' );
 		});
 		this.cellStylesCache = [];
 	},
@@ -2628,6 +2628,16 @@ jQuery( function ( $ ) {
 			$( '.siteorigin-page-builder-widget' ).soPanelsSetupBuilderWidget();
 		} );
 	}
+
+	// A global escape handler
+	$(window).on('keyup', function(e){
+		// [Esc] to close
+		if ( e.which === 27 ) {
+			// Trigger a click on the last visible Page Builder window
+			$( '.so-panels-dialog-wrapper, .so-panels-live-editor' ).filter(':visible')
+				.last().find('.so-title-bar .so-close, .live-editor-close').click();
+		}
+	});
 } );
 
 },{"./collection/cells":1,"./collection/history-entries":2,"./collection/rows":3,"./collection/widgets":4,"./dialog/builder":5,"./dialog/history":6,"./dialog/prebuilt":7,"./dialog/row":8,"./dialog/widget":9,"./dialog/widgets":10,"./helpers/clipboard":11,"./helpers/page-scroll":12,"./helpers/serialize":13,"./helpers/utils":14,"./jquery/setup-builder-widget":15,"./model/builder":17,"./model/cell":18,"./model/history-entry":19,"./model/row":20,"./model/widget":21,"./utils/menu":22,"./view/builder":23,"./view/cell":24,"./view/dialog":25,"./view/live-editor":26,"./view/row":27,"./view/styles":28,"./view/widget":29}],17:[function(require,module,exports){
@@ -3532,6 +3542,10 @@ module.exports = Backbone.Model.extend( {
 		var titleFields = ['title', 'text'];
 
 		for ( var k in values ) {
+			if(k.charAt(0) === '_' || k === 'so_sidebar_emulator_id'  || k === 'option_name'){
+				// Skip Widgets Bundle supporting fields
+				continue;
+			}
 			if ( values.hasOwnProperty( k ) ) {
 				titleFields.push( k );
 			}
@@ -3993,8 +4007,7 @@ module.exports = Backbone.View.extend( {
 				this.displayAttachedBuilder( { confirm: false } );
 			}, this );
 		}
-		
-		
+
 		return this;
 	},
 	
@@ -5385,13 +5398,12 @@ module.exports = Backbone.View.extend( {
 
 		if ( this.parentDialog !== false ) {
 			// Add a link to the parent dialog as a sort of crumbtrail.
-			var thisDialog = this;
 			var dialogParent = $( '<h3 class="so-parent-link"></h3>' ).html( this.parentDialog.text + '<div class="so-separator"></div>' );
 			dialogParent.click( function ( e ) {
 				e.preventDefault();
-				thisDialog.closeDialog();
-				thisDialog.parentDialog.openDialog();
-			} );
+				this.closeDialog();
+				this.parentDialog.dialog.openDialog();
+			}.bind(this) );
 			this.$( '.so-title-bar .so-title' ).before( dialogParent );
 		}
 
@@ -5593,9 +5605,6 @@ module.exports = Backbone.View.extend( {
 		// Stop scrolling for the main body
 		panels.helpers.pageScroll.lock();
 
-		// Start listen for keyboard keypresses.
-		$( window ).on( 'keyup', this.keyboardListen );
-		
 		this.onResize();
 
 		this.$el.show();
@@ -5628,23 +5637,10 @@ module.exports = Backbone.View.extend( {
 		this.$el.hide();
 		panels.helpers.pageScroll.unlock();
 
-		// Stop listen for keyboard keypresses.
-		$( window ).off( 'keyup', this.keyboardListen );
-
 		if ( ! options.silent ) {
 			// This triggers once everything is hidden
 			this.trigger( 'close_dialog_complete' );
 			this.builder.trigger( 'close_dialog', this );
-		}
-	},
-
-	/**
-	 * Keyboard events handler
-	 */
-	keyboardListen: function ( e ) {
-		// [Esc] to close
-		if ( e.which === 27 ) {
-			$( '.so-panels-dialog-wrapper .so-close' ).trigger( 'click' );
 		}
 	},
 
@@ -5889,6 +5885,7 @@ module.exports = Backbone.View.extend( {
 
 	events: {
 		'click .live-editor-close': 'close',
+		'click .live-editor-save': 'closeAndSave',
 		'click .live-editor-collapse': 'collapse',
 		'click .live-editor-mode': 'mobileToggle'
 	},
@@ -5916,6 +5913,11 @@ module.exports = Backbone.View.extend( {
 	render: function () {
 		this.setElement( this.template() );
 		this.$el.hide();
+		
+		if ( $( '#submitdiv #save-post' ).length > 0 ) {
+			var $saveButton = this.$el.find( '.live-editor-save' );
+			$saveButton.text( $saveButton.data( 'save' ) );
+		}
 
 		var isMouseDown = false;
 		$( document )
@@ -6005,7 +6007,7 @@ module.exports = Backbone.View.extend( {
 	},
 
 	/**
-	 * Close the live editor
+	 * Close the Live Editor
 	 */
 	close: function () {
 		if ( ! this.$el.is( ':visible' ) ) {
@@ -6022,13 +6024,19 @@ module.exports = Backbone.View.extend( {
 	},
 
 	/**
+	 * Close the Live Editor and save the post.
+	 */
+	closeAndSave: function(){
+		this.close();
+		// Finds the submit input for saving without publishing draft posts.
+		$('#submitdiv input[type="submit"][name="save"]').click();
+	},
+
+	/**
 	 * Collapse the live editor
 	 */
 	collapse: function () {
 		this.$el.toggleClass( 'so-collapsed' );
-
-		var text = this.$( '.live-editor-collapse span' );
-		text.html( text.data( this.$el.hasClass( 'so-collapsed' ) ? 'expand' : 'collapse' ) );
 	},
 
 	/**
@@ -6077,7 +6085,7 @@ module.exports = Backbone.View.extend( {
 		contentWindow.liveEditorScrollTo( over );
 	},
 
-	handleRefreshData: function ( newData, args ) {
+	handleRefreshData: function ( newData ) {
 		if ( ! this.$el.is( ':visible' ) ) {
 			return this;
 		}
@@ -6152,7 +6160,7 @@ module.exports = Backbone.View.extend( {
 				'id' : iframeId,
 				'name' : iframeId,
 			} )
-			.appendTo( target )
+			.appendTo( target );
 
 		this.setupPreviewFrame( this.previewIframe );
 
@@ -7031,7 +7039,8 @@ module.exports = Backbone.View.extend( {
 
 		this.setElement( this.template( {
 			title: this.model.getWidgetField( 'title' ),
-			description: this.model.getTitle()
+			description: this.model.getTitle(),
+			widget_class: this.model.attributes.class
 		} ) );
 
 		this.$el.data( 'view', this );
