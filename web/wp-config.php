@@ -52,3 +52,8 @@ require_once(ABSPATH . 'wp-settings.php');
 
 define('DISALLOW_FILE_EDIT', true);
 define('DISALLOW_FILE_MODS', true);
+
+/**
+ * Disable cron and run it through wp-cli instead.
+ */
+define('DISABLE_WP_CRON', true);

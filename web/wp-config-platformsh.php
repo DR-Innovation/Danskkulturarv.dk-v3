@@ -9,7 +9,7 @@ if (isset($_ENV['PLATFORM_RELATIONSHIPS'])) {
   // The DB credentials are stored in the first item in the relationship
   // to use. By default it's called "database", but could be named differentl
   // if desired in .platform.app.yaml.
-  if (!defined(DB_NAME)) {
+  if (!defined('DB_NAME')) {
     define('DB_NAME', $relationships['database'][0]['path']);
     define('DB_USER', $relationships['database'][0]['username']);
     define('DB_PASSWORD', $relationships['database'][0]['password']);
@@ -19,7 +19,7 @@ if (isset($_ENV['PLATFORM_RELATIONSHIPS'])) {
   }
 }
 
-$site_host = $_SERVER['HTTP_HOST'];
+$site_host = !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
 $site_scheme = !empty($_SERVER['https']) ? 'https' : 'http';
 
 // Check whether a route is defined for this application in the Platform.sh routes.
