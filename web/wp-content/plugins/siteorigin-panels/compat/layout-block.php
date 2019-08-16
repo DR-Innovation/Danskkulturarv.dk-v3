@@ -59,7 +59,7 @@ class SiteOrigin_Panels_Compat_Layout_Block {
 					'sanitizeUrl' => wp_nonce_url( admin_url( 'admin-ajax.php' ), 'layout-block-sanitize', '_panelsnonce' ),
 					'previewUrl' => wp_nonce_url( admin_url( 'admin-ajax.php' ), 'layout-block-preview', '_panelsnonce' ),
 					'defaultMode' => siteorigin_panels_setting( 'layout-block-default-mode' ),
-					'showAddButton' => $is_panels_post_type,
+					'showAddButton' => apply_filters( 'siteorigin_layout_block_show_add_button', $is_panels_post_type ),
 				)
 			);
 			// This is only available in WP5.
@@ -90,7 +90,17 @@ class SiteOrigin_Panels_Compat_Layout_Block {
 		$panels_data = $attributes['panelsData'];
 		$panels_data = $this->sanitize_panels_data( $panels_data );
 		$builder_id = isset( $attributes['builder_id'] ) ? $attributes['builder_id'] : uniqid( 'gb' . get_the_ID() . '-' );
+
+		// Support for custom CSS classes
+		$add_custom_class_name = function( $class_names ) use ($attributes) {
+			if ( ! empty( $attributes['className'] ) ) {
+				$class_names[] = $attributes['className'];
+			}
+			return $class_names;
+		};
+		add_filter( 'siteorigin_panels_layout_classes', $add_custom_class_name );
 		$rendered_layout = SiteOrigin_Panels::renderer()->render( $builder_id, true, $panels_data );
+		remove_filter( 'siteorigin_panels_layout_classes', $add_custom_class_name );
 		return $rendered_layout;
 	}
 	
