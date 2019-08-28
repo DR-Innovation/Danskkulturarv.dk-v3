@@ -11,7 +11,7 @@ msgstr ""
 "Language: da_DK\n"
 "Project-Id-Version: Plugins - Akismet Anti-Spam - Stable (latest release)\n"
 
-#: class.akismet.php:507
+#: class.akismet.php:512
 msgid "Comment not found."
 msgstr "Kommentar ikke fundet"
 
@@ -386,11 +386,11 @@ msgstr "Akismet fangede denne kommentar som spam ved et automatisk ekstra tjek."
 msgid "Akismet cleared this comment during an automatic retry."
 msgstr "Ved et automatisk ekstra tjek af denne kommentar, blev den godkendt af Akismet."
 
-#: class.akismet.php:1268
+#: class.akismet.php:1277
 msgid "Please <a href=\"%1$s\">upgrade WordPress</a> to a current version, or <a href=\"%2$s\">downgrade to version 2.4 of the Akismet plugin</a>."
 msgstr "Du skal venligst <a href=\"%1$s\">opgradere WordPress</a> til den nuværende version, eller <a href=\"%2$s\">nedgradere til version 2.4 af Akismet pluginet</a>."
 
-#: class.akismet.php:1268
+#: class.akismet.php:1277
 msgid "Akismet %s requires WordPress %s or higher."
 msgstr "Akismet %s kræver WordPress %s eller højere."
 
