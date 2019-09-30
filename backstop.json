@@ -14,7 +14,7 @@
       "label": "Desktop (1200x768)",
       "width": 1200,
       "height": 768
-    },
+    }
   ],
   "onBeforeScript": "puppet/onBefore.js",
   "onReadyScript": "puppet/onReady.js",
@@ -22,7 +22,7 @@
     {
       "label": "Frontpage",
       "url": "%site-url%/",
-      "referenceUrl": "https://https://www.danskkulturarv.dk/",
+      "referenceUrl": "https://www.danskkulturarv.dk/",
       "delay" : 1000
     },
     {
