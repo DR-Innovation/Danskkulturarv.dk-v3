@@ -1,0 +1,73 @@
+{
+  "viewports": [
+    {
+      "label": "Mobile / iPhone 6/7/8 Plus (414x736)",
+      "width": 414,
+      "height": 736
+    },
+    {
+      "label": "Tablet / iPad (768x1024)",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "label": "Desktop (1200x768)",
+      "width": 1200,
+      "height": 768
+    },
+  ],
+  "onBeforeScript": "puppet/onBefore.js",
+  "onReadyScript": "puppet/onReady.js",
+  "scenarios": [
+    {
+      "label": "Frontpage",
+      "url": "%site-url%/",
+      "referenceUrl": "https://https://www.danskkulturarv.dk/",
+      "delay" : 1000
+    },
+    {
+      "label": "Search",
+      "url": "%site-url%/find/Danmark/",
+      "referenceUrl": "https://www.danskkulturarv.dk/find/Danmark/",
+      "delay" : 1000
+    },
+    {
+      "label": "Item - video",
+      "url": "%site-url%/dr/skoleskibet-danmark-hjemme/",
+      "referenceUrl": "https://www.danskkulturarv.dk/dr/skoleskibet-danmark-hjemme/",
+      "delay" : 1500
+    },
+    {
+      "label": "Item - audio",
+      "url": "%site-url%/dr/danmarkshistorie-115-landet-og-de-første-mennesker-1/",
+      "referenceUrl": "https://www.danskkulturarv.dk/dr/danmarkshistorie-115-landet-og-de-første-mennesker-1/",
+      "delay" : 1500
+    },
+    {
+      "label": "Item - picture",
+      "url": "%site-url%/kb/svømmestadion-danmark-4/",
+      "referenceUrl": "https://www.danskkulturarv.dk/kb/svømmestadion-danmark-4/",
+      "delay" : 1500
+    },
+        {
+      "label": "API docs",
+      "url": "%site-url%/api/",
+      "referenceUrl": "https://www.danskkulturarv.dk/api/",
+      "delay" : 1500
+    }
+  ],
+  "paths": {
+    "bitmaps_reference": "backstop_data/bitmaps_reference",
+    "bitmaps_test": "backstop_data/bitmaps_test",
+    "engine_scripts": "backstop_data/engine_scripts",
+    "html_report": "backstop_data/html_report",
+    "ci_report": "backstop_data/ci_report"
+  },
+  "report": ["CI"],
+  "engine": "puppeteer",
+  "engineOptions": {
+    "args": ["--no-sandbox"]
+  },
+  "asyncCompareLimit": 5,
+  "asyncCaptureLimit": 3
+}

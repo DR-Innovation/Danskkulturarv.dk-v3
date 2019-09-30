@@ -1,0 +1,31 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2.1
+
+orbs:
+  backstop: reload/backstop@2
+  dais: reload/dais@1
+
+executors:
+  backstop-dais:
+    docker:
+      - image: circleci/php:7.2-cli-node-browsers
+
+workflows:
+  version: 2
+
+  test:
+    jobs:
+      - backstop/visual-test:
+          name: Visual regression tests
+          context: BackstopJS Report Github Status
+          executor: backstop-dais
+          before_test:
+            - dais/wait:
+                files: backstop.json
+          filters:
+            branches:
+              ignore:
+                - master
