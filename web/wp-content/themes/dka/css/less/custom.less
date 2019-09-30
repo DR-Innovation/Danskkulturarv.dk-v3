@@ -163,6 +163,9 @@ hr {
 .row {
   .panel-grid {
     margin: 0;
+    // The css-builder.php might add crazy bottom-margin, which we are not
+    // interested in. We'll get rid of this with an ugly !important.
+    margin-bottom: 0 !important;
 
     .panel-grid-cell {
       padding-top   : 3rem;

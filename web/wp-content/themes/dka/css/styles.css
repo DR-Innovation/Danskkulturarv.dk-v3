@@ -5724,6 +5724,7 @@ hr {
 }
 .row .panel-grid {
   margin: 0;
+  margin-bottom: 0 !important;
 }
 .row .panel-grid .panel-grid-cell {
   padding-top: 3rem;
