@@ -3,7 +3,7 @@
 Plugin Name: Page Builder by SiteOrigin
 Plugin URI: https://siteorigin.com/page-builder/
 Description: A drag and drop, responsive page builder that simplifies building your website.
-Version: 2.10.9
+Version: 2.10.11
 Author: SiteOrigin
 Author URI: https://siteorigin.com
 License: GPL3
@@ -11,12 +11,12 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: http://siteorigin.com/page-builder/#donate
 */
 
-define( 'SITEORIGIN_PANELS_VERSION', '2.10.9' );
+define( 'SITEORIGIN_PANELS_VERSION', '2.10.11' );
 if ( ! defined( 'SITEORIGIN_PANELS_JS_SUFFIX' ) ) {
 	define( 'SITEORIGIN_PANELS_JS_SUFFIX', '.min' );
 }
 define( 'SITEORIGIN_PANELS_CSS_SUFFIX', '.min' );
-define( 'SITEORIGIN_PANELS_VERSION_SUFFIX', '-2109' );
+define( 'SITEORIGIN_PANELS_VERSION_SUFFIX', '-21011' );
 
 require_once plugin_dir_path( __FILE__ ) . 'inc/functions.php';
 
@@ -82,7 +82,6 @@ class SiteOrigin_Panels {
 		if ( function_exists( 'register_block_type' ) ) {
 			SiteOrigin_Panels_Compat_Layout_Block::single();
 		}
-		
 		
 		define( 'SITEORIGIN_PANELS_BASE_FILE', __FILE__ );
 	}
@@ -191,6 +190,11 @@ class SiteOrigin_Panels {
 		// Check if we need to initialize the admin class.
 		if ( is_admin() ) {
 			SiteOrigin_Panels_Admin::single();
+		}
+		
+		// Compatibility with Widget Options plugin
+		if( class_exists('WP_Widget_Options') ) {
+			require_once plugin_dir_path( __FILE__ ) . 'compat/widget-options.php';
 		}
 	}
 
