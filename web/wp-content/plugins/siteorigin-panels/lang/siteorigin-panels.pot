@@ -1005,7 +1005,7 @@ msgstr ""
 msgid "Collapse Order"
 msgstr ""
 
-#: inc/styles.php:246, widgets/widgets.php:635, widgets/widgets.php:757, inc/widgets/post-loop.php:325
+#: inc/styles.php:246, widgets/widgets.php:635, widgets/widgets.php:757, inc/widgets/post-loop.php:329
 msgid "Default"
 msgstr ""
 
@@ -1321,83 +1321,83 @@ msgstr ""
 msgid "%s Style"
 msgstr ""
 
-#: widgets/widgets.php:594, inc/widgets/post-loop.php:283
+#: widgets/widgets.php:594, inc/widgets/post-loop.php:287
 msgid "Post Type"
 msgstr ""
 
-#: widgets/widgets.php:601, inc/widgets/post-loop.php:292
+#: widgets/widgets.php:601, inc/widgets/post-loop.php:296
 msgid "Posts Per Page"
 msgstr ""
 
-#: widgets/widgets.php:606, inc/widgets/post-loop.php:297
+#: widgets/widgets.php:606, inc/widgets/post-loop.php:301
 msgid "Order By"
 msgstr ""
 
-#: widgets/widgets.php:608, widgets/widgets.php:783, inc/widgets/post-content.php:60, inc/widgets/post-loop.php:299
+#: widgets/widgets.php:608, widgets/widgets.php:783, inc/widgets/post-content.php:60, inc/widgets/post-loop.php:303
 msgid "None"
 msgstr ""
 
-#: widgets/widgets.php:609, inc/widgets/post-loop.php:300
+#: widgets/widgets.php:609, inc/widgets/post-loop.php:304
 msgid "Post ID"
 msgstr ""
 
-#: widgets/widgets.php:610, inc/widgets/post-loop.php:301
+#: widgets/widgets.php:610, inc/widgets/post-loop.php:305
 msgid "Author"
 msgstr ""
 
-#: widgets/widgets.php:611, widgets/widgets.php:612, inc/widgets/post-loop.php:302, inc/widgets/post-loop.php:303, widgets/widgets/testimonial/testimonial.php:15
+#: widgets/widgets.php:611, widgets/widgets.php:612, inc/widgets/post-loop.php:306, inc/widgets/post-loop.php:307, widgets/widgets/testimonial/testimonial.php:15
 msgid "Name"
 msgstr ""
 
-#: widgets/widgets.php:613, inc/widgets/post-loop.php:304
+#: widgets/widgets.php:613, inc/widgets/post-loop.php:308
 msgid "Date"
 msgstr ""
 
-#: widgets/widgets.php:614, inc/widgets/post-loop.php:305
+#: widgets/widgets.php:614, inc/widgets/post-loop.php:309
 msgid "Modified"
 msgstr ""
 
-#: widgets/widgets.php:615, inc/widgets/post-loop.php:306
+#: widgets/widgets.php:615, inc/widgets/post-loop.php:310
 msgid "Parent"
 msgstr ""
 
-#: widgets/widgets.php:616, inc/widgets/post-loop.php:307
+#: widgets/widgets.php:616, inc/widgets/post-loop.php:311
 msgid "Random"
 msgstr ""
 
-#: widgets/widgets.php:617, inc/widgets/post-loop.php:308
+#: widgets/widgets.php:617, inc/widgets/post-loop.php:312
 msgid "Comment Count"
 msgstr ""
 
-#: widgets/widgets.php:618, inc/widgets/post-loop.php:309
+#: widgets/widgets.php:618, inc/widgets/post-loop.php:313
 msgid "Menu Order"
 msgstr ""
 
-#: widgets/widgets.php:624, inc/widgets/post-loop.php:315
+#: widgets/widgets.php:624, inc/widgets/post-loop.php:319
 msgid "Order"
 msgstr ""
 
-#: widgets/widgets.php:626, inc/widgets/post-loop.php:318
+#: widgets/widgets.php:626, inc/widgets/post-loop.php:322
 msgid "Ascending"
 msgstr ""
 
-#: widgets/widgets.php:627, inc/widgets/post-loop.php:317
+#: widgets/widgets.php:627, inc/widgets/post-loop.php:321
 msgid "Descending"
 msgstr ""
 
-#: widgets/widgets.php:633, inc/widgets/post-loop.php:323
+#: widgets/widgets.php:633, inc/widgets/post-loop.php:327
 msgid "Sticky Posts"
 msgstr ""
 
-#: widgets/widgets.php:636, inc/widgets/post-loop.php:326
+#: widgets/widgets.php:636, inc/widgets/post-loop.php:330
 msgid "Ignore Sticky"
 msgstr ""
 
-#: widgets/widgets.php:637, inc/widgets/post-loop.php:327
+#: widgets/widgets.php:637, inc/widgets/post-loop.php:331
 msgid "Exclude Sticky"
 msgstr ""
 
-#: widgets/widgets.php:638, inc/widgets/post-loop.php:328
+#: widgets/widgets.php:638, inc/widgets/post-loop.php:332
 msgid "Only Sticky"
 msgstr ""
 
@@ -1405,7 +1405,7 @@ msgstr ""
 msgid "Additional Arguments"
 msgstr ""
 
-#: widgets/widgets.php:648, inc/widgets/post-loop.php:340
+#: widgets/widgets.php:648, inc/widgets/post-loop.php:344
 msgid "Additional query arguments. See 1{query_posts}."
 msgstr ""
 
@@ -1594,7 +1594,7 @@ msgstr ""
 msgid "Displays content from the current post."
 msgstr ""
 
-#: inc/widgets/post-content.php:61, inc/widgets/post-loop-helper.php:38, inc/widgets/post-loop.php:246, widgets/widgets/call-to-action/call-to-action.php:15, widgets/widgets/list/list.php:15, widgets/widgets/price-box/price-box.php:15
+#: inc/widgets/post-content.php:61, inc/widgets/post-loop-helper.php:41, inc/widgets/post-loop.php:250, widgets/widgets/call-to-action/call-to-action.php:15, widgets/widgets/list/list.php:15, widgets/widgets/price-box/price-box.php:15
 msgid "Title"
 msgstr ""
 
@@ -1606,35 +1606,35 @@ msgstr ""
 msgid "Display Content"
 msgstr ""
 
-#: inc/widgets/post-loop-helper.php:29, inc/widgets/post-loop.php:23
+#: inc/widgets/post-loop-helper.php:31, inc/widgets/post-loop.php:23
 msgid "Post Loop"
 msgstr ""
 
-#: inc/widgets/post-loop-helper.php:31, inc/widgets/post-loop.php:25
+#: inc/widgets/post-loop-helper.php:33, inc/widgets/post-loop.php:25
 msgid "Displays a post loop."
 msgstr ""
 
-#: inc/widgets/post-loop-helper.php:42, inc/widgets/post-loop.php:250
+#: inc/widgets/post-loop-helper.php:45, inc/widgets/post-loop.php:254
 msgid "Template"
 msgstr ""
 
-#: inc/widgets/post-loop-helper.php:49, inc/widgets/post-loop.php:268
+#: inc/widgets/post-loop-helper.php:52, inc/widgets/post-loop.php:272
 msgid "If the template supports it, cut posts and display the more link."
 msgstr ""
 
-#: inc/widgets/post-loop.php:216
+#: inc/widgets/post-loop.php:220
 msgid "Your theme doesn't have any post loops."
 msgstr ""
 
-#: inc/widgets/post-loop.php:266
+#: inc/widgets/post-loop.php:270
 msgid "More Link"
 msgstr ""
 
-#: inc/widgets/post-loop.php:310
+#: inc/widgets/post-loop.php:314
 msgid "Post In Order"
 msgstr ""
 
-#: inc/widgets/post-loop.php:333
+#: inc/widgets/post-loop.php:337
 msgid "Additional "
 msgstr ""
 
