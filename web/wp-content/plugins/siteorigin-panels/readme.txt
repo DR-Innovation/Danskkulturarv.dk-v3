@@ -1,9 +1,9 @@
 === Page Builder by SiteOrigin ===
 Tags: page builder, responsive, widget, widgets, builder, page, admin, gallery, content, cms, pages, post, css, layout, grid
 Requires at least: 4.7
-Tested up to: 5.2.2
-Stable tag: 2.10.11
-Build time: 2019-09-23T18:59:27+02:00
+Tested up to: 5.3
+Stable tag: 2.10.13
+Build time: 2019-11-09T12:06:24+02:00
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: https://siteorigin.com/downloads/premium/
@@ -96,7 +96,14 @@ We've tried to ensure that Page Builder is compatible with most plugin widgets. 
 
 == Changelog ==
 
-= 2.10.11 - 19 September 2019 =
+= 2.10.13 - 9 November 2019 =
+* Fixed check for content.php post loop templates
+* Add `builderType` argument when fetching a selected prebuilt layout.
+
+= 2.10.12 - 4 November 2019 =
+* Resolve issue caused by locate_template preventing plugins from adding Post Loop templates.
+
+= 2.10.11 - 23 September 2019 =
 * Added setting for cell spacing in a collapsed row.
 * Fix support for widgets that share a single classname.
 * Fixed styling issues after Chrome update.
