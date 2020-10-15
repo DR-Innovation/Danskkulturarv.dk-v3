@@ -73,7 +73,7 @@ class SiteOrigin_Panels_Renderer {
 			
 			// Filter the bottom margin for this row with the arguments
 			$panels_margin_bottom = apply_filters( 'siteorigin_panels_css_row_margin_bottom', $settings['margin-bottom'] . 'px', $row, $ri, $panels_data, $post_id );
-			$panels_mobile_margin_bottom = apply_filters( 'siteorigin_panels_css_row_mobile_margin_bottom', '', $row, $ri, $panels_data, $post_id );
+			$panels_mobile_margin_bottom = apply_filters( 'siteorigin_panels_css_row_mobile_margin_bottom', $settings['row-mobile-margin-bottom'] . 'px', $row, $ri, $panels_data, $post_id );
 			
 			if ( empty( $row['cells'] ) ) {
 				continue;
@@ -177,11 +177,6 @@ class SiteOrigin_Panels_Renderer {
 					} else {
 						$remove_bottom_margin .= 'child(-n+2)';
 					}
-
-					$css->add_cell_css( $post_id, $ri, false, $remove_bottom_margin, array(
-							'margin-bottom' => 0,
-						), $panels_tablet_width . ':' . ( $panels_mobile_width + 1 )
-					);
 
 					if ( ! empty( $gutter_parts[1] ) ) {
 						// Tablet responsive css for cells
@@ -648,7 +643,9 @@ class SiteOrigin_Panels_Renderer {
 
 				$panels_data = ! empty( $layouts[ $prebuilt_id ] ) ? $layouts[ $prebuilt_id ] : current( $layouts );
 			}
-		} else {
+		}
+
+		if ( ! empty( $post_id ) && empty( $panels_data ) ) {
 			if ( post_password_required( $post_id ) ) {
 				return false;
 			}

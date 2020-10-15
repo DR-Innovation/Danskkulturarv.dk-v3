@@ -1,7 +1,7 @@
 <?php
 
 //object->usertags_raw
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags_raw', function($value, \WPChaosObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags_raw', function($value, \WPChaosDataObject $object) {
 		$relation_guids = array();
 		foreach($object->ObjectRelations as $relation) {
 			$guid_property = "Object2GUID"; //tag is always saved here.
@@ -26,7 +26,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags_raw', function($value, 
 				// 	false,   // includeFiles
 				// 	false    // includeObjectRelations
 				// );
-				
+
 				//Query will quickly become too long for GET. Using POST instead to handle more data
 				$serviceResult = WPChaosClient::instance()->CallService("Object/Get", CHAOS\Portal\Client\IServiceCaller::POST, array(
 					"query" => "(GUID:(".implode(" OR ", $relation_guids).") AND (ObjectTypeID:".WPDKATags::TAG_TYPE_ID.") AND (FolderID:".WPDKATags::TAGS_FOLDER_ID."))",
@@ -38,17 +38,17 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags_raw', function($value, 
 					"includeAccessPoints" => false,
 					"pageIndex" => 0,
 					"pageSize" => count($relation_guids)));
-				$tags = WPChaosObject::parseResponse($serviceResult);
+				$tags = WPChaosDataObject::parseResponse($serviceResult);
 			} catch(\CHAOSException $e) {
 				error_log('CHAOS Error when getting user tags for object: '.$e->getMessage());
-			}			
+			}
 		}
 
 		return $tags;
 	},10,2);
 
 //object->usertags
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags', function ($value, \WPChaosObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags', function ($value, \WPChaosDataObject $object) {
 
 		$status = intval(get_option('wpdkatags-status',0));
 
@@ -64,7 +64,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags', function ($value, \WP
 		//iff status == active or frozen
 		if($status > 0 && $object->taggable) {
 			$tags = $object->usertags_raw;
-			
+
 			$value .= '<div class="usertags">';
 			foreach($tags as $key => $tag) {
 				//Get tag XML meta
@@ -113,7 +113,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'usertags', function ($value, \WP
 	},10,2);
 
 //object->taggable
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'taggable', function ($value, \WPChaosObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'taggable', function ($value, \WPChaosDataObject $object) {
 
 	$value = $object->metadata(WPDKAObject::DKA_CROWD_SCHEMA_GUID, '/dkac:DKACrowd/dkac:Taggable/text()');
 

@@ -38,7 +38,7 @@ class WPDKAFrontpageFeaturedWidget extends WP_Widget {
     }
 
     $return = array();
-    $items = WPChaosObject::parseResponse($response);
+    $items = WPChaosDataObject::parseResponse($response);
     foreach($items as $item) {
       $return[$item->GUID] = $item;
     }

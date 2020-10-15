@@ -97,7 +97,15 @@ class wsScreenOptions14 {
 	 * @return string
 	 */
 	function page_to_screen_id($page){
-		if ( function_exists('convert_to_screen') && class_exists('WP_Screen') ){
+		$can_use_screen_api = function_exists('convert_to_screen') && class_exists('WP_Screen', false);
+
+		//In WP 5.0 or above convert_to_screen() can indirectly call use_block_editor_for_post_type() which
+		//might not be available at this point if another plugin loaded the screen API directly.
+		if ( isset($GLOBALS['wp_version']) && version_compare($GLOBALS['wp_version'], '5.0', '>=') ) {
+			$can_use_screen_api = $can_use_screen_api && function_exists('use_block_editor_for_post_type');
+		}
+
+		if ( $can_use_screen_api ){
 			$screen = convert_to_screen($page);
 			if ( isset($screen->id) ){
 				return $screen->id;
@@ -179,7 +187,8 @@ class wsScreenOptions14 {
 		}
 		
 		//The 'action' argument is in the form "save_settings-panel_id"
-		$id = end(explode('-', $_POST['action'], 2));
+		$parts = explode('-', $_POST['action'], 2);
+		$id = end($parts);
 		
 		//Basic security check.
 		check_ajax_referer('save_settings-' . $id, '_wpnonce-' . $id);

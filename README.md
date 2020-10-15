@@ -60,3 +60,4 @@ Get the search query by going to test.danskkulturarv.dk, make a search and add `
 
 ![screen shot 4](https://user-images.githubusercontent.com/190005/33328048-415de2da-d459-11e7-8b76-523e03c903b6.png)
 
+

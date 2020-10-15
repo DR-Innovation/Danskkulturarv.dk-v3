@@ -523,13 +523,13 @@ final class WPDKATags {
 	 * Adds a new tag object to CHAOS and relates it to material object
 	 * @param  string    $object_guid
 	 * @param  string    $tag_input
-	 * @return WPChaosObject|boolean
+	 * @return WPChaosDataObject|boolean
 	 */
 	private function _add_tag($object_guid, $tag_input) {
 
 		try {
 			$serviceResult = WPChaosClient::instance()->Object()->Create(self::TAG_TYPE_ID,self::TAGS_FOLDER_ID);
-			$tags = WPChaosObject::parseResponse($serviceResult);
+			$tags = WPChaosDataObject::parseResponse($serviceResult);
 			$tag = $tags[0];
 
 			//Create XML and set it to tag
@@ -556,12 +556,12 @@ final class WPDKATags {
 
 	/**
 	 * Change taggable state of object
-	 * @author Joachim Jensen <jv@intox.dk>
-	 * @param  WPChaosObject $object
-	 * @param  boolean       $taggable
+	 * @param  WPChaosDataObject $object
+	 * @param  boolean $taggable
 	 * @return boolean
+	 *@author Joachim Jensen <jv@intox.dk>
 	 */
-	private function _change_object_taggable(WPChaosObject $object,$taggable) {
+	private function _change_object_taggable(WPChaosDataObject $object, $taggable) {
 
 		try {
 
@@ -583,11 +583,11 @@ final class WPDKATags {
 
 	/**
 	 * Change state on a given tag object
-	 * @param  WPChaosObject $tag_object
+	 * @param  WPChaosDataObject $tag_object
 	 * @param  string        $new_state
 	 * @return boolean
 	 */
-	public static function change_tag_state(WPChaosObject $tag_object,$new_state) {
+	public static function change_tag_state(WPChaosDataObject $tag_object, $new_state) {
 		if(in_array($new_state,array(self::TAG_STATE_UNAPPROVED,self::TAG_STATE_APPROVED,self::TAG_STATE_FLAGGED))) {
 
 			try {
@@ -615,11 +615,11 @@ final class WPDKATags {
 
 	/**
 	 * Change state on a given tag object
-	 * @param  WPChaosObject $tag_object
+	 * @param  WPChaosDataObject $tag_object
 	 * @param  string        $new_state
 	 * @return boolean
 	 */
-	public static function change_tag_value(WPChaosObject $tag_object,$new_value) {
+	public static function change_tag_value(WPChaosDataObject $tag_object, $new_value) {
 
 		try {
 
@@ -643,11 +643,11 @@ final class WPDKATags {
 
 	/**
 	 * Check if given tag exists as relation to object
-	 * @param  WPChaosObject $object
+	 * @param  WPChaosDataObject $object
 	 * @param  string        $tag_input
 	 * @return boolean
 	 */
-	private function _tag_exists(WPChaosObject $object,$tag_input) {
+	private function _tag_exists(WPChaosDataObject $object, $tag_input) {
 		$tag_input = esc_html($tag_input);
 		foreach($object->usertags_raw as $tag) {
 			$tag = $tag->metadata(
@@ -666,8 +666,8 @@ final class WPDKATags {
 	 * Get a single WPChaosObject
 	 * @param  string            $guid
 	 * @param  string|boolean    $accesspoint
-	 * @return WPChaosObject
-	 */
+	 * @return WPChaosDataObject
+     */
 	public static function get_object_by_guid($guid,$accesspoint = null) {
 		$objects = array();
 		try {
@@ -681,7 +681,7 @@ final class WPDKATags {
 				true,   // includeFiles
 				true    // includeObjectRelations
 				);
-			$objects = WPChaosObject::parseResponse($response);
+			$objects = WPChaosDataObject::parseResponse($response);
 		} catch(\CHAOSException $e) {
 			error_log('CHAOS Error when getting object by guid: '.$e->getMessage());
 		}
@@ -779,7 +779,7 @@ final class WPDKATags {
 							false,   // includeFiles
 							true    // includeObjectRelations
 							);
-						$objects = WPChaosObject::parseResponse($response);
+						$objects = WPChaosDataObject::parseResponse($response);
 
 						//Get related object to each string. Avoid dupes
 						foreach($objects as $object) {

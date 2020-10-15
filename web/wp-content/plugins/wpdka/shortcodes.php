@@ -30,7 +30,7 @@ add_shortcode( 'chaos-player', function($atts, $content = null) {
 		$serviceResult = WPChaosClient::instance()->Object()->Get(
 			"(".$query.")",   // Search query
 			null,   // Sort
-			null,   
+			null,
 			0,      // pageIndex
 			1,      // pageSize
 			true,   // includeMetadata
@@ -42,9 +42,9 @@ add_shortcode( 'chaos-player', function($atts, $content = null) {
 	}
 
 	if($serviceResult->MCM()->Count() > 0) {
-		$object = WPChaosObject::parseResponse($serviceResult);
+		$object = WPChaosDataObject::parseResponse($serviceResult);
 		//Set global obj to use templates
-		WPChaosClient::set_object($object[0]);		
+		WPChaosClient::set_object($object[0]);
 	} else {
 		return "Could not find any object with ID ".$id;
 	}

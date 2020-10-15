@@ -1,15 +1,15 @@
 <?php
 
 // Registering namespaces.
-\CHAOS\Portal\Client\Data\Object::registerXMLNamespace('dka', 'http://www.danskkulturarv.dk/DKA.xsd');
-\CHAOS\Portal\Client\Data\Object::registerXMLNamespace('dka2', 'http://www.danskkulturarv.dk/DKA2.xsd');
-\CHAOS\Portal\Client\Data\Object::registerXMLNamespace('dkac', 'http://www.danskkulturarv.dk/DKA.Crowd.xsd');
-\CHAOS\Portal\Client\Data\Object::registerXMLNamespace('xhtml1-transitional.xsd', 'http://www.w3.org/1999/xhtml', 'schemas/xhtml1-transitional.xsd');
-\CHAOS\Portal\Client\Data\Object::registerXMLNamespace('http://www.w3.org/2001/xml.xsd', 'http://www.w3.org/2001/xml.xsd', 'schemas/xml.xsd');
+\CHAOS\Portal\Client\Data\DataObject::registerXMLNamespace('dka', 'http://www.danskkulturarv.dk/DKA.xsd');
+\CHAOS\Portal\Client\Data\DataObject::registerXMLNamespace('dka2', 'http://www.danskkulturarv.dk/DKA2.xsd');
+\CHAOS\Portal\Client\Data\DataObject::registerXMLNamespace('dkac', 'http://www.danskkulturarv.dk/DKA.Crowd.xsd');
+\CHAOS\Portal\Client\Data\DataObject::registerXMLNamespace('xhtml1-transitional.xsd', 'http://www.w3.org/1999/xhtml', 'schemas/xhtml1-transitional.xsd');
+\CHAOS\Portal\Client\Data\DataObject::registerXMLNamespace('http://www.w3.org/2001/xml.xsd', 'http://www.w3.org/2001/xml.xsd', 'schemas/xml.xsd');
 
 
 //object->title
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'title', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'title', function($value, \WPChaosDataObject $object) {
   $value .= $object->metadata(
     array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
     array('/dka2:DKA/dka2:Title/text()', '/DKA/Title/text()')
@@ -26,7 +26,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'title', function($value, \WPCHAO
 }, 10, 2);
 
     //object->tags_raw
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'tags_raw', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'tags_raw', function($value, \WPChaosDataObject $object) {
   $tags = $object->metadata(
     array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
     array('/dka2:DKA/dka2:Tags/dka2:Tag','/DKA/Tags/Tag'),
@@ -37,7 +37,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'tags_raw', function($value, \WPC
 }, 10, 2);
 
 //object->tags
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'tags', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'tags', function($value, \WPChaosDataObject $object) {
   $tags = $object->tags_raw;
   foreach($tags as $key => &$tag) {
         //Remove tag if empty
@@ -56,7 +56,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'tags', function($value, \WPCHAOS
 }, 10, 2);
 
 //object->creator
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'creator', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'creator', function($value, \WPChaosDataObject $object) {
   $creators = $object->metadata(
     array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
     array('/dka2:DKA/dka2:Creators/dka2:Creator','/DKA/Creator/Person'),
@@ -66,7 +66,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'creator', function($value, \WPCH
 }, 10, 2);
 
 //object->contributor
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'contributor', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'contributor', function($value, \WPChaosDataObject $object) {
   $contributors = $object->metadata(
     array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
     array('/dka2:DKA/dka2:Contributors/dka2:Contributor','/DKA/Contributor/Person'),
@@ -76,7 +76,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'contributor', function($value, \
 }, 10, 2);
 
 //object->organization_raw
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'organization_raw', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'organization_raw', function($value, \WPChaosDataObject $object) {
   $organization = $object->metadata(
     array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
     array('/dka2:DKA/dka2:Organization/text()', '/DKA/Organization/text()')
@@ -85,7 +85,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'organization_raw', function($val
 }, 10, 2);
 
 //object->organization
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'organization', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'organization', function($value, \WPChaosDataObject $object) {
   $organizations = WPDKASearch::get_organizations();
   $organization = $object->organization_raw;
 
@@ -96,7 +96,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'organization', function($value, 
 }, 10, 2);
 
 //object->organization_link
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'organization_link', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'organization_link', function($value, \WPChaosDataObject $object) {
   $organizations = WPDKASearch::get_organizations();
   $organization = $object->organization_raw;
 
@@ -110,7 +110,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'organization_link', function($va
 }, 10, 2);
 
 //object->description
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'description', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'description', function($value, \WPChaosDataObject $object) {
   require('htmlcleaner.php');
 
   $value .= $object->metadata(
@@ -129,7 +129,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'description', function($value, \
 }, 10, 2);
 
 //object->unpublishedByCurator
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'unpublishedByCurator', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'unpublishedByCurator', function($value, \WPChaosDataObject $object) {
   return $object->metadata(
     array(WPDKAObject::DKA2_SCHEMA_GUID),
     array('/dka2:DKA/dka2:unpublishedByCurator')
@@ -137,7 +137,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'unpublishedByCurator', function(
 }, 10, 2);
 
 //object->isPublished
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'isPublished', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'isPublished', function($value, \WPChaosDataObject $object) {
   foreach ($object->AccessPoints as $a) {
     if ($a->AccessPointGUID == strtolower(get_option('wpchaos-accesspoint-guid')) && !empty($a->StartDate)) {
       return true;
@@ -147,12 +147,12 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'isPublished', function($value, \
 }, 10, 2);
 
 //object->hasDKA2MetaDataSchema
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'hasDKA2MetaDataSchema', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'hasDKA2MetaDataSchema', function($value, \WPChaosDataObject $object) {
   return $object->has_metadata(WPDKAObject::DKA2_SCHEMA_GUID);
 }, 10, 2);
 
 //object->published
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'published', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'published', function($value, \WPChaosDataObject $object) {
   $time = $object->metadata(WPDKAObject::DKA2_SCHEMA_GUID, '/dka2:DKA/dka2:FirstPublishedDate/text()');
 
   if($time) {
@@ -181,25 +181,25 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'rights', function($value, $objec
 }, 10, 2);
 
 //object->type
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'type', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'type', function($value, \WPChaosDataObject $object) {
   $value .= WPDKAObject::determine_type($object);
   return $value;
 }, 10, 2);
 
 //object->type_class
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'type_class', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'type_class', function($value, \WPChaosDataObject $object) {
   $type = $object->type;
   return $value . (isset(WPDKAObject::$format_types[$type]) ? WPDKAObject::$format_types[$type]['class'] : $type);
 }, 10, 2);
 
 //object->type_title
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'type_title', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'type_title', function($value, \WPChaosDataObject $object) {
   $type = $object->type;
   return $value . (isset(WPDKAObject::$format_types[$type]) ? WPDKAObject::$format_types[$type]['title'] : $type);
 }, 10, 2);
 
 //object->thumbnail
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'thumbnail', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'thumbnail', function($value, \WPChaosDataObject $object) {
   foreach($object->Files as $file) {
     // FormatID = 10 is thumbnail format. This is what we want here
     if($file->FormatID == 10) {
@@ -226,12 +226,12 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'thumbnail', function($value, \WP
 }, 10, 2);
 
 //object->slug
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'slug', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'slug', function($value, \WPChaosDataObject $object) {
   return $value . $object->metadata(WPDKAObject::DKA_CROWD_SCHEMA_GUID, '/dkac:DKACrowd/dkac:Slug/text()');
 }, 10, 2);
 
 //object->url
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'url', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'url', function($value, \WPChaosDataObject $object) {
   if($object->slug) {
     return $object->organization_link . $object->slug . '/' . $value;
   } else {
@@ -240,7 +240,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'url', function($value, \WPCHAOSO
 }, 10, 2);
 
 //object->externalurl
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'externalurl', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'externalurl', function($value, \WPChaosDataObject $object) {
   return $value . $object->metadata(
     array(WPDKAObject::DKA2_SCHEMA_GUID),
     array('/dka2:DKA/dka2:ExternalURL/text()')
@@ -361,7 +361,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'og_tags', function($value, $obje
 }, 10, 2);
 
 //object->metafield_creators_raw
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'metafield_creators_raw', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'metafield_creators_raw', function($value, \WPChaosDataObject $object) {
   $metafields = $object->metadata(
     array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
     array('/dka2:DKA/dka2:Metafield','/DKA/Metafield'),
@@ -379,7 +379,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'metafield_creators_raw', functio
 }, 10, 2);
 
 //object->metafield_contributor_raw
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'metafield_contributor_raw', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'metafield_contributor_raw', function($value, \WPChaosDataObject $object) {
   $metafields = $object->metadata(
     array(WPDKAObject::DKA2_SCHEMA_GUID, WPDKAObject::DKA_SCHEMA_GUID),
     array('/dka2:DKA/dka2:Metafield','/DKA/Metafield'),
