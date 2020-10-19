@@ -12,7 +12,7 @@ if (isset($only_thumbnail) && $only_thumbnail): // Only show thumbnail - we do n
 		$collection_obj = new WPChaosDataObject($object,WPDKACollections::OBJECT_FILTER_PREFIX);
 		//Safety. Should never happen
 		if(!isset(WPDKACollections::$collection_relations[$object->GUID])) {
-			continue;
+			return;
 		}
 		$object = WPDKACollections::$collection_relations[$object->GUID];
 
