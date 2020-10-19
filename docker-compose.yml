@@ -15,6 +15,8 @@ services:
     environment:
       VIRTUAL_PROTO: https
       VIRTUAL_HOST: danskkulturarv.docker
+      MKCERT_DOMAINS: "danskkulturarv.docker *.danskkulturarv.docker local.docker"
+      HTTPS_METHOD: noredirect
 
   fpm:
     image: reload/drupal-php7-fpm:7.4
