@@ -9,6 +9,16 @@ function initPlayer(id, options) {
 	}
 	player.setup(options);
 
+	// Resize player height to 60 when the height is 0.
+	// We assume that if the player has zero height it is playing audio.
+	// In that case we resize the height in order to show the timeline.
+	player.on('play', function () {
+		var visualQuality = this.getVisualQuality();
+		if (visualQuality.level.height === 0) {
+			this.resize(this.getWidth(), 60);
+		}
+	});
+
 	var stopped = false, stoptimeend = false;
 	if (options['startoffset']  && options['startoffset'] !== undefined) {
 		// Time offset. Using jwplayer seek function.
