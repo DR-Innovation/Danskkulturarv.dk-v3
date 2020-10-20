@@ -1,9 +1,6 @@
 function initPlayer(id, options) {
 	var player = jwplayer(id);
-	
-	player.onPlay(function() {
-		$(".jwlogo").prop("title", WPDKAPlayer.goToOriginalPage);
-	});
+
 	if ($('#'+id).width() <= 320) {
 		options.skin = options.skin_embed;
 		if (options.logo) {
