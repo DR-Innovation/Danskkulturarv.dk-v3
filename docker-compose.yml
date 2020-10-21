@@ -15,9 +15,11 @@ services:
     environment:
       VIRTUAL_PROTO: https
       VIRTUAL_HOST: danskkulturarv.docker
+      MKCERT_DOMAINS: "danskkulturarv.docker *.danskkulturarv.docker local.docker"
+      HTTPS_METHOD: noredirect
 
   fpm:
-    image: reload/drupal-php7-fpm:5.6
+    image: reload/drupal-php7-fpm:7.4
     ports:
       - '9000'
     depends_on:
@@ -33,7 +35,7 @@ services:
       PATH: '/var/www/vendor/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
   wp:
-    image: tatemz/wp-cli
+    image: wordpress:cli-2.4-php7.4
     volumes:
       - 'webroot:/var/www/'
       - './docker/wp-config-docker.php:/var/www/web/wp-config-docker.php'

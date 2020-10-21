@@ -11,13 +11,13 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 	 * Constructor
 	 */
 	public function __construct($args = array()){
-				
+
 		$args = wp_parse_args( $args, array(
 			'singular'  => self::NAME_SINGULAR,
 			'plural'    => self::NAME_PLURAL,
 			'ajax'      => false        //does this table support ajax?
 		) );
-				
+
 		//Set parent defaults
 		parent::__construct( $args );
 
@@ -67,14 +67,14 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 							success:function(data){
 								console.log(data);
 								button.attr('disabled',false);
-								
+
 							},
 							error: function(errorThrown){
 								button.attr('disabled',false);
 							}
 						});
 					});
-					
+
 				});
 			</script>
 			<?php
@@ -98,7 +98,7 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 	/**
 	 * Render columns.
 	 * Fallback if function column_{name} does not exist
-	 * @param  WPChaosObject    $item
+	 * @param  WPChaosDataObject    $item
 	 * @param  string           $column_name
 	 * @return string
 	 */
@@ -108,11 +108,11 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 
 	/**
 	 * Render title column
-	 * @param  WPChaosObject    $item
+	 * @param  WPChaosDataObject    $item
 	 * @return string
 	 */
 	protected function column_title($item) {
-		
+
 		//Build row actions
 		$actions = array(
 			'remove' => '<a class="submitdelete" href="'.add_query_arg(array('page' => $_REQUEST['page'], 'subpage'=> 'wpdkacollection-objects', 'action' => 'remove', 'dka-collection' => $this->_current_collection->GUID, 'dka-material' => $item->GUID),  'admin.php').'">'.__('Remove',WPDKACollections::DOMAIN).'</a>'
@@ -128,7 +128,7 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 
 	/**
 	 * Render checkbox column
-	 * @param  WPChaosObject    $item
+	 * @param  WPChaosDataObject    $item
 	 * @return string
 	 */
 	protected function column_cb($item) {
@@ -159,8 +159,8 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 	public function get_sortable_columns() {
 		return array();
 	}
-	
-	
+
+
 	/**
 	 * Get list of bulk actions
 	 * @return array
@@ -182,7 +182,7 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 			echo '<div class="alignleft actions"><input type="button" id="wpdkacollections-sort" class="button-primary button" value="' . __('Save new sorting', WPDKACollections::DOMAIN) . '" /></div>';
 		}
 	}
-	
+
 	/**
 	 * Prepare table with columns, data, pagination etc.
 	 * @return void
@@ -210,7 +210,7 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 
 			//If there are some materials in collection
 			if($pagesize > 0) {
-				
+
 				$this->title .= ' &raquo; '.$this->_current_collection->title;
 				$this->guid = $current_collection;
 				//Get the related objects to the collection.
@@ -229,7 +229,7 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 				if($serviceResult2->MCM()->Count() > 0) {
 					$result3 = array();
 					foreach($serviceResult2->MCM()->Results() as $result) {
-						$result3[$result->GUID] = new WPChaosObject($result);
+						$result3[$result->GUID] = new WPChaosDataObject($result);
 					}
 
 					//Set items in proper order
@@ -243,14 +243,14 @@ class WPDKACollectionObjects_List_Table extends WPDKACollections_List_Table {
 						'total_items' => $serviceResult2->MCM()->TotalCount(),
 						'per_page'    => $per_page,
 						'total_pages' => ceil($serviceResult2->MCM()->TotalCount()/$per_page)
-					) );				
+					) );
 				}
 			}
 
-			
-			
+
+
 		}
 
 	}
-	
+
 }

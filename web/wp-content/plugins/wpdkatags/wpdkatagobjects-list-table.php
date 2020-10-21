@@ -14,7 +14,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	 */
 	public function __construct($args = array()){
 		global $status, $page;
-				
+
 		//Set parent defaults
 		parent::__construct( array(
 			'singular'  => self::NAME_SINGULAR,
@@ -86,7 +86,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	/**
 	 * Render columns.
 	 * Fallback if function column_{name} does not exist
-	 * @param  WPChaosObject    $item
+	 * @param  WPChaosDataObject    $item
 	 * @param  string           $column_name
 	 * @return string
 	 */
@@ -96,7 +96,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 			case 'material_title':
 				if(!empty($_tags_related_item) && isset($this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID])) {
 					$material = $this->_tags_related_item[$item->ObjectRelations[0]->Object1GUID];
-					return '<a href="'.$material->url.'" target="_blank">'.$material->title.'</a>';	
+					return '<a href="'.$material->url.'" target="_blank">'.$material->title.'</a>';
 				}
 				return __('Material not found',WPDKATags::DOMAIN);
 			case 'status':
@@ -121,7 +121,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 
 	/**
 	 * Render title column
-	 * @param  WPChaosObject    $item
+	 * @param  WPChaosDataObject    $item
 	 * @return string
 	 */
 	protected function column_title($item) {
@@ -134,7 +134,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		foreach($this->states as $state_k => $state) {
 			if($this->_tags_metadata[$item->GUID]['status'] != ucfirst($state_k)) {
 				$url = wp_nonce_url(add_query_arg(array('action' => $state_k, $this->_args['singular'] => $item->GUID), $current_page),$state_k.'_'.$item->GUID);
-				$actions[$state_k] = '<a href="'.$url.'">'.$state['action'].'</a>';	
+				$actions[$state_k] = '<a href="'.$url.'">'.$state['action'].'</a>';
 			}
 		}
 
@@ -149,7 +149,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 
 	/**
 	 * Render checkbox column
-	 * @param  WPChaosObject    $item
+	 * @param  WPChaosDataObject    $item
 	 * @return string
 	 */
 	protected function column_cb($item){
@@ -193,7 +193,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 	 */
 	public function get_bulk_actions() {
 		$actions = array(
-			'rename' => __('Rename',WPDKATags::DOMAIN),		
+			'rename' => __('Rename',WPDKATags::DOMAIN),
 			'approved' => __('Approve', WPDKATags::DOMAIN),
 			'unapproved' => __('Unapprove', WPDKATags::DOMAIN),
 			'flagged' => __('Flag', WPDKATags::DOMAIN),
@@ -241,7 +241,7 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		);
 
 		//Instantiate tags from serviceResult
-		$tags = WPChaosObject::parseResponse($serviceResult);
+		$tags = WPChaosDataObject::parseResponse($serviceResult);
 
 		if(!empty($tags)) {
 			//Loop through tags to get and cache metadata and get relations
@@ -273,16 +273,16 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 				);
 				//Loop through objects to make them available for later use
 				foreach($serviceResult2->MCM()->Results() as $object) {
-					$this->_tags_related_item[$object->GUID] = new WPChaosObject($object);
-				}	
+					$this->_tags_related_item[$object->GUID] = new WPChaosDataObject($object);
+				}
 			}
 
-		
+
 		}
-		
+
 		//Set items
 		$this->items = $tags;
-		
+
 		//Set pagination
 		//$serviceResult->MCM()->TotalPages() cannot be trusted here!
 		$this->set_pagination_args( array(
@@ -292,5 +292,5 @@ class WPDKATagObjects_List_Table extends WPDKATags_List_Table {
 		) );
 
 	}
-	
+
 }

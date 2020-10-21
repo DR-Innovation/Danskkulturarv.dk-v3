@@ -1,6 +1,12 @@
 function initPlayer(id, options) {
 	var player = jwplayer(id);
 
+	// It seems like the onPlay method is deprecated.
+	// I'll leave this bit here in case the functionality is actually needed.
+	// But it does not seem to do much.
+	// player.onPlay(function() {
+	// 	$(".jwlogo").prop("title", WPDKAPlayer.goToOriginalPage);
+	// });
 	if ($('#'+id).width() <= 320) {
 		options.skin = options.skin_embed;
 		if (options.logo) {

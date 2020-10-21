@@ -321,7 +321,7 @@ class WPDKA {
       if($count > 1) {
         // We need to reset something
         $objectResponse = WPChaosClient::instance()->Object()->Get($chaos_slug_field . ':' . $slug, 'GUID+asc', null, 0, $count, true, false, false);
-        $objects = WPChaosObject::parseResponse($objectResponse);
+        $objects = WPChaosDataObject::parseResponse($objectResponse);
         foreach($objects as $object) {
           $new_slug = WPDKAObject::reset_crowd_metadata($object)->slug;
           $result['removed']++;
@@ -359,7 +359,7 @@ class WPDKA {
 
     $result['totalCount'] = $response->MCM()->TotalCount();
 
-    $objects = WPChaosObject::parseResponse($response);
+    $objects = WPChaosDataObject::parseResponse($response);
     // Process the objects
     foreach($objects as $object) {
       $slug = WPDKAObject::reset_crowd_metadata($object)->slug;
@@ -390,7 +390,7 @@ class WPDKA {
       die();
     }
 
-    $objects = WPChaosObject::parseResponse(WPChaosClient::instance()->Object()->Get($_POST['object_guid'], null, false, 0, 1, true, true, true));
+    $objects = WPChaosDataObject::parseResponse(WPChaosClient::instance()->Object()->Get($_POST['object_guid'], null, false, 0, 1, true, true, true));
     $publish = isset($_POST['publishState']) ? $_POST['publishState'] : true;
     if (count($objects) != 1) {
       echo "Object didn't exist or too many objects returned from service.";
@@ -472,7 +472,7 @@ class WPDKA {
     $objectGUID = strval($_POST['object_guid']);
 
     // Get the object from the CHAOS service.
-    $objects = WPChaosObject::parseResponse(WPChaosClient::instance()->Object()->Get($objectGUID, null, null, 0, 1, true));
+    $objects = WPChaosDataObject::parseResponse(WPChaosClient::instance()->Object()->Get($objectGUID, null, null, 0, 1, true));
 
     if(count($objects) != 1) {
       status_header(500);
@@ -548,12 +548,12 @@ class WPDKA {
 
   /**
    * Get a player according to its format type
-   * @param  WPChaosObject    $object
+   * @param  WPChaosDataObject    $object
    * @param  boolean   $autoplay
    * @param  string    $title
    * @return string
    */
-  public static function get_object_player(WPChaosObject $object = null, $autoplay = false, $title = '', $embed = null, $start = 0, $stoptime = false, $link = false, $only_thumbnail = false) {
+  public static function get_object_player(WPChaosDataObject $object = null, $autoplay = false, $title = '', $embed = null, $start = 0, $stoptime = false, $link = false, $only_thumbnail = false) {
     $return = "";
 
     if($object == null && WPChaosClient::get_object()) {

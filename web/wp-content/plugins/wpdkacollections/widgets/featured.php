@@ -16,7 +16,7 @@ class WPDKACollectionFeaturedWidget extends WPChaosWidget {
 	 * Constructor
 	 */
 	public function __construct() {
-		
+
 		parent::__construct(
 			'dka-collection-featured-widget',
 			__('DKA Featured Collections',WPDKACollections::DOMAIN),
@@ -41,7 +41,7 @@ class WPDKACollectionFeaturedWidget extends WPChaosWidget {
 		$response = WPChaosClient::instance()->Object()->Get(
 			$query,   // Search query
 			null,   // Sort
-			null, 
+			null,
 			0,      // pageIndex
 			100,      // pageSize
 			true,   // includeMetadata
@@ -50,7 +50,7 @@ class WPDKACollectionFeaturedWidget extends WPChaosWidget {
 		);
 
 		$return = array();
-		$items = WPChaosObject::parseResponse($response,WPDKACollections::OBJECT_FILTER_PREFIX);
+		$items = WPChaosDataObject::parseResponse($response,WPDKACollections::OBJECT_FILTER_PREFIX);
 		foreach($items as $item) {
 			$return[$item->GUID] = $item->title;
 		}
@@ -63,7 +63,7 @@ class WPDKACollectionFeaturedWidget extends WPChaosWidget {
 		$response = WPChaosClient::instance()->Object()->Get(
 			"(GUID: ".implode(" ", $collections).")",   // Search query
 			null,   // Sort
-			null, 
+			null,
 			0,      // pageIndex
 			count($collections),      // pageSize
 			true,   // includeMetadata
@@ -73,7 +73,7 @@ class WPDKACollectionFeaturedWidget extends WPChaosWidget {
 		$return = array();
 		$relations = array();
 		foreach($response->MCM()->Results() as $collection) {
-			$collection_object = new WPChaosObject($collection,WPDKACollections::OBJECT_FILTER_PREFIX);
+			$collection_object = new WPChaosDataObject($collection,WPDKACollections::OBJECT_FILTER_PREFIX);
 			if(count($collection_object ->playlist_raw) == 0)
 				continue;
 			//An object might occur first in several collections
@@ -88,10 +88,10 @@ class WPDKACollectionFeaturedWidget extends WPChaosWidget {
 
 	/**
 	 * GUI for widget content
-	 * 
+	 *
 	 * @param  array $args Sidebar arguments
 	 * @param  array $instance Widget values from database
-	 * @return void 
+	 * @return void
 	 */
 	public function widget( $args, $instance ) {
 		if(isset($instance['collections']) && $instance['collections']) {
@@ -127,7 +127,7 @@ class WPDKACollectionFeaturedWidget extends WPChaosWidget {
 
 			//var_dump($this->collection_materials);
 
-			echo $args['after_widget'];			
+			echo $args['after_widget'];
 		}
 
 	}

@@ -14,7 +14,7 @@ class WPDKAObjectPlayerWidget extends WPChaosWidget {
 	 * Constructor
 	 */
 	public function __construct() {
-		
+
 		parent::__construct(
 			'dka-object-player-widget',
 			__('DKA Object Player','wpdka'),
@@ -58,10 +58,10 @@ class WPDKAObjectPlayerWidget extends WPChaosWidget {
 
 	/**
 	 * GUI for widget content
-	 * 
+	 *
 	 * @param  array $args Sidebar arguments
 	 * @param  array $instance Widget values from database
-	 * @return void 
+	 * @return void
 	 */
 	public function widget( $args, $instance ) {
 
@@ -78,7 +78,7 @@ class WPDKAObjectPlayerWidget extends WPChaosWidget {
 				$serviceResult = WPChaosClient::instance()->Object()->Get(
 					"(".$query.")",   // Search query
 					null,   // Sort
-					null,   
+					null,
 					0,      // pageIndex
 					1,      // pageSize
 					true,   // includeMetadata
@@ -90,12 +90,12 @@ class WPDKAObjectPlayerWidget extends WPChaosWidget {
 			}
 
 			if(isset($serviceResult) && $serviceResult->MCM()->Count() > 0) {
-				$object = WPChaosObject::parseResponse($serviceResult);
+				$object = WPChaosDataObject::parseResponse($serviceResult);
 				//Set global obj to use templates
-				WPChaosClient::set_object($object[0]);		
+				WPChaosClient::set_object($object[0]);
 			} else {
 				echo "Could not find any object with ID ".$id;
-			}			
+			}
 
 		}
 

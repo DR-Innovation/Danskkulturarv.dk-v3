@@ -73,7 +73,7 @@ $views = array(
             foreach($search_results->MCM()->Results() as $object) :
               $collection_obj = null;
               if(class_exists('WPDKACollections') && $object->ObjectTypeID == WPDKACollections::COLLECTIONS_TYPE_ID) :
-                $collection_obj = new WPChaosObject($object,WPDKACollections::OBJECT_FILTER_PREFIX);
+                $collection_obj = new WPChaosDataObject($object,WPDKACollections::OBJECT_FILTER_PREFIX);
                 //Safety. Should never happen
                 if(!isset(WPDKACollections::$collection_relations[$object->GUID])) {
                   continue;

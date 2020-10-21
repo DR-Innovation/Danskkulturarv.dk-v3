@@ -140,7 +140,7 @@ class WPDKAObject {
   /**
    * Determine type of a CHAOS object based
    * on the included file formats
-   * @param  WPChaosObject $object
+   * @param  WPChaosDataObject $object
    * @return string
    */
   public static function determine_type($object) {
@@ -220,7 +220,7 @@ class WPDKAObject {
 
   public function define_single_object_page() {
     // Ensure the DKA Crowd metadata schema is present, and redirect to the slug URL if needed.
-    add_action(WPChaosClient::GET_OBJECT_PAGE_BEFORE_TEMPLATE_ACTION, function(\WPChaosObject $object) {
+    add_action(WPChaosClient::GET_OBJECT_PAGE_BEFORE_TEMPLATE_ACTION, function(\WPChaosDataObject $object) {
       // If a guid was used to retreive the object, this might not have the crowd metadata connected to it.
       // Only for DKA objects
       if(array_key_exists('guid', $_GET) && in_array($object->ObjectTypeID, WPDKAObject::$OBJECT_TYPE_IDS)) {
@@ -244,7 +244,7 @@ class WPDKAObject {
       }
     });
 
-    add_action(WPChaosClient::GET_OBJECT_PAGE_BEFORE_TEMPLATE_ACTION, function(\WPChaosObject $object) {
+    add_action(WPChaosClient::GET_OBJECT_PAGE_BEFORE_TEMPLATE_ACTION, function(\WPChaosDataObject $object) {
       // Make sure no tags is present in the metadata.
       $crowd_metadata = $object->get_metadata(WPDKAObject::DKA_CROWD_SCHEMA_GUID);
       if($crowd_metadata instanceof \SimpleXMLElement) {
@@ -260,7 +260,7 @@ class WPDKAObject {
 
     //Only increment views in production
     if(!WP_DEBUG) {
-      add_action(WPChaosClient::GET_OBJECT_PAGE_BEFORE_TEMPLATE_ACTION, function(\WPChaosObject $object) {
+      add_action(WPChaosClient::GET_OBJECT_PAGE_BEFORE_TEMPLATE_ACTION, function(\WPChaosDataObject $object) {
         // TODO: Restrict on session data.
         if(!session_id()){
           session_start();
@@ -345,7 +345,7 @@ class WPDKAObject {
     */
     // Hack: Adding a HLS version of videos from DR
     // Make this change on the metadata instead.
-    add_action(WPChaosObject::CHAOS_OBJECT_CONSTRUCTION_ACTION, function(WPChaosObject $object) {
+    add_action(WPChaosDataObject::CHAOS_OBJECT_CONSTRUCTION_ACTION, function(WPChaosDataObject $object) {
       $originalObject = $object->getObject();
       foreach($originalObject->Files as $file) {
         foreach(WPDKAObject::$DERIVED_FILES as $regexp => $transformation) {
@@ -395,7 +395,7 @@ class WPDKAObject {
     }, 10, 1);
   }
 
-  public static function ensure_crowd_metadata(\WPChaosObject $object, $ensureObjectIsReachableFromSlug = false) {
+  public static function ensure_crowd_metadata(\WPChaosDataObject $object, $ensureObjectIsReachableFromSlug = false) {
     // Is this the admin force resetting from URL?
     $forceReset = WP_DEBUG && array_key_exists('reset-crowd-metadata', $_GET) && current_user_can('edit_posts');
 
@@ -431,7 +431,7 @@ class WPDKAObject {
     return $object;
   }
 
-  public static function reset_crowd_metadata(\WPChaosObject $object, $forceNewSlug = false, $fetchSocialCounts = false) {
+  public static function reset_crowd_metadata(\WPChaosDataObject $object, $forceNewSlug = false, $fetchSocialCounts = false) {
     $existingMetadata = $object->has_metadata(WPDKAObject::DKA_CROWD_SCHEMA_GUID);
     $revisionID = $existingMetadata != false ? $existingMetadata->RevisionID : null;
 
@@ -467,10 +467,10 @@ class WPDKAObject {
   /**
    * Generate a slug from a chaos object.
    * Using a bisection algorithm, first determining an upper bound and then bisecting until the next free postfix is found.
-   * @param \CHAOS\Portal\Client\Data\Object $object The object to generate the slug from.
+   * @param \CHAOS\Portal\Client\Data\DataObject $object The object to generate the slug from.
    * @return string The slug generated - prepended with a nummeric postfix to prevent douplicates.
    */
-  public static function generateSlug(\WPChaosObject $object, $forceNew = false) {
+  public static function generateSlug(\WPChaosDataObject $object, $forceNew = false) {
     // Check if the object is reachable on its exsisting slug.
     if($object->slug && !$forceNew) {
       $exsistingSlugObjects = self::getObjectFromSlug($object->slug, true);
@@ -578,7 +578,7 @@ class WPDKAObject {
     }
   }
 
-  public static function fetch_social_counts(\WPChaosObject $object, $update_metadata = false) {
+  public static function fetch_social_counts(\WPChaosDataObject $object, $update_metadata = false) {
     $url = $object->url;
     // What would the legacy url be?
     $legacyURL = 'http://www.danskkulturarv.dk/chaos_post/' . $object->GUID;
@@ -608,8 +608,8 @@ class WPDKAObject {
    * Gets an object from the CHAOS Service from an alphanummeric, lowercase slug.
    * @param string $slug The slug to search for.
    * @param boolean $returnMultiple Makes the function return an array of objects, a single element array if only one object is found.
+   * @return NULL|\WPChaosDataObject|\WPChaosDataObject[] The object(s) matching the slug - multiple if
    * @throws \RuntimeException If an error occurs in the service.
-   * @return NULL|\WPChaosObject|\WPChaosObject[] The object(s) matching the slug - multiple if
    */
   public static function getObjectFromSlug($slug, $returnMultiple = false) {
     // TODO: Use this instead, when DKA-Slug is added to the index.
@@ -631,10 +631,10 @@ class WPDKAObject {
         //}
       }
       if($returnMultiple) {
-        return WPChaosObject::parseResponse($response);
+        return WPChaosDataObject::parseResponse($response);
       } else {
         $results = $response->MCM()->Results();
-        return new \WPChaosObject($results[0]);
+        return new \WPChaosDataObject($results[0]);
       }
     }
   }

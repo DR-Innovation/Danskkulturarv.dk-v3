@@ -9,10 +9,10 @@ $object = WPChaosClient::get_object();
 if (isset($only_thumbnail) && $only_thumbnail): // Only show thumbnail - we do not need to start the player yet.
 	$collection_obj = null;
 	if(class_exists('WPDKACollections') && $object->ObjectTypeID == WPDKACollections::COLLECTIONS_TYPE_ID) :
-		$collection_obj = new WPChaosObject($object,WPDKACollections::OBJECT_FILTER_PREFIX);
+		$collection_obj = new WPChaosDataObject($object,WPDKACollections::OBJECT_FILTER_PREFIX);
 		//Safety. Should never happen
 		if(!isset(WPDKACollections::$collection_relations[$object->GUID])) {
-			continue;
+			return;
 		}
 		$object = WPDKACollections::$collection_relations[$object->GUID];
 

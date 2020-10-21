@@ -1,10 +1,10 @@
 <?php
 
 // Registering namespaces.
-\CHAOS\Portal\Client\Data\Object::registerXMLNamespace('dkac', 'http://www.danskkulturarv.dk/DKA-Collection.xsd');
+\CHAOS\Portal\Client\Data\DataObject::registerXMLNamespace('dkac', 'http://www.danskkulturarv.dk/DKA-Collection.xsd');
 
 //collection->title
-add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'title', function($value, \WPCHAOSObject $object) {
+add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'title', function($value, \WPChaosDataObject $object) {
 	$value .= $object->metadata(
 		array(WPDKACollections::METADATA_SCHEMA_GUID),
 		array('/dkac:Collection/dkac:Title/text()')
@@ -16,7 +16,7 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'title', function($value, \WPC
 }, 10, 2);
 
 //collection->description
-add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'description', function($value, \WPCHAOSObject $object) {
+add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'description', function($value, \WPChaosDataObject $object) {
 	$value .= $object->metadata(
 		array(WPDKACollections::METADATA_SCHEMA_GUID),
 		array('/dkac:Collection/dkac:Description/text()',)
@@ -25,7 +25,7 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'description', function($value
 }, 10, 2);
 
 //collection->rights
-add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'rights', function($value, \WPCHAOSObject $object) {
+add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'rights', function($value, \WPChaosDataObject $object) {
 	$value .= $object->metadata(
 		array(WPDKACollections::METADATA_SCHEMA_GUID),
 		array('/dkac:Collection/dkac:Rights/text()')
@@ -34,7 +34,7 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'rights', function($value, \WP
 }, 10, 2);
 
 //collection->type
-add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'type', function($value, \WPCHAOSObject $object) {
+add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'type', function($value, \WPChaosDataObject $object) {
 	$value .= $object->metadata(
 		array(WPDKACollections::METADATA_SCHEMA_GUID),
 		array('/dkac:Collection/dkac:Type/text()')
@@ -45,7 +45,7 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'type', function($value, \WPCH
 }, 10, 2);
 
 //collection->playlist_raw
-add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'playlist_raw', function($value, \WPCHAOSObject $object) {
+add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'playlist_raw', function($value, \WPChaosDataObject $object) {
 	$value = $object->metadata(
 		array(WPDKACollections::METADATA_SCHEMA_GUID),
 		array('/dkac:Collection/dkac:Playlist/dkac:Object'),
@@ -55,7 +55,7 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'playlist_raw', function($valu
 }, 10, 2);
 
 //collection->playlist
-add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'playlist', function($value, \WPCHAOSObject $object) {
+add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'playlist', function($value, \WPChaosDataObject $object) {
 	$value = $object->playlist_raw;
 
     //Get related objects to the current collection.
@@ -72,7 +72,7 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'playlist', function($value, \
 
     $result3 = array();
     foreach($serviceResult2->MCM()->Results() as $result) {
-    	$result3[$result->GUID] = new WPChaosObject($result);
+    	$result3[$result->GUID] = new WPChaosDataObject($result);
     }
 
     //Set items in proper order
@@ -84,7 +84,7 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'playlist', function($value, \
 }, 10, 2);
 
 //collection->status
-add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'status', function($value, \WPCHAOSObject $object) {
+add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'status', function($value, \WPChaosDataObject $object) {
 	$value .= $object->metadata(
 		array(WPDKACollections::METADATA_SCHEMA_GUID),
 		array('/dkac:Collection/dkac:Status/text()')
@@ -96,7 +96,7 @@ add_filter(WPDKACollections::OBJECT_FILTER_PREFIX.'status', function($value, \WP
 }, 10, 2);
 
 //object->collections_raw
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections_raw', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections_raw', function($value, \WPChaosDataObject $object) {
 
 	$return = WPDKACollections::get_material_collections($object);
 
@@ -104,7 +104,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections_raw', function($valu
 }, 10, 2);
 
 //object->collections
-add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', function($value, \WPCHAOSObject $object) {
+add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', function($value, \WPChaosDataObject $object) {
 
 	$collections = $object->collections_raw;
 	$return = '<div class="panel-group" id="collectionDiv"><div class="panel panel-default">';
@@ -118,7 +118,7 @@ add_filter(WPChaosClient::OBJECT_FILTER_PREFIX.'collections', function($value, \
 		foreach ($collection->playlist as $material) {
 			$count++;
 			$return .= '<li class="media"><a href="' . $material->url . '#' . $collection->GUID . '">';
-			// Have to focus this element in the collection. 
+			// Have to focus this element in the collection.
 			if ($material->GUID == $object->GUID) {
 				$pos = -1;
 				$more = '';
