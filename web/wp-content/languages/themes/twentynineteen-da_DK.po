@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
 "Language: da_DK\n"
 "Project-Id-Version: Themes - Twenty Nineteen\n"
 
@@ -23,7 +23,7 @@ msgstr "Hov! Den side findes ikke."
 msgid "Comments are closed."
 msgstr "Lukket for kommentarer."
 
-#: functions.php:61 template-parts/header/site-branding.php:46
+#: template-parts/header/site-branding.php:46 functions.php:61
 msgid "Social Links Menu"
 msgstr "Menu til sociale links"
 
@@ -31,15 +31,16 @@ msgstr "Menu til sociale links"
 msgid "Skip to content"
 msgstr "Videre til indhold"
 
-#: image.php:52 template-parts/content/content-page.php:27
 #: template-parts/content/content.php:49
-#: template-parts/content/content-single.php:40
+#: template-parts/content/content-page.php:27
+#: template-parts/content/content-single.php:40 image.php:52
 msgid "Pages:"
 msgstr "Sider:"
 
-#. translators: %s: Name of current post. Only visible to screen readers
+#. translators: %s: Post title. Only visible to screen readers.
+#. translators: %s: Post title.
 #: template-parts/content/content.php:36
-#: template-parts/content/content-single.php:27
+#: template-parts/content/content-single.php:27 functions.php:225
 msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
 msgstr "Læs videre<span class=\"screen-reader-text\"> \"%s\"</span>"
 
@@ -59,11 +60,6 @@ msgstr "Forrige indlæg"
 msgid "Nothing Found"
 msgstr "Intet fundet"
 
-#. translators: 1: link to WP admin new post page.
-#: template-parts/content/content-none.php:26
-msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
-msgstr "Klar til at udgive dit første indlæg? <a href=\"%1$s\">Start her</a>."
-
 #: template-parts/content/content-none.php:39
 msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
 msgstr "Beklager, men din søgning gav intet resultat. Forsøg igen med andre søgeord."
@@ -76,7 +72,7 @@ msgstr "Vi kan vist ikke finde, hvad du leder efter. Måske en søgning vil hjæ
 msgid "Top Menu"
 msgstr "Topmenu"
 
-#. translators: used between list items, there is a space after the comma.
+#. translators: Used between list items, there is a space after the comma.
 #: inc/template-tags.php:86 inc/template-tags.php:98
 msgid ", "
 msgstr ", "
