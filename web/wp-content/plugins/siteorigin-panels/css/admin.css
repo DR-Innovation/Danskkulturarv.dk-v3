@@ -57,9 +57,11 @@
   min-width: 10px;
   text-align: center;
 }
+.siteorigin-panels-builder .so-tool-button:focus,
 .siteorigin-panels-builder .so-tool-button:hover {
   background: #FFFFFF;
 }
+.siteorigin-panels-builder .so-tool-button:focus span,
 .siteorigin-panels-builder .so-tool-button:hover span {
   color: #444444;
 }
@@ -441,12 +443,17 @@
 .siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget.so-widget-no-move {
   cursor: auto;
 }
+.siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget:focus,
 .siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget:hover {
   border: 1px solid rgba(255, 255, 255, 0.55);
   background: #fff;
   -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.1);
   -moz-box-shadow: 0 0 2px rgba(0,0,0,0.1);
   box-shadow: 0 0 2px rgba(0,0,0,0.1);
+}
+.siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget:focus .title .actions a,
+.siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget:focus-within .title .actions a {
+  display: inline-block;
 }
 .siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget .so-widget-wrapper {
   padding: 7px 8px;
@@ -678,12 +685,17 @@
 .so-widget.ui-sortable-helper.widget-being-dragged.so-widget-no-move {
   cursor: auto;
 }
+.so-widget.ui-sortable-helper.widget-being-dragged:focus,
 .so-widget.ui-sortable-helper.widget-being-dragged:hover {
   border: 1px solid rgba(255, 255, 255, 0.55);
   background: #fff;
   -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.1);
   -moz-box-shadow: 0 0 2px rgba(0,0,0,0.1);
   box-shadow: 0 0 2px rgba(0,0,0,0.1);
+}
+.so-widget.ui-sortable-helper.widget-being-dragged:focus .title .actions a,
+.so-widget.ui-sortable-helper.widget-being-dragged:focus-within .title .actions a {
+  display: inline-block;
 }
 .so-widget.ui-sortable-helper.widget-being-dragged .so-widget-wrapper {
   padding: 7px 8px;
@@ -1002,10 +1014,14 @@
   border-bottom: 1px solid #d8d8d8;
   /* Disabled nav */
 }
+.so-panels-dialog .so-title-bar a:focus,
+.block-editor .so-title-bar a:focus,
 .so-panels-dialog .so-title-bar a:hover,
 .block-editor .so-title-bar a:hover {
   background: #e9e9e9;
 }
+.so-panels-dialog .so-title-bar a:focus .so-dialog-icon,
+.block-editor .so-title-bar a:focus .so-dialog-icon,
 .so-panels-dialog .so-title-bar a:hover .so-dialog-icon,
 .block-editor .so-title-bar a:hover .so-dialog-icon {
   color: #333333;
@@ -1163,11 +1179,15 @@
 .block-editor .so-toolbar .so-buttons .action-buttons .so-delete {
   color: #a00;
 }
+.so-panels-dialog .so-toolbar .so-buttons .action-buttons .so-delete:focus,
+.block-editor .so-toolbar .so-buttons .action-buttons .so-delete:focus,
 .so-panels-dialog .so-toolbar .so-buttons .action-buttons .so-delete:hover,
 .block-editor .so-toolbar .so-buttons .action-buttons .so-delete:hover {
   background: #a00;
   color: #FFFFFF;
 }
+.so-panels-dialog .so-toolbar .so-buttons .action-buttons .so-duplicate:focus,
+.block-editor .so-toolbar .so-buttons .action-buttons .so-duplicate:focus,
 .so-panels-dialog .so-toolbar .so-buttons .action-buttons .so-duplicate:hover,
 .block-editor .so-toolbar .so-buttons .action-buttons .so-duplicate:hover {
   text-decoration: underline;
@@ -1346,6 +1366,8 @@
   box-shadow: 0 1px 2px rgba(0,0,0,0.075), inset 0 1px 0 #FFFFFF;
   margin-bottom: 15px;
 }
+.so-panels-dialog.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget:focus,
+.block-editor.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget:focus,
 .so-panels-dialog.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget:hover,
 .block-editor.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget:hover {
   border: 1px solid #BBBBBB;
@@ -1475,7 +1497,9 @@
   box-shadow: 0 1px 2px rgba(0,0,0,0.075);
 }
 .so-panels-dialog.so-panels-dialog-add-widget .widget-type-list .widget-type-wrapper:hover,
-.block-editor.so-panels-dialog-add-widget .widget-type-list .widget-type-wrapper:hover {
+.block-editor.so-panels-dialog-add-widget .widget-type-list .widget-type-wrapper:hover,
+.so-panels-dialog.so-panels-dialog-add-widget .widget-type-list .widget-type-wrapper:focus,
+.block-editor.so-panels-dialog-add-widget .widget-type-list .widget-type-wrapper:focus {
   border: 1px solid #BBBBBB;
   background: #FFFFFF;
   -webkit-box-shadow: 0 2px 2px rgba(0,0,0,0.075);
@@ -1650,7 +1674,9 @@
   line-height: 1em;
 }
 .so-panels-dialog.so-panels-dialog-history .history-entries .history-entry:hover,
-.block-editor.so-panels-dialog-history .history-entries .history-entry:hover {
+.block-editor.so-panels-dialog-history .history-entries .history-entry:hover,
+.so-panels-dialog.so-panels-dialog-history .history-entries .history-entry:focus,
+.block-editor.so-panels-dialog-history .history-entries .history-entry:focus {
   background: #F0F0F0;
 }
 .so-panels-dialog.so-panels-dialog-history .history-entries .history-entry.so-selected,
@@ -1791,6 +1817,14 @@
   -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
   box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
+.so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-directory-item-wrapper:hover,
+.block-editor.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-directory-item-wrapper:hover,
+.so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-directory-item-wrapper:focus,
+.block-editor.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-directory-item-wrapper:focus {
+  border: 1px solid #BBBBBB;
+  background: #FFFFFF;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.075);
+}
 .so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-title,
 .block-editor.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-title {
   font-size: 15px;
@@ -1798,7 +1832,6 @@
 }
 .so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-screenshot,
 .block-editor.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-screenshot {
-  flex: 3 auto;
   margin-bottom: 10px;
   cursor: pointer;
 }
@@ -1830,7 +1863,6 @@
 }
 .so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-description,
 .block-editor.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-description {
-  flex: 1 auto;
   font-size: 0.9em;
   color: #666;
   margin-bottom: 10px;
@@ -1841,7 +1873,6 @@
 .block-editor.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-bottom {
   flex: 1 auto;
   position: relative;
-  max-height: 50px;
   margin: 10px -10px -15px -10px;
   background: #fcfcfc;
   border-top: 1px solid #d0d0d0;
@@ -1851,8 +1882,6 @@
   margin: 0;
   padding: 16px 10px;
   cursor: pointer;
-  overflow: hidden;
-  white-space: nowrap;
 }
 .so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-bottom .so-buttons,
 .block-editor.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-bottom .so-buttons {
@@ -1875,7 +1904,9 @@
   box-shadow: -1px 0 1px rgba(0, 0, 0, 0.05);
 }
 .so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item:hover .so-buttons,
-.block-editor.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item:hover .so-buttons {
+.block-editor.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item:hover .so-buttons,
+.so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item:focus .so-buttons,
+.block-editor.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item:focus .so-buttons {
   visibility: visible;
 }
 .so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item.selected,
@@ -1961,6 +1992,10 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.so-panels-dialog .so-visual-styles .style-section-head:focus,
+.block-editor .so-visual-styles .style-section-head:focus {
+  background: #eee;
 }
 .so-panels-dialog .so-visual-styles .style-section-head h4,
 .block-editor .so-visual-styles .style-section-head h4 {
@@ -2092,6 +2127,11 @@
   -webkit-box-shadow: inset 0 1px #FFFFFF;
   -moz-box-shadow: inset 0 1px #FFFFFF;
   box-shadow: inset 0 1px #FFFFFF;
+}
+.so-panels-dialog .so-visual-styles .style-field-image .so-image-selector:focus,
+.block-editor .so-visual-styles .style-field-image .so-image-selector:focus {
+  border: 1px solid #007cba;
+  box-shadow: 0 0 0 1px #007cba;
 }
 .so-panels-dialog .so-visual-styles .style-field-image .so-image-selector .current-image,
 .block-editor .so-visual-styles .style-field-image .so-image-selector .current-image {
@@ -2235,7 +2275,6 @@
 }
 .so-panels-dialog .siteorigin-panels-add-layout-block > button,
 .block-editor .siteorigin-panels-add-layout-block > button {
-  height: 100%;
   padding: 5px 10px;
   font-size: 16px;
 }
@@ -2350,6 +2389,7 @@
   cursor: pointer;
   color: #999;
 }
+.so-panels-live-editor .so-sidebar-tools .live-editor-mode .dashicons:focus,
 .so-panels-live-editor .so-sidebar-tools .live-editor-mode .dashicons:hover {
   color: #666;
 }
@@ -2661,6 +2701,7 @@
   padding: 3px 10px;
   line-height: 1.3em;
 }
+.so-panels-contextual-menu .so-section ul li:focus,
 .so-panels-contextual-menu .so-section ul li:hover,
 .so-panels-contextual-menu .so-section ul li.so-active {
   background: #F0F0F0;
@@ -2725,7 +2766,8 @@
   -moz-box-shadow: none;
   box-shadow: none;
 }
-.so-dropdown-wrapper .so-dropdown-links-wrapper ul li a:hover {
+.so-dropdown-wrapper .so-dropdown-links-wrapper ul li a:hover,
+.so-dropdown-wrapper .so-dropdown-links-wrapper ul li a:focus {
   background: #F0F0F0;
   color: #444;
 }
