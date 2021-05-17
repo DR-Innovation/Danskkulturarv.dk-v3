@@ -171,7 +171,13 @@ module.exports = panels.view.dialog.extend( {
 
 	events: {
 		'click .so-close': 'closeDialog',
-		'click .so-restore': 'restoreSelectedEntry'
+		'keyup .so-close': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
+		'click .so-restore': 'restoreSelectedEntry',
+		'keyup .history-entry': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 	},
 
 	initializeDialog: function () {
@@ -179,6 +185,10 @@ module.exports = panels.view.dialog.extend( {
 
 		this.on( 'open_dialog', this.setCurrentEntry, this );
 		this.on( 'open_dialog', this.renderHistoryEntries, this );
+
+		this.on( 'open_dialog_complete', function () {
+			this.$( '.history-entry' ).trigger( 'focus' );
+		} );
 	},
 
 	render: function () {
@@ -256,7 +266,11 @@ module.exports = panels.view.dialog.extend( {
 			.prependTo( c );
 
 		// Handle loading and selecting
-		c.find( '.history-entry' ).on( 'click', function() {
+		c.find( '.history-entry' ).on( 'click', function(e) {
+			if ( e.type == 'keyup' && e.which != 13 ) {
+				return;
+			}
+
 			var $$ = jQuery( this );
 			c.find( '.history-entry' ).not( $$ ).removeClass( 'so-selected' );
 			$$.addClass( 'so-selected' );
@@ -404,7 +418,14 @@ module.exports = panels.view.dialog.extend( {
 		'keyup .so-sidebar-search': 'searchHandler',
 
 		// The directory items
-		'click .so-screenshot, .so-title': 'directoryItemClickHandler'
+		'click .so-screenshot, .so-title': 'directoryItemClickHandler',
+		'keyup .so-directory-item': 'clickTitleOnEnter',
+	},
+
+	clickTitleOnEnter: function( e ) {
+		if ( e.which == 13 ) {
+			$( e.target ).find( '.so-title' ).trigger( 'click' );
+		}
 	},
 
 	/**
@@ -418,7 +439,10 @@ module.exports = panels.view.dialog.extend( {
 			thisView.$( '.so-status' ).removeClass( 'so-panels-loading' );
 		} );
 
-		this.on( 'button_click', this.toolbarButtonClick, this );
+		this.on( 'open_dialog_complete', function () {
+			// Clear the search and re-filter the widgets when we open the dialog
+			this.$( '.so-sidebar-search' ).val( '' ).trigger( 'focus' );
+		} );
 	},
 
 	/**
@@ -426,7 +450,7 @@ module.exports = panels.view.dialog.extend( {
 	 */
 	render: function () {
 		this.renderDialog( this.parseDialogContent( $( '#siteorigin-panels-dialog-prebuilt' ).html(), {} ) );
-
+		this.on( 'button_click', this.toolbarButtonClick, this );
 		this.initToolbar();
 	},
 
@@ -824,12 +848,21 @@ module.exports = panels.view.dialog.extend({
 
 	events: {
 		'click .so-close': 'closeDialog',
+		'keyup .so-close': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 
 		// Toolbar buttons
 		'click .so-toolbar .so-save': 'saveHandler',
 		'click .so-toolbar .so-insert': 'insertHandler',
 		'click .so-toolbar .so-delete': 'deleteHandler',
+		'keyup .so-toolbar .so-delete': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 		'click .so-toolbar .so-duplicate': 'duplicateHandler',
+		'keyup .so-toolbar .so-duplicate': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 
 		// Changing the row
 		'change .row-set-form > *': 'setCellsFromForm',
@@ -867,6 +900,10 @@ module.exports = panels.view.dialog.extend({
 			this.renderStyles();
 			this.openSelectedCellStyles();
 		}, this);
+
+		this.on( 'open_dialog_complete', function() {
+			$( '.so-panels-dialog-wrapper .so-title' ).trigger( 'focus' );
+		} );
 
 		// This is the default row layout
 		this.row = {
@@ -1630,12 +1667,27 @@ module.exports = panels.view.dialog.extend( {
 
 	events: {
 		'click .so-close': 'saveHandler',
+		'keyup .so-close': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 		'click .so-nav.so-previous': 'navToPrevious',
+		'keyup .so-nav.so-previous': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 		'click .so-nav.so-next': 'navToNext',
+		'keyup .so-nav.so-next': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 
 		// Action handlers
 		'click .so-toolbar .so-delete': 'deleteHandler',
-		'click .so-toolbar .so-duplicate': 'duplicateHandler'
+		'keyup .so-toolbar .so-delete': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
+		'click .so-toolbar .so-duplicate': 'duplicateHandler',
+		'keyup .so-toolbar .so-duplicate': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 	},
 
 	initializeDialog: function () {
@@ -1666,6 +1718,18 @@ module.exports = panels.view.dialog.extend( {
 				this.$( '.so-title' ).text( this.model.getWidgetField( 'title' ) );
 			}
 		}.bind( this ) );
+
+		this.on( 'open_dialog_complete', function() {
+			// The form isn't always ready when this event fires.
+			setTimeout( function() {
+				var focusTarget = $( '.so-content .siteorigin-widget-field-repeater-item-top, .so-content input, .so-content select' ).first();
+				if ( focusTarget.length ) {
+					focusTarget.trigger( 'focus' );
+				} else {
+					$( '.so-panels-dialog-wrapper .so-title' ).trigger( 'focus' );
+				}
+			}, 1250 )
+		} );
 	},
 
 	/**
@@ -1910,7 +1974,7 @@ module.exports = panels.view.dialog.extend( {
 
 } );
 
-},{"../view/widgets/js-widget":32}],10:[function(require,module,exports){
+},{"../view/widgets/js-widget":33}],10:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = panels.view.dialog.extend( {
@@ -1925,7 +1989,11 @@ module.exports = panels.view.dialog.extend( {
 	events: {
 		'click .so-close': 'closeDialog',
 		'click .widget-type': 'widgetClickHandler',
-		'keyup .so-sidebar-search': 'searchHandler'
+		'keyup .so-sidebar-search': 'searchHandler',
+		'keyup .widget-type-wrapper': 'searchHandler',
+		'keyup .widget-type-wrapper': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 	},
 
 	/**
@@ -1937,6 +2005,7 @@ module.exports = panels.view.dialog.extend( {
 			this.filter.search = '';
 			this.filterWidgets( this.filter );
 		}, this );
+
 
 		this.on( 'open_dialog_complete', function () {
 			// Clear the search and re-filter the widgets when we open the dialog
@@ -2152,6 +2221,21 @@ module.exports = panels.view.dialog.extend( {
 } );
 
 },{}],11:[function(require,module,exports){
+var $ = jQuery;
+
+module.exports = {
+	/**
+	 * Trigger click on valid enter key press.
+	 */
+	triggerClickOnEnter: function( e ) {
+		if ( e.which == 13 ) {
+			$( e.target ).trigger( 'click' );
+		}
+	},
+
+};
+
+},{}],12:[function(require,module,exports){
 module.exports = {
 	/**
 	 * Check if we have copy paste available.
@@ -2218,7 +2302,7 @@ module.exports = {
 	},
 };
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = {
 	isBlockEditor: function() {
 		return typeof wp.blocks !== 'undefined';
@@ -2229,7 +2313,7 @@ module.exports = {
 	},
 }
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = {
 	/**
 	 * Lock window scrolling for the main overlay
@@ -2276,7 +2360,7 @@ module.exports = {
 	},
 };
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*
 This is a modified version of https://github.com/underdogio/backbone-serialize/
 */
@@ -2387,7 +2471,7 @@ module.exports = {
 	}
 };
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = {
 
 	generateUUID: function(){
@@ -2424,7 +2508,7 @@ module.exports = {
 
 }
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /* global _, jQuery, panels */
 
 var panels = window.panels, $ = jQuery;
@@ -2513,7 +2597,7 @@ module.exports = function ( config, force ) {
 	} );
 };
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * Everything we need for SiteOrigin Page Builder.
  *
@@ -2536,6 +2620,7 @@ panels.helpers.utils = require( './helpers/utils' );
 panels.helpers.editor = require( './helpers/editor' );
 panels.helpers.serialize = require( './helpers/serialize' );
 panels.helpers.pageScroll = require( './helpers/page-scroll' );
+panels.helpers.accessibility = require( './helpers/accessibility' );
 
 // The models
 panels.model = {};
@@ -2688,7 +2773,7 @@ jQuery( function ( $ ) {
 	});
 } );
 
-},{"./collection/cells":1,"./collection/history-entries":2,"./collection/rows":3,"./collection/widgets":4,"./dialog/builder":5,"./dialog/history":6,"./dialog/prebuilt":7,"./dialog/row":8,"./dialog/widget":9,"./dialog/widgets":10,"./helpers/clipboard":11,"./helpers/editor":12,"./helpers/page-scroll":13,"./helpers/serialize":14,"./helpers/utils":15,"./jquery/setup-builder-widget":16,"./model/builder":18,"./model/cell":19,"./model/history-entry":20,"./model/row":21,"./model/widget":22,"./utils/menu":23,"./view/builder":24,"./view/cell":25,"./view/dialog":26,"./view/live-editor":27,"./view/row":28,"./view/styles":29,"./view/widget":30}],18:[function(require,module,exports){
+},{"./collection/cells":1,"./collection/history-entries":2,"./collection/rows":3,"./collection/widgets":4,"./dialog/builder":5,"./dialog/history":6,"./dialog/prebuilt":7,"./dialog/row":8,"./dialog/widget":9,"./dialog/widgets":10,"./helpers/accessibility":11,"./helpers/clipboard":12,"./helpers/editor":13,"./helpers/page-scroll":14,"./helpers/serialize":15,"./helpers/utils":16,"./jquery/setup-builder-widget":17,"./model/builder":19,"./model/cell":20,"./model/history-entry":21,"./model/row":22,"./model/widget":23,"./utils/menu":24,"./view/builder":25,"./view/cell":26,"./view/dialog":27,"./view/live-editor":28,"./view/row":29,"./view/styles":30,"./view/widget":31}],19:[function(require,module,exports){
 module.exports = Backbone.Model.extend({
 	layoutPosition: {
 		BEFORE: 'before',
@@ -3229,7 +3314,7 @@ module.exports = Backbone.Model.extend({
 	}
 } );
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = Backbone.Model.extend( {
 	/* A collection of widgets */
 	widgets: {},
@@ -3286,7 +3371,7 @@ module.exports = Backbone.Model.extend( {
 
 } );
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 module.exports = Backbone.Model.extend( {
 	defaults: {
 		text: '',
@@ -3296,7 +3381,7 @@ module.exports = Backbone.Model.extend( {
 	}
 } );
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 module.exports = Backbone.Model.extend( {
 	/* The builder model */
 	builder: null,
@@ -3420,7 +3505,7 @@ module.exports = Backbone.Model.extend( {
 	}
 } );
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * Model for an instance of a widget
  */
@@ -3624,7 +3709,7 @@ module.exports = Backbone.Model.extend( {
 
 } );
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
@@ -3945,7 +4030,7 @@ module.exports = Backbone.View.extend( {
 
 } );
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
@@ -3972,7 +4057,10 @@ module.exports = Backbone.View.extend( {
 		'click .so-tool-button.so-row-add': 'displayAddRowDialog',
 		'click .so-tool-button.so-prebuilt-add': 'displayAddPrebuiltDialog',
 		'click .so-tool-button.so-history': 'displayHistoryDialog',
-		'click .so-tool-button.so-live-editor': 'displayLiveEditor'
+		'click .so-tool-button.so-live-editor': 'displayLiveEditor',
+		'keyup .so-tool-button': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 	},
 
 	/* A row collection */
@@ -4065,7 +4153,6 @@ module.exports = Backbone.View.extend( {
 				this.displayAttachedBuilder( { confirm: false } );
 			}, this );
 		}
-
 		return this;
 	},
 
@@ -4202,8 +4289,12 @@ module.exports = Backbone.View.extend( {
 
 		// Switch back to the standard editor
 		if ( this.supports( 'revertToEditor' ) ) {
-			metabox.find( '.so-switch-to-standard' ).on( 'click', function( e ) {
+			metabox.find( '.so-switch-to-standard' ).on( 'click keyup', function( e ) {
 				e.preventDefault();
+
+				if ( e.type == "keyup" && e.which != 13 ) {
+					return
+				}
 
 				if ( !confirm( panelsOptions.loc.confirm_stop_builder ) ) {
 					return;
@@ -4790,7 +4881,7 @@ module.exports = Backbone.View.extend( {
 
 					// Wrap the call
 					$( window ).off( 'scroll', event.handler );
-					$( window ).bind( 'scroll', function( e ) {
+					$( window ).on( 'scroll', function( e ) {
 						if ( !this.attachedVisible ) {
 							event.handler( e );
 						}
@@ -4926,7 +5017,7 @@ module.exports = Backbone.View.extend( {
 	},
 } );
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
@@ -5314,7 +5405,7 @@ module.exports = Backbone.View.extend( {
 	}
 } );
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
@@ -5333,8 +5424,17 @@ module.exports = Backbone.View.extend( {
 
 	events: {
 		'click .so-close': 'closeDialog',
+		'keyup .so-close': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 		'click .so-nav.so-previous': 'navToPrevious',
+		'keyup .so-nav.so-previous': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 		'click .so-nav.so-next': 'navToNext',
+		'keyup .so-nav.so-next': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 	},
 
 	initialize: function () {
@@ -5529,8 +5629,12 @@ module.exports = Backbone.View.extend( {
 	initToolbar: function () {
 		// Trigger simplified click event for elements marked as toolbar buttons.
 		var buttons = this.$( '.so-toolbar .so-buttons .so-toolbar-button' );
-		buttons.on( 'click', function( e ) {
+		buttons.on( 'click keyup', function( e ) {
 			e.preventDefault();
+
+			if ( e.type == 'keyup' && e.which != 13 ) {
+				return;
+			}
 
 			this.trigger( 'button_click', $( e.currentTarget ) );
 		}.bind( this ) );
@@ -5624,16 +5728,20 @@ module.exports = Backbone.View.extend( {
 
 		if ( nextDialog === null ) {
 			nextButton.hide();
-		}
-		else if ( nextDialog === false ) {
+		} else if ( nextDialog === false ) {
 			nextButton.addClass( 'so-disabled' );
+			nextButton.attr( 'tabindex', -1 );
+		} else {
+			nextButton.attr( 'tabindex', 0 );
 		}
 
 		if ( prevDialog === null ) {
 			prevButton.hide();
-		}
-		else if ( prevDialog === false ) {
+		} else if ( prevDialog === false ) {
 			prevButton.addClass( 'so-disabled' );
+			prevButton.attr( 'tabindex', -1 );
+		} else {
+			prevButton.attr( 'tabindex', 0 );
 		}
 	},
 
@@ -5921,7 +6029,7 @@ module.exports = Backbone.View.extend( {
 	
 } );
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
@@ -5938,7 +6046,10 @@ module.exports = Backbone.View.extend( {
 		'click .live-editor-close': 'close',
 		'click .live-editor-save': 'closeAndSave',
 		'click .live-editor-collapse': 'collapse',
-		'click .live-editor-mode': 'mobileToggle'
+		'click .live-editor-mode': 'mobileToggle',
+		'keyup .live-editor-mode': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 	},
 
 	initialize: function ( options ) {
@@ -5981,7 +6092,8 @@ module.exports = Backbone.View.extend( {
 
 		// Handle highlighting the relevant widget in the live editor preview
 		var liveEditorView = this;
-		this.$el.on( 'mouseenter', '.so-widget-wrapper', function () {
+
+		this.$el.on( 'mouseenter focusin', '.so-widget', function () {
 			var $$ = $( this ),
 				previewWidget = $$.data( 'live-editor-preview-widget' );
 
@@ -5991,7 +6103,7 @@ module.exports = Backbone.View.extend( {
 			}
 		} );
 
-		this.$el.on( 'mouseleave', '.so-widget-wrapper', function () {
+		this.$el.on( 'mouseleave focusout', '.so-widget', function () {
 			this.resetHighlights();
 		}.bind(this) );
 
@@ -6030,6 +6142,8 @@ module.exports = Backbone.View.extend( {
 		// Refresh the preview display
 		this.$el.show();
 		this.refreshPreview( this.builder.model.getPanelsData() );
+
+		$( '.live-editor-close' ).trigger( 'focus' );
 
 		// Move the builder view into the Live Editor
 		this.originalContainer = this.builder.$el.parent();
@@ -6290,7 +6404,7 @@ module.exports = Backbone.View.extend( {
 					} )
 					.each( function ( i, el ) {
 						var $$ = $( el );
-						var widgetEdit = thisView.$( '.so-live-editor-builder .so-widget-wrapper' ).eq( $$.data( 'index' ) );
+						var widgetEdit = thisView.$( '.so-live-editor-builder .so-widget' ).eq( $$.data( 'index' ) );
 						widgetEdit.data( 'live-editor-preview-widget', $$ );
 
 						$$
@@ -6350,7 +6464,7 @@ module.exports = Backbone.View.extend( {
 	}
 } );
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
@@ -6762,12 +6876,20 @@ module.exports = Backbone.View.extend( {
 	},
 } );
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
 
 	stylesLoaded: false,
+
+	events: {
+		'keyup .so-image-selector': function( e ) {
+			if ( e.which == 13 ) {
+				this.$el.find( '.select-image' ).trigger( 'click' );
+			}
+		},
+	},
 
 	initialize: function () {
 
@@ -6864,7 +6986,7 @@ module.exports = Backbone.View.extend( {
 		this.$( '.style-section-wrapper' ).each( function () {
 			var $s = $( this );
 
-			$s.find( '.style-section-head' ).on( 'click', function( e ) {
+			$s.find( '.style-section-head' ).on( 'click keypress', function( e ) {
 				e.preventDefault();
 				$s.find( '.style-section-fields' ).slideToggle( 'fast' );
 			} );
@@ -6929,8 +7051,10 @@ module.exports = Backbone.View.extend( {
 					} );
 				}
 
-				frame.open();
+				// Prevent loop that occurs if you close the frame using the close button while focused on the trigger.
+				$( this ).next().focus();
 
+				frame.open();
 			} );
 
 			// Handle clicking on remove
@@ -7060,7 +7184,7 @@ module.exports = Backbone.View.extend( {
 
 } );
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
 module.exports = Backbone.View.extend( {
@@ -7078,7 +7202,10 @@ module.exports = Backbone.View.extend( {
 		'click .title h4': 'editHandler',
 		'touchend .title h4': 'editHandler',
 		'click .actions .widget-duplicate': 'duplicateHandler',
-		'click .actions .widget-delete': 'deleteHandler'
+		'click .actions .widget-delete': 'deleteHandler',
+		'keyup .actions a': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 	},
 
 	/**
@@ -7355,7 +7482,7 @@ module.exports = Backbone.View.extend( {
 
 } );
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 var $ = jQuery;
 
 var customHtmlWidget = {
@@ -7382,7 +7509,7 @@ var customHtmlWidget = {
 
 module.exports = customHtmlWidget;
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 var customHtmlWidget = require( './custom-html-widget' );
 var mediaWidget = require( './media-widget' );
 var textWidget = require( './text-widget' );
@@ -7420,7 +7547,7 @@ var jsWidget = {
 
 module.exports = jsWidget;
 
-},{"./custom-html-widget":31,"./media-widget":33,"./text-widget":34}],33:[function(require,module,exports){
+},{"./custom-html-widget":32,"./media-widget":34,"./text-widget":35}],34:[function(require,module,exports){
 var $ = jQuery;
 
 var mediaWidget = {
@@ -7460,7 +7587,7 @@ var mediaWidget = {
 
 module.exports = mediaWidget;
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 var $ = jQuery;
 
 var textWidget = {
@@ -7504,4 +7631,4 @@ var textWidget = {
 
 module.exports = textWidget;
 
-},{}]},{},[17]);
+},{}]},{},[18]);
