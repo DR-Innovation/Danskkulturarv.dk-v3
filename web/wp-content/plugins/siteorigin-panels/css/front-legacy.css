@@ -17,6 +17,9 @@
   position: relative;
   z-index: 1;
 }
+.panel-grid .so-parallax .simpleParallax {
+  overflow: hidden;
+}
 .panel-grid .so-parallax .simpleParallax,
 .panel-grid .so-parallax img[data-siteorigin-parallax] {
   bottom: 0;

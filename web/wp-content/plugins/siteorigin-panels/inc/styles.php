@@ -117,7 +117,7 @@ class SiteOrigin_Panels_Styles {
 			'name'        => sprintf( __( '%s Class', 'siteorigin-panels' ), $label ),
 			'type'        => 'text',
 			'group'       => 'attributes',
-			'description' => __( 'A CSS class', 'siteorigin-panels' ),
+			'description' => __( 'A CSS class name.', 'siteorigin-panels' ),
 			'priority'    => 5,
 		);
 
@@ -472,17 +472,31 @@ class SiteOrigin_Panels_Styles {
 			! empty( $context['style']['background_display'] ) &&
 			self::is_background_parallax( $context['style']['background_display'] )
 		) {
+			$parallax = false;
 			if ( ! empty( $context['style']['background_image_attachment'] ) ) {
-				$url = self::get_attachment_image_src( $context['style']['background_image_attachment'], 'full' )[0];
+				$image_html = wp_get_attachment_image(
+					$context['style']['background_image_attachment'],
+					'full',
+					false,
+					array(
+						'data-siteorigin-parallax' => 'true',
+						'loading' => 'eager',
+					)
+				);
+
+				if ( ! empty( $image_html ) ) {
+					$parallax = true;
+					$output .= $image_html;
+				}
 			}
 
-			if ( empty( $url ) && ! empty( $context['style']['background_image_attachment_fallback'] ) ) {
-				$url = $context['style']['background_image_attachment_fallback'];
+			if ( ! $parallax && ! empty( $context['style']['background_image_attachment_fallback'] ) ) {
+				$parallax = true;
+				$output .= '<img src=' . esc_url( $context['style']['background_image_attachment_fallback'] ) . ' data-siteorigin-parallax="true">';
 			}
 
-			if ( ! empty( $url ) ) {
+			if ( $parallax ) {
 				wp_enqueue_script( 'simpleParallax' );
-				$output .= '<img src=' . esc_url( $url ) . ' data-siteorigin-parallax="true">';
 			}
 		}
 

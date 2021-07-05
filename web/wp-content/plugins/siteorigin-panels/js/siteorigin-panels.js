@@ -907,7 +907,7 @@ module.exports = panels.view.dialog.extend({
 
 		// This is the default row layout
 		this.row = {
-			cells: new panels.collection.cells([{weight: 0.5}, {weight: 0.5}]),
+			cells: new panels.collection.cells( panelsOptions.default_columns ),
 			style: {}
 		};
 
@@ -972,7 +972,7 @@ module.exports = panels.view.dialog.extend({
 			this.$('.so-buttons .so-delete').remove();
 		}
 
-		if (!_.isUndefined(this.model)) {
+		if ( ! _.isUndefined( this.model ) && this.dialogType == 'edit' ) {
 			// Set the initial value of the
 			this.$( 'input[name="cells"].so-row-field' ).val( this.model.get( 'cells' ).length );
 			if ( this.model.has( 'ratio' ) ) {
@@ -1043,12 +1043,14 @@ module.exports = panels.view.dialog.extend({
 		};
 
 		// Set the initial value of the cell field.
-		this.$( 'input[name="cells"].so-row-field' ).val( this.model.get( 'cells' ).length );
-		if ( this.model.has( 'ratio' ) ) {
-			this.$( 'select[name="ratio"].so-row-field' ).val( this.model.get( 'ratio' ) );
-		}
-		if ( this.model.has( 'ratio_direction' ) ) {
-			this.$( 'select[name="ratio_direction"].so-row-field' ).val( this.model.get( 'ratio_direction' ) );
+		if ( this.dialogType == 'edit' ) {
+			this.$( 'input[name="cells"].so-row-field' ).val( this.model.get( 'cells' ).length );
+			if ( this.model.has( 'ratio' ) ) {
+				this.$( 'select[name="ratio"].so-row-field' ).val( this.model.get( 'ratio' ) );
+			}
+			if ( this.model.has( 'ratio_direction' ) ) {
+				this.$( 'select[name="ratio_direction"].so-row-field' ).val( this.model.get( 'ratio_direction' ) );
+			}
 		}
 
 		this.clearCellStylesCache();
@@ -2773,6 +2775,29 @@ jQuery( function ( $ ) {
 	});
 } );
 
+// WP 5.7+: Prevent undesired "restore content" notice.
+if ( typeof window.wp.autosave !== 'undefined' && jQuery( '#siteorigin-panels-metabox' ).length ) {
+	jQuery( document ).on( 'ready', function( e ) {
+		var blog_id = typeof window.autosaveL10n !== 'undefined' && window.autosaveL10n.blog_id;
+		
+		// Ensure sessionStorage is working, and we were able to find a blog id.
+		if ( typeof window.sessionStorage != 'object' && ! blog_id ) {
+			return;
+		}
+
+		stored_obj = window.sessionStorage.getItem( 'wp-autosave-' + blog_id );
+		if ( stored_obj ) {
+			stored_obj = JSON.parse( stored_obj );
+			var storedPostData = stored_obj[ 'post_' + jQuery( '#post_ID' ).val() ]
+
+			if ( typeof storedPostData == 'object' ) {
+				// Override existing store with stored session data. The content is exactly the same.
+				jQuery( '#content' ).val( storedPostData.content );
+			}
+		}
+	} );
+}
+
 },{"./collection/cells":1,"./collection/history-entries":2,"./collection/rows":3,"./collection/widgets":4,"./dialog/builder":5,"./dialog/history":6,"./dialog/prebuilt":7,"./dialog/row":8,"./dialog/widget":9,"./dialog/widgets":10,"./helpers/accessibility":11,"./helpers/clipboard":12,"./helpers/editor":13,"./helpers/page-scroll":14,"./helpers/serialize":15,"./helpers/utils":16,"./jquery/setup-builder-widget":17,"./model/builder":19,"./model/cell":20,"./model/history-entry":21,"./model/row":22,"./model/widget":23,"./utils/menu":24,"./view/builder":25,"./view/cell":26,"./view/dialog":27,"./view/live-editor":28,"./view/row":29,"./view/styles":30,"./view/widget":31}],19:[function(require,module,exports){
 module.exports = Backbone.Model.extend({
 	layoutPosition: {
@@ -3653,58 +3678,105 @@ module.exports = Backbone.Model.extend( {
 	},
 
 	/**
+	 * Ensure the title is valid.
+	 *
+	 * @param title The text we're testing.
+	 * @returns boolean
+	 */
+	isValidTitle: function( title ) {
+		return ! _.isUndefined( title ) &&
+			_.isString( title ) &&
+			title !== '' &&
+			title !== 'on' &&
+			title !== 'true' &&
+			title !== 'false' &&
+			title[0] !== '_' &&
+			! _.isFinite( title );
+	},
+
+	/**
+	 * Remove HTML from the title, and limit its length.
+	 *
+	 * @param title The title we're cleaning.
+	 * @returns string The "cleaned" title.
+	 */
+	cleanTitle: function( title ) {
+		title = title.replace( /<\/?[^>]+(>|$)/g, "" );
+		var parts = title.split( " " );
+		parts = parts.slice( 0, 20 );
+		console.log(parts);
+		return parts.join( ' ' );
+	},
+
+	/**
+	 * Iterate an array and find a valid field we can use for a title. Supports multidimensional arrays.
+	 *
+	 * @param values An array containing field values.
+	 * @returns string The title we found. If we weren't able to find one, it returns false.
+	 */
+	getTitleFromValues: function( values, thisView ) {
+		var widgetTitle = false;
+		for ( const k in values ) {
+			if ( typeof values[ k ] == 'object' ) {
+				// Field is an array, check child for valid titles.
+				widgetTitle = thisView.getTitleFromValues( values[ k ], thisView );
+				if ( widgetTitle ) {
+					break;
+				}
+			// Ensure field isn't a required WB field, and if its not, confirm it's valid.
+			} else if (
+				k.charAt(0) !== '_' &&
+				k !== 'so_sidebar_emulator_id' &&
+				k !== 'option_name' &&
+				thisView.isValidTitle( values[ k ] )
+			) {
+				widgetTitle = thisView.cleanTitle( values[ k ] )
+				break;
+			}
+		};
+
+		return widgetTitle;
+	},
+
+	/**
 	 * Gets the value that makes most sense as the title.
 	 */
 	getTitle: function () {
 		var widgetData = panelsOptions.widgets[this.get( 'class' )];
+		var titleFields = [];
+		var titleFieldOnly = false;
 
 		if ( _.isUndefined( widgetData ) ) {
 			return this.get( 'class' ).replace( /_/g, ' ' );
-		}
-		else if ( ! _.isUndefined( widgetData.panels_title ) ) {
+		} else if ( ! _.isUndefined( widgetData.panels_title ) ) {
 			// This means that the widget has told us which field it wants us to use as a title
 			if ( widgetData.panels_title === false ) {
 				return panelsOptions.widgets[this.get( 'class' )].description;
+			} else {
+				titleFields.push( widgetData.panels_title );
+				titleFieldOnly = true;
 			}
+		} else {
+			titleFields = ['title', 'text'];
 		}
-
 		var values = this.get( 'values' );
+		var thisView = this;
+		var widgetTitle = false;
 
-		// Create a list of fields to check for a title
-		var titleFields = ['title', 'text'];
+		// Check titleFields for valid titles.
+		_.each( titleFields, function( title ) {
+			if ( thisView.isValidTitle( values[ title ] ) ) {
+				widgetTitle = thisView.cleanTitle( values[ title ] );
+				return false;
+			}
+		} );
 
-		for ( var k in values ) {
-			if(k.charAt(0) === '_' || k === 'so_sidebar_emulator_id'  || k === 'option_name'){
-				// Skip Widgets Bundle supporting fields
-				continue;
-			}
-			if ( values.hasOwnProperty( k ) ) {
-				titleFields.push( k );
-			}
+		if ( ! widgetTitle && ! titleFieldOnly ) {
+			// No titles were found. Let's check the rest of the fields for a valid title..
+			widgetTitle = this.getTitleFromValues( values, thisView );
 		}
 
-		titleFields = _.uniq( titleFields );
-
-		for ( var i in titleFields ) {
-			if (
-				! _.isUndefined( values[titleFields[i]] ) &&
-				_.isString( values[titleFields[i]] ) &&
-				values[titleFields[i]] !== '' &&
-				values[titleFields[i]] !== 'on' &&
-				values[titleFields[i]] !== 'true' &&
-				values[titleFields[i]] !== 'false' &&
-				titleFields[i][0] !== '_' && ! _.isFinite( values[titleFields[i]] )
-			) {
-				var title = values[titleFields[i]];
-				title = title.replace( /<\/?[^>]+(>|$)/g, "" );
-				var parts = title.split( " " );
-				parts = parts.slice( 0, 20 );
-				return parts.join( ' ' );
-			}
-		}
-
-		// If we still have nothing, then just return the widget description
-		return this.getWidgetField( 'description' );
+		return widgetTitle ? widgetTitle : this.getWidgetField( 'description' );
 	}
 
 } );
@@ -4612,7 +4684,7 @@ module.exports = Backbone.View.extend( {
 	 */
 	displayAddRowDialog: function () {
 		var row = new panels.model.row();
-		var cells = new panels.collection.cells( [ { weight: 0.5 }, { weight: 0.5 } ] );
+		var cells = new panels.collection.cells( panelsOptions.default_columns );
 		cells.each( function ( cell ) {
 			cell.row = row;
 		} );
@@ -6585,23 +6657,49 @@ module.exports = Backbone.View.extend( {
 		// Reset everything to have an automatic height
 		this.$( '.so-cells .cell-wrapper' ).css( 'min-height', 0 );
 		this.$( '.so-cells .resize-handle' ).css( 'height', 0 );
+		this.$( '.so-cells' ).removeClass( 'so-action-icons' );
 
 		// We'll tie the values to the row view, to prevent issue with values going to different rows
-		var height = 0;
+		var height = 0,
+			cellWidth = 0,
+			iconsShown = false,
+			cell;
+
 		this.$( '.so-cells .cell' ).each( function () {
-			height = Math.max(
-				height,
-				$( this ).height()
-			);
+			cell = $( this );
 
 			$( this ).css(
 				'width',
-				( $( this ).data( 'view' ).model.get( 'weight' ) * 100) + "%"
+				( cell.data( 'view' ).model.get( 'weight' ) * 100) + "%"
+			);
+
+			cellWidth = cell.width();
+			// Ensure this widget is large enough to allow for actions to appear.
+			if ( cellWidth < 215 ) {
+				cell.addClass( 'so-show-icon' );
+				iconsShown = true;
+				if ( cellWidth < 125 ) {
+					cell.addClass( 'so-small-actions' );
+				} else {
+					cell.removeClass( 'so-small-actions' );
+				}
+			} else {
+				cell.removeClass( 'so-show-icon so-small-actions' );
+			}
+
+			// Store cell height. This is used to determine the max height of cells.
+			height = Math.max(
+				height,
+				cell.height()
 			);
 		} );
 
 		// Resize all the grids and cell wrappers
 		this.$( '.so-cells .cell-wrapper' ).css( 'min-height', Math.max( height, 63 ) + 'px' );
+		// If action icons are visible in any cell, give the container a special class.
+		if ( iconsShown ) {
+			this.$( '.so-cells' ).addClass( 'so-action-icons' );
+		}
 		this.$( '.so-cells .resize-handle' ).css( 'height', this.$( '.so-cells .cell-wrapper' ).outerHeight() + 'px' );
 	},
 
@@ -6918,6 +7016,10 @@ module.exports = Backbone.View.extend( {
 		var postArgs = {
 			builderType: args.builderType
 		};
+
+		if ( stylesType === 'widget' ) {
+			postArgs.widget = this.model.get( 'class' );
+		}
 
 		if ( stylesType === 'cell') {
 			postArgs.index = args.index;

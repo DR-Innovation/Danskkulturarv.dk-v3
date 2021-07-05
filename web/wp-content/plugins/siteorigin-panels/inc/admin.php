@@ -73,7 +73,10 @@ class SiteOrigin_Panels_Admin {
 		add_action( 'admin_print_scripts-post-new.php', array( $this, 'enqueue_seo_compat' ), 100 );
 		add_action( 'admin_print_scripts-post.php', array( $this, 'enqueue_seo_compat' ), 100 );
 
-		if ( class_exists( 'ACF' ) ) {
+		if (
+			class_exists( 'ACF' ) &&
+			version_compare( get_option( 'acf_version' ), '5.7.10', '>=' )
+		) {
 			SiteOrigin_Panels_Compat_ACF_Widgets::single();
 		}
 
@@ -350,6 +353,14 @@ class SiteOrigin_Panels_Admin {
 				'copy_content'              => siteorigin_panels_setting( 'copy-content' ),
 				'cache'						=> array(),
 				'instant_open'              => siteorigin_panels_setting( 'instant-open-widgets' ),
+				'default_columns'           => apply_filters( 'siteorigin_panels_default_row_columns', array(
+					array(
+						'weight' => 0.5,
+					),
+					array(
+						'weight' => 0.5,
+					),
+				) ),
 
 				// Settings for the contextual menu
 				'contextual'                => array(
