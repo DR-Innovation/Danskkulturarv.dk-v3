@@ -161,12 +161,16 @@ class SiteOrigin_Panels_Renderer {
 
 			$collapse_order = ! empty( $row['style']['collapse_order'] ) ? $row['style']['collapse_order'] : ( ! is_rtl() ? 'left-top' : 'right-top' );
 
+			// Let other themes and plugins change the row collapse point.
+			$collapse_point = apply_filters( 'siteorigin_panels_css_row_collapse_point', '', $row, $ri, $panels_data );
+
 			if ( $settings['responsive'] && empty( $row['style']['collapse_behaviour'] ) ) {
 				// The default collapse behaviour
 				if (
 					$settings['tablet-layout'] &&
 					$cell_count >= 3 &&
-					$panels_tablet_width > $panels_mobile_width
+					$panels_tablet_width > $panels_mobile_width &&
+					empty( $collapse_point )
 				) {
 					// Tablet responsive css for the row
 
@@ -210,6 +214,8 @@ class SiteOrigin_Panels_Renderer {
 				}
 
 				// Mobile Responsive
+				$collapse_point = ! empty( $collapse_point ) ? $collapse_point : $panels_mobile_width;
+				// Uses rows custom collapse point or sets mobile collapse point set on settings page.
 				$css->add_row_css( $post_id, $ri, array(
 					'.panel-no-style',
 					'.panel-has-style > .panel-row-style'
@@ -217,14 +223,14 @@ class SiteOrigin_Panels_Renderer {
 					'-webkit-flex-direction' => $collapse_order == 'left-top' ? 'column' : 'column-reverse',
 					'-ms-flex-direction'     => $collapse_order == 'left-top' ? 'column' : 'column-reverse',
 					'flex-direction'         => $collapse_order == 'left-top' ? 'column' : 'column-reverse',
-				), $panels_mobile_width );
+				), $collapse_point );
 
+				// Uses rows custom collapse point or sets mobile collapse point set on settings page.
 				$css->add_cell_css( $post_id, $ri, false, '', array(
 					'width' => '100%',
 					'margin-right' => 0,
-				), $panels_mobile_width );
-				
-				
+				), $collapse_point );
+
 				foreach ( $row['cells'] as $ci => $cell ) {
 					if ( ( $collapse_order == 'left-top' && $ci != $cell_count - 1 ) || ( $collapse_order == 'right-top' && $ci !== 0 ) ) {
 						$css->add_cell_css( $post_id, $ri, $ci, '', array(
@@ -238,7 +244,7 @@ class SiteOrigin_Panels_Renderer {
 								$panels_data,
 								$post_id
 							)
-						), $panels_mobile_width );
+						), $collapse_point );
 					}
 				}
 				
@@ -246,7 +252,7 @@ class SiteOrigin_Panels_Renderer {
 					// If we need a different bottom margin for
 					$css->add_row_css( $post_id, $ri, '', array(
 						'margin-bottom' => $panels_mobile_margin_bottom
-					), $panels_mobile_width );
+					), $collapse_point );
 				}
 					
 				
@@ -258,7 +264,7 @@ class SiteOrigin_Panels_Renderer {
 		$css->add_widget_css( $post_id, false, false, false, '', array(
 			'margin-bottom' => apply_filters( 'siteorigin_panels_css_cell_margin_bottom', $settings['margin-bottom'] . 'px', false, false, $panels_data, $post_id )
 		) );
-		$css->add_widget_css( $post_id, false, false, false, ':last-child', array(
+		$css->add_widget_css( $post_id, false, false, false, ':last-of-type', array(
 			'margin-bottom' => apply_filters( 'siteorigin_panels_css_cell_last_margin_bottom', '0px', false, false, $panels_data, $post_id )
 		) );
 
@@ -305,8 +311,9 @@ class SiteOrigin_Panels_Renderer {
 		}
 
 		global $siteorigin_panels_current_post;
-		// If the post being processed is the same as the last one, don't process it.
+		// If $panels_data is empty, and the current post being processed is the same as the last one, don't process it.
 		if (
+			empty( $panels_data ) &&
 			! empty( $siteorigin_panels_current_post ) &&
 			apply_filters( 'siteorigin_panels_renderer_current_post_check', true ) &&
 			$siteorigin_panels_current_post == $post_id
@@ -494,6 +501,9 @@ class SiteOrigin_Panels_Renderer {
 		// Load the widget from the widget factory and give themes and plugins a chance to provide their own
 		$the_widget = SiteOrigin_Panels::get_widget_instance( $widget_class );
 		$the_widget = apply_filters( 'siteorigin_panels_widget_object', $the_widget, $widget_class, $instance );
+
+		// Allow other themes/plugins to override the instance.
+		$instance = apply_filters( 'siteorigin_panels_widget_instance', $instance, $the_widget, $widget_class );
 
 		if ( empty( $post_id ) ) {
 			$post_id = get_the_ID();
