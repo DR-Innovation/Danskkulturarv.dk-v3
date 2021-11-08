@@ -197,6 +197,9 @@ module.exports = panels.view.dialog.extend( {
 		// Render the dialog and attach it to the builder interface
 		this.renderDialog( this.parseDialogContent( $( '#siteorigin-panels-dialog-history' ).html(), {} ) );
 
+		// Set the history URL.
+		this.$( 'form.history-form' ).attr( 'action', this.builder.config.editorPreview );
+
 		this.$( 'iframe.siteorigin-panels-history-iframe' ).on( 'load', function () {
 			var $$ = $( this );
 			$$.show();
@@ -2307,7 +2310,7 @@ module.exports = {
 },{}],13:[function(require,module,exports){
 module.exports = {
 	isBlockEditor: function() {
-		return typeof wp.blocks !== 'undefined';
+		return typeof wp.blocks !== 'undefined' && jQuery( '.block-editor-page' ).length
 	},
 
 	isClassicEditor: function( builder ) {
@@ -2688,8 +2691,9 @@ jQuery( function ( $ ) {
 			builderType: $panelsMetabox.data( 'builder-type' ),
 			builderSupports: $panelsMetabox.data( 'builder-supports' ),
 			loadOnAttach: panelsOptions.loadOnAttach && $( '#auto_draft' ).val() == 1,
-			loadLiveEditor: $panelsMetabox.data('live-editor') == 1,
-			liveEditorPreview: container.data('preview-url')
+			loadLiveEditor: $panelsMetabox.data( 'live-editor' ) == 1,
+			liveEditorCloseAfter: $panelsMetabox.data( 'live-editor-close' ) == 1,
+			editorPreview: container.data( 'preview-url' )
 		};
 	}
 	else if ( $( '.siteorigin-panels-builder-form' ).length ) {
@@ -2707,7 +2711,8 @@ jQuery( function ( $ ) {
 			builderType: $$.data( 'type' ),
 			builderSupports: $$.data( 'builder-supports' ),
 			loadLiveEditor: false,
-			liveEditorPreview: $$.data( 'preview-url' )
+			liveEditorCloseAfter: false,
+			editorPreview: $$.data( 'preview-url' )
 		};
 	}
 
@@ -3704,7 +3709,6 @@ module.exports = Backbone.Model.extend( {
 		title = title.replace( /<\/?[^>]+(>|$)/g, "" );
 		var parts = title.split( " " );
 		parts = parts.slice( 0, 20 );
-		console.log(parts);
 		return parts.join( ' ' );
 	},
 
@@ -3765,7 +3769,7 @@ module.exports = Backbone.Model.extend( {
 
 		// Check titleFields for valid titles.
 		_.each( titleFields, function( title ) {
-			if ( thisView.isValidTitle( values[ title ] ) ) {
+			if ( ! widgetTitle && thisView.isValidTitle( values[ title ] ) ) {
 				widgetTitle = thisView.cleanTitle( values[ title ] );
 				return false;
 			}
@@ -4146,6 +4150,7 @@ module.exports = Backbone.View.extend( {
 
 		this.config = _.extend( {
 			loadLiveEditor: false,
+			liveEditorCloseAfter: false,
 			builderSupports: {}
 		}, options.config );
 
@@ -4762,19 +4767,41 @@ module.exports = Backbone.View.extend( {
 	 * @returns {panels.view.builder}
 	 */
 	addLiveEditor: function () {
-		if ( _.isEmpty( this.config.liveEditorPreview ) ) {
+		if ( _.isEmpty( this.config.editorPreview ) ) {
 			return this;
 		}
 
 		// Create the live editor and set the builder to this.
 		this.liveEditor = new panels.view.liveEditor( {
 			builder: this,
-			previewUrl: this.config.liveEditorPreview
+			previewUrl: this.config.editorPreview
 		} );
 
 		// Display the live editor button in the toolbar
 		if ( this.liveEditor.hasPreviewUrl() ) {
-			this.$( '.so-builder-toolbar .so-live-editor' ).show();
+			var addLEButton = false;
+			if ( ! panels.helpers.editor.isBlockEditor() ) {
+				addLEButton = true;
+			} else if ( wp.data.select( 'core/editor' ).getEditedPostAttribute( 'status' ) != 'auto-draft' ) {
+				addLEButton = true;
+			} else {
+				// Block Editor powered page that's an auto draft. To avoid a 404, we need to save the draft.
+				$( '.editor-post-save-draft' ).trigger( 'click' );
+				var openLiveEditorAfterSave = setInterval( function() {
+					if (
+						! wp.data.select('core/editor').isSavingPost() &&
+						! wp.data.select('core/editor').isAutosavingPost() &&
+						wp.data.select('core/editor').didPostSaveRequestSucceed()
+					) {
+						clearInterval( openLiveEditorAfterSave );
+						this.$( '.so-builder-toolbar .so-live-editor' ).show();
+					}
+				}.bind( this ), 250 );
+			}
+
+			if ( addLEButton ) {
+				this.$( '.so-builder-toolbar .so-live-editor' ).show();
+			}
 		}
 
 		this.trigger( 'builder_live_editor_added' );
@@ -4799,7 +4826,7 @@ module.exports = Backbone.View.extend( {
 	 * @return {panels.view.builder}
 	 */
 	addHistoryBrowser: function () {
-		if ( _.isEmpty( this.config.liveEditorPreview ) ) {
+		if ( _.isEmpty( this.config.editorPreview ) ) {
 			return this;
 		}
 
@@ -5994,6 +6021,19 @@ module.exports = Backbone.View.extend( {
 					}
 				}
 
+				// Is this field an ACF Repeater?
+				if ( $$.parents( '.acf-repeater' ).length ) {
+					// If field is empty, skip it - this is to avoid indexes which are admin only.
+					if ( fieldValue == '' ) {
+						return;
+					}
+
+					// Ensure only the standard PB fields are set up.
+					// This allows for the rest of the ACF fields to be handled
+					// as objects rather than an array.
+					parts.slice( parts[2], parts.length );
+				}
+
 				// Now convert this into an array
 				if ( fieldValue !== null ) {
 					for ( var i = 0; i < parts.length; i ++ ) {
@@ -6246,8 +6286,16 @@ module.exports = Backbone.View.extend( {
 	/**
 	 * Close the Live Editor
 	 */
-	close: function () {
+	close: function ( closeAfter = true ) {
 		if ( ! this.$el.is( ':visible' ) ) {
+			return this;
+		}
+
+		if ( closeAfter && this.builder.config.liveEditorCloseAfter ) {
+			// Live Editor is set to be closed upon saving the page.
+			// This is done using a trigger rather than a redirect to confirm if
+			// the user wants to save.
+			$( '#wp-admin-bar-view a' )[0].click(); // JS click.
 			return this;
 		}
 
@@ -6264,9 +6312,13 @@ module.exports = Backbone.View.extend( {
 	 * Close the Live Editor and save the post.
 	 */
 	closeAndSave: function(){
-		this.close();
+		this.close( false );
 		// Finds the submit input for saving without publishing draft posts.
-		$( '#submitdiv input[type="submit"][name="save"]' ).trigger( 'click' );
+		if ( $( '.block-editor-page' ).length ) {
+			$( '.editor-post-publish-button' )[0].click();
+		} else {
+			$( '#submitdiv input[type="submit"][name="save"]' )[0].click();
+		}
 	},
 
 	/**
@@ -7282,6 +7334,9 @@ module.exports = Backbone.View.extend( {
 			text.on( 'change', setValue );
 			unit.on( 'change', setValue );
 		} );
+		
+		// Allow other plugins to setup custom fields.
+		$( document ).trigger( 'setup_style_fields', this );
 	}
 
 } );

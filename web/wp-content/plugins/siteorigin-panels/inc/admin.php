@@ -48,7 +48,7 @@ class SiteOrigin_Panels_Admin {
 		add_action( 'load-post-new.php', array( $this, 'add_help_tab' ), 12 );
 		add_action( 'load-appearance_page_so_panels_home_page', array( $this, 'add_help_tab' ), 12 );
 
-		add_action( 'customize_controls_print_footer_scripts', array( $this, 'js_templates' ) );
+		add_action( 'customize_controls_print_scripts', array( $this, 'js_templates' ) );
 
 		// Register all the admin actions
 		add_action( 'wp_ajax_so_panels_builder_content', array( $this, 'action_builder_content' ) );
@@ -166,7 +166,8 @@ class SiteOrigin_Panels_Admin {
 		}
 
 		unset( $links['edit'] );
-		$links[] = '<a href="http://siteorigin.com/threads/plugin-page-builder/">' . __( 'Support Forum', 'siteorigin-panels' ) . '</a>';
+		$links[] = '<a href="' . admin_url( 'options-general.php?page=siteorigin_panels' ) . '">' . __( 'Settings', 'siteorigin-panels' ) . '</a>';
+		$links[] = '<a href="http://siteorigin.com/threads/plugin-page-builder/">' . __( 'Support', 'siteorigin-panels' ) . '</a>';
 
 		if( SiteOrigin_Panels::display_premium_teaser() ) {
 			$links[] = '<a href="' . esc_url( SiteOrigin_Panels::premium_url() ) . '" style="color: #3db634" target="_blank" rel="noopener noreferrer">' . __('Addons', 'siteorigin-panels') . '</a>';
@@ -285,7 +286,22 @@ class SiteOrigin_Panels_Admin {
 			delete_post_meta( $post_id, 'panels_data' );
 		}
 
+		// If this is a Live Editor Quick Edit, setup redirection.
+		if (
+			siteorigin_panels_setting( 'live-editor-quick-link-close-after' ) &&
+			strpos( $_POST['_wp_http_referer'], 'so_live_editor' ) !== false
+		) {
+			add_filter( 'redirect_post_location', array( $this, 'live_editor_redirect_after' ), 10, 2 );
+		}
+
 		$this->in_save_post = false;
+	}
+
+	/*
+	 * Handles Live Editor Quick Link redirection after editing.
+	 */
+	public function live_editor_redirect_after( $location, $post_id ) {
+		return get_permalink( $post_id );
 	}
 
 	/**
@@ -1135,17 +1151,24 @@ class SiteOrigin_Panels_Admin {
 			wp_die();
 		}
 
-		if ( ! current_user_can( 'edit_post', $_POST['post_id'] ) ) {
-			wp_die();
+		if ( ! empty( $_POST['post_id'] ) ) {
+			// This is a post so ensure the user is able to edit it.
+			if ( ! current_user_can( 'edit_post', $_POST['post_id'] ) ) {
+				wp_die();
+			}
+			$old_panels_data = get_post_meta( $_POST['post_id'], 'panels_data', true );
+		} else {
+			// This isn't a post, add default data to skip post speciifc checks.
+			$old_panels_data = array();
+			 $_POST['post_id'] = 0;
 		}
-
-		if ( empty( $_POST['post_id'] ) || empty( $_POST['panels_data'] ) ) {
+		
+		if ( empty( $_POST['panels_data'] ) ) {
 			echo json_encode($return);
 			wp_die();
 		}
 
 		// echo the content
-		$old_panels_data        = get_post_meta( $_POST['post_id'], 'panels_data', true );
 		$panels_data            = json_decode( wp_unslash( $_POST['panels_data'] ), true );
 		$panels_data['widgets'] = $this->process_raw_widgets(
 			$panels_data['widgets'],
