@@ -3,7 +3,7 @@
 Plugin Name: Page Builder by SiteOrigin
 Plugin URI: https://siteorigin.com/page-builder/
 Description: A drag and drop, responsive page builder that simplifies building your website.
-Version: 2.12.6
+Version: 2.15.0
 Author: SiteOrigin
 Author URI: https://siteorigin.com
 License: GPL3
@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: http://siteorigin.com/page-builder/#donate
 */
 
-define( 'SITEORIGIN_PANELS_VERSION', '2.12.6' );
+define( 'SITEORIGIN_PANELS_VERSION', '2.15.0' );
 if ( ! defined( 'SITEORIGIN_PANELS_JS_SUFFIX' ) ) {
 	define( 'SITEORIGIN_PANELS_JS_SUFFIX', '.min' );
 }
@@ -204,7 +204,7 @@ class SiteOrigin_Panels {
 
 		// Compatibility with Yoast Sitemap.
 		if ( defined( 'WPSEO_FILE' ) ) {
-			require_once plugin_dir_path( __FILE__ ) . 'compat/yoast-sitemap.php';
+			require_once plugin_dir_path( __FILE__ ) . 'compat/yoast.php';
 		}
 
 		// Compatibility with AMP plugin
@@ -230,6 +230,14 @@ class SiteOrigin_Panels {
 		
 		if ( apply_filters( 'siteorigin_lazyload_compat', $load_lazy_load_compat ) ) {
 			require_once plugin_dir_path( __FILE__ ) . 'compat/lazy-load-backgrounds.php';
+		}
+
+		if ( siteorigin_panels_setting( 'parallax-type' ) == 'modern' && class_exists( 'Jetpack_Photon' ) && Jetpack::is_module_active( 'photon' ) ) {
+			require_once plugin_dir_path( __FILE__ ) . 'compat/jetpack.php';
+		}
+
+		if ( class_exists( 'Polylang' ) ) {
+			require_once plugin_dir_path( __FILE__ ) . 'compat/polylang.php';
 		}
 	}
 
@@ -285,6 +293,16 @@ class SiteOrigin_Panels {
 		$preview_url = wp_nonce_url( $preview_url, 'live-editor-preview', '_panelsnonce' );
 
 		return $preview_url;
+	}
+
+	public static function container_settings() {
+		$container = array(
+			'selector' => apply_filters( 'siteorigin_panels_theme_container_selector', '' ),
+			'width' => apply_filters( 'siteorigin_panels_theme_container_width', '' ),
+		);
+		$container['css_override'] = ! empty( $container['selector'] ) && ! empty( $container['width'] );
+
+		return $container;
 	}
 
 	/**
@@ -519,6 +537,11 @@ class SiteOrigin_Panels {
 		}
 		if( self::is_home() ) $classes[] = 'siteorigin-panels-home';
 		if( self::is_live_editor() ) $classes[] = 'siteorigin-panels-live-editor';
+
+		$this->container = SiteOrigin_Panels::container_settings();
+		if ( ! empty( $this->container ) && $this->container['css_override'] ) {
+			$classes[] = 'siteorigin-panels-css-container';
+		}
 
 		return $classes;
 	}
