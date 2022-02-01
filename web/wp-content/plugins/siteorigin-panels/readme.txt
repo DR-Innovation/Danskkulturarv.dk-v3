@@ -1,10 +1,10 @@
 === Page Builder by SiteOrigin ===
 Tags: page builder, responsive, parallax, widgets, blocks, gallery, layout, grid, cms, builder, widget
 Requires at least: 4.7
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.6.20
-Stable tag: 2.15.0
-Build time: 2021-10-22T11:19:58+02:00
+Stable tag: 2.16.1
+Build time: 2022-01-26T22:27:28+02:00
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: https://siteorigin.com/downloads/premium/
@@ -106,6 +106,30 @@ We've tried to ensure that Page Builder is compatible with most plugin widgets. 
 SiteOrigin Premium includes access to our professional email support service, perfect for those times when you need fast and effective technical support. We're standing by to assist you in any way we can.
 
 == Changelog ==
+
+= 2.16.1 - 26 January 2022 =
+* Sidebar Emulator: Accounted for a potential notice when setting widget ID.
+* Updated the `Tested up to tag` to `5.9`.
+
+= 2.16.0 - 04 January 2022 =
+* Added a new global `Mobile Widget Bottom Margin` setting.
+* Added a new global `Mobile Cell Bottom Margin` setting.
+* Legacy Widgets: Updated for PHP 8 compatibility.
+* WordPress 5.9 Compatibility: Resolved row ordering issue.
+* jQuery: Resolved jQuery Migrate notice. Updated `ready` function.
+* Full-Width Containers Using CSS: Theme container no longer removed on pages without full-width rows.
+* Developer: Resolved JavaScript error when all style fields removed.
+* Developer: Added `panels_title_check_sub_fields` to allow for sub-field detection.
+
+= 2.15.3 - 01 December 2021 =
+* Rows/Cells: Prevented possible data mismatch.
+
+= 2.15.2 - 29 November 2021 =
+* Cells: Resolved undefined `style` error.
+
+= 2.15.1 - 27 November 2021 =
+* Updated Page Builder `Pro Tips`.
+* SiteOrigin Premium: Added row and widget fade styling when hidden by the Toggle Visibility Addon.
 
 = 2.15.0 - 22 October 2021 =
 * Added a "Mobile Margin" setting to `Widget Styles > Mobile Layout`.

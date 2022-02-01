@@ -362,6 +362,13 @@
 .siteorigin-panels-builder .so-rows-container .so-row-container.ui-sortable-helper {
   opacity: 0.9;
 }
+.siteorigin-panels-builder .so-rows-container .so-row-container.so-hidden-row {
+  opacity: 0.7;
+}
+.siteorigin-panels-builder .so-rows-container .so-row-container.so-hidden-row:focus,
+.siteorigin-panels-builder .so-rows-container .so-row-container.so-hidden-row:hover {
+  opacity: 1;
+}
 .siteorigin-panels-builder .so-rows-container .so-row-container .so-cells {
   zoom: 1;
   margin: 0 -5px;
@@ -620,6 +627,13 @@
 .siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget.so-hovered small {
   color: #eee;
 }
+.siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget.so-hidden-widget {
+  opacity: 0.7;
+}
+.siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget.so-hidden-widget:focus,
+.siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget.so-hidden-widget:hover {
+  opacity: 1;
+}
 .siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget-sortable-highlight {
   border: 1px solid rgba(0, 0, 0, 0.075);
   background: rgba(0, 0, 0, 0.025);
@@ -862,6 +876,13 @@
 }
 .so-widget.ui-sortable-helper.widget-being-dragged.so-hovered small {
   color: #eee;
+}
+.so-widget.ui-sortable-helper.widget-being-dragged.so-hidden-widget {
+  opacity: 0.7;
+}
+.so-widget.ui-sortable-helper.widget-being-dragged.so-hidden-widget:focus,
+.so-widget.ui-sortable-helper.widget-being-dragged.so-hidden-widget:hover {
+  opacity: 1;
 }
 /* Handles displaying a builder in the WordPress widget interface */
 .widgets-holder-wrap .widget-inside .siteorigin-panels-builder .so-builder-container {

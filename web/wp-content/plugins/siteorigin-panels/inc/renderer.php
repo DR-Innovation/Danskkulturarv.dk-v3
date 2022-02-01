@@ -111,6 +111,19 @@ class SiteOrigin_Panels_Renderer {
 			// we need to remove the cell widths on mobile.
 			$css_container_cutoff = $this->container['css_override'] && isset( $row['style']['row_stretch'] ) && $row['style']['row_stretch'] == 'full' ? ":$panels_mobile_width" : 1920;
 
+			if (
+				$this->container['css_override'] &&
+				! $this->container['full_width'] &&
+				! empty( $row['style'] ) &&
+				! empty( $row['style']['row_stretch'] ) &&
+				 (
+				 	$row['style']['row_stretch'] == 'full' ||
+				 	$row['style']['row_stretch'] == 'stretch'
+				 )
+			) {
+				$this->container['full_width'] = true;
+			}
+
 			// Add the cell sizing
 			foreach ( $row['cells'] as $ci => $cell ) {
 				$weight = apply_filters( 'siteorigin_panels_css_cell_weight', $cell['weight'], $row, $ri, $cell, $ci - 1, $panels_data, $post_id );
@@ -164,6 +177,10 @@ class SiteOrigin_Panels_Renderer {
 						$panels_data,
 						$post_id 
 					);
+
+					if ( empty( $panels_mobile_widget_mobile_margin ) && ! empty( $settings['widget-mobile-margin-bottom'] ) ) {
+						$panels_mobile_widget_mobile_margin = '0 0 ' . $settings[ 'widget-mobile-margin-bottom'] . 'px';
+					}
 
 					if ( ! empty( $panels_mobile_widget_mobile_margin ) ) {
 						$css->add_widget_css(
@@ -271,7 +288,7 @@ class SiteOrigin_Panels_Renderer {
 						$css->add_cell_css( $post_id, $ri, $ci, '', array(
 							'margin-bottom' => apply_filters(
 								'siteorigin_panels_css_cell_mobile_margin_bottom',
-								$settings['margin-bottom'] . 'px',
+								$settings['mobile-cell-margin'] . 'px',
 								$cell,
 								$ci,
 								$row,
@@ -328,7 +345,11 @@ class SiteOrigin_Panels_Renderer {
 			), $panels_mobile_width );
 		}
 
-		if ( $this->container['css_override'] ) {
+		// Do we need to remove the theme container on this page?
+		if (
+			$this->container['css_override'] &&
+			$this->container['full_width'] // Does this layout have full width layouts?
+		 ) {
 			$css->add_css(
 				esc_html( $this->container['selector'] ),
 				array(
