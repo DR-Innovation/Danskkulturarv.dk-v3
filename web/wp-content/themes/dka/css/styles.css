@@ -5794,6 +5794,9 @@ iframe {
 .blue {
   color: #3e8c98;
 }
+.thumbnails {
+  list-style: none;
+}
 .thumbnails img {
   width: 100%;
 }
