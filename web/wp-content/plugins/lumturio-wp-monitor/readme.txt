@@ -3,8 +3,8 @@ Contributors: lumturioteam
 Donate link: https://lumturio.com
 Tags: dashboard, updates, security, wordpress, updates, management, admin, WordPress Admin, custom
 Requires at least: 4.0
-Tested up to: 5.3
-Stable tag: 1.0.6
+Tested up to: 5.9
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

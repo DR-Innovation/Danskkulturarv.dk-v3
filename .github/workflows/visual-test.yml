@@ -1,0 +1,42 @@
+on: pull_request
+name: Visual regression tests
+jobs:
+
+  visual_test:
+    name: BackstopJS visual test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Preheat prod site
+        run: |
+          for url in $(jq -r '.scenarios[].referenceUrl' < backstop.json); do
+            echo "::group::Preheat ${url}"
+            curl --silent --location --output /dev/null --retry 3 "${url}"
+            echo "::endgroup::"
+          done
+
+      - uses: reload/action-backstop@v2
+        with:
+          action: reference
+          github_token: ${{ github.token }}
+
+      - uses: xendk/dais@main
+        with:
+          platform_id: ${{ secrets.DAIS_PLATFORMSH_ID }}
+          platform_key: ${{ secrets.DAIS_PLATFORMSH_KEY }}
+          files: backstop.json
+
+      - name: Preheat PR site
+        run: |
+          for url in $(jq -r '.scenarios[].url' < backstop.json); do
+            echo "::group::Preheat ${url}"
+            curl --silent --location --output /dev/null --retry 3 "${url}"
+            echo "::endgroup::"
+          done
+
+      - uses: reload/action-backstop@v2
+        with:
+          github_token: ${{ github.token }}
+          # Automatically set for repositories in the reload organization.
+          backstore_key: ${{ secrets.RELOAD_BACKSTORE_KEY }}

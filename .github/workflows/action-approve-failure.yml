@@ -1,0 +1,22 @@
+name: Approve failure
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  approve-failure:
+    # This condition is important since you want to prevent all of the
+    # steps from running as early as possible if the comment isn't in
+    # a PR.
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: reload/action-approve-failure@main
+        name: Approve BackstopJS
+        with:
+          github_token: ${{ github.token }}
+          name: Visual regression test
+          approve_comment: backstop-check approve

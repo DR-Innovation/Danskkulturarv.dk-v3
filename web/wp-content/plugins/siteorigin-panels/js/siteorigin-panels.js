@@ -1544,31 +1544,41 @@ module.exports = panels.view.dialog.extend({
 		}
 
 		// Update the row styles if they've loaded
-		if (!_.isUndefined(this.styles) && this.styles.stylesLoaded) {
+		if ( ! _.isUndefined( this.styles ) && this.styles.stylesLoaded ) {
 			// This is an edit dialog, so there are styles
-			var style = {};
+			var newStyles = {};
 			try {
-				style = this.getFormValues('.so-sidebar .so-visual-styles.so-row-styles').style;
+				newStyles = this.getFormValues( '.so-sidebar .so-visual-styles.so-row-styles' ).style;
 			}
 			catch (err) {
-				console.log('Error retrieving row styles - ' + err.message);
+				console.log( 'Error retrieving row styles - ' + err.message );
 			}
 
-			this.model.set('style', style);
+			// Have there been any Style changes?
+			if ( JSON.stringify( this.model.attributes.style ) !== JSON.stringify( newStyles ) ) {
+				this.model.set( 'style', newStyles );
+				this.model.trigger( 'change:styles' );
+				this.model.trigger( 'change:styles-row' );
+			}
 		}
 
 		// Update the cell styles if any are showing.
-		if (!_.isUndefined(this.cellStyles) && this.cellStyles.stylesLoaded) {
+		if ( !_.isUndefined( this.cellStyles ) && this.cellStyles.stylesLoaded ) {
 
-			var style = {};
+			var newStyles = {};
 			try {
-				style = this.getFormValues('.so-sidebar .so-visual-styles.so-cell-styles').style;
+				newStyles = this.getFormValues( '.so-sidebar .so-visual-styles.so-cell-styles' ).style;
 			}
 			catch (err) {
 				console.log('Error retrieving cell styles - ' + err.message);
 			}
 
-			this.cellStyles.model.set('style', style);
+			// Has there been any Style changes?
+			if ( JSON.stringify( this.model.attributes.style ) !== JSON.stringify( newStyles ) ) {
+				this.cellStyles.model.set( 'style', newStyles );
+				this.model.trigger( 'change:styles' );
+				this.model.trigger( 'change:styles-cell' );
+			}
 		}
 
 		if (args.refresh) {
@@ -1920,13 +1930,18 @@ module.exports = panels.view.dialog.extend( {
 
 		if ( this.styles.stylesLoaded ) {
 			// If the styles view has loaded
-			var style = {};
+			var newStyles = {};
 			try {
-				style = this.getFormValues( '.so-sidebar .so-visual-styles' ).style;
+				newStyles = this.getFormValues( '.so-sidebar .so-visual-styles' ).style;
 			}
 			catch ( e ) {
 			}
-			this.model.set( 'style', style );
+
+			// Have there been any Style changes?
+			if ( JSON.stringify( this.model.attributes.style ) !== JSON.stringify( newStyles ) ) {
+				this.model.set( 'style', newStyles );
+				this.model.trigger( 'change:styles' );
+			}
 		}
 
 		this.savingWidget = false;
@@ -2782,7 +2797,7 @@ jQuery( function ( $ ) {
 
 // WP 5.7+: Prevent undesired "restore content" notice.
 if ( typeof window.wp.autosave !== 'undefined' && jQuery( '#siteorigin-panels-metabox' ).length ) {
-	jQuery( document ).on( 'ready', function( e ) {
+	jQuery( function( e ) {
 		var blog_id = typeof window.autosaveL10n !== 'undefined' && window.autosaveL10n.blog_id;
 		
 		// Ensure sessionStorage is working, and we were able to find a blog id.
@@ -3716,20 +3731,38 @@ module.exports = Backbone.Model.extend( {
 	 * Iterate an array and find a valid field we can use for a title. Supports multidimensional arrays.
 	 *
 	 * @param values An array containing field values.
+	 * @returns object thisView The current widget instance.
+	 * @returns object fields The fields we're specifically check for.
+	 * @param object check_sub_fields Whether we should check sub fields.
+	 *
 	 * @returns string The title we found. If we weren't able to find one, it returns false.
 	 */
-	getTitleFromValues: function( values, thisView ) {
+	getTitleFromValues: function( values, thisView, fields = false, check_sub_fields = true ) {
 		var widgetTitle = false;
 		for ( const k in values ) {
 			if ( typeof values[ k ] == 'object' ) {
-				// Field is an array, check child for valid titles.
-				widgetTitle = thisView.getTitleFromValues( values[ k ], thisView );
+				if ( check_sub_fields ) {
+					// Field is an object, check child for valid titles.
+					widgetTitle = thisView.getTitleFromValues( values[ k ], thisView, fields );
+					if ( widgetTitle ) {
+						break;
+					}
+				}
+			// Check for predefined title fields.
+			} else if ( typeof fields == 'object' ) {
+				for ( var i = 0; i < fields.length; i++ ) {
+					if ( k == fields[i] ) {
+						widgetTitle = thisView.cleanTitle( values[ k ] )
+						break;
+					}
+				}
 				if ( widgetTitle ) {
 					break;
 				}
 			// Ensure field isn't a required WB field, and if its not, confirm it's valid.
 			} else if (
-				k.charAt(0) !== '_' &&
+				typeof fields != 'object' &&
+				k.charAt( 0 ) !== '_' &&
 				k !== 'so_sidebar_emulator_id' &&
 				k !== 'option_name' &&
 				thisView.isValidTitle( values[ k ] )
@@ -3768,15 +3801,15 @@ module.exports = Backbone.Model.extend( {
 		var widgetTitle = false;
 
 		// Check titleFields for valid titles.
-		_.each( titleFields, function( title ) {
-			if ( ! widgetTitle && thisView.isValidTitle( values[ title ] ) ) {
-				widgetTitle = thisView.cleanTitle( values[ title ] );
-				return false;
-			}
-		} );
+		widgetTitle = this.getTitleFromValues(
+			values,
+			thisView,
+			titleFields,
+			typeof widgetData.panels_title_check_sub_fields != 'undefined' ? widgetData.panels_title_check_sub_fields : false
+		);
 
 		if ( ! widgetTitle && ! titleFieldOnly ) {
-			// No titles were found. Let's check the rest of the fields for a valid title..
+			// No titles were found. Let's check the rest of the fields for a valid title.
 			widgetTitle = this.getTitleFromValues( values, thisView );
 		}
 
@@ -4517,8 +4550,9 @@ module.exports = Backbone.View.extend( {
 		var builderID = builderView.$el.attr( 'id' );
 
 		// Create the sortable for the rows
-		this.rowsSortable = this.$( '.so-rows-container' ).sortable( {
-			appendTo: '#wpwrap',
+		var wpVersion = $( 'body' ).attr( 'class' ).match( /branch-([0-9-]+)/ )[0].replace( /\D/g,'' );
+		this.rowsSortable = this.$( '.so-rows-container:not(.sow-row-color)' ).sortable( {
+			appendTo: wpVersion >= 59 ? 'parent' : '#wpwrap',
 			items: '.so-row-container',
 			handle: '.so-row-move',
 			// For the block editor, where it's possible to have multiple Page Builder blocks on a page.
@@ -6627,6 +6661,7 @@ module.exports = Backbone.View.extend( {
 		}, this );
 
 		this.listenTo( this.model, 'change:label', this.onLabelChange );
+		this.listenTo( this.model, 'change:styles-row ', this.toggleVisibilityFade );
 	},
 
 	/**
@@ -6679,6 +6714,8 @@ module.exports = Backbone.View.extend( {
 			this.$('.so-row-toolbar' ).remove();
 		}
 
+		this.toggleVisibilityFade();
+
 		// Resize the rows when ever the widget sortable moves
 		this.listenTo( this.builder, 'widget_sortable_move', this.resizeRow );
 		this.listenTo( this.builder, 'builder_resize', this.resizeRow );
@@ -6686,6 +6723,32 @@ module.exports = Backbone.View.extend( {
 		this.resizeRow();
 
 		return this;
+	},
+
+	checkIfStyleExists: function( styles, setting ) {
+		return typeof styles[ setting ] !== 'undefined' && styles[ setting ] == 'on';
+	},
+
+	/**
+	 * Toggle Visibility: Check if row is hidden and apply fade as needed.
+	 */
+	toggleVisibilityFade: function() {
+		var styles = this.model.attributes.style;
+		if ( typeof styles == 'undefined' ) {
+			return;
+		}
+		if (
+			this.checkIfStyleExists( styles, 'disable_row' ) ||
+			this.checkIfStyleExists( styles, 'disable_desktop' ) ||
+			this.checkIfStyleExists( styles, 'disable_tablet' ) ||
+			this.checkIfStyleExists( styles, 'disable_mobile' ) ||
+			this.checkIfStyleExists( styles, 'disable_logged_in' ) ||
+			this.checkIfStyleExists( styles, 'disable_logged_out' )
+		) {
+			this.$el.addClass( 'so-hidden-row' );
+		} else {
+			this.$el.removeClass( 'so-hidden-row' );
+		}
 	},
 
 	/**
@@ -7371,6 +7434,7 @@ module.exports = Backbone.View.extend( {
 	initialize: function () {
 		this.listenTo(this.model, 'destroy', this.onModelDestroy);
 		this.listenTo(this.model, 'change:values', this.onModelChange);
+		this.listenTo( this.model, 'change:styles ', this.toggleVisibilityFade );
 		this.listenTo(this.model, 'change:label', this.onLabelChange);
 	},
 
@@ -7424,10 +7488,38 @@ module.exports = Backbone.View.extend( {
 			dialog.setupDialog();
 		}
 
+		this.toggleVisibilityFade();
+
 		// Add the global builder listeners
-		this.listenTo(this.cell.row.builder, 'after_user_adds_widget', this.afterUserAddsWidgetHandler);
+		this.listenTo( this.cell.row.builder, 'after_user_adds_widget', this.afterUserAddsWidgetHandler );
 
 		return this;
+	},
+
+	checkIfStyleExists: function( styles, setting ) {
+		return typeof styles[ setting ] !== 'undefined' && styles[ setting ] == 'on';
+	},
+
+	/**
+	 * Toggle Visibility: Check if row is hidden and apply fade as needed.
+	 */
+	toggleVisibilityFade: function() {
+		var styles = this.model.attributes.style;
+		if ( typeof styles == 'undefined' ) {
+			return;
+		}
+		if (
+			this.checkIfStyleExists( styles, 'disable_widget' ) ||
+			this.checkIfStyleExists( styles, 'disable_desktop' ) ||
+			this.checkIfStyleExists( styles, 'disable_tablet' ) ||
+			this.checkIfStyleExists( styles, 'disable_mobile' ) ||
+			this.checkIfStyleExists( styles, 'disable_logged_in' ) ||
+			this.checkIfStyleExists( styles, 'disable_logged_out' )
+		) {
+			this.$el.addClass( 'so-hidden-widget' );
+		} else {
+			this.$el.removeClass( 'so-hidden-widget' );
+		}
 	},
 
 	/**
