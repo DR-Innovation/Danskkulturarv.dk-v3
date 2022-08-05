@@ -1,10 +1,10 @@
 === Page Builder by SiteOrigin ===
 Tags: page builder, responsive, parallax, widgets, blocks, gallery, layout, grid, cms, builder, widget
 Requires at least: 4.7
-Tested up to: 5.9
+Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.16.1
-Build time: 2022-01-26T22:27:28+02:00
+Stable tag: 2.16.17
+Build time: 2022-07-19T14:01:35+02:00
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: https://siteorigin.com/downloads/premium/
@@ -106,6 +106,64 @@ We've tried to ensure that Page Builder is compatible with most plugin widgets. 
 SiteOrigin Premium includes access to our professional email support service, perfect for those times when you need fast and effective technical support. We're standing by to assist you in any way we can.
 
 == Changelog ==
+
+= 2.16.17 - 19 July 2022 =
+* Restored Cell `Link Color` and `Link Hover Color` settings.
+* Gravity Forms: Added additional check to prevent an unrelated notice.
+* Jetpack: Added Copy Post module support. 
+
+= 2.16.16 - 09 July 2022 =
+* Legacy Layout Engine: Resolved `Undefined index: cell_index` notice.
+
+= 2.16.15 - 27 June 2022 =
+* Resolved edge case empty widgets warning.
+
+= 2.16.14 - 19 June 2022 =
+* Layout Block: Limited block preview attempts.
+* Modern Parallax: Resolved potential choppy scrolling.
+
+= 2.16.13 - 25 May 2022 =
+* Updated WordPress `Tested up to` tag.
+* Minor PHP formatting improvements.
+
+= 2.16.12 - 22 May 2022 =
+* Layout Block: Resolved WP 6.0 styling conflict.
+* WP Version Check: Update to check for version body class instead of branch.
+
+= 2.16.11 - 18 April 2022 =
+* Widget Descriptions: Resolved a potential error with old SiteOrigin Image Widgets title value set to `false` rather than `null`.
+
+= 2.16.10 - 13 April 2022 =
+* Block-Based Widgets Editor: Restored SiteOrigin Layout Block compatibility and other improvements.
+
+= 2.16.9 - 07 April 2022 =
+* Layout Block: Fixed JSON layout export file name.
+* Developer: Passed `postId` to server when rendering widget form.
+
+= 2.16.8 - 30 March 2022 =
+* Improved PHP 8 Compatibility: Replaced `GLOB_BRACE` flag in favor of multiple `glob` functions.
+* Developer: Added `siteorigin_panels_output_row` and `siteorigin_panels_output_widget` filters.
+
+= 2.16.7 - 23 March 2022 =
+* Improved empty CSS rule check to avoid potential edge cases.
+
+= 2.16.6 - 21 March 2022 =
+* Prevented CSS properties outputting with only `px` set as the value.
+* WPML: Refined sidebar emulator language path removal.
+
+= 2.16.5 - 06 March 2022 =
+* Full-Width Containers Using CSS: Ensured full-width global CSS is only output once.
+
+= 2.16.4 - 19 February 2022 =
+* Full-Width Containers Using CSS: Restored normal functionality when Standard or Full-Width rows not present.
+* Full-Width Containers Using CSS: Resolved a collapse issue when the browser resolution equals the collapse value.
+
+= 2.16.3 - 14 February 2022 =
+* Fixed Background Images: Change to `scroll` on mobile devices. Resolves iOS bug.
+
+= 2.16.2 - 07 February 2022 =
+* Added Yoast Video SEO plugin integration.
+* Restored content analysis functionality for newer Yoast SEO versions.
 
 = 2.16.1 - 26 January 2022 =
 * Sidebar Emulator: Accounted for a potential notice when setting widget ID.

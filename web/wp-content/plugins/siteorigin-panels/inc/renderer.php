@@ -109,7 +109,7 @@ class SiteOrigin_Panels_Renderer {
 
 			// If the CSS Container Breaker is enabled, and this row is using it,
 			// we need to remove the cell widths on mobile.
-			$css_container_cutoff = $this->container['css_override'] && isset( $row['style']['row_stretch'] ) && $row['style']['row_stretch'] == 'full' ? ":$panels_mobile_width" : 1920;
+			$css_container_cutoff = $this->container['css_override'] && isset( $row['style']['row_stretch'] ) && $row['style']['row_stretch'] == 'full' ? ':' . ( $panels_mobile_width + 1 ) : 1920;
 
 			if (
 				$this->container['css_override'] &&
@@ -118,7 +118,8 @@ class SiteOrigin_Panels_Renderer {
 				! empty( $row['style']['row_stretch'] ) &&
 				 (
 				 	$row['style']['row_stretch'] == 'full' ||
-				 	$row['style']['row_stretch'] == 'stretch'
+				 	$row['style']['row_stretch'] == 'full-stretched' ||
+				 	$row['style']['row_stretch'] == 'full-stretched-padded'
 				 )
 			) {
 				$this->container['full_width'] = true;
@@ -348,8 +349,12 @@ class SiteOrigin_Panels_Renderer {
 		// Do we need to remove the theme container on this page?
 		if (
 			$this->container['css_override'] &&
-			$this->container['full_width'] // Does this layout have full width layouts?
-		 ) {
+			$this->container['full_width'] && // Does this layout have full width layouts?
+			! defined( 'siteorigin_css_override' )
+		) {
+			// Prevent this CSS from being added again.
+			define( 'siteorigin_css_override', true );
+
 			$css->add_css(
 				esc_html( $this->container['selector'] ),
 				array(
@@ -482,7 +487,9 @@ class SiteOrigin_Panels_Renderer {
 		echo apply_filters( 'siteorigin_panels_before_content', '', $panels_data, $post_id );
 
 		foreach ( $layout_data as $ri => & $row ) {
-			$this->render_row( $post_id, $ri, $row, $panels_data );
+			if ( apply_filters( 'siteorigin_panels_output_row', true, $row, $ri, $panels_data, $post_id ) ) {
+				$this->render_row( $post_id, $ri, $row, $panels_data );
+			}
 		}
 
 		echo apply_filters( 'siteorigin_panels_after_content', '', $panels_data, $post_id );
@@ -562,7 +569,7 @@ class SiteOrigin_Panels_Renderer {
 		}
 
 		$style_wrapper = '';
-		if ( ! empty( $attributes ) || ! empty( $standard_css ) || ! empty( $mobile_css ) ) {
+		if ( ! empty( $attributes ) || ! empty( $standard_css )  || ! empty( $tablet_css )|| ! empty( $mobile_css ) ) {
 			if ( empty( $attributes['class'] ) ) {
 				$attributes['class'] = array();
 			}
@@ -1013,7 +1020,9 @@ class SiteOrigin_Panels_Renderer {
 
 		foreach ( $cell['widgets'] as $wi => & $widget ) {
 			$is_last = ( $wi == count( $cell['widgets'] ) - 1 );
-			$this->render_widget( $post_id, $ri, $ci, $wi, $widget, $is_last );
+			if ( apply_filters( 'siteorigin_panels_output_widget', true, $widget, $ri, $ci, $wi, $panels_data, $post_id ) ) {
+				$this->render_widget( $post_id, $ri, $ci, $wi, $widget, $is_last );
+			}
 		}
 
 		// This allows other themes and plugins to add HTML inside of the cell after its contents.

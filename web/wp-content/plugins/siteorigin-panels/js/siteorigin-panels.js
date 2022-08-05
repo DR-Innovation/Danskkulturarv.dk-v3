@@ -582,16 +582,18 @@ module.exports = panels.view.dialog.extend( {
 			var $$ = $( this );
 			var panelsData = thisView.builder.model.getPanelsData();
 			var postName = $( 'input[name="post_title"], .editor-post-title__input' ).val();
-			if ( ! postName ) {
-				postName = $('input[name="post_ID"]').val();
-			} else if ( $( '.block-editor-page' ).length ) {
+			if ( ( ! postName || postName === '' ) && $( '.block-editor-page' ).length ) {
+				postName = $( '.wp-block-post-title' ).text();
+			}
+			panelsData.name = postName !== '' ? postName : $( 'input[name="post_ID"]' ).val();
+
+			// Append block position id to filename.
+			if ( $( '.block-editor-page' ).length ) {
 				var currentBlockPosition = thisView.getCurrentBlockPosition();
 				if ( currentBlockPosition >= 0 ) {
-					postName += '-' + currentBlockPosition; 
+					panelsData.name += '-' + currentBlockPosition; 
 				}
-
 			}
-			panelsData.name = postName;
 			$$.find( 'input[name="panels_export_data"]' ).val( JSON.stringify( panelsData ) );
 		} );
 
@@ -1856,7 +1858,8 @@ module.exports = panels.view.dialog.extend( {
 			'action': 'so_panels_widget_form',
 			'widget': this.model.get( 'class' ),
 			'instance': JSON.stringify( this.model.get( 'values' ) ),
-			'raw': this.model.get( 'raw' )
+			'raw': this.model.get( 'raw' ),
+			'postId': this.builder.config.postId
 		};
 
 		var $soContent = this.$( '.so-content' );
@@ -3721,6 +3724,10 @@ module.exports = Backbone.Model.extend( {
 	 * @returns string The "cleaned" title.
 	 */
 	cleanTitle: function( title ) {
+		// Prevent situation where invalid titles are processed for cleaning.
+		if ( typeof title !== 'string' ) {
+			return false;
+		}
 		title = title.replace( /<\/?[^>]+(>|$)/g, "" );
 		var parts = title.split( " " );
 		parts = parts.slice( 0, 20 );
@@ -3753,7 +3760,9 @@ module.exports = Backbone.Model.extend( {
 				for ( var i = 0; i < fields.length; i++ ) {
 					if ( k == fields[i] ) {
 						widgetTitle = thisView.cleanTitle( values[ k ] )
-						break;
+						if ( widgetTitle ) {
+							break;
+						}
 					}
 				}
 				if ( widgetTitle ) {
@@ -3768,7 +3777,9 @@ module.exports = Backbone.Model.extend( {
 				thisView.isValidTitle( values[ k ] )
 			) {
 				widgetTitle = thisView.cleanTitle( values[ k ] )
-				break;
+				if ( widgetTitle ) {
+					break;
+				}
 			}
 		};
 
@@ -4550,7 +4561,7 @@ module.exports = Backbone.View.extend( {
 		var builderID = builderView.$el.attr( 'id' );
 
 		// Create the sortable for the rows
-		var wpVersion = $( 'body' ).attr( 'class' ).match( /branch-([0-9-]+)/ )[0].replace( /\D/g,'' );
+		var wpVersion = $( 'body' ).attr( 'class' ).match( /version-([0-9-]+)/ )[0].replace( /\D/g,'' );
 		this.rowsSortable = this.$( '.so-rows-container:not(.sow-row-color)' ).sortable( {
 			appendTo: wpVersion >= 59 ? 'parent' : '#wpwrap',
 			items: '.so-row-container',
@@ -4814,7 +4825,7 @@ module.exports = Backbone.View.extend( {
 		// Display the live editor button in the toolbar
 		if ( this.liveEditor.hasPreviewUrl() ) {
 			var addLEButton = false;
-			if ( ! panels.helpers.editor.isBlockEditor() ) {
+			if ( ! panels.helpers.editor.isBlockEditor() || $( '.widgets-php' ).length ) {
 				addLEButton = true;
 			} else if ( wp.data.select( 'core/editor' ).getEditedPostAttribute( 'status' ) != 'auto-draft' ) {
 				addLEButton = true;
@@ -6348,11 +6359,7 @@ module.exports = Backbone.View.extend( {
 	closeAndSave: function(){
 		this.close( false );
 		// Finds the submit input for saving without publishing draft posts.
-		if ( $( '.block-editor-page' ).length ) {
-			$( '.editor-post-publish-button' )[0].click();
-		} else {
-			$( '#submitdiv input[type="submit"][name="save"]' )[0].click();
-		}
+		$( '#submitdiv input[type="submit"][name="save"], .editor-post-publish-button, .edit-widgets-header__actions .is-primary' )[0].click();
 	},
 
 	/**

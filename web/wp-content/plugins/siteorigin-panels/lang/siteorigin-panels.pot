@@ -36,19 +36,19 @@ msgstr ""
 msgid "https://siteorigin.com"
 msgstr ""
 
-#: siteorigin-panels.php:392
+#: siteorigin-panels.php:394
 msgid "Read More"
 msgstr ""
 
-#: siteorigin-panels.php:567
+#: siteorigin-panels.php:569
 msgid "Edit Home Page"
 msgstr ""
 
-#: siteorigin-panels.php:587, tpl/js-templates.php:34, tpl/js-templates.php:36
+#: siteorigin-panels.php:589, tpl/js-templates.php:40, tpl/js-templates.php:42
 msgid "Live Editor"
 msgstr ""
 
-#: compat/layout-block.php:95
+#: compat/layout-block.php:96
 msgid "You need to add a widget, row, or prebuilt layout before you'll see anything here. :)"
 msgstr ""
 
@@ -85,31 +85,31 @@ msgstr ""
 msgid "Get Premium"
 msgstr ""
 
-#: inc/admin-layouts.php:40, inc/admin-layouts.php:222
+#: inc/admin-layouts.php:40, inc/admin-layouts.php:237
 msgid "Layouts Directory"
 msgstr ""
 
-#: inc/admin-layouts.php:186
+#: inc/admin-layouts.php:201
 msgid "Invalid request."
 msgstr ""
 
-#: inc/admin-layouts.php:201
+#: inc/admin-layouts.php:216
 msgid "Theme Defined Layouts"
 msgstr ""
 
-#: inc/admin-layouts.php:272
+#: inc/admin-layouts.php:287
 msgid "Clone %s"
 msgstr ""
 
-#: inc/admin-layouts.php:310
+#: inc/admin-layouts.php:325
 msgid " - Results For:"
 msgstr ""
 
-#: inc/admin-layouts.php:343
+#: inc/admin-layouts.php:358
 msgid "Missing layout ID or no such layout exists"
 msgstr ""
 
-#: inc/admin-layouts.php:389
+#: inc/admin-layouts.php:404
 msgid "There was a problem fetching the layout. Please try again later."
 msgstr ""
 
@@ -161,11 +161,11 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: inc/admin.php:172, tpl/js-templates.php:44
+#: inc/admin.php:172, tpl/js-templates.php:50
 msgid "Addons"
 msgstr ""
 
-#: inc/admin.php:186, inc/admin.php:627, inc/admin.php:1301, inc/admin.php:1306, inc/settings.php:237, tpl/js-templates.php:212
+#: inc/admin.php:186, inc/admin.php:628, inc/admin.php:1302, inc/admin.php:1307, inc/settings.php:237, tpl/js-templates.php:218
 msgid "Page Builder"
 msgstr ""
 
@@ -317,7 +317,7 @@ msgid "Layout Builder Widget"
 msgstr ""
 
 #. translators: A standard confirmation message
-#: inc/admin.php:463, tpl/js-templates.php:97, tpl/js-templates.php:437
+#: inc/admin.php:463, tpl/js-templates.php:103, tpl/js-templates.php:443
 msgid "Are you sure?"
 msgstr ""
 
@@ -334,7 +334,7 @@ msgstr ""
 msgid "Add Widget to Cell"
 msgstr ""
 
-#: inc/admin.php:471, tpl/js-templates.php:239
+#: inc/admin.php:471, tpl/js-templates.php:245
 msgid "Search Widgets"
 msgstr ""
 
@@ -382,15 +382,15 @@ msgstr ""
 msgid "Row Actions"
 msgstr ""
 
-#: inc/admin.php:487, tpl/js-templates.php:95
+#: inc/admin.php:487, tpl/js-templates.php:101
 msgid "Edit Row"
 msgstr ""
 
-#: inc/admin.php:488, tpl/js-templates.php:96
+#: inc/admin.php:488, tpl/js-templates.php:102
 msgid "Duplicate Row"
 msgstr ""
 
-#: inc/admin.php:489, tpl/js-templates.php:97
+#: inc/admin.php:489, tpl/js-templates.php:103
 msgid "Delete Row"
 msgstr ""
 
@@ -414,7 +414,7 @@ msgstr ""
 msgid "New Row"
 msgstr ""
 
-#: inc/admin.php:497, inc/admin.php:505, inc/styles.php:247, tpl/js-templates.php:62
+#: inc/admin.php:497, inc/admin.php:505, inc/styles.php:246, tpl/js-templates.php:68
 msgid "Row"
 msgstr ""
 
@@ -434,11 +434,11 @@ msgstr ""
 msgid "Add a {{%= items[0] %}}, {{%= items[1] %}} or {{%= items[2] %}} to get started."
 msgstr ""
 
-#: inc/admin.php:504, inc/styles.php:417, tpl/js-templates.php:61
+#: inc/admin.php:504, inc/styles.php:416, tpl/js-templates.php:67
 msgid "Widget"
 msgstr ""
 
-#: inc/admin.php:506, tpl/js-templates.php:63
+#: inc/admin.php:506, tpl/js-templates.php:69
 msgid "Prebuilt Layout"
 msgstr ""
 
@@ -446,7 +446,7 @@ msgstr ""
 msgid "Read our %s if you need help."
 msgstr ""
 
-#: inc/admin.php:509, tpl/js-templates.php:64
+#: inc/admin.php:509, tpl/js-templates.php:70
 msgid "documentation"
 msgstr ""
 
@@ -463,165 +463,165 @@ msgid "Unknown error. Failed to load the form. Please check your internet connec
 msgstr ""
 
 #. translators: This is the default name given to a user's home page.
-#: inc/admin.php:710, inc/home.php:26
+#: inc/admin.php:711, inc/home.php:26
 msgid "Home Page"
 msgstr ""
 
-#: inc/admin.php:811
+#: inc/admin.php:812
 msgid "Untitled Widget"
 msgstr ""
 
-#: inc/admin.php:995
+#: inc/admin.php:996
 msgid "You need to install 1{%1$s} to use the widget 2{%2$s}."
 msgstr ""
 
-#: inc/admin.php:1001
+#: inc/admin.php:1002
 msgid "Save and reload this page to start using the widget after you've installed it."
 msgstr ""
 
-#: inc/admin.php:1017
+#: inc/admin.php:1018
 msgid "The widget 1{%1$s} is not available. Please try locate and install the missing plugin. Post on the 2{support forums} if you need help."
 msgstr ""
 
-#: inc/admin.php:1204, inc/styles-admin.php:25
+#: inc/admin.php:1205, inc/styles-admin.php:25
 msgid "The supplied nonce is invalid."
 msgstr ""
 
-#: inc/admin.php:1205, inc/styles-admin.php:26
+#: inc/admin.php:1206, inc/styles-admin.php:26
 msgid "Invalid nonce."
 msgstr ""
 
-#: inc/admin.php:1211
+#: inc/admin.php:1212
 msgid "Please specify the type of widget form to be rendered."
 msgstr ""
 
-#: inc/admin.php:1212
+#: inc/admin.php:1213
 msgid "Missing widget type."
 msgstr ""
 
-#: inc/admin.php:1319
+#: inc/admin.php:1320
 msgid "%s Widget"
 msgid_plural "%s Widgets"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/admin.php:1362
+#: inc/admin.php:1363
 msgid "Get the row, cell, and widget %link%."
 msgstr ""
 
-#: inc/admin.php:1364
+#: inc/admin.php:1365
 msgid "Animations Addon"
 msgstr ""
 
-#: inc/admin.php:1367
+#: inc/admin.php:1368
 msgid "Get the %link%. Build custom post types with reusable Page Builder layouts."
 msgstr ""
 
-#: inc/admin.php:1369
+#: inc/admin.php:1370
 msgid "CPT Builder Addon"
 msgstr ""
 
-#: inc/admin.php:1372
+#: inc/admin.php:1373
 msgid "Get the %link%. Add beautiful and customizable text overlays with animations to your images."
 msgstr ""
 
-#: inc/admin.php:1374
+#: inc/admin.php:1375
 msgid "Image Overlay Addon"
 msgstr ""
 
-#: inc/admin.php:1377
+#: inc/admin.php:1378
 msgid "Get a %link% for the SiteOrigin Image, Masonry, and Slider Widgets."
 msgstr ""
 
-#: inc/admin.php:1379
+#: inc/admin.php:1380
 msgid "Lightbox Addon"
 msgstr ""
 
-#: inc/admin.php:1382
+#: inc/admin.php:1383
 msgid "Link an entire Page Builder row, cell, or widget with the %link%."
 msgstr ""
 
-#: inc/admin.php:1384
+#: inc/admin.php:1385
 msgid "Link Overlay Addon"
 msgstr ""
 
-#: inc/admin.php:1387
+#: inc/admin.php:1388
 msgid "Get the %link%. Create a widget once, use it everywhere. Update it and the changes reflect in all instances of the widget."
 msgstr ""
 
-#: inc/admin.php:1389
+#: inc/admin.php:1390
 msgid "Mirror Widgets Addon"
 msgstr ""
 
-#: inc/admin.php:1392
+#: inc/admin.php:1393
 msgid "Upload multiple image frames at once to Widgets Bundle Slider and Image Grid type widgets with %link%."
 msgstr ""
 
-#: inc/admin.php:1394, inc/admin.php:1399
+#: inc/admin.php:1395, inc/admin.php:1400
 msgid "SiteOrigin Premium"
 msgstr ""
 
-#: inc/admin.php:1397
+#: inc/admin.php:1398
 msgid "Add parallax background images to your slider type widgets with %link%."
 msgstr ""
 
-#: inc/admin.php:1402
+#: inc/admin.php:1403
 msgid "Hide rows and widgets based for logged-in or logged-out users with the %link%."
 msgstr ""
 
-#: inc/admin.php:1404, inc/admin.php:1409, inc/admin.php:1414
+#: inc/admin.php:1405, inc/admin.php:1410, inc/admin.php:1415
 msgid "Toggle Visibility Addon"
 msgstr ""
 
-#: inc/admin.php:1407
+#: inc/admin.php:1408
 msgid "Show or hide rows and widgets between a selected date range with the %link%."
 msgstr ""
 
-#: inc/admin.php:1412
+#: inc/admin.php:1413
 msgid "Hide rows and widgets on specific devices with the %link%."
 msgstr ""
 
-#: inc/admin.php:1417
+#: inc/admin.php:1418
 msgid "Get a %link% with SiteOrigin Premium."
 msgstr ""
 
-#: inc/admin.php:1419
+#: inc/admin.php:1420
 msgid "Tooltip Addon"
 msgstr ""
 
-#: inc/admin.php:1422
+#: inc/admin.php:1423
 msgid "Use Google Fonts in SiteOrigin Widgets with the %link%."
 msgstr ""
 
-#: inc/admin.php:1424
+#: inc/admin.php:1425
 msgid "Webfont Selector Addon"
 msgstr ""
 
-#: inc/admin.php:1427
+#: inc/admin.php:1428
 msgid "Get fast email support for Page Builder with %link%."
 msgstr ""
 
-#: inc/admin.php:1429
+#: inc/admin.php:1430
 msgid "SiteOrigin Preimum"
 msgstr ""
 
-#: inc/admin.php:1434
+#: inc/admin.php:1435
 msgid "Get the %link%. Create custom templates for the Product, Archives, Shop, Cart, and Checkout pages."
 msgstr ""
 
-#: inc/admin.php:1436
+#: inc/admin.php:1437
 msgid "WooCommerce Templates Addon"
 msgstr ""
 
-#: inc/admin.php:1629
+#: inc/admin.php:1630
 msgid "Toggle editor selection menu"
 msgstr ""
 
-#: inc/admin.php:1630, inc/admin.php:1677, inc/settings.php:237, settings/tpl/settings.php:9
+#: inc/admin.php:1631, inc/admin.php:1678, inc/settings.php:237, settings/tpl/settings.php:9
 msgid "SiteOrigin Page Builder"
 msgstr ""
 
-#: inc/admin.php:1631
+#: inc/admin.php:1632
 msgid "Block Editor"
 msgstr ""
 
@@ -629,7 +629,7 @@ msgstr ""
 msgid "Custom Home Page Builder"
 msgstr ""
 
-#: inc/renderer.php:432
+#: inc/renderer.php:437
 msgid "Prevented SiteOrigin layout from repeated rendering."
 msgstr ""
 
@@ -769,7 +769,7 @@ msgstr ""
 msgid "Layout Block Default Mode"
 msgstr ""
 
-#: inc/settings.php:391, tpl/js-templates.php:144
+#: inc/settings.php:391, tpl/js-templates.php:150
 msgid "Edit"
 msgstr ""
 
@@ -901,7 +901,7 @@ msgstr ""
 msgid "Allow margin below the last row."
 msgstr ""
 
-#: inc/settings.php:501, inc/styles.php:347
+#: inc/settings.php:501, inc/styles.php:346
 msgid "Mobile Cell Bottom Margin"
 msgstr ""
 
@@ -1017,7 +1017,7 @@ msgstr ""
 msgid "Theme"
 msgstr ""
 
-#: inc/styles-admin.php:214, inc/styles.php:317, inc/styles.php:374
+#: inc/styles-admin.php:214, inc/styles.php:316, inc/styles.php:373
 msgid "Top"
 msgstr ""
 
@@ -1025,7 +1025,7 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-#: inc/styles-admin.php:222, inc/styles.php:319, inc/styles.php:376
+#: inc/styles-admin.php:222, inc/styles.php:318, inc/styles.php:375
 msgid "Bottom"
 msgstr ""
 
@@ -1045,275 +1045,275 @@ msgstr ""
 msgid "External URL"
 msgstr ""
 
-#: inc/styles.php:118
+#: inc/styles.php:117
 msgid "%s ID"
 msgstr ""
 
-#: inc/styles.php:121
+#: inc/styles.php:120
 msgid "A custom ID used for this %s."
 msgstr ""
 
-#: inc/styles.php:126
+#: inc/styles.php:125
 msgid "%s Class"
 msgstr ""
 
-#: inc/styles.php:129
+#: inc/styles.php:128
 msgid "A CSS class name."
 msgstr ""
 
-#: inc/styles.php:134
+#: inc/styles.php:133
 msgid "CSS Declarations"
 msgstr ""
 
-#: inc/styles.php:137
+#: inc/styles.php:136
 msgid "One declaration per line."
 msgstr ""
 
-#: inc/styles.php:142
+#: inc/styles.php:141
 msgid "Mobile CSS Declarations"
 msgstr ""
 
-#: inc/styles.php:145
+#: inc/styles.php:144
 msgid "CSS declarations applied when in mobile view."
 msgstr ""
 
-#: inc/styles.php:152
+#: inc/styles.php:151
 msgid "Padding"
 msgstr ""
 
-#: inc/styles.php:155
+#: inc/styles.php:154
 msgid "Padding around the entire %s."
 msgstr ""
 
-#: inc/styles.php:163
+#: inc/styles.php:162
 msgid "Tablet Padding"
 msgstr ""
 
-#: inc/styles.php:166
+#: inc/styles.php:165
 msgid "Padding when on tablet devices."
 msgstr ""
 
-#: inc/styles.php:175
+#: inc/styles.php:174
 msgid "Mobile Margin"
 msgstr ""
 
-#: inc/styles.php:178
+#: inc/styles.php:177
 msgid "Margins around the widget when on mobile devices."
 msgstr ""
 
-#: inc/styles.php:185
+#: inc/styles.php:184
 msgid "Mobile Padding"
 msgstr ""
 
-#: inc/styles.php:188
+#: inc/styles.php:187
 msgid "Padding when on mobile devices."
 msgstr ""
 
-#: inc/styles.php:196
+#: inc/styles.php:195
 msgid "Background Color"
 msgstr ""
 
-#: inc/styles.php:199
+#: inc/styles.php:198
 msgid "Background color of the %s."
 msgstr ""
 
-#: inc/styles.php:204
+#: inc/styles.php:203
 msgid "Background Image"
 msgstr ""
 
-#: inc/styles.php:207
+#: inc/styles.php:206
 msgid "Background image of the %s."
 msgstr ""
 
-#: inc/styles.php:212
+#: inc/styles.php:211
 msgid "Background Image Display"
 msgstr ""
 
-#: inc/styles.php:216
+#: inc/styles.php:215
 msgid "Tiled Image"
 msgstr ""
 
-#: inc/styles.php:217
+#: inc/styles.php:216
 msgid "Cover"
 msgstr ""
 
-#: inc/styles.php:218
+#: inc/styles.php:217
 msgid "Centered, with original size"
 msgstr ""
 
-#: inc/styles.php:219
+#: inc/styles.php:218
 msgid "Contain"
 msgstr ""
 
-#: inc/styles.php:220
+#: inc/styles.php:219
 msgid "Fixed"
 msgstr ""
 
-#: inc/styles.php:221
+#: inc/styles.php:220
 msgid "Parallax"
 msgstr ""
 
-#: inc/styles.php:223
+#: inc/styles.php:222
 msgid "How the background image is displayed."
 msgstr ""
 
-#: inc/styles.php:228
+#: inc/styles.php:227
 msgid "Border Color"
 msgstr ""
 
-#: inc/styles.php:231
+#: inc/styles.php:230
 msgid "Border color of the %s."
 msgstr ""
 
-#: inc/styles.php:250
+#: inc/styles.php:249
 msgid "Cell Class"
 msgstr ""
 
-#: inc/styles.php:253
+#: inc/styles.php:252
 msgid "Class added to all cells in this row."
 msgstr ""
 
-#: inc/styles.php:260
+#: inc/styles.php:259
 msgid "Bottom Margin"
 msgstr ""
 
-#: inc/styles.php:263
+#: inc/styles.php:262
 msgid "Space below the row. Default is %spx."
 msgstr ""
 
-#: inc/styles.php:268
+#: inc/styles.php:267
 msgid "Gutter"
 msgstr ""
 
-#: inc/styles.php:271
+#: inc/styles.php:270
 msgid "Amount of space between cells. Default is %spx."
 msgstr ""
 
-#: inc/styles.php:276
+#: inc/styles.php:275
 msgid "Row Layout"
 msgstr ""
 
-#: inc/styles.php:280, inc/styles.php:293
+#: inc/styles.php:279, inc/styles.php:292
 msgid "Standard"
 msgstr ""
 
-#: inc/styles.php:281
+#: inc/styles.php:280
 msgid "Full Width"
 msgstr ""
 
-#: inc/styles.php:282
+#: inc/styles.php:281
 msgid "Full Width Stretched"
 msgstr ""
 
-#: inc/styles.php:283
+#: inc/styles.php:282
 msgid "Full Width Stretched Padded"
 msgstr ""
 
-#: inc/styles.php:289
+#: inc/styles.php:288
 msgid "Collapse Behaviour"
 msgstr ""
 
-#: inc/styles.php:294
+#: inc/styles.php:293
 msgid "No Collapse"
 msgstr ""
 
-#: inc/styles.php:300
+#: inc/styles.php:299
 msgid "Collapse Order"
 msgstr ""
 
-#: inc/styles.php:304, widgets/widgets.php:636, widgets/widgets.php:758, inc/widgets/post-loop.php:374
+#: inc/styles.php:303, widgets/widgets.php:636, widgets/widgets.php:758, inc/widgets/post-loop.php:374
 msgid "Default"
 msgstr ""
 
-#: inc/styles.php:305
+#: inc/styles.php:304
 msgid "Left on Top"
 msgstr ""
 
-#: inc/styles.php:306
+#: inc/styles.php:305
 msgid "Right on Top"
 msgstr ""
 
-#: inc/styles.php:313
+#: inc/styles.php:312
 msgid "Cell Vertical Alignment"
 msgstr ""
 
-#: inc/styles.php:318, inc/styles.php:375, widgets/widgets/button/button.php:31
+#: inc/styles.php:317, inc/styles.php:374, widgets/widgets/button/button.php:31
 msgid "Center"
 msgstr ""
 
-#: inc/styles.php:320, inc/styles.php:377
+#: inc/styles.php:319, inc/styles.php:376
 msgid "Stretch"
 msgstr ""
 
-#: inc/styles.php:329
+#: inc/styles.php:328
 msgid "Tablet Bottom Margin"
 msgstr ""
 
-#: inc/styles.php:332
+#: inc/styles.php:331
 msgid "Space below the row on tablet devices. Default is %spx."
 msgstr ""
 
-#: inc/styles.php:339
+#: inc/styles.php:338
 msgid "Mobile Bottom Margin"
 msgstr ""
 
-#: inc/styles.php:342
+#: inc/styles.php:341
 msgid "Space below the row on mobile devices. Default is %spx."
 msgstr ""
 
-#: inc/styles.php:350
+#: inc/styles.php:349
 msgid "Vertical space between cells in a collapsed mobile row. Default is %spx."
 msgstr ""
 
-#: inc/styles.php:366
+#: inc/styles.php:365
 msgid "Cell"
 msgstr ""
 
-#: inc/styles.php:369
+#: inc/styles.php:368
 msgid "Vertical Alignment"
 msgstr ""
 
-#: inc/styles.php:373
+#: inc/styles.php:372
 msgid "Use row setting"
 msgstr ""
 
-#: inc/styles.php:383, inc/styles.php:431
+#: inc/styles.php:382, inc/styles.php:430
 msgid "Font Color"
 msgstr ""
 
-#: inc/styles.php:386
+#: inc/styles.php:385
 msgid "Color of text inside this cell."
 msgstr ""
 
-#: inc/styles.php:391, inc/styles.php:439
+#: inc/styles.php:390, inc/styles.php:438
 msgid "Link Color"
 msgstr ""
 
-#: inc/styles.php:394
+#: inc/styles.php:393
 msgid "Color of links inside this cell."
 msgstr ""
 
-#: inc/styles.php:399, inc/styles.php:447
+#: inc/styles.php:398, inc/styles.php:446
 msgid "Link Hover Color"
 msgstr ""
 
-#: inc/styles.php:402, inc/styles.php:450
+#: inc/styles.php:401, inc/styles.php:449
 msgid "Color of links inside this widget when hovered."
 msgstr ""
 
-#: inc/styles.php:420
+#: inc/styles.php:419
 msgid "Margin"
 msgstr ""
 
-#: inc/styles.php:423
+#: inc/styles.php:422
 msgid "Margins around the widget."
 msgstr ""
 
-#: inc/styles.php:434
+#: inc/styles.php:433
 msgid "Color of text inside this widget."
 msgstr ""
 
-#: inc/styles.php:442
+#: inc/styles.php:441
 msgid "Color of links inside this widget."
 msgstr ""
 
@@ -1357,7 +1357,7 @@ msgstr ""
 msgid "Add Widget"
 msgstr ""
 
-#: tpl/js-templates.php:22, tpl/js-templates.php:402
+#: tpl/js-templates.php:22, tpl/js-templates.php:408
 msgid "Prebuilt Layouts"
 msgstr ""
 
@@ -1365,167 +1365,167 @@ msgstr ""
 msgid "Layouts"
 msgstr ""
 
-#: tpl/js-templates.php:29
+#: tpl/js-templates.php:35
 msgid "Edit History"
 msgstr ""
 
-#: tpl/js-templates.php:31
+#: tpl/js-templates.php:37
 msgid "History"
 msgstr ""
 
-#: tpl/js-templates.php:42
+#: tpl/js-templates.php:48
 msgid "Page Builder Addons"
 msgstr ""
 
-#: tpl/js-templates.php:48
+#: tpl/js-templates.php:54
 msgid "Revert to Editor"
 msgstr ""
 
-#: tpl/js-templates.php:60
+#: tpl/js-templates.php:66
 msgid "Add a %s, %s or %s to get started. Read our %s if you need help."
 msgstr ""
 
-#: tpl/js-templates.php:71
+#: tpl/js-templates.php:77
 msgid "Pro Tip"
 msgstr ""
 
-#: tpl/js-templates.php:150, tpl/js-templates.php:283, tpl/js-templates.php:368
+#: tpl/js-templates.php:156, tpl/js-templates.php:289, tpl/js-templates.php:374
 msgid "Duplicate"
 msgstr ""
 
-#: tpl/js-templates.php:156, tpl/js-templates.php:282, tpl/js-templates.php:367
+#: tpl/js-templates.php:162, tpl/js-templates.php:288, tpl/js-templates.php:373
 msgid "Delete"
 msgstr ""
 
-#: tpl/js-templates.php:221, tpl/js-templates.php:286, tpl/js-templates.php:375
+#: tpl/js-templates.php:227, tpl/js-templates.php:292, tpl/js-templates.php:381
 msgid "Done"
 msgstr ""
 
-#: tpl/js-templates.php:235
+#: tpl/js-templates.php:241
 msgid "Add New Widget %s"
 msgstr ""
 
-#: tpl/js-templates.php:251, tpl/js-templates.php:571
+#: tpl/js-templates.php:257, tpl/js-templates.php:577
 msgid "Close"
 msgstr ""
 
-#: tpl/js-templates.php:336
+#: tpl/js-templates.php:342
 msgid "Left to Right"
 msgstr ""
 
-#: tpl/js-templates.php:337
+#: tpl/js-templates.php:343
 msgid "Right to Left"
 msgstr ""
 
-#: tpl/js-templates.php:348
+#: tpl/js-templates.php:354
 msgid "1{Set row layout}: %1$s columns with a ratio of %2$s going from %3$s"
 msgstr ""
 
-#: tpl/js-templates.php:354
+#: tpl/js-templates.php:360
 msgid "Set"
 msgstr ""
 
-#: tpl/js-templates.php:373, tpl/js-templates.php:431
+#: tpl/js-templates.php:379, tpl/js-templates.php:437
 msgid "Insert"
 msgstr ""
 
-#: tpl/js-templates.php:393
+#: tpl/js-templates.php:399
 msgid "Page Builder Layouts"
 msgstr ""
 
-#: tpl/js-templates.php:397
+#: tpl/js-templates.php:403
 msgid "Search"
 msgstr ""
 
-#: tpl/js-templates.php:412
+#: tpl/js-templates.php:418
 msgid "Import/Export"
 msgstr ""
 
-#: tpl/js-templates.php:419
+#: tpl/js-templates.php:425
 msgid "Clone: %s"
 msgstr ""
 
-#: tpl/js-templates.php:435
+#: tpl/js-templates.php:441
 msgid "Insert after"
 msgstr ""
 
-#: tpl/js-templates.php:436
+#: tpl/js-templates.php:442
 msgid "Insert before"
 msgstr ""
 
-#: tpl/js-templates.php:437
+#: tpl/js-templates.php:443
 msgid "Replace current"
 msgstr ""
 
-#: tpl/js-templates.php:448
+#: tpl/js-templates.php:454
 msgid "Do you want to browse the Prebuilt Layouts directory?"
 msgstr ""
 
-#: tpl/js-templates.php:449
+#: tpl/js-templates.php:455
 msgid "Enable"
 msgstr ""
 
-#: tpl/js-templates.php:462
+#: tpl/js-templates.php:468
 msgid "Your search didn't return any results"
 msgstr ""
 
-#: tpl/js-templates.php:490
+#: tpl/js-templates.php:496
 msgid "Previous"
 msgstr ""
 
-#: tpl/js-templates.php:491
+#: tpl/js-templates.php:497
 msgid "Next"
 msgstr ""
 
-#: tpl/js-templates.php:501
+#: tpl/js-templates.php:507
 msgid "Drop import file here"
 msgstr ""
 
-#: tpl/js-templates.php:502
+#: tpl/js-templates.php:508
 msgid "Or"
 msgstr ""
 
-#: tpl/js-templates.php:505
+#: tpl/js-templates.php:511
 msgid "Select Import File"
 msgstr ""
 
-#: tpl/js-templates.php:519
+#: tpl/js-templates.php:525
 msgid "Download Layout"
 msgstr ""
 
-#: tpl/js-templates.php:530
+#: tpl/js-templates.php:536
 msgid "Page Builder Change History"
 msgstr ""
 
-#: tpl/js-templates.php:545
+#: tpl/js-templates.php:551
 msgid "Restore Version"
 msgstr ""
 
-#: tpl/js-templates.php:568
+#: tpl/js-templates.php:574
 msgid "Save Draft"
 msgstr ""
 
-#: tpl/js-templates.php:569, tpl/js-templates.php:570
+#: tpl/js-templates.php:575, tpl/js-templates.php:576
 msgid "Update"
 msgstr ""
 
-#: tpl/js-templates.php:573
+#: tpl/js-templates.php:579
 msgid "Toggle desktop mode"
 msgstr ""
 
-#: tpl/js-templates.php:576
+#: tpl/js-templates.php:582
 msgid "Toggle tablet mode"
 msgstr ""
 
-#: tpl/js-templates.php:579
+#: tpl/js-templates.php:585
 msgid "Toggle mobile mode"
 msgstr ""
 
-#: tpl/js-templates.php:618
+#: tpl/js-templates.php:624
 msgid "No Results"
 msgstr ""
 
-#: tpl/js-templates.php:628
+#: tpl/js-templates.php:634
 msgid "Add SiteOrigin Layout Block"
 msgstr ""
 

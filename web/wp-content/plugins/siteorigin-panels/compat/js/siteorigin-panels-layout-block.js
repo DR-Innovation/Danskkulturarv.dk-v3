@@ -66,7 +66,8 @@ function (_wp$element$Component) {
       editing: editMode,
       loadingPreview: !editMode,
       previewHtml: '',
-      previewInitialized: !editMode
+      previewInitialized: !editMode,
+      pendingPreviewRequest: false
     };
     _this.panelsContainer = wp.element.createRef();
     _this.previewContainer = wp.element.createRef();
@@ -83,7 +84,7 @@ function (_wp$element$Component) {
         this.setupPanels();
       } else if (!this.state.editing && !this.previewInitialized) {
         this.fetchPreview(this.props);
-        this.fetchPreview = lodash.debounce(this.fetchPreview, 500);
+        this.fetchPreview = lodash.debounce(this.fetchPreview, 1000);
       }
     }
   }, {
@@ -101,8 +102,13 @@ function (_wp$element$Component) {
       if (this.state.editing && !this.panelsInitialized) {
         this.setupPanels();
       } else if (this.state.loadingPreview) {
-        this.fetchPreview(this.props);
-        this.fetchPreview = lodash.debounce(this.fetchPreview, 500);
+        if (!this.state.pendingPreviewRequest) {
+          this.setState({
+            pendingPreviewRequest: true
+          });
+          this.fetchPreview(this.props);
+          this.fetchPreview = lodash.debounce(this.fetchPreview, 1000);
+        }
       } else if (!this.state.previewInitialized) {
         jQuery(document).trigger('panels_setup_preview');
         this.setState({
@@ -212,7 +218,8 @@ function (_wp$element$Component) {
           _this3.setState({
             previewHtml: preview,
             loadingPreview: false,
-            previewInitialized: false
+            previewInitialized: false,
+            pendingPreviewRequest: false
           });
         }
       });
@@ -313,11 +320,16 @@ wp.blocks.registerBlockType('siteorigin-panels/layout-block', {
     var onLayoutBlockContentChange = function onLayoutBlockContentChange(newPanelsData) {
       if (!lodash.isEmpty(newPanelsData.widgets)) {
         // Send panelsData to server for sanitization.
-        wp.data.dispatch('core/editor').lockPostSaving();
+        var isNewWPBlockEditor = jQuery('.widgets-php').length;
+
+        if (!isNewWPBlockEditor) {
+          wp.data.dispatch('core/editor').lockPostSaving();
+        }
+
         jQuery.post(panelsOptions.ajaxurl, {
           action: 'so_panels_builder_content_json',
           panels_data: JSON.stringify(newPanelsData),
-          post_id: wp.data.select("core/editor").getCurrentPostId()
+          post_id: !isNewWPBlockEditor ? wp.data.select("core/editor").getCurrentPostId() : ''
         }, function (content) {
           var panelsAttributes = {};
 
@@ -330,7 +342,10 @@ wp.blocks.registerBlockType('siteorigin-panels/layout-block', {
           }
 
           setAttributes(panelsAttributes);
-          wp.data.dispatch('core/editor').unlockPostSaving();
+
+          if (!isNewWPBlockEditor) {
+            wp.data.dispatch('core/editor').unlockPostSaving();
+          }
         });
       } else {
         setAttributes({

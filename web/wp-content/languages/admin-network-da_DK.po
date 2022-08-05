@@ -1,5 +1,5 @@
-# Translation of WordPress - 5.9.x - Development - Administration - Network Admin in Danish
-# This file is distributed under the same license as the WordPress - 5.9.x - Development - Administration - Network Admin package.
+# Translation of WordPress - 6.0.x - Development - Administration - Network Admin in Danish
+# This file is distributed under the same license as the WordPress - 6.0.x - Development - Administration - Network Admin package.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2022-01-31 16:48:08+0000\n"
@@ -7,9 +7,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"X-Generator: GlotPress/4.0.0-alpha.1\n"
 "Language: da_DK\n"
-"Project-Id-Version: WordPress - 5.9.x - Development - Administration - Network Admin\n"
+"Project-Id-Version: WordPress - 6.0.x - Development - Administration - Network Admin\n"
 
 #. translators: %s: wp-config.php
 #: wp-admin/includes/network.php:463
@@ -723,10 +723,6 @@ msgstr "Herfra kan du:"
 msgid "Welcome to your Network Admin. This area of the Administration Screens is used for managing all aspects of your Multisite Network."
 msgstr "Velkommen til din netværksadministration. Dette område af administrationen bruges til at håndtere alle dele af dit Multisite-netværk."
 
-#: wp-admin/network/upgrade.php:141
-msgid "WordPress has been updated! Before we send you on your way, we need to individually upgrade the sites in your network."
-msgstr "WordPress er blevet opdateret! Før vi sender dig af sted, så skal vi opdatere alle webstederne i dit netværk individuelt."
-
 #: wp-admin/network/upgrade.php:24
 msgid "Only use this screen once you have updated to a new version of WordPress through Updates/Available Updates (via the Network Administration navigation menu or the Toolbar). Clicking the Upgrade Network button will step through each site in the network, five at a time, and make sure any database updates are applied."
 msgstr "Brug kun dette skærmbillede efter du har opdateret til den seneste version af WordPress gennem Opdateringer/Tilgængelige opdateringer (via Netværksadministrationens navigationsmenu eller værktøjslinjen). Hvis du klikker på Opgrader netværk-knappen vil du trinvist komme gennem hvert websted i netværket, fem ad gangen, og sikre at databaseopdateringerne gennemføres."
@@ -1126,10 +1122,6 @@ msgstr "Denne tabel viser alle brugere i hele netværket og de websteder, som de
 msgid "If this process fails for any reason, users logging in to their sites will force the same update."
 msgstr "Hvis denne proces, af en eller anden grund, ikke gennemføres, så vil brugere, der logger på deres websted, fremtvinge den samme opdatering."
 
-#: wp-admin/network/upgrade.php:25
-msgid "If a version update to core has not happened, clicking this button won&#8217;t affect anything."
-msgstr "Hvis opdatering af kernekoden til den nyeste version ikke er gennemført, så vil det ikke påvirke noget at klikke på denne knap."
-
 #: wp-admin/network/themes.php:301
 msgid "If the network admin disables a theme that is in use, it can still remain selected on that site. If another theme is chosen, the disabled theme will not appear in the site&#8217;s Appearance > Themes screen."
 msgstr "Hvis netværkets administrator deaktiverer et tema der er i brug, kan det stadig være aktivt på et eller flere websteder. Hvis en andet tema er vælges, vil det deaktiverede tema dog ikke længere vises i webstedets Udseende > Temaer skærmbillede."
@@ -1163,10 +1155,6 @@ msgstr "Dette skærmbillede indstiller og ændrer mulighederne for hele netværk
 msgid "The following words are reserved for use by WordPress functions and cannot be used as site names: %s"
 msgstr "Følgende ord er reserveret til brug af WordPress-funktioner og kan ikke bruges som blognavne: %s"
 
-#: wp-admin/network/upgrade.php:125
-msgid "If your browser doesn&#8217;t start loading the next page automatically, click this link:"
-msgstr "Hvis din browser ikke henter den næste side automatisk, skal du klikke på dette link:"
-
 #: wp-admin/network/settings.php:302
 msgid "If you want to ban domains from site registrations. One domain per line."
 msgstr "Hvis du ønsker at blokere domæner fra at blive oprettet. Et domæne per linje."
@@ -1174,10 +1162,6 @@ msgstr "Hvis du ønsker at blokere domæner fra at blive oprettet. Et domæne pe
 #: wp-admin/network/settings.php:282
 msgid "If you want to limit site registrations to certain domains. One domain per line."
 msgstr "Hvis du ønsker at begrænse oprettelser fra bestemte domæner. Et domæne per linje."
-
-#: wp-admin/network/site-new.php:40
-msgid "Can&#8217;t create an empty site."
-msgstr "Kan ikke oprette et tomt websted."
 
 #: wp-admin/network/users.php:268
 msgid "Users removed from spam."
