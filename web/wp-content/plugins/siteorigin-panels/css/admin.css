@@ -37,12 +37,12 @@
   position: relative;
   cursor: pointer;
   border: 1px solid #bebebe;
-  background: #eeeeee;
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eeeeee), color-stop(1, #f9f9f9));
-  background: -ms-linear-gradient(bottom, #eeeeee, #f9f9f9);
-  background: -moz-linear-gradient(center bottom, #eeeeee 0%, #f9f9f9 100%);
-  background: -o-linear-gradient(#f9f9f9, #eeeeee);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#eeeeee', GradientType=0);
+  background: #eee;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eee), color-stop(1, #f9f9f9));
+  background: -ms-linear-gradient(bottom, #eee, #f9f9f9);
+  background: -moz-linear-gradient(center bottom, #eee 0%, #f9f9f9 100%);
+  background: -o-linear-gradient(#f9f9f9, #eee);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#eee', GradientType=0);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   outline: none;
   border-radius: 2px;
@@ -52,18 +52,18 @@
 }
 .siteorigin-panels-builder .so-tool-button span {
   display: inline-block;
-  color: #666666;
-  text-shadow: 0 1px 0 #FFFFFF;
+  color: #666;
+  text-shadow: 0 1px 0 #fff;
   min-width: 10px;
   text-align: center;
 }
 .siteorigin-panels-builder .so-tool-button:focus,
 .siteorigin-panels-builder .so-tool-button:hover {
-  background: #FFFFFF;
+  background: #fff;
 }
 .siteorigin-panels-builder .so-tool-button:focus span,
 .siteorigin-panels-builder .so-tool-button:hover span {
-  color: #444444;
+  color: #444;
 }
 @media (max-width: 782px) {
   .siteorigin-panels-builder .so-tool-button.so-row-settings {
@@ -75,7 +75,7 @@
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border-bottom: 1px solid #D0D0D0;
+  border-bottom: 1px solid #d0d0d0;
   background: #F5F5F5;
   line-height: 1em;
   z-index: 101;
@@ -102,7 +102,7 @@
 }
 .siteorigin-panels-builder .so-builder-toolbar .so-tool-button {
   display: inline-block;
-  color: #666666;
+  color: #666;
   padding: 2px 10px 2px 8px;
 }
 .siteorigin-panels-builder .so-builder-toolbar .so-tool-button .so-button-text {
@@ -117,7 +117,7 @@
 }
 .siteorigin-panels-builder .so-builder-toolbar .so-tool-button:hover,
 .siteorigin-panels-builder .so-builder-toolbar .so-tool-button:hover .so-panels-icon {
-  color: #444444;
+  color: #444;
 }
 @media (max-width: 782px) {
   .siteorigin-panels-builder .so-builder-toolbar .so-tool-button {
@@ -137,7 +137,7 @@
   float: right;
   display: none;
   text-decoration: none;
-  color: #666666;
+  color: #666;
   padding: 5px 6px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -147,8 +147,8 @@
 }
 .siteorigin-panels-builder .so-builder-toolbar .so-switch-to-standard:hover {
   background: #fafafa;
-  border: 1px solid #999999;
-  color: #444444;
+  border: 1px solid #999;
+  color: #444;
 }
 .siteorigin-panels-builder .so-rows-container {
   padding: 20px 15px 0 15px;
@@ -346,7 +346,7 @@
 }
 .siteorigin-panels-builder .so-rows-container .ui-sortable-placeholder {
   visibility: visible !important;
-  background: #F7F7F7;
+  background: #f7f7f7;
   -ms-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -549,6 +549,7 @@
   opacity: 1;
 }
 .siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget .title .actions a {
+  box-shadow: none;
   color: #0073aa;
   display: none;
   margin-right: 3px;
@@ -558,11 +559,11 @@
   color: #00a0d2;
 }
 .siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget .title .actions a.widget-delete {
-  color: #FF0000;
+  color: #ff0000;
 }
 .siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget .title .actions a.widget-delete:hover {
-  color: #ffffff;
-  background: #FF0000;
+  color: #fff;
+  background: #ff0000;
 }
 @media (max-width: 782px) {
   .siteorigin-panels-builder .so-rows-container .so-row-container .so-cells .cell .widgets-container .so-widget .title .actions {
@@ -673,8 +674,8 @@
 }
 .siteorigin-panels-builder .so-panels-welcome-message .so-message-wrapper {
   padding: 15px 10px;
-  background: #F8F8F8;
-  border: 1px solid #E0E0E0;
+  background: #f8f8f8;
+  border: 1px solid #e0e0e0;
 }
 @media only screen and (max-width: 782px) {
   .siteorigin-panels-builder .so-panels-welcome-message .so-message-wrapper {
@@ -799,6 +800,7 @@
   opacity: 1;
 }
 .so-widget.ui-sortable-helper.widget-being-dragged .title .actions a {
+  box-shadow: none;
   color: #0073aa;
   display: none;
   margin-right: 3px;
@@ -808,11 +810,11 @@
   color: #00a0d2;
 }
 .so-widget.ui-sortable-helper.widget-being-dragged .title .actions a.widget-delete {
-  color: #FF0000;
+  color: #ff0000;
 }
 .so-widget.ui-sortable-helper.widget-being-dragged .title .actions a.widget-delete:hover {
-  color: #ffffff;
-  background: #FF0000;
+  color: #fff;
+  background: #ff0000;
 }
 @media (max-width: 782px) {
   .so-widget.ui-sortable-helper.widget-being-dragged .title .actions {
@@ -990,7 +992,7 @@
   top: 0;
   height: 50px;
   background-color: #fafafa;
-  border-bottom: 1px solid #D8D8D8;
+  border-bottom: 1px solid #d8d8d8;
   padding: 0;
   /* These are the action buttons in the title bar */
 }
@@ -1023,11 +1025,11 @@
 .so-panels-dialog .so-title-bar h3.so-title.so-title-editable:focus,
 .block-editor-page .so-title-bar h3.so-title.so-title-editable:focus {
   outline: none;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
 }
 .so-panels-dialog .so-title-bar h3.so-title.so-title-editable:focus,
 .block-editor-page .so-title-bar h3.so-title.so-title-editable:focus {
-  border: 1px solid #E4E4E4;
+  border: 1px solid #e4e4e4;
 }
 .so-panels-dialog .so-title-bar input[type=text].so-edit-title,
 .block-editor-page .so-title-bar input[type=text].so-edit-title {
@@ -1039,7 +1041,7 @@
   font-weight: 600;
   border: none;
   box-shadow: none;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   padding: 4px 5px;
 }
 .so-panels-dialog .so-title-bar h3.so-parent-link,
@@ -1094,7 +1096,7 @@
 .block-editor-page .so-title-bar a:focus .so-dialog-icon,
 .so-panels-dialog .so-title-bar a:hover .so-dialog-icon,
 .block-editor-page .so-title-bar a:hover .so-dialog-icon {
-  color: #333333;
+  color: #333;
 }
 .so-panels-dialog .so-title-bar a .so-dialog-icon,
 .block-editor-page .so-title-bar a .so-dialog-icon {
@@ -1106,7 +1108,7 @@
   height: 20px;
   margin-left: -10px;
   margin-top: -10px;
-  color: #666666;
+  color: #666;
   text-align: center;
 }
 .so-panels-dialog .so-title-bar a .so-dialog-icon:before,
@@ -1186,7 +1188,7 @@
 .block-editor-page .so-toolbar {
   height: 58px;
   background-color: #fafafa;
-  border-top: 1px solid #D8D8D8;
+  border-top: 1px solid #d8d8d8;
   z-index: 100002;
 }
 @media (max-width: 980px) {
@@ -1210,7 +1212,7 @@
   padding-top: 6px;
   padding-bottom: 6px;
   font-style: italic;
-  color: #999999;
+  color: #999;
   line-height: 1em;
 }
 .so-panels-dialog .so-toolbar .so-status.so-panels-loading,
@@ -1254,7 +1256,7 @@
 .so-panels-dialog .so-toolbar .so-buttons .action-buttons .so-delete:hover,
 .block-editor-page .so-toolbar .so-buttons .action-buttons .so-delete:hover {
   background: #a00;
-  color: #FFFFFF;
+  color: #fff;
 }
 .so-panels-dialog .so-toolbar .so-buttons .action-buttons .so-duplicate:focus,
 .block-editor-page .so-toolbar .so-buttons .action-buttons .so-duplicate:focus,
@@ -1270,7 +1272,7 @@
 }
 .so-panels-dialog .so-left-sidebar,
 .block-editor-page .so-left-sidebar {
-  border-right: 1px solid #D8D8D8;
+  border-right: 1px solid #d8d8d8;
   display: none;
   width: 290px;
 }
@@ -1322,22 +1324,22 @@
 }
 .so-panels-dialog .so-left-sidebar .so-sidebar-tabs li a:hover,
 .block-editor-page .so-left-sidebar .so-sidebar-tabs li a:hover {
-  background: #FFFFFF;
+  background: #fff;
 }
 .so-panels-dialog .so-left-sidebar .so-sidebar-tabs li.tab-active a,
 .block-editor-page .so-left-sidebar .so-sidebar-tabs li.tab-active a {
   color: #555;
   font-weight: bold;
-  background: #FFFFFF;
+  background: #fff;
 }
 .so-panels-dialog .so-left-sidebar .so-sidebar-tabs li.tab-active a:hover,
 .block-editor-page .so-left-sidebar .so-sidebar-tabs li.tab-active a:hover {
-  background: #FFFFFF;
+  background: #fff;
 }
 .so-panels-dialog .so-right-sidebar,
 .block-editor-page .so-right-sidebar {
   display: none;
-  border-left: 1px solid #D8D8D8;
+  border-left: 1px solid #d8d8d8;
 }
 @media (min-width: 980px) {
   .so-panels-dialog .so-right-sidebar,
@@ -1427,21 +1429,21 @@
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   cursor: pointer;
   padding: 10px;
   background: #f9f9f9;
-  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.075), inset 0 1px 0 #FFFFFF;
-  -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.075), inset 0 1px 0 #FFFFFF;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.075), inset 0 1px 0 #FFFFFF;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.075), inset 0 1px 0 #fff;
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.075), inset 0 1px 0 #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.075), inset 0 1px 0 #fff;
   margin-bottom: 15px;
 }
 .so-panels-dialog.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget:focus,
 .block-editor-page.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget:focus,
 .so-panels-dialog.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget:hover,
 .block-editor-page.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget:hover {
-  border: 1px solid #BBBBBB;
-  background: #FFFFFF;
+  border: 1px solid #bbb;
+  background: #fff;
 }
 .so-panels-dialog.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget.so-current,
 .block-editor-page.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget.so-current {
@@ -1454,11 +1456,11 @@
 }
 .so-panels-dialog.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget.so-current h3,
 .block-editor-page.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget.so-current h3 {
-  color: #FFFFFF;
+  color: #fff;
 }
 .so-panels-dialog.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget.so-current small,
 .block-editor-page.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget.so-current small {
-  color: #eeeeee;
+  color: #eee;
 }
 .so-panels-dialog.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget.so-current:hover,
 .block-editor-page.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget.so-current:hover {
@@ -1474,7 +1476,7 @@
   margin: 0 0 7px 0;
   padding: 0;
   height: 1.2em;
-  color: #222222;
+  color: #222;
   font-size: 14px;
 }
 .so-panels-dialog.so-panels-dialog-edit-widget .so-left-sidebar .so-widgets .so-widget small,
@@ -1483,7 +1485,7 @@
   line-height: 1.25em;
   display: block;
   overflow: hidden;
-  color: #888888;
+  color: #888;
 }
 .so-panels-dialog.so-panels-dialog-add-widget .widget-type-list,
 .block-editor-page.so-panels-dialog-add-widget .widget-type-list {
@@ -1535,7 +1537,7 @@
 .block-editor-page.so-panels-dialog-add-widget .widget-type-list .widget-type h3 {
   margin: 0 0 7px 0;
   padding: 0;
-  color: #222222;
+  color: #222;
   font-size: 14px;
 }
 .so-panels-dialog.so-panels-dialog-add-widget .widget-type-list .widget-type small,
@@ -1545,7 +1547,7 @@
   line-height: 1.25em;
   display: block;
   overflow: hidden;
-  color: #888888;
+  color: #888;
 }
 .so-panels-dialog.so-panels-dialog-add-widget .widget-type-list .widget-type .widget-icon,
 .block-editor-page.so-panels-dialog-add-widget .widget-type-list .widget-type .widget-icon {
@@ -1558,10 +1560,10 @@
 }
 .so-panels-dialog.so-panels-dialog-add-widget .widget-type-list .widget-type-wrapper,
 .block-editor-page.so-panels-dialog-add-widget .widget-type-list .widget-type-wrapper {
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   cursor: pointer;
   padding: 10px;
-  background: #F8F8F8;
+  background: #f8f8f8;
   -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.075);
   -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.075);
   box-shadow: 0 1px 2px rgba(0,0,0,0.075);
@@ -1570,8 +1572,8 @@
 .block-editor-page.so-panels-dialog-add-widget .widget-type-list .widget-type-wrapper:hover,
 .so-panels-dialog.so-panels-dialog-add-widget .widget-type-list .widget-type-wrapper:focus,
 .block-editor-page.so-panels-dialog-add-widget .widget-type-list .widget-type-wrapper:focus {
-  border: 1px solid #BBBBBB;
-  background: #FFFFFF;
+  border: 1px solid #bbb;
+  background: #fff;
   -webkit-box-shadow: 0 2px 2px rgba(0,0,0,0.075);
   -moz-box-shadow: 0 2px 2px rgba(0,0,0,0.075);
   box-shadow: 0 2px 2px rgba(0,0,0,0.075);
@@ -1582,7 +1584,7 @@
   padding: 8px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
-  background: #F3F3F3;
+  background: #f3f3f3;
 }
 .so-panels-dialog.so-panels-dialog-row-edit .so-content .row-set-form:before,
 .block-editor-page.so-panels-dialog-row-edit .so-content .row-set-form:before {
@@ -1686,13 +1688,13 @@
 .block-editor-page.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight:hover,
 .so-panels-dialog.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input:hover,
 .block-editor-page.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input:hover {
-  background: #F6F6F6;
-  border: 1px solid #D0D0D0;
+  background: #f6f6f6;
+  border: 1px solid #d0d0d0;
 }
 .so-panels-dialog.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input,
 .block-editor-page.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input {
-  background: #F6F6F6;
-  border: 1px solid #D0D0D0;
+  background: #f6f6f6;
+  border: 1px solid #d0d0d0;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -1725,7 +1727,7 @@
 .so-panels-dialog.so-panels-dialog-history .history-entries .history-entry,
 .block-editor-page.so-panels-dialog-history .history-entries .history-entry {
   padding: 10px;
-  background: #F8F8F8;
+  background: #f8f8f8;
   cursor: pointer;
   border-bottom: 1px solid #ccc;
 }
@@ -1734,12 +1736,12 @@
   margin: 0 0 0.6em 0;
   font-size: 12px;
   font-weight: bold;
-  color: #444444;
+  color: #444;
   line-height: 1em;
 }
 .so-panels-dialog.so-panels-dialog-history .history-entries .history-entry .timesince,
 .block-editor-page.so-panels-dialog-history .history-entries .history-entry .timesince {
-  color: #999999;
+  color: #999;
   font-size: 11px;
   line-height: 1em;
 }
@@ -1747,15 +1749,15 @@
 .block-editor-page.so-panels-dialog-history .history-entries .history-entry:hover,
 .so-panels-dialog.so-panels-dialog-history .history-entries .history-entry:focus,
 .block-editor-page.so-panels-dialog-history .history-entries .history-entry:focus {
-  background: #F0F0F0;
+  background: #f0f0f0;
 }
 .so-panels-dialog.so-panels-dialog-history .history-entries .history-entry.so-selected,
 .block-editor-page.so-panels-dialog-history .history-entries .history-entry.so-selected {
-  background: #EEEEEE;
+  background: #eee;
 }
 .so-panels-dialog.so-panels-dialog-history .history-entries .history-entry .count,
 .block-editor-page.so-panels-dialog-history .history-entries .history-entry .count {
-  color: #999999;
+  color: #999;
 }
 .so-panels-dialog.so-panels-dialog-history .so-content,
 .block-editor-page.so-panels-dialog-history .so-content {
@@ -1779,8 +1781,8 @@
 .so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .so-error-message,
 .block-editor-page.so-panels-dialog-prebuilt-layouts .so-content .so-error-message {
   font-size: 14px;
-  border: 1px solid #cccccc;
-  background: #F8F8F8;
+  border: 1px solid #ccc;
+  background: #f8f8f8;
   padding: 15px 20px;
 }
 .so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .export-file-ui,
@@ -1813,7 +1815,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding: 50px 30px;
-  border: 4px dashed #E0E0E0;
+  border: 4px dashed #e0e0e0;
   text-align: center;
   -webkit-transition: all 0.25s ease 0s;
   -moz-transition: all 0.25s ease 0s;
@@ -1881,7 +1883,7 @@
   height: 100%;
   box-sizing: border-box;
   padding: 15px 10px;
-  background: #F7F7F7;
+  background: #f7f7f7;
   border: 1px solid #d0d0d0;
   -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
   -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
@@ -1891,8 +1893,8 @@
 .block-editor-page.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-directory-item-wrapper:hover,
 .so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-directory-item-wrapper:focus,
 .block-editor-page.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-directory-item-wrapper:focus {
-  border: 1px solid #BBBBBB;
-  background: #FFFFFF;
+  border: 1px solid #bbb;
+  background: #fff;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.075);
 }
 .so-panels-dialog.so-panels-dialog-prebuilt-layouts .so-content .so-directory-items .so-directory-item .so-title,
@@ -2054,7 +2056,7 @@
 }
 .so-panels-dialog .so-visual-styles .style-section-head,
 .block-editor-page .so-visual-styles .style-section-head {
-  background: #ffffff;
+  background: #fff;
   padding: 15px 10px;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
@@ -2075,7 +2077,7 @@
 .block-editor-page .so-visual-styles .style-section-fields {
   padding: 15px;
   border-bottom: 1px solid #ddd;
-  background: #F7F7F7;
+  background: #f7f7f7;
 }
 .so-panels-dialog .so-visual-styles .style-section-fields .style-field-wrapper,
 .block-editor-page .so-visual-styles .style-section-fields .style-field-wrapper {
@@ -2194,9 +2196,9 @@
   -moz-border-radius: 3px;
   border-radius: 3px;
   cursor: pointer;
-  -webkit-box-shadow: inset 0 1px #FFFFFF;
-  -moz-box-shadow: inset 0 1px #FFFFFF;
-  box-shadow: inset 0 1px #FFFFFF;
+  -webkit-box-shadow: inset 0 1px #fff;
+  -moz-box-shadow: inset 0 1px #fff;
+  box-shadow: inset 0 1px #fff;
 }
 .so-panels-dialog .so-visual-styles .style-field-image .so-image-selector:focus,
 .block-editor-page .so-visual-styles .style-field-image .so-image-selector:focus {
@@ -2208,7 +2210,7 @@
   height: 28px;
   width: 28px;
   float: left;
-  background: #ffffff;
+  background: #fff;
   border-right: 1px solid #ccc;
   background-size: cover;
   -webkit-border-top-right-radius: 0;
@@ -2429,7 +2431,7 @@
 .so-panels-live-editor .so-sidebar-tools {
   background: #eee;
   border-bottom: 1px solid #ddd;
-  border-right: 1px solid #D0D0D0;
+  border-right: 1px solid #d0d0d0;
   top: 0;
   left: 0;
   height: 46px;
@@ -2476,7 +2478,7 @@
   width: 360px;
   overflow-y: auto;
   background: #f7f7f7;
-  border-right: 1px solid #D0D0D0;
+  border-right: 1px solid #d0d0d0;
 }
 @media (max-width: 980px) {
   .so-panels-live-editor .so-sidebar {
@@ -2587,14 +2589,14 @@
   width: 68px;
   height: 24px;
   padding: 3px;
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 24px;
-  box-shadow: inset 0 -1px #ffffff, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 -1px #fff, inset 0 1px 1px rgba(0, 0, 0, 0.05);
   cursor: pointer;
-  background-image: -webkit-linear-gradient(top, #eeeeee, #ffffff 25px);
-  background-image: -moz-linear-gradient(top, #eeeeee, #ffffff 25px);
-  background-image: -o-linear-gradient(top, #eeeeee, #ffffff 25px);
-  background-image: linear-gradient(to bottom, #eeeeee, #ffffff 25px);
+  background-image: -webkit-linear-gradient(top, #eee, #fff 25px);
+  background-image: -moz-linear-gradient(top, #eee, #fff 25px);
+  background-image: -o-linear-gradient(top, #eee, #fff 25px);
+  background-image: linear-gradient(to bottom, #eee, #fff 25px);
 }
 #panels-home-page .switch .switch-input {
   position: absolute;
@@ -2640,7 +2642,7 @@
 #panels-home-page .switch .switch-label:after {
   content: attr(data-on);
   left: 13px;
-  color: #ffffff;
+  color: #fff;
   text-shadow: 0 1px rgba(0, 0, 0, 0.2);
   opacity: 0;
 }
@@ -2660,13 +2662,13 @@
   left: 4px;
   width: 22px;
   height: 22px;
-  background: #ffffff;
+  background: #fff;
   border-radius: 12px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-  background-image: -webkit-linear-gradient(top, #ffffff 40%, #f0f0f0);
-  background-image: -moz-linear-gradient(top, #ffffff 40%, #f0f0f0);
-  background-image: -o-linear-gradient(top, #ffffff 40%, #f0f0f0);
-  background-image: linear-gradient(to bottom, #ffffff 40%, #f0f0f0);
+  background-image: -webkit-linear-gradient(top, #fff 40%, #f0f0f0);
+  background-image: -moz-linear-gradient(top, #fff 40%, #f0f0f0);
+  background-image: -o-linear-gradient(top, #fff 40%, #f0f0f0);
+  background-image: linear-gradient(to bottom, #fff 40%, #f0f0f0);
   -webkit-transition: left 0.15s ease-out;
   -moz-transition: left 0.15s ease-out;
   -o-transition: left 0.15s ease-out;
@@ -2683,10 +2685,10 @@
   background: #f9f9f9;
   border-radius: 7px;
   box-shadow: inset 0 1px rgba(0, 0, 0, 0.02);
-  background-image: -webkit-linear-gradient(top, #eeeeee, #ffffff);
-  background-image: -moz-linear-gradient(top, #eeeeee, #ffffff);
-  background-image: -o-linear-gradient(top, #eeeeee, #ffffff);
-  background-image: linear-gradient(to bottom, #eeeeee, #ffffff);
+  background-image: -webkit-linear-gradient(top, #eee, #fff);
+  background-image: -moz-linear-gradient(top, #eee, #fff);
+  background-image: -o-linear-gradient(top, #eee, #fff);
+  background-image: linear-gradient(to bottom, #eee, #fff);
 }
 #panels-home-page .switch .switch-input:checked ~ .switch-handle {
   left: 48px;
@@ -2700,8 +2702,8 @@
   margin-left: 50px;
 }
 .siteorigin-panels-builder-form .siteorigin-panels-builder {
-  border: 1px solid #D0D0D0;
-  background-color: #ffffff;
+  border: 1px solid #d0d0d0;
+  background-color: #fff;
   margin: 10px 0;
 }
 .siteorigin-panels-builder-form .siteorigin-panels-builder.so-panels-loading {
@@ -2714,7 +2716,7 @@
   display: none !important;
 }
 .so-panels-contextual-menu {
-  border: 1px solid #C0C0C0;
+  border: 1px solid #c0c0c0;
   background: #f9f9f9;
   -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
   -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
@@ -2765,7 +2767,7 @@
 .so-panels-contextual-menu .so-section .so-search-wrapper input[type="text"]:active {
   border: none;
   box-shadow: none;
-  background: #ffffff;
+  background: #fff;
 }
 .so-panels-contextual-menu .so-section ul {
   margin: 5px 0 0 0;
@@ -2780,7 +2782,7 @@
 .so-panels-contextual-menu .so-section ul li:focus,
 .so-panels-contextual-menu .so-section ul li:hover,
 .so-panels-contextual-menu .so-section ul li.so-active {
-  background: #F0F0F0;
+  background: #f0f0f0;
   color: #444;
 }
 .so-panels-contextual-menu .so-section ul li.so-confirm {
@@ -2814,8 +2816,8 @@
 }
 .so-dropdown-wrapper .so-dropdown-links-wrapper ul {
   margin: 0;
-  border: 1px solid #C0C0C0;
-  background: #F9F9F9;
+  border: 1px solid #c0c0c0;
+  background: #f9f9f9;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
@@ -2844,7 +2846,7 @@
 }
 .so-dropdown-wrapper .so-dropdown-links-wrapper ul li a:hover,
 .so-dropdown-wrapper .so-dropdown-links-wrapper ul li a:focus {
-  background: #F0F0F0;
+  background: #f0f0f0;
   color: #444;
 }
 .so-dropdown-wrapper .so-dropdown-links-wrapper ul li a .dashicons {
