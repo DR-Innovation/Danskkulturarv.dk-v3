@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.1\n"
+"X-Generator: GlotPress/4.0.0-alpha.3\n"
 "Language: da_DK\n"
 "Project-Id-Version: Themes - Twenty Twenty-One\n"
 
@@ -17,7 +17,7 @@ msgid "Twenty Twenty-One is a blank canvas for your ideas and it makes the block
 msgstr "Twenty Twenty-One er et tomt lærred til dine ideer, og det gør blokeditor til din bedste pensel. Med nye blokgrupper, som giver dig mulighed for at skabe et smukt layout på få sekunder, vil dette temas bløde farver og iøjnefaldende – men tidløse – design lade dit arbejde stråle. Prøv det! Se, hvordan Twenty Twenty-One løfter din portefølje, forretnings websted, eller personlige blog."
 
 #. Theme Name of the theme
-#: inc/block-patterns.php:24
+#: classes/class-twenty-twenty-one-dark-mode.php:381 inc/block-patterns.php:24
 #, gp-priority: high
 msgid "Twenty Twenty-One"
 msgstr "Twenty Twenty-One"
@@ -92,22 +92,22 @@ msgctxt "Added to posts and pages that are missing titles"
 msgid "Untitled"
 msgstr "Uden titel"
 
-#: inc/block-patterns.php:131
+#: inc/block-patterns.php:136
 msgctxt "Block pattern sample content"
 msgid "Cambridge, MA, 02139"
 msgstr "Cambridge, MA, 02139"
 
-#: inc/block-patterns.php:131
+#: inc/block-patterns.php:136
 msgctxt "Block pattern sample content"
 msgid "123 Main Street"
 msgstr "123 Main Street"
 
-#: inc/block-patterns.php:131
+#: inc/block-patterns.php:136
 msgctxt "Block pattern sample content"
 msgid "123-456-7890"
 msgstr "123-456-7890"
 
-#: inc/block-patterns.php:131
+#: inc/block-patterns.php:136
 msgctxt "Block pattern sample content"
 msgid "example@example.com"
 msgstr "example@example.com"
@@ -201,19 +201,19 @@ msgstr "Dette indhold er beskyttet med adgangskode. Angiv adgangskode, for at se
 msgid "Open menu"
 msgstr "Åbn menu"
 
-#: inc/block-patterns.php:121
+#: inc/block-patterns.php:125
 msgid "&#8220;Reading&#8221; by Berthe Morisot"
 msgstr "&#8220;Læsning&#8221; af Berthe Morisot"
 
-#: inc/block-patterns.php:98
+#: inc/block-patterns.php:101
 msgid "&#8220;Self portrait&#8221; by Berthe Morisot"
 msgstr "&#8220;Selvportræt&#8221; af Berthe Morisot"
 
-#: inc/block-patterns.php:98
+#: inc/block-patterns.php:101
 msgid "&#8220;Daffodils&#8221; by Berthe Morisot"
 msgstr "&#8220;Påskeliljer&#8221; af Berthe Morisot"
 
-#: inc/block-patterns.php:86 inc/block-patterns.php:121
+#: inc/block-patterns.php:89 inc/block-patterns.php:125
 #: inc/starter-content.php:43
 msgid "&#8220;Roses Trémières&#8221; by Berthe Morisot"
 msgstr "&#8220;Roses Trémières&#8221; af Berthe Morisot"
@@ -273,61 +273,61 @@ msgctxt "Theme starter content"
 msgid "Create your website with blocks"
 msgstr "Lav dit website ved hjælp af blokke"
 
-#: inc/block-patterns.php:121
+#: inc/block-patterns.php:125
 msgid "Reading"
 msgstr "Læsning"
 
-#: inc/block-patterns.php:121
+#: inc/block-patterns.php:125
 msgid "Young Woman in Mauve"
 msgstr "Ung kvinde i Mauve"
 
-#: inc/block-patterns.php:121
+#: inc/block-patterns.php:125
 msgid "The Garden at Bougival"
 msgstr "Haven i Bougival"
 
-#: inc/block-patterns.php:121
+#: inc/block-patterns.php:125
 msgid "In the Bois de Boulogne"
 msgstr "I Bois de Boulogne"
 
-#: inc/block-patterns.php:121
+#: inc/block-patterns.php:125
 msgid "Villa with Orange Trees, Nice"
 msgstr "Villa med appelsintræer, Nice"
 
-#: inc/block-patterns.php:121
+#: inc/block-patterns.php:125
 msgid "Roses Trémières"
 msgstr "Roses Trémières"
 
-#: inc/block-patterns.php:110
+#: inc/block-patterns.php:114
 msgid "&#8220;Villa with Orange Trees, Nice&#8221; by Berthe Morisot"
 msgstr "&#8220;Villa med appelsintræer, Nice&#8221; af Berthe Morisot"
 
-#: inc/block-patterns.php:110
+#: inc/block-patterns.php:114
 msgid "Beautiful gardens painted by Berthe Morisot in the late 1800s"
 msgstr "Smukke haver malet af Berthe Morisot i slutningen af 1800-tallet"
 
-#: inc/block-patterns.php:110 inc/block-patterns.php:121
+#: inc/block-patterns.php:114 inc/block-patterns.php:125
 msgid "&#8220;The Garden at Bougival&#8221; by Berthe Morisot"
 msgstr "&#8220;Haven ved Bougival&#8221; af Berthe Morisot"
 
-#: inc/block-patterns.php:86 inc/block-patterns.php:121
+#: inc/block-patterns.php:89 inc/block-patterns.php:125
 #: inc/starter-content.php:61
 msgid "&#8220;Young Woman in Mauve&#8221; by Berthe Morisot"
 msgstr "&#8220;Ung kvinde i lilla&#8221; af Berthe Morisot"
 
-#: inc/block-patterns.php:86 inc/block-patterns.php:121
+#: inc/block-patterns.php:89 inc/block-patterns.php:125
 #: inc/starter-content.php:51
 msgid "&#8220;In the Bois de Boulogne&#8221; by Berthe Morisot"
 msgstr "&#8220;I Boulogne.skoven&#8221; af Berthe Morisot"
 
-#: inc/block-patterns.php:74
+#: inc/block-patterns.php:76
 msgid "Berthe Morisot<br>(French, 1841-1895)"
 msgstr "Berthe Morisot<br>(Frankrig, 1841-1895)"
 
-#: inc/block-patterns.php:74
+#: inc/block-patterns.php:76
 msgid "Playing in the Sand"
 msgstr "Legende i sandet"
 
-#: inc/block-patterns.php:74
+#: inc/block-patterns.php:76
 msgid "&#8220;Playing in the Sand&#8221; by Berthe Morisot"
 msgstr "&#8220;Legende i sandet&#8221; af Berthe Morisot"
 
@@ -452,90 +452,90 @@ msgstr "Kanter"
 msgid "Overlap"
 msgstr "Overlappende"
 
-#: inc/block-patterns.php:130
+#: inc/block-patterns.php:135
 msgctxt "Block pattern description"
 msgid "A block with 3 columns that display contact information and social media links."
 msgstr "En blokgruppe med 3 kolonner, der viser kontaktoplysninger og links til sociale medier."
 
-#: inc/block-patterns.php:128
+#: inc/block-patterns.php:132
 msgid "Contact information"
 msgstr "Kontaktoplysninger"
 
-#: inc/block-patterns.php:120
+#: inc/block-patterns.php:124
 msgctxt "Block pattern description"
 msgid "A list of projects with thumbnail images."
 msgstr "En liste over projekter med miniaturebilleder."
 
-#: inc/block-patterns.php:118
+#: inc/block-patterns.php:122
 msgid "Portfolio list"
 msgstr "Oversigtsliste"
 
-#: inc/block-patterns.php:109
+#: inc/block-patterns.php:113
 msgctxt "Block pattern description"
 msgid "An overlapping columns block with two images and a text description."
 msgstr "En blokgruppe med overlappende kolonner, der indeholder to billeder og en tekstbeskrivelse."
 
-#: inc/block-patterns.php:106
+#: inc/block-patterns.php:109
 msgid "Overlapping images and text"
 msgstr "Overlappende billeder og tekst"
 
-#: inc/block-patterns.php:97
+#: inc/block-patterns.php:100
 msgctxt "Block pattern description"
 msgid "A media & text block with a big image on the left and a smaller one with bordered frame on the right."
 msgstr "En medie- og tekstblok med et stort billede til venstre og et mindre med ramme til højre."
 
-#: inc/block-patterns.php:94
+#: inc/block-patterns.php:97
 msgid "Two images showcase"
 msgstr "To billede display"
 
-#: inc/block-patterns.php:85
+#: inc/block-patterns.php:88
 msgctxt "Block pattern description"
 msgid "Three images inside an overlapping columns block."
 msgstr "Tre billeder i en blokgruppe med overlappende kolonner."
 
-#: inc/block-patterns.php:82
+#: inc/block-patterns.php:84
 msgid "Overlapping images"
 msgstr "Overlappende billeder"
 
-#: inc/block-patterns.php:73
+#: inc/block-patterns.php:75
 msgctxt "Block pattern description"
 msgid "A Media & Text block with a big image on the left and a heading on the right. The heading is followed by a separator and a description paragraph."
 msgstr "En blokgruppe med et stort billede til venstre og en overskrift til højre. Overskriften efterfølges af en separator og et beskrivelsesafsnit."
 
-#: inc/block-patterns.php:70
+#: inc/block-patterns.php:72
 msgid "Media and text article title"
 msgstr "Medie- og teksthoved til artikel"
 
-#: inc/block-patterns.php:62
+#: inc/block-patterns.php:64
 msgid "example@example.com"
 msgstr "example@example.com"
 
-#: inc/block-patterns.php:62
+#: inc/block-patterns.php:64
 msgid "Dribbble"
 msgstr "Dribbble"
 
-#: inc/block-patterns.php:62
+#: inc/block-patterns.php:64
 msgid "Instagram"
 msgstr "Instagram"
 
-#: inc/block-patterns.php:62
+#: inc/block-patterns.php:64
 msgid "Twitter"
 msgstr "Twitter"
 
-#: inc/block-patterns.php:62
+#: inc/block-patterns.php:64
 msgid "Let&#8217;s Connect."
 msgstr "Let&#8217;s Connect."
 
-#: inc/block-patterns.php:61
+#: inc/block-patterns.php:63
 msgctxt "Block pattern description"
 msgid "A huge text followed by social networks and email address links."
 msgstr "En meget stor overskrift efterfulgt af links til sociale netværk og e-mailadresse."
 
-#: inc/block-patterns.php:58
+#: inc/block-patterns.php:59
 msgid "Links area"
 msgstr "Linkområde"
 
-#: inc/block-patterns.php:50
+#: inc/block-patterns.php:51
 msgid "A new portfolio default theme for WordPress"
 msgstr "Et nyt  portfolio standardtema til WordPress"
 

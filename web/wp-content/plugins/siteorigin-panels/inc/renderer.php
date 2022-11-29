@@ -452,6 +452,9 @@ class SiteOrigin_Panels_Renderer {
 			if ( $panels_data === false ) {
 				return false;
 			}
+		} elseif ( is_string( $panels_data ) ) {
+			// If $panels_data is a string, it's likely json, try decoding it.
+			$panels_data = json_decode( $panels_data, true );
 		}
 
 		$panels_data = apply_filters( 'siteorigin_panels_data', $panels_data, $post_id );
@@ -514,10 +517,11 @@ class SiteOrigin_Panels_Renderer {
 			$widget_css = '@import url(' . SiteOrigin_Panels::front_css_url() . '); ';
 			$widget_css .= SiteOrigin_Panels::renderer()->generate_css( $post_id, $panels_data, $layout_data );
 			$widget_css = preg_replace( '/\s+/', ' ', $widget_css );
+			$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
 			$rendered_layout .= "\n\n" .
-								'<style type="text/css" class="panels-style" data-panels-style-for-post="' . esc_attr( $post_id ) . '">' .
+								"<style$type_attr class='panels-style' data-panels-style-for-post='" . esc_attr( $post_id ) . "'>" .
 								$widget_css .
-								'</style>';
+								"</style>";
 		}
 		
 		unset( $GLOBALS[ 'SITEORIGIN_PANELS_PREVIEW_RENDER' ] );
@@ -757,7 +761,7 @@ class SiteOrigin_Panels_Renderer {
 
 			if ( ! empty( $the_css ) ) {
 				?>
-                <style type="text/css" media="all"
+                <style<?php echo current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"'; ?> media="all"
                        id="siteorigin-panels-layouts-<?php echo esc_attr( $css_id ) ?>"><?php echo $the_css ?></style><?php
 			}
 		}

@@ -4559,11 +4559,15 @@ module.exports = Backbone.View.extend( {
 
 		var builderView = this;
 		var builderID = builderView.$el.attr( 'id' );
+		var container = 'parent';
 
-		// Create the sortable for the rows
-		var wpVersion = $( 'body' ).attr( 'class' ).match( /version-([0-9-]+)/ )[0].replace( /\D/g,'' );
+		if ( ! $( 'body' ).hasClass( 'wp-customizer' ) && $( 'body' ).attr( 'class' ).match( /version-([0-9-]+)/ )[0].replace( /\D/g,'' ) < 59 ) {
+			wpVersion = '#wpwrap';
+		}
+
+		// Create the sortable element for rows.
 		this.rowsSortable = this.$( '.so-rows-container:not(.sow-row-color)' ).sortable( {
-			appendTo: wpVersion >= 59 ? 'parent' : '#wpwrap',
+			appendTo: container,
 			items: '.so-row-container',
 			handle: '.so-row-move',
 			// For the block editor, where it's possible to have multiple Page Builder blocks on a page.
@@ -5931,6 +5935,30 @@ module.exports = Backbone.View.extend( {
 			silent: false
 		}, options );
 
+		// Allow for external field validation when attempting to close a widget.
+		if ( typeof this.widgetView == 'object' ) {
+			var values = this.getFormValues();
+			if ( typeof values.widgets == 'object' ) {
+				validSave = $( document ).triggerHandler(
+					'close_dialog_validation',
+					[
+						// Widget values.
+						values.widgets[ this.model.cid ],
+						// Widget Class
+						this.model.attributes.class,
+						// Model instance - used for finding field markup.
+						this.model.cid,
+						// Instance.
+						this
+					]
+				);
+			}
+
+			if ( typeof validSave == 'boolean' && ! validSave ) {
+				return false;
+			}
+		}
+
 		if ( ! options.silent ) {
 			this.trigger( 'close_dialog' );
 		}
@@ -6677,9 +6705,21 @@ module.exports = Backbone.View.extend( {
 	 * @returns {panels.view.row}
 	 */
 	render: function () {
-		var rowColorLabel = this.model.has( 'color_label' ) ? this.model.get( 'color_label' ) : 1;
+		var rowColorLabel = this.model.has( 'color_label' ) ? this.model.get( 'color_label' ) : panelsOptions.row_color.default;
 		var rowLabel = this.model.has( 'label' ) ? this.model.get( 'label' ) : '';
-		this.setElement( this.template( { rowColorLabel: rowColorLabel, rowLabel: rowLabel } ) );
+
+		// Migrate legacy row color labels.
+		if ( typeof rowColorLabel == 'number' && typeof panelsOptions.row_color.migrations[ rowColorLabel ] == 'string' ) {
+			this.$el.removeClass( 'so-row-color-' + rowColorLabel );
+			rowColorLabel = panelsOptions.row_color.migrations[ rowColorLabel ];
+			this.$el.addClass( 'so-row-color-' + rowColorLabel );
+			this.model.set( 'color_label', rowColorLabel );
+		}
+
+		this.setElement( this.template( {
+			rowColorLabel: rowColorLabel,
+			rowLabel: rowLabel
+		} ) );
 		this.$el.data( 'view', this );
 
 		// Create views for the cells in this row
@@ -6953,7 +6993,7 @@ module.exports = Backbone.View.extend( {
 		this.$( '.so-row-color' ).removeClass( 'so-row-color-selected' );
 		var clickedColorElem = $( event.target );
 		var newColorLabel = clickedColorElem.data( 'color-label' );
-		var oldColorLabel = this.model.has( 'color_label' ) ? this.model.get( 'color_label' ) : 1;
+		var oldColorLabel = this.model.has( 'color_label' ) ? this.model.get( 'color_label' ) : panelsOptions.row_color.default;
 		clickedColorElem.addClass( 'so-row-color-selected' );
 		this.$el.removeClass( 'so-row-color-' + oldColorLabel );
 		this.$el.addClass( 'so-row-color-' + newColorLabel );
@@ -7238,7 +7278,7 @@ module.exports = Backbone.View.extend( {
 					// Create the media frame.
 					frame = wp.media( {
 						// Set the title of the modal.
-						title: 'choose',
+						title: panelsOptions.add_media,
 
 						// Tell the modal to show only images.
 						library: {
@@ -7269,7 +7309,7 @@ module.exports = Backbone.View.extend( {
 						$s.find( '.current-image' ).css( 'background-image', 'url(' + url + ')' );
 
 						// Store the ID
-						$s.find( '.so-image-selector > input' ).val( attachment.id );
+						$s.find( '.so-image-selector > input' ).val( attachment.id ).trigger( 'change' )
 
 						$s.find( '.remove-image' ).removeClass( 'hidden' );
 					} );
@@ -7404,7 +7444,53 @@ module.exports = Backbone.View.extend( {
 			text.on( 'change', setValue );
 			unit.on( 'change', setValue );
 		} );
-		
+
+		// Set up all the toggle fields
+		this.$( '.style-field-toggle' ).each( function () {
+			var $$ = $( this );
+			var checkbox = $$.find( '.so-toggle-switch-input' );
+			var settings = $$.find( '.so-toggle-fields' );
+
+			checkbox.on( 'change', function() {
+				if ( $( this ).prop( 'checked' ) ) {
+					settings.slideDown();
+				} else {
+					settings.slideUp();
+				}
+			} );
+		} );
+		this.$( '.style-field-toggle .so-toggle-switch-input' ).trigger( 'change' );
+
+		var $background_image = this.$( '.so-field-background_image_attachment' ),
+			$background_image_display = this.$( '.so-field-background_display' ),
+			$background_image_size = this.$( '.so-field-background_image_size' );
+
+		if (
+			$background_image.length &&
+			(
+				$background_image_display.length ||
+				$background_image_size.length
+			)
+		) {
+			var soBackgroundImageVisibility = function() {
+				var hasImage = $background_image.find( '[name="style[background_image_attachment]"]' );
+
+				if ( ! hasImage.val() || hasImage.val() == 0 ) {
+					hasImage = $background_image.find( '[name="style[background_image_attachment_fallback]"]' );
+				}
+
+				if ( hasImage.val() && hasImage.val() != 0 ) {
+					$background_image_display.show();
+					$background_image_size.show();
+				} else {
+					$background_image_display.hide();
+					$background_image_size.hide();
+				}
+			}
+			soBackgroundImageVisibility();
+			$background_image.find( '[name="style[background_image_attachment]"], [name="style[background_image_attachment_fallback]"]' ).on( 'change', soBackgroundImageVisibility );
+		}
+
 		// Allow other plugins to setup custom fields.
 		$( document ).trigger( 'setup_style_fields', this );
 	}
