@@ -368,6 +368,7 @@ class SiteOrigin_Panels_Admin {
 				'copy_content'              => siteorigin_panels_setting( 'copy-content' ),
 				'cache'                     => array(),
 				'instant_open'              => siteorigin_panels_setting( 'instant-open-widgets' ),
+				'add_media'                 => __( 'Choose Media', 'siteorigin-panels' ),
 				'default_columns'           => apply_filters( 'siteorigin_panels_default_row_columns', array(
 					array(
 						'weight' => 0.5,
@@ -524,7 +525,17 @@ class SiteOrigin_Panels_Admin {
 				'siteoriginWidgetRegex'     => str_replace( '*+', '*', get_shortcode_regex( array( 'siteorigin_widget' ) ) ),
 				'forms'                   => array(
 					'loadingFailed' => __( 'Unknown error. Failed to load the form. Please check your internet connection, contact your web site administrator, or try again later.', 'siteorigin-panels' ),
-				)
+				),
+				'row_color' => array(
+					'migrations' => apply_filters( 'siteorigin_panels_admin_row_colors_migration', array(
+						1 => __( 'soft-blue', 'siteorigin-panels' ),
+						2 => __( 'soft-red', 'siteorigin-panels' ),
+						3 => __( 'grayish-violet', 'siteorigin-panels' ),
+						4 => __( 'lime-green', 'siteorigin-panels' ),
+						5 => __( 'desaturated-yellow', 'siteorigin-panels' ),
+					) ),
+					'default' => apply_filters( 'siteorigin_panels_admin_row_colors_default', __( 'soft-blue', 'siteorigin-panels' ) ),
+				),
 			) );
 
 			$js_widgets = array();
@@ -609,6 +620,38 @@ class SiteOrigin_Panels_Admin {
 				SITEORIGIN_PANELS_VERSION
 			);
 			do_action( 'siteorigin_panel_enqueue_admin_styles' );
+
+			$row_colors = SiteOrigin_Panels_Admin::get_row_colors();
+			$row_colors_css = '';
+			foreach ( $row_colors as $id => $color ) {
+				$name = ! empty( $color['name'] ) ? sanitize_title( $color['name'] ) : $id;
+				$row_colors_css .= '
+					.siteorigin-panels-builder .so-rows-container .so-row-color-' . $name . '.so-row-color {
+						background-color: ' . $color['active'] . ';
+						border: 1px solid ' . $color['inactive'] . ';
+					}
+					.siteorigin-panels-builder .so-rows-container .so-row-color-' . $name . '.so-row-color.so-row-color-selected:before {
+					  background: ' . $color['active'] . ';
+					}
+
+					.siteorigin-panels-builder .so-rows-container .so-row-container.so-row-color-' . $name . ' .so-cells .cell .cell-wrapper {
+						background-color: ' . $color['inactive'] . ';
+					}
+					.siteorigin-panels-builder .so-rows-container .so-row-container.so-row-color-' . $name . ' .so-cells .cell.cell-selected .cell-wrapper {
+						background-color: ' . $color['active'] . ';
+					}
+
+					.siteorigin-panels-builder .so-rows-container .so-row-container.so-row-color-' . $name . ' .so-cells .cell .resize-handle {
+						background-color: ' . $color['cell_divider'] . ';
+					}
+					.siteorigin-panels-builder .so-rows-container .so-row-container.so-row-color-' . $name . ' .so-cells .cell .resize-handle:hover {
+						background-color: ' . $color['cell_divider_hover'] . ';
+					}';
+			}
+
+			if ( ! empty( $row_colors_css ) ) {
+				wp_add_inline_style( 'so-panels-admin', $row_colors_css );
+			}
 		}
 	}
 
@@ -958,6 +1001,70 @@ class SiteOrigin_Panels_Admin {
 		include plugin_dir_path( __FILE__ ) . '../tpl/js-templates.php';
 	}
 
+	public static function get_row_colors() {
+		$row_colors = apply_filters( 'siteorigin_panels_admin_row_colors', array(
+			1 => array(
+				'name' => __( 'Soft Blue', 'siteorigin-panels' ),
+				'inactive' => '#cde2ec',
+				'active' => '#a4cadd',
+				'cell_divider' => '#e7f1f6',
+				'cell_divider_hover' => '#dcebf2',
+			),
+			2 => array(
+				'name' => __( 'Soft Red', 'siteorigin-panels' ),
+				'inactive' => '#f2c2be',
+				'active' => '#e9968f',
+				'cell_divider' => '#f8dedc',
+				'cell_divider_hover' => '#f5d2cf',
+			),
+			3 => array(
+				'name' => __( 'Grayish Violet', 'siteorigin-panels' ),
+				'inactive' => '#d5ccdf',
+				'active' => '#b9aac9',
+				'cell_divider' => '#e7e2ed',
+				'cell_divider_hover' => '#dfd9e7',
+			),
+			4 => array(
+				'name' => __( 'Lime Green', 'siteorigin-panels' ),
+				'inactive' => '#cae7cd',
+				'active' => '#a3d6a9',
+				'cell_divider' => '#e3f2e4',
+				'cell_divider_hover' => '#d8edda',
+			),
+			5 => array(
+				'name' => __( 'Desaturated Yellow', 'siteorigin-panels' ),
+				'inactive' => '#e2dcb1',
+				'active' => '#d3ca88',
+				'cell_divider' => '#ece8cb',
+				'cell_divider_hover' => '#e8e3c0',
+			),
+		) );
+
+		// Ensure all of the colors are valid.
+		foreach ( $row_colors as $id => $color ) {
+			unset( $name );
+			if (
+				! empty( $color['inactive'] ) &&
+				! empty( $color['active'] ) &&
+				! empty( $color['cell_divider'] ) &&
+				! empty( $color['cell_divider_hover'] )
+			) {
+				// If color has a name set, store it and re-apply later.
+				if ( ! empty( $color['name'] ) ) {
+					$name = $color['name'];
+					unset( $color['name'] );
+				}
+
+				$valid_row_colors[ $id ] = array_map( 'sanitize_hex_color', $color );
+
+				if ( ! empty( $name ) ) {
+					$valid_row_colors[ $id ]['name'] = $name;
+				}
+			}
+		}
+		return ! empty( $valid_row_colors ) ? $valid_row_colors : array();
+	}
+
 	/**
 	 * Render a widget form with all the Page Builder specific fields.
 	 *
@@ -1093,7 +1200,7 @@ class SiteOrigin_Panels_Admin {
 	function generate_panels_preview( $post_id, $panels_data ) {
 		$GLOBALS[ 'SITEORIGIN_PANELS_PREVIEW_RENDER' ] = true;
 		$return = SiteOrigin_Panels::renderer()->render( (int) $post_id, false, $panels_data );
-		if ( function_exists( 'wp_targeted_link_rel' ) ) {
+		if ( function_exists( 'wp_targeted_link_rel' ) && is_array( $return ) ) {
 			$return = wp_targeted_link_rel( $return );
 		}
 		unset( $GLOBALS[ 'SITEORIGIN_PANELS_PREVIEW_RENDER' ] );
@@ -1610,45 +1717,62 @@ class SiteOrigin_Panels_Admin {
 				margin-top: 1px;
 			}
 
+			/* Easy Digital Downloads Compatibility */
+			<?php if ( class_exists( 'EDD_Requirements_Check' ) ) : ?>
+				.post-type-download .split-page-title-action .expander {
+					margin-top: 4.5px;
+				}
+			<?php endif; ?>
 		</style>
 		<script type="text/javascript">
 			document.addEventListener( 'DOMContentLoaded', function() {
-				var buttons = document.getElementsByClassName( 'page-title-action' ),
-					button = buttons.item( 0 );
+				/* Easy Digital Downloads Compatibility */
+				<?php if ( class_exists( 'EDD_Requirements_Check' ) ) : ?>
+					var timeoutSetup = document.getElementsByClassName( 'post-type-download' ).length ? 100 : 0;
+				<?php else: ?>
+					var timeoutSetup = 0;
+				<?php endif; ?>
 
-				if ( ! button ) {
-					return;
-				}
+				setupAddNewBTN = function() {
+					var buttons = document.getElementsByClassName( 'page-title-action' ),
+						button = buttons.item( 0 ),
+						btnText;
 
-				var url = button.href;
-				var urlHasParams = ( -1 !== url.indexOf( '?' ) );
-				var panelsUrl = url + ( urlHasParams ? '&' : '?' ) + 'siteorigin-page-builder';
-				var blockEditorUrl = url + ( urlHasParams ? '&' : '?' ) + 'block-editor';
+					if ( ! button ) {
+						return;
+					}
 
-				var newbutton = '<span id="split-page-title-action" class="split-page-title-action">';
-				newbutton += '<a href="' + url + '">' + button.innerText + '</a>';
-				newbutton += '<span class="expander" tabindex="0" role="button" aria-haspopup="true" aria-label="<?php echo esc_attr( __( 'Toggle editor selection menu', 'siteorigin-panels' ) ); ?>"></span>';
-				newbutton += '<span class="dropdown"><a href="' + panelsUrl + '"><?php echo esc_html( __( 'SiteOrigin Page Builder', 'siteorigin-panels' ) ); ?></a>';
-				newbutton += '<a href="' + blockEditorUrl + '"><?php echo esc_html( __( 'Block Editor', 'siteorigin-panels' ) ); ?></a></span></span><span class="page-title-action" style="display:none;"></span>';
+					var url = button.href;
+					var urlHasParams = ( -1 !== url.indexOf( '?' ) );
+					var panelsUrl = url + ( urlHasParams ? '&' : '?' ) + 'siteorigin-page-builder';
+					var blockEditorUrl = url + ( urlHasParams ? '&' : '?' ) + 'block-editor';
 
-				button.insertAdjacentHTML( 'afterend', newbutton );
-				button.parentNode.removeChild( button );
+					var newbutton = '<span id="split-page-title-action" class="split-page-title-action">';
+					newbutton += '<a href="' + url + '">' + button.innerText + '</a>';
+					newbutton += '<span class="expander" tabindex="0" role="button" aria-haspopup="true" aria-label="<?php echo esc_attr( __( 'Toggle editor selection menu', 'siteorigin-panels' ) ); ?>"></span>';
+					newbutton += '<span class="dropdown"><a href="' + panelsUrl + '"><?php echo esc_html( __( 'SiteOrigin Page Builder', 'siteorigin-panels' ) ); ?></a>';
+					newbutton += '<a href="' + blockEditorUrl + '"><?php echo esc_html( __( 'Block Editor', 'siteorigin-panels' ) ); ?></a></span></span><span class="page-title-action" style="display:none;"></span>';
 
-				var expander = document.getElementById( 'split-page-title-action' ).getElementsByClassName( 'expander' ).item( 0 );
-				var dropdown = expander.parentNode.querySelector( '.dropdown' );
-				function toggleDropdown() {
-					dropdown.classList.toggle( 'visible' );
-				}
-				expander.addEventListener( 'click', function( e ) {
-					e.preventDefault();
-					toggleDropdown();
-				} );
-				expander.addEventListener( 'keydown', function( e ) {
-					if ( 13 === e.which || 32 === e.which ) {
+					button.insertAdjacentHTML( 'afterend', newbutton );
+					button.parentNode.removeChild( button );
+
+					var expander = document.getElementById( 'split-page-title-action' ).getElementsByClassName( 'expander' ).item( 0 );
+					var dropdown = expander.parentNode.querySelector( '.dropdown' );
+					function toggleDropdown() {
+						dropdown.classList.toggle( 'visible' );
+					}
+					expander.addEventListener( 'click', function( e ) {
 						e.preventDefault();
 						toggleDropdown();
-					}
-				} );
+					} );
+					expander.addEventListener( 'keydown', function( e ) {
+						if ( 13 === e.which || 32 === e.which ) {
+							e.preventDefault();
+							toggleDropdown();
+						}
+					} );
+				}
+				setTimeout( setupAddNewBTN, timeoutSetup );
 			} );
 		</script>
 		<?php
