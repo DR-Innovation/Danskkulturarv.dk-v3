@@ -520,7 +520,7 @@ class WPDKAObject {
    */
   public static function isSlugFree($slug_candidate) {
     $objects = self::getObjectFromSlug($slug_candidate, true);
-    if(count($objects) == 0) {
+    if(!is_countable($objects) || (count($objects) == 0)) {
       // This slug appears to be free.
       return true;
     } else {
