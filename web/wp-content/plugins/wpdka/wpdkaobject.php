@@ -543,41 +543,6 @@ class WPDKAObject {
     return $response->count;
   }
 
-  const GOOGLE_PLUS_STATS_URL = 'https://apis.google.com/u/0/_/+1/sharebutton';
-
-  public static function get_google_plus_stats($url) {
-    $query = http_build_query(array( 'url' => $url ));
-    $url = self::GOOGLE_PLUS_STATS_URL . '?' . $query;
-
-    $ch = curl_init();
-    curl_setopt_array($ch, array(
-      CURLOPT_URL => $url,
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_HTTPHEADER => array( 'accept-language: en-GB,da;q=0.8,en-US;q=0.6' )
-    ));
-
-    $content = curl_exec($ch);
-    curl_close($ch);
-
-    if($content === false) {
-      throw new \RuntimeException("Couldn't connect to the Google Plus API, it might have changed.");
-    }
-
-    $count_matches = array();
-    if(preg_match('|id="aggregateCount".*?>([^<]+)<|', $content, $count_matches) == 1) {
-      if(strstr($count_matches[1], 'K') !== false) {
-        $multiplier = 1000;
-      } elseif(strstr($count_matches[1], 'M') !== false) {
-        $multiplier = 1000000;
-      } else {
-        $multiplier = 1;
-      }
-      return intval(floatval($count_matches[1]) * $multiplier);
-    } else {
-      throw new \RuntimeException("Couldn't find the aggregateCount to the Google Plus API, the markup might have changed, check: " . $base_url . $query);
-    }
-  }
-
   public static function fetch_social_counts(\WPChaosDataObject $object, $update_metadata = false) {
     $url = $object->url;
     // What would the legacy url be?
@@ -588,9 +553,6 @@ class WPDKAObject {
 
     $twitter_total_count = self::get_twitter_stats($url);
     $twitter_total_count += self::get_twitter_stats($legacyURL);
-
-    $google_plus_total_count = self::get_google_plus_stats($url);
-    $google_plus_total_count = self::get_google_plus_stats($legacyURL);
 
     if($update_metadata) {
       // Update the metadata.
