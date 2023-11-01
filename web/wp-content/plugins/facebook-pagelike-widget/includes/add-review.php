@@ -44,19 +44,20 @@ if ( ! class_exists( 'Fb_Widget_Review' ) ) :
 
 		// We will use this function in future
 		public function calculate_time( $seconds ) {
-			$years = ( intval( $seconds ) / YEAR_IN_SECONDS ) % 100;
+
+			$years = (int) ( intval( $seconds ) / YEAR_IN_SECONDS ) % 100;
 			if ( $years > 0 ) {
 				return sprintf( _n( 'a year', '%s years', $years, 'facebook-pagelike-widget' ), $years );
 			}
-			$weeks = ( intval( $seconds ) / WEEK_IN_SECONDS ) % 52;
+			$weeks = (int) ( intval( $seconds ) / WEEK_IN_SECONDS ) % 52;
 			if ( $weeks > 1 ) {
 				return sprintf( __( 'a week', '%s weeks', $weeks, 'facebook-pagelike-widget' ), $weeks );
 			}
-			$days = ( intval( $seconds ) / DAY_IN_SECONDS ) % 7;
+			$days = (int) ( intval( $seconds ) / DAY_IN_SECONDS ) % 7;
 			if ( $days > 1 ) {
 				return sprintf( __( '%s days', 'facebook-pagelike-widget' ), $days );
 			}
-			$minutes = ( intval( $seconds ) / MINUTE_IN_SECONDS ) % 60;
+			$minutes = (int) ( intval( $seconds ) / MINUTE_IN_SECONDS ) % 60;
 			if($minutes > 1 ) {
 				return sprintf( __( '%s minutes', 'facebook-pagelike-widget' ), $minutes );
 			}

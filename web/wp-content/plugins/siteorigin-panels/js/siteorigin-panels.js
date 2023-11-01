@@ -858,7 +858,27 @@ module.exports = panels.view.dialog.extend({
 		},
 
 		// Toolbar buttons
+		'click .so-close': 'saveHandler',
+		'click .so-toolbar .so-saveinline': function( e ) {
+			this.saveHandler( true );
+		},
+		'click .so-mode': 'switchModeShow',
+		'click .so-saveinline-mode': function() {
+			this.switchMode( true );
+		},
+		'keyup .so-mode-list li': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
+		'click .so-close-mode': function() {
+			this.switchMode( false );
+		},
+		'keyup .so-close-mode': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 		'click .so-toolbar .so-save': 'saveHandler',
+		'click .so-toolbar .so-saveinline': function( e ) {
+			this.saveHandler( true );
+		},
 		'click .so-toolbar .so-insert': 'insertHandler',
 		'click .so-toolbar .so-delete': 'deleteHandler',
 		'keyup .so-toolbar .so-delete': function( e ) {
@@ -869,15 +889,16 @@ module.exports = panels.view.dialog.extend({
 			panels.helpers.accessibility.triggerClickOnEnter( e );
 		},
 
-		// Changing the row
-		'change .row-set-form > *': 'setCellsFromForm',
-		'click .row-set-form button.set-row': 'setCellsFromForm',
+		// Changing the row.
+		'click .row-set-form .so-row-field': 'changeCellTotal',
+		'click .cell-resize-sizing span': 'changeCellRatio',
 	},
 
 	rowView: null,
 	dialogIcon: 'add-row',
 	dialogClass: 'so-panels-dialog-row-edit',
 	styleType: 'row',
+	columnResizeData: [],
 
 	dialogType: 'edit',
 
@@ -901,7 +922,10 @@ module.exports = panels.view.dialog.extend({
 				this.setRowModel(null);
 			}
 
+			this.columnResizeData = this.$( '.cell-resize').data( 'resize' );
 			this.regenerateRowPreview();
+			this.drawCellResizers( parseInt( this.$('.row-set-form input[name="cells"]').val() ) );
+			this.updateActiveCellClass();
 			this.renderStyles();
 			this.openSelectedCellStyles();
 		}, this);
@@ -980,12 +1004,6 @@ module.exports = panels.view.dialog.extend({
 		if ( ! _.isUndefined( this.model ) && this.dialogType == 'edit' ) {
 			// Set the initial value of the
 			this.$( 'input[name="cells"].so-row-field' ).val( this.model.get( 'cells' ).length );
-			if ( this.model.has( 'ratio' ) ) {
-				this.$( 'select[name="ratio"].so-row-field' ).val( this.model.get( 'ratio' ) );
-			}
-			if ( this.model.has( 'ratio_direction' ) ) {
-				this.$( 'select[name="ratio_direction"].so-row-field' ).val( this.model.get( 'ratio_direction' ) );
-			}
 		}
 
 		this.$( 'input.so-row-field' ).on( 'keyup', function() {
@@ -1043,19 +1061,11 @@ module.exports = panels.view.dialog.extend({
 		this.row = {
 			cells: this.model.get('cells').clone(),
 			style: {},
-			ratio: this.model.get('ratio'),
-			ratio_direction: this.model.get('ratio_direction'),
 		};
 
 		// Set the initial value of the cell field.
 		if ( this.dialogType == 'edit' ) {
 			this.$( 'input[name="cells"].so-row-field' ).val( this.model.get( 'cells' ).length );
-			if ( this.model.has( 'ratio' ) ) {
-				this.$( 'select[name="ratio"].so-row-field' ).val( this.model.get( 'ratio' ) );
-			}
-			if ( this.model.has( 'ratio_direction' ) ) {
-				this.$( 'select[name="ratio_direction"].so-row-field' ).val( this.model.get( 'ratio_direction' ) );
-			}
 		}
 
 		this.clearCellStylesCache();
@@ -1332,6 +1342,8 @@ module.exports = panels.view.dialog.extend({
 
 		}, this);
 
+		this.updateActiveCellClass();
+
 		this.trigger('form_loaded', this);
 	},
 
@@ -1416,107 +1428,147 @@ module.exports = panels.view.dialog.extend({
 		});
 	},
 
-	/**
-	 * Get the weights from the
-	 */
-	setCellsFromForm: function () {
-
-		try {
-			var f = {
-				'cells': parseInt(this.$('.row-set-form input[name="cells"]').val()),
-				'ratio': parseFloat(this.$('.row-set-form select[name="ratio"]').val()),
-				'direction': this.$('.row-set-form select[name="ratio_direction"]').val()
-			};
-
-			if (_.isNaN(f.cells)) {
-				f.cells = 1;
-			}
-			if (isNaN(f.ratio)) {
-				f.ratio = 1;
-			}
-			if (f.cells < 1) {
-				f.cells = 1;
-				this.$('.row-set-form input[name="cells"]').val(f.cells);
-			}
-			else if (f.cells > 12) {
-				f.cells = 12;
-				this.$('.row-set-form input[name="cells"]').val(f.cells);
-			}
-
-			this.$('.row-set-form select[name="ratio"]').val(f.ratio);
-
-			var cells = [];
-			var cellCountChanged = (
-				this.row.cells.length !== f.cells
-			);
-
-			// Now, lets create some cells
-			var currentWeight = 1;
-			for (var i = 0; i < f.cells; i++) {
-				cells.push(currentWeight);
-				currentWeight *= f.ratio;
-			}
-
-			// Now lets make sure that the row weights add up to 1
-
-			var totalRowWeight = _.reduce(cells, function (memo, weight) {
-				return memo + weight;
-			});
-			cells = _.map(cells, function (cell) {
-				return cell / totalRowWeight;
-			});
-
-			// Don't return cells that are too small
-			cells = _.filter(cells, function (cell) {
-				return cell > 0.01;
-			});
-
-			if (f.direction === 'left') {
-				cells = cells.reverse();
-			}
-
-			// Discard deleted cells.
-			this.row.cells = new panels.collection.cells(this.row.cells.first(cells.length));
-
-			_.each(cells, function (cellWeight, index) {
-				var cell = this.row.cells.at(index);
-				if (!cell) {
-					cell = new panels.model.cell({weight: cellWeight, row: this.model});
-					this.row.cells.add(cell);
-				} else {
-					cell.set('weight', cellWeight);
+	drawCellResizers: function() {
+		this.$( '.cell-resize' ).empty();
+		var cellsCount = parseInt( this.$( '.row-set-form input[name="cells"]' ).val() );
+		var currentCellSizes = this.columnResizeData[ cellsCount ];
+		if ( cellsCount > 1 && typeof currentCellSizes !== 'undefined' ) {
+			this.$( '.cell-resize-container' ).show();
+			for ( ci = 0; ci < currentCellSizes.length; ci++ ) {
+				this.$( '.cell-resize' ).append( '<span class="cell-resize-sizing"></span>' );
+				var $lastCell = this.$( '.cell-resize' ).find( '.cell-resize-sizing' ).last();
+				$lastCell.data( 'cells', currentCellSizes[ ci ] );
+				for ( cs = 0; cs < currentCellSizes[ ci ].length; cs++ ) {
+					$lastCell.append( '<span style="width: ' + currentCellSizes[ ci ][ cs ] + '%;">' + currentCellSizes[ ci ][ cs ] + '%</span>' );
 				}
-			}.bind(this));
-			
-			this.row.ratio = f.ratio;
-			this.row.ratio_direction = f.direction;
-
-			if (cellCountChanged) {
-				this.regenerateRowPreview();
-			} else {
-				var thisDialog = this;
-
-				// Now lets animate the cells into their new widths
-				this.$('.preview-cell').each(function (i, el) {
-					var cellWeight = thisDialog.row.cells.at(i).get('weight');
-					$(el).animate({'width': Math.round(cellWeight * 1000) / 10 + "%"}, 250);
-					$(el).find('.preview-cell-weight').html(Math.round(cellWeight * 1000) / 10);
-				});
-
-				// So the draggable handle is not hidden.
-				this.$('.preview-cell').css('overflow', 'visible');
-
-				setTimeout(thisDialog.regenerateRowPreview.bind(thisDialog), 260);
 			}
+		} else {
+			this.$( '.cell-resize-container' ).hide();
 		}
-		catch (err) {
-			console.log('Error setting cells - ' + err.message);
-		}
-
-
-		// Remove the button primary class
-		this.$('.row-set-form .so-button-row-set').removeClass('button-primary');
 	},
+
+	updateActiveCellClass: function() {
+		$( '.so-active-ratio' ).removeClass( 'so-active-ratio' );
+		var activeCellRatio = this.$( '.preview-cell-weight' ).map( function() {
+			return Math.trunc( Number( $( this ).text() ) );
+		} ).get();
+
+		$.each( this.columnResizeData[ parseInt( this.$( '.row-set-form input[name="cells"]' ).val() ) ], function( i, ratio ) {
+			if ( ratio.toString() === activeCellRatio.toString() ) {
+				activeCellRatio = i;
+				return false;
+			}
+		} );
+
+		if ( typeof activeCellRatio == 'number' ) {
+			$( $( '.cell-resize-sizing' ).get( activeCellRatio ) ).addClass( 'so-active-ratio' );
+		}
+	},
+
+	changeCellRatio: function( e ) {
+		var $current = $( e.target );
+		if ( ! $current.hasClass( 'cell-resize-sizing' ) ) {
+			$current = $current.parent();
+		}
+
+		if ( ! $current.hasClass( 'so-active-ratio' ) ) {
+			$( '.so-active-ratio' ).removeClass( 'so-active-ratio' );
+			$current.addClass( 'so-active-ratio' );
+			this.changeCellTotal( $current.data('cells' ) )
+		}
+	},
+
+	changeCellTotal: function ( cellRatio = 0 ) {
+			 try {
+				var cellsCount = parseInt( this.$('.row-set-form input[name="cells"]').val() );
+				this.drawCellResizers( cellsCount );
+	
+				if (_.isNaN( cellsCount )) {
+					cellsCount = 1;
+				} else {
+					if ( cellsCount < 1 ) {
+						cellsCount = 1;
+						this.$( '.row-set-form input[name="cells"]' ).val( cellsCount );
+					} else if ( cellsCount > 12 ) {
+						cellsCount = 12;
+					}
+				}
+				this.$( '.row-set-form input[name="cells"]' ).val( cellsCount );
+	
+				var cells = [];
+				var cellCountChanged = (
+					this.row.cells.length !== cellsCount
+				);
+	
+				// Create some cells
+				var currentWeight = 1;
+				for ( var i = 0; i < cellsCount; i++ ) {
+					cells.push(1);
+				}
+
+				// Lets make sure that the row weights add up to 1.
+				var totalRowWeight = _.reduce( cells, function( memo, weight ) {
+					return memo + weight;
+				} );
+
+				cells = _.map (cells, function( cell ) {
+					return cell / totalRowWeight;
+				} );
+	
+				// Don't return cells that are too small
+				cells = _.filter( cells, function( cell ) {
+					return cell > 0.01;
+				} );
+
+				// Discard deleted cells.
+				this.row.cells = new panels.collection.cells( this.row.cells.first( cells.length ) );
+	
+				_.each( cells, function( cellWeight, index ) {
+					var cell = this.row.cells.at( index );
+					if ( ! cell ) {
+						cell = new panels.model.cell( {
+							weight: cellWeight,
+							row: this.model
+						} );
+						this.row.cells.add( cell );
+					} else {
+						cell.set(
+							'weight',
+							cellRatio.length ? cellRatio[ index ] / 100 : cellWeight
+						);
+					}
+				}.bind( this ) );
+	
+				if ( cellCountChanged ) {
+					this.regenerateRowPreview();
+				} else {
+					var thisDialog = this;
+	
+					// // Now lets animate the cells into their new widths
+					this.$( '.preview-cell' ).each( function( i, el ) {
+						var width = Math.round( thisDialog.row.cells.at( i ).get( 'weight' ) * 1000 ) / 10;
+						var $previewCellWeight = $( el ).find( '.preview-cell-weight' );
+						// To prevent a jump, don't animate cells that haven't changed size.
+						if ( parseInt( $previewCellWeight.text() ) != width ) {
+							$( el ).animate( { 'width': width + "%" }, 250 );
+							$previewCellWeight.html( width );
+						}
+					} );
+	
+					// So the draggable handle is not hidden.
+					this.$( '.preview-cell' ).css( 'overflow', 'visible' );
+	
+					setTimeout( thisDialog.regenerateRowPreview.bind( thisDialog ), 260 );
+				}
+			}
+			catch ( err ) {
+				console.log( 'Error setting cells - ' + err.message );
+			}
+	
+	
+			// Remove the button primary class
+			this.$('.row-set-form .so-button-row-set').removeClass('button-primary');
+		},
 
 	/**
 	 * Handle a click on the dialog left bar tab
@@ -1542,7 +1594,6 @@ module.exports = panels.view.dialog.extend({
 		if (!_.isEmpty(this.model)) {
 			this.model.setCells( this.row.cells );
 			this.model.set( 'ratio', this.row.ratio );
-			this.model.set( 'ratio_direction', this.row.ratio_direction );
 		}
 
 		// Update the row styles if they've loaded
@@ -1619,12 +1670,15 @@ module.exports = panels.view.dialog.extend({
 	/**
 	 * We'll just save this model and close the dialog
 	 */
-	saveHandler: function () {
-		this.builder.addHistoryEntry('row_edited');
+	saveHandler: function( savePage = false, e ) {
+		this.builder.addHistoryEntry( 'row_edited' );
 		this.updateModel();
-		this.closeDialog();
-
-		this.builder.model.refreshPanelsData();
+		if ( typeof savePage == 'boolean' ) {
+			panels.helpers.utils.saveHeartbeat( this );
+		} else {
+			this.builder.model.refreshPanelsData();
+			this.closeDialog();
+		}
 
 		return false;
 	},
@@ -1664,6 +1718,34 @@ module.exports = panels.view.dialog.extend({
 		}
 	},
 
+	switchModeShow: function() {
+		this.$( '.so-toolbar .so-mode-list' ).show();
+		this.$( '.so-toolbar .button-primary:visible' ).addClass( 'so-active-mode' );
+		this.$( '.so-toolbar .button-primary' ).hide();
+		setTimeout( function() {
+			$( document ).one( 'click', function( e ) {
+				var $$ = jQuery( e.target );
+
+				if ( ! $$.hasClass( 'so-saveinline-mode' ) && ! $$.hasClass( 'so-close-mode' ) ) {
+					$( '.so-mode-list' ).hide();
+					$( '.so-toolbar .so-active-mode' ).show()
+				}
+			} );
+		}, 100 );
+	},
+
+	switchMode: function( inline = false ) {
+		this.$( '.so-toolbar .so-mode-list' ).hide();
+		this.$( '.so-toolbar .button-primary' ).removeClass( 'so-active-mode' );
+		if ( inline ) {
+			this.$( '.so-toolbar .so-saveinline' ).show();
+		} else {
+			this.$( '.so-toolbar .so-save' ).show();
+		}
+
+		window.panelsMode = inline ? 'inline' : 'dialog';
+	},
+
 });
 
 },{}],9:[function(require,module,exports){
@@ -1676,7 +1758,7 @@ module.exports = panels.view.dialog.extend( {
 	sidebarWidgetTemplate: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-dialog-widget-sidebar-widget' ).html() ) ),
 
 	dialogClass: 'so-panels-dialog-edit-widget',
-    dialogIcon: 'add-widget',
+	dialogIcon: 'add-widget',
 
 	widgetView: false,
 	savingWidget: false,
@@ -1684,6 +1766,22 @@ module.exports = panels.view.dialog.extend( {
 
 	events: {
 		'click .so-close': 'saveHandler',
+		'click .so-toolbar .so-saveinline': function( e ) {
+			this.saveHandler( true );
+		},
+		'click .so-mode': 'switchModeShow',
+		'click .so-saveinline-mode': function() {
+			this.switchMode( true );
+		},
+		'keyup .so-mode-list li': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
+		'click .so-close-mode': function() {
+			this.switchMode( false );
+		},
+		'keyup .so-close-mode': function( e ) {
+			panels.helpers.accessibility.triggerClickOnEnter( e );
+		},
 		'keyup .so-close': function( e ) {
 			panels.helpers.accessibility.triggerClickOnEnter( e );
 		},
@@ -1967,9 +2065,14 @@ module.exports = panels.view.dialog.extend( {
 	/**
 	 * Save a history entry for this widget. Called when the dialog is closed.
 	 */
-	saveHandler: function () {
+	saveHandler: function( savePage = false, e ) {
 		this.builder.addHistoryEntry( 'widget_edited' );
-		this.closeDialog();
+		if ( typeof savePage == 'boolean' ) {
+			this.updateModel();
+			panels.helpers.utils.saveHeartbeat( this );
+		} else {
+			this.closeDialog();
+		}
 	},
 
 	/**
@@ -1993,7 +2096,35 @@ module.exports = panels.view.dialog.extend( {
 		this.builder.model.refreshPanelsData();
 
 		return false;
-	}
+	},
+
+	switchModeShow: function() {
+		this.$( '.so-toolbar .so-mode-list' ).show();
+		this.$( '.so-toolbar .button-primary:visible' ).addClass( 'so-active-mode' );
+		this.$( '.so-toolbar .button-primary' ).hide();
+		setTimeout( function() {
+			$( document ).one( 'click', function( e ) {
+				var $$ = jQuery( e.target );
+
+				if ( ! $$.hasClass( 'so-saveinline-mode' ) && ! $$.hasClass( 'so-close-mode' ) ) {
+					$( '.so-mode-list' ).hide();
+					$( '.so-toolbar .so-active-mode' ).show()
+				}
+			} );
+		}, 100 );
+	},
+
+	switchMode: function( inline = false ) {
+		this.$( '.so-toolbar .so-mode-list' ).hide();
+		this.$( '.so-toolbar .button-primary' ).removeClass( 'so-active-mode' );
+		if ( inline ) {
+			this.$( '.so-toolbar .so-saveinline' ).show();
+		} else {
+			this.$( '.so-toolbar .so-close' ).show();
+		}
+
+		window.panelsMode = inline ? 'inline' : 'dialog';
+	},
 
 } );
 
@@ -2283,6 +2414,14 @@ module.exports = {
 			serial.thingType = 'widget-model';
 		}
 
+		// Can Page Builder cross domain copy paste?
+		if (
+			typeof SiteOriginPremium == 'object' &&
+			typeof SiteOriginPremium.CrossDomainCopyPasteAddon == 'function'
+		) {
+			SiteOriginPremium.CrossDomainCopyPasteAddon().copy( serial );
+		}
+
 		// Store this in local storage
 		localStorage[ 'panels_clipboard_' + panelsOptions.user ] = JSON.stringify( serial );
 		return true;
@@ -2527,6 +2666,21 @@ module.exports = {
 		var sel = window.getSelection();
 		sel.removeAllRanges();
 		sel.addRange( range );
+	},
+
+	saveHeartbeat: function( thisDialog ) {
+		jQuery( '.so-saveinline' ).attr( 'disabled', 'disabled' )
+		jQuery( document ).one( 'heartbeat-send', function( event, data ) {
+			data.panels = JSON.stringify( {
+				data: thisDialog.builder.model.getPanelsData(),
+				nonce: jQuery( '#_sopanels_nonce' ).val(),
+				id: thisDialog.builder.config.postId
+			} );
+		} );
+		jQuery( document ).one( 'heartbeat-tick', function( event, data ) {
+			jQuery( '.so-saveinline' ).removeAttr( 'disabled' )
+		} );
+		wp.autosave.server.triggerSave()
 	},
 
 }
@@ -2919,14 +3073,6 @@ module.exports = Backbone.Model.extend({
 					rowAttrs.style = data.grids[i].style;
 				}
 
-				if ( ! _.isUndefined( data.grids[i].ratio) ) {
-					rowAttrs.ratio = data.grids[i].ratio;
-				}
-
-				if ( ! _.isUndefined( data.grids[i].ratio_direction) ) {
-					rowAttrs.ratio_direction = data.grids[i].ratio_direction
-				}
-
 				if ( ! _.isUndefined( data.grids[i].color_label) ) {
 					rowAttrs.color_label = data.grids[i].color_label;
 				}
@@ -3098,8 +3244,6 @@ module.exports = Backbone.Model.extend({
 			data.grids.push( {
 				cells: row.get('cells').length,
 				style: row.get( 'style' ),
-				ratio: row.get('ratio'),
-				ratio_direction: row.get('ratio_direction'),
 				color_label: row.get( 'color_label' ),
 				label: row.get( 'label' ),
 			} );
@@ -3223,8 +3367,6 @@ module.exports = Backbone.Model.extend({
 				panels_data.grids.push( {
 					cells: $cells.length,
 					style: $row.data( 'style' ),
-					ratio: $row.data( 'ratio' ),
-					ratio_direction: $row.data( 'ratio-direction' ),
 					color_label: $row.data( 'color-label' ),
 					label: $row.data( 'label' ),
 				} );
@@ -4164,6 +4306,7 @@ module.exports = Backbone.View.extend( {
 	dataField: false,
 	currentData: '',
 	contentPreview: '',
+	initialContentPreviewSetup: false,
 
 	attachedToEditor: false,
 	attachedVisible: false,
@@ -4230,9 +4373,9 @@ module.exports = Backbone.View.extend( {
 
 		
 		// Check if we have preview markup available.
-		$panelsMetabox = $( '#siteorigin-panels-metabox' );
-		if ( $panelsMetabox.length ) {
-			this.contentPreview = $.parseHTML( $panelsMetabox.data( 'preview-markup' ) );
+		$previewContent = $( '.siteorigin-panels-preview-content' );
+		if ( $previewContent.length ) {
+			this.contentPreview = $previewContent.val();
 		}
 
 		// Set the builder for each dialog and render it.
@@ -4938,12 +5081,17 @@ module.exports = Backbone.View.extend( {
 					},
 					function ( content ) {
 						// Post content doesn't need to be generated on load while contentPreview does.
-						if ( this.contentPreview && content.post_content !== '' ) {
+						if (
+							this.contentPreview &&
+							content.post_content !== '' &&
+							this.initialContentPreviewSetup
+						) {
 							this.updateEditorContent( content.post_content );
 						}
 
 						if ( content.preview !== '' ) {
 							this.contentPreview = content.preview;
+							this.initialContentPreviewSetup = true;
 						}
 					}.bind( this )
 				);
@@ -5914,6 +6062,16 @@ module.exports = Backbone.View.extend( {
 
 		this.onResize();
 
+		if ( typeof window.panelsMode == 'string' ) {
+			if ( window.panelsMode == 'inline' ) {
+				this.$( '.so-toolbar .so-close, .so-toolbar .so-save' ).hide();
+				this.$( '.so-toolbar .so-saveinline' ).show().addClass( 'so-active-mode' );
+			} else {
+				this.$( '.so-toolbar .so-saveinline' ).hide();
+				this.$( '.so-toolbar .so-close, .so-toolbar .so-save' ).show().addClass( 'so-active-mode' );
+			}
+		}
+
 		this.$el.show();
 
 		if ( ! options.silent ) {
@@ -6095,7 +6253,10 @@ module.exports = Backbone.View.extend( {
 				}
 
 				// Is this field an ACF Repeater?
-				if ( $$.parents( '.acf-repeater' ).length ) {
+				if (
+					$$.parents( '.acf-repeater' ).length ||
+					$$.parents( '.acf-field-checkbox' ).length
+				) {
 					// If field is empty, skip it - this is to avoid indexes which are admin only.
 					if ( fieldValue == '' ) {
 						return;
@@ -7263,7 +7424,29 @@ module.exports = Backbone.View.extend( {
 					return el;
 				} );
 			}
+			$.fn.handleAlphaDefault = function() {
+				var $parent = $( this ).parents( '.wp-picker-container' );
+				var $colorResult = $parent.find( '.wp-color-result' );
+				if ( $parent.find( '.wp-color-picker[data-alpha-enabled]' ).length ) {
+					$colorResult.css( 'background-image', $( this ).val() == '' ? 'none' : alphaImage );
+				} else {
+					$colorResult.css( 'background-image', 'none' );
+				}
+			}
+
+			// Trigger a change event when user selects a color.
+			panelsOptions.wpColorPickerOptions.change = function( e, ui ) {
+				setTimeout( function() {
+					$( e.target ).handleAlphaDefault();
+					$( e.target ).trigger( 'change' );
+				}, 100 );
+			};
+
 			this.$( '.so-wp-color-field' ).wpColorPicker( panelsOptions.wpColorPickerOptions );
+			var alphaImage = this.$( '.wp-color-picker[data-alpha-enabled]' ).parents( '.wp-picker-container' ).find( '.wp-color-result' ).css( 'background-image' );
+			this.$( '.wp-color-picker[data-alpha-enabled]' ).on( 'change', function() {
+				$( this ).handleAlphaDefault();
+			} ).trigger( 'change' );
 		}
 
 		// Set up the image select fields
@@ -7288,10 +7471,20 @@ module.exports = Backbone.View.extend( {
 						// Customize the submit button.
 						button: {
 							// Set the text of the button.
-							text: 'Done',
+							text: panelsOptions.add_media_done,
 							close: true
 						}
 					} );
+
+					// If there's a selected image, highlight it. 
+					frame.on( 'open', function() {
+						var selection = frame.state().get( 'selection' );
+						var selectedImage = $s.find( '.so-image-selector > input' ).val();
+						if ( selectedImage ) {
+							selection.add( wp.media.attachment( selectedImage ) );
+						}
+					} );
+
 
 					frame.on( 'select', function () {
 						var attachment = frame.state().get( 'selection' ).first().attributes;
@@ -7461,15 +7654,43 @@ module.exports = Backbone.View.extend( {
 		} );
 		this.$( '.style-field-toggle .so-toggle-switch-input' ).trigger( 'change' );
 
+		// Set up all the Slider fields.
+		this.$( '.style-field-slider' ).each( function() {
+			var $$ = $( this );
+			var $input = $$.find( '.so-wp-input-slider' );
+			var $c = $$.find( '.so-wp-value-slider' );
+
+			$c.slider( {
+				max: parseFloat( $input.attr( 'max' ) ),
+				min: parseFloat( $input.attr( 'min' ) ),
+				step: parseFloat( $input.attr( 'step' ) ),
+				value: parseFloat( $input.val() ),
+				slide: function( e, ui ) {
+					$input.val( parseFloat( ui.value ) );
+					$input.trigger( 'change' );
+					$$.find( '.so-wp-slider-value' ).html( ui.value );
+				},
+			});
+			$input.on( 'change', function( event, data ) {
+				if ( ! ( data && data.silent ) ) {
+					$c.slider( 'value', parseFloat( $input.val() ) );
+					$$.find('.so-wp-slider-value').html( $input.val() );
+				}
+			} );
+		} );
+
+		// Conditionally show Background related settings.
 		var $background_image = this.$( '.so-field-background_image_attachment' ),
 			$background_image_display = this.$( '.so-field-background_display' ),
 			$background_image_size = this.$( '.so-field-background_image_size' );
+			$background_image_opacity = this.$( '.so-field-background_image_opacity' );
 
 		if (
 			$background_image.length &&
 			(
 				$background_image_display.length ||
-				$background_image_size.length
+				$background_image_size.length ||
+				$background_image_opacity.length
 			)
 		) {
 			var soBackgroundImageVisibility = function() {
@@ -7482,13 +7703,35 @@ module.exports = Backbone.View.extend( {
 				if ( hasImage.val() && hasImage.val() != 0 ) {
 					$background_image_display.show();
 					$background_image_size.show();
+					$background_image_opacity.show();
 				} else {
 					$background_image_display.hide();
 					$background_image_size.hide();
+					$background_image_opacity.hide();
 				}
 			}
 			soBackgroundImageVisibility();
 			$background_image.find( '[name="style[background_image_attachment]"], [name="style[background_image_attachment_fallback]"]' ).on( 'change', soBackgroundImageVisibility );
+			$background_image.find( '.remove-image' ).on( 'click', soBackgroundImageVisibility );
+		}
+
+		// Conditionally show Border related settings.
+		var $border_color = this.$( '.so-field-border_color' ),
+			$border_thickness = this.$( '.so-field-border_thickness' );
+
+		if ( $border_color.length && $border_thickness.length ) {
+			var soBorderVisibility = function() {
+				if ( $border_color.find( '.so-wp-color-field' ).val() ) {
+					$border_thickness.show();
+					$border_thickness.show();
+				} else {
+					$border_thickness.hide();
+					$border_thickness.hide();
+				}
+			}
+			soBorderVisibility();
+			$border_color.find( '.so-wp-color-field' ).on( 'change', soBorderVisibility );
+			$border_color.find( '.wp-picker-clear' ).on( 'click', soBorderVisibility );
 		}
 
 		// Allow other plugins to setup custom fields.
