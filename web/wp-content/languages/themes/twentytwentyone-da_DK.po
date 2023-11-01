@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.3\n"
+"X-Generator: GlotPress/4.0.0-alpha.9\n"
 "Language: da_DK\n"
 "Project-Id-Version: Themes - Twenty Twenty-One\n"
 
@@ -29,11 +29,6 @@ msgstr "Ældre <span class=\"nav-short\">indlæg</span>"
 #: inc/template-tags.php:230
 msgid "Newer <span class=\"nav-short\">posts</span>"
 msgstr "Nyere <span class=\"nav-short\">indlæg</span>"
-
-#: classes/class-twenty-twenty-one-customize-notice-control.php:40
-#: classes/class-twenty-twenty-one-dark-mode.php:178
-msgid "https://wordpress.org/support/article/twenty-twenty-one/#dark-mode-support"
-msgstr "https://wordpress.org/support/article/twenty-twenty-one/#dark-mode-support"
 
 #. translators: %s: Twenty Twenty-One support article URL.
 #: classes/class-twenty-twenty-one-dark-mode.php:177
@@ -193,11 +188,16 @@ msgstr "Fra"
 msgid "Dark Mode: %s"
 msgstr "Mørk tilstand: %s"
 
+#: inc/block-patterns.php:101
+msgid "&#8220;Daffodils&#8221; by Berthe Morisot"
+msgstr "&#8220;Påskeliljer&#8221; af Berthe Morisot"
+
 #: inc/template-functions.php:422
 msgid "This content is password protected. Please enter a password to view."
 msgstr "Dette indhold er beskyttet med adgangskode. Angiv adgangskode, for at se indholdet."
 
-#: inc/menu-functions.php:34
+#. translators: Hidden accessibility text.
+#: inc/menu-functions.php:35
 msgid "Open menu"
 msgstr "Åbn menu"
 
@@ -209,19 +209,15 @@ msgstr "&#8220;Læsning&#8221; af Berthe Morisot"
 msgid "&#8220;Self portrait&#8221; by Berthe Morisot"
 msgstr "&#8220;Selvportræt&#8221; af Berthe Morisot"
 
-#: inc/block-patterns.php:101
-msgid "&#8220;Daffodils&#8221; by Berthe Morisot"
-msgstr "&#8220;Påskeliljer&#8221; af Berthe Morisot"
-
 #: inc/block-patterns.php:89 inc/block-patterns.php:125
 #: inc/starter-content.php:43
 msgid "&#8220;Roses Trémières&#8221; by Berthe Morisot"
 msgstr "&#8220;Roses Trémières&#8221; af Berthe Morisot"
 
-#: inc/template-functions.php:424
-msgctxt "Post password form"
-msgid "Enter"
-msgstr "Indsæt"
+#: inc/starter-content.php:112
+msgctxt "Theme starter content"
+msgid "Need help?"
+msgstr "Har du brug for hjælp?"
 
 #: inc/starter-content.php:128
 msgctxt "Theme starter content"
@@ -233,15 +229,10 @@ msgctxt "Theme starter content"
 msgid "Read the Theme Documentation"
 msgstr "Læse Temaets dokumentation"
 
-#: inc/starter-content.php:112
+#: inc/starter-content.php:73
 msgctxt "Theme starter content"
-msgid "Need help?"
-msgstr "Har du brug for hjælp?"
-
-#: inc/starter-content.php:97
-msgctxt "Theme starter content"
-msgid "Twenty Twenty-One also includes an overlap style for column blocks. With a Columns block selected, open the \"Styles\" panel within the Editor sidebar. Choose the \"Overlap\" block style to try it out."
-msgstr "Twenty Twenty-One indeholder også en overlapningsstil til kolonneblokke. Når en kolonneblok er markeret, skal du åbne panelet \"Designs\" i indstillinger sidebaren. Vælg blokformatet \"Overlap\" for at prøve det."
+msgid "Add block patterns"
+msgstr "Tilføj blok strukturer"
 
 #: inc/starter-content.php:93
 msgctxt "Theme starter content"
@@ -258,20 +249,41 @@ msgctxt "Theme starter content"
 msgid "Frame your images"
 msgstr "Indram dine billeder"
 
-#: inc/starter-content.php:77
-msgctxt "Theme starter content"
-msgid "Block patterns are pre-designed groups of blocks. To add one, select the Add Block button [+] in the toolbar at the top of the editor. Switch to the Patterns tab underneath the search bar, and choose a pattern."
-msgstr "Blokgrupper er forud fremstillede grupper af blokke. Hvis du vil tilføje sådan en, skal du vælge knappen Tilføj blok [+] på værktøjslinjen øverst i editoren. Skift til fanen Blokgrupper under søgelinjen, og vælg et design."
+#: inc/block-patterns.php:114
+msgid "Beautiful gardens painted by Berthe Morisot in the late 1800s"
+msgstr "Smukke haver malet af Berthe Morisot i slutningen af 1800-tallet"
 
-#: inc/starter-content.php:73
-msgctxt "Theme starter content"
-msgid "Add block patterns"
-msgstr "Tilføj blok strukturer"
+#: inc/block-patterns.php:125
+msgid "The Garden at Bougival"
+msgstr "Haven i Bougival"
+
+#: inc/block-patterns.php:125
+msgid "Villa with Orange Trees, Nice"
+msgstr "Villa med appelsintræer, Nice"
+
+#: inc/block-patterns.php:114
+msgid "&#8220;Villa with Orange Trees, Nice&#8221; by Berthe Morisot"
+msgstr "&#8220;Villa med appelsintræer, Nice&#8221; af Berthe Morisot"
 
 #: inc/starter-content.php:30 inc/starter-content.php:33
 msgctxt "Theme starter content"
 msgid "Create your website with blocks"
 msgstr "Lav dit website ved hjælp af blokke"
+
+#: inc/template-functions.php:424
+msgctxt "Post password form"
+msgid "Enter"
+msgstr "Indsæt"
+
+#: inc/starter-content.php:97
+msgctxt "Theme starter content"
+msgid "Twenty Twenty-One also includes an overlap style for column blocks. With a Columns block selected, open the \"Styles\" panel within the Editor sidebar. Choose the \"Overlap\" block style to try it out."
+msgstr "Twenty Twenty-One indeholder også en overlapningsstil til kolonneblokke. Når en kolonneblok er markeret, skal du åbne panelet \"Designs\" i indstillinger sidebaren. Vælg blokformatet \"Overlap\" for at prøve det."
+
+#: inc/starter-content.php:77
+msgctxt "Theme starter content"
+msgid "Block patterns are pre-designed groups of blocks. To add one, select the Add Block button [+] in the toolbar at the top of the editor. Switch to the Patterns tab underneath the search bar, and choose a pattern."
+msgstr "Blokgrupper er forud fremstillede grupper af blokke. Hvis du vil tilføje sådan en, skal du vælge knappen Tilføj blok [+] på værktøjslinjen øverst i editoren. Skift til fanen Blokgrupper under søgelinjen, og vælg et design."
 
 #: inc/block-patterns.php:125
 msgid "Reading"
@@ -282,28 +294,12 @@ msgid "Young Woman in Mauve"
 msgstr "Ung kvinde i Mauve"
 
 #: inc/block-patterns.php:125
-msgid "The Garden at Bougival"
-msgstr "Haven i Bougival"
-
-#: inc/block-patterns.php:125
 msgid "In the Bois de Boulogne"
 msgstr "I Bois de Boulogne"
 
 #: inc/block-patterns.php:125
-msgid "Villa with Orange Trees, Nice"
-msgstr "Villa med appelsintræer, Nice"
-
-#: inc/block-patterns.php:125
 msgid "Roses Trémières"
 msgstr "Roses Trémières"
-
-#: inc/block-patterns.php:114
-msgid "&#8220;Villa with Orange Trees, Nice&#8221; by Berthe Morisot"
-msgstr "&#8220;Villa med appelsintræer, Nice&#8221; af Berthe Morisot"
-
-#: inc/block-patterns.php:114
-msgid "Beautiful gardens painted by Berthe Morisot in the late 1800s"
-msgstr "Smukke haver malet af Berthe Morisot i slutningen af 1800-tallet"
 
 #: inc/block-patterns.php:114 inc/block-patterns.php:125
 msgid "&#8220;The Garden at Bougival&#8221; by Berthe Morisot"
@@ -331,11 +327,6 @@ msgstr "Legende i sandet"
 msgid "&#8220;Playing in the Sand&#8221; by Berthe Morisot"
 msgstr "&#8220;Legende i sandet&#8221; af Berthe Morisot"
 
-#. translators: %s: Parent post.
-#: image.php:61
-msgid "Published in %s"
-msgstr "Udgivet i %s"
-
 #: classes/class-twenty-twenty-one-customize.php:108
 msgid "Summary"
 msgstr "Sammenfatning"
@@ -343,6 +334,11 @@ msgstr "Sammenfatning"
 #: classes/class-twenty-twenty-one-customize.php:85
 msgid "Excerpt Settings"
 msgstr "Indstillinger for uddrag"
+
+#. translators: %s: Parent post.
+#: image.php:61
+msgid "Published in %s"
+msgstr "Udgivet i %s"
 
 #: inc/block-styles.php:98
 msgid "Thick"
@@ -353,27 +349,9 @@ msgid "On Archive Pages, posts show:"
 msgstr "På arkivsider vises indlæg med:"
 
 #. translators: %s: Author name.
-#: template-parts/post/author-bio.php:31
-msgid "View all of %s's posts."
-msgstr "Vis alle indlæg af %s."
-
-#. translators: %s: Author name.
 #: inc/template-tags.php:49 template-parts/post/author-bio.php:19
 msgid "By %s"
 msgstr "Skrevet af %s"
-
-#: template-parts/content/content-none.php:61
-msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
-msgstr "Det lader til at vi ikke kan finde siden, du leder efter. Måske en søgning kan hjælpe."
-
-#: template-parts/content/content-none.php:56
-msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
-msgstr "Beklager, men din søgning gav ingen resultater. Prøv igen med nogle andre søgeord."
-
-#. translators: %s: Link to WP admin new post page.
-#: template-parts/content/content-none.php:43
-msgid "Ready to publish your first post? <a href=\"%s\">Get started here</a>."
-msgstr "Klar til at udgive dit første indlæg ? <a href=\"%s\">Start her</a>."
 
 #: single.php:40
 msgid "Previous post"
@@ -397,17 +375,38 @@ msgstr "Søg"
 msgid "Search&hellip;"
 msgstr "Søg&hellip;"
 
+#. translators: %s: Search term.
+#: search.php:21 template-parts/content/content-none.php:22
+msgid "Results for \"%s\""
+msgstr "Resultater for \"%s\""
+
+#: inc/block-styles.php:62
+msgid "Frame"
+msgstr "Ramme"
+
+#: inc/block-styles.php:35 inc/block-styles.php:44 inc/block-styles.php:53
+#: inc/block-styles.php:80 inc/block-styles.php:89
+msgid "Borders"
+msgstr "Kanter"
+
+#: inc/block-styles.php:26
+msgid "Overlap"
+msgstr "Overlappende"
+
+#: template-parts/content/content-none.php:61
+msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
+msgstr "Det lader til at vi ikke kan finde siden, du leder efter. Måske en søgning kan hjælpe."
+
+#: template-parts/content/content-none.php:56
+msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
+msgstr "Beklager, men din søgning gav ingen resultater. Prøv igen med nogle andre søgeord."
+
 #. translators: %d: The number of search results.
 #: search.php:33
 msgid "We found %d result for your search."
 msgid_plural "We found %d results for your search."
 msgstr[0] "Vi fandt %d resultat af din søgning."
 msgstr[1] "Vi fandt %d resultater af din søgning."
-
-#. translators: %s: Search term.
-#: search.php:21 template-parts/content/content-none.php:22
-msgid "Results for \"%s\""
-msgstr "Resultater for \"%s\""
 
 #. translators: %s: List of tags.
 #: inc/template-tags.php:116 inc/template-tags.php:158
@@ -425,32 +424,10 @@ msgid ", "
 msgstr ", "
 
 #. translators: %s: Post title. Only visible to screen readers.
-#: image.php:70 image.php:95 inc/template-tags.php:92 inc/template-tags.php:133
+#: image.php:70 image.php:96 inc/template-tags.php:92 inc/template-tags.php:133
 #: template-parts/content/content-page.php:48
 msgid "Edit %s"
 msgstr "Rediger %s"
-
-#. translators: %s: Post title. Only visible to screen readers.
-#: inc/template-functions.php:138
-msgid "Continue reading %s"
-msgstr "Læs mere %s"
-
-#: inc/block-styles.php:71
-msgid "Dividers"
-msgstr "Separatorer"
-
-#: inc/block-styles.php:62
-msgid "Frame"
-msgstr "Ramme"
-
-#: inc/block-styles.php:35 inc/block-styles.php:44 inc/block-styles.php:53
-#: inc/block-styles.php:80 inc/block-styles.php:89
-msgid "Borders"
-msgstr "Kanter"
-
-#: inc/block-styles.php:26
-msgid "Overlap"
-msgstr "Overlappende"
 
 #: inc/block-patterns.php:135
 msgctxt "Block pattern description"
@@ -478,11 +455,6 @@ msgstr "En blokgruppe med overlappende kolonner, der indeholder to billeder og e
 #: inc/block-patterns.php:109
 msgid "Overlapping images and text"
 msgstr "Overlappende billeder og tekst"
-
-#: inc/block-patterns.php:100
-msgctxt "Block pattern description"
-msgid "A media & text block with a big image on the left and a smaller one with bordered frame on the right."
-msgstr "En medie- og tekstblok med et stort billede til venstre og et mindre med ramme til højre."
 
 #: inc/block-patterns.php:97
 msgid "Two images showcase"
@@ -522,28 +494,17 @@ msgstr "Instagram"
 msgid "Twitter"
 msgstr "Twitter"
 
-#: inc/block-patterns.php:64
-msgid "Let&#8217;s Connect."
-msgstr "Let&#8217;s Connect."
-
 #: inc/block-patterns.php:63
 msgctxt "Block pattern description"
 msgid "A huge text followed by social networks and email address links."
 msgstr "En meget stor overskrift efterfulgt af links til sociale netværk og e-mailadresse."
 
-#: inc/block-patterns.php:59
-msgid "Links area"
-msgstr "Linkområde"
-
-#: inc/block-patterns.php:51
-msgid "A new portfolio default theme for WordPress"
-msgstr "Et nyt  portfolio standardtema til WordPress"
-
 #: inc/block-patterns.php:47
 msgid "Large text"
 msgstr "Stor tekst"
 
-#: image.php:83
+#. translators: Hidden accessibility text.
+#: image.php:84
 msgctxt "Used before full size attachment link."
 msgid "Full size"
 msgstr "Fuld størrelse"
@@ -573,7 +534,8 @@ msgstr "Menu"
 msgid "Primary menu"
 msgstr "Primær menu"
 
-#: header.php:26
+#. translators: Hidden accessibility text.
+#: header.php:29
 msgid "Skip to content"
 msgstr "Fortsæt til indhold"
 
@@ -685,11 +647,6 @@ msgstr "Lille"
 msgid "Extra small"
 msgstr "Ekstra lille"
 
-#. translators: %s: WordPress.
-#: footer.php:67
-msgid "Proudly powered by %s."
-msgstr "Kører på %s."
-
 #: footer.php:24 functions.php:77 inc/starter-content.php:165
 msgid "Secondary menu"
 msgstr "Sekundær menu"
@@ -721,6 +678,47 @@ msgstr "Det ser ud som der er ikke er noget her. Har du prøvet med en søgning?
 #: 404.php:16 template-parts/content/content-none.php:30
 msgid "Nothing here"
 msgstr "Intet her"
+
+#: inc/block-patterns.php:51
+msgid "A new portfolio default theme for WordPress"
+msgstr "Et nyt  portfolio standardtema til WordPress"
+
+#. translators: %s: WordPress.
+#: footer.php:67
+msgid "Proudly powered by %s."
+msgstr "Kører på %s."
+
+#. translators: %s: Link to WP admin new post page.
+#: template-parts/content/content-none.php:43
+msgid "Ready to publish your first post? <a href=\"%s\">Get started here</a>."
+msgstr "Klar til at udgive dit første indlæg ? <a href=\"%s\">Start her</a>."
+
+#. translators: %s: Author name.
+#: template-parts/post/author-bio.php:31
+msgid "View all of %s's posts."
+msgstr "Vis alle indlæg af %s."
+
+#. translators: %s: Post title. Only visible to screen readers.
+#: inc/template-functions.php:138
+msgid "Continue reading %s"
+msgstr "Læs mere %s"
+
+#: inc/block-styles.php:71
+msgid "Dividers"
+msgstr "Separatorer"
+
+#: inc/block-patterns.php:100
+msgctxt "Block pattern description"
+msgid "A media & text block with a big image on the left and a smaller one with bordered frame on the right."
+msgstr "En medie- og tekstblok med et stort billede til venstre og et mindre med ramme til højre."
+
+#: inc/block-patterns.php:59
+msgid "Links area"
+msgstr "Linkområde"
+
+#: inc/block-patterns.php:64
+msgid "Let&#8217;s Connect."
+msgstr "Let&#8217;s Connect."
 
 #. Author URI of the theme
 #: footer.php:68
