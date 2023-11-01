@@ -143,5 +143,3 @@ function theme_instructions_widget_function() {
 }
 
 // add_action( 'wp_dashboard_setup', 'theme_instructions_dashboard_widgets' );
-
-?>

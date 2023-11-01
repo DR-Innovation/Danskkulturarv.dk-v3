@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Themes - Twenty Twenty-Two package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-02-26 21:29:06+0000\n"
+"PO-Revision-Date: 2023-05-15 23:51:34+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-alpha.3\n"
+"X-Generator: GlotPress/4.0.0-alpha.9\n"
 "Language: da_DK\n"
 "Project-Id-Version: Themes - Twenty Twenty-Two\n"
 
@@ -16,10 +16,45 @@ msgstr ""
 msgid "Twenty Twenty-Two"
 msgstr "Twenty Twenty-Two"
 
-#. Description of the theme
-#, gp-priority: high
-msgid "Built on a solidly designed foundation, Twenty Twenty-Two embraces the idea that everyone deserves a truly unique website. The theme’s subtle styles are inspired by the diversity and versatility of birds: its typography is lightweight yet strong, its color palette is drawn from nature, and its layout elements sit gently on the page. The true richness of Twenty Twenty-Two lies in its opportunity for customization. The theme is built to take advantage of the Full Site Editing features introduced in WordPress 5.9, which means that colors, typography, and the layout of every single page on your site can be customized to suit your vision. It also includes dozens of block patterns, opening the door to a wide range of professionally designed layouts in just a few clicks. Whether you’re building a single-page website, a blog, a business website, or a portfolio, Twenty Twenty-Two will help you create a site that is uniquely yours."
-msgstr "Twenty Twenty-Two er bygget på et solidt designet fundament og er baseret på ideen om, at alle fortjener et helt enestående websted. Temaets raffinerede stilarter er inspireret af fuglenes mangfoldighed og alsidighed: typografien er let og alligevel stærk, farvepaletten er hentet fra naturen, og layoutelementerne sidder blidt på siden. Den sande rigdom ved Twenty Twenty-Two ligger i dens mulighed for tilpasning. Temaet er bygget til at drage fordel af funktionerne for fuld webstedsredigering, der blev introduceret i WordPress 5.9, hvilket betyder, at farver, typografi og layoutet af hver eneste side på dit websted kan tilpasses, så det passer til din vision. Det indeholder også snesevis af blokgrupper, hvilket åbner døren til en bred vifte af professionelt designede layouts med få klik. Uanset om du bygger et websted med en enkelt side, en blog, et forretningswebsted eller en portefølje, hjælper Twenty Twenty-Two dig med at skabe et websted, der er helt unikt dit eget."
+#: styles/blue.json
+msgctxt "Style variation name"
+msgid "Blue"
+msgstr "Blå"
+
+#: styles/blue.json
+msgctxt "Font family name"
+msgid "DM Sans"
+msgstr "DM Sans"
+
+#: styles/pink.json
+msgctxt "Style variation name"
+msgid "Pink"
+msgstr "Lyserød"
+
+#: styles/pink.json
+msgctxt "Font family name"
+msgid "IBM Plex Sans"
+msgstr "IBM Plex Sans"
+
+#: styles/pink.json
+msgctxt "Font family name"
+msgid "IBM Plex Mono"
+msgstr "IBM Plex Mono"
+
+#: styles/swiss.json
+msgctxt "Style variation name"
+msgid "Swiss"
+msgstr "Swiss"
+
+#: styles/swiss.json
+msgctxt "Font family name"
+msgid "Inter"
+msgstr "Inter"
+
+#: styles/swiss.json
+msgctxt "Duotone name"
+msgid "Default filter"
+msgstr "Standard filtrering"
 
 #: inc/patterns/hidden-404.php:14
 msgid "Search"
@@ -210,10 +245,6 @@ msgstr "12. Februar, 2021"
 #: inc/patterns/page-sidebar-poster.php:40
 msgid "Date"
 msgstr "Dato"
-
-#: inc/patterns/page-sidebar-poster.php:14
-msgid "<em>Flutter</em>, a collection of bird-related ephemera"
-msgstr "<em>Flagre</em>, en samling af fuglerelaterede skitser"
 
 #: inc/patterns/page-sidebar-poster.php:6
 msgid "Poster with right sidebar"
@@ -428,18 +459,6 @@ msgstr "Titel, navigation og sociale links i sidehoved"
 msgid "Title and button header"
 msgstr "Titel og knap sidehoved"
 
-#: inc/patterns/header-text-only-with-tagline-black-background.php:6
-msgid "Text-only header with tagline and black background"
-msgstr "Sidehoved kun med tekst med slogan og sort baggrund"
-
-#: inc/patterns/header-text-only-salmon-background.php:6
-msgid "Text-only header with salmon background"
-msgstr "Sidehoved kun med tekst og laksefarvet baggrund"
-
-#: inc/patterns/header-text-only-green-background.php:6
-msgid "Text-only header with green background"
-msgstr "Sidehoved kun med tekst og grøn baggrund"
-
 #: inc/patterns/header-stacked.php:6
 msgid "Logo and navigation header"
 msgstr "Sidehoved med Logo og navigation"
@@ -448,17 +467,9 @@ msgstr "Sidehoved med Logo og navigation"
 msgid "Small header with dark background"
 msgstr "Lille sidehoved med mørk baggrund"
 
-#: inc/patterns/header-logo-navigation-social-black-background.php:6
-msgid "Logo, navigation, and social links header with black background"
-msgstr "Logo, navigation og sociale links i sidehoved med sort baggrund"
-
 #: inc/patterns/header-logo-navigation-offset-tagline.php:6
 msgid "Logo, navigation, and offset tagline Header"
 msgstr "Sidehoved med logo, navigation og forskudt slogan"
-
-#: inc/patterns/header-logo-navigation-gray-background.php:6
-msgid "Logo and navigation header with gray background"
-msgstr "Logo og navigation sidehoved med grå baggrund"
 
 #: inc/patterns/header-large-dark.php:24
 #: inc/patterns/hidden-heading-and-bird.php:14
@@ -485,17 +496,9 @@ msgstr "Sidehoved med billedbaggrund og overlay"
 msgid "Default header"
 msgstr "Standard sidehoved"
 
-#: inc/patterns/header-centered-title-navigation-social.php:6
-msgid "Centered header with navigation, social links, and salmon background"
-msgstr "Centreret sidehoved med navigation, sociale links og laksefarvet baggrund"
-
 #: inc/patterns/header-centered-logo.php:6
 msgid "Header with centered logo"
 msgstr "Sidehoved med centreret logo"
-
-#: inc/patterns/header-centered-logo-black-background.php:6
-msgid "Header with centered logo and black background"
-msgstr "Sidehoved med centreret logo og sort baggrund"
 
 #: inc/patterns/general-wide-image-intro-buttons.php:31
 msgid "Learn More"
@@ -556,10 +559,6 @@ msgstr "Tilmeld dig vores nyhedsbrev"
 msgid "Subscribe callout"
 msgstr "Opfordring til at abonnere"
 
-#: inc/patterns/general-pricing-table.php:84
-msgid "$150"
-msgstr "1.000,- kr."
-
 #: inc/patterns/general-pricing-table.php:75
 msgid "Falcon"
 msgstr "Falk"
@@ -568,10 +567,6 @@ msgstr "Falk"
 msgctxt "Third item in a numbered list."
 msgid "3"
 msgstr "3"
-
-#: inc/patterns/general-pricing-table.php:56
-msgid "$75"
-msgstr "750,- Kr."
 
 #: inc/patterns/general-pricing-table.php:51
 msgid "Join at the Sparrow level and become a member of our flock! You’ll receive our newsletter, plus a bird pin that you can wear with pride when you’re out in nature."
@@ -585,10 +580,6 @@ msgstr "Spurv"
 msgctxt "Second item in a numbered list."
 msgid "2"
 msgstr "2"
-
-#: inc/patterns/general-pricing-table.php:28
-msgid "$25"
-msgstr "250,- Kr."
 
 #: inc/patterns/general-pricing-table.php:19
 msgid "Pigeon"
@@ -813,14 +804,14 @@ msgstr "Simple blogindlæg"
 msgid "© Site Title"
 msgstr "Webstedstitel"
 
-#: inc/patterns/page-layout-image-and-text.php:10
-msgid "<em>Watching Birds </em><br><em>in the Garden</em>"
-msgstr "<em>Se på fugle </em><br><em>i haven</em>"
-
 #: inc/patterns/page-layout-image-and-text.php:27
 #: inc/patterns/page-layout-two-columns.php:36
 msgid "Oh hello. My name’s Angelo, and I operate this blog. I was born in Portland, but I currently live in upstate New York. You may recognize me from publications with names like <a href=\"#\">Eagle Beagle</a> and <a href=\"#\">Mourning Dive</a>. I write for a living.<br><br>I usually use this blog to catalog extensive lists of birds and other things that I find interesting. If you find an error with one of my lists, please keep it to yourself.<br><br>If that’s not your cup of tea, <a href=\"#\">I definitely recommend this tea</a>. It’s my favorite."
 msgstr "Jamen hej ! Mit navn er Angelo, og dette er min blog. Jeg er født i Portland, men bor i øjeblikket i det nordlige New York. Du kan måske genkende mig fra publikationer med navne som <a href=\"#\">Eagle Beagle</a> og <a href=\"#\">Mourning Dive</a>. Jeg arbejder som skribent<br><br>Jeg bruger normalt denne blog til at katalogisere omfattende lister over fugle og andre ting, som jeg finder interessante. Hvis du finder en fejl i en af mine lister, så hold det venligst for dig selv.<br><br>Hvis det ikke er din kop te, kan <a href=\"#\">jeg klart anbefale denne te</a>. Det er min favorit."
+
+#: inc/patterns/page-layout-image-and-text.php:10
+msgid "<em>Watching Birds </em><br><em>in the Garden</em>"
+msgstr "<em>Se på fugle </em><br><em>i haven</em>"
 
 #: inc/patterns/page-about-solid-color.php:14
 msgid "Edvard<br>Smith"
@@ -878,13 +869,29 @@ msgstr "The Vintagé Theater<br>245 Arden Rd.<br>Gardenville, NH"
 msgid "The Swell Theater<br>120 River Rd.<br>Rainfall, NH"
 msgstr "The Swell Theater<br>120 River Rd.<br>Rainfall, NH"
 
-#: inc/block-patterns.php:18
-msgid "Footers"
-msgstr "sidefod"
-
 #: inc/patterns/general-pricing-table.php:6
 msgid "Pricing table"
 msgstr "Pristabel"
+
+#: inc/patterns/page-sidebar-poster.php:14
+msgid "<em>Flutter</em>, a collection of bird-related ephemera"
+msgstr "<em>Flakse</em>, en samling af fuglerelaterede skitser"
+
+#: inc/patterns/general-pricing-table.php:84
+msgid "$150"
+msgstr "kr. 150"
+
+#: inc/patterns/general-pricing-table.php:28
+msgid "$25"
+msgstr "kr. 25"
+
+#: inc/patterns/general-pricing-table.php:56
+msgid "$75"
+msgstr "kr. 75"
+
+#: inc/block-patterns.php:18
+msgid "Footers"
+msgstr "Sidefødder"
 
 #. Theme URI of the theme
 #, gp-priority: low
