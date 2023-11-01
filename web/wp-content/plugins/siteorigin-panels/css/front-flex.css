@@ -29,6 +29,14 @@
   width: 100%;
   z-index: 0;
 }
+.panel-background-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
 .panel-layout.panel-is-rtl .panel-grid.panel-no-style,
 .panel-layout.panel-is-rtl .panel-grid.panel-has-style > .panel-row-style {
   -ms-flex-direction: row-reverse;

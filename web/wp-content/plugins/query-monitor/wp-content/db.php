@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Query Monitor Database Class (Drop-in)
  * Description: Database drop-in for Query Monitor, the developer tools panel for WordPress.
- * Version:     3.10.1
+ * Version:     3.14.1
  * Plugin URI:  https://querymonitor.com/
  * Author:      John Blackbourn
  * Author URI:  https://querymonitor.com/
@@ -31,6 +31,10 @@ if ( defined( 'QM_DISABLED' ) && QM_DISABLED ) {
 	return;
 }
 
+if ( defined( 'WP_INSTALLING' ) && WP_INSTALLING ) {
+	return;
+}
+
 if ( 'cli' === php_sapi_name() && ! defined( 'QM_TESTS' ) ) {
 	# For the time being, let's not load QM when using the CLI because we've no persistent storage and no means of
 	# outputting collected data on the CLI. This will hopefully change in a future version of QM.
@@ -40,6 +44,17 @@ if ( 'cli' === php_sapi_name() && ! defined( 'QM_TESTS' ) ) {
 if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
 	# Let's not load QM during cron events for the same reason as above.
 	return;
+}
+
+# Don't load QM during plugin updates to prevent function signature changes causing issues between versions.
+if ( is_admin() ) {
+	if ( isset( $_GET['action'] ) && 'upgrade-plugin' === $_GET['action'] ) {
+		return;
+	}
+
+	if ( isset( $_POST['action'] ) && 'update-plugin' === $_POST['action'] ) {
+		return;
+	}
 }
 
 // This must be required before vendor/autoload.php so QM can serve its own message about PHP compatibility.
