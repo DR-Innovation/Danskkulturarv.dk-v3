@@ -23,7 +23,8 @@ class DWPlugin{
 	var $checked = array();
 	var $id_base = '';
 	var $number = '';
-    
+    var DW_Walker_Page_List $page_list;
+
 	// pages on site
 	var $pages = array();
     
