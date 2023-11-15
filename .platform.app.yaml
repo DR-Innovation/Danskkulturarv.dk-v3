@@ -14,7 +14,7 @@ runtime:
 
 dependencies:
     php:
-        wp-cli/wp-cli: "^1.1"
+        wp-cli/wp-cli: "^2.9"
         psy/psysh: "^0.8.4"
 
 # Configuration of the build of the application.
