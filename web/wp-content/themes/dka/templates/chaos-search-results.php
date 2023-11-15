@@ -84,7 +84,7 @@ $views = array(
               WPChaosClient::set_object($object);
               $chaos_object = WPChaosClient::get_object();
 
-              // Hack to show default thumbnail, if we got a 404 dr.dk thumbnail. hasse@ramlev.dk 20231115
+              // Hack to show default thumbnail, if we got a 404 dr.dk thumbnail. hasse@ramlev.dk 20231115.
               $thumbnail = (WPChaosClient::get_object()->thumbnail ? ' style="background-image: url(\''.WPChaosClient::get_object()->thumbnail.'\')!important;"' : '');
               if (str_contains($thumbnail, 'https://www.dr.dk/mu-online/api/1.3/bar./')) {
                   $thumbnail = ' style="background-image: url(\'https://www.danskkulturarv.dk/wp-content/themes/dka/img/format-' . $chaos_object->type . '.png\')!important;"';
