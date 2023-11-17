@@ -3,30 +3,29 @@
  * @package WP Chaos Search
  * @version 1.0
  */
-?>
-<?php get_header();
+
+get_header();
 
 $current_view = (WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_VIEW) ? 'listview' : 'thumbnails');
 $current_sort = isset(WPDKASearch::$sorts[WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_SORT)]) ? WPDKASearch::$sorts[WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_SORT)]['title'] : WPDKASearch::$sorts[null]['title'];
 $only_published_objects = WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_ONLY_PUBLISHED) == 'publicerede';
 $search_results = WPChaosSearch::get_search_results();
 
-$views = array(
-  array(
+$views = [
+  [
     'title' => __('View as List','wpchaossearch'),
     'view' => 'listview',
     'class' => 'icon-th-list',
     'link' => 'liste'
-    ),
-  array(
+  ],
+  [
     'title' => __('View as Gallery','wpchaossearch'),
     'view' => 'thumbnails',
     'class' => 'icon-th',
     'link' => null
-    ),
-  );
-  ?>
-
+  ],
+];
+?>
 <div class="fluid-container body-container search-page">
   <div class="row search-results-top search">
     <div class="col-md-3 no-right-padding">
@@ -117,10 +116,7 @@ $views = array(
                     <i class="icon-eye-open"> <?php echo $views; ?></i>
                     <?php endif; ?>
                   </div>
-                  <!-- <?php  if($caption):?>
-                    <div class="caption"><?php echo $caption ?></div>
-                  <?php endif;?> -->
-                <?php if(class_exists('WPDKACollections') && current_user_can(WPDKACollections::CAPABILITY) && !$collection_obj) : ?>
+                  <?php if(class_exists('WPDKACollections') && current_user_can(WPDKACollections::CAPABILITY) && !$collection_obj) : ?>
                   <button type="button" class="add-to-collection btn"><span class="icon-plus"></span></button>
                 <?php endif; ?>
                 </div>
@@ -143,9 +139,7 @@ $views = array(
         <?php
         $search_error = WPChaosSearch::$search_error;
         if($search_error && strpos($search_error->getMessage(), 'Bad Request') !== false) {
-          ?>
-          <p>Dine søgekriterier kunne desværre ikke forstås.</p>
-          <?php
+            echo "<p>Dine søgekriterier kunne desværre ikke forstås.</p>";
         }
         ?>
       </div>

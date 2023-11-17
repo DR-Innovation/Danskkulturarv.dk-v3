@@ -5137,6 +5137,9 @@ footer .copyright a {
 .thumbnails {
   padding: 0;
 }
+.search-results .thumbnails {
+  list-style: none;
+}
 .search-object {
   height: 220px;
   margin-bottom: 30px;

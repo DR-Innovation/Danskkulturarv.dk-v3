@@ -309,6 +309,15 @@ class WPDKAObject {
         //We need to use blog url as suffix, because it might not be root and therefore a part of request_uri
         preg_match('|^'.get_home_url().'/([^/]+)/([^/]+)(?:/(embed)?)?(/\?.*)?$|', $http.'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $matches);
 
+        // Redirect all non DR pages to 404.
+        if (isset($matches[1]) && isset($matches[2])) {
+          if ('dr' !== mb_strtolower($matches[1])) {
+            status_header(404);
+            nocache_headers();
+            return get_404_template();
+          }
+        }
+
         //$matches[2] is slug
         if(isset($matches[2])) {
 
@@ -329,8 +338,6 @@ class WPDKAObject {
       if($chaos_material_slug) {
         $query[] = WPDKAObject::DKA_CROWD_SLUG_SOLR_FIELD. ':"'. $chaos_material_slug .'"';
       }
-
-
 
       return implode("+OR+", $query);
     });
