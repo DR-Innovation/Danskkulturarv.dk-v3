@@ -20,50 +20,50 @@ class WPDKASearch {
    * List of organizations from the WordPress site
    * @var array
    */
-  public static $organizations = array();
+  public static $organizations = [];
 
-  public static $sorts = array(
-    null => array(
+  public static $sorts = [
+    null => [
       'title' => 'Relevans',
       'link' => null,
       'chaos-value' => null
-    ),
-    'titel' => array(
+    ],
+    'titel' => [
       'title' => 'Titel',
       'link' => 'titel',
       'chaos-value' => 'DKA-Title_string+asc'
-    ),
-    'visninger' => array(
+    ],
+    'visninger' => [
       'title' => 'Visninger',
       'link' => 'visninger',
       'chaos-value' => 'DKA-Crowd-Views_int+desc'
-    ),
-    'udgivelse' => array(
+    ],
+    'udgivelse' => [
       'title' => 'Udgivelsestid',
       'link' => 'udgivelse',
       'chaos-value' => 'DKA-FirstPublishedDate_date+asc'
-    )
-  );
+    ]
+  ];
 
   /**
    * Construct
    */
   public function __construct() {
-
-    self::$sorts['nyt-paa-dka'] = array(
+    self::$sorts['nyt-paa-dka'] = [
       'title' => 'Nyt på sitet',
       'link'  => 'nyt-paa-dka',
       'chaos-value' => 'ap' . strtolower(get_option('wpchaos-accesspoint-guid')) . '_PubStart+desc'
-    );
+    ];
 
-    add_filter('wpchaos-head-meta',array(&$this,'set_search_meta'),99);
+    add_filter('wpchaos-head-meta', [&$this, 'set_search_meta'], 99);
 
     WPChaosSearch::register_search_query_variable(2, WPDKASearch::QUERY_KEY_ORGANIZATION, '[\w-]+?', true, '-');
     WPChaosSearch::register_search_query_variable(3, WPDKASearch::QUERY_KEY_TYPE, '[\w-]+?', true, '-');
 
     // Define the free-text search filter.
     $this->define_search_filters();
-    add_filter('wpchaos-solr-sort',array(&$this,'map_chaos_sorting'),10,2);
+
+    add_filter('wpchaos-solr-sort', [&$this, 'map_chaos_sorting'], 10, 2);
 
   }
 
@@ -79,37 +79,38 @@ class WPDKASearch {
       // Fetch titles from the organizations searched in
       if(WPChaosSearch::get_search_var(WPDKASearch::QUERY_KEY_ORGANIZATION)) {
         $organizations = WPDKASearch::get_organizations();
-        $temp = array();
+        $temp = [];
         foreach($organizations as $organization) {
-          if(in_array($organization['slug'],WPChaosSearch::get_search_var(WPDKASearch::QUERY_KEY_ORGANIZATION))) {
+          if (in_array($organization['slug'], WPChaosSearch::get_search_var(WPDKASearch::QUERY_KEY_ORGANIZATION))) {
             $temp[] = $organization['title'];
           }
         }
 
-        if($temp) {
-          $extra_description .= sprintf(__(' The material is from %s.','wpdka'),preg_replace('/(.*),/','$1 '.__('and','wpdka'),implode(", ", $temp)));
+        if ($temp) {
+          $extra_description .= sprintf(__(' The material is from %s.', 'wpdka'), preg_replace('/(.*),/', '$1 ' . __('and', 'wpdka'), implode(", ", $temp)));
         }
 
         unset($temp);
       }
 
       //Fetch the titles from the formats searched in
-      if(WPChaosSearch::get_search_var(WPDKASearch::QUERY_KEY_TYPE)) {
-        $temp = array();
-        foreach(WPChaosSearch::get_search_var(WPDKASearch::QUERY_KEY_TYPE) as $format) {
-          if(isset(WPDKAObject::$format_types[$format])) {
+      if (WPChaosSearch::get_search_var(WPDKASearch::QUERY_KEY_TYPE)) {
+        $temp = [];
+        foreach (WPChaosSearch::get_search_var(WPDKASearch::QUERY_KEY_TYPE) as $format) {
+          if (isset(WPDKAObject::$format_types[$format])) {
             $temp[] = strtolower(WPDKAObject::$format_types[$format]['title']);
           }
         }
-        if($temp) {
-          $extra_description .= sprintf(__(' The format is %s.','wpdka'),preg_replace('/(.*),/','$1 '.__('and','wpdka'),implode(", ", $temp)));
+
+        if ($temp) {
+          $extra_description .= sprintf(__(' The format is %s.', 'wpdka'), preg_replace('/(.*),/', '$1 ' . __('and', 'wpdka'), implode(", ", $temp)));
         }
 
         unset($temp);
-
       }
 
       $search_results = WPChaosSearch::get_search_results();
+
       if($search_results) {
         $title = get_bloginfo('title');
         $count = $search_results->MCM()->TotalCount();
@@ -120,8 +121,8 @@ class WPDKASearch {
         $metadatas['description']['content'] = $content;
         $metadatas['og:description']['content'] = $content;
       }
-
     }
+
     return $metadatas;
   }
 
@@ -131,11 +132,11 @@ class WPDKASearch {
    */
   public function define_search_filters() {
 
-    add_filter('wpchaos-solr-query', function($query, $query_vars) {
-      if($query) {
-        $query = array($query);
+    add_filter('wpchaos-solr-query', function ($query, $query_vars) {
+      if ($query) {
+        $query = [$query];
       } else {
-        $query = array();
+        $query = [];
       }
 
       $query[] = '(ObjectTypeID:(' . implode(" OR ", WPDKAObject::$OBJECT_TYPE_IDS) . '))';
@@ -144,50 +145,50 @@ class WPDKASearch {
 
 
     // Free text search.
-    add_filter('wpchaos-solr-query', function($query, $query_vars) {
-      if($query) {
-        $query = array($query);
+    add_filter('wpchaos-solr-query', function ($query, $query_vars) {
+      if ($query) {
+        $query = [$query];
       } else {
-        $query = array();
+        $query = [];
       }
 
-      if(array_key_exists(WPChaosSearch::QUERY_KEY_FREETEXT, $query_vars)) {
+      if (array_key_exists(WPChaosSearch::QUERY_KEY_FREETEXT, $query_vars)) {
         // For each known metadata schema, loop and add freetext search on this.
         $freetext = $query_vars[WPChaosSearch::QUERY_KEY_FREETEXT];
-        if(!empty($freetext)) {
+        if (!empty($freetext)) {
           $freetext = WPChaosClient::escapeSolrValue($freetext);
-          $searches = array();
-          foreach(WPDKAObject::$FREETEXT_SCHEMA_GUIDS as $schemaGUID) {
-            foreach(WPDKAObject::$FREETEXT_LANGUAGE as $language) {
+          $searches = [];
+          foreach (WPDKAObject::$FREETEXT_SCHEMA_GUIDS as $schemaGUID) {
+            foreach (WPDKAObject::$FREETEXT_LANGUAGE as $language) {
               $searches[] = sprintf("(m%s_%s_all:(%s))", $schemaGUID, $language, $freetext);
             }
           }
           $query[] = '(' . implode(" OR ", $searches) . ')';
         }
       }
-  		return '(' . implode(" AND ", $query) . ')';
+      return '(' . implode(" AND ", $query) . ')';
     }, 10, 2);
 
     // File format types
-    add_filter('wpchaos-solr-query', function($query, $query_vars) {
-      if($query) {
-        $query = array($query);
+    add_filter('wpchaos-solr-query', function ($query, $query_vars) {
+      if ($query) {
+        $query = [$query];
       } else {
-        $query = array();
+        $query = [];
       }
 
-      if(array_key_exists(WPDKASearch::QUERY_KEY_TYPE, $query_vars)) {
+      if (array_key_exists(WPDKASearch::QUERY_KEY_TYPE, $query_vars)) {
         // Loop through requested types and append valid ones to query
         $types = $query_vars[WPDKASearch::QUERY_KEY_TYPE];
-        $filters = array();
-        foreach($types as $type) {
-          if(isset(WPDKAObject::$format_types[$type])) {
-            if (WPDKAObject::$format_types[$type]['chaos-filter']){
+        $filters = [];
+        foreach ($types as $type) {
+          if (isset(WPDKAObject::$format_types[$type])) {
+            if (WPDKAObject::$format_types[$type]['chaos-filter']) {
               $filters[] = WPDKAObject::$format_types[$type]['chaos-filter'];
             }
           }
         }
-        if(count($filters) > 0) {
+        if (count($filters) > 0) {
           $query[] = '(' . implode(" OR ", $filters) . ')';
         }
       }
@@ -196,38 +197,25 @@ class WPDKASearch {
     }, 11, 2);
 
     // Organizations
-    add_filter('wpchaos-solr-query', function($query, $query_vars) {
-      if($query) {
-        $query = array($query);
+    add_filter('wpchaos-solr-query', function ($query, $query_vars) {
+      if ($query) {
+        $query = [$query];
       } else {
-        $query = array();
+        $query = [];
       }
 
-      if(array_key_exists(WPDKASearch::QUERY_KEY_ORGANIZATION, $query_vars)) {
-        // For each known metadata schema, loop and add freetext search on this.
-        $organizationSlugs = $query_vars[WPDKASearch::QUERY_KEY_ORGANIZATION];
-        $organizations = WPDKASearch::get_organizations();
-        $searches = array();
-        foreach($organizationSlugs as $organizationSlug) {
-          foreach($organizations as $title => $organization) {
-            if($organization['slug'] == $organizationSlug) {
-              $searches[] = "\"$title\"";
-            }
-          }
-        }
-        if(count($searches) > 0) {
-          $query[] = '(DKA-Organization:(' . implode(" OR ", $searches) . '))';
-        }
-      }
+      // Force query to only search in DR organizations. (hasse@ramlev.dk - 20231116)
+      $query[] = '(DKA-Organization:(DR))';
+
       return '(' . implode(" AND ", $query) . ')';
     }, 21, 2);
 
     /* Add Date filtering to the search criteria */
     add_filter('wpchaos-solr-query', function($query, $query_vars) {
       if($query) {
-        $query = array($query);
+        $query = [$query];
       } else {
-        $query = array();
+        $query = [];
       }
 
 
@@ -236,12 +224,11 @@ class WPDKASearch {
         $dates = $query_vars[WPDKASearch::QUERY_KEY_DATE_RANGE];
         $date_from = ensure_ymd_format($dates[0]) . 'T00:00:00Z';
         $date_to = ensure_ymd_format($dates[1]) . 'T00:00:00Z';
-        $query[] = '(DKA-FirstPublishedDate_date:['. $date_from .
-          ' TO ' . $date_to . '])';
+        $query[] = '(DKA-FirstPublishedDate_date:['. $date_from . ' TO ' . $date_to . '])';
       }
 
       return '(' . implode(" AND ", $query) . ')';
-    }, 22, 2); // Has to be exercuted after tags are added
+    }, 22, 2); // Has to be exercuted after tags are added.
   }
 
   public function map_chaos_sorting($sort,$query_vars) {
@@ -256,38 +243,41 @@ class WPDKASearch {
   public static function get_organizations() {
     if(empty(self::$organizations)) {
       $key = 'chaos_organization';
-      $posts = new WP_Query(array(
+      $posts = new WP_Query([
         'meta_key' => $key ,
         'post_type' => 'page',
-        'post_status' => 'publish,private,future',
+        'post_status' => 'publish,future',
         'orderby' => 'title',
         'order' => 'ASC'
-      ));
+      ]);
+
       foreach($posts->posts as $post) {
         $post_organizations = get_post_custom_values($key, $post->ID);
         foreach($post_organizations as $organization) {
-          self::$organizations[$organization] = array(
+          self::$organizations[$organization] = [
             'title' => $post->post_title,
             'slug' => $post->post_name,
             'id' => $post->ID
-          );
+          ];
         }
       }
     }
+
     return self::$organizations;
   }
 
   public static function get_organizations_merged() {
-    $result = array();
+    $result = [];
     $organizations = self::get_organizations();
     foreach($organizations as $title => $organization) {
       if(!array_key_exists($organization['id'], $result)) {
         $result[$organization['id']] = $organization;
-        $result[$organization['id']]['chaos_titles'] = array($title);
+        $result[$organization['id']]['chaos_titles'] = [$title];
       } else {
         $result[$organization['id']]['chaos_titles'][] = $title;
       }
     }
+
     return $result;
   }
 
