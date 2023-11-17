@@ -204,6 +204,18 @@ class WPDKASearch {
         $query = [];
       }
 
+      // Force not found search, if not DR organization.
+      if(array_key_exists(WPDKASearch::QUERY_KEY_ORGANIZATION, $query_vars)) {
+        $organizationSlugs = $query_vars[WPDKASearch::QUERY_KEY_ORGANIZATION];
+        if ($organizationSlugs) {
+          if ('dr' !== $organizationSlugs[0]) {
+            status_header(404);
+            nocache_headers();
+            return false;
+          }
+        }
+      }
+
       // Force query to only search in DR organizations. (hasse@ramlev.dk - 20231116)
       $query[] = '(DKA-Organization:(DR))';
 
@@ -228,7 +240,7 @@ class WPDKASearch {
       }
 
       return '(' . implode(" AND ", $query) . ')';
-    }, 22, 2); // Has to be exercuted after tags are added.
+    }, 22, 2); // Has to be executed after tags are added.
   }
 
   public function map_chaos_sorting($sort,$query_vars) {
