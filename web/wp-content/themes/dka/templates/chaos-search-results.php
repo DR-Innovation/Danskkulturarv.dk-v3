@@ -8,6 +8,7 @@ get_header();
 
 $current_view = (WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_VIEW) ? 'listview' : 'thumbnails');
 $current_sort = isset(WPDKASearch::$sorts[WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_SORT)]) ? WPDKASearch::$sorts[WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_SORT)]['title'] : WPDKASearch::$sorts[null]['title'];
+
 $only_published_objects = WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_ONLY_PUBLISHED) == 'publicerede';
 $search_results = WPChaosSearch::get_search_results();
 
@@ -78,16 +79,13 @@ $views = [
                   continue;
                 }
                 $object = WPDKACollections::$collection_relations[$object->GUID];
-
               endif;
+
               WPChaosClient::set_object($object);
               $chaos_object = WPChaosClient::get_object();
 
-              // Hack to show default thumbnail, if we got a 404 dr.dk thumbnail. hasse@ramlev.dk 20231115.
-              $thumbnail = (WPChaosClient::get_object()->thumbnail ? ' style="background-image: url(\''.WPChaosClient::get_object()->thumbnail.'\')!important;"' : '');
-              if (str_contains($thumbnail, 'https://www.dr.dk/mu-online/api/1.3/bar./')) {
-                  $thumbnail = ' style="background-image: url(\'https://www.danskkulturarv.dk/wp-content/themes/dka/img/format-' . $chaos_object->type . '.png\')!important;"';
-              }
+              $raw_thumb = WPChaosClient::get_object()->thumbnail;
+              $thumbnail = ($raw_thumb ? ' style="background-image: url(\'' . $raw_thumb . '\'), url(\'https://www.danskkulturarv.dk/wp-content/themes/dka/img/format-' . $chaos_object->type . '.png\')!important;"' : '');
 
               $url = WPChaosClient::get_object()->url;
               $caption = WPChaosClient::get_object()->caption;
