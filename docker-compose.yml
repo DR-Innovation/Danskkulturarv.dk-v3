@@ -19,23 +19,21 @@ services:
       HTTPS_METHOD: noredirect
 
   fpm:
-    image: ghcr.io/reload/docker-drupal-php7-fpm:8.0
+    image: ghcr.io/reload/php-fpm:8.2
+    user: '${UID:-501}:${GID:-20}'
     ports:
       - '9000'
     depends_on:
       - db
-    working_dir: /var/www/web
-    labels:
-      org.drush.bin: /var/www/vendor/bin/drush
     volumes:
       - 'webroot:/var/www/'
       - './docker/wp-config-docker.php:/var/www/web/wp-config-docker.php'
       - './docker/php-ini.d/99-danskkulturarv.ini:/etc/php/5.6/fpm/pool.d/99-danskkulturarv.ini'
     environment:
-      PATH: '/var/www/vendor/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+      DRUSH_OPTIONS_URI: "https://${COMPOSE_PROJECT_NAME:-gruppeweb}.${DEV_TLD:-docker}"
 
   wp:
-    image: wordpress:cli-2.7-php8.0
+    image: wordpress:cli-2.9-php8.2
     volumes:
       - 'webroot:/var/www/'
       - './docker/wp-config-docker.php:/var/www/web/wp-config-docker.php'
@@ -57,6 +55,10 @@ services:
       - 'db-data:/docker-entrypoint-initdb.d'
     depends_on:
       - db-data
+    healthcheck:
+      test: ["CMD", "lsof", "-i", "tcp:3306"]
+    cap_add:
+      - SYS_PTRACE
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: db
