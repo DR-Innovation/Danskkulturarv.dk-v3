@@ -11,7 +11,6 @@ $current_sort = isset(WPDKASearch::$sorts[WPChaosSearch::get_search_var(WPChaosS
 
 $only_published_objects = WPChaosSearch::get_search_var(WPChaosSearch::QUERY_KEY_ONLY_PUBLISHED) == 'publicerede';
 $search_results = WPChaosSearch::get_search_results();
-
 $views = [
   [
     'title' => __('View as List','wpchaossearch'),
