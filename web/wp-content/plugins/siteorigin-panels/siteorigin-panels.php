@@ -3,7 +3,7 @@
 Plugin Name: Page Builder by SiteOrigin
 Plugin URI: https://siteorigin.com/page-builder/
 Description: A drag and drop, responsive page builder that simplifies building your website.
-Version: 2.26.2
+Version: 2.29.3
 Author: SiteOrigin
 Author URI: https://siteorigin.com
 License: GPL3
@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: http://siteorigin.com/page-builder/#donate
 */
 
-define( 'SITEORIGIN_PANELS_VERSION', '2.26.2' );
+define( 'SITEORIGIN_PANELS_VERSION', '2.29.3' );
 
 if ( ! defined( 'SITEORIGIN_PANELS_JS_SUFFIX' ) ) {
 	define( 'SITEORIGIN_PANELS_JS_SUFFIX', '.min' );
@@ -79,9 +79,6 @@ class SiteOrigin_Panels {
 
 		// Remove the default excerpt function.
 		add_filter( 'get_the_excerpt', array( $this, 'generate_post_excerpt' ), 9 );
-
-		// Content cache has been removed. SiteOrigin_Panels_Cache_Renderer just deletes any existing caches.
-		SiteOrigin_Panels_Cache_Renderer::single();
 
 		if ( function_exists( 'register_block_type' ) ) {
 			SiteOrigin_Panels_Compat_Layout_Block::single();
@@ -230,6 +227,10 @@ class SiteOrigin_Panels {
 			require_once plugin_dir_path( __FILE__ ) . 'compat/gravity-forms.php';
 		}
 
+		if ( class_exists( 'YIKES_Custom_Product_Tabs' ) ) {
+			require_once plugin_dir_path( __FILE__ ) . 'compat/yikes.php';
+		}
+
 		$load_lazy_load_compat = false;
 		// LazyLoad by WP Rocket.
 		if ( defined( 'ROCKET_LL_VERSION' ) ) {
@@ -254,6 +255,14 @@ class SiteOrigin_Panels {
 
 		if ( defined( 'SEOPRESS_VERSION' ) ) {
 			require_once plugin_dir_path( __FILE__ ) . 'compat/seopress.php';
+		}
+
+		if ( class_exists( 'WP_Event_Manager' ) ) {
+			add_filter( 'display_event_description', array( $this, 'generate_post_content' ), 11 );
+		}
+
+		if ( get_template() == 'vantage' ) {
+			require_once plugin_dir_path( __FILE__ ) . 'compat/vantage.php';
 		}
 	}
 

@@ -39,7 +39,7 @@ if ( ! class_exists( 'Fb_Widget_Review' ) ) :
 
 		public function admin_assets()
 		{
-			wp_enqueue_style( 'add-review-style', FB_WIDGET_PLUGIN_URL.'assets/css/add-review.css', array(), '1.0' );
+			wp_enqueue_style( 'add-review-style', FB_WIDGET_PLUGIN_URL.'admin/assets/css/add-review.css', array(), '1.0' );
 		}
 
 		// We will use this function in future

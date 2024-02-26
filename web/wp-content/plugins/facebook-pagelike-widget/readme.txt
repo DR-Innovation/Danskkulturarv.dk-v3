@@ -3,7 +3,7 @@ Contributors: Milap
 Tags: facebook, facebook like box, facebook simple like, facebook fan pages, facebook like button, facebook button share, facebook social bookmarking, facebook feeds, facebook feed widget, social share, wordpress social share, socialmedia, social media widget, social media sharing, social media icon 
 Donate link: https://www.paypal.me/MilapPatel
 Requires at least: 3.0.1
-Tested up to: 6.2
+Tested up to: 6.4.2
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -106,6 +106,13 @@ You can use more parameters like below.
 
 
 == Changelog ==
+
+= Version 6.3 =
+* Major code updates.
+* Removed application id from code and configuration.
+* Optimized code.
+* Added support up to WordPress version 6.4.2.
+* Added support up to PHP version 8.1.12.
 
 = Version 6.2 =
 * Removed deprecated data-show-posts parameter.

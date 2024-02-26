@@ -14,12 +14,6 @@ if ( ! defined( 'SITEORIGIN_INSTALLER_VERSION' ) ) {
 	define( 'SITEORIGIN_INSTALLER_VERSION', '1.0.3' );
 	define( 'SITEORIGIN_INSTALLER_DIR', plugin_dir_path( __FILE__ ) );
 	define( 'SITEORIGIN_INSTALLER_URL', plugin_dir_url( __FILE__ ) );
-
-	// If the installer has been installed as a plugin (rather than bundled), setup the Github updater.
-	if ( basename( SITEORIGIN_INSTALLER_DIR ) == 'siteorigin-installer-develop' ) {
-		require_once SITEORIGIN_INSTALLER_DIR . '/inc/github-plugin-updater.php';
-		new SiteOrigin_Installer_GitHub_Updater( __FILE__ );
-	}
 }
 
 if ( ! class_exists( 'SiteOrigin_Installer' ) ) {
@@ -37,8 +31,29 @@ if ( ! class_exists( 'SiteOrigin_Installer' ) ) {
 			return empty( $single ) ? $single = new self() : $single;
 		}
 
+		public static function user_has_permission() {
+			return (
+				! defined( 'DISALLOW_FILE_MODS' ) ||
+				! DISALLOW_FILE_MODS
+			) &&
+			current_user_can( 'install_plugins' ) &&
+			current_user_can( 'install_themes' ) &&
+			current_user_can( 'update_themes' ) &&
+			current_user_can( 'update_plugins' );
+		}
+
 		public function setup() {
-			if ( apply_filters( 'siteorigin_add_installer', true ) && is_admin() ) {
+			if (
+				apply_filters( 'siteorigin_add_installer', true ) &&
+				is_admin() &&
+				self::user_has_permission()
+			) {
+				// If the installer has been installed as a plugin (rather than bundled), setup the Github updater.
+				if ( basename( SITEORIGIN_INSTALLER_DIR ) == 'siteorigin-installer-develop' ) {
+					require_once SITEORIGIN_INSTALLER_DIR . '/inc/github-plugin-updater.php';
+					new SiteOrigin_Installer_GitHub_Updater( __FILE__ );
+				}
+
 				require_once __DIR__ . '/inc/admin.php';
 			}
 		}

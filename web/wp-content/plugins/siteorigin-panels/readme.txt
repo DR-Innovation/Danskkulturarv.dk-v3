@@ -1,10 +1,10 @@
 === Page Builder by SiteOrigin ===
 Tags: page builder, responsive, parallax, widgets, blocks, gallery, layout, grid, cms, builder, widget
 Requires at least: 4.7
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 5.6.20
-Stable tag: 2.26.2
-Build time: 2023-10-25T10:52:31+01:00
+Stable tag: 2.29.3
+Build time: 2024-01-03T20:16:29+00:00
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: https://siteorigin.com/downloads/premium/
@@ -120,6 +120,46 @@ Page Builder is compatible with the vast majority of third-party plugins and wid
 SiteOrigin offers a single premium plugin that enhances and extends Page Builder, the Widgets Bundle, SiteOrigin CSS and all of our free themes. Find out more about [SiteOrigin Premium](https://siteorigin.com/downloads/premium/) and the powerful addons it offers.
 
 == Changelog ==
+
+= 2.29.3 - 03 January 2023 =
+* Vantage Theme: Account for unmigrated legacy row layouts.
+* Toggle style field accessibility improvements.
+* Save mode accessibility improvements.
+* Live Editor Redirection: Resolve PHP 8 warning and deprecated notice.
+* Color Field: Minor border color adjustment.
+* Removed legacy content cache cleanup.
+
+= 2.29.2 - 03 January 2023 =
+* Vantage Theme: Prevented a type error if empty rows are present.
+
+= 2.29.1 - 01 January 2023 =
+* Vantage Theme: Prevented a potential Full Width Stretched display issue when no padding is set.
+
+= 2.29.0 - 31 December 2023 =
+* Layout Block: Defaulted the Layout Block to edit mode when no content is present.
+* Row Layout: Merged `Full Width Stretched` & `With Padding Support` settings.
+* Renamed Resize Columns to Column Presets and improved responsive behavior.
+* Added a Column Presets `Direction` button. Enhances the Column Presets feature by offering an efficient way to reverse the order of columns in a preset layout.
+* Improved cell size field accessibility.
+
+= 2.28.0 - 12 November 2023 =
+* Column Preset Sizes: Added `Golden Ratio` for two columns.
+* Rounded column sizes to two decimal places to prevent display issues.
+* Row update to allow for custom overlays.
+
+= 2.27.1 - 09 November 2023 =
+* Renamed "Cell" to "Column" throughout the codebase for improved clarity and consistency.
+* Updated the "Tested up to" version in the readme.txt file from 6.3 to 6.4.
+* Rewrote the usage of Lodash functions in the `siteorigin-panels-layout-block.js` file for better performance and code readability.
+* Updated the Installer by changing the subproject commit.
+
+= 2.27.0 - 02 November 2023 =
+* Improved user experience of cell resizers in the admin interface with visual enhancements and interaction adjustments.
+* Adjusted the spacing in the Color Style Field to improve field consistency.
+* Improved the design of the Save Mode Button by aligning them to the right and adding a new visual style for the save mode list.
+* Renamed the "Full Width Stretched Padded" setting to "Full Width Stretched With Padding Support" for better description.
+* Resolved a jQuery Migrate flag related to the color picker by updating the code to use Array.isArray instead of the deprecated $.isArray function.
+* Made adjustments to the styles filter in the admin panel by adding a new parameter current_styles to the apply_filters function call.
 
 = 2.26.2 - 25 October 2023 =
 * Added compatibility with SEOPress Content Analysis.

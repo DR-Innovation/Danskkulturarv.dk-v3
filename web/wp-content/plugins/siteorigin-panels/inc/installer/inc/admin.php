@@ -20,6 +20,7 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 
 		public function maybe_clear_cache( $plugin ) {
 			$products = apply_filters( 'siteorigin_installer_products_transient', get_transient( 'siteorigin_installer_product_data' ) );
+
 			if ( ! empty( $products ) && ! empty( $products[ basename( $plugin, '.php' ) ] ) ) {
 				delete_transient( 'siteorigin_installer_product_data' );
 			}
@@ -27,13 +28,16 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 
 		public function display_admin_notices() {
 			global $pagenow;
-			
+
 			if (
 				! get_option( 'siteorigin_installer_admin_dismissed' ) &&
 				current_user_can( 'install_plugins' ) &&
 				(
 					$pagenow != 'admin.php' ||
-					$_GET['page'] != 'siteorigin-installer'
+					(
+						! empty( $_GET['page'] ) &&
+						$_GET['page'] != 'siteorigin-installer'
+					)
 				)
 			) {
 				$dismiss_url = wp_nonce_url( add_query_arg( array( 'action' => 'so_installer_dismiss' ), admin_url( 'admin-ajax.php' ) ), 'so_installer_dismiss' );
@@ -42,7 +46,7 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 					<p>
 						<?php
 						printf(
-							__( "%s to install recommended SiteOrigin plugins and a SiteOrigin theme to get your site going.", 'siteorigin-installer' ),
+							__( '%s to install recommended SiteOrigin plugins and a SiteOrigin theme to get your site going.', 'siteorigin-installer' ),
 							'<a href="' . esc_url( admin_url( 'admin.php?page=siteorigin-installer' ) ) . '" target="_blank" rel="noopener noreferrer" >' . __( 'Click here', 'siteorigin-installer' ) . '</a>'
 						);
 						?>
@@ -82,7 +86,7 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 					__( 'SiteOrigin', 'siteorigin-installer' ),
 					__( 'SiteOrigin', 'siteorigin-installer' ),
 					false,
-					'siteorigin',
+					'admin.php?page=siteorigin-installer',
 					false,
 					SITEORIGIN_INSTALLER_URL . '/img/icon.svg',
 					66
@@ -100,7 +104,10 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 		}
 
 		public function enqueue_scripts( $prefix ) {
-			if ( $prefix !== 'siteorigin_page_siteorigin-installer' ) {
+			if (
+				$prefix !== 'admin_page_siteorigin-installer' &&
+				$prefix !== 'siteorigin_page_siteorigin-installer'
+			) {
 				return;
 			}
 
@@ -135,7 +142,9 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 				die();
 			}
 
-			$product_url = 'https://wordpress.org/' . urlencode( $_POST['type'] ) . '/download/' . urlencode( $_POST['slug'] ) . '.' . urlencode( $_POST['version'] ) . '.zip';
+			$slug = sanitize_file_name( $_POST['slug'] );
+
+			$product_url = 'https://wordpress.org/' . urlencode( $_POST['type'] ) . '/download/' . urlencode( $slug ) . '.' . urlencode( $_POST['version'] ) . '.zip';
 			// check_ajax_referer( 'so_installer_manage' );
 			if ( ! class_exists( 'WP_Upgrader' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -145,7 +154,7 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 			if ( $_POST['type'] == 'plugins' ) {
 				if ( $_POST['task'] == 'install' || $_POST['task'] == 'update' ) {
 					$upgrader->run( array(
-						'package' => $product_url,
+						'package' => esc_url( $product_url ),
 						'destination' => WP_PLUGIN_DIR,
 						'clear_destination' => true,
 						'abort_if_destination_exists' => false,
@@ -156,14 +165,17 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 					) );
 
 					$clear = true;
-				} elseif ( $_POST['task'] == 'activate' ) {
-					@activate_plugin( $_POST['slug'] . '/' . $_POST['slug'] . '.php' );
+				} elseif (
+					$_POST['task'] == 'activate' &&
+					validate_plugin( $slug . '/' . $slug . '.php' )
+				) {
+					activate_plugin( $slug . '/' . $slug . '.php' );
 					$clear = true;
 				}
 			} elseif ( $_POST['type'] == 'themes' ) {
 				if ( $_POST['task'] == 'install' || $_POST['task'] == 'update' ) {
 					$upgrader->run( array(
-						'package' => $product_url,
+						'package' => esc_url( $product_url ),
 						'destination' => get_theme_root(),
 						'clear_destination' => true,
 						'clear_working' => true,
@@ -171,7 +183,7 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 					) );
 					$clear = true;
 				} elseif ( $_POST['task'] == 'activate' ) {
-					switch_theme( $_POST['slug'] );
+					switch_theme( $slug );
 					$clear = true;
 				}
 			}
@@ -182,11 +194,11 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 			die();
 		}
 
-		private function update_product_data( $product = array(), $return = true) {
+		private function update_product_data( $product = array(), $return = true ) {
 			$current_theme = wp_get_theme();
 
 			if ( empty( $products ) ) {
-				$products = apply_filters( 'siteorigin_installer_products', json_decode( file_get_contents( SITEORIGIN_INSTALLER_DIR. '/data/products.json' ), true ) );
+				$products = apply_filters( 'siteorigin_installer_products', json_decode( file_get_contents( SITEORIGIN_INSTALLER_DIR . '/data/products.json' ), true ) );
 			}
 
 			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
@@ -198,6 +210,7 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 			// $product_data = get_transient( 'siteorigin_installer_product_data' );
 			foreach ( $products as $slug => $item ) {
 				$status = false;
+
 				if ( $slug != 'siteorigin-premium' ) {
 					if ( $item['type'] == 'themes' ) {
 						$api = themes_api(
@@ -215,13 +228,14 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 							$status = 'install';
 						} else {
 							$products[ $slug ]['update'] = version_compare( $theme->get( 'Version' ), $api->version, '<' );
+
 							if ( $theme->get_stylesheet() != $current_theme->get_stylesheet() ) {
 								$status = 'activate';
 							}
 						}
 
 						// Theme descriptions are too long so we need to shorten them.
-						$description = explode( '.' , $api->sections['description'] );
+						$description = explode( '.', $api->sections['description'] );
 						$description = $description[0] . '. ' . $description[1];
 					} else {
 						$api = plugins_api(
@@ -234,6 +248,7 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 
 						// Work out the status of the plugin.
 						$plugin_file = "$slug/$slug.php";
+
 						if ( ! file_exists( WP_PLUGIN_DIR . "/$plugin_file" ) ) {
 							$status = 'install';
 						} elseif ( ! is_plugin_active( $plugin_file ) ) {
@@ -252,6 +267,7 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 
 					$products[ $slug ]['status'] = $status;
 					$products[ $slug ]['version'] = $api->version;
+
 					if ( empty( $item['description'] ) ) {
 						$products[ $slug ]['description'] = $item['type'] == 'themes' ? "$description." : $api->short_description;
 					}
@@ -275,6 +291,7 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 		 */
 		public function display_admin_page() {
 			$products = apply_filters( 'siteorigin_installer_products_transient', get_transient( 'siteorigin_installer_product_data' ) );
+
 			if ( empty( $products ) ) {
 				$products = $this->update_product_data();
 			}

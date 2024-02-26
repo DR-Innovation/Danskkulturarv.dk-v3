@@ -35,6 +35,15 @@
   right: 0;
   bottom: 0;
   left: 0;
+}
+.panel-has-overlay .panel-grid-cell {
+  position: relative;
+}
+.panel-grid-cell.panel-has-overlay .so-panel {
+  position: relative;
+  z-index: 1;
+}
+.panel-has-overlay.so-panel .panel-background-overlay {
   z-index: -1;
 }
 .panel-layout.panel-is-rtl .panel-grid.panel-no-style,

@@ -61,7 +61,9 @@ function (_wp$element$Component) {
     _classCallCheck(this, SiteOriginPanelsLayoutBlock);
 
     _this = _super.call(this, props);
-    var editMode = window.soPanelsBlockEditorAdmin.defaultMode === 'edit' || lodash.isEmpty(props.panelsData);
+    var hasPanelsData = _typeof(props.panelsData) === 'object' && Object.keys(props.panelsData).length > 0;
+    var isDefaultModeEdit = window.soPanelsBlockEditorAdmin.defaultMode === 'edit';
+    var editMode = hasPanelsData === true ? isDefaultModeEdit : true;
     _this.state = {
       editing: editMode,
       loadingPreview: !editMode,
@@ -72,6 +74,7 @@ function (_wp$element$Component) {
     _this.panelsContainer = wp.element.createRef();
     _this.previewContainer = wp.element.createRef();
     _this.panelsInitialized = false;
+    _this.fetchPreviewTimer;
     return _this;
   }
 
@@ -83,8 +86,11 @@ function (_wp$element$Component) {
       if (this.state.editing) {
         this.setupPanels();
       } else if (!this.state.editing && !this.previewInitialized) {
-        this.fetchPreview(this.props);
-        this.fetchPreview = lodash.debounce(this.fetchPreview, 1000);
+        clearTimeout(this.fetchPreviewTimer);
+        var current = this;
+        this.fetchPreviewTimer = setTimeout(function () {
+          current.fetchPreview(current.props);
+        }, 1000);
       }
     }
   }, {
@@ -106,8 +112,11 @@ function (_wp$element$Component) {
           this.setState({
             pendingPreviewRequest: true
           });
-          this.fetchPreview(this.props);
-          this.fetchPreview = lodash.debounce(this.fetchPreview, 1000);
+          clearTimeout(this.fetchPreviewTimer);
+          var current = this;
+          this.fetchPreviewTimer = setTimeout(function () {
+            current.fetchPreview(current.props);
+          }, 1000);
         }
       } else if (!this.state.previewInitialized) {
         jQuery(document).trigger('panels_setup_preview');
@@ -137,14 +146,14 @@ function (_wp$element$Component) {
       var panelsData = JSON.parse(JSON.stringify(jQuery.extend({}, this.props.panelsData))); // Disable block selection while dragging rows or widgets.
 
       var rowOrWidgetMouseDown = function rowOrWidgetMouseDown() {
-        if (lodash.isFunction(_this2.props.onRowOrWidgetMouseDown)) {
+        if (typeof _this2.props.onRowOrWidgetMouseDown === 'function') {
           _this2.props.onRowOrWidgetMouseDown();
         }
 
         var rowOrWidgetMouseUp = function rowOrWidgetMouseUp() {
           jQuery(document).off('mouseup', rowOrWidgetMouseUp);
 
-          if (lodash.isFunction(_this2.props.onRowOrWidgetMouseUp)) {
+          if (typeof _this2.props.onRowOrWidgetMouseUp === 'function') {
             _this2.props.onRowOrWidgetMouseUp();
           }
         };
@@ -170,13 +179,40 @@ function (_wp$element$Component) {
         container: $panelsContainer
       }).setData(panelsData);
       this.builderView.trigger('builder_resize');
+      /**
+       * Checks if two panels data objects are equal.
+       * @param {Object} newPanelsData - The new panels data object.
+       * @param {Object} oldPanelsData - The old panels data object.
+       * @returns {boolean} - Returns true if the two panels data objects are equal, otherwise false.
+       */
+
+      var SiteOriginIsPanelsEqual = function SiteOriginIsPanelsEqual(newPanelsData, oldPanelsData) {
+        if (newPanelsData === oldPanelsData) {
+          return true;
+        }
+
+        if (!newPanelsData || !oldPanelsData || _typeof(newPanelsData) !== 'object' && _typeof(oldPanelsData) !== 'object') {
+          return newPanelsData === oldPanelsData;
+        }
+
+        var keys = Object.keys(newPanelsData);
+
+        if (keys.length !== Object.keys(oldPanelsData).length) {
+          return false;
+        }
+
+        return keys.every(function (k) {
+          return SiteOriginIsPanelsEqual(newPanelsData[k], oldPanelsData[k]);
+        });
+      };
+
       this.builderView.on('content_change', function () {
         var newPanelsData = _this2.builderView.getData();
 
-        _this2.panelsDataChanged = !lodash.isEqual(panelsData, newPanelsData);
+        _this2.panelsDataChanged = !SiteOriginIsPanelsEqual(panelsData, newPanelsData);
 
         if (_this2.panelsDataChanged) {
-          if (_this2.props.onContentChange && lodash.isFunction(_this2.props.onContentChange)) {
+          if (_this2.props.onContentChange && typeof _this2.props.onContentChange === 'function') {
             _this2.props.onContentChange(newPanelsData);
           }
 
@@ -202,8 +238,10 @@ function (_wp$element$Component) {
 
       if (!this.isStillMounted) {
         return;
-      }
+      } // If we don't have panelsData yet, fetch it from PB directly.
 
+
+      var panelsData = props.panelsData === null ? this.builderView.getData() : props.panelsData;
       this.setState({
         previewInitialized: false
       });
@@ -211,7 +249,7 @@ function (_wp$element$Component) {
         url: window.soPanelsBlockEditorAdmin.previewUrl,
         data: {
           action: 'so_panels_layout_block_preview',
-          panelsData: JSON.stringify(props.panelsData)
+          panelsData: JSON.stringify(panelsData)
         }
       }).then(function (preview) {
         if (_this3.isStillMounted && fetchRequest === _this3.currentFetchRequest && preview) {
@@ -318,7 +356,7 @@ wp.blocks.registerBlockType('siteorigin-panels/layout-block', {
         toggleSelection = _ref.toggleSelection;
 
     var onLayoutBlockContentChange = function onLayoutBlockContentChange(newPanelsData) {
-      if (!lodash.isEmpty(newPanelsData.widgets)) {
+      if (_typeof(newPanelsData.widgets) === 'object' && Object.keys(newPanelsData.widgets).length > 0) {
         // Send panelsData to server for sanitization.
         var isNewWPBlockEditor = jQuery('.widgets-php').length;
 

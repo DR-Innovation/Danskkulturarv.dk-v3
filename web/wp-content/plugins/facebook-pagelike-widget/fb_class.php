@@ -17,17 +17,16 @@ class facebook_widget extends WP_Widget {
     }
 
     function load_custom_js(){
-        wp_enqueue_script( 'load-custom-js', plugin_dir_url(__FILE__) . 'assets/js/custom.js' );
+        wp_enqueue_script( 'load-custom-js', plugin_dir_url(__FILE__) . 'admin/assets/js/custom.js' );
     }
 
     /** @see WP_Widget::widget */
     function widget( $args , $instance ) {
         
-        global $app_id, $select_lng;
+        global $select_lng;
         extract( $args );
         
         $title                          =   apply_filters( 'widget_title' , $instance['title'] );
-        $app_id                         =   $instance['app_id'];
         $fb_url                         =   $instance['fb_url'];
         $width                          =   $instance['width'];
         $height                         =   $instance['height'];
@@ -47,15 +46,15 @@ class facebook_widget extends WP_Widget {
         echo $before_widget;
         if ( $title ) echo $before_title . $title . $after_title;
 
-        wp_register_script( 'milapfbwidgetscript' , FB_WIDGET_PLUGIN_URL . 'fb.js', array( 'jquery' ), '1.0' );
-        wp_enqueue_script( 'milapfbwidgetscript' );
-        
-        $local_variables = array( 'app_id' => $app_id, 'select_lng' => $select_lng );
-        wp_localize_script( 'milapfbwidgetscript', 'milapfbwidgetvars', $local_variables );
+        wp_register_script( 'scfbwidgetscript' , FB_WIDGET_PLUGIN_URL . 'fb.js', array( 'jquery' ), '1.0' );
+        wp_enqueue_script( 'scfbwidgetscript' );
+
+        wp_register_script( 'scfbexternalscript', 'https://connect.facebook.net/'.$select_lng.'/sdk.js#xfbml=1&version=v18.0', "", '2.0', true );
+        wp_enqueue_script( 'scfbexternalscript' );
         
         echo '<div class="fb_loader" style="text-align: center !important;"><img src="' . plugins_url() . '/facebook-pagelike-widget/loader.gif" alt="Facebook Pagelike Widget" /></div>';
         echo '<div id="fb-root"></div>
-        <div class="fb-page" data-href="' . $fb_url . ' " data-width="' . $width . '" data-height="' . $height . '" data-small-header="' . $data_small_header . '" data-adapt-container-width="' . $data_adapt_container_width . '" data-hide-cover="' . $data_hide_cover . '" data-show-facepile="' . $data_show_facepile . '" style="' . $custom_css . '" hide_cta="false" data-tabs="'. $data_tabs .'" data-lazy="'.$data_lazy.'"></div>';
+        <div class="fb-page" data-href="' . $fb_url . '" data-width="' . $width . '" data-height="' . $height . '" data-small-header="' . $data_small_header . '" data-adapt-container-width="' . $data_adapt_container_width . '" data-hide-cover="' . $data_hide_cover . '" data-show-facepile="' . $data_show_facepile . '" style="' . $custom_css . '" hide_cta="false" data-tabs="'. $data_tabs .'" data-lazy="'.$data_lazy.'"></div>';
         echo $after_widget; ?>
         <!-- A WordPress plugin developed by Milap Patel -->
     <?php }
@@ -72,7 +71,6 @@ class facebook_widget extends WP_Widget {
         }
         
         $instance['title']                          =   strip_tags( $new_instance['title'] );
-        $instance['app_id']                         =   strip_tags( $new_instance['app_id'] );
         $instance['fb_url']                         =   strip_tags( $new_instance['fb_url'] );
         $instance['width']                          =   strip_tags( $new_instance['width'] );
         $instance['height']                         =   strip_tags( $new_instance['height'] );
@@ -95,12 +93,11 @@ class facebook_widget extends WP_Widget {
         /**
          * Set Default Value for widget form
          */
-        $defaults       =   array( 'title' => 'Like Us On Facebook', 'app_id' => '503595753002055', 'fb_url' => 'https://www.facebook.com/programming.info', 'width' => '300', 'height' => '500', 'data_small_header' => 'false', 'select_lng' => 'en_US', 'data_adapt_container_width' => 'on', 'data_hide_cover' => 'false', 'data_show_facepile' => 'on', 'custom_css' => '', 'data_tabs' => 'timeline', 'data_lazy'=> 'false');
+        $defaults       =   array( 'title' => 'Like Us On Facebook', 'fb_url' => 'https://www.facebook.com/WordPress', 'width' => '300', 'height' => '500', 'data_small_header' => 'false', 'select_lng' => 'en_US', 'data_adapt_container_width' => 'on', 'data_hide_cover' => 'false', 'data_show_facepile' => 'on', 'custom_css' => '', 'data_tabs' => 'timeline', 'data_lazy'=> 'false');
         
         $instance       =   wp_parse_args( ( array ) $instance, $defaults );
         $title          =   esc_attr( $instance['title'] );
-        $app_id         =   isset( $instance['app_id'] ) ? esc_attr( $instance['app_id'] ) : "503595753002055";
-        $fb_url         =   isset( $instance['fb_url'] ) ? esc_attr( $instance['fb_url'] ) : "http://www.facebook.com/wordpress";
+        $fb_url         =   isset( $instance['fb_url'] ) ? esc_attr( $instance['fb_url'] ) : "http://www.facebook.com/WordPress";
         $width          =   esc_attr( $instance['width'] );
         $height         =   esc_attr( $instance['height'] );
         $custom_css     =   isset( $instance['custom_css'] ) ? esc_attr( $instance['custom_css'] ) : "";
@@ -110,10 +107,6 @@ class facebook_widget extends WP_Widget {
         <p>
             <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'facebook-pagelike-widget' ); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
-        </p>
-        <p>
-            <label for="<?php echo $this->get_field_id( 'app_id' ); ?>"><?php _e( 'Facebook Application Id:', 'facebook-pagelike-widget' ); ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id( 'app_id' ); ?>" name="<?php echo $this->get_field_name( 'app_id' ); ?>" type="text" value="<?php echo $app_id ?>" />
         </p>
         <p>
             <label for="<?php echo $this->get_field_id( 'fb_url' ); ?>"><?php _e( 'Facebook Page Url:', 'facebook-pagelike-widget' ); ?></label>
