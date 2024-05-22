@@ -2,14 +2,35 @@
 # This file is distributed under the same license as the Themes - Twenty Twenty-Four package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-11-20 16:14:04+0000\n"
+"PO-Revision-Date: 2024-04-25 04:18:24+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.0-beta.2\n"
+"X-Generator: GlotPress/4.0.1\n"
 "Language: da_DK\n"
 "Project-Id-Version: Themes - Twenty Twenty-Four\n"
+
+#: patterns/footer.php:95
+msgid "Twitter/X"
+msgstr "Twitter/X"
+
+#: patterns/footer.php:73
+msgid "Contact Us"
+msgstr "Kontakt os"
+
+#: patterns/footer.php:72
+msgid "Terms and Conditions"
+msgstr "Handelsbetingelser"
+
+#: patterns/footer.php:71
+msgid "Privacy Policy"
+msgstr "Privatlivspolitik"
+
+#: functions.php:199
+msgctxt "Block pattern category"
+msgid "Pages"
+msgstr "Sider"
 
 #: theme.json
 msgctxt "Template part name"
@@ -23,19 +44,19 @@ msgstr "Sidehoved"
 
 #. Author URI of the theme
 #. Translators: WordPress link.
-#: patterns/footer-centered-logo-nav.php:21
+#: style.css patterns/footer-centered-logo-nav.php:21
 #: patterns/footer-colophon-3-col.php:90 patterns/footer.php:116
 msgid "https://wordpress.org"
 msgstr "https://wordpress.org"
 
-#: theme.json styles/ember.json styles/fossil.json styles/ice.json
-#: styles/maelstrom.json styles/mint.json styles/onyx.json styles/rust.json
+#: styles/ember.json styles/fossil.json styles/ice.json styles/maelstrom.json
+#: styles/mint.json styles/onyx.json styles/rust.json theme.json
 msgctxt "Color name"
 msgid "Base"
 msgstr "Base"
 
-#: theme.json styles/ember.json styles/fossil.json styles/ice.json
-#: styles/maelstrom.json styles/mint.json styles/onyx.json styles/rust.json
+#: styles/ember.json styles/fossil.json styles/ice.json styles/maelstrom.json
+#: styles/mint.json styles/onyx.json styles/rust.json theme.json
 msgctxt "Color name"
 msgid "Contrast"
 msgstr "Kontrast"
@@ -70,22 +91,22 @@ msgctxt "Space size name"
 msgid "6"
 msgstr "6"
 
-#: theme.json styles/fossil.json styles/ice.json styles/maelstrom.json
+#: styles/fossil.json styles/ice.json styles/maelstrom.json theme.json
 msgctxt "Font size name"
 msgid "Medium"
 msgstr "Medium"
 
-#: theme.json styles/fossil.json styles/ice.json styles/maelstrom.json
+#: styles/fossil.json styles/ice.json styles/maelstrom.json theme.json
 msgctxt "Font size name"
 msgid "Large"
 msgstr "Stor"
 
-#: theme.json styles/fossil.json styles/ice.json styles/maelstrom.json
+#: styles/fossil.json styles/ice.json styles/maelstrom.json theme.json
 msgctxt "Font size name"
 msgid "Extra Large"
 msgstr "Ekstra stor"
 
-#: theme.json styles/fossil.json styles/ice.json
+#: styles/fossil.json styles/ice.json theme.json
 msgctxt "Font family name"
 msgid "Inter"
 msgstr "Inter"
@@ -96,6 +117,7 @@ msgid "Post Meta"
 msgstr "Indlæg meta"
 
 #. Author of the theme
+#: style.css
 #, gp-priority: low
 msgid "the WordPress team"
 msgstr "af WordPress-holdet"
