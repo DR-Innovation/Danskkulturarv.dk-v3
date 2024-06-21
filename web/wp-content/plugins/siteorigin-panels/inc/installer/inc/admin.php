@@ -51,7 +51,7 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 						);
 						?>
 					</p>
-					<a href="<?php echo $dismiss_url; ?>" class="siteorigin-notice-dismiss"></a>
+					<a href="<?php echo esc_url( $dismiss_url ); ?>" class="siteorigin-notice-dismiss"></a>
 				</div>
 				<?php
 				wp_enqueue_script(
@@ -150,7 +150,6 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 			}
 			$upgrader = new WP_Upgrader();
-
 			if ( $_POST['type'] == 'plugins' ) {
 				if ( $_POST['task'] == 'install' || $_POST['task'] == 'update' ) {
 					$upgrader->run( array(
@@ -167,7 +166,7 @@ if ( ! class_exists( 'SiteOrigin_Installer_Admin' ) ) {
 					$clear = true;
 				} elseif (
 					$_POST['task'] == 'activate' &&
-					validate_plugin( $slug . '/' . $slug . '.php' )
+					! is_wp_error( validate_plugin( $slug . '/' . $slug . '.php' ) )
 				) {
 					activate_plugin( $slug . '/' . $slug . '.php' );
 					$clear = true;

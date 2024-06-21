@@ -1,14 +1,14 @@
 <?php
 /**
  * @package Widget for Social Page Feeds
- * @version 6.3
+ * @version 6.4
  */
 /*
 Plugin Name: Widget for Social Page Feeds
 Plugin URI: https://patelmilap.wordpress.com/
 Description: This widget adds a Simple Facebook Page Like Widget into your WordPress website sidebar within few minutes.
 Author: Milap Patel
-Version: 6.3
+Version: 6.4
 Author URI: https://patelmilap.wordpress.com/
 Text Domain: facebook-pagelike-widget
 */

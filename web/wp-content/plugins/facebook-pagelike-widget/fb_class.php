@@ -34,7 +34,6 @@ class facebook_widget extends WP_Widget {
         $data_adapt_container_width     =   isset( $instance['data_adapt_container_width'] ) && $instance['data_adapt_container_width'] != '' ? 'true' : 'false';
         $data_hide_cover                =   isset( $instance['data_hide_cover']) && $instance['data_hide_cover'] != '' ? 'true' : 'false';
         $data_show_facepile             =   isset( $instance['data_show_facepile']) && $instance['data_show_facepile'] != '' ? 'true' : 'false';
-        $custom_css                     =   $instance['custom_css'];
         $select_lng                     =   $instance['select_lng'];
         $data_tabs                      =   'timeline';
         $data_lazy                      =   isset( $instance['data_lazy'] ) && $instance['data_lazy'] != '' ? 'true' : 'false';
@@ -54,7 +53,7 @@ class facebook_widget extends WP_Widget {
         
         echo '<div class="fb_loader" style="text-align: center !important;"><img src="' . plugins_url() . '/facebook-pagelike-widget/loader.gif" alt="Facebook Pagelike Widget" /></div>';
         echo '<div id="fb-root"></div>
-        <div class="fb-page" data-href="' . $fb_url . '" data-width="' . $width . '" data-height="' . $height . '" data-small-header="' . $data_small_header . '" data-adapt-container-width="' . $data_adapt_container_width . '" data-hide-cover="' . $data_hide_cover . '" data-show-facepile="' . $data_show_facepile . '" style="' . $custom_css . '" hide_cta="false" data-tabs="'. $data_tabs .'" data-lazy="'.$data_lazy.'"></div>';
+        <div class="fb-page" data-href="' . $fb_url . '" data-width="' . $width . '" data-height="' . $height . '" data-small-header="' . $data_small_header . '" data-adapt-container-width="' . $data_adapt_container_width . '" data-hide-cover="' . $data_hide_cover . '" data-show-facepile="' . $data_show_facepile . '" hide_cta="false" data-tabs="'. $data_tabs .'" data-lazy="'.$data_lazy.'"></div>';
         echo $after_widget; ?>
         <!-- A WordPress plugin developed by Milap Patel -->
     <?php }
@@ -78,7 +77,6 @@ class facebook_widget extends WP_Widget {
         $instance['data_adapt_container_width']     =   strip_tags( $new_instance['data_adapt_container_width'] );
         $instance['data_hide_cover']                =   strip_tags( $new_instance['data_hide_cover'] );
         $instance['data_show_facepile']             =   strip_tags( $new_instance['data_show_facepile'] );
-        $instance['custom_css']                     =   strip_tags( $new_instance['custom_css'] );
         $instance['select_lng']                     =   strip_tags( $new_instance['select_lng'] );
         $instance['data_tabs']                      =   esc_sql( $new_instance['data_tabs'] );
         $instance['data_lazy']                      =   strip_tags( $new_instance['data_lazy'] );
@@ -93,14 +91,13 @@ class facebook_widget extends WP_Widget {
         /**
          * Set Default Value for widget form
          */
-        $defaults       =   array( 'title' => 'Like Us On Facebook', 'fb_url' => 'https://www.facebook.com/WordPress', 'width' => '300', 'height' => '500', 'data_small_header' => 'false', 'select_lng' => 'en_US', 'data_adapt_container_width' => 'on', 'data_hide_cover' => 'false', 'data_show_facepile' => 'on', 'custom_css' => '', 'data_tabs' => 'timeline', 'data_lazy'=> 'false');
+        $defaults       =   array( 'title' => 'Like Us On Facebook', 'fb_url' => 'https://www.facebook.com/WordPress', 'width' => '300', 'height' => '500', 'data_small_header' => 'false', 'select_lng' => 'en_US', 'data_adapt_container_width' => 'on', 'data_hide_cover' => 'false', 'data_show_facepile' => 'on', 'data_tabs' => 'timeline', 'data_lazy'=> 'false');
         
         $instance       =   wp_parse_args( ( array ) $instance, $defaults );
         $title          =   esc_attr( $instance['title'] );
         $fb_url         =   isset( $instance['fb_url'] ) ? esc_attr( $instance['fb_url'] ) : "http://www.facebook.com/WordPress";
         $width          =   esc_attr( $instance['width'] );
         $height         =   esc_attr( $instance['height'] );
-        $custom_css     =   isset( $instance['custom_css'] ) ? esc_attr( $instance['custom_css'] ) : "";
         $data_tabs      =   isset( $instance['data_tabs'] ) ? ( $instance['data_tabs'] ) : "timeline";
         ?>
         
@@ -211,12 +208,6 @@ class facebook_widget extends WP_Widget {
             <?php
         }
         ?>
-        
-        <p>
-            <label for="<?php echo $this->get_field_id( 'custom_css' ); ?>"><?php _e( 'Custom Css:', 'facebook-pagelike-widget' ); ?></label>
-            <textarea rows="4" cols="30" name="<?php echo $this->get_field_name( 'custom_css' ); ?>" placeholder="Custom CSS will apply only to outer elements, will not apply to IFRAME elements."><?php echo trim( $custom_css); ?></textarea>
-        </p>
-        
         <script type="text/javascript">
             function showWidth() {
                 if (jQuery( ".width_option" ).hasClass( 'hideme' ) )

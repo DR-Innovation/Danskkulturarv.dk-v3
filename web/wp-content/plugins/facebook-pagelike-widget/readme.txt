@@ -1,14 +1,14 @@
 === Widget for Social Page Feeds ===
 Contributors: Milap
-Tags: facebook, facebook like box, facebook simple like, facebook fan pages, facebook like button, facebook button share, facebook social bookmarking, facebook feeds, facebook feed widget, social share, wordpress social share, socialmedia, social media widget, social media sharing, social media icon 
+Tags: facebook feeds, facebook like box, facebook like button, facebook feed widget, social post feed
 Donate link: https://www.paypal.me/MilapPatel
 Requires at least: 3.0.1
 Tested up to: 6.4.2
-Stable tag: trunk
+Stable tag: 6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Formerly "Facebook Page Like Widget". This plugin adds a Simple Facebook page Like Widget into your WordPress sidebar, footer area(as widget) & Page or Post(as shortcode).
+This plugin adds a simple Facebook Page Like Widget to your WordPress sidebar, footer area (as a widget), and page or post (as a Shortcode).
 
 == Description ==
 
@@ -18,11 +18,16 @@ Formerly "Facebook Page Like Widget". This plugin adds a Simple Facebook page Li
 
 > Did this plugin made your life easy? Please consider [donating](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=neetap179@gmail.com&lc=US&item_name=Providing+Excellent+WordPress+plugin+support&no_note=0&no_shipping=2&curency_code=USD&bn=PP-DonationsBF:btn_donateCC_LG.gif:NonHosted).
 
-One of the most popular & lightweight plugin for Facebook page feeds widget with over 1.3 Million downloads and 1,00,000+ active installs.
+One of the most popular & lightweight plugin for Facebook page feeds widget with over 1.5 Million downloads and 80,000+ active installs.
 
-An inside look:
+How to use latest version 6.4:
+
+https://www.youtube.com/watch?v=qayeaqlmofA
+
+How to use older versions:
 
 http://www.youtube.com/watch?v=8gulPNAd264
+
 
 Please subscribe to my [YouTube channel](https://www.youtube.com/c/CodeCanvas/) for more technical videos.
 
@@ -92,6 +97,9 @@ You can use more parameters like below.
 = I am not sure how to get Facebook application ID ? =
 * If you are not able to create Facebook application or you do not know how to do that, do not worry, you can use my default application id `1590918427791514` . I have created it for plugin users and it should work like a charm for you.
 
+= Do I need a Facebook application ID to get this plugin to work? ? =
+* Starting from plugin version 6.4, you no longer need a Facebook application ID to make this plugin work.
+
 = It is working in some system, not working in other system ? =
 * If it is working in some system & not working with other system, there are 2 possibilties :
 	1) Anti virus of your computer can stop my widget loading. Some of my widget users had same problem in past. You can check with disable your anti virus temporarily.
@@ -106,6 +114,9 @@ You can use more parameters like below.
 
 
 == Changelog ==
+
+= Version 6.4 =
+* Removed the Custom CSS option from widget settings, as WordPress now includes its own Custom CSS option.
 
 = Version 6.3 =
 * Major code updates.
