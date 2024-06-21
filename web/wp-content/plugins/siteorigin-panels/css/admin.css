@@ -646,6 +646,9 @@
 .siteorigin-panels-builder.so-display-narrow .so-builder-toolbar .so-switch-to-standard {
   display: none !important;
 }
+.siteorigin-panels-builder .ui-sortable-handle {
+  text-align: left;
+}
 .so-widget.ui-sortable-helper.widget-being-dragged {
   z-index: 500002 !important;
   opacity: 0.9;
@@ -2731,7 +2734,7 @@
 .so-panels-dialog .so-visual-styles .style-section-fields .style-field-wrapper .style-field .wp-color-result,
 .block-editor-page .so-visual-styles .style-section-fields .style-field-wrapper .style-field .wp-color-result,
 .wp-customizer .so-visual-styles .style-section-fields .style-field-wrapper .style-field .wp-color-result {
-  border-color: #ccc;
+  border-color: #8c8f94;
 }
 .so-panels-dialog .so-visual-styles .style-section-fields .style-field-wrapper .style-field .wp-color-result,
 .block-editor-page .so-visual-styles .style-section-fields .style-field-wrapper .style-field .wp-color-result,
@@ -2909,6 +2912,7 @@
 .so-panels-dialog .so-visual-styles .style-input-wrapper .wp-picker-container .wp-color-result .wp-color-result-text,
 .block-editor-page .so-visual-styles .style-input-wrapper .wp-picker-container .wp-color-result .wp-color-result-text,
 .wp-customizer .so-visual-styles .style-input-wrapper .wp-picker-container .wp-color-result .wp-color-result-text {
+  border-left: 1px solid #8c8f94;
   height: 28px;
 }
 .so-panels-dialog .so-visual-styles .style-field-measurement .measurement-inputs,
@@ -2995,7 +2999,7 @@
 .wp-customizer .so-visual-styles .style-field-image .so-image-selector {
   display: inline-block;
   background-color: #f7f7f7;
-  border: 1px solid #ccc;
+  border: 1px solid #8c8f94;
   height: 28px;
   float: left;
   -webkit-border-radius: 3px;
@@ -3019,7 +3023,7 @@
   width: 28px;
   float: left;
   background: #fff;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #8c8f94;
   background-size: cover;
   -webkit-border-top-right-radius: 0;
   -webkit-border-bottom-right-radius: 0;
@@ -3684,4 +3688,26 @@
   padding: 0 24px 0 8px;
   vertical-align: middle;
   width: auto;
+}
+#siteorigin-panels-use-classic-notice {
+  padding-right: 25px;
+  position: relative;
+}
+#siteorigin-panels-use-classic-notice .siteorigin-notice-dismiss {
+  background: none;
+  border: none;
+  color: #787c82;
+  cursor: pointer;
+  margin: 9px;
+  position: absolute;
+  right: 1px;
+  text-decoration: none;
+  top: 0;
+}
+#siteorigin-panels-use-classic-notice .siteorigin-notice-dismiss:focus,
+#siteorigin-panels-use-classic-notice .siteorigin-notice-dismiss:hover {
+  color: #d63638;
+}
+#siteorigin-panels-use-classic-notice .siteorigin-notice-dismiss .dashicons {
+  font-size: 17px;
 }

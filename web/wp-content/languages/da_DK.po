@@ -762,16 +762,16 @@ msgstr "Posterne i dependencies-arrayet skal enten være strenge eller arrays me
 msgid "Missing required id key in entry among dependencies array."
 msgstr "Mangler påkrævet id-nøgle i post blandt afhængighedsarray."
 
-#: wp-includes/class-wp-plugin-dependencies.php:530
+#: wp-includes/class-wp-plugin-dependencies.php:531
 msgid "All required plugins are installed and activated."
 msgstr "Alle nødvendige plugins er installeret og aktiveret."
 
 #. translators: %s: A list of inactive dependency plugin names.
-#: wp-includes/class-wp-plugin-dependencies.php:522
+#: wp-includes/class-wp-plugin-dependencies.php:523
 msgid "The following plugins must be activated first: %s."
 msgstr "Følgende plugins skal aktiveres først: %s."
 
-#: wp-includes/class-wp-plugin-dependencies.php:493
+#: wp-includes/class-wp-plugin-dependencies.php:494
 msgid "The plugin has no required plugins."
 msgstr "Pluginet har ingen nødvendige plugins."
 
@@ -8587,7 +8587,7 @@ msgstr "Du har brug for et højere adgangsniveau."
 #: wp-admin/includes/class-custom-image-header.php:1032
 #: wp-admin/includes/file.php:638 wp-admin/media-upload.php:38
 #: wp-admin/themes.php:27 wp-admin/themes.php:70 wp-admin/users.php:158
-#: wp-admin/js/tags.js:62 wp-admin/js/updates.js:2354
+#: wp-admin/js/tags.js:62 wp-admin/js/updates.js:2327
 #: wp-admin/network/site-users.php:158
 msgid "Something went wrong."
 msgstr "Noget gik galt."
@@ -12046,7 +12046,7 @@ msgstr "Ikke-eksisterende termer."
 #: wp-includes/customize/class-wp-customize-theme-control.php:260
 #: wp-admin/includes/theme.php:1071 wp-admin/theme-install.php:408
 #: wp-admin/theme-install.php:488 wp-admin/themes.php:616
-#: wp-admin/themes.php:988 wp-admin/themes.php:1222 wp-admin/js/updates.js:1829
+#: wp-admin/themes.php:988 wp-admin/themes.php:1222 wp-admin/js/updates.js:1802
 msgctxt "theme"
 msgid "Activate %s"
 msgstr "Aktiver %s"
@@ -13939,7 +13939,7 @@ msgstr "Link-tekst"
 #: wp-admin/theme-install.php:420 wp-admin/theme-install.php:437
 #: wp-admin/themes.php:625 wp-admin/themes.php:634 wp-admin/themes.php:995
 #: wp-admin/themes.php:1003 wp-admin/themes.php:1225 wp-admin/themes.php:1236
-#: wp-admin/js/updates.js:1844
+#: wp-admin/js/updates.js:1817
 msgid "Live Preview"
 msgstr "Live forhåndsvisning"
 
@@ -15230,7 +15230,7 @@ msgstr "Højrestil"
 #: wp-includes/class-wp-customize-widgets.php:805
 #: wp-admin/includes/ajax-actions.php:1107
 #: wp-admin/includes/ajax-actions.php:2379 wp-admin/js/media.js:127
-#: wp-admin/js/media.js:132 wp-admin/js/updates.js:2363
+#: wp-admin/js/media.js:132 wp-admin/js/updates.js:2336
 msgid "An error has occurred. Please reload the page and try again."
 msgstr "Der er opstået en fejl. Genindlæs venligst siden og prøv igen."
 

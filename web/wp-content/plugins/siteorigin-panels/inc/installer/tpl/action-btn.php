@@ -8,5 +8,5 @@
 		style="display: none;"
 	<?php } ?>
 >
-	<?php echo $text; ?>
+	<?php echo esc_html( $text ); ?>
 </span>
