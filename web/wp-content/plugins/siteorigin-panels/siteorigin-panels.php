@@ -3,7 +3,7 @@
 Plugin Name: Page Builder by SiteOrigin
 Plugin URI: https://siteorigin.com/page-builder/
 Description: A drag and drop, responsive page builder that simplifies building your website.
-Version: 2.29.17
+Version: 2.29.19
 Author: SiteOrigin
 Author URI: https://siteorigin.com
 License: GPL3
@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: https://siteorigin.com/downloads/premium/
 */
 
-define( 'SITEORIGIN_PANELS_VERSION', '2.29.17' );
+define( 'SITEORIGIN_PANELS_VERSION', '2.29.19' );
 
 if ( ! defined( 'SITEORIGIN_PANELS_JS_SUFFIX' ) ) {
 	define( 'SITEORIGIN_PANELS_JS_SUFFIX', '.min' );
@@ -682,6 +682,9 @@ class SiteOrigin_Panels {
 		if ( empty( $active_version ) || $active_version !== SITEORIGIN_PANELS_VERSION ) {
 			do_action( 'siteorigin_panels_version_changed' );
 			update_option( 'siteorigin_panels_active_version', SITEORIGIN_PANELS_VERSION );
+
+			// Clear layout directory cache after update to account for bug in versions 2.29.18 and below.
+			delete_transient( 'siteorigin_panels_layouts_directory_siteorigin_page_2' );
 		}
 	}
 
