@@ -142,7 +142,7 @@ msgid "&#8221;"
 msgstr "&#8221;"
 
 #. translators: Opening curly double quote.
-#: wp-includes/formatting.php:84 wp-includes/formatting.php:5706
+#: wp-includes/formatting.php:84 wp-includes/formatting.php:5707
 #, gp-priority: high
 msgctxt "opening curly double quote"
 msgid "&#8220;"
@@ -1075,7 +1075,7 @@ msgid "Call %s to create an HTML Processor instead of calling the constructor di
 msgstr "Kald %s for at oprette en HTML-processor i stedet for at kalde konstruktøren direkte."
 
 #. translators: %s: The "type" key.
-#: wp-includes/functions.php:8866
+#: wp-includes/functions.php:8869
 msgid "The %s key must be a string without spaces."
 msgstr "Nøglen %s skal være en streng uden mellemrum."
 
@@ -1400,7 +1400,7 @@ msgid "The Edit Media screen is deprecated as of WordPress 6.3. Please use the M
 msgstr "Skærmen Rediger medier er forældet fra og med WordPress 6.3. Brug venligst mediebiblioteket i stedet."
 
 #. translators: %s: The type of the given object ID.
-#: wp-includes/functions.php:7249
+#: wp-includes/functions.php:7252
 msgid "Object ID must be an integer, %s given."
 msgstr "Objekt-ID skal være et heltal, %s angivet."
 
@@ -1707,7 +1707,7 @@ msgstr "Tjek venligst, at %s PHP ekstension er installeret og aktiveret."
 msgid "When using the %1$s constant, make sure to set these globals to an array: %2$s."
 msgstr "Når du bruger konstanten %1$s, skal du sørge for at sætte disse globaler til et array: %2$s."
 
-#: wp-includes/html-api/class-wp-html-tag-processor.php:3272
+#: wp-includes/html-api/class-wp-html-tag-processor.php:3279
 msgid "The query argument must be an array or a tag name."
 msgstr "Forespørgselsargumentet skal være et array eller et tagnavn."
 
@@ -1729,7 +1729,7 @@ msgstr "For mange bogmærker; kan ikke oprette flere."
 
 #. translators: 1: The function name, 2: The argument number, 3: The argument
 #. name, 4: The expected type, 5: The provided type.
-#: wp-includes/formatting.php:5539
+#: wp-includes/formatting.php:5540
 msgid "Warning: %1$s expects parameter %2$s (%3$s) to be a %4$s, %5$s given."
 msgstr "Advarsel: %1$s forventer parameter %2$s (%3$s) til at være %4$s, fik i stedet %5$s."
 
@@ -3343,7 +3343,7 @@ msgstr "Ikke vedhæftet"
 
 #. translators: 1: Function name, 2: A variable type, like "boolean" or
 #. "integer".
-#: wp-includes/functions.php:8708
+#: wp-includes/functions.php:8711
 msgid "%1$s only accepts a non-empty path string, received %2$s."
 msgstr "%1$s accepterer kun en ikke-tom stistreng, der er modtaget %2$s."
 
@@ -3365,7 +3365,7 @@ msgid "Sorry, you are not allowed to upload this file type."
 msgstr "Beklager, men du må ikke overføre denne filtype."
 
 #. translators: 1: Option name, 2: Error code.
-#: wp-includes/formatting.php:5107
+#: wp-includes/formatting.php:5108
 msgid "Could not sanitize the %1$s option. Error code: %2$s"
 msgstr "Indstillingen %1$s kunne ikke renses. Fejlkode: %2$s"
 
@@ -4790,7 +4790,7 @@ msgstr "(Forsidelink, åbner i ny fane)"
 
 #. translators: 1: Block type, 2: Typography supports key, e.g: fontSize,
 #. lineHeight, etc. 3: block.json, 4: Old metadata key, 5: New metadata key.
-#: wp-includes/blocks.php:1882
+#: wp-includes/blocks.php:1910
 msgid "Block \"%1$s\" is declaring %2$s support in %3$s file under %4$s. %2$s support is now declared under %5$s."
 msgstr "Blok \"%1$s\" angiver %2$s support i %3$s-fil under %4$s. %2$s support angives nu under %5$s."
 
@@ -5104,7 +5104,7 @@ msgid "Filter by category"
 msgstr "Sorter efter kategori"
 
 #. translators: Documentation explaining HTTPS and why it should be used.
-#: wp-includes/functions.php:8508
+#: wp-includes/functions.php:8511
 msgid "https://wordpress.org/documentation/article/why-should-i-use-https/"
 msgstr "https://wordpress.org/support/article/why-should-i-use-https/"
 
@@ -7000,7 +7000,7 @@ msgstr "WordPress-version %s"
 msgid "https://wordpress.org/documentation/article/debugging-a-wordpress-network/"
 msgstr "https://wordpress.org/support/article/debugging-a-wordpress-network/"
 
-#: wp-includes/formatting.php:5079
+#: wp-includes/formatting.php:5080
 msgid "https://wordpress.org/documentation/article/customize-permalinks/#choosing-your-permalink-structure"
 msgstr "https://wordpress.org/support/article/using-permalinks/#choosing-your-permalink-structure"
 
@@ -7436,7 +7436,7 @@ msgstr "[%s] Anmodning om ændring af netværkets administrators e-mail"
 
 #. translators: Site admin email change notification email subject. %s: Site
 #. title.
-#: wp-includes/functions.php:8013
+#: wp-includes/functions.php:8016
 msgid "[%s] Admin Email Changed"
 msgstr "[%s] Administrator e-mail blev ændret"
 
@@ -7642,7 +7642,7 @@ msgstr "Manglende anmodnings-ID."
 msgid "Usage of the title attribute on the login logo is not recommended for accessibility reasons. Use the link text instead."
 msgstr "Brug af titelattributten på log ind-logoet anbefales ikke af hensyn til tilgængeligheden. Brug linkteksten i stedet."
 
-#: wp-includes/functions.php:8449
+#: wp-includes/functions.php:8452
 msgid "Update PHP"
 msgstr "Opdater PHP"
 
@@ -7656,7 +7656,7 @@ msgid "REST API routes must be registered on the %s action."
 msgstr "REST API routes skal registreres i %s handlingen."
 
 #. translators: Used to join last two items in a list with more than 2 times.
-#: wp-includes/formatting.php:5352
+#: wp-includes/formatting.php:5353
 msgid "%1$s, and %2$s"
 msgstr "%1$s og %2$s"
 
@@ -7746,16 +7746,16 @@ msgid "Formats"
 msgstr "Formater"
 
 #. translators: Used to join items in a list with more than 2 items.
-#: wp-includes/formatting.php:5350
+#: wp-includes/formatting.php:5351
 msgid "%1$s, %2$s"
 msgstr "%1$s, %2$s"
 
 #. translators: %s: Default Update PHP page URL.
-#: wp-includes/functions.php:8392
+#: wp-includes/functions.php:8395
 msgid "This resource is provided by your web host, and is specific to your site. For more information, <a href=\"%s\" target=\"_blank\">see the official WordPress documentation</a>."
 msgstr "Dette hjælpemiddel tilbydes af dit webhotel, og passer specifikt til dit websted. Hvis du vil have mere information, så <a href=\"%s\" target=\"_blank\">se på den officielle WordPress dokumentation</a>."
 
-#: wp-includes/functions.php:8341
+#: wp-includes/functions.php:8344
 msgctxt "localized PHP upgrade information page"
 msgid "https://wordpress.org/support/update-php/"
 msgstr "https://da.wordpress.org/support/update-php/"
@@ -7950,7 +7950,7 @@ msgstr "Element tilføjet."
 #: wp-includes/class-wp-customize-manager.php:5701
 #: wp-includes/class-wp-customize-manager.php:5722
 #: wp-includes/customize/class-wp-customize-nav-menu-locations-control.php:58
-#: wp-includes/functions.php:8451 wp-includes/media-template.php:167
+#: wp-includes/functions.php:8454 wp-includes/media-template.php:167
 #: wp-includes/widgets/class-wp-widget-custom-html.php:322 wp-login.php:692
 #: wp-includes/js/dist/components.js:58741
 #: wp-includes/js/dist/customize-widgets.js:1437
@@ -8424,12 +8424,12 @@ msgid "User Requests"
 msgstr "Brugeranmodninger"
 
 #. translators: Deleted long text.
-#: wp-includes/functions.php:8164
+#: wp-includes/functions.php:8167
 msgid "This content was deleted by the author."
 msgstr "Dette indhold blev slettet af forfatteren."
 
 #. translators: Deleted text.
-#: wp-includes/functions.php:8160
+#: wp-includes/functions.php:8163
 msgid "[deleted]"
 msgstr "[slettet]"
 
@@ -9282,7 +9282,7 @@ msgstr "Scrape af key-tjek fejlede. Prøv venligst igen."
 
 #. translators: Do not translate OLD_EMAIL, NEW_EMAIL, SITENAME, SITEURL: those
 #. are placeholders.
-#: wp-includes/functions.php:7996
+#: wp-includes/functions.php:7999
 msgid ""
 "Hi,\n"
 "\n"
@@ -9308,7 +9308,7 @@ msgstr ""
 "Alle fra ###SITENAME###\n"
 "###SITEURL###"
 
-#: wp-includes/functions.php:7851
+#: wp-includes/functions.php:7854
 msgid "Only UUID V4 is supported at this time."
 msgstr "Kun UUID V4 er understøttet på nuværende tidspunkt."
 
@@ -12172,7 +12172,7 @@ msgid "Image crop area preview. Requires mouse interaction."
 msgstr "Forhåndsvisning af billedets beskæringsområde. Kræver interaktion med musen."
 
 #. translators: %s: Documentation URL.
-#: wp-includes/formatting.php:5078
+#: wp-includes/formatting.php:5079
 msgid "A structure tag is required when using custom permalinks. <a href=\"%s\">Learn more</a>"
 msgstr "Et strukturtag er krævet når der bruges brugerdefinerede permalinks. <a href=\"%s\">Lær mere</a>"
 
@@ -12344,7 +12344,7 @@ msgid "%1$s %2$s %3$s %4$s Feed"
 msgstr "%1$s %2$s %3$s %4$s Feed"
 
 #. translators: Hidden accessibility text.
-#: wp-includes/functions.php:7396 wp-includes/media-template.php:202
+#: wp-includes/functions.php:7399 wp-includes/media-template.php:202
 #: wp-includes/media-template.php:367
 msgid "Close dialog"
 msgstr "Luk dialog"
@@ -15599,7 +15599,7 @@ msgstr "Webstedet, du ledte efter, %s, eksisterer ikke, men du kan oprette det n
 msgid "Have you entered your email correctly? You have entered %s, if it&#8217;s incorrect, you will not receive your email."
 msgstr "Har du indtastet din e-mail korrekt? Du har indtastet %s, hvis det er forkert, vil du ikke modtage din e-mail."
 
-#: wp-includes/functions.php:7418
+#: wp-includes/functions.php:7421
 msgid "The login page will open in a new tab. After logging in you can close it and return to this page."
 msgstr "Login-siden vil åbne i en ny fane. Når du er logget ind, kan du lukke den og vende tilbage til denne side."
 
@@ -15625,7 +15625,7 @@ msgctxt "placeholder"
 msgid "Search &hellip;"
 msgstr "Søg &hellip;"
 
-#: wp-includes/functions.php:7416 wp-includes/script-loader.php:1298
+#: wp-includes/functions.php:7419 wp-includes/script-loader.php:1298
 msgid "Session expired"
 msgstr "Session udløbet"
 
@@ -16752,7 +16752,7 @@ msgctxt "admin color scheme"
 msgid "Blue"
 msgstr "Blå"
 
-#: wp-includes/formatting.php:5058 wp-admin/options.php:297
+#: wp-includes/formatting.php:5059 wp-admin/options.php:297
 msgid "The timezone you have entered is not valid. Please select a valid timezone."
 msgstr "Den tidszone, du har indtastet, er ikke gyldig. Vælg venligst en gyldig tidszone."
 
@@ -17146,7 +17146,7 @@ msgid "You are currently browsing the archives for the %s category."
 msgstr "Du kigger på arkiverne for kategorien %s."
 
 #. translators: Used to join items in a list with only 2 items.
-#: wp-includes/formatting.php:5354
+#: wp-includes/formatting.php:5355
 msgid "%1$s and %2$s"
 msgstr "%1$s og %2$s"
 
@@ -17441,15 +17441,15 @@ msgstr "Det websted, du prøver at få adgang til, er ikke installeret korrekt. 
 msgid "The given object ID is not that of a menu item."
 msgstr "Det angivne objekt-ID hører ikke til et menuelement."
 
-#: wp-includes/formatting.php:4999
+#: wp-includes/formatting.php:5000
 msgid "The Site address you entered did not appear to be a valid URL. Please enter a valid URL."
 msgstr "Den webstedsadresse, du indtastede, er ikke en gyldig URL. Indtast venligst en gyldig URL."
 
-#: wp-includes/formatting.php:4986
+#: wp-includes/formatting.php:4987
 msgid "The WordPress address you entered did not appear to be a valid URL. Please enter a valid URL."
 msgstr "Den WordPress-adresse du anførte, er ikke en gyldig URL. Anfør venligst en gyldig URL."
 
-#: wp-includes/formatting.php:4867
+#: wp-includes/formatting.php:4868
 msgid "The email address entered did not appear to be a valid email address. Please enter a valid email address."
 msgstr "Den indtastede e-mailadresse lader ikke til at være en gyldig e-mailadresse. Indtast venligst en gyldig e-mailadresse."
 
@@ -18018,7 +18018,7 @@ msgstr "<strong>Fejl:</strong> WordPress %1$s kræver MySQL %2$s eller nyere"
 msgid "Sidebar %d"
 msgstr "Sidebar %d"
 
-#: wp-includes/functions.php:7417 wp-includes/user.php:306
+#: wp-includes/functions.php:7420 wp-includes/user.php:306
 msgid "Please log in again."
 msgstr "Log venligst ind igen."
 
@@ -18991,15 +18991,15 @@ msgstr "Log ud"
 msgid "Log in"
 msgstr "Log ind"
 
-#: wp-includes/functions.php:6682
+#: wp-includes/functions.php:6685
 msgid "Manual Offsets"
 msgstr "Manuelle forskydninger"
 
-#: wp-includes/functions.php:6673 wp-includes/functions.php:6678
+#: wp-includes/functions.php:6676 wp-includes/functions.php:6681
 msgid "UTC"
 msgstr "UTC"
 
-#: wp-includes/functions.php:6621
+#: wp-includes/functions.php:6624
 msgid "Select a city"
 msgstr "Vælg en by"
 

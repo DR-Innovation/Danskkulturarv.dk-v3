@@ -97,19 +97,19 @@ msgstr ""
 msgid "Theme Defined Layouts"
 msgstr ""
 
-#: inc/admin-layouts.php:303
+#: inc/admin-layouts.php:304
 msgid "Clone %s"
 msgstr ""
 
-#: inc/admin-layouts.php:340
+#: inc/admin-layouts.php:341
 msgid " - Results For:"
 msgstr ""
 
-#: inc/admin-layouts.php:401
+#: inc/admin-layouts.php:402
 msgid "Missing layout ID or no such layout exists"
 msgstr ""
 
-#: inc/admin-layouts.php:457
+#: inc/admin-layouts.php:458
 msgid "There was a problem fetching the layout. Please try again later."
 msgstr ""
 
@@ -141,7 +141,7 @@ msgstr ""
 msgid "WordPress Widgets"
 msgstr ""
 
-#: inc/admin-widget-dialog.php:214, inc/settings.php:431
+#: inc/admin-widget-dialog.php:215, inc/settings.php:431
 msgid "Recommended Widgets"
 msgstr ""
 
