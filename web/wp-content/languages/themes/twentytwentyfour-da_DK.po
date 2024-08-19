@@ -11,19 +11,19 @@ msgstr ""
 "Language: da_DK\n"
 "Project-Id-Version: Themes - Twenty Twenty-Four\n"
 
-#: patterns/footer.php:95
+#: patterns/footer.php:96
 msgid "Twitter/X"
 msgstr "Twitter/X"
 
-#: patterns/footer.php:73
+#: patterns/footer.php:74
 msgid "Contact Us"
 msgstr "Kontakt os"
 
-#: patterns/footer.php:72
+#: patterns/footer.php:73
 msgid "Terms and Conditions"
 msgstr "Handelsbetingelser"
 
-#: patterns/footer.php:71
+#: patterns/footer.php:72
 msgid "Privacy Policy"
 msgstr "Privatlivspolitik"
 
@@ -44,8 +44,8 @@ msgstr "Sidehoved"
 
 #. Author URI of the theme
 #. Translators: WordPress link.
-#: style.css patterns/footer-centered-logo-nav.php:21
-#: patterns/footer-colophon-3-col.php:90 patterns/footer.php:116
+#: style.css patterns/footer-centered-logo-nav.php:22
+#: patterns/footer-colophon-3-col.php:91 patterns/footer.php:117
 msgid "https://wordpress.org"
 msgstr "https://wordpress.org"
 
