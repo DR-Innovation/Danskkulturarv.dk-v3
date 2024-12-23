@@ -35,19 +35,14 @@
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: -1;
 }
-.panel-has-overlay .panel-grid-cell {
-  position: relative;
-}
-.panel-grid-cell.panel-has-overlay .so-panel {
+.panel-has-overlay .panel-row-style,
+.panel-has-overlay .panel-cell-style,
+.panel-has-overlay .panel-widget-style {
+  overflow: hidden;
   position: relative;
   z-index: 1;
-}
-.panel-has-overlay.so-panel .panel-widget-style > * {
-  position: relative;
-}
-.panel-has-overlay.so-panel .panel-background-overlay {
-  position: absolute;
 }
 .panel-layout.panel-is-rtl .panel-grid.panel-no-style,
 .panel-layout.panel-is-rtl .panel-grid.panel-has-style > .panel-row-style {

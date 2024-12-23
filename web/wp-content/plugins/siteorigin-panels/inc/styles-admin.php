@@ -379,6 +379,24 @@ class SiteOrigin_Panels_Styles_Admin {
 				<?php
 				break;
 
+			case 'multi-select' :
+				wp_enqueue_script( 'select2' );
+				wp_enqueue_style( 'select2' );
+
+				$values = ! empty( $current ) ? array_flip( $current ) : array();
+				?>
+				<select name="<?php echo esc_attr( $field_name ); ?>" class="so-select2" multiple>
+					<?php foreach ( $field['options'] as $k => $v ) { ?>
+						<option
+							value="<?php echo esc_attr( $k ); ?>"
+							<?php echo isset( $values[ $k ] ) ? 'selected' : ''; ?>
+						><?php echo esc_html( $v ); ?></option>
+					<?php } ?>
+				</select>
+				<?php
+
+				break;
+
 			case 'radio' :
 				$radio_id = $field_name . '-' . uniqid();
 
@@ -531,9 +549,20 @@ class SiteOrigin_Panels_Styles_Admin {
 		if ( ! empty( $panels_data['widgets'] ) ) {
 			// Sanitize the widgets
 			for ( $i = 0; $i < count( $panels_data['widgets'] ); $i ++ ) {
+				if ( empty( $panels_data['widgets'][ $i ]['panels_info'] ) ) {
+					continue;
+				}
+
+				if ( ! empty( $panels_data['widgets'][ $i ]['panels_info']['label'] ) ) {
+					$panels_data['widgets'][ $i ]['panels_info']['label'] = sanitize_text_field(
+						$panels_data['widgets'][ $i ]['panels_info']['label']
+					);
+				}
+
 				if ( empty( $panels_data['widgets'][ $i ]['panels_info']['style'] ) ) {
 					continue;
 				}
+
 				$panels_data['widgets'][ $i ]['panels_info']['style'] = $this->sanitize_style_fields( 'widget', $panels_data['widgets'][ $i ]['panels_info']['style'] );
 			}
 		}
@@ -541,6 +570,12 @@ class SiteOrigin_Panels_Styles_Admin {
 		if ( ! empty( $panels_data['grids'] ) ) {
 			// The rows
 			for ( $i = 0; $i < count( $panels_data['grids'] ); $i ++ ) {
+				if ( ! empty( $panels_data['grids'][ $i ]['label'] ) ) {
+					$panels_data['grids'][ $i ]['label'] = sanitize_text_field(
+						$panels_data['grids'][ $i ]['label']
+					);
+				}
+
 				if ( empty( $panels_data['grids'][ $i ]['style'] ) ) {
 					continue;
 				}
@@ -677,6 +712,21 @@ class SiteOrigin_Panels_Styles_Admin {
 					if ( ! empty( $styles[ $k ] ) && in_array( $styles[ $k ], array_keys( $field['options'] ) ) ) {
 						$return[ $k ] = $styles[ $k ];
 					}
+					break;
+
+				case 'multi-select' :
+					if ( ! empty( $styles[ $k ] ) ) {
+						if ( is_array( $styles[ $k ] ) ) {
+							foreach ( $styles[ $k ] as $selected ) {
+								if ( isset( $field['options'][ $selected ] ) ) {
+									$return[ $k ][ $selected ] = $selected;
+								}
+							}
+						} elseif ( isset( $field['options'][ $styles[ $k ] ] ) ) {
+							$return[ $k ][ $styles[ $k ] ] = $styles[ $k ];
+						}
+					}
+
 					break;
 
 				case 'toggle' :

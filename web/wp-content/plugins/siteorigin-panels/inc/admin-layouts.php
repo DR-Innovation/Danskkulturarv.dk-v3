@@ -8,6 +8,12 @@
 class SiteOrigin_Panels_Admin_Layouts {
 	const LAYOUT_URL = 'https://layouts.siteorigin.com/';
 
+	const VALID_MIME_TYPES = array(
+		'application/json',
+		'text/plain',
+		'text/html',
+	);
+
 	public function __construct() {
 		// Filter all the available external layout directories.
 		add_filter( 'siteorigin_panels_external_layout_directories', array( $this, 'filter_directories' ), 8 );
@@ -64,6 +70,40 @@ class SiteOrigin_Panels_Admin_Layouts {
 	}
 
 	/**
+	 * Check if the file has a valid MIME type.
+	 *
+	 * This method checks if the given file has a valid MIME type. It first verifies
+	 * if the `mime_content_type` function exists. If it doesn't, it returns true
+	 * as it can't check the MIME type due to server settings.
+	 * If the function exists, it retrieves the MIME type of the file and checks
+	 * if it is in the list of valid MIME types.
+	 *
+	 * @param string $file The file path to check.
+	 *
+	 * @return bool True if the file has a valid MIME type, false otherwise.
+	 */
+	private static function check_file_mime( $file ) {
+		if ( ! function_exists( 'mime_content_type' ) ) {
+			// Can't check mime type due to server settings.
+			return true;
+		}
+
+		$mime_type = mime_content_type( $file );
+		return in_array( $mime_type, self::VALID_MIME_TYPES );
+	}
+
+	/**
+	 * Determines if file has a JSON extension.
+	 *
+	 * @param string $file File path.
+	 * @return bool True if JSON, false otherwise.
+	 */
+	private static function check_file_ext( $file ) {
+		$ext = pathinfo( $file, PATHINFO_EXTENSION );
+		return ! empty( $ext ) && $ext === 'json';
+	}
+
+	/**
 	 * Looks through local folders in the active theme and any others filtered in by theme and plugins, to find JSON
 	 * prebuilt layouts.
 	 */
@@ -92,23 +132,11 @@ class SiteOrigin_Panels_Admin_Layouts {
 				}
 
 				foreach ( $files as $file ) {
-					if ( function_exists( 'mime_content_type' ) ) {
-						// get file mime type
-						$mime_type = mime_content_type( $file );
-
-						// Valid if text files.
-
-						// Valid if text or json file.
-						$valid_file_type = strpos( $mime_type, '/json' ) || strpos( $mime_type, 'text/' ) > -1;
-					} else {
-						// If `mime_content_type` isn't available, just check file extension.
-						$ext = pathinfo( $file, PATHINFO_EXTENSION );
-
-						// skip files which don't have a `.json` extension.
-						$valid_file_type = ! empty( $ext ) && $ext === 'json';
-					}
-
-					if ( ! $valid_file_type ) {
+					// Check the file.
+					if (
+						! self::check_file_mime( $file ) ||
+						! self::check_file_ext( $file )
+					) {
 						continue;
 					}
 
@@ -120,28 +148,29 @@ class SiteOrigin_Panels_Admin_Layouts {
 						continue;
 					}
 
-					// json decode
-					$panels_data = json_decode( $file_contents, true );
+					$panels_data = $this->decode_panels_data( $file_contents );
 
-					if ( ! empty( $panels_data ) ) {
-						// get file name by stripping out folder path and .json extension
-						$file_name = str_replace( array( $folder . '/', '.json' ), '', $file );
-
-						// get name: check for id or name else use filename
-						$panels_data['id'] = sanitize_title_with_dashes( $this->get_layout_id( $panels_data, $file_name ) );
-
-						if ( empty( $panels_data['name'] ) ) {
-							$panels_data['name'] = $file_name;
-						}
-
-						$panels_data['name'] = sanitize_text_field( $panels_data['name'] );
-
-						// get screenshot: check for screenshot prop else try use image file with same filename.
-						$panels_data['screenshot'] = $this->get_layout_file_screenshot( $panels_data, $folder, $file_name );
-
-						// set item on layouts array
-						$layouts[ $panels_data['id'] ] = $panels_data;
+					if ( empty( $panels_data ) ) {
+						continue;
 					}
+
+					// get file name by stripping out folder path and .json extension
+					$file_name = str_replace( array( $folder . '/', '.json' ), '', $file );
+
+					// get name: check for id or name else use filename
+					$panels_data['id'] = sanitize_title_with_dashes( $this->get_layout_id( $panels_data, $file_name ) );
+
+					if ( empty( $panels_data['name'] ) ) {
+						$panels_data['name'] = $file_name;
+					}
+
+					$panels_data['name'] = sanitize_text_field( $panels_data['name'] );
+
+					// get screenshot: check for screenshot prop else try use image file with same filename.
+					$panels_data['screenshot'] = $this->get_layout_file_screenshot( $panels_data, $folder, $file_name );
+
+					// set item on layouts array
+					$layouts[ $panels_data['id'] ] = $panels_data;
 				}
 			}
 		}
@@ -294,9 +323,22 @@ class SiteOrigin_Panels_Admin_Layouts {
 				}
 			}
 		} elseif ( strpos( $type, 'clone_' ) !== false ) {
-			// Check that the user can view the given page types
-			$post_type = get_post_type_object( str_replace( 'clone_', '', $type ) );
+			$post_type = str_replace( 'clone_', '', $type );
+			$post_types_editable_by_user = SiteOrigin_Panels_Admin_Layouts::single()->post_types();
 
+			// Can the user edit posts from this post type?
+			if (
+				empty( $post_type ) ||
+				empty( $post_types_editable_by_user ) ||
+				! in_array(
+					$post_type,
+					$post_types_editable_by_user
+				)
+			) {
+				return;
+			}
+
+			$post_type = get_post_type_object( $post_type );
 			if ( empty( $post_type ) ) {
 				return;
 			}
@@ -565,5 +607,34 @@ class SiteOrigin_Panels_Admin_Layouts {
 		), $layout_data );
 
 		return $layout_data;
+	}
+
+	/**
+	 * Get the post types that the current user can edit.
+	 *
+	 * This function retrieves the post types specified in the
+	 * SiteOrigin Panels settings. It then filters out post types that the
+	 * current user does not have permission to edit.
+	 *
+	 * @return array The post types that the current user can edit.
+	 */
+	public function post_types() {
+		$post_types = siteorigin_panels_setting( 'post-types' );
+		if ( empty( $post_types ) ) {
+			return array();
+		}
+
+		foreach ( $post_types as $id => $post_type ) {
+			$post_type_object = get_post_type_object( $post_type );
+
+			if (
+				empty( $post_type_object ) ||
+				! current_user_can( $post_type_object->cap->edit_posts )
+			) {
+				unset( $post_types[ $id ] );
+			}
+		}
+
+		return $post_types;
 	}
 }

@@ -973,6 +973,24 @@
 .block-editor-page .siteorigin-panels-layout-block-container ul {
   list-style: none;
 }
+.wp-customizer .siteorigin-panels-layout-block-container .so-builder-container,
+.block-editor-page .siteorigin-panels-layout-block-container .so-builder-container {
+  background: #fff;
+}
+.wp-customizer .siteorigin-panels-layout-block-container .so-builder-container .so-row-container,
+.block-editor-page .siteorigin-panels-layout-block-container .so-builder-container .so-row-container {
+  padding: 0 15px 20px;
+}
+.wp-customizer .siteorigin-panels-layout-block-container .so-builder-container a:not(.so-tool-button):not([class^="so-row-"]),
+.block-editor-page .siteorigin-panels-layout-block-container .so-builder-container a:not(.so-tool-button):not([class^="so-row-"]) {
+  color: #2271b1;
+}
+.wp-customizer .siteorigin-panels-layout-block-container .so-builder-container a:not(.so-tool-button):not([class^="so-row-"]):hover,
+.block-editor-page .siteorigin-panels-layout-block-container .so-builder-container a:not(.so-tool-button):not([class^="so-row-"]):hover,
+.wp-customizer .siteorigin-panels-layout-block-container .so-builder-container a:not(.so-tool-button):not([class^="so-row-"]):focus,
+.block-editor-page .siteorigin-panels-layout-block-container .so-builder-container a:not(.so-tool-button):not([class^="so-row-"]):focus {
+  color: #1e1e1e;
+}
 .so-panels-dialog,
 .block-editor-page,
 .wp-customizer {
@@ -1278,6 +1296,7 @@
 .so-panels-dialog .so-title-bar .so-title-bar-buttons,
 .block-editor-page .so-title-bar .so-title-bar-buttons,
 .wp-customizer .so-title-bar .so-title-bar-buttons {
+  display: flex;
   position: absolute;
   right: 0;
   top: 0;
@@ -1299,6 +1318,11 @@
   height: 22px;
   text-align: center;
   color: #666;
+}
+.so-panels-dialog .so-title-bar:has(.so-nav) h3.so-title,
+.block-editor-page .so-title-bar:has(.so-nav) h3.so-title,
+.wp-customizer .so-title-bar:has(.so-nav) h3.so-title {
+  margin: 0 50px;
 }
 .so-panels-dialog .so-toolbar,
 .block-editor-page .so-toolbar,
@@ -2153,9 +2177,9 @@
 .so-panels-dialog.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-unit,
 .block-editor-page.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-unit,
 .wp-customizer.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-unit {
-  left: 8px;
+  left: 10px;
   position: absolute;
-  top: -2.5px;
+  top: -1.5px;
   z-index: 1;
   line-height: 1;
 }
@@ -2176,13 +2200,9 @@
 .block-editor-page.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-unit,
 .wp-customizer.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-unit {
   color: #5e6d72;
+  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
   font-size: 17px;
   font-weight: bold;
-}
-.so-panels-dialog.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input[type="text"],
-.block-editor-page.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input[type="text"],
-.wp-customizer.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input[type="text"] {
-  padding-right: 22px;
 }
 .so-panels-dialog.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input[type="number"],
 .block-editor-page.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input[type="number"],
@@ -2191,13 +2211,16 @@
 }
 .so-panels-dialog.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight,
 .block-editor-page.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight,
-.wp-customizer.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight {
-  padding: 10px 22px 10px 5px;
+.wp-customizer.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight,
+.so-panels-dialog.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input[type="text"],
+.block-editor-page.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input[type="text"],
+.wp-customizer.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input[type="text"] {
+  padding: 10px 31px 10px 0;
 }
-.so-panels-dialog.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input,
-.block-editor-page.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input,
-.wp-customizer.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input {
-  padding: 10px 5px;
+.so-panels-dialog.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input[type="number"],
+.block-editor-page.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input[type="number"],
+.wp-customizer.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight-input[type="number"] {
+  padding: 10px 13px 10px 5px;
 }
 .so-panels-dialog.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight,
 .block-editor-page.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight,
@@ -2212,7 +2235,7 @@
   margin: -0.95em 0 0 -40px;
   overflow: hidden;
   position: absolute;
-  text-align: center;
+  text-align: right;
   width: 80px;
 }
 .so-panels-dialog.so-panels-dialog-row-edit .so-content .row-preview .preview-cell .preview-cell-in .preview-cell-weight:hover,
@@ -2898,6 +2921,21 @@
 .wp-customizer .so-visual-styles .style-input-wrapper .wp-picker-container input {
   height: 30px;
 }
+.so-panels-dialog .so-visual-styles .style-input-wrapper .wp-picker-container .wp-picker-open + .wp-picker-input-wrap,
+.block-editor-page .so-visual-styles .style-input-wrapper .wp-picker-container .wp-picker-open + .wp-picker-input-wrap,
+.wp-customizer .so-visual-styles .style-input-wrapper .wp-picker-container .wp-picker-open + .wp-picker-input-wrap {
+  display: flex;
+}
+.so-panels-dialog .so-visual-styles .style-input-wrapper .wp-picker-container .wp-picker-open + .wp-picker-input-wrap > label,
+.block-editor-page .so-visual-styles .style-input-wrapper .wp-picker-container .wp-picker-open + .wp-picker-input-wrap > label,
+.wp-customizer .so-visual-styles .style-input-wrapper .wp-picker-container .wp-picker-open + .wp-picker-input-wrap > label {
+  flex: 2;
+}
+.so-panels-dialog .so-visual-styles .style-input-wrapper .wp-picker-container .wp-picker-open + .wp-picker-input-wrap .wp-color-picker,
+.block-editor-page .so-visual-styles .style-input-wrapper .wp-picker-container .wp-picker-open + .wp-picker-input-wrap .wp-color-picker,
+.wp-customizer .so-visual-styles .style-input-wrapper .wp-picker-container .wp-picker-open + .wp-picker-input-wrap .wp-color-picker {
+  width: 100%;
+}
 .so-panels-dialog .so-visual-styles .style-input-wrapper .wp-picker-container .wp-picker-clear,
 .block-editor-page .so-visual-styles .style-input-wrapper .wp-picker-container .wp-picker-clear,
 .wp-customizer .so-visual-styles .style-input-wrapper .wp-picker-container .wp-picker-clear {
@@ -2914,6 +2952,41 @@
 .wp-customizer .so-visual-styles .style-input-wrapper .wp-picker-container .wp-color-result .wp-color-result-text {
   border-left: 1px solid #8c8f94;
   height: 28px;
+}
+.so-panels-dialog .so-visual-styles .style-input-wrapper .select2-container,
+.block-editor-page .so-visual-styles .style-input-wrapper .select2-container,
+.wp-customizer .so-visual-styles .style-input-wrapper .select2-container {
+  width: 100% !important;
+}
+.so-panels-dialog .so-visual-styles .style-input-wrapper .select2-container .select2-selection--multiple,
+.block-editor-page .so-visual-styles .style-input-wrapper .select2-container .select2-selection--multiple,
+.wp-customizer .so-visual-styles .style-input-wrapper .select2-container .select2-selection--multiple {
+  align-items: center;
+  display: flex;
+  padding: 0;
+}
+.so-panels-dialog .so-visual-styles .style-input-wrapper .select2-container .select2-selection__rendered,
+.block-editor-page .so-visual-styles .style-input-wrapper .select2-container .select2-selection__rendered,
+.wp-customizer .so-visual-styles .style-input-wrapper .select2-container .select2-selection__rendered {
+  margin: 0;
+  padding: 0;
+}
+.so-panels-dialog .so-visual-styles .style-input-wrapper .select2-container .select2-search__field,
+.block-editor-page .so-visual-styles .style-input-wrapper .select2-container .select2-search__field,
+.wp-customizer .so-visual-styles .style-input-wrapper .select2-container .select2-search__field {
+  margin-top: 0;
+}
+.so-panels-dialog .so-visual-styles .style-input-wrapper .select2-container .select2-selection__choice__remove,
+.block-editor-page .so-visual-styles .style-input-wrapper .select2-container .select2-selection__choice__remove,
+.wp-customizer .so-visual-styles .style-input-wrapper .select2-container .select2-selection__choice__remove {
+  height: 100%;
+}
+.so-panels-dialog .so-visual-styles .style-input-wrapper .select2-container .select2-selection__choice__remove span,
+.block-editor-page .so-visual-styles .style-input-wrapper .select2-container .select2-selection__choice__remove span,
+.wp-customizer .so-visual-styles .style-input-wrapper .select2-container .select2-selection__choice__remove span {
+  display: inline-block;
+  margin-top: 8px;
+  transform: translateY(-50%);
 }
 .so-panels-dialog .so-visual-styles .style-field-measurement .measurement-inputs,
 .block-editor-page .so-visual-styles .style-field-measurement .measurement-inputs,

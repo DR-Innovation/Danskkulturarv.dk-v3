@@ -11,10 +11,6 @@ msgstr ""
 "Language: da_DK\n"
 "Project-Id-Version: Themes - Twenty Twenty-Five\n"
 
-#. Author of the theme
-msgid "the WordPress team"
-msgstr "af WordPress-holdet"
-
 #: theme.json
 msgctxt "Template part name"
 msgid "Footer"
@@ -24,13 +20,6 @@ msgstr "Sidefod"
 msgctxt "Template part name"
 msgid "Header"
 msgstr "Sidehoved"
-
-#. Author URI of the theme
-#: patterns/footer-centered.php:34 patterns/footer-columns.php:74
-#: patterns/footer-newsletter.php:50 patterns/footer-social.php:36
-#: patterns/footer.php:83
-msgid "https://wordpress.org"
-msgstr "https://wordpress.org"
 
 #: styles/01-evening.json styles/02-noon.json styles/03-dusk.json
 #: styles/04-afternoon.json styles/05-twilight.json styles/06-morning.json
@@ -86,3 +75,17 @@ msgstr "Stor"
 msgctxt "Font size name"
 msgid "Extra Large"
 msgstr "Ekstra stor"
+
+#. Author of the theme
+#: style.css
+#, gp-priority: low
+msgid "the WordPress team"
+msgstr "af WordPress-holdet"
+
+#. Author URI of the theme
+#: style.css patterns/footer-centered.php:34 patterns/footer-columns.php:74
+#: patterns/footer-newsletter.php:50 patterns/footer-social.php:36
+#: patterns/footer.php:83
+#, gp-priority: low
+msgid "https://wordpress.org"
+msgstr "https://wordpress.org"
