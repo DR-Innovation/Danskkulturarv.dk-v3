@@ -1,10 +1,10 @@
 === Page Builder by SiteOrigin ===
 Tags: page builder, website builder, responsive design, drag and drop, visual editor
 Requires at least: 4.7
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.0.0
-Stable tag: 2.29.20
-Build time: 2024-08-08T17:18:44+02:00
+Stable tag: 2.31.3
+Build time: 2024-12-20T22:04:30+02:00
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: https://siteorigin.com/downloads/premium/
@@ -120,6 +120,37 @@ Page Builder is compatible with the vast majority of third-party plugins and wid
 SiteOrigin offers a single premium plugin that enhances and extends Page Builder, the Widgets Bundle, SiteOrigin CSS and all of our free themes. Find out more about [SiteOrigin Premium](https://siteorigin.com/downloads/premium/) and the powerful addons it offers.
 
 == Changelog ==
+
+= 2.31.3 – 20 December 2024 =
+* WPML: Improved compatibility by excluding `panels_data` field from automatic translation handling.
+* Prebuilt Layouts: Added text/html to accepted mime types for layout exports.
+* Added compatibility with Popup Maker to ensure correct layout rendering in popups.
+* Row Labels: Improved handling and display consistency.
+
+= 2.31.2 – 14 December 2024 =
+* Improved post type handling.
+* Select2: Improved input alignment.
+
+= 2.31.1 – 11 December 2024 =
+* Layouts Block: Prevented double toolbar when in development mode.
+* Improved row, cell, and widget attribute handling.
+
+= 2.31.0 – 22 November 2024 =
+* Styles Fields: Added `multi-select`.
+* Admin Interface: Styling improvements to the Edit Row modal.
+* Layouts Block: General styling improvements and fixes.
+
+= 2.30.0 – 26 October 2024 =
+* Image Overlay: Prevent iOS fixed background display issues.
+* Styles Settings: Converted Border Thickness to a multi-measurement field.
+* Styles Settings: Ensured color picker field and clear button are on a dedicated line.
+
+= 2.29.22 – 30 September 2024 =
+* Layout Block: Removed content filter attributes from the front-end.
+
+= 2.29.21 – 17 September 2024 =
+* Prebuilt Local Layouts: Resolved a potential error.
+* Prebuilt Local Layouts: Restricted layout files to JSON.
 
 = 2.29.20 – 08 August 2024 =
 * Rank Math: Resolved content analysis issue when multiple blocks in use.
