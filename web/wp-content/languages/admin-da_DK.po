@@ -50,11 +50,11 @@ msgstr "Database-udvidelse"
 msgid "Empty value"
 msgstr "Tom værdi"
 
-#: wp-admin/about.php:138
+#: wp-admin/about.php:163
 msgid "A streamlined way to create dynamic content"
 msgstr "En strømlinet måde at skabe dynamisk indhold på"
 
-#: wp-admin/about.php:108
+#: wp-admin/about.php:133
 msgid "Endless possibility without complexity"
 msgstr "Uendelige muligheder uden kompleksitet"
 
@@ -213,11 +213,11 @@ msgstr "Hvis du er plugin-skaber, kan du få mere at vide om <a href=\"https://d
 msgid "If you are a plugin author, you can learn more about <a href=\"https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-eraser-to-your-plugin/\">how to add the Personal Data Eraser to a plugin</a>."
 msgstr "Hvis du er plugin-skaber, kan du få mere at vide om <a href=\"https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-eraser-to-your-plugin/\">hvordan du tilføjer Personal Data Eraser til et plugin</a>."
 
-#: wp-admin/about.php:205
+#: wp-admin/about.php:230
 msgid "See everything new"
 msgstr "Se alt, hvad der er nyt"
 
-#: wp-admin/about.php:191
+#: wp-admin/about.php:216
 msgid "And much more"
 msgstr "Og meget mere"
 
@@ -360,11 +360,11 @@ msgstr "Installer nu"
 msgid "Created by a worldwide team of passionate individuals"
 msgstr "Skabt af et verdensomspændende team af passionerede individer"
 
-#: wp-admin/about.php:183
+#: wp-admin/about.php:208
 msgid "Accessibility improvements"
 msgstr "Forbedringer af tilgængeligheden"
 
-#: wp-admin/about.php:174
+#: wp-admin/about.php:199
 msgid "Performance updates"
 msgstr "Opdateringer af ydeevne"
 
@@ -453,7 +453,7 @@ msgid "Your WordPress version is %1$s, however the new plugin version requires %
 msgstr "Din WordPress-version er %1$s, men den nye plugin-version kræver %2$s."
 
 #. translators: %s: WordPress version.
-#: wp-admin/about.php:78
+#: wp-admin/about.php:78 wp-admin/about.php:103
 msgid "https://wordpress.org/support/wordpress-version/version-%s/"
 msgstr "https://wordpress.org/support/wordpress-version/version-%s/"
 
@@ -920,14 +920,14 @@ msgid "Be the future of WordPress"
 msgstr "Vær fremtiden for WordPress"
 
 #. translators: 1: Learn WordPress link, 2: Workshops link.
-#: wp-admin/about.php:230
+#: wp-admin/about.php:255
 msgid "<a href=\"%1$s\">Learn WordPress</a> is a free resource for new and experienced WordPress users. Learn is stocked with how-to videos on using various features in WordPress, <a href=\"%2$s\">interactive workshops</a> for exploring topics in-depth, and lesson plans for diving deep into specific areas of WordPress."
 msgstr "<a href=\"%1$s\">Learn WordPress</a> er en gratis ressource for nye og erfarne WordPress-brugere. Learn er fyldt med vejledningsvideoer om at bruge forskellige funktioner i WordPress, <a href=\"%2$s\">interaktive workshops</a> til at udforske emner i dybden og lektionsplaner til at dykke dybt ned i specifikke områder af WordPress."
 
 #: wp-admin/comment.php:73 wp-admin/edit-comments.php:232
 #: wp-admin/edit-form-advanced.php:320 wp-admin/edit-form-advanced.php:338
 #: wp-admin/edit-form-advanced.php:356 wp-admin/edit-link-form.php:77
-#: wp-admin/edit-tags.php:312 wp-admin/edit.php:302 wp-admin/edit.php:327
+#: wp-admin/edit-tags.php:315 wp-admin/edit.php:302 wp-admin/edit.php:327
 #: wp-admin/erase-personal-data.php:66 wp-admin/export-personal-data.php:66
 #: wp-admin/export.php:60 wp-admin/includes/class-custom-background.php:111
 #: wp-admin/includes/class-custom-image-header.php:146 wp-admin/index.php:133
@@ -1065,12 +1065,12 @@ msgid "<a href=\"https://wordpress.org/documentation/article/customizer/\">Docum
 msgstr "<a href=\"https://wordpress.org/documentation/article/customizer/\">Dokumentation om Tilpasser</a>"
 
 #. translators: The localized WordPress download URL.
-#: wp-admin/about.php:370
+#: wp-admin/about.php:395
 msgid "https://wordpress.org/download/"
 msgstr "https://da.wordpress.org/download/"
 
 #. translators: %s: The major version of WordPress for this branch.
-#: wp-admin/about.php:367
+#: wp-admin/about.php:392
 msgid "This is the final release of WordPress %s"
 msgstr "Dette er den endelige udgave af WordPress %s"
 
@@ -1397,17 +1397,17 @@ msgid "Reach out to WordPress Core developers to ensure you'll never have this p
 msgstr "Tag fat i WordPress Core-udviklere for at sikre, at du aldrig får dette problem igen."
 
 #. translators: 1: WordPress version number, 2: Link to update WordPress
-#: wp-admin/about.php:364
+#: wp-admin/about.php:389
 msgid "Important! Your version of WordPress (%1$s) will stop receiving security updates in the near future. To keep your site secure, please <a href=\"%2$s\">update to the latest version of WordPress</a>."
 msgstr "Vigtigt! Din version af WordPress (%1$s) vil ikke længere modtage sikkerhedsopdateringer i den nærmeste fremtid. For at holde dit websted sikkert, bedes du <a href=\"%2$s\">opdatere til den nyeste version af WordPress</a>."
 
 #. translators: 1: WordPress version number, 2: Link to update WordPress
-#: wp-admin/about.php:361
+#: wp-admin/about.php:386
 msgid "Important! Your version of WordPress (%1$s) is no longer supported, you will not receive any security updates for your website. To keep your site secure, please <a href=\"%2$s\">update to the latest version of WordPress</a>."
 msgstr "Vigtig! Din version af WordPress (%1$s) understøttes ikke længere, du vil ikke modtage sikkerhedsopdateringer til dit websted. For at holde dit websted sikkert skal du <a href=\"%2$s\">opdatere til den nyeste version af WordPress</a>."
 
 #. translators: %s: Version number.
-#: wp-admin/about.php:221
+#: wp-admin/about.php:246
 msgid "Learn more about WordPress %s"
 msgstr "Lær mere om WordPress %s"
 
@@ -2310,7 +2310,7 @@ msgstr "Tilføj en nyt applikation adgangskode"
 msgid "Required to create an Application Password, but not to update the user."
 msgstr "Kræves for at oprette en applikation adgangskode, men ikke for at opdatere brugeren."
 
-#: wp-admin/about.php:305
+#: wp-admin/about.php:330
 msgid "Go to Updates"
 msgstr "Gå til opdateringer"
 
@@ -2618,7 +2618,7 @@ msgid "Unable to generate personal data export file. ZipArchive not available."
 msgstr "Kunne ikke generere eksportfilen. Zip-arkiv er ikke tilgængeligt."
 
 #. translators: %s: Search query.
-#: wp-admin/edit-comments.php:282 wp-admin/edit-tags.php:340
+#: wp-admin/edit-comments.php:282 wp-admin/edit-tags.php:343
 #: wp-admin/edit.php:429 wp-admin/link-manager.php:111 wp-admin/plugins.php:778
 #: wp-admin/upload.php:430 wp-admin/users.php:795 wp-admin/js/updates.js:3139
 #: wp-admin/network/sites.php:399 wp-admin/network/themes.php:374
@@ -3892,11 +3892,11 @@ msgstr "Oversigt over eksportrapport."
 msgid "<a href=\"https://wordpress.org/documentation/article/settings-writing-screen/\">Documentation on Writing Settings</a>"
 msgstr "<a href=\"https://wordpress.org/documentation/article/settings-writing-screen/\">Dokumentation om indstillinger for skrivning</a>"
 
-#: wp-admin/edit-tags.php:309
+#: wp-admin/edit-tags.php:312
 msgid "<a href=\"https://wordpress.org/documentation/article/posts-tags-screen/\">Documentation on Tags</a>"
 msgstr "<a href=\"https://wordpress.org/documentation/article/posts-tags-screen/\">Dokumentation om Tags</a>"
 
-#: wp-admin/edit-tags.php:305
+#: wp-admin/edit-tags.php:308
 msgid "<a href=\"https://wordpress.org/documentation/article/posts-categories-screen/\">Documentation on Categories</a>"
 msgstr "<a href=\"https://wordpress.org/documentation/article/posts-categories-screen/\">Dokumentation om kategorier</a>"
 
@@ -5494,7 +5494,7 @@ msgid "Could not resume the theme."
 msgstr "Kunne ikke genoptage temaet."
 
 #. translators: %s: Default category.
-#: wp-admin/edit-tags.php:629
+#: wp-admin/edit-tags.php:632
 msgid "Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the default category %s. The default category cannot be deleted."
 msgstr "At slette en kategori sletter ikke indlæggene i den kategori. I stedet vil indlæg der kun var tildelt den kategori blive placeret i standardkategorien %s. Standardkategorien kan ikke slettes."
 
@@ -6756,7 +6756,7 @@ msgstr "Aktiver"
 msgid "Allow link notifications from other blogs (pingbacks and trackbacks) on new posts"
 msgstr "Tillad linkmeddelelser fra andre blogs (pingbacks og trackbacks) på nye indlæg"
 
-#: wp-admin/menu-header.php:281 wp-admin/js/common.js:2109
+#: wp-admin/menu-header.php:281 wp-admin/js/common.js:2114
 msgid "Collapse Main menu"
 msgstr "Skjul hovedmenu"
 
@@ -7774,7 +7774,7 @@ msgid "(Currently set to: %s)"
 msgstr "(på nuværende tidspunkt sat til: %s)"
 
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:335
+#: wp-admin/about.php:360
 msgid "<strong>Version %s</strong> addressed one security issue."
 msgstr "<strong>Version %s</strong> tog hånd om ét sikkerhedsproblem."
 
@@ -7782,15 +7782,15 @@ msgstr "<strong>Version %s</strong> tog hånd om ét sikkerhedsproblem."
 msgid "Profile Picture"
 msgstr "Profilbillede"
 
-#: wp-admin/about.php:58 wp-admin/about.php:332
+#: wp-admin/about.php:58 wp-admin/about.php:357
 msgid "Maintenance and Security Releases"
 msgstr "Vedligeholdelses- og sikkerhedsudgivelser"
 
-#: wp-admin/about.php:329
+#: wp-admin/about.php:354
 msgid "Security Releases"
 msgstr "Sikkerhedsudgivelser"
 
-#: wp-admin/about.php:326
+#: wp-admin/about.php:351
 msgid "Maintenance Releases"
 msgstr "Vedligeholdelsesudgivelser"
 
@@ -8477,7 +8477,7 @@ msgstr "Du kan også indlejre medier fra mange populære hjemmesider, herunder T
 msgid "<a href=\"https://codex.wordpress.org/Appearance_Background_Screen\">Documentation on Custom Background</a>"
 msgstr "<a href=\"https://codex.wordpress.org/Appearance_Background_Screen\">Dokumentation om brugerdefineret baggrund</a>"
 
-#: wp-admin/edit-tags.php:307
+#: wp-admin/edit-tags.php:310
 msgid "<a href=\"https://codex.wordpress.org/Links_Link_Categories_Screen\">Documentation on Link Categories</a>"
 msgstr "<a href=\"https://codex.wordpress.org/Links_Link_Categories_Screen\">Dokumentation om link-kategorier</a>"
 
@@ -10242,7 +10242,7 @@ msgstr "Hvis du søger en link manager, så installer <a href=\"%s\">Link Manage
 msgid "When changing themes, there is often some variation in the number and setup of widget areas/sidebars and sometimes these conflicts make the transition a bit less smooth. If you changed themes and seem to be missing widgets, scroll down on this screen to the Inactive Widgets area, where all of your widgets and their settings will have been saved."
 msgstr "Når du skifter temaer, er der ofte en vis variation i antallet og opsætningen af widget områder/sidebarer og nogle gange kommer disse i konflikt med hinanden og gør overgangen lidt mindre glat. Hvis du har ændret temaer og synes at der mangler widgets, skal du rulle ned på skærmen til Inaktive widgets, hvor alle dine widgets og deres indstillinger er blevet gemt."
 
-#: wp-admin/edit-tags.php:286
+#: wp-admin/edit-tags.php:289
 msgid "<strong>Parent</strong> &mdash; Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have child categories for Bebop and Big Band. Totally optional. To create a subcategory, just choose another category from the Parent dropdown."
 msgstr "<strong>Forælder</strong> &mdash; Kategorier kan, i modsætning til tags, være hierarkiske. Du kan fx have kategorien Jazz og under den underkategorier for Bebop og Big Band. Helt valgfrit. For at oprette en underkategori vælger du blot en anden kategori fra Forælder dropdown-menuen."
 
@@ -10455,11 +10455,11 @@ msgid "Select comment"
 msgstr "Vælg kommentar"
 
 #. translators: %s: URL to Categories to Tags Converter tool.
-#: wp-admin/edit-tags.php:653
+#: wp-admin/edit-tags.php:656
 msgid "Tags can be selectively converted to categories using the <a href=\"%s\">tag to category converter</a>."
 msgstr "Tags kan efter ønske konverteres til kategorier ved at bruge <a href=\"%s\">Kategori- og tags-konverteringsværktøjet</a>."
 
-#: wp-admin/edit-tags.php:260
+#: wp-admin/edit-tags.php:263
 msgid "You can delete Link Categories in the Bulk Action pull-down, but that action does not delete the links within the category. Instead, it moves them to the default Link Category."
 msgstr "Du kan slette link-kategorier ved at bruge massehandling, men links i kategorien slettes ikke. De flyttes i stedet til standard link-kategorien."
 
@@ -11098,13 +11098,13 @@ msgstr "Vis værktøjslinje på webstedet"
 
 #. translators: %s: HelpHub URL.
 #. translators: %s: Documentation URL.
-#: wp-admin/about.php:75 wp-admin/about.php:358
+#: wp-admin/about.php:75 wp-admin/about.php:100 wp-admin/about.php:383
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr "Hvis du vil vide mere, så læs <a href=\"%s\">udgivelsesnoterne</a>."
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs. More
 #. than one security issue.
-#: wp-admin/about.php:352
+#: wp-admin/about.php:377
 msgid "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs."
 msgstr[0] "<strong>Version %1$s</strong> lukkede nogle sikkerhedshuller og rettede %2$s fejl."
@@ -11112,33 +11112,33 @@ msgstr[1] "<strong>Version %1$s</strong> lukkede nogle sikkerhedshuller og rette
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs. Singular
 #. security issue.
-#: wp-admin/about.php:346
+#: wp-admin/about.php:371
 msgid "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
 msgstr[0] "<strong>Version %1$s</strong> lukkede et sikkerhedshul og rettede %2$s fejl."
 msgstr[1] "<strong>Version %1$s</strong> lukkede et sikkerhedshul og rettede %2$s fejl."
 
 #. translators: 1: WordPress version number, 2: Plural number of bugs.
-#: wp-admin/about.php:63 wp-admin/about.php:340
+#: wp-admin/about.php:63 wp-admin/about.php:88 wp-admin/about.php:365
 msgid "<strong>Version %1$s</strong> addressed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
 msgstr[0] "<strong>Version %1$s</strong> rettede %2$s fejl."
 msgstr[1] "<strong>Version %1$s</strong> rettede %2$s fejl."
 
 #. translators: %s: WordPress version number.
-#: wp-admin/about.php:337
+#: wp-admin/about.php:362
 msgid "<strong>Version %s</strong> addressed some security issues."
 msgstr "<strong>Version %s</strong> tog sig af nogle sikkerhedsproblemer."
 
-#: wp-admin/about.php:331
+#: wp-admin/about.php:356
 msgid "Maintenance and Security Release"
 msgstr "Vedligeholdelse- og sikkerhedsudgivelse"
 
-#: wp-admin/about.php:328
+#: wp-admin/about.php:353
 msgid "Security Release"
 msgstr "Sikkerhedsudgivelse"
 
-#: wp-admin/about.php:325
+#: wp-admin/about.php:350
 msgid "Maintenance Release"
 msgstr "Vedligeholdelsesudgivelse"
 
@@ -11160,11 +11160,11 @@ msgstr "Velkommen til WordPress %1$s <a href=\"%2$s\">Læs mere</a>."
 msgid "You can upload media files here without creating a post first. This allows you to upload files to use with posts and pages later and/or to get a web link for a particular file that you can share. There are three options for uploading files:"
 msgstr "Du kan uploade mediefiler uden at oprette et indlæg først. Dette giver dig mulighed for at uploade filer til brug i indlæg og sider senere, og/eller for at få et weblink til en bestemt fil, som du vil dele. Der er tre muligheder for at uploade filer:"
 
-#: wp-admin/edit-tags.php:296
+#: wp-admin/edit-tags.php:299
 msgid "Adding Tags"
 msgstr "Tilføjer tags"
 
-#: wp-admin/edit-tags.php:296
+#: wp-admin/edit-tags.php:299
 msgid "Adding Categories"
 msgstr "Tilføjer kategorier"
 
@@ -11306,11 +11306,11 @@ msgstr "Hvis du klikker <strong>Vælg Filer</strong> åbner et navigations-vindu
 msgid "<strong>Drag and drop</strong> your files into the area below. Multiple files are allowed."
 msgstr "<strong>Træk og slip</strong> dine filer ind i området nedenfor. Flere filer samtidigt er tilladt."
 
-#: wp-admin/edit-tags.php:256
+#: wp-admin/edit-tags.php:259
 msgid "You can assign keywords to your posts using <strong>tags</strong>. Unlike categories, tags have no hierarchy, meaning there is no relationship from one tag to another."
 msgstr "Du kan tildele søgeord til dine indlæg ved hjælp af <strong>tags</strong>. I modsætning til kategorier har tags ikke noget hierarki, hvilket betyder, at der ikke er noget forhold fra et tag til et andet."
 
-#: wp-admin/edit-tags.php:254
+#: wp-admin/edit-tags.php:257
 msgid "You can create groups of links by using Link Categories. Link Category names must be unique and Link Categories are separate from the categories you use for posts."
 msgstr "Du kan oprette grupper af links ved at bruge Link-kategorier. Link-kategorinavne skal være unikke og Link-kategorier er adskilt fra de kategorier, du bruger til indlæg."
 
@@ -11412,15 +11412,15 @@ msgid "Because this is a multisite installation, you may add accounts that alrea
 msgstr "Da dette er en Multisite-installation, kan du tilføje konti, der allerede findes på netværket, ved at angive et brugernavn eller e-mailadresse, og tildele brugeren en rolle. For at få flere muligheder, såsom at angive en adgangskode, skal du være en netværksadministrator og føre markøren over linket til en eksisterende brugers navn. Derefter kan du gå til Rediger brugerprofil under Netværkadministrator > Alle brugere."
 
 #. translators: %s: Version number.
-#: wp-admin/about.php:93
+#: wp-admin/about.php:118
 msgid "Welcome to WordPress %s"
 msgstr "Velkommen til WordPress %s"
 
-#: wp-admin/about.php:312
+#: wp-admin/about.php:337
 msgid "Go to Dashboard &rarr; Home"
 msgstr "Gå til Kontrolpanel &rarr; Forside"
 
-#: wp-admin/about.php:305
+#: wp-admin/about.php:330
 msgid "Go to Dashboard &rarr; Updates"
 msgstr "Tilbage til Kontrolpanel &rarr; Opdateringer"
 
@@ -11552,7 +11552,7 @@ msgstr "Navigationsmenuen i venstre side indeholder links til alle sider i admin
 
 #: wp-admin/comment.php:63 wp-admin/edit-comments.php:208
 #: wp-admin/edit-form-advanced.php:344 wp-admin/edit-link-form.php:66
-#: wp-admin/edit-tags.php:268 wp-admin/edit.php:252 wp-admin/edit.php:309
+#: wp-admin/edit-tags.php:271 wp-admin/edit.php:252 wp-admin/edit.php:309
 #: wp-admin/erase-personal-data.php:23 wp-admin/export-personal-data.php:23
 #: wp-admin/export.php:51 wp-admin/import.php:24
 #: wp-admin/includes/class-custom-background.php:99
@@ -11700,7 +11700,7 @@ msgstr "Indstillinger gemt."
 #: wp-admin/comment.php:71 wp-admin/edit-comments.php:228
 #: wp-admin/edit-form-advanced.php:318 wp-admin/edit-form-advanced.php:335
 #: wp-admin/edit-form-advanced.php:354 wp-admin/edit-link-form.php:75
-#: wp-admin/edit-tags.php:302 wp-admin/edit.php:300 wp-admin/edit.php:325
+#: wp-admin/edit-tags.php:305 wp-admin/edit.php:300 wp-admin/edit.php:325
 #: wp-admin/erase-personal-data.php:64 wp-admin/export-personal-data.php:64
 #: wp-admin/export.php:58 wp-admin/import.php:31
 #: wp-admin/includes/class-custom-background.php:109
@@ -11823,7 +11823,7 @@ msgstr "Det ser ud til, at du bruger en usikker version af %s. Bruger du en gamm
 msgid "There are some invalid menu items. Please check or delete them."
 msgstr "Der er nogle ugyldige menupunkter. Tjek dem eller slet dem."
 
-#: wp-admin/edit-tag-form.php:150 wp-admin/edit-tags.php:461
+#: wp-admin/edit-tag-form.php:150 wp-admin/edit-tags.php:464
 #: wp-admin/includes/class-wp-terms-list-table.php:192
 #: wp-admin/includes/class-wp-terms-list-table.php:219
 #: wp-admin/includes/class-wp-terms-list-table.php:696
@@ -12447,7 +12447,7 @@ msgstr "Da links endnu ikke har en Papirkurv, bliver de fjernet permanent, hvis 
 msgid "You can add links here to be displayed on your site, usually using <a href=\"%s\">Widgets</a>. By default, links to several sites in the WordPress community are included as examples."
 msgstr "Her kan du tilføje links, som vil blive vist på dit websted, sædvanligvis med <a href=\"%s\">Widgets</a>. Som standard er links til forskellige sider i WordPress-fællesskabet inkluderet som eksempler."
 
-#: wp-admin/edit-tags.php:283
+#: wp-admin/edit-tags.php:286
 msgid "<strong>Slug</strong> &mdash; The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens."
 msgstr "<strong>Kort titel</strong> ‒ Den &#8220;korte titel&#8221; er den URL-venlige udgave af navnet. Det skrives sædvanligvis med små bogstaver og indeholder kun bogstaver, tal og bindestreger."
 
@@ -12549,7 +12549,7 @@ msgid "You can add or edit links on this screen by entering information in each 
 msgstr "Du kan tilføje eller redigere links på dette billede skærm ved at indtaste information i hver boks. Kun linkets webadresse og navn (den linktekst, du vil vise på din side) er obligatoriske felter."
 
 #. translators: %s: URL to Categories to Tags Converter tool.
-#: wp-admin/edit-tags.php:640
+#: wp-admin/edit-tags.php:643
 msgid "Categories can be selectively converted to tags using the <a href=\"%s\">category to tag converter</a>."
 msgstr "Kategorier kan efter ønske konverteres til tags ved at bruge <a href=\"%s\">Kategorier- og tags-konverteringsværktøjet</a>."
 
@@ -12617,32 +12617,32 @@ msgstr "<strong>Forælder</strong> ‒ Du kan arrangere dine sider i hierarkier.
 msgid "All updates have been completed."
 msgstr "Alle opdateringer er installeret."
 
-#: wp-admin/edit-tags.php:291
+#: wp-admin/edit-tags.php:294
 msgid "You can change the display of this screen using the Screen Options tab to set how many items are displayed per screen and to display/hide columns in the table."
 msgstr "Ved hjælp af fanebladet Skærmindstillinger kan du indstille hvor mange elementer, der skal vises pr. skærm og om kolonner i tabellen skal vises/skjules."
 
-#: wp-admin/edit-tags.php:289
+#: wp-admin/edit-tags.php:292
 msgid "<strong>Description</strong> &mdash; The description is not prominent by default; however, some themes may display it."
 msgstr "<strong>Beskrivelse</strong> ‒ Beskrivelsen er ikke iøjnefaldende som standard, men nogle temaer viser det dog."
 
-#: wp-admin/edit-tags.php:281
+#: wp-admin/edit-tags.php:284
 msgid "<strong>Name</strong> &mdash; The name is how it appears on your site."
 msgstr "<strong>Navn</strong> ‒ Navnet er, som det vil se ud på din side."
 
-#: wp-admin/edit-tags.php:277
+#: wp-admin/edit-tags.php:280
 msgid "When adding a new tag on this screen, you&#8217;ll fill in the following fields:"
 msgstr "Når du tilføjer et nyt tag i dette skærmbillede, skal du udfylde følgende felter:"
 
-#: wp-admin/edit-tags.php:275
+#: wp-admin/edit-tags.php:278
 msgid "When adding a new category on this screen, you&#8217;ll fill in the following fields:"
 msgstr "Når du tilføjer en ny kategori i dette skærmbillede, skal du udfylde følgende felter:"
 
-#: wp-admin/edit-tags.php:262
+#: wp-admin/edit-tags.php:265
 msgid "What&#8217;s the difference between categories and tags? Normally, tags are ad-hoc keywords that identify important information in your post (names, subjects, etc) that may or may not recur in other posts, while categories are pre-determined sections. If you think of your site like a book, the categories are like the Table of Contents and the tags are like the terms in the index."
 msgstr "Hvad er forskellen mellem kategorier og tags? Normalt er tags ad hoc nøgleord, der identificerer vigtig information i dine indlæg (navne, emner osv.) som måske eller måske ikke optræder i andre indlæg, mens kategorier er forudbestemte sektioner. Hvis du tænker på dit side som en bog, så er kategorierne indholdsfortegnelsen mens tags er ligesom opslagsordene i indekset bagi."
 
 #. translators: %s: URL to Writing Settings screen.
-#: wp-admin/edit-tags.php:250
+#: wp-admin/edit-tags.php:253
 msgid "You can use categories to define sections of your site and group related posts. The default category is &#8220;Uncategorized&#8221; until you change it in your <a href=\"%s\">writing settings</a>."
 msgstr "Du kan bruge kategorier til at definere dele af dit websted og gruppere relaterede indlæg. Standardkategorien er \"Ikke kategoriseret\", indtil du ændrer det i dine <a href=\"%s\"> Skriveindstillinger</a>."
 
@@ -13154,7 +13154,7 @@ msgstr "WordPress-opdateringer"
 msgid "Edit menu item"
 msgstr "Rediger menupunkt"
 
-#: wp-admin/about.php:312
+#: wp-admin/about.php:337
 msgid "Go to Dashboard"
 msgstr "Gå til kontrolpanelet"
 
@@ -15775,7 +15775,7 @@ msgstr "Enhed opdateret."
 msgid "Item deleted."
 msgstr "Enhed slettet."
 
-#: wp-admin/edit-tag-form.php:198 wp-admin/edit-tags.php:512
+#: wp-admin/edit-tag-form.php:198 wp-admin/edit-tags.php:515
 msgid "Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional."
 msgstr "Kategorier kan, i modsætning til tags, være hierarkiske. Du kan fx have kategorien Jazz og under den underkategorierer for Bebop og Big Band. Helt valgfrit."
 
