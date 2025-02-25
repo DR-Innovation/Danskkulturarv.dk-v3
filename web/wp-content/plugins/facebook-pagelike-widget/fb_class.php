@@ -70,7 +70,7 @@ class facebook_widget extends WP_Widget {
         }
         
         $instance['title']                          =   strip_tags( $new_instance['title'] );
-        $instance['fb_url']                         =   strip_tags( $new_instance['fb_url'] );
+        $instance['fb_url']                         =   strip_tags( htmlspecialchars($new_instance['fb_url']) );
         $instance['width']                          =   strip_tags( $new_instance['width'] );
         $instance['height']                         =   strip_tags( $new_instance['height'] );
         $instance['data_small_header']              =   strip_tags( $new_instance['data_small_header'] );

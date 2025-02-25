@@ -3,8 +3,8 @@ Contributors: Milap
 Tags: facebook feeds, facebook like box, facebook like button, facebook feed widget, social post feed
 Donate link: https://www.paypal.me/MilapPatel
 Requires at least: 3.0.1
-Tested up to: 6.4.2
-Stable tag: 6.4
+Tested up to: 6.7.1
+Stable tag: 6.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,12 +36,12 @@ This widget will provide you the most simple and attractive way to display Faceb
 **Why should you choose Facebook Page Like Widget from the many other plugins?**
 
 * Light weight & easy to configure
-* Add application id from your created facebook application (Or you may use default application id), add it into widget & also URL of your Facebook page. 
+* Add application id from your created Facebook application (Or you may use default application id), add it into widget & also URL of your Facebook page. 
 * Configuration options like show/hide posts from timeline, show/hide cover, show/hide profile photos , show small header, width options, language selection, custom css.
-* Shortcode support
+* Shortcode support.
 * Fast & helpful support.
 
-It supports short code, open your Post or Page, Add **[fb_widget]** into Post or Page, Save it. You are done. Check FAQ for more shortcode options.
+It supports short code, open your Post or Page, Add **[fb_widget]** into Post or Page, Save it. You are done. Check FAQ for more Shortcode options.
 
 **Paid Support**
 
@@ -82,8 +82,8 @@ http://codex.wordpress.org/Managing_Plugins
 == Frequently Asked Questions ==
 
 
-= How to use shortcode ? =
-* You can use below shortcode in Post or Page.
+= How to use Shortcode ? =
+* You can use below Shortcode in Post or Page.
 `[fb_widget fb_url='http://www.facebook.com/Instagram']`
 You can use more parameters like below.
 `[fb_widget fb_url='http://www.facebook.com/Instagram' width='500' height='450' data_small_header='false' select_lng='ru_RU' data_adapt_container_width='false' data_hide_cover='false' data_show_facepile='false' data_tabs='timeline, messages, events' data_lazy='true']`
@@ -101,19 +101,22 @@ You can use more parameters like below.
 * Starting from plugin version 6.4, you no longer need a Facebook application ID to make this plugin work.
 
 = It is working in some system, not working in other system ? =
-* If it is working in some system & not working with other system, there are 2 possibilties :
+* If it is working in some system & not working with other system, there are 2 possibilities :
 	1) Anti virus of your computer can stop my widget loading. Some of my widget users had same problem in past. You can check with disable your anti virus temporarily.
-	2) Your browser has some ad block extention installed that may cause stop my plugin loading.  
+	2) Your browser has some ad block extension installed that may cause stop my plugin loading.  
 
 
 == Screenshots ==
 
 1. screenshot-1.png - Explains how you can configure plugin in admin widget area.
 2. screenshot-2.png - Shows how your plugin will display in frontend sidebar(widget) area.
-3. screenshot-3.png - Shows how your plugin will display in Page or Post as Shortcode.
+3. screenshot-3.png - Shows how your plugin will display in Page or Post as Short code.
 
 
 == Changelog ==
+
+= Version 6.4.1 =
+* Fixed XSS Vulnerability for URL field.
 
 = Version 6.4 =
 * Removed the Custom CSS option from widget settings, as WordPress now includes its own Custom CSS option.
@@ -136,10 +139,10 @@ You can use more parameters like below.
 * Code optimization.
 
 = Version 5.1 =
-* Fixed Cross-Site Scripting (XSS) Vulnerability with plugin shortcode.
+* Fixed Cross-Site Scripting (XSS) Vulnerability with plugin Shortcode.
 
 = Version 5.0 =
-* Added support for 3 feed type options (timeline,events,messages).
+* Added support for 3 feed type options (timeline, events, messages).
 
 = Version 4.2.3 =
 * Added support for PHP version 7.2
@@ -161,7 +164,7 @@ You can use more parameters like below.
 * Now you can add individual widget into Page or Post using shortcode.
 
 = Version 4.0 =
-* Changes in code to make plugin compitable for Translation.
+* Changes in code to make plugin compatible for Translation.
 
 = Version 3.1 =
 * Removed offset warning for language dropdown.
@@ -173,7 +176,7 @@ You can use more parameters like below.
 * Added unclosed div.
 
 = Version 2.3 =
-* Added options like Border, Language and custom css to shortcode function.
+* Added options like Border, Language and custom CSS to shortcode function.
 
 = Version 2.2 =
 
