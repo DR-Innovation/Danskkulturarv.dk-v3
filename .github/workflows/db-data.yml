@@ -1,0 +1,94 @@
+---
+name: DB Data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 1 * * *"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  db-data:
+    name: DB Data image
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install platform.sh CLI
+        shell: bash
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/platformsh/cli/main/installer.sh | bash
+        env:
+          INSTALL_DIR: /home/runner/.local/bin
+
+      - name: Create workspace for dump
+        shell: bash
+        run: mkdir -p ${{ runner.temp }}/db-dump
+
+      - name: Dump database
+        shell: bash
+        run: platform db:dump --file=${{ runner.temp }}/db-dump/database.sql
+        env:
+          PLATFORMSH_CLI_TOKEN: ${{ secrets.PLATFORMSH_CLI_TOKEN }}
+          PLATFORM_BRANCH: .
+
+      - name: Remove MariaDB sandbox mode
+        # @see https://mariadb.org/mariadb-dump-file-compatibility-change/
+        shell: bash
+        run: |
+          sed -i '1{/999999.*sandbox/d}' "${{ runner.temp }}/db-dump/database.sql"
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@master
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Lowercase github.repository for image name
+        run: |
+          echo "IMAGE_NAME=`echo ${{github.repository}} | tr '[:upper:]' '[:lower:]'`" >>${GITHUB_ENV}
+
+      - name: Create Dockerfile for db-dump
+        uses: DamianReeves/write-file-action@v1.3
+        with:
+          path: ${{ runner.temp }}/db-dump.dockerfile
+          write-mode: overwrite
+          contents: |
+            FROM tianon/true:multiarch
+            COPY /database.sql /docker-entrypoint-initdb.d/100-database.sql
+            VOLUME [ "/docker-entrypoint-initdb.d" ]
+
+      - name: Build db-dump image
+        uses: docker/build-push-action@v6
+        with:
+          file: ${{ runner.temp }}/db-dump.dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          context: ${{ runner.temp }}/db-dump
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.description=Database dump for ${{ github.repository }}
+            outputs: |
+              type=image,name=target,annotation-index.org.opencontainers.image.description=Database dump for ${{ github.repository }}
+          tags: |
+            ghcr.io/${{ env.IMAGE_NAME }}:db-dump
+
+      - name: Delete old container packages
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ github.event.repository.name }}
+          package-type: container
+          min-versions-to-keep: 5

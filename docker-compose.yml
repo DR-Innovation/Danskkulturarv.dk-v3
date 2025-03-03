@@ -1,24 +1,25 @@
-version: '3'
-
+---
 services:
   web:
-    image: ghcr.io/reload/drupal-apache-fpm:latest
+    image: ghcr.io/reload/https-proxy:drupal
     ports:
       - '80'
       - '443'
     depends_on:
-      - fpm
+      - php
     volumes:
-      - 'webroot:/var/www/'
-      - '${HOME}/.local/share/mkcert:/mkcert:ro'
+      - '${PWD}:/var/www/'
+      - '${HOME}/.local/share/mkcert:/rootCA:ro'
       - '${HOME}/.local/share/dev_certificates:/cert:rw'
     environment:
       VIRTUAL_PROTO: https
-      VIRTUAL_HOST: danskkulturarv.docker
-      MKCERT_DOMAINS: "danskkulturarv.docker *.danskkulturarv.docker local.docker"
-      HTTPS_METHOD: noredirect
+      VIRTUAL_HOST: >-
+        ${COMPOSE_PROJECT_NAME:-danskkulturarv}.${DEV_TLD:-docker}
+    labels:
+      - dev.orbstack.domains=${COMPOSE_PROJECT_NAME:-danskkulturarv}.local
+    working_dir: /var/www
 
-  fpm:
+  php:
     image: ghcr.io/reload/php-fpm:8.2
     user: '${UID:-501}:${GID:-20}'
     ports:
@@ -29,8 +30,6 @@ services:
       - 'webroot:/var/www/'
       - './docker/wp-config-docker.php:/var/www/web/wp-config-docker.php'
       - './docker/php-ini.d/99-danskkulturarv.ini:/etc/php/5.6/fpm/pool.d/99-danskkulturarv.ini'
-    environment:
-      DRUSH_OPTIONS_URI: "https://${COMPOSE_PROJECT_NAME:-gruppeweb}.${DEV_TLD:-docker}"
 
   wp:
     image: wordpress:cli-2.9-php8.2
@@ -39,7 +38,8 @@ services:
       - './docker/wp-config-docker.php:/var/www/web/wp-config-docker.php'
     working_dir: /var/www/web
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       WORDPRESS_DB_PASSWORD: db
       WORDPRESS_DB_NAME: db
@@ -48,17 +48,17 @@ services:
     entrypoint: wp
 
   db:
-    image: mariadb:10.3.9
+    image: mariadb:10.3
     ports:
       - '3306'
-    volumes:
-      - 'db-data:/docker-entrypoint-initdb.d'
+    volumes_from:
+      - 'db-data:rw'
     depends_on:
-      - db-data
+      db-data:
+        condition: service_completed_successfully
     healthcheck:
-      test: ["CMD", "lsof", "-i", "tcp:3306"]
-    cap_add:
-      - SYS_PTRACE
+      test: ["CMD", "healthcheck.sh", "--connect"]
+      start_period: 5m
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: db
@@ -66,15 +66,12 @@ services:
       MYSQL_PASSWORD: db
 
   db-data:
-    image: eu.gcr.io/reloaddk-data/db-data:danskkulturarv-latest
-    volumes:
-      - 'db-data:/docker-entrypoint-initdb.d'
+    image: ghcr.io/dr-innovation/danskkulturarv.dk-v3:db-dump
 
 volumes:
   webroot:
     driver: local
     driver_opts:
-      type: nfs
-      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
-      device: ":${PWD}"
-  db-data:
+      type: none
+      device: ${PWD}
+      o: bind
