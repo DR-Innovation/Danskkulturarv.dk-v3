@@ -36,7 +36,7 @@ msgstr "Indtast din API-nøgle"
 msgid "Privacy"
 msgstr "Privatliv"
 
-#: class.akismet.php:409
+#: class.akismet.php:430
 msgid "Comment discarded."
 msgstr "Kommentar kasseret."
 
@@ -60,7 +60,7 @@ msgstr[1] "Akismet tjekkede %s kommentarer."
 msgid "Statistics"
 msgstr "Statistikker"
 
-#: class.akismet.php:813
+#: class.akismet.php:810
 msgid "Comment not found."
 msgstr "Kommentar ikke fundet"
 
@@ -541,7 +541,7 @@ msgid "Cleaning up spam takes time."
 msgstr "At rense for spam tager tid."
 
 #. translators: 1: WordPress documentation URL, 2: Akismet download URL.
-#: class.akismet.php:1741
+#: class.akismet.php:1740
 msgid "Please <a href=\"%1$s\">upgrade WordPress</a> to a current version, or <a href=\"%2$s\">downgrade to version 2.4 of the Akismet plugin</a>."
 msgstr "Du skal venligst <a href=\"%1$s\">opgradere WordPress</a> til den nuværende version, eller <a href=\"%2$s\">nedgradere til version 2.4 af Akismet pluginet</a>."
 
