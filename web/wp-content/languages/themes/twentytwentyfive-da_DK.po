@@ -21,57 +21,57 @@ msgctxt "Template part name"
 msgid "Header"
 msgstr "Sidehoved"
 
-#: styles/01-evening.json styles/02-noon.json styles/03-dusk.json
+#: theme.json styles/01-evening.json styles/02-noon.json styles/03-dusk.json
 #: styles/04-afternoon.json styles/05-twilight.json styles/06-morning.json
 #: styles/07-sunrise.json styles/08-midnight.json styles/colors/01-evening.json
 #: styles/colors/02-noon.json styles/colors/03-dusk.json
 #: styles/colors/04-afternoon.json styles/colors/05-twilight.json
 #: styles/colors/06-morning.json styles/colors/07-sunrise.json
-#: styles/colors/08-midnight.json theme.json
+#: styles/colors/08-midnight.json
 msgctxt "Color name"
 msgid "Base"
 msgstr "Base"
 
-#: styles/01-evening.json styles/02-noon.json styles/03-dusk.json
+#: theme.json styles/01-evening.json styles/02-noon.json styles/03-dusk.json
 #: styles/04-afternoon.json styles/05-twilight.json styles/06-morning.json
 #: styles/07-sunrise.json styles/08-midnight.json styles/colors/01-evening.json
 #: styles/colors/02-noon.json styles/colors/03-dusk.json
 #: styles/colors/04-afternoon.json styles/colors/05-twilight.json
 #: styles/colors/06-morning.json styles/colors/07-sunrise.json
-#: styles/colors/08-midnight.json theme.json
+#: styles/colors/08-midnight.json
 msgctxt "Color name"
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: styles/02-noon.json styles/04-afternoon.json styles/05-twilight.json
-#: styles/06-morning.json styles/08-midnight.json
+#: theme.json styles/02-noon.json styles/04-afternoon.json
+#: styles/05-twilight.json styles/06-morning.json styles/08-midnight.json
 #: styles/typography/typography-preset-1.json
 #: styles/typography/typography-preset-3.json
 #: styles/typography/typography-preset-4.json
 #: styles/typography/typography-preset-5.json
-#: styles/typography/typography-preset-7.json theme.json
+#: styles/typography/typography-preset-7.json
 msgctxt "Font size name"
 msgid "Medium"
 msgstr "Medium"
 
-#: styles/02-noon.json styles/04-afternoon.json styles/05-twilight.json
-#: styles/06-morning.json styles/08-midnight.json
+#: theme.json styles/02-noon.json styles/04-afternoon.json
+#: styles/05-twilight.json styles/06-morning.json styles/08-midnight.json
 #: styles/typography/typography-preset-1.json
 #: styles/typography/typography-preset-3.json
 #: styles/typography/typography-preset-4.json
 #: styles/typography/typography-preset-5.json
-#: styles/typography/typography-preset-7.json theme.json
+#: styles/typography/typography-preset-7.json
 msgctxt "Font size name"
 msgid "Large"
 msgstr "Stor"
 
-#: styles/02-noon.json styles/04-afternoon.json styles/05-twilight.json
-#: styles/06-morning.json styles/08-midnight.json
+#: theme.json styles/02-noon.json styles/04-afternoon.json
+#: styles/05-twilight.json styles/06-morning.json styles/08-midnight.json
 #: styles/typography/typography-preset-1.json
 #: styles/typography/typography-preset-3.json
 #: styles/typography/typography-preset-4.json
 #: styles/typography/typography-preset-5.json
-#: styles/typography/typography-preset-7.json theme.json
+#: styles/typography/typography-preset-7.json
 msgctxt "Font size name"
 msgid "Extra Large"
 msgstr "Ekstra stor"
