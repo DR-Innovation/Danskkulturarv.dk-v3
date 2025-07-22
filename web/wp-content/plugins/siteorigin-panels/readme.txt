@@ -1,10 +1,10 @@
 === Page Builder by SiteOrigin ===
 Tags: page builder, website builder, responsive design, drag and drop, visual editor
 Requires at least: 4.7
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.0.0
-Stable tag: 2.31.6
-Build time: 2025-04-19T10:16:23+02:00
+Stable tag: 2.32.1
+Build time: 2025-06-29T21:32:04+01:00
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: https://siteorigin.com/downloads/premium/
@@ -120,6 +120,32 @@ Page Builder is compatible with the vast majority of third-party plugins and wid
 SiteOrigin offers a single premium plugin that enhances and extends Page Builder, the Widgets Bundle, SiteOrigin CSS and all of our free themes. Find out more about [SiteOrigin Premium](https://siteorigin.com/downloads/premium/) and the powerful addons it offers.
 
 == Changelog ==
+
+= 2.32.1 – 29 June 2025 =
+* Mode Switcher: Restored mobile CSS hide functionality for improved responsive behavior.
+* Mode Switcher: Removed legacy CSS and moved .so-mode to .so-toolbar for cleaner structure.
+* Widget Dialog: Removed focus delay and improved default field handling for better user experience.
+* Fixed button secondary color scheme inheritance for consistent styling.
+* Fixed widget editable title class for proper functionality.
+* Resolved LESS linting issues for improved code quality.
+
+= 2.32.0 – 13 June 2025 =
+* Background Image: Added Alt Text setting for improved accessibility.
+* Layout Block: Added additional PanelsData check and prevented potential JavaScript null quirk.
+* Layout Builder: Fixed potential object.keys issue when removing all blocks.
+* Polylang: Prevented undefined sync warning.
+* Improved security with enhanced parameter sanitization across admin features.
+* Code Quality: Updated WordPress PHP Coding Standards compliance.
+
+= 2.31.8 – 12 May 2025 =
+* Border Styles: Improved handling of multiple border values.
+* Multi-select: Fixed type error in field handling.
+* Polylang: Improved compatibility with WPML by loading translation features only when needed.
+* Code Quality: Updated PHPCS configuration.
+
+= 2.31.7 – 01 May 2025 =
+* Fixed an issue with encoded quotes when editing widget titles.
+* Resolved Select2 CSS not outputting correctly.
 
 = 2.31.6 – 19 April 2025 =
 * Import: Closed all containers in imported layouts to ensure consistent layout rendering.
