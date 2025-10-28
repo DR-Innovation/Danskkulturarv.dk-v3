@@ -111,7 +111,7 @@ $layouts = apply_filters( 'siteorigin_panels_prebuilt_layouts', array() );
 									$name = ! empty( $color['name'] ) ? sanitize_title( $color['name'] ) : $id;
 									?>
 									<div data-color-label="<?php echo esc_attr( $name ); ?>"
-										class="<?php esc_attr_e( 'so-row-color so-row-color-' . $name ); ?>{{% if( rowColorLabel == '<?php echo esc_attr( $name ); ?>' ) print(' so-row-color-selected'); %}}"
+										class="<?php echo esc_attr( 'so-row-color so-row-color-' . $name ); ?>{{% if( rowColorLabel == '<?php echo esc_attr( $name ); ?>' ) print(' so-row-color-selected'); %}}"
 									></div>
 								<?php } ?>
 							</li>
@@ -293,7 +293,7 @@ $layouts = apply_filters( 'siteorigin_panels_prebuilt_layouts', array() );
 				<input type="button" class="button-primary so-close" tabindex="0" value="<?php esc_attr_e( 'Done', 'siteorigin-panels' ); ?>" />
 
 				<span
-					class="button-secondary dashicons so-mode"
+					class="button-primary so-button-mode dashicons so-mode"
 					tabindex="0"
 					aria-label="<?php esc_attr_e( 'Access Modes', 'siteorigin-panels' ); ?>"
 					role="button"
@@ -343,7 +343,7 @@ $layouts = apply_filters( 'siteorigin_panels_prebuilt_layouts', array() );
 
 				<div class="cell-resize-container">
 					<span class="cell-resize-label">
-						<?php echo esc_html_e( 'Column Presets: ', 'siteorigin-panels' ); ?>
+						<?php esc_html_e( 'Column Presets: ', 'siteorigin-panels' ); ?>
 					</span>
 					<div class="cell-resize" data-resize="<?php echo esc_attr( wp_json_encode( $column_sizes ) ); ?>"></div>
 				</div>
@@ -381,7 +381,7 @@ $layouts = apply_filters( 'siteorigin_panels_prebuilt_layouts', array() );
 					<input type="button" class="button-primary so-save" tabindex="0" value="<?php esc_attr_e( 'Done', 'siteorigin-panels' ); ?>" />
 
 					<span
-						class="button-secondary dashicons so-mode"
+						class="button-primary so-button-mode dashicons so-mode"
 						tabindex="0"
 						aria-label="<?php esc_html_e( 'Access Modes', 'siteorigin-panels' ); ?>"
 						role="button"
@@ -494,32 +494,92 @@ $layouts = apply_filters( 'siteorigin_panels_prebuilt_layouts', array() );
 		<div class="so-directory-browse">
 		</div>
 
-		<div class="so-directory-items-wrapper">
-			{{% if(items.length === 0) { %}}
-				<div class="so-no-results">
-					<?php esc_html_e( "Your search didn't return any results", 'siteorigin-panels' ); ?>
-				</div>
-			{{% } else { %}}
-				{{% _.each(items, function(item) { %}}
-					<div class="so-directory-item" data-layout-id="{{%- item.id %}}" data-layout-type="{{%- item.type %}}">
-						<div class="so-directory-item-wrapper" tabindex="0">
-							<div class="so-screenshot" data-src="{{%- item.screenshot %}}">
-								<div class="so-panels-loading so-screenshot-wrapper"></div>
-							</div>
-							<div class="so-description">{{%- item.description %}}</div>
 
-							<div class="so-bottom">
-								<h4 class="so-title">{{%= item.title %}}</h4>
-								{{% if( item.preview ) { %}}
-									<div class="so-buttons">
-										<a href="{{%- item.preview %}}" class="button-secondary so-button-preview" target="_blank" rel="noopener noreferrer">Preview</a>
-									</div>
-								{{% } %}}
-							</div>
+		<div class="so-directory-filters">
+		</div>
+
+		<div class="so-directory-items-filters">
+				{{% if ( typeof categories != 'undefined' && categories.length !== 0 ) { %}}
+				<div class="so-directory-items-filter-categories">
+					<span>
+						<?php echo __( 'Category:', 'siteorigin-panels' ); ?>
+					</span>
+
+					<ul>
+						<li class="so-directory-items-filter-category so-active-filter" data-filter="">
+							<?php _e( 'All Categories', 'siteorigin-panels' ); ?>
+						</li>
+
+						{{% _.each( categories, function( name, id ) { %}}
+						<li class="so-directory-items-filter-category" data-filter=".{{%- id %}}">
+							{{%- name %}}
+						</li>
+						{{% }); %}}
+					</li>
+				</div>
+			{{% } %}}
+
+
+			{{% if ( typeof niches != 'undefined' && niches.length !== 0 ) { %}}
+				<div class="so-directory-items-filter-niches">
+					<span>
+						<?php echo __( 'Niches:', 'siteorigin-panels' ); ?>
+					</span>
+
+					<ul>
+						{{% _.each( niches, function( name, id ) { %}}
+							<li class="so-directory-items-filter-niche" data-filter=".{{%- id %}}">
+								{{%- name %}}
+							</li>
+						{{% }); %}}
+					</ul>
+				</div>
+			{{% } %}}
+
+
+		</div>
+
+		<div class="so-directory-items-wrapper">
+
+			<div class="so-no-results">
+				<?php _e( "Your search didn't return any results", 'siteorigin-panels' ); ?>
+			</div>
+
+			{{% _.each( items, function( item ) { %}}
+				<div
+					class="so-directory-item
+					{{% if ( typeof item.class != 'undefined' ) {
+						%}}{{%- item.class %}}{{%
+					} %}}"
+
+					data-layout-id="{{%- item.id %}}"
+					data-layout-type="{{%- item.type %}}"
+
+					{{% if ( typeof item.category != 'undefined' ) { %}}
+						data-category="{{%- item.category.toLowerCase() %}}"
+					{{% } %}}
+
+					{{% if ( typeof item.niches != 'undefined' ) { %}}
+						data-niches="{{%- JSON.stringify( item.niches ) %}}"
+					{{% } %}}
+				>
+					<div class="so-directory-item-wrapper" tabindex="0">
+						<div class="so-screenshot" data-src="{{%- item.screenshot %}}">
+							<div class="so-panels-loading so-screenshot-wrapper"></div>
+						</div>
+						<div class="so-description">{{%- item.description %}}</div>
+
+						<div class="so-bottom">
+							<h4 class="so-title">{{%= item.title %}}</h4>
+							{{% if( item.preview ) { %}}
+								<div class="so-buttons">
+									<a href="{{%- item.preview %}}" class="button-secondary so-button-preview" target="_blank" rel="noopener noreferrer">Preview</a>
+								</div>
+							{{% } %}}
 						</div>
 					</div>
-				{{% }); %}}
-			{{% } %}}
+				</div>
+			{{% }); %}}
 		</div>
 
 		<div class="clear"></div>

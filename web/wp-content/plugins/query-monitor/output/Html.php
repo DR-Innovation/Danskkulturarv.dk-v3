@@ -273,7 +273,6 @@ abstract class QM_Output_Html extends QM_Output {
 				echo nl2br( esc_html( $value ) );
 				echo '</td>';
 			}
-			echo '</td>';
 			echo '</tr>';
 		}
 		echo '</table>';
@@ -473,6 +472,11 @@ abstract class QM_Output_Html extends QM_Output {
 	 * @return string      The URL formatted with markup.
 	 */
 	public static function format_url( $url ) {
+		// If there's no query string or only a single query parameter, return the URL as is.
+		if ( ! str_contains( $url, '&' ) ) {
+			return $url;
+		}
+
 		return str_replace( array( '?', '&amp;' ), array( '<br>?', '<br>&amp;' ), esc_html( $url ) );
 	}
 
@@ -497,6 +501,15 @@ abstract class QM_Output_Html extends QM_Output {
 		}
 
 		$link_line = $line ?: 1;
+
+		if ( 0 === strpos( $text, '{closure:/' ) ) {
+			$text = sprintf(
+				/* translators: A closure is an anonymous PHP function. 1: Line number, 2: File name */
+				__( 'Closure on line %1$d of %2$s', 'query-monitor' ),
+				$line,
+				QM_Util::standard_dir( $file, '' )
+			);
+		}
 
 		if ( ! self::has_clickable_links() ) {
 			$fallback = QM_Util::standard_dir( $file, '' );
@@ -605,11 +618,22 @@ abstract class QM_Output_Html extends QM_Output {
 	public static function get_file_path_map() {
 		$map = array();
 
+		// WordPress core and Altis:
 		$host_path = getenv( 'HOST_PATH' );
 
 		if ( ! empty( $host_path ) ) {
-			$source = rtrim( ABSPATH, DIRECTORY_SEPARATOR );
-			$replacement = rtrim( $host_path, DIRECTORY_SEPARATOR );
+			$source = ABSPATH;
+			$replacement = trailingslashit( $host_path );
+			$map[ $source ] = $replacement;
+		}
+
+		// WordPress VIP on Lando:
+		$lando_path = getenv( 'VIP_DEV_AUTOLOGIN_KEY' ) ? getenv( 'LANDO_APP_ROOT_BIND' ) : null;
+
+		if ( ! empty( $lando_path ) ) {
+			// https://github.com/Automattic/vip-cli/blob/2bf64a46b9d409a5683459d032d65c16a6eeac48/assets/dev-env.lando.template.yml.ejs#L288
+			$source = ABSPATH;
+			$replacement = trailingslashit( $lando_path ) . 'wordpress/';
 			$map[ $source ] = $replacement;
 		}
 
@@ -630,5 +654,6 @@ abstract class QM_Output_Html extends QM_Output {
 	public static function has_clickable_links() {
 		return ( false !== self::get_file_link_format() );
 	}
+
 
 }
