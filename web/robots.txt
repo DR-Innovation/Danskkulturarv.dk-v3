@@ -1,4 +1,2 @@
-Sitemap: https://www.danskkulturarv.dk/sitemap.xml/
-
 User-agent: ClaudeBot
 Crawl-delay: 10
