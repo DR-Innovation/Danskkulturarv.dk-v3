@@ -1,1 +1,1 @@
-Sitemap: http://www.danskkulturarv.dk/sitemap.xml/
+Sitemap: https://www.danskkulturarv.dk/sitemap.xml/
