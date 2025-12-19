@@ -20,7 +20,7 @@ services:
     working_dir: /var/www
 
   php:
-    image: ghcr.io/reload/php-fpm:8.2
+    image: ghcr.io/reload/php-fpm:8.3
     user: '${UID:-501}:${GID:-20}'
     ports:
       - '9000'
@@ -32,7 +32,7 @@ services:
       - './docker/php-ini.d/99-danskkulturarv.ini:/etc/php/5.6/fpm/pool.d/99-danskkulturarv.ini'
 
   wp:
-    image: wordpress:cli-2.9-php8.2
+    image: wordpress:cli-2.12-php8.3
     volumes:
       - 'webroot:/var/www/'
       - './docker/wp-config-docker.php:/var/www/web/wp-config-docker.php'
@@ -48,7 +48,7 @@ services:
     entrypoint: wp
 
   db:
-    image: mariadb:10.3
+    image: mariadb:10.11
     ports:
       - '3306'
     volumes_from:
