@@ -25,7 +25,10 @@ services:
     ports:
       - '9000'
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      wp:
+        condition: service_completed_successfully
     volumes:
       - 'webroot:/var/www/'
       - './docker/wp-config-docker.php:/var/www/web/wp-config-docker.php'
