@@ -1,6 +1,4 @@
-# This file describes an application. You can have multiple applications
-# in the same project.
-
+---
 # The name of this app. Must be unique within a project.
 name: app
 
@@ -13,46 +11,49 @@ runtime:
     - imagick
 
 dependencies:
-    php:
-        wp-cli/wp-cli-bundle: "^2"
-        psy/psysh: "^0.8.4"
+  php:
+    wp-cli/wp-cli-bundle: "^2"
+    psy/psysh: "^0.8.4"
 
 # Configuration of the build of the application.
 build:
-    flavor: none
+  flavor: none
 
-# The relationships of the application with services or other applications.
-# The left-hand side is the name of the relationship as it will be exposed
-# to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
-# side is in the form `<service name>:<endpoint name>`.
+# The relationships of the application with services or other
+# applications.  The left-hand side is the name of the relationship as
+# it will be exposed to the application in the PLATFORM_RELATIONSHIPS
+# variable. The right-hand side is in the form `<service
+# name>:<endpoint name>`.
 relationships:
-    database: "mysqldb:mysql"
+  database: "mysqldb:mysql"
 
 # The size of the persistent disk of the application (in MB).
 disk: 7680
 
 # The mounts that will be performed when the package is deployed.
 mounts:
-    "/web/schemas": "shared:files/schemas"
-    "/web/wp-content/cache": "shared:files/cache"
-    "/web/wp-content/plugins/wpdka/cimage/cache": "shared:files/cimage-cache"
-    "/web/wp-content/uploads": "shared:files/uploads"
+  "/web/schemas": "shared:files/schemas"
+  "/web/wp-content/cache": "shared:files/cache"
+  "/web/wp-content/plugins/wpdka/cimage/cache": "shared:files/cimage-cache"
+  "/web/wp-content/uploads": "shared:files/uploads"
 
 # The configuration of app when it is exposed to the web.
 web:
-    locations:
-        "/":
-            # The public directory of the app, relative to its root.
-            root: "web"
-            # The front-controller script to send non-static requests to.
-            passthru: "/index.php"
-            # Wordpress has multiple roots (wp-admin) so the following is required
-            index:
-                - "index.php"
-            # The number of seconds whitelisted (static) content should be cached.
-            expires: 600
-            scripts: true
-            allow: true
+  locations:
+    "/":
+      # The public directory of the app, relative to its root.
+      root: "web"
+      # The front-controller script to send non-static requests to.
+      passthru: "/index.php"
+      # Wordpress has multiple roots (wp-admin) so the following is
+      # required
+      index:
+        - "index.php"
+      # The number of seconds whitelisted (static) content should be
+      # cached.
+      expires: 600
+      scripts: true
+      allow: true
 
 variables:
   php:
@@ -76,19 +77,19 @@ hooks:
 
 # The configuration of scheduled execution.
 crons:
-    wp_cron:
-        spec: '2 * * * *'
-        cmd: |
-          cd "${PLATFORM_DOCUMENT_ROOT}" || exit 1
-          wp cron event run --due-now
+  wp_cron:
+    spec: '2 * * * *'
+    cmd: |
+      cd "${PLATFORM_DOCUMENT_ROOT}" || exit 1
+      wp cron event run --due-now
 
-    snapshot:
-        # Perform a snapshot at some point during the night, we've picked
-        # 00:15 UTC here.
-        # We only snapshot master, add environments via ] || [ ... ] if you need
-        # more.
-        spec: '15 0 * * *'
-        cmd: |
-            if [ "$PLATFORM_BRANCH" = "master" ]; then
-                platform snapshot:create --yes --no-wait
-            fi
+  snapshot:
+    # Perform a snapshot at some point during the night, we've picked
+    # 00:15 UTC here.
+    # We only snapshot master, add environments via ] || [ ... ] if
+    # you need more.
+    spec: '15 0 * * *'
+    cmd: |
+      if [ "$PLATFORM_BRANCH" = "master" ]; then
+        platform snapshot:create --yes --no-wait
+      fi
