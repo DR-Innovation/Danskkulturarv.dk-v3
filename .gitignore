@@ -24,3 +24,4 @@ web/.htaccess
 /web/wp-config-docker.php
 .tarballs/
 .idea/
+/.last-pull-*
