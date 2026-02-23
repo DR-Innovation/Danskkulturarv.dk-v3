@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Akismet Anti-spam: Spam Protection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-08-20 18:52:01+0000\n"
+"PO-Revision-Date: 2026-01-12 14:49:55+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -194,6 +194,11 @@ msgstr[1] "%s uset spam."
 #: views/notice.php:258
 msgid "The API key you entered could not be verified."
 msgstr "Den indtastede API-nøgle kunne ikke godkendes."
+
+#. translators: The placeholder is a URL.
+#: views/notice.php:264
+msgid "The connection to akismet.com could not be established. Please refer to <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">our guide about firewalls</a> and check your server configuration."
+msgstr "Forbindelsen til akismet.com kunne ikke oprettes. Se venligst <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">vores vejledning om firewalls</a> og kontroller din serverkonfiguration."
 
 #: class.akismet-admin.php:741
 msgid "This comment was reported as not spam."
@@ -655,6 +660,11 @@ msgstr "https://automattic.com/wordpress-plugins/"
 #: class.akismet-admin.php:706
 msgid "Akismet re-checked and caught this comment as spam."
 msgstr "Akismet tjekkede denne kommentar igen, og markerede den som spam."
+
+#. translators: The placeholder is a URL.
+#: views/notice.php:132
+msgid "Your firewall may be blocking Akismet from connecting to its API. Please contact your host and refer to <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">our guide about firewalls</a>"
+msgstr "Din firewall blokerer måske Akismet. Kontakt venligst din udbyder og henvis dem til <a class=\"akismet-external-link\" href=\"%s\" target=\"_blank\">vores vejledning om firewalls</a>."
 
 #: class.akismet-admin.php:103
 msgid "Comment History"
