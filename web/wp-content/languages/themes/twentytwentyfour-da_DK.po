@@ -55,14 +55,14 @@ msgstr "Sidehoved"
 msgid "https://wordpress.org"
 msgstr "https://wordpress.org"
 
-#: styles/ember.json styles/fossil.json styles/ice.json styles/maelstrom.json
-#: styles/mint.json styles/onyx.json styles/rust.json theme.json
+#: theme.json styles/ember.json styles/fossil.json styles/ice.json
+#: styles/maelstrom.json styles/mint.json styles/onyx.json styles/rust.json
 msgctxt "Color name"
 msgid "Base"
 msgstr "Base"
 
-#: styles/ember.json styles/fossil.json styles/ice.json styles/maelstrom.json
-#: styles/mint.json styles/onyx.json styles/rust.json theme.json
+#: theme.json styles/ember.json styles/fossil.json styles/ice.json
+#: styles/maelstrom.json styles/mint.json styles/onyx.json styles/rust.json
 msgctxt "Color name"
 msgid "Contrast"
 msgstr "Kontrast"
@@ -97,22 +97,22 @@ msgctxt "Space size name"
 msgid "6"
 msgstr "6"
 
-#: styles/fossil.json styles/ice.json styles/maelstrom.json theme.json
+#: theme.json styles/fossil.json styles/ice.json styles/maelstrom.json
 msgctxt "Font size name"
 msgid "Medium"
 msgstr "Medium"
 
-#: styles/fossil.json styles/ice.json styles/maelstrom.json theme.json
+#: theme.json styles/fossil.json styles/ice.json styles/maelstrom.json
 msgctxt "Font size name"
 msgid "Large"
 msgstr "Stor"
 
-#: styles/fossil.json styles/ice.json styles/maelstrom.json theme.json
+#: theme.json styles/fossil.json styles/ice.json styles/maelstrom.json
 msgctxt "Font size name"
 msgid "Extra Large"
 msgstr "Ekstra stor"
 
-#: styles/fossil.json styles/ice.json theme.json
+#: theme.json styles/fossil.json styles/ice.json
 msgctxt "Font family name"
 msgid "Inter"
 msgstr "Inter"
