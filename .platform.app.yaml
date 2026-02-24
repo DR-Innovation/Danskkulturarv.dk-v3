@@ -13,7 +13,7 @@ runtime:
 dependencies:
   php:
     wp-cli/wp-cli-bundle: "^2"
-    psy/psysh: "^0.8.4"
+    psy/psysh: "^0.12.20"
 
 # Configuration of the build of the application.
 build:
