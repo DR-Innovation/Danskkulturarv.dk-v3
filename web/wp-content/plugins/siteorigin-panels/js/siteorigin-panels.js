@@ -3045,6 +3045,7 @@ var panels = {};
 // Store everything globally
 window.panels = panels;
 window.siteoriginPanels = panels;
+panels.events = _.extend( {}, Backbone.Events );
 
 // Helpers
 panels.helpers = {};
@@ -7081,6 +7082,65 @@ module.exports = Backbone.View.extend( {
 },{}],29:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
+var mergeContextualActions = function( baseActions, customActions, priorityMap ) {
+	var items = [];
+	var order = 0;
+
+	customActions = customActions || {};
+
+	_.each( baseActions, function( action, key ) {
+		if ( Object.prototype.hasOwnProperty.call( customActions, key ) ) {
+			return;
+		}
+
+		items.push( {
+			key: key,
+			action: action,
+			priority: priorityMap && priorityMap[ key ] !== undefined ? priorityMap[ key ] : 50,
+			order: order++
+		} );
+	} );
+
+	_.each( customActions, function( action, key ) {
+		if ( ! action ) {
+			return;
+		}
+
+		var priority = 50;
+		if ( Object.prototype.hasOwnProperty.call( action, 'priority' ) ) {
+			priority = parseInt( action.priority, 10 );
+			if ( isNaN( priority ) ) {
+				priority = 50;
+			}
+		}
+
+		var actionData = _.extend( {}, action );
+		delete actionData.priority;
+
+		items.push( {
+			key: key,
+			action: actionData,
+			priority: priority,
+			order: order++
+		} );
+	} );
+
+	items.sort( function( a, b ) {
+		if ( a.priority === b.priority ) {
+			return a.order - b.order;
+		}
+
+		return a.priority - b.priority;
+	} );
+
+	var ordered = {};
+	_.each( items, function( item ) {
+		ordered[ item.key ] = item.action;
+	} );
+
+	return ordered;
+};
+
 module.exports = Backbone.View.extend( {
 	template: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-builder-row' ).html() ) ),
 
@@ -7527,6 +7587,17 @@ module.exports = Backbone.View.extend( {
 			actions.delete = { title: panelsOptions.loc.contextual.row_delete, confirm: true };
 		}
 
+		var contextualActions = panelsOptions.contextual && panelsOptions.contextual.actions && panelsOptions.contextual.actions.row
+			? panelsOptions.contextual.actions.row
+			: {};
+		actions = mergeContextualActions( actions, contextualActions, {
+			edit: 10,
+			copy: 20,
+			paste: 30,
+			duplicate: 40,
+			delete: 100
+		} );
+
 		if( ! _.isEmpty( actions ) ) {
 			menu.addSection(
 				'row-actions',
@@ -7551,6 +7622,17 @@ module.exports = Backbone.View.extend( {
 							break;
 						case 'delete':
 							this.visualDestroyModel();
+							break;
+						default:
+							if ( panels.events && panels.events.trigger ) {
+								panels.events.trigger( 'contextual_menu_action', {
+									context: 'row',
+									action: c,
+									view: this,
+									model: this.model,
+									builder: this.builder
+								} );
+							}
 							break;
 					}
 				}.bind( this )
@@ -8037,6 +8119,65 @@ module.exports = Backbone.View.extend( {
 },{}],31:[function(require,module,exports){
 var panels = window.panels, $ = jQuery;
 
+var mergeContextualActions = function( baseActions, customActions, priorityMap ) {
+	var items = [];
+	var order = 0;
+
+	customActions = customActions || {};
+
+	_.each( baseActions, function( action, key ) {
+		if ( Object.prototype.hasOwnProperty.call( customActions, key ) ) {
+			return;
+		}
+
+		items.push( {
+			key: key,
+			action: action,
+			priority: priorityMap && priorityMap[ key ] !== undefined ? priorityMap[ key ] : 50,
+			order: order++
+		} );
+	} );
+
+	_.each( customActions, function( action, key ) {
+		if ( ! action ) {
+			return;
+		}
+
+		var priority = 50;
+		if ( Object.prototype.hasOwnProperty.call( action, 'priority' ) ) {
+			priority = parseInt( action.priority, 10 );
+			if ( isNaN( priority ) ) {
+				priority = 50;
+			}
+		}
+
+		var actionData = _.extend( {}, action );
+		delete actionData.priority;
+
+		items.push( {
+			key: key,
+			action: actionData,
+			priority: priority,
+			order: order++
+		} );
+	} );
+
+	items.sort( function( a, b ) {
+		if ( a.priority === b.priority ) {
+			return a.order - b.order;
+		}
+
+		return a.priority - b.priority;
+	} );
+
+	var ordered = {};
+	_.each( items, function( item ) {
+		ordered[ item.key ] = item.action;
+	} );
+
+	return ordered;
+};
+
 module.exports = Backbone.View.extend( {
 	template: _.template( panels.helpers.utils.processTemplate( $( '#siteorigin-panels-builder-widget' ).html() ) ),
 
@@ -8318,6 +8459,16 @@ module.exports = Backbone.View.extend( {
 			actions.delete = { title: panelsOptions.loc.contextual.widget_delete, confirm: true };
 		}
 
+		var contextualActions = panelsOptions.contextual && panelsOptions.contextual.actions && panelsOptions.contextual.actions.widget
+			? panelsOptions.contextual.actions.widget
+			: {};
+		actions = mergeContextualActions( actions, contextualActions, {
+			edit: 10,
+			copy: 20,
+			duplicate: 40,
+			delete: 100
+		} );
+
 		if( ! _.isEmpty( actions ) ) {
 			menu.addSection(
 				'widget-actions',
@@ -8339,6 +8490,18 @@ module.exports = Backbone.View.extend( {
 							break;
 						case 'delete':
 							this.visualDestroyModel();
+							break;
+						default:
+							if ( panels.events && panels.events.trigger ) {
+								panels.events.trigger( 'contextual_menu_action', {
+									context: 'widget',
+									action: c,
+									view: this,
+									model: this.model,
+									cell: this.cell,
+									builder: this.cell.row.builder
+								} );
+							}
 							break;
 					}
 				}.bind( this )

@@ -3,8 +3,8 @@ Contributors: Milap
 Tags: facebook feeds, facebook like box, facebook like button, facebook feed widget, social post feed
 Donate link: https://www.paypal.me/MilapPatel
 Requires at least: 3.0.1
-Tested up to: 6.7.2
-Stable tag: 6.4.2
+Tested up to: 6.9
+Stable tag: 6.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,11 +16,11 @@ This plugin adds a simple Facebook Page Like Widget to your WordPress sidebar, f
 
 > Did you find this plugin helpful? Please consider [leaving a 5-star review](https://wordpress.org/support/plugin/facebook-pagelike-widget/reviews/?filter=5#new-post).
 
-> Did this plugin made your life easy? Please consider [donating](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=neetap179@gmail.com&lc=US&item_name=Providing+Excellent+WordPress+plugin+support&no_note=0&no_shipping=2&curency_code=USD&bn=PP-DonationsBF:btn_donateCC_LG.gif:NonHosted).
+> Did this plugin made your life easy? Please consider [donating](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=cemilap.88@gmail.com&lc=US&item_name=Providing+Excellent+WordPress+plugin+support&no_note=0&no_shipping=2&curency_code=USD&bn=PP-DonationsBF:btn_donateCC_LG.gif:NonHosted).
 
-One of the most popular & lightweight plugin for Facebook page feeds widget with over 1.5 Million downloads and 80,000+ active installs.
+One of the most popular & lightweight plugin for Facebook page feeds widget with over 1.6 Million downloads and 50,000+ active installs.
 
-How to use latest version 6.4:
+How to use latest version 6.5.1:
 
 https://www.youtube.com/watch?v=qayeaqlmofA
 
@@ -37,7 +37,7 @@ This widget will provide you the most simple and attractive way to display Faceb
 
 * Light weight & easy to configure
 * Add application id from your created Facebook application (Or you may use default application id), add it into widget & also URL of your Facebook page. 
-* Configuration options like show/hide posts from timeline, show/hide cover, show/hide profile photos , show small header, width options, language selection, custom css.
+* Configuration options like show/hide posts from timeline, show/hide cover, show/hide profile photos , show small header, width options, language selection, custom CSS.
 * Shortcode support.
 * Fast & helpful support.
 
@@ -49,7 +49,6 @@ If you need my help with installation / configurations / issues with my plugin, 
 
 * Gmail : cemilap.88@gmail.com
 * Blog : https://patelmilap.wordpress.com/contact-me/
-* Skype : milap_for_skype
 * Facebook : https://www.facebook.com/milap112
 
 I will try my best to reply you within 1 business day.
@@ -81,12 +80,14 @@ http://codex.wordpress.org/Managing_Plugins
 
 == Frequently Asked Questions ==
 
-
 = How to use Shortcode ? =
 * You can use below Shortcode in Post or Page.
-`[fb_widget fb_url='http://www.facebook.com/Instagram']`
+`[fb_widget fb_url="http://www.facebook.com/Instagram"]`
 You can use more parameters like below.
-`[fb_widget fb_url='http://www.facebook.com/Instagram' width='500' height='450' data_small_header='false' select_lng='ru_RU' data_adapt_container_width='false' data_hide_cover='false' data_show_facepile='false' data_tabs='timeline, messages, events' data_lazy='true']`
+`[fb_widget fb_url="http://www.facebook.com/Instagram" width="500" height="450" data_small_header="false" data_adapt_container_width="false" data_hide_cover="false" data_show_facepile="false" data_tabs="timeline, messages, events" data_lazy="true" lang="es_ES"]`
+
+= I added the correct shortcode, but it's still not working.
+* When you copy the shortcode from the FAQ, the curly quotes (”) cause errors. Please replace them with straight quotes (“”) and it should work.
 
 = Widget doesn't working in Mozilla Firefox  = 
 * If widget works great in all browsers except Mozilla Firefox, You must press the settings off "Use protection against tracking in private window", its security settings for Mozilla, nothing to do with my plugin.
@@ -108,12 +109,24 @@ You can use more parameters like below.
 
 == Screenshots ==
 
-1. screenshot-1.png - Explains how you can configure plugin in admin widget area.
-2. screenshot-2.png - Shows how your plugin will display in frontend sidebar(widget) area.
-3. screenshot-3.png - Shows how your plugin will display in Page or Post as Short code.
+1. screenshot-1.png - Configuration: Explains how to configure the plugin within the WordPress Admin Widget area.
+2. screenshot-2.png - Widget Display: Demonstrates how the plugin appears in the frontend sidebar or widget areas.
+3. screenshot-3.png - Shortcode Setup: Provides instructions on how to set up and customize the shortcode in any Post or Page.
+4. screenshot-4.png - Shortcode Display: Shows the frontend appearance of the plugin when used as a shortcode in a Post or Page.
 
 
 == Changelog ==
+
+= Version 6.5.1 =
+* Removed iframe from Shortcode and implementated Standard (XFBML) method.
+* Added language parameter to Shortcode.
+* Disabled automatic redirect to the Admin widgets page after activating the plugin.
+* Improved code readability.
+
+= Version 6.5 =
+* Fixed PHP version 8.2 warnings and notices.
+* Improved code readability.
+* Removed language parameter from Shortcode.
 
 = Version 6.4.2 =
 * Fixed suggested XSS Vulnerability for URL field.
