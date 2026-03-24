@@ -1,100 +1,149 @@
 <?php
-/**
- * @package Widget for Social Page Feeds
- * @version 6.5.1
- */
-/*
-Plugin Name: Widget for Social Page Feeds
-Plugin URI: https://patelmilap.wordpress.com/
-Description: This widget adds a Simple Facebook Page Like Widget into your WordPress website sidebar within few minutes.
-Author: Milap Patel
-Version: 6.5.1
-Author URI: https://patelmilap.wordpress.com/
-Text Domain: facebook-pagelike-widget
-*/
 
-// Prevent direct access for security
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+/**
+ * Plugin Name: Buttonizer - Social Media Share Buttons, Social Icons, & Social Feeds
+ * Plugin URI: https://buttonizer.io
+ * Description: Floating Social Media Icons, Sticky Share Buttons, Facebook Feeds, & Popup builder. Also, create Call, Email, SMS, & Contact buttons to increase conversions. Supports WhatsApp, Messenger, Live Chat, and 40+ other actions.
+ * Version: 7.0.0
+ * Author: Buttonizer
+ * Author URI: https://buttonizer.io
+ * License: GPLv2
+ *
+ * SOFTWARE LICENSE INFORMATION
+ *
+ * Copyright (c) 2017 Buttonizer, all rights reserved.
+ *
+ * This file is part of Buttonizer
+ *
+ * For detailed information regarding to the licensing of
+ * this software, please review the license.txt or visit:
+ * https://buttonizer.io/license/
+ */
+
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+// =========================================================================
+// Define Buttonizer constants
+// =========================================================================
+define('BZ_SOCIAL_FEEDS_VERSION', '7.0.0');
+define('BZ_SOCIAL_FEEDS_PLUGIN_FILE', __FILE__);
+
+// =========================================================================
+// Social Feeds constants (kept for backward compatibility)
+// =========================================================================
+if ( ! defined( 'FB_WIDGET_PLUGIN_URL' ) ) {
+    define( 'FB_WIDGET_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+}
+if ( ! defined( 'FB_WIDGET_PLUGIN_BASE_URL' ) ) {
+    define( 'FB_WIDGET_PLUGIN_BASE_URL', plugin_dir_path( __FILE__ ) );
 }
 
-if( ! class_exists( 'Facebook_Pagelike_widget' ) ) {
+// =========================================================================
+// Load Buttonizer core
+// =========================================================================
 
-    class Facebook_Pagelike_widget {
+// Autoloader
+require_once __DIR__ . "/app/autoloader.php";
 
-        /**
-         * Plugin version
-         */
-        const VERSION = '6.5.1';
+// Get environment vars
+require_once __DIR__ . "/EnvVars.php";
 
-        public function __construct() {
+// Initialize Buttonizer
+require_once __DIR__ . "/init.php";
 
-            // Define constants for URLs and Paths
-            if( ! defined( 'FB_WIDGET_PLUGIN_URL' ) ) {
-                define( 'FB_WIDGET_PLUGIN_URL' , plugin_dir_url( __FILE__ ) );
+// =========================================================================
+// Social Feeds functionality
+// =========================================================================
+
+// Load Social Feeds widget and shortcode
+require_once __DIR__ . '/app/SocialFeeds/Widget.php';
+require_once __DIR__ . '/app/SocialFeeds/Shortcode.php';
+
+// Enqueue Social Feeds frontend styles
+add_action( 'wp_enqueue_scripts', function() {
+    wp_enqueue_style( 'fb-widget-frontend-style', FB_WIDGET_PLUGIN_URL . 'assets/css/style.css', array(), BZ_SOCIAL_FEEDS_VERSION );
+});
+
+// Load text domain
+add_action( 'plugins_loaded', function() {
+    load_plugin_textdomain( 'social-feeds-for-wordpress', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+});
+
+// =========================================================================
+// Social Feeds - Gutenberg Block
+// =========================================================================
+
+/**
+ * Register the Facebook Page Like Block.
+ */
+function bzsf_register_facebook_pagelike_block() {
+    $block_path = BZ_SOCIAL_FEEDS_DIR . '/app/SocialFeeds/Block/';
+    $block_url  = plugin_dir_url( __FILE__ ) . 'app/SocialFeeds/Block/';
+
+    wp_register_script(
+        'bzsf-block-editor-script',
+        $block_url . 'block.js',
+        array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-server-side-render' ),
+        BZ_SOCIAL_FEEDS_VERSION,
+        false
+    );
+
+    $saved_feeds = get_option( 'fb_widget_saved_shortcodes', array() );
+    wp_localize_script( 'bzsf-block-editor-script', 'fbWidgetData', array(
+        'savedFeeds'  => $saved_feeds,
+        'settingsUrl' => admin_url( 'admin.php?page=bz-social-feeds-listing&action=new' )
+    ) );
+
+    register_block_type( $block_path );
+}
+
+add_action( 'init', 'bzsf_register_facebook_pagelike_block' );
+
+add_action( 'enqueue_block_assets', function() {
+     if ( is_admin() ) {
+        // 1. Fetch saved shortcodes to see if a specific language is preferred
+        $saved_feeds = get_option( 'fb_widget_saved_shortcodes', array() );
+
+        // Default fallback to WordPress site locale (e.g., 'en_US')
+        $final_lang = get_locale();
+
+        // 2. If we have saved feeds, extract the language from the most recent one
+        if ( ! empty( $saved_feeds ) ) {
+            $last_feed = end( $saved_feeds );
+            $shortcode_str = $last_feed['shortcode'];
+
+            // Use regex to pull the lang="xx_XX" value from the shortcode string
+            if ( preg_match( '/lang="([^"]+)"/', $shortcode_str, $matches ) ) {
+                $final_lang = $matches[1];
             }
+        }
+        // 3. Enqueue the SDK with the dynamic language
+        wp_enqueue_script(
+            'fb-sdk-admin',
+            'https://connect.facebook.net/' . esc_attr( $final_lang ) . '/sdk.js#xfbml=1&version=v25.0',
+            array(),
+            null,
+            true
+        );
+    }
+});
 
-            if( ! defined( 'FB_WIDGET_PLUGIN_BASE_URL' ) ) {
-                define( 'FB_WIDGET_PLUGIN_BASE_URL' , plugin_dir_path( __FILE__ ) );
-            }
-            
-            // Initialization
-            $this->includes();
-            
-            // Hooks
-            register_activation_hook( __FILE__ , array( $this, 'fb_widget_activate' ) );
-            register_deactivation_hook( __FILE__ , array( $this, 'fb_widget_deactivate' ) );
+// =========================================================================
+// Uninstall hook
+// =========================================================================
+register_uninstall_hook(__FILE__, 'bzsf_plugin_uninstall_event');
 
-            add_action( 'plugins_loaded', array( $this, 'LoadFbtextDomain' ) );
-            add_action( 'wp_enqueue_scripts', array( $this,'fb_widget_enqueue_styles') );
-            
-            // Commented for now, will use it once settings page will be added
-            //add_action( 'activated_plugin', array( $this, 'fb_widget_redirect' ) );
-        }
-        
-        public function fb_widget_activate() {
-            // Set a transient to handle the redirect after activation
-            set_transient( 'fb_widget_do_activation_redirect', true, 30 );
-        }
-        
-        public function fb_widget_deactivate() {
-            // Clean up if necessary
-            delete_transient( 'fb_widget_do_activation_redirect' );
-        }
-        
-        /**
-         * Redirects to the settings or welcome page upon activation
-         */
-        public function fb_widget_redirect( $plugin ) {
-            if ( $plugin == plugin_basename( __FILE__ ) && get_transient( 'fb_widget_do_activation_redirect' ) ) {
-                delete_transient( 'fb_widget_do_activation_redirect' );
-                // Replace 'options-general.php' with your actual settings page slug
-                wp_safe_redirect( admin_url( 'widgets.php' ) );
-                exit;
-            }
-        }
+function bzsf_plugin_uninstall_event()
+{
+    // Skip if there is no API token being used
+    if (\BZSocialFeeds\Utils\ApiRequest::getApiToken() === false) {
+        return;
+    }
 
-        public function LoadFbtextDomain() {
-            load_plugin_textdomain( 'facebook-pagelike-widget', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-        }
-
-        function fb_widget_enqueue_styles() {
-            // Check if the constant FB_WIDGET_PLUGIN_URL is defined (from fb_class.php)
-            $plugin_url = defined('FB_WIDGET_PLUGIN_URL') ? FB_WIDGET_PLUGIN_URL : plugin_dir_url(__FILE__);
-            
-            wp_enqueue_style( 'fb-widget-frontend-style', $plugin_url . 'assets/css/style.css', array(), '1.0.0' );
-        }
-
-        public function includes() {
-            require_once FB_WIDGET_PLUGIN_BASE_URL . 'fb_class.php';
-            require_once FB_WIDGET_PLUGIN_BASE_URL . 'short_code.php';
-            
-            if ( is_admin() ) {
-                include_once FB_WIDGET_PLUGIN_BASE_URL . 'admin/includes/add-review.php';
-            }
-        }
+    try {
+        // Invalidate access token for security reasons on uninstall
+        (new \BZSocialFeeds\Api\Connection\Disconnect)->disconnect();
+    } catch (\Error $err) {
+        // Errored out, nevermind then
     }
 }
-
-// Initialize the plugin
-new Facebook_Pagelike_widget();

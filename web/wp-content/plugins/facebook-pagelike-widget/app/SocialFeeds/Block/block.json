@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "social-feeds-for-wordpress/facebook-page-like",
+  "version": "1.0.0",
+  "title": "Facebook Page Feeds",
+  "category": "widgets",
+  "icon": "facebook",
+  "description": "Display a Facebook Page Feeds.",
+  "textdomain": "social-feeds-for-wordpress",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "selectedFeedIndex": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "bzsf-block-editor-script",
+  "render": "file:./render.php"
+}

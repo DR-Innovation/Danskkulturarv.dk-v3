@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 6.9.x - Development - Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-11-18 05:10:51+0000\n"
+"PO-Revision-Date: 2026-02-23 08:22:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -127,7 +127,7 @@ msgstr "En ny typografimulighed for tekstbaserede blokke, der starter med afsnit
 
 #: wp-admin/about.php:155
 msgid "Content that adapts."
-msgstr "Indhold der tilpasser sig."
+msgstr "Indhold, der tilpasser sig."
 
 #: wp-admin/about.php:153
 msgid "Fit text to container"
@@ -163,7 +163,7 @@ msgstr "Med noter vedhæftet direkte til blokke kan dit team forblive i overenss
 
 #: wp-admin/about.php:105
 msgid "Leave feedback right where you’re working."
-msgstr "Efterlad feedback lige der, hvor du arbejder."
+msgstr "Giv en tilbagemelding lige der, hvor du arbejder."
 
 #: wp-admin/about.php:103
 msgctxt "about page section title"
@@ -172,7 +172,7 @@ msgstr "Noter"
 
 #: wp-admin/about.php:97
 msgid "WordPress 6.9 introduces a more intuitive way to create content, together. Every detail is designed to fit your creative flow, from Notes that let you collaborate directly in the editor to a powerful Command Palette that helps you reach every part of your site."
-msgstr "WordPress 6.9 introducerer en mere intuitiv måde at oprette indhold på, sammen. Hver detalje er designet til at passe til din kreative flow, fra Noter, der lader dig samarbejde direkte i editoren, til en kraftfuld Kommandopalet, der hjælper dig med at nå hver del af dit websted."
+msgstr "WordPress 6.9 introducerer en mere intuitiv måde at oprette indhold på, sammen. Hver detalje er designet til at passe til dit kreative flow; fra Noter, der lader dig samarbejde direkte i editoren, til en kraftfuld Kommandopalet, der hjælper dig med at nå hver del af dit websted."
 
 #. translators: 1: URL to WordPress release notes, 2: WordPress version number,
 #. 3: The PHP extension name needed.
@@ -303,7 +303,7 @@ msgstr "Triage-leder"
 
 #: wp-admin/credits.php:158
 msgid "Tech Lead"
-msgstr "Tech Lead"
+msgstr "Tech-leder"
 
 #: wp-admin/credits.php:157
 msgid "Default Theme Development Lead"
@@ -315,7 +315,7 @@ msgstr "Designleder for standardtema"
 
 #: wp-admin/credits.php:155
 msgid "Performance Lead"
-msgstr "Performance Lead"
+msgstr "Performance-leder"
 
 #: wp-admin/credits.php:154
 msgid "Design Lead"
@@ -331,7 +331,7 @@ msgstr "Dokumentationsansvarlig"
 
 #: wp-admin/credits.php:151
 msgid "Editor Triage Lead"
-msgstr "Redaktør Triage Leder"
+msgstr "Triage-leder for editor"
 
 #: wp-admin/credits.php:150
 msgid "Editor Tech Lead"
@@ -339,11 +339,11 @@ msgstr "Teknisk leder for editor"
 
 #: wp-admin/credits.php:149
 msgid "Core Triage Lead"
-msgstr "Kerne Triage Leder"
+msgstr "Triage-leder for kernen"
 
 #: wp-admin/credits.php:148
 msgid "Core Tech Lead"
-msgstr "Kerne Teknologileder"
+msgstr "Teknologileder for kernen"
 
 #: wp-admin/credits.php:146
 msgid "Minor Release Lead"
@@ -4135,7 +4135,7 @@ msgstr "Vælg enten en by i den samme tidszone som dig eller en %s (Coordinated 
 
 #: wp-admin/options-general.php:265
 msgid "Administration Email Address"
-msgstr "Administration e-mail adresse"
+msgstr "Administrators mailadresse"
 
 #: wp-admin/options-general.php:60
 msgid "<a href=\"https://wordpress.org/documentation/article/settings-general-screen/\">Documentation on General Settings</a>"
@@ -14903,7 +14903,7 @@ msgstr "Endnu en %s-side"
 #. translators: Site tagline.
 #: wp-admin/options-general.php:83
 msgid "Just another WordPress site"
-msgstr "Endnu en WordPress-blog"
+msgstr "Endnu et WordPress-websted"
 
 #: wp-admin/includes/post.php:767
 msgid "Auto Draft"
