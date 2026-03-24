@@ -1,0 +1,16 @@
+{
+  "index.html": {
+    "file": "index.25bcfdd8.js",
+    "src": "index.html",
+    "isEntry": true,
+    "imports": [
+      "_vendor.1a220938.js"
+    ],
+    "css": [
+      "index.aaca6382.css"
+    ]
+  },
+  "_vendor.1a220938.js": {
+    "file": "vendor.1a220938.js"
+  }
+}

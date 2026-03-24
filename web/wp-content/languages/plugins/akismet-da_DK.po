@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Akismet Anti-spam: Spam Protection - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-01-12 14:49:55+0000\n"
+"PO-Revision-Date: 2026-02-14 19:13:30+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,32 @@ msgstr ""
 "X-Generator: GlotPress/4.0.3\n"
 "Language: da_DK\n"
 "Project-Id-Version: Plugins - Akismet Anti-spam: Spam Protection - Stable (latest release)\n"
+
+#: views/setup.php:71
+msgid "Get started"
+msgstr "Kom i gang"
+
+#. translators: The placeholder is the name of a plugin, like "Jetpack" .
+#: views/compatible-plugins.php:62
+msgid "%s logo"
+msgstr "%s logo"
+
+#: views/compatible-plugins.php:14
+msgid "New"
+msgstr "Ny"
+
+#: views/compatible-plugins.php:112
+msgid "Show less"
+msgstr "Vis færre"
+
+#: views/config.php:94 views/enter.php:9
+msgid "API key"
+msgstr "API-nøgle"
+
+#. Author of the plugin
+#: akismet.php
+msgid "Automattic - Anti-spam Team"
+msgstr "Automattic - Anti-spam Team"
 
 #. translators: %1$s is a human-readable time difference, like "3 hours ago",
 #. and %2$s is an already-translated phrase describing how a comment's status

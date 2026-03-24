@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Themes - Twenty Twenty-Three package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-03-07 08:31:32+0000\n"
+"PO-Revision-Date: 2026-02-14 18:09:22+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -105,11 +105,6 @@ msgstr "Skjult 404"
 msgctxt "Message to convey that a webpage could not be found"
 msgid "This page could not be found."
 msgstr "Denne side findes ikke."
-
-#: patterns/hidden-404.php:22 patterns/hidden-no-results.php:14
-msgctxt "placeholder for search field"
-msgid "Search..."
-msgstr "Søg..."
 
 #: patterns/hidden-comments.php
 msgctxt "Pattern title"
@@ -412,6 +407,11 @@ msgstr "System skrifttype"
 msgctxt "Message explaining that there are no results returned from a search"
 msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
 msgstr "Beklager, men din søgning gav ingen resultater. Prøv igen med nogle andre søgeord."
+
+#: patterns/hidden-404.php:22 patterns/hidden-no-results.php:14
+msgctxt "placeholder for search field"
+msgid "Search..."
+msgstr "Søg …"
 
 #. Author of the theme
 #: style.css
