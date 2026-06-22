@@ -33,7 +33,7 @@ msgstr "Handelsbetingelser"
 msgid "Privacy Policy"
 msgstr "Privatlivspolitik"
 
-#: functions.php:199
+#: functions.php:187
 msgctxt "Block pattern category"
 msgid "Pages"
 msgstr "Sider"
@@ -157,15 +157,15 @@ msgctxt "Pattern title"
 msgid "Project details"
 msgstr "Projektdetaljer"
 
-#: functions.php:74
+#: functions.php:70
 msgid "Checkmark"
 msgstr "Afkrydsning"
 
-#: functions.php:93
+#: functions.php:89
 msgid "With arrow"
 msgstr "Med pil"
 
-#: functions.php:111
+#: functions.php:107
 msgid "With asterisk"
 msgstr "Med stjerne"
 

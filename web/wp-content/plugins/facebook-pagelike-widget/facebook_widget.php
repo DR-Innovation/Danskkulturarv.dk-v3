@@ -4,7 +4,7 @@
  * Plugin Name: Buttonizer - Social Media Share Buttons, Social Icons, & Social Feeds
  * Plugin URI: https://buttonizer.io
  * Description: Floating Social Media Icons, Sticky Share Buttons, Facebook Feeds, & Popup builder. Also, create Call, Email, SMS, & Contact buttons to increase conversions. Supports WhatsApp, Messenger, Live Chat, and 40+ other actions.
- * Version: 7.0.0
+ * Version: 7.0.2
  * Author: Buttonizer
  * Author URI: https://buttonizer.io
  * License: GPLv2
@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 // =========================================================================
 // Define Buttonizer constants
 // =========================================================================
-define('BZ_SOCIAL_FEEDS_VERSION', '7.0.0');
+define('BZ_SOCIAL_FEEDS_VERSION', '7.0.2');
 define('BZ_SOCIAL_FEEDS_PLUGIN_FILE', __FILE__);
 
 // =========================================================================
@@ -47,6 +47,38 @@ require_once __DIR__ . "/app/autoloader.php";
 
 // Get environment vars
 require_once __DIR__ . "/EnvVars.php";
+
+// Initialize shared core configuration
+\BZSocialFeeds\Core\PluginConfig::init([
+    'name'        => BZ_SOCIAL_FEEDS_NAME,
+    'dir'         => BZ_SOCIAL_FEEDS_DIR,
+    'app_dir'     => BZ_SOCIAL_FEEDS_APP_DIR,
+    'slug'        => BZ_SOCIAL_FEEDS_SLUG,
+    'version'     => BZ_SOCIAL_FEEDS_VERSION,
+    'plugin_file' => BZ_SOCIAL_FEEDS_PLUGIN_FILE,
+    'base_name'   => BZ_SOCIAL_FEEDS_BASE_NAME,
+    'api_uri'     => BZ_SOCIAL_FEEDS_API_URI,
+    'api_timeout' => defined("BZ_SOCIAL_FEEDS_API_TIMEOUT") ? BZ_SOCIAL_FEEDS_API_TIMEOUT : 20,
+    'page_slug'   => 'bz_social_feeds',
+    'text_domain' => 'social-feeds-for-wordpress',
+    'review_url'  => 'https://wordpress.org/support/plugin/facebook-pagelike-widget/reviews/#new-post?utm_source=wp-plugin-request-review-btn',
+    'product_name' => 'Social Sharing & Icons by Buttonizer',
+    'notice_id'   => 'buttonizer-sf-admin-notice',
+    'notice_js_function' => 'buttonizerSfAdminNotice',
+    'referral_slug' => 'wp-social-feeds-plugin-menu',
+    'siblings'    => [
+        'buttonizer' => [
+            'token_option'    => 'buttonizer_site_connection',
+            'settings_option' => 'buttonizer_settings',
+            'account_option'  => 'buttonizer_account',
+        ],
+        'bz_contact_button' => [
+            'token_option'    => 'bz_contact_button_site_connection',
+            'settings_option' => 'bz_contact_button_settings',
+            'account_option'  => 'bz_contact_button_account',
+        ],
+    ],
+]);
 
 // Initialize Buttonizer
 require_once __DIR__ . "/init.php";
@@ -136,13 +168,13 @@ register_uninstall_hook(__FILE__, 'bzsf_plugin_uninstall_event');
 function bzsf_plugin_uninstall_event()
 {
     // Skip if there is no API token being used
-    if (\BZSocialFeeds\Utils\ApiRequest::getApiToken() === false) {
+    if (\BZSocialFeeds\Core\Utils\ApiRequest::getApiToken() === false) {
         return;
     }
 
     try {
         // Invalidate access token for security reasons on uninstall
-        (new \BZSocialFeeds\Api\Connection\Disconnect)->disconnect();
+        (new \BZSocialFeeds\Core\Api\Connection\Disconnect)->disconnect(false);
     } catch (\Error $err) {
         // Errored out, nevermind then
     }

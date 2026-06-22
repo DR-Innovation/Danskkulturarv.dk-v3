@@ -2,8 +2,8 @@
 Contributors: Buttonizer, Milap
 Tags: share, share buttons, social, social media, facebook feeds
 Requires at least: 4.7
-Tested up to: 6.9
-Stable tag: 7.0.0
+Tested up to: 7.0
+Stable tag: 7.0.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -130,7 +130,7 @@ One of the most popular plugins for Facebook page feeds embedded in your WordPre
 * Supports Shortcodes
 * Configuration options like show/hide posts from timeline, show/hide cover, show/hide profile photos, show small header, width options, language selection, and custom CSS.
 
-Watch our video tutorial [How to create a Facebook Feed](https://www.youtube.com/watch?v=qayeaqlmofA)
+Watch our video tutorial [How to create a Facebook Feed](https://www.youtube.com/watch?v=MGWh0oNpSis)
 
 
 = Example use cases for Buttonizer =
@@ -300,6 +300,12 @@ Languages can have a different direction of writing and reading? While languages
 
 
 == Changelog ==
+
+= Version 7.0.2 =
+* Bug fixes
+
+= Version 7.0.1 =
+* Bug fixes
 
 = Version 7.0 =
 * New: Advanced button builder

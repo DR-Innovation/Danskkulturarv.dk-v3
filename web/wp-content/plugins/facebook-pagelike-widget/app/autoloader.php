@@ -11,9 +11,17 @@
  * https://buttonizer.io/license/
  */
 
+// Load Strauss classmap autoloader for BZSocialFeeds\Core\* classes
+require_once __DIR__ . '/Core/autoload.php';
+
 spl_autoload_register(function ($class_name) {
     try {
         if (substr($class_name, 0, 13) === 'BZSocialFeeds') {
+            // Skip Core\ classes — handled by Strauss classmap autoloader above
+            if (substr($class_name, 0, 19) === 'BZSocialFeeds\Core\\') {
+                return;
+            }
+
             $class_name = substr($class_name, 13);
 
             require BZ_SOCIAL_FEEDS_APP_DIR . str_replace("\\", "/", $class_name) . '.php';
@@ -22,4 +30,3 @@ spl_autoload_register(function ($class_name) {
         exit("Error: " . esc_html($e->getMessage()));
     }
 });
-
