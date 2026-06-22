@@ -154,7 +154,7 @@ if ( $current ) {
                         style="width:100%; height:160px; font-family: monospace; cursor: pointer; background: #fff; margin-bottom: 10px;"></textarea>
 
                 <button type="button" id="copy-btn-gen" class="button button-secondary" style="margin-bottom: 20px;">
-                    <span class="dashicons dashicons-clipboard" style="vertical-align: middle;"></span>
+                    <span class="dashicons dashicons-clipboard"></span>
                     <span id="copy-text-gen">Copy Shortcode</span>
                 </button>
 

@@ -13,26 +13,18 @@
 
 namespace BZSocialFeeds\Api;
 
-class Api
+use BZSocialFeeds\Core\Api\BaseApi;
+
+class Api extends BaseApi
 {
     /**
-     * Register API endpoints
+     * Register API endpoints.
+     *
+     * All routes are shared (Connect, Disconnect, Sync, Settings, Editor, Analytics)
+     * and registered by BaseApi. No plugin-specific routes needed.
      */
     public function __construct()
     {
-        // Site synchronization
-        (new Connection\Sync())->registerRoute();
-        (new Connection\Disconnect())->registerRoute();
-        (new Connection\Connect())->registerRoute();
-
-        // Plugin settings
-        (new Settings\UpdateSettings())->registerRoute();
-
-        // Editor
-        (new Connection\StartEditorSession())->registerRoute();
-
-        // Analytics
-        (new Analytics\Overview())->registerRoute();
+        parent::__construct();
     }
 }
-
