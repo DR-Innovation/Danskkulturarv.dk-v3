@@ -3,7 +3,7 @@
 Plugin Name: Page Builder by SiteOrigin
 Plugin URI: https://siteorigin.com/page-builder/
 Description: A drag and drop, responsive page builder that simplifies building your website.
-Version: 2.35.0
+Version: 2.36.0
 Author: SiteOrigin
 Author URI: https://siteorigin.com
 License: GPL3
@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: https://siteorigin.com/downloads/premium/
 */
 
-define( 'SITEORIGIN_PANELS_VERSION', '2.35.0' );
+define( 'SITEORIGIN_PANELS_VERSION', '2.36.0' );
 
 if ( ! defined( 'SITEORIGIN_PANELS_JS_SUFFIX' ) ) {
 	define( 'SITEORIGIN_PANELS_JS_SUFFIX', '.min' );
@@ -190,6 +190,15 @@ class SiteOrigin_Panels {
 
 		// Initialize all the extra classes.
 		SiteOrigin_Panels_Home::single();
+
+		// Expose panels_data to AI consumers via stable read-only REST + hooks.
+		// REST runs on the front-end request lifecycle, so register unconditionally.
+		SiteOrigin_Panels_AI_Exposure::single();
+
+		// Register the Abilities API abilities (layout-get / layout-update). The
+		// class only adds the Abilities API init hook (guarded for older WP), so
+		// always instantiating is cheap and correct.
+		SiteOrigin_Panels_Abilities::single();
 
 		// Check if we need to initialize the admin class.
 		if ( is_admin() ) {
