@@ -1,2 +1,149 @@
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-user
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Google-NotebookLM
+Disallow: /
+
+User-agent: Gemini-Deep-Research
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+User-agent: CCbot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
 User-agent: ClaudeBot
-Crawl-delay: 10
+Disallow: /
+
+User-agent: Claude-User
+Disallow: /
+
+User-agent: Claude-SearchBot
+Disallow: /
+
+User-Agent: omgili
+Disallow: /
+
+User-Agent: omgilibot
+Disallow: /
+
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+Disallow: /
+
+User-agent: DuckAssistBot
+Disallow: /
+
+User-agent: DeepSeekBot
+User-agent: DeepSeek
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Amazonbot-Video
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Applebot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: cohere-ai
+User-agent: cohere-training-data-crawler
+Disallow: /
+
+User-agent: Timpibot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: Brightbot 1.0
+Disallow: /
+
+User-agent: FirecrawlAgent
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: MistralAI-User
+Disallow: /
+
+User-agent: VelenPublicWebCrawler
+Disallow: /
+
+User-agent: wpbot
+User-agent: WeChatBot
+Disallow: /
+
+User-agent: iAskBot
+Disallow: /
+
+User-agent: PanguBot
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: Ai2Bot-Dolma
+Disallow: /
+
+User-agent: ZanistaBot
+Disallow: /
+
+User-agent: Bravebot
+Disallow: /
+
+User-agent: Meta-ExternalFetcher
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: AI2Bot
+User-agent: AI2Bot-Dolma
+Disallow: /
+
+User-agent: BaiChuanBot
+Disallow: /
+
+User-agent: GrokBot
+User-agent: xAI-Grok
+User-agent: Grok-DeepSearch
+Disallow: /
+
+User-agent: TansuoBot
+Disallow: /
+
+User-agent: YandexAdditional
+User-agent: YandexAdditionalBot
+Disallow: /
+
+User-agent: Sogoubot
+Disallow: /
+
+User-agent: ZhipuAI
+Disallow: /
+
+User-agent: Yibot
+Disallow: /
+
