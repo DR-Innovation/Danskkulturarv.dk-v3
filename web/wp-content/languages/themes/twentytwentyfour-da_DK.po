@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/4.0.3\n"
+"X-Generator: GlotPress/4.1.0\n"
 "Language: da_DK\n"
 "Project-Id-Version: Themes - Twenty Twenty-Four\n"
 
@@ -17,23 +17,23 @@ msgstr ""
 msgid "Twenty Twenty-Four"
 msgstr "Twenty Twenty-Four"
 
-#: patterns/footer.php:96
+#: patterns/footer.php:101
 msgid "Twitter/X"
 msgstr "Twitter/X"
 
-#: patterns/footer.php:74
+#: patterns/footer.php:79
 msgid "Contact Us"
 msgstr "Kontakt os"
 
-#: patterns/footer.php:73
+#: patterns/footer.php:78
 msgid "Terms and Conditions"
 msgstr "Handelsbetingelser"
 
-#: patterns/footer.php:72
+#: patterns/footer.php:77
 msgid "Privacy Policy"
 msgstr "Privatlivspolitik"
 
-#: functions.php:187
+#: functions.php:188
 msgctxt "Block pattern category"
 msgid "Pages"
 msgstr "Sider"
@@ -50,8 +50,8 @@ msgstr "Sidehoved"
 
 #. Author URI of the theme
 #. Translators: WordPress link.
-#: style.css patterns/footer-centered-logo-nav.php:22
-#: patterns/footer-colophon-3-col.php:91 patterns/footer.php:117
+#: style.css patterns/footer-centered-logo-nav.php:27
+#: patterns/footer-colophon-3-col.php:96 patterns/footer.php:122
 msgid "https://wordpress.org"
 msgstr "https://wordpress.org"
 
@@ -147,7 +147,7 @@ msgctxt "Template part name"
 msgid "Sidebar"
 msgstr "Sidepanel"
 
-#: patterns/text-title-left-image-right.php:35
+#: patterns/text-title-left-image-right.php:40
 msgctxt "Call to Action button text"
 msgid "About us"
 msgstr "Om os"
@@ -157,15 +157,15 @@ msgctxt "Pattern title"
 msgid "Project details"
 msgstr "Projektdetaljer"
 
-#: functions.php:70
+#: functions.php:71
 msgid "Checkmark"
 msgstr "Afkrydsning"
 
-#: functions.php:89
+#: functions.php:90
 msgid "With arrow"
 msgstr "Med pil"
 
-#: functions.php:107
+#: functions.php:108
 msgid "With asterisk"
 msgstr "Med stjerne"
 
